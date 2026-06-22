@@ -31,8 +31,12 @@
 //#include <hwSDISelection.h>
 #include <typedef.h>
 #include <sdiModelView.h>
+#include <algorithm>
+#include <array>
 #include <unordered_map>
 #include <unordered_set>
+#include <stdexcept>
+#include <limits>
 
 #include <HCDI/hcdi_mec_pre_object.h>
 #include <HCDI/hcdi_mv_descriptor.h>
@@ -1760,7 +1764,7 @@ void GlobalEntitySDIConvert2dElementSeatbelt(int *PART_MAT119,int *PART_MAXID,in
     EntityType radPropType = g_pModelViewSDI->GetEntityType("/PROP");
     EntityType radMatType = g_pModelViewSDI->GetEntityType("/MAT");
     EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
-    EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    EntityType radNodeType = g_pModelViewSDI->GetEntityType("/NODE");
     EntityType radFunctType = g_pModelViewSDI->GetEntityType("/FUNCT");
 //
     sdiString destElem = "/SPRING";
@@ -1941,7 +1945,7 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
     EntityType radPropType = g_pModelViewSDI->GetEntityType("/PROP");
     EntityType radMatType = g_pModelViewSDI->GetEntityType("/MAT");
     EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
-    EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    EntityType radNodeType = g_pModelViewSDI->GetEntityType("/NODE");
     EntityType radFunctType = g_pModelViewSDI->GetEntityType("/FUNCT");
 //
     sdiString destElem = "/SPRING";
@@ -2739,6 +2743,7 @@ void GlobalEntitySDIRbodiesCreateMainNode(int *addedNodeId)
         HandleEdit rbodyHEdit(rbodyHRead.GetType(), rbodyHRead.GetPointer());
         EntityEdit rbodyEdit(g_pModelViewSDI, rbodyHEdit);
         rbodyEdit.SetValue(sdiIdentifier("independentnode"), sdiValue(sdiValueEntity(radNodeType, *addedNodeId)));
+        rbodyEdit.SetValue(sdiIdentifier("ICOG"), sdiValue(2));
     }
 }
 
@@ -2747,7 +2752,7 @@ void GlobalEntitySDIRbodiesCreateMainNode(int *addedNodeId)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void GlobalEntitySDICreateNode(double *x, double *y, double *z, int *newNodeId)
 {
-    EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    EntityType radNodeType = g_pModelViewSDI->GetEntityType("/NODE");
     HandleNodeEdit radnodeHEdit;
     sdiTriple pos(*x, *y, *z);
     g_pModelViewSDI->CreateNode(radnodeHEdit, "/NODE", pos , 0);
@@ -2772,7 +2777,7 @@ void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
     };
 
     EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
-    EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    EntityType radNodeType = g_pModelViewSDI->GetEntityType("/NODE");
     EntityType radTetra10Type = g_pModelViewSDI->GetEntityType("/TETRA10");
 
     // Hash function for pair<unsigned int, unsigned int>
@@ -2874,7 +2879,7 @@ void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
                     else
                     {
                         HandleRead nodeHread;
-                        if(g_pModelViewSDI->FindById(radnodeType, nodeId, nodeHread))
+                        if(g_pModelViewSDI->FindById(radNodeType, nodeId, nodeHread))
                         {
                             NodeRead nodeRead(g_pModelViewSDI, nodeHread);
                             sdiTriple pos = nodeRead.GetPosition();
@@ -2949,7 +2954,7 @@ void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
             tetra10Nodes[j+4] = createdMidNodeIds[elemCache.midNodeIndices[j]];
         
         radTetra10HEdit.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), 
-                                 sdiValue(sdiValueEntityList(radnodeType, tetra10Nodes)));
+                                 sdiValue(sdiValueEntityList(radNodeType, tetra10Nodes)));
         radTetra10HEdit.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), 
                                  sdiValue(sdiValueEntity(radPartType, elemCache.partId)));
     }
@@ -3326,4 +3331,2786 @@ void GlobalModelSDIEvaluateAllPartsConnectedComponents(int *nbComponentsPerPart)
           partIndex++;
         }
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Check if a part has elements
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void GlobalModelSDIIsPartWithElements(unsigned int *partId, bool *hasElements)
+{
+    HandleRead partHread;
+    if(g_pModelViewSDI->FindById(g_pModelViewSDI->GetEntityType("/PART"), *partId, partHread))
+    {
+        EntityRead partEntity(g_pModelViewSDI, partHread);
+        SelectionElementRead elemSelection(partEntity);
+        *hasElements = elemSelection.Next();
+    }
+    else
+    {
+        *hasElements = false;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// S-ALE CARD BUILD MESH
+///////////////////////////////////////////////////////////////////////////////////////////////////
+static double GetCharacteristicLenght(int nb_node, double lenght, double q_ )
+{
+  if(q_==0.||q_==1.0||q_==-1.0)
+  {
+    return lenght / (nb_node - 1);
+  }
+  else
+  {
+    double geomAtLast = (1.0 - std::pow(q_, nb_node - 1)) / (1.0 - q_);
+    if(std::fabs(geomAtLast) < 1e-18)
+    {
+        return lenght / (nb_node - 1);
+    }
+    return lenght / geomAtLast;
+  }
+}
+    struct Bcs_Side
+    {
+      std::unordered_set<int> node_id ; // store 1 node id
+      int seg_nb;
+      std::vector<std::array<int,4>> facet_node_id ; // store 4 node ids
+
+    };
+    struct Bcs_Struct
+    { // ale/bcs or nrf
+      // ale/bcs --> grnod
+      // ebcs/nrf --> surf/ext
+      int bcs_nb;
+      std::vector<int> avail;
+      std::vector<Bcs_Side>  list;
+    };
+    Bcs_Struct bcs_data;
+    
+static void boundary_save(const int* node_list,int node_list_s,Bcs_Struct& bcs_data,int facet_id) //boundary_save(node_list,4,bcs_data,0) ;
+{
+  for(i=0;i<node_list_s;i++)
+  {
+    int node_id = node_list[i];    
+    bcs_data.list[facet_id].node_id.insert(node_id) ;
+  }
+  std::array<int,4> local_array = {node_list[0],node_list[1],node_list[2],node_list[3]};
+  bcs_data.list[facet_id].facet_node_id.push_back(local_array);  
+}
+
+// =============================================================================
+// BVH (Bounding Volume Hierarchy) helper code for arbitrary surface trim (type 4)
+//
+// Purpose: given a trim surface defined by a list of 3-node or 4-node segments,
+//          compute the signed distance from any query point P to that surface
+//          efficiently using a spatial acceleration structure.
+//
+// Algorithm:
+//   1. Each segment (3 or 4 nodes) is triangulated once at read time.
+//   2. A recursive BVH is built on all triangles.  Each BVH node stores an AABB
+//      (Axis-Aligned Bounding Box) covering a subset of triangles.
+//   3. Nearest-point queries prune entire subtrees whose AABB is farther than
+//      the current best distance (early-exit), giving O(log M) amortised cost
+//      per query instead of O(M) brute-force.
+//   4. The signed distance is computed with the normal of the closest triangle
+//      (from segment node ordering): positive on normal side, negative opposite.
+//
+// Complexity: build O(M log M), query O(N log M), with N nodes, M triangles.
+// =============================================================================
+
+// --- Minimal 3D vector type used exclusively by the trim-BVH code ------------
+struct TrimVec3
+{
+  double x, y, z;
+};
+
+static inline TrimVec3 TrimV3Add  (const TrimVec3& a, const TrimVec3& b) { return {a.x+b.x, a.y+b.y, a.z+b.z}; }
+static inline TrimVec3 TrimV3Sub  (const TrimVec3& a, const TrimVec3& b) { return {a.x-b.x, a.y-b.y, a.z-b.z}; }
+static inline TrimVec3 TrimV3Scale(const TrimVec3& a, double s)          { return {a.x*s,   a.y*s,   a.z*s};   }
+static inline double   TrimV3Dot  (const TrimVec3& a, const TrimVec3& b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
+static inline double   TrimV3Norm2(const TrimVec3& v)                    { return TrimV3Dot(v, v);               }
+static inline TrimVec3 TrimV3Cross(const TrimVec3& a, const TrimVec3& b)
+{
+    return { a.y*b.z - a.z*b.y,
+                     a.z*b.x - a.x*b.z,
+                     a.x*b.y - a.y*b.x };
+}
+
+// Normalize v; if almost zero, return the Z axis as a safe fallback.
+static inline TrimVec3 TrimV3Normalize(const TrimVec3& v)
+{
+  const double n = std::sqrt(TrimV3Norm2(v));
+  if (n < 1.0e-30) return {0.0, 0.0, 1.0};
+  return TrimV3Scale(v, 1.0 / n);
+}
+
+// --- Triangle (3 vertices) ---------------------------------------------------
+struct TrimTriangle
+{
+  TrimVec3 a, b, c;
+  TrimVec3 barycenter; // centroid of the parent solid element; used to orient the normal outward
+  bool     hasBary;    // true only for triangles coming from solid (/BRICK, /TETRA) elements
+};
+
+// --- Axis Aligned Bounding Box -----------------------------------------------
+struct TrimAABB
+{
+  TrimVec3 bmin; // minimum corner (per axis)
+  TrimVec3 bmax; // maximum corner (per axis)
+};
+
+// --- BVH node: either an internal node (two children) or a leaf --------------
+struct TrimBVHNode
+{
+  TrimAABB box;      // bounding box of all triangles in this subtree
+  int      left;     // index of left  child node (-1 if leaf)
+  int      right;    // index of right child node (-1 if leaf)
+  int      firstTri; // index of the first triangle in triIndices[] (leaf only)
+  int      triCount; // number of triangles in this leaf             (leaf only)
+  bool     isLeaf;   // true = leaf node, false = internal node
+};
+
+// --- Result of a nearest-point BVH query -------------------------------------
+struct TrimClosestHit
+{
+  double   dist2;        // squared distance to the closest point on the surface
+  TrimVec3 closestPoint; // coordinates of that closest point
+  int      triIndex;     // index of the triangle that owns the closest point
+};
+
+// --- Full BVH structure ------------------------------------------------------
+struct TrimSurfaceBVH
+{
+  std::vector<TrimTriangle> triangles;  // all triangles of the trim surface
+  std::vector<int>          triIndices; // permutation array: BVH reorders triangles
+                                        // without copying them
+  std::vector<TrimBVHNode>  nodes;      // all BVH nodes; root is at index 0
+};
+
+// --- Squared distance from point P to AABB -----------------------------------
+// Returns 0 if P is inside the box. Used to prune BVH branches that cannot
+// improve the current best distance.
+static double TrimAABBDist2(const TrimVec3& p, const TrimAABB& box)
+{
+  // For each axis: accumulate the squared gap if P lies outside the slab.
+  double dx = 0.0;
+  if      (p.x < box.bmin.x) dx = box.bmin.x - p.x;
+  else if (p.x > box.bmax.x) dx = p.x - box.bmax.x;
+
+  double dy = 0.0;
+  if      (p.y < box.bmin.y) dy = box.bmin.y - p.y;
+  else if (p.y > box.bmax.y) dy = p.y - box.bmax.y;
+
+  double dz = 0.0;
+  if      (p.z < box.bmin.z) dz = box.bmin.z - p.z;
+  else if (p.z > box.bmax.z) dz = p.z - box.bmax.z;
+
+  return dx*dx + dy*dy + dz*dz;
+}
+
+// --- Closest point on triangle T to query point P ----------------------------
+// Uses the Eberly parametric-barycentric algorithm (Voronoi region classification).
+// Handles all 7 regions: 3 vertices, 3 edges, 1 interior face.
+static TrimVec3 TrimClosestPointOnTri(const TrimVec3& p, const TrimTriangle& t)
+{
+  const TrimVec3 ab = TrimV3Sub(t.b, t.a);
+  const TrimVec3 ac = TrimV3Sub(t.c, t.a);
+  const TrimVec3 ap = TrimV3Sub(p,   t.a);
+
+  const double d1 = TrimV3Dot(ab, ap);
+  const double d2 = TrimV3Dot(ac, ap);
+  if (d1 <= 0.0 && d2 <= 0.0) return t.a; // Voronoi region of vertex A
+
+  const TrimVec3 bp = TrimV3Sub(p, t.b);
+  const double d3 = TrimV3Dot(ab, bp);
+  const double d4 = TrimV3Dot(ac, bp);
+  if (d3 >= 0.0 && d4 <= d3) return t.b; // Voronoi region of vertex B
+
+  // Voronoi region of edge AB
+  const double vc = d1*d4 - d3*d2;
+  if (vc <= 0.0 && d1 >= 0.0 && d3 <= 0.0)
+  {
+    const double v = d1 / (d1 - d3);
+    return TrimV3Add(t.a, TrimV3Scale(ab, v));
+  }
+
+  const TrimVec3 cp = TrimV3Sub(p, t.c);
+  const double d5 = TrimV3Dot(ab, cp);
+  const double d6 = TrimV3Dot(ac, cp);
+  if (d6 >= 0.0 && d5 <= d6) return t.c; // Voronoi region of vertex C
+
+  // Voronoi region of edge AC
+  const double vb = d5*d2 - d1*d6;
+  if (vb <= 0.0 && d2 >= 0.0 && d6 <= 0.0)
+  {
+    const double w = d2 / (d2 - d6);
+    return TrimV3Add(t.a, TrimV3Scale(ac, w));
+  }
+
+  // Voronoi region of edge BC
+  const double va = d3*d6 - d5*d4;
+  if (va <= 0.0 && (d4 - d3) >= 0.0 && (d5 - d6) >= 0.0)
+  {
+    const TrimVec3 bc = TrimV3Sub(t.c, t.b);
+    const double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+    return TrimV3Add(t.b, TrimV3Scale(bc, w));
+  }
+
+  // Voronoi region of the face (interior): barycentric projection
+  const double denom = 1.0 / (va + vb + vc);
+  const double v = vb * denom;
+  const double w = vc * denom;
+  return TrimV3Add(TrimV3Add(t.a, TrimV3Scale(ab, v)), TrimV3Scale(ac, w));
+}
+
+// --- Recursive BVH construction for one node ---------------------------------
+// Processes sub-array triIndices[first .. first+count-1].
+// Strategy: split on the longest axis of the centroid bounding box (median-split).
+// Leaf threshold: <= 8 triangles (good balance between tree depth and leaf cost).
+static int TrimBuildNode(TrimSurfaceBVH& bvh, int first, int count)
+{
+  TrimBVHNode node;
+  node.left     = -1;
+  node.right    = -1;
+  node.firstTri = first;
+  node.triCount = count;
+  node.isLeaf   = false;
+
+  // Compute (a) the vertex bounding box for this node's AABB, and
+  //         (b) the centroid bounding box to choose the best split axis.
+  TrimAABB box         = { { 1.0e30, 1.0e30, 1.0e30 }, {-1.0e30,-1.0e30,-1.0e30} };
+  TrimAABB centroidBox = { { 1.0e30, 1.0e30, 1.0e30 }, {-1.0e30,-1.0e30,-1.0e30} };
+  for (int i = 0; i < count; ++i)
+  {
+    const TrimTriangle& tri = bvh.triangles[bvh.triIndices[first + i]];
+    const TrimVec3 pts[3]   = { tri.a, tri.b, tri.c };
+
+    // Expand the vertex AABB to contain all 3 vertices
+    for (int k = 0; k < 3; ++k)
+    {
+      if (pts[k].x < box.bmin.x) box.bmin.x = pts[k].x;
+      if (pts[k].y < box.bmin.y) box.bmin.y = pts[k].y;
+      if (pts[k].z < box.bmin.z) box.bmin.z = pts[k].z;
+      if (pts[k].x > box.bmax.x) box.bmax.x = pts[k].x;
+      if (pts[k].y > box.bmax.y) box.bmax.y = pts[k].y;
+      if (pts[k].z > box.bmax.z) box.bmax.z = pts[k].z;
+    }
+
+    // Centroid of this triangle
+    const TrimVec3 c = { (tri.a.x + tri.b.x + tri.c.x) / 3.0,
+                         (tri.a.y + tri.b.y + tri.c.y) / 3.0,
+                         (tri.a.z + tri.b.z + tri.c.z) / 3.0 };
+    if (c.x < centroidBox.bmin.x) centroidBox.bmin.x = c.x;
+    if (c.y < centroidBox.bmin.y) centroidBox.bmin.y = c.y;
+    if (c.z < centroidBox.bmin.z) centroidBox.bmin.z = c.z;
+    if (c.x > centroidBox.bmax.x) centroidBox.bmax.x = c.x;
+    if (c.y > centroidBox.bmax.y) centroidBox.bmax.y = c.y;
+    if (c.z > centroidBox.bmax.z) centroidBox.bmax.z = c.z;
+  }
+  node.box = box;
+
+  // Add this node to the array BEFORE recursing so children can update its indices.
+  // Note: indexing by integer (not by pointer) is safe even after vector reallocation.
+  const int nodeIndex = (int)bvh.nodes.size();
+  bvh.nodes.push_back(node);
+  // Leaf condition: few enough triangles to test individually
+  if (count <= 8)
+  {
+    bvh.nodes[nodeIndex].isLeaf = true;
+    return nodeIndex;
+  }
+
+  // Choose split axis = largest dimension of the centroid bounding box
+  const double extX = centroidBox.bmax.x - centroidBox.bmin.x;
+  const double extY = centroidBox.bmax.y - centroidBox.bmin.y;
+  const double extZ = centroidBox.bmax.z - centroidBox.bmin.z;
+  int axis = 0;
+  if (extY > extX && extY >= extZ) axis = 1;
+  else if (extZ > extX && extZ >= extY) axis = 2;
+
+    // Median split: keeps recursion depth bounded even for skewed centroid
+    // distributions, unlike split-position partitioning which can become linear.
+        const int half = count / 2;
+        const int leftCount  = half;
+        const int rightCount = count - half;
+        if (leftCount <= 0 || rightCount <= 0)
+        {
+            // Defensive fallback: keep this node as a leaf if the split is degenerate.
+            bvh.nodes[nodeIndex].isLeaf = true;
+            return nodeIndex;
+        }
+    std::nth_element(
+        bvh.triIndices.begin() + first,
+        bvh.triIndices.begin() + first + half,
+        bvh.triIndices.begin() + first + count,
+        [&](int lhsIdx, int rhsIdx)
+        {
+            const TrimTriangle& lhs = bvh.triangles[lhsIdx];
+            const TrimTriangle& rhs = bvh.triangles[rhsIdx];
+            const double l = (axis == 0) ? (lhs.a.x + lhs.b.x + lhs.c.x) / 3.0 :
+                                             (axis == 1) ? (lhs.a.y + lhs.b.y + lhs.c.y) / 3.0 :
+                                                                         (lhs.a.z + lhs.b.z + lhs.c.z) / 3.0;
+            const double r = (axis == 0) ? (rhs.a.x + rhs.b.x + rhs.c.x) / 3.0 :
+                                             (axis == 1) ? (rhs.a.y + rhs.b.y + rhs.c.y) / 3.0 :
+                                                                         (rhs.a.z + rhs.b.z + rhs.c.z) / 3.0;
+            return l < r;
+        });
+        const int mid = first + half;
+  // Recursively build children.
+  // IMPORTANT: the two TrimBuildNode calls must be stored in local variables
+  // BEFORE being assigned into bvh.nodes[nodeIndex].  If they were written as
+  //   bvh.nodes[nodeIndex].left = TrimBuildNode(...);
+  // the compiler (C++11/14) could evaluate the LHS address *before* the call,
+  // capture a stale pointer, and then the push_back inside the recursive call
+  // would reallocate the vector - writing the result to freed memory while
+  // bvh.nodes[nodeIndex] itself (in the now-moved data) keeps its initial -1.
+  const int leftIdx  = TrimBuildNode(bvh, first, leftCount);
+  const int rightIdx = TrimBuildNode(bvh, mid,   rightCount);
+  bvh.nodes[nodeIndex].left  = leftIdx;
+  bvh.nodes[nodeIndex].right = rightIdx;
+  return nodeIndex;
+}
+
+// --- Entry point: build the BVH from bvh.triangles ---------------------------
+static void TrimBuildBVH(TrimSurfaceBVH& bvh)
+{
+  const int n = (int)bvh.triangles.size();
+  // Initialize the permutation array to the identity permutation
+  bvh.triIndices.resize(n);
+  for (int i = 0; i < n; ++i) bvh.triIndices[i] = i;
+  bvh.nodes.clear();
+  // Reserve an upper bound (2*n nodes for n triangles) so that push_back
+  // inside TrimBuildNode never triggers a reallocation - this is an extra
+  // safety net on top of the local-variable fix above.
+  bvh.nodes.reserve(2 * n + 1);
+  if (n > 0) TrimBuildNode(bvh, 0, n);
+}
+
+// --- Recursive nearest-point query on the BVH --------------------------------
+// Walks the tree depth-first, visiting the nearer child first for better pruning.
+// Updates `best` whenever a closer point is found.
+static void TrimQueryBVH(const TrimSurfaceBVH& bvh, int nodeIdx,
+                         const TrimVec3& p, TrimClosestHit& best)
+{
+  const TrimBVHNode& node = bvh.nodes[nodeIdx];
+
+  // Early exit: the closest possible point in this subtree is farther than
+  // the current best; no triangle here can improve the answer.
+  if (TrimAABBDist2(p, node.box) >= best.dist2) return;
+  
+  if (node.isLeaf)
+  {
+    // Leaf: test each triangle individually
+    for (int i = 0; i < node.triCount; ++i)
+    {
+      const int      idx  = bvh.triIndices[node.firstTri + i];
+      const TrimVec3 c    = TrimClosestPointOnTri(p, bvh.triangles[idx]);
+      const double   d2   = TrimV3Norm2(TrimV3Sub(p, c));
+      if (d2 < best.dist2)
+      {
+        best.dist2        = d2;
+        best.closestPoint = c;
+        best.triIndex     = idx;
+      }
+    }
+    return;
+  }
+
+    if(node.left < 0 || node.right < 0)
+    {
+        return;
+    }
+
+  // Internal node: visit the nearer child first to tighten the bound earlier
+  const double dL = TrimAABBDist2(p, bvh.nodes[node.left ].box);
+  const double dR = TrimAABBDist2(p, bvh.nodes[node.right].box);
+  if (dL < dR)
+  {
+    TrimQueryBVH(bvh, node.left,  p, best);
+    TrimQueryBVH(bvh, node.right, p, best);
+  }
+  else
+  {
+    TrimQueryBVH(bvh, node.right, p, best);
+    TrimQueryBVH(bvh, node.left,  p, best);
+  }
+}
+
+// --- Compute signed distance from P to the arbitrary trim surface ------------
+// Sign convention based on the user-defined segment orientation:
+//   - For the closest triangle, compute its oriented normal from vertex order.
+//   - sd > 0 when (P - projection) points to the same side as that normal.
+//   - sd < 0 for the opposite side.
+// This avoids any dependency on a global direction vector.
+static double TrimSignedDist(const TrimSurfaceBVH& bvh, const TrimVec3& p)
+{
+  if (bvh.nodes.empty()) return 0.0;
+
+  TrimClosestHit hit;
+  hit.dist2        = 1.0e60; // initialise to a very large distance
+  hit.triIndex     = -1;
+  hit.closestPoint = p; // safe fallback
+  TrimQueryBVH(bvh, 0, p, hit);
+  if (hit.triIndex < 0) return 0.0;
+
+    // Get the nearest triangle and derive its oriented normal from vertex order.
+    // The orientation comes from the segment node ordering provided by user.
+    const TrimTriangle& tri = bvh.triangles[hit.triIndex];
+    const TrimVec3 edge1 = TrimV3Sub(tri.b, tri.a); // get the first edge
+    const TrimVec3 edge2 = TrimV3Sub(tri.c, tri.a); // get the second edge
+    const TrimVec3 normalUnit = TrimV3Normalize(TrimV3Cross(edge1, edge2)); // get the normal : edge1 ^ edge2
+
+  const TrimVec3 delta = TrimV3Sub(p, hit.closestPoint); // node - closest point
+  const double   dist  = std::sqrt(hit.dist2); // distance from P to closest point
+    // Positive sign if P is on normal side; negative for opposite side.
+    // For degenerate triangles (normal ~ 0), this falls back to +1 by design.
+  const double proj = TrimV3Dot(delta, normalUnit);
+  const double sign = (proj >= 0.0) ? 1.0 : -1.0;
+  return sign * dist;
+}
+
+// --- Triangulate a 3-node or 4-node segment and append to a triangle list ----
+// 3 nodes  ->  1 triangle.
+// 4 nodes  ->  2 triangles; split along the shorter diagonal to avoid
+//              degenerate triangles on non-planar quads.
+static void TrimAddSegment(const TrimVec3 pts[], int nPts,
+                            std::vector<TrimTriangle>& triangles)
+{
+  if (nPts == 3)
+  {
+    triangles.push_back({ pts[0], pts[1], pts[2] });
+  }
+  else if (nPts == 4)
+  {
+    // Compare diagonals 0-2 and 1-3; split along the shorter one.
+    const double d02 = TrimV3Norm2(TrimV3Sub(pts[2], pts[0]));
+    const double d13 = TrimV3Norm2(TrimV3Sub(pts[3], pts[1]));
+    if (d02 <= d13)
+    {
+      // Split along diagonal 0-2: triangles (0,1,2) and (0,2,3)
+      triangles.push_back({ pts[0], pts[1], pts[2] });
+      triangles.push_back({ pts[0], pts[2], pts[3] });
+    }
+    else
+    {
+      // Split along diagonal 1-3: triangles (0,1,3) and (1,2,3)
+      triangles.push_back({ pts[0], pts[1], pts[3] });
+      triangles.push_back({ pts[1], pts[2], pts[3] });
+    }
+  }
+}
+
+
+
+
+    // Basic 3D dot product helpers used for local-axis projections.
+    static double Dot3(const double a[3], const double b[3])
+    {
+      return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    }
+
+    static double Dot3(const sdiTriple &a, const double b[3])
+    {
+      return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    }
+
+    static double Dot3(const sdiTriple &a, const sdiTriple &b)
+    {
+      return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    }
+
+    // Normalize a vector in place and return its original norm.
+    static double Normalize3(double v[3])
+    {
+      const double norm = std::sqrt(Dot3(v, v));
+      if (norm > 0.0)
+      {
+        v[0] /= norm;
+        v[1] /= norm;
+        v[2] /= norm;
+      }
+      return norm;
+    }
+
+    static void Cross3(const double a[3], const double b[3], double out[3])
+    {
+      out[0] = a[1] * b[2] - a[2] * b[1];
+      out[1] = a[2] * b[0] - a[0] * b[2];
+      out[2] = a[0] * b[1] - a[1] * b[0];
+    }
+
+    // Bound check that is robust to reversed corner ordering and floating-point noise.
+    static bool IsValueInsideBounds(double value, double bound0, double bound1, double tol)
+    {
+      const double lower = std::min(bound0, bound1) - tol;
+      const double upper = std::max(bound0, bound1) + tol;
+      return (value >= lower && value <= upper);
+    }
+
+    // Test if a point is outside an oriented 3D box defined by:
+    // - two opposite corners (corner0, corner1)
+    // - three box local axes coming from the skew system.
+    static bool IsPointOutsideOrientedBox(const sdiTriple &point,
+                                          const sdiTriple &corner0,
+                                          const sdiTriple &corner1,
+                                          const double axis_x_in[3],
+                                          const double axis_y_in[3],
+                                          const double axis_z_in[3],
+                                          double edge_tol = 1.0e-8)
+    {
+      double axis_x[3] = {axis_x_in[0], axis_x_in[1], axis_x_in[2]};
+      double axis_y[3] = {axis_y_in[0], axis_y_in[1], axis_y_in[2]};
+      double axis_z[3] = {axis_z_in[0], axis_z_in[1], axis_z_in[2]};
+
+      // Invalid basis: consider the point as outside to avoid false positives.
+      if (Normalize3(axis_x) == 0.0 || Normalize3(axis_y) == 0.0 || Normalize3(axis_z) == 0.0)
+      {
+        return true;
+      }
+
+      sdiTriple diagonal(corner1[0] - corner0[0],
+                         corner1[1] - corner0[1],
+                         corner1[2] - corner0[2]);
+      sdiTriple rel(point[0] - corner0[0],
+                    point[1] - corner0[1],
+                    point[2] - corner0[2]);
+
+      // Box extents in the local frame.
+      const double box_x = Dot3(diagonal, axis_x);
+      const double box_y = Dot3(diagonal, axis_y);
+      const double box_z = Dot3(diagonal, axis_z);
+
+      // Point coordinates in the same local frame.
+      const double point_x = Dot3(rel, axis_x);
+      const double point_y = Dot3(rel, axis_y);
+      const double point_z = Dot3(rel, axis_z);
+
+      if (!IsValueInsideBounds(point_x, 0.0, box_x, edge_tol))
+      {
+        return true;
+      }
+
+      if (!IsValueInsideBounds(point_y, 0.0, box_y, edge_tol))
+      {
+        return true;
+      }
+
+      if (!IsValueInsideBounds(point_z, 0.0, box_z, edge_tol))
+      {
+        return true;
+      }
+      return false;
+    }
+
+    // Test if a point is outside a sphere defined by:
+    // - a origin (origin)
+    // - a radius (radius)
+    static bool IsPointOutsideSphere(const sdiTriple &point,
+                                     const sdiTriple &origin,
+                                      const double radius_pow_2)
+    {
+      double dist2 = (point[0] - origin[0])*(point[0] - origin[0]) + 
+                     (point[1] - origin[1])*(point[1] - origin[1]) +
+                     (point[2] - origin[2])*(point[2] - origin[2]) ;
+      dist2 = dist2 - radius_pow_2 ;
+      if(dist2>0.) return true; // outside
+      else return false; // inside or on the sphere
+    }
+
+        // Test if a point is outside a finite truncated cone ("cylinder" option)
+        // defined by:
+        // - two axis points (pos_1 -> pos_2)
+        // - one radius at each end (radius_1, radius_2).
+        static bool IsPointOutsideCylinder(const sdiTriple &point,
+                                           const sdiTriple &pos_1,
+                                           const sdiTriple &pos_2,
+                                           double radius_1,
+                                           double radius_2)
+        {
+            const double edge_tol = 1.0e-8;
+
+            if (radius_1 < 0.0) radius_1 = -radius_1;
+            if (radius_2 < 0.0) radius_2 = -radius_2;
+
+            const sdiTriple axis(pos_2[0] - pos_1[0],pos_2[1] - pos_1[1],pos_2[2] - pos_1[2]);
+            const double axis_len2 = Dot3(axis, axis);
+
+            // Degenerate axis: conservative fallback to a sphere test around pos_1.
+            if (axis_len2 <= 1.0e-20)
+            {
+                const double r = std::max(radius_1, radius_2);
+                const double radius_pow_2 = (r + edge_tol) * (r + edge_tol);
+                return IsPointOutsideSphere(point, pos_1, radius_pow_2);
+            }
+
+            const sdiTriple rel(point[0] - pos_1[0],point[1] - pos_1[1],point[2] - pos_1[2]);
+
+            // Normalized curvilinear coordinate along the axis segment.
+            const double t = Dot3(rel, axis) / axis_len2;
+            if (t < -edge_tol || t > 1.0 + edge_tol)
+            {
+                return true;
+            }
+
+            const double t_clamped = std::max(0.0, std::min(1.0, t));
+            const sdiTriple axis_point(pos_1[0] + t_clamped * axis[0],pos_1[1] + t_clamped * axis[1],pos_1[2] + t_clamped * axis[2]);
+
+            const sdiTriple radial(point[0] - axis_point[0],point[1] - axis_point[1],point[2] - axis_point[2]);
+            const double radial_dist2 = Dot3(radial, radial);
+
+            const double radius = radius_1 + t_clamped * (radius_2 - radius_1);
+            const double radius_with_tol = radius + edge_tol;
+            const double radius_pow_2 = radius_with_tol * radius_with_tol;
+
+            if(radial_dist2 > radius_pow_2) return true; // outside
+            else return false; // inside or on the truncated cone
+        }
+
+    // Test if a point is outside a plane defined by:
+    // - a origin (origin)
+    // - a normal (normal)
+    static bool IsPointOutsidePlane(const sdiTriple &point,
+                                    const sdiTriple &origin,
+                                    const sdiTriple normal)
+    {
+      double dist = (point[0] - origin[0])*normal[0] + 
+                    (point[1] - origin[1])*normal[1] +
+                    (point[2] - origin[2])*normal[2];
+      if(dist>0.) return true; // outside
+      else return false; // inside or on the plane
+    }        
+
+
+
+static double SolveGeometricQ_NewtonHybrid(double a, int nNodes)
+{
+    const int m = nNodes - 1; // element's number
+    if (m <= 0) throw std::invalid_argument("nNodes must be >= 2");
+    if (a <= 0.0 || a >= 1.0) throw std::invalid_argument("a must be in (0,1)");
+
+    const double am = 1.0 / static_cast<double>(m);
+    const double tol = 1e-12;
+    const int maxNewton = 40;
+    const int maxBisect = 80;
+
+    // Cas uniforme
+    if (std::fabs(a - am) < tol) return 1.0;
+
+    auto g = [a, m](double q) -> double {
+        return a * std::pow(q, m) - q + (1.0 - a);
+    };
+    auto gp = [a, m](double q) -> double {
+        return a * static_cast<double>(m) * std::pow(q, m - 1) - 1.0;
+    };
+
+    // Bracket according to the regime
+    double lo = 0.0, hi = 0.0;
+    if (a < am) {
+        // q > 1 (increasing size if u0 is the smallest)
+        lo = 1.0 + 1e-10;
+        hi = 2.0;
+        double glo = g(lo), ghi = g(hi);
+        while (glo * ghi > 0.0) {
+            hi *= 2.0;
+            ghi = g(hi);
+            if (hi > 1e12) throw std::runtime_error("Cannot bracket root for q>1");
+        }
+    } else {
+        // 0 < q < 1
+        lo = 1e-12;
+        hi = 1.0 - 1e-10;
+        double glo = g(lo), ghi = g(hi);
+        if (glo * ghi > 0.0) throw std::runtime_error("Cannot bracket root for q<1");
+    }
+
+    // Apply Newton's method within the bracket
+    double q = 0.5 * (lo + hi);
+    for (int it = 0; it < maxNewton; ++it) {
+        const double val = g(q);
+        if (std::fabs(val) < tol) return q;
+
+        const double der = gp(q);
+        double qNew = std::numeric_limits<double>::quiet_NaN();
+
+        // No Newton step if derivative is too small
+        if (std::fabs(der) > 1e-14) qNew = q - val / der;
+
+        // If the step goes out of the bracket, fallback to bisection
+        if (!(qNew > lo && qNew < hi) || !std::isfinite(qNew)) {
+            qNew = 0.5 * (lo + hi);
+        }
+
+        // Update the bracket
+        const double gLo = g(lo);
+        const double gNew = g(qNew);
+        if (gLo * gNew <= 0.0) hi = qNew;
+        else lo = qNew;
+
+        q = qNew;
+        if (std::fabs(hi - lo) < tol * (1.0 + std::fabs(q))) return q;
+    }
+
+    // final dichotomy if Newton did not converge
+    for (int it = 0; it < maxBisect; ++it) {
+        const double mid = 0.5 * (lo + hi);
+        const double gLo = g(lo);
+        const double gMid = g(mid);
+
+        if (std::fabs(gMid) < tol) return mid;
+        if (gLo * gMid <= 0.0) hi = mid;
+        else lo = mid;
+    }
+
+    return 0.5 * (lo + hi);
+}
+struct FaceKey
+  {
+      std::array<int, 4> ids{{0, 0, 0, 0}};
+      int n = 0; // 3 ou 4
+
+      bool operator==(const FaceKey& other) const
+      {
+          return n == other.n && ids == other.ids;
+      }
+  };
+
+struct FaceKeyHash
+  {
+      std::size_t operator()(const FaceKey& k) const
+      {
+          // Combinaison simple et robuste
+          std::size_t h = static_cast<std::size_t>(k.n);
+          for (int i = 0; i < 4; ++i)
+          {
+              const std::size_t x = static_cast<std::size_t>(k.ids[i]);
+              h ^= x + 0x9e3779b97f4a7c15ULL + (h << 6) + (h >> 2);
+          }
+          return h;
+      }
+  };
+
+static FaceKey MakeFaceKey(const std::vector<int>& face)
+  {
+      FaceKey k;
+      k.n = static_cast<int>(face.size());
+
+      std::vector<int> tmp(face.begin(), face.end());
+      std::sort(tmp.begin(), tmp.end());
+
+      for (int i = 0; i < k.n; ++i) k.ids[i] = tmp[i];
+      return k;
+  }
+    struct FaceCounter
+    {
+        int count = 0;
+        std::vector<int> sample;
+        TrimVec3 barycenter = {0.0, 0.0, 0.0}; // centroid of the solid element that owns this face
+    };  
+
+// **************************************************************************
+
+void GlobalEntitySDISAleBuildMesh(int* message_value)
+{
+  // message_value (c convention): 
+  // 0 : input --> if ==1, activation of debug messages
+  // 0 : part id related to s-ale option
+  // 1-->3 : control point id
+  // 4-->6 : number of sub-area of control point
+  // 7-->9: kind of mesh (regular of refined)
+  // 10 : number of trimming
+  // 11-->13 : number of element in each direction (without trimming)
+  // 14 : total number of created elements (with trimming)
+  // 15-->17 : number of node in each direction (without trimming)
+  // 18 : total number of created nodes (with trimming)
+  // 19-->24: boundary condition id
+  // 25-->30: /BCS id
+  // 31-->35: boundary condition type
+  // 37 : not ok
+  // 38 : material law type (6 for hydro or hydro-viscous, 151 for multifluid, 51 for multimaterial, -1 for not supported)
+  // 39 : material law id
+  // 40 : element offset
+  // 41 : node offset
+  // 42 : s-ale id
+  // 43 : reference node id
+  // 44 : /ALE/LINK/VEL id (if the reference node is != 0)
+
+    bool isOk = false;
+    
+    sdiValueEntity part;
+    sdiValue tempVal(part);
+
+    EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
+    EntityType radPropType = g_pModelViewSDI->GetEntityType("/PROP");
+    EntityType radMatType = g_pModelViewSDI->GetEntityType("/MAT");
+    EntityType radNodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    EntityType radBrickType = g_pModelViewSDI->GetEntityType("/BRICK");
+    EntityType radBrick16Type = g_pModelViewSDI->GetEntityType("/BRICK16");
+    EntityType radBrick20Type = g_pModelViewSDI->GetEntityType("/BRICK20");        
+    EntityType radTetra4Type = g_pModelViewSDI->GetEntityType("/TETRA4");
+    EntityType radTetra10Type = g_pModelViewSDI->GetEntityType("/TETRA10");        
+    EntityType radSegmentType = g_pModelViewSDI->GetEntityType("/SURF/SEG");
+    EntityType radSkewType = g_pModelViewSDI->GetEntityType("/SKEW");
+    EntityType radBoxType = g_pModelViewSDI->GetEntityType("/BOX/RECTA");
+    EntityType radGrnodType = g_pModelViewSDI->GetEntityType("/GRNOD/NODE");
+
+    // Get material and property from INITIAL_VOLUME_FRACTION
+    double nodeX,nodeY,nodeZ;
+    double u0_v,u0_w,u0_u;
+    double q_v,q_w,q_u;
+    int MatId = 0;
+    int PropId = 0;
+    sdiString law_type ;
+    sdiValue tempValDouble ;
+    int sale_id = 0;
+    tempVal = sdiValue(part);
+    sale_id = (int)g_pEntity->GetId();
+    bool debug_activation = false;
+    debug_activation = (message_value[0] == 1); // activation of debug messages if message_value[0] == 1
+    message_value[42] = sale_id; // save the s-ale id
+    
+
+    int sale_part_id = -1 ;
+    tempVal = sdiValue(part);
+    bool found = g_pEntity->GetValue(sdiIdentifier("PART_ID"), tempVal);
+    tempVal.GetValue(part);
+    sale_part_id = part.GetId();
+    bool law151 = false ;
+    bool law51 = false ;
+    bool law6 = false ;    
+    if(debug_activation) printf ("S-ALE BUILD MESH PART ID = %d \n", sale_part_id);
+
+    SelectionRead parts(g_pModelViewSDI, "/PART");
+    message_value[37] = -1; // not ok --> invalid part id break
+    while(parts.Next())
+    {
+        if ((int)parts->GetId() != sale_part_id) continue;
+         message_value[37] = 0; // ok part id found
+
+        HandleRead matHread;
+        HandleRead propHread;
+        parts->GetEntityHandle(sdiIdentifier("materialid"), matHread);
+        parts->GetEntityHandle(sdiIdentifier("propertyid"), propHread);
+
+        if(matHread.IsValid())
+        {
+          EntityRead matRead(g_pModelViewSDI, matHread);
+          MatId = matHread.GetId(g_pModelViewSDI);          
+          law_type = matRead.GetKeyword() ;
+          if(law_type=="/MAT/LAW151"||law_type=="/MAT/MULTIFLUID")
+          {
+            law151 = true;
+            message_value[39] = MatId;
+          }
+          if(law_type=="/MAT/LAW51"||law_type=="/MAT/MULTIMAT")
+          {
+            law51 = true;
+            message_value[39] = MatId;
+          }
+          if(law_type=="/MAT/LAW6"||law_type=="/MAT/HYDRO"||law_type=="/MAT/HYD_VISC")
+          {
+            law6 = true;
+            message_value[39] = MatId;
+          }
+          if(debug_activation) printf("Law Type %s \n",law_type.c_str());
+        }
+        if(propHread.IsValid()) PropId = propHread.GetId(g_pModelViewSDI);
+        break;
+    }
+    message_value[0] = sale_part_id; // save the Structured ALE part id
+    if(message_value[37]<0)
+    {      
+      if(debug_activation) printf ("S-ALE BUILD MESH PART ID not found, break \n");
+      return;
+    }
+    if(debug_activation) printf ("S-ALE BUILD MESH PART ID = %d with mat %d & Prop %d \n",sale_part_id, MatId, PropId);
+        
+    if(law6)   {
+      message_value[38] = 6; // BC type 6 for hydro or hydro-viscous material
+    }
+     else if(law151)
+    {
+      message_value[38] = 151; // BC type 151 for multifluid material
+    }
+    else if(law51)
+    {
+      message_value[38] = 51; // BC type 51 for multimaterial
+    }
+     else
+    {
+      message_value[38] = -1; // not supported material law for now
+      message_value[37] = -39; // not ok --> -39 means non supported material law
+      if(debug_activation) printf ("S-ALE BUILD MESH PART ID = %d with mat %d & Prop %d not supported for now, break \n",sale_part_id, MatId, PropId);
+      return;
+    }
+
+    sdiUIntList control_point;
+    control_point.resize(3);
+    int control_id = 0 ;
+    tempVal = sdiValue(control_id);
+    found = g_pEntity->GetValue(sdiIdentifier("CONTROL_POINT_X"), tempVal);
+    if(found) tempVal.GetValue(control_id);
+    message_value[1] = control_id; // save the control point id x
+    if(debug_activation) printf ("S-ALE BUILD MESH PART ID = %d with control point id x = %d \n",sale_part_id, control_id);
+    control_point[0] = control_id;
+    tempVal = sdiValue(control_id);
+    found = g_pEntity->GetValue(sdiIdentifier("CONTROL_POINT_Y"), tempVal);
+    if(found) tempVal.GetValue(control_id);
+    message_value[2] = control_id; // save the control point id y
+    if(debug_activation) printf ("S-ALE BUILD MESH PART ID = %d with control point id y = %d \n",sale_part_id, control_id);
+    control_point[1] = control_id;
+    
+    tempVal = sdiValue(control_id);
+    found = g_pEntity->GetValue(sdiIdentifier("CONTROL_POINT_Z"), tempVal);
+    if(found) tempVal.GetValue(control_id);  
+    message_value[3] = control_id; // save the control point id z
+    if(debug_activation) printf ("S-ALE BUILD MESH PART ID = %d with control point id z = %d \n",sale_part_id, control_id);
+    control_point[2] = control_id;
+    if(debug_activation) printf("S-ALE BUILD MESH PART ID = %d with control points : (%d, %d, %d) \n",sale_part_id, control_point[0], control_point[1], control_point[2]);
+
+    // Reference node
+    message_value[43] = 0; // default value for reference node id (0 means no reference node)
+    int ref_node_id = 0 ;
+    tempVal = sdiValue(ref_node_id);
+    found = g_pEntity->GetValue(sdiIdentifier("NODE_ID"), tempVal);
+    if(found) tempVal.GetValue(ref_node_id);
+    message_value[43] = ref_node_id; // reference node id
+    if(debug_activation) printf ("S-ALE BUILD MESH PART ID = %d with reference node id = %d \n",sale_part_id, ref_node_id);
+    
+    int skew_id = 0;
+    int element_offset = 0;
+    int node_offset = 0;    
+    tempVal = sdiValue(skew_id);
+    found = g_pEntity->GetValue(sdiIdentifier("SKEW_ID"), tempVal);
+    if(found) tempVal.GetValue(skew_id);
+    tempVal = sdiValue(element_offset);
+    found = g_pEntity->GetValue(sdiIdentifier("ELEM_OFFSET"), tempVal);
+    if(found) tempVal.GetValue(element_offset);    
+    tempVal = sdiValue(node_offset);
+    found = g_pEntity->GetValue(sdiIdentifier("NODE_OFFSET"), tempVal);
+    if(found) tempVal.GetValue(node_offset);        
+    if(debug_activation) printf ("S-ALE BUILD MESH PART ID with skew id = %d , element offset = %d , node_offset = %d \n", skew_id, element_offset,node_offset);
+    
+    bool foundSkew = false;
+
+    sdiValueEntity n1, n2, n3;
+    SelectionRead skews(g_pModelViewSDI, "/SKEW");
+
+    // find the skew & get its data (origin and two vectors to define local coordinate system)
+    int origin_node_id;
+    double  origin_x = 0.0, origin_y = 0.0, origin_z = 0.0;
+    double  vector_y_x = 0.0, vector_y_y = 0.0, vector_y_z = 0.0;
+    double  vector_z_x = 0.0, vector_z_y = 0.0, vector_z_z = 0.0;
+    while (skews.Next())
+    {
+        if ((int)skews->GetId() != skew_id) continue;
+
+        foundSkew = true;
+
+        tempValDouble = sdiValue(origin_x);
+        found = skews->GetValue(sdiIdentifier("globaloriginx"), tempValDouble);
+        if(found) tempValDouble.GetValue(origin_x);
+        tempValDouble = sdiValue(origin_y);
+        found = skews->GetValue(sdiIdentifier("globaloriginy"), tempValDouble);
+        if(found) tempValDouble.GetValue(origin_y);
+        tempValDouble = sdiValue(origin_z);
+        found = skews->GetValue(sdiIdentifier("globaloriginz"), tempValDouble);
+        if(found) tempValDouble.GetValue(origin_z);                
+        if(debug_activation) printf("SKEW origin : (%f,%f,%f) \n", origin_x, origin_y, origin_z);
+
+        tempValDouble = sdiValue(vector_y_x);
+        found = skews->GetValue(sdiIdentifier("globalyaxisx"), tempValDouble);
+        if(found) tempValDouble.GetValue(vector_y_x);
+        tempValDouble = sdiValue(vector_y_y);
+        found = skews->GetValue(sdiIdentifier("globalyaxisy"), tempValDouble);
+        if(found) tempValDouble.GetValue(vector_y_y);
+        tempValDouble = sdiValue(vector_y_z);
+        found = skews->GetValue(sdiIdentifier("globalyaxisz"), tempValDouble);
+        if(found) tempValDouble.GetValue(vector_y_z);                
+        if(debug_activation) printf("SKEW vector Y : (%f,%f,%f) \n", vector_y_x, vector_y_y, vector_y_z);  
+
+        tempValDouble = sdiValue(vector_z_x);
+        found = skews->GetValue(sdiIdentifier("globalzaxisx"), tempValDouble);
+        if(found) tempValDouble.GetValue(vector_z_x);
+        tempValDouble = sdiValue(vector_z_y);
+        found = skews->GetValue(sdiIdentifier("globalzaxisy"), tempValDouble);
+        if(found) tempValDouble.GetValue(vector_z_y);
+        tempValDouble = sdiValue(vector_z_z);
+        found = skews->GetValue(sdiIdentifier("globalzaxisz"), tempValDouble);
+        if(found) tempValDouble.GetValue(vector_z_z);                
+        if(debug_activation) printf("SKEW vector Z : (%f,%f,%f) \n", vector_z_x, vector_z_y, vector_z_z);          
+
+        break;
+    }
+    
+    bool foundtrim = false ;
+    int s_ale_id = g_pEntity->GetId();
+    int mesh_trim_option_nb = 0;
+    struct TrimPlane // type 0
+    {
+      double origin[3];
+      double normal[3]; 
+    };
+    struct TrimSphere // type 1
+    {
+      int origin_node_id;
+      sdiTriple origin_pos;
+      double radius;
+    };
+    struct TrimCylinder // type 2
+    {
+      int node_id_1;
+      int node_id_2;
+      double radius_1;
+      double radius_2;
+      sdiTriple pos_1;
+      sdiTriple pos_2;      
+    };
+    struct TrimBox // type 3
+    {
+      int box_id;
+      int skew_id;
+      int node_id_1;
+      int node_id_2;
+      sdiTriple pos_1;
+      sdiTriple pos_2;
+      double vector_x[3];
+      double vector_y[3];
+      double vector_z[3];
+    };
+    // TrimArbitrary (type 4): trim surface defined by a list of 3-node or 4-node
+    // segments. The segments are triangulated at read time and stored in a BVH
+    // for fast nearest-point queries when evaluating node exclusion.
+    struct TrimArbitrary
+    {
+            TrimSurfaceBVH bvh;      // BVH acceleration structure built from triangulated segments
+            double distance; // absolute threshold applied on local signed distance
+    };
+    struct MeshTrimOption
+    {
+      int plane_nb;
+      int sphere_nb;
+      int cylinder_nb;
+      int box_nb;
+      int arbitrary_nb; // number of arbitrary-surface (SEGMENT) trim entries
+      int option_nb;
+
+      std::vector<TrimPlane>     plane;
+      std::vector<TrimSphere>    sphere;
+      std::vector<TrimCylinder>  cylinder;
+      std::vector<TrimBox>       box;
+      std::vector<TrimArbitrary> arbitrary; // arbitrary-surface (SEGMENT) trim entries
+      std::vector<int> rsm_id ; // to store the RSM id of each trim option
+      std::vector<int> operation; // 0 : trim , 1 keep
+      std::vector<int> inout; // 0 : outside , 1 inside
+      std::vector<int> index;
+      std::vector<int> type;
+    };
+    MeshTrimOption mesh_trim_option;
+    mesh_trim_option.plane_nb = 0;
+    mesh_trim_option.sphere_nb = 0;
+    mesh_trim_option.cylinder_nb = 0;
+    mesh_trim_option.box_nb      = 0;
+    mesh_trim_option.arbitrary_nb = 0; // initialise the arbitrary-surface (SEGMENT) trim counter
+
+    SelectionRead mesh_trim(g_pModelViewSDI, "/ALE/STRUCTURED_MESH/TRIM");
+    mesh_trim_option.option_nb=0;
+    while (mesh_trim.Next())
+    {
+      foundtrim = true;
+      sdiValue vCount(mesh_trim_option_nb);
+
+      found = mesh_trim->GetValue(sdiIdentifier("table_count"), vCount);
+      if (found){
+        vCount.GetValue(mesh_trim_option_nb);
+      }
+      else
+      {
+        mesh_trim_option_nb =-1;
+      }
+      if(debug_activation) printf("TRIM option, line numbers: %d \n", mesh_trim_option_nb);
+      
+      for(int i = 0; i < mesh_trim_option_nb; i=i+1)
+      {
+        int rsm_id = -1;
+        sdiValue v_rsm_id(rsm_id);
+        found = mesh_trim->GetValue(sdiIdentifier("rsm_id_table", 0, i), v_rsm_id);
+        if (found) v_rsm_id.GetValue(rsm_id);
+        if(rsm_id!=s_ale_id) continue ; // get the trim option linked to the s_ale option
+        mesh_trim_option.option_nb = mesh_trim_option.option_nb + 1;        
+        mesh_trim_option.rsm_id.push_back(rsm_id);
+
+        string option_table = "";
+        sdiValue v_option(option_table);
+        found = mesh_trim->GetValue(sdiIdentifier("option_table", 0, i), v_option);
+        if (found) v_option.GetValue(option_table);
+        int operation = 0;
+        sdiValue v_operation(operation);
+        found = mesh_trim->GetValue(sdiIdentifier("operation_table", 0, i), v_operation);
+        if (found) v_operation.GetValue(operation);   
+        mesh_trim_option.operation.push_back(operation);
+        int inout = 0;
+        sdiValue v_inout(inout);
+        found = mesh_trim->GetValue(sdiIdentifier("inout_table", 0, i), v_inout);        
+        if (found) v_inout.GetValue(inout);        
+        mesh_trim_option.inout.push_back(inout);
+        if(debug_activation) printf("TRIM option, line : %d , kind : %s , operation : %d , inout : %d \n",i,option_table.c_str(),operation,inout);      
+        // ------------------------------------
+        // Plane option
+        if(option_table == "PLANE")
+        {
+          mesh_trim_option.index.push_back(mesh_trim_option.plane_nb);
+          mesh_trim_option.type.push_back(0);
+          mesh_trim_option.plane_nb++;
+          TrimPlane new_plane;
+          int int1 = 0, int2 = 0;
+          double e3 = 0.0, e4 = 0.0;
+          sdiValue vint1(int1), vint2(int2), vE3(e3), vE4(e4);
+          bool okE1 = mesh_trim->GetValue(sdiIdentifier("int1_table", 0, i), vint1);
+          if (okE1) vint1.GetValue(int1);             
+          bool okE2 = mesh_trim->GetValue(sdiIdentifier("int2_table", 0, i), vint2);
+          if (okE2) vint2.GetValue(int2);
+
+          int node_id_1 = int1;
+          int node_id_2 = int2; 
+          sdiTriple pos_1 ;
+          sdiTriple pos_2 ;
+          HandleRead nodeHread;
+          if(g_pModelViewSDI->FindById(radNodeType, node_id_1, nodeHread))
+          {
+            NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+            pos_1 = nodeRead.GetPosition();     
+          }
+          if(g_pModelViewSDI->FindById(radNodeType, node_id_2, nodeHread))
+          {
+            NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+            pos_2 = nodeRead.GetPosition();     
+          }
+          new_plane.origin[0] = pos_1[0];
+          new_plane.origin[1] = pos_1[1];
+          new_plane.origin[2] = pos_1[2];
+          new_plane.normal[0] = pos_2[0] - pos_1[0];
+          new_plane.normal[1] = pos_2[1] - pos_1[1];
+          new_plane.normal[2] = pos_2[2] - pos_1[2];                      
+          mesh_trim_option.plane.push_back(new_plane);
+          if(debug_activation) printf("TRIM option, plane, id=%d, row=%d, int1=%d, int2=%d, normal=(%g, %g, %g)\n",(int)mesh_trim->GetId(), i, int1, int2,
+                 new_plane.normal[0], new_plane.normal[1], new_plane.normal[2]);
+        }
+        // ------------------------------------
+        // Sphere option        
+        if(option_table == "SPHERE")
+        {
+          mesh_trim_option.index.push_back(mesh_trim_option.sphere_nb);
+          mesh_trim_option.type.push_back(1);          
+          mesh_trim_option.sphere_nb++;
+          TrimSphere new_sphere;
+          int int1 = 0, int2 = 0;
+          double e3 = 0.0, e4 = 0.0;
+          sdiValue vint1(int1), vint2(int2), vE3(e3), vE4(e4);
+          bool okE1 = mesh_trim->GetValue(sdiIdentifier("int1_table", 0, i), vint1);
+          if (okE1) vint1.GetValue(int1);             
+          bool okE2 = mesh_trim->GetValue(sdiIdentifier("e3_table", 0, i), vE3);
+          if (okE2) vE3.GetValue(e3);
+
+          int node_id_1 = int1;
+          double radius = e3; 
+          sdiTriple pos_1 ;
+          HandleRead nodeHread;
+          if(g_pModelViewSDI->FindById(radNodeType, node_id_1, nodeHread))
+          {
+            NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+            pos_1 = nodeRead.GetPosition();     
+          }
+          new_sphere.origin_node_id = node_id_1;
+          new_sphere.origin_pos = pos_1;
+          new_sphere.radius = radius;
+          mesh_trim_option.sphere.push_back(new_sphere);
+          if(debug_activation) printf("TRIM option, sphere, id=%d, row=%d, int1=%d, e3=%g, origin=(%g, %g, %g), radius=%g \n",
+            (int)mesh_trim->GetId(), i, int1, e3, new_sphere.origin_pos[0], new_sphere.origin_pos[1], new_sphere.origin_pos[2], new_sphere.radius);
+        }
+        // ------------------------------------
+        // Cylinder option            
+        if(option_table == "CYLINDER")
+        {
+          mesh_trim_option.index.push_back(mesh_trim_option.cylinder_nb);
+          mesh_trim_option.type.push_back(2);          
+          mesh_trim_option.cylinder_nb++;
+          TrimCylinder new_cylinder;
+          int int1 = 0, int2 = 0;
+          double e3 = 0.0, e4 = 0.0;
+          sdiValue vint1(int1), vint2(int2), vE3(e3), vE4(e4);
+          bool okE1 = mesh_trim->GetValue(sdiIdentifier("int1_table", 0, i), vint1);
+          if (okE1) vint1.GetValue(int1);             
+          bool okE2 = mesh_trim->GetValue(sdiIdentifier("int2_table", 0, i), vint2);
+          if (okE2) vint2.GetValue(int2);
+          bool okE3 = mesh_trim->GetValue(sdiIdentifier("e3_table", 0, i), vE3);
+          if (okE3) vE3.GetValue(e3);             
+          bool okE4 = mesh_trim->GetValue(sdiIdentifier("e4_table", 0, i), vE4);
+          if (okE4) vE4.GetValue(e4);
+
+          int node_id_1 = int1;
+          int node_id_2 = int2; 
+          double radius_1 = e3;
+          double radius_2 = e4; 
+          new_cylinder.node_id_1 = node_id_1;
+          new_cylinder.node_id_2 = node_id_2;
+          new_cylinder.radius_1 = radius_1;
+          new_cylinder.radius_2 = radius_2;
+          sdiTriple pos_1 ;
+          HandleRead nodeHread;
+          if(g_pModelViewSDI->FindById(radNodeType, node_id_1, nodeHread))
+          {
+            NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+            pos_1 = nodeRead.GetPosition();     
+          }
+          sdiTriple pos_2 ;
+          if(g_pModelViewSDI->FindById(radNodeType, node_id_2, nodeHread))
+          {
+            NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+            pos_2 = nodeRead.GetPosition();     
+          }
+          new_cylinder.pos_1 = pos_1;
+          new_cylinder.pos_2 = pos_2;          
+          mesh_trim_option.cylinder.push_back(new_cylinder);
+          if(debug_activation) printf("TRIM option, cylinder, id=%d, row=%d, int1=%d, int2=%d, e3=%g, e4=%g, node1=%d, node2=%d, radius1=%g, radius2=%g\n",
+            (int)mesh_trim->GetId(), i, int1, int2, e3, e4, node_id_1, node_id_2, radius_1, radius_2);
+        }
+        // ------------------------------------
+        // Box option            
+        if(option_table == "BOX")
+        {
+          mesh_trim_option.index.push_back(mesh_trim_option.box_nb);
+          mesh_trim_option.type.push_back(3);          
+          mesh_trim_option.box_nb++;
+          TrimBox new_box;
+          int int1 = 0, int2 = 0;
+          double e3 = 0.0, e4 = 0.0;
+          sdiValue vint1(int1), vint2(int2), vE3(e3), vE4(e4);
+          bool okE1 = mesh_trim->GetValue(sdiIdentifier("int1_table", 0, i), vint1);
+          if (okE1) vint1.GetValue(int1);
+          int box_id = int1;
+
+          SelectionRead box_recta(g_pModelViewSDI, "/BOX/RECTA");
+          while (box_recta.Next())
+          {
+            if ((int)box_recta->GetId() != box_id) continue; // get the BOX/RECTA option
+
+            int box_corner_node1 = 0;
+            tempValDouble = sdiValue(box_corner_node1);
+            found = box_recta->GetValue(sdiIdentifier("box_corner_node1"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner_node1);
+            int box_corner_node2 = 0;
+            tempValDouble = sdiValue(box_corner_node2);
+            found = box_recta->GetValue(sdiIdentifier("box_corner_node2"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner_node2);
+
+            int skew_box_id = 0;
+            tempValDouble = sdiValue(skew_box_id);
+            found = box_recta->GetValue(sdiIdentifier("box_system"), tempValDouble);
+            if(found) tempValDouble.GetValue(skew_box_id);          
+
+            double box_corner1_x = 0.0;
+            tempValDouble = sdiValue(box_corner1_x);
+            found = box_recta->GetValue(sdiIdentifier("box_corner1_x"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner1_x);        
+            double box_corner1_y = 0.0;
+            tempValDouble = sdiValue(box_corner1_y);
+            found = box_recta->GetValue(sdiIdentifier("box_corner1_y"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner1_y);
+            double box_corner1_z = 0.0;
+            tempValDouble = sdiValue(box_corner1_z);
+            found = box_recta->GetValue(sdiIdentifier("box_corner1_z"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner1_z);         
+                
+            double box_corner2_x = 0.0;
+            tempValDouble = sdiValue(box_corner2_x);
+            found = box_recta->GetValue(sdiIdentifier("box_corner2_x"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner2_x);        
+            double box_corner2_y = 0.0;
+            tempValDouble = sdiValue(box_corner2_y);
+            found = box_recta->GetValue(sdiIdentifier("box_corner2_y"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner2_y);
+            double box_corner2_z = 0.0;
+            tempValDouble = sdiValue(box_corner2_z);
+            found = box_recta->GetValue(sdiIdentifier("box_corner2_z"), tempValDouble);
+            if(found) tempValDouble.GetValue(box_corner2_z);                  
+            new_box.node_id_1=box_corner_node1;
+            if(box_corner_node1==0)
+            {
+              new_box.pos_1[0] = box_corner1_x;
+              new_box.pos_1[1] = box_corner1_y;
+              new_box.pos_1[2] = box_corner1_z;
+            }
+            else
+            {
+              sdiTriple pos_1 ;
+              HandleRead nodeHread;
+              if(g_pModelViewSDI->FindById(radNodeType, box_corner_node1, nodeHread))
+              {
+                NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+                pos_1 = nodeRead.GetPosition();     
+              }
+              new_box.pos_1[0] = pos_1[0];
+              new_box.pos_1[1] = pos_1[1];
+              new_box.pos_1[2] = pos_1[2];
+            }
+            new_box.node_id_2=box_corner_node2;
+            if(box_corner_node2==0)
+            {
+              new_box.pos_2[0] = box_corner2_x;
+              new_box.pos_2[1] = box_corner2_y;
+              new_box.pos_2[2] = box_corner2_z;
+            }
+            else
+            {
+              sdiTriple pos_2 ;
+              HandleRead nodeHread;
+              if(g_pModelViewSDI->FindById(radNodeType, box_corner_node2, nodeHread))
+              {
+                NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+                pos_2 = nodeRead.GetPosition();     
+              }
+              new_box.pos_2[0] = pos_2[0];
+              new_box.pos_2[1] = pos_2[1];
+              new_box.pos_2[2] = pos_2[2];
+            }                
+
+            SelectionRead local_skews(g_pModelViewSDI, "/SKEW");
+
+            // find the skew & get its data (origin and two vectors to define local coordinate system)
+            double  box_vector_x_x = 1.0, box_vector_x_y = 0.0, box_vector_x_z = 0.0;
+            double  box_vector_y_x = 0.0, box_vector_y_y = 1.0, box_vector_y_z = 0.0;
+            double  box_vector_z_x = 0.0, box_vector_z_y = 0.0, box_vector_z_z = 1.0;
+            while (local_skews.Next())
+            {
+              if ((int)local_skews->GetId() != skew_box_id) continue;
+              
+              tempValDouble = sdiValue(box_vector_y_x);
+              found = local_skews->GetValue(sdiIdentifier("globalyaxisx"), tempValDouble);
+              if(found) tempValDouble.GetValue(box_vector_y_x);
+              tempValDouble = sdiValue(box_vector_y_y);
+              found = local_skews->GetValue(sdiIdentifier("globalyaxisy"), tempValDouble);
+              if(found) tempValDouble.GetValue(box_vector_y_y);
+              tempValDouble = sdiValue(box_vector_y_z);
+              found = local_skews->GetValue(sdiIdentifier("globalyaxisz"), tempValDouble);
+              if(found) tempValDouble.GetValue(box_vector_y_z);                
+
+              tempValDouble = sdiValue(box_vector_z_x);
+              found = local_skews->GetValue(sdiIdentifier("globalzaxisx"), tempValDouble);
+              if(found) tempValDouble.GetValue(box_vector_z_x);
+              tempValDouble = sdiValue(box_vector_z_y);
+              found = local_skews->GetValue(sdiIdentifier("globalzaxisy"), tempValDouble);
+              if(found) tempValDouble.GetValue(box_vector_z_y);
+              tempValDouble = sdiValue(box_vector_z_z);
+              found = local_skews->GetValue(sdiIdentifier("globalzaxisz"), tempValDouble);
+              if(found) tempValDouble.GetValue(box_vector_z_z);                  
+              box_vector_x_x = box_vector_y_y*box_vector_z_z - box_vector_y_z*box_vector_z_y;
+              box_vector_x_y = box_vector_y_z*box_vector_z_x - box_vector_y_x*box_vector_z_z;
+              box_vector_x_z = box_vector_y_x*box_vector_z_y - box_vector_y_y*box_vector_z_x;
+              break;
+            }
+
+            new_box.vector_x[0] = box_vector_x_x;
+            new_box.vector_x[1] = box_vector_x_y;
+            new_box.vector_x[2] = box_vector_x_z;
+
+            new_box.vector_y[0] = box_vector_y_x;
+            new_box.vector_y[1] = box_vector_y_y;
+            new_box.vector_y[2] = box_vector_y_z;
+
+            new_box.vector_z[0] = box_vector_z_x;
+            new_box.vector_z[1] = box_vector_z_y;
+            new_box.vector_z[2] = box_vector_z_z;                                
+            break;
+          }
+          mesh_trim_option.box.push_back(new_box);
+        }
+        // ------------------------------------
+        // SEGMENT option (type 4): arbitrary trim surface defined by a list of
+        // 3-node or 4-node segments.  Each segment is triangulated immediately
+        // and the resulting triangles are stored in a BVH for efficient
+        // nearest-point queries at evaluation time.
+        //
+        // Expected SDI field names for this row (adapt to your .cfg file):
+        //   e1                : distance exclusion threshold
+        //   seg_count         : number of segments in the sub-table
+        //   seg_n1..seg_n4    : node IDs per segment (seg_n4=0 for 3-node triangles)
+        if(option_table == "SEG" || option_table=="PART")
+        {
+          mesh_trim_option.index.push_back(mesh_trim_option.arbitrary_nb);
+          mesh_trim_option.type.push_back(4);
+          mesh_trim_option.arbitrary_nb++;
+
+          TrimArbitrary new_arb;
+
+          // --- Read the signed-distance exclusion threshold (e2) ---------
+          int int1 = 0, int2 = 0;
+          double e3 = 0.0, e4 = 0.0;
+          sdiValue vint1(int1), vint2(int2), vE3(e3), vE4(e4);
+          bool okE1 = mesh_trim->GetValue(sdiIdentifier("int1_table", 0, i), vint1);
+          if (okE1) vint1.GetValue(int1);
+
+          bool okDist = mesh_trim->GetValue(sdiIdentifier("e3_table", 0, i), vE3);
+          if (okDist) vE3.GetValue(e3);
+          new_arb.distance = e3;
+
+          int surf_seg_id = 0;
+          int part_id = 0;
+          if(debug_activation) printf("TRIM option, SEG or PART, id=%d, sub-option:%s, int1=%d, distance=%g, \n",i,option_table.c_str(),int1,e3);
+          if(option_table == "SEG") // /SET/GENERAL --> SEG
+          {
+            surf_seg_id = int1;
+            SelectionRead set_seg(g_pModelViewSDI, "/SET/GENERAL");
+            int segmax = 0;
+            while (set_seg.Next())
+            {
+              if ((int)set_seg->GetId() != surf_seg_id) continue;
+               string ids_type_key = "";
+              sdiValue v_option_2(ids_type_key);
+              found = set_seg->GetValue(sdiIdentifier("ids_type", 0, 0), v_option_2);
+              if (found) v_option_2.GetValue(ids_type_key);      
+
+              int idsmax = 0;
+              tempValDouble = sdiValue(idsmax);
+              found = set_seg->GetValue(sdiIdentifier("idsmax"), tempValDouble);
+              if(found) tempValDouble.GetValue(idsmax); 
+
+              int clausesmax = 0;
+              tempValDouble = sdiValue(clausesmax);
+              found = set_seg->GetValue(sdiIdentifier("clausesmax"), tempValDouble);
+              if(found) tempValDouble.GetValue(clausesmax);
+
+              for (int s = 0; s < clausesmax; ++s)
+              {
+                int opt_ = 0;
+                sdiValue v_opt_(opt_);
+                found = set_seg->GetValue(sdiIdentifier("opt_", 0, s), v_opt_);
+                if (found) v_opt_.GetValue(opt_);
+                if(opt_==1) continue; // option (add/remove/sub/ ... are not supported by TRIM)
+
+                string set_key = "";
+                sdiValue set_key_option(set_key);
+                found = set_seg->GetValue(sdiIdentifier("KEY_type", 0, s), set_key_option);
+                if (found) set_key_option.GetValue(set_key);
+            
+                if(set_key!="SEG") continue ; // get the SEG entry associated with this trim option
+                
+
+                int segmax =0;
+                tempValDouble = sdiValue(segmax);
+                found = set_seg->GetValue(sdiIdentifier("segmax", 0, s), tempValDouble);
+                if(found) tempValDouble.GetValue(segmax);                  
+                for(int seg = 0; seg < segmax; ++seg)
+                {
+                  int segid = 0;
+                  tempValDouble = sdiValue(segid);
+                  found = set_seg->GetValue(sdiIdentifier("segid", seg, s), tempValDouble);
+                  if(found) tempValDouble.GetValue(segid); 
+
+                  // Read the 3 or 4 node IDs for this segment.
+                  // seg_n4 = 0 means a 3-node triangle; non-zero means a 4-node quad.
+                  int n1_id = 0, n2_id = 0, n3_id = 0, n4_id = 0;
+                  sdiValueEntity vN1, vN2, vN3, vN4;
+                  sdiValue vN1_id , vN2_id, vN3_id, vN4_id ;
+                  bool okN1 = set_seg->GetValue(sdiIdentifier("ids1", seg, s),vN1_id);
+                  if (okN1)
+                  { 
+                    vN1_id.GetValue(vN1);
+                    n1_id = vN1.GetId();
+                  }
+                  bool okN2 = set_seg->GetValue(sdiIdentifier("ids2", seg, s), vN2_id);
+                  if (okN2)
+                  {
+                    vN2_id.GetValue(vN2);
+                    n2_id = vN2.GetId();
+                  }
+                  bool okN3 = set_seg->GetValue(sdiIdentifier("ids3", seg, s), vN3_id);
+                  if (okN3)
+                  {
+                    vN3_id.GetValue(vN3);
+                    n3_id = vN3.GetId();
+                  }
+                  bool okN4 = set_seg->GetValue(sdiIdentifier("ids4", seg, s), vN4_id);
+                  if (okN4)
+                  {
+                    vN4_id.GetValue(vN4);
+                    n4_id = vN4.GetId();
+                  }
+
+                  // Helper lambda: resolve a node ID to its 3D position.
+                  // Returns false if node_id == 0 or the node is not found.
+                  auto getNodePos = [&](int node_id, TrimVec3& pos) -> bool
+                  {
+                    if (node_id == 0) return false;
+                    HandleRead nh;
+                    if (g_pModelViewSDI->FindById(radNodeType, node_id, nh))
+                    {
+                      NodeRead nr(g_pModelViewSDI, nh);
+                      sdiTriple p3 = nr.GetPosition();
+                      pos = { p3[0], p3[1], p3[2] };
+                      return true;
+                    }
+                    return false;
+                  };
+
+                  // Resolve node positions from their IDs
+                  TrimVec3 pts[4];
+                  const bool ok1 = getNodePos(n1_id, pts[0]);
+                  const bool ok2 = getNodePos(n2_id, pts[1]);
+                  const bool ok3 = getNodePos(n3_id, pts[2]);
+                  const bool ok4 = (n4_id != 0) && getNodePos(n4_id, pts[3]);
+                  const int  nPts = ok4 ? 4 : 3;
+                  if (ok1 && ok2 && ok3)
+                  {
+                    // Triangulate this segment (1 triangle for 3 nodes, 2 for 4 nodes)
+                    // and append the result to the BVH triangle list.
+                    TrimAddSegment(pts, nPts, new_arb.bvh.triangles);
+                  }
+                } // end for each segment of the current clauses
+              } // end for each clause
+            } // end of while set_seg.Next() 
+          } // option == seg
+          else // PART
+          {
+            int part_id = int1;          
+            HandleRead partHread;
+            if(g_pModelViewSDI->FindById(radPartType, part_id, partHread)) // get the /PART entry associated with this trim option
+            {              
+             EntityRead partRead(g_pModelViewSDI, partHread);
+              SelectionElementRead selPartElem(partRead); // get a selection of elements associated with this part
+              std:: vector <std::vector<int>> facet ; // to store the facet definition as a list of node IDs (key=node_id, value=node_id position in the facet)
+              std::unordered_map<FaceKey, FaceCounter, FaceKeyHash> faceMap; // to store the number of occurrences of each face (key=sorted node IDs of the face, value=occurrence count)
+
+              while(selPartElem.Next()) // loop over the selected elements of this part
+              {
+                const sdiString& elemKeyword = selPartElem->GetKeyword();            
+                if(elemKeyword == "/SHELL" || elemKeyword == "/SH3N") // only for /SHELL & /SH3N elements
+                {               
+                  // Read the 3 or 4 node IDs for this shell
+                  // node_ID4 = 0 means a 3-node triangle; non-zero means a 4-node shell.
+                  int n1_id = 0, n2_id = 0, n3_id = 0, n4_id = 0;
+                  sdiValue vN1(n1_id), vN2(n2_id), vN3(n3_id), vN4(n4_id);
+
+                  sdiUIntList nodeIds;
+                  selPartElem->GetNodeIds(nodeIds); // get the 3 or 4 nodes associated with this element
+                  int node_nb = nodeIds.size();
+                  n1_id = node_nb>0 ? nodeIds[0] : 0;
+                  n2_id = node_nb>1 ? nodeIds[1] : 0;
+                  n3_id = node_nb>2 ? nodeIds[2] : 0;
+                  n4_id = node_nb>3 ? nodeIds[3] : 0;
+
+                  bool okN1 = node_nb>0;
+                  bool okN2 = node_nb>1;
+                  bool okN3 = node_nb>2;
+                  bool okN4 = node_nb>3;
+
+                  int id = selPartElem->GetId(); // get the element id               
+
+                  // Helper lambda: resolve a node ID to its 3D position.
+                  // Returns false if node_id == 0 or the node is not found.
+                  auto getNodePos = [&](int node_id, TrimVec3& pos) -> bool
+                  {
+                    if (node_id == 0) return false;
+                    HandleRead nh;
+                    if (g_pModelViewSDI->FindById(radNodeType, node_id, nh))
+                    {
+                      NodeRead nr(g_pModelViewSDI, nh);
+                      sdiTriple p3 = nr.GetPosition();
+                      pos = { p3[0], p3[1], p3[2] };
+                      return true;
+                    }
+                    return false;
+                  };
+
+                  // Resolve node positions from their IDs
+                  TrimVec3 pts[4];
+                  const bool ok1 = getNodePos(n1_id, pts[0]);
+                  const bool ok2 = getNodePos(n2_id, pts[1]);
+                  const bool ok3 = getNodePos(n3_id, pts[2]);
+                  const bool ok4 = (n4_id != 0) && getNodePos(n4_id, pts[3]);
+                  const int  nPts = ok4 ? 4 : 3;
+
+                  if (ok1 && ok2 && ok3)
+                  {
+                  // Triangulate this segment (1 triangle for 3 nodes, 2 for 4 nodes)
+                  // and append the result to the BVH triangle list.
+                    TrimAddSegment(pts, nPts, new_arb.bvh.triangles);
+                  }
+                } // if shell or sh3n
+                else if(elemKeyword == "/BRICK" || elemKeyword == "/TETRA4" || elemKeyword == "/TETRA10" )
+                {
+                  int n1_id = 0, n2_id = 0, n3_id = 0, n4_id = 0, n5_id = 0, n6_id = 0, n7_id = 0, n8_id = 0;;
+                  sdiValue vN1(n1_id), vN2(n2_id), vN3(n3_id), vN4(n4_id), vN5(n5_id), vN6(n6_id), vN7(n7_id), vN8(n8_id);
+                  sdiUIntList nodeIds;
+                  selPartElem->GetNodeIds(nodeIds); // get the 8 nodes associated with this element
+                  int node_nb = nodeIds.size();
+                  n1_id = node_nb>0 ? nodeIds[0] : 0;
+                  n2_id = node_nb>1 ? nodeIds[1] : 0;
+                  n3_id = node_nb>2 ? nodeIds[2] : 0;
+                  n4_id = node_nb>3 ? nodeIds[3] : 0;
+                  n5_id = node_nb>4 ? nodeIds[4] : 0;
+                  n6_id = node_nb>5 ? nodeIds[5] : 0;
+                  n7_id = node_nb>6 ? nodeIds[6] : 0;
+                  n8_id = node_nb>7 ? nodeIds[7] : 0;
+                  if(node_nb==4) // tetra4 or tetra10
+                  {
+                    facet.push_back({n1_id, n2_id, n3_id});  // opposite face to n4
+                    facet.push_back({n4_id, n2_id, n1_id});  // opposite face to n3                    
+                    facet.push_back({n1_id, n3_id, n4_id});  // opposite face to n2
+                    facet.push_back({n4_id, n3_id, n2_id});  // opposite face to n1
+                  }
+                  else
+                  {               
+                    facet.push_back({n1_id, n5_id, n8_id,n4_id});//z-
+                    facet.push_back({n2_id, n3_id, n7_id,n6_id});//z+
+                    facet.push_back({n1_id, n2_id, n6_id,n5_id});// x-
+                    facet.push_back({n3_id, n4_id, n8_id,n7_id});// x+
+                    facet.push_back({n1_id,n4_id,n3_id,n2_id});//y-
+                    facet.push_back({n5_id, n6_id,n7_id,n8_id});//y+
+                  }
+                }
+              } // while selPartElem.Next()
+              // loop over the facet of the elements to :
+              //  * count the number of occurrence of each face in the part (using faceMap)
+              //  * store the node IDs of one occurrence of each face (using counter.sample in
+              for(auto &f : facet)
+              {
+                const FaceKey key = MakeFaceKey(f);
+                FaceCounter& counter = faceMap[key];
+                counter.count++;
+                if(counter.count == 1)
+                {
+                  counter.sample = f; // store the first occurrence of the face
+                }
+              }
+              // loop over the facet of the elements again to find the unique faces (count=1 in faceMap) that will define the surface of the trim option
+              for(auto &f : facet)
+              {
+                const FaceKey key = MakeFaceKey(f);
+                FaceCounter& counter = faceMap[key];
+                if(counter.count == 1) // this face belongs to only one element, so it's part of the surface
+                {
+                  TrimVec3 pts[4];
+                  int n1_id = counter.sample[0];
+                  int n2_id = counter.sample[1];
+                  int n3_id = counter.sample[2];
+                  int n4_id = counter.sample.size()>3 ? counter.sample[3] : 0;
+                  auto getNodePos = [&](int node_id, TrimVec3& pos) -> bool
+                  {
+                    if (node_id == 0) return false;
+                    HandleRead nh;
+                    if (g_pModelViewSDI->FindById(radNodeType, node_id, nh))
+                    {
+                      NodeRead nr(g_pModelViewSDI, nh);
+                      sdiTriple p3 = nr.GetPosition();
+                      pos = { p3[0], p3[1], p3[2] };
+                      return true;
+                    }
+                    return false;
+                  };
+                  const bool ok1 = getNodePos(n1_id, pts[0]);
+                  const bool ok2 = getNodePos(n2_id, pts[1]);
+                  const bool ok3 = getNodePos(n3_id, pts[2]);
+                  const bool ok4 = (n4_id != 0) && getNodePos(n4_id, pts[3]);
+                  const int  nPts = ok4 ? 4 : 3;
+
+                  if (ok1 && ok2 && ok3)
+                  {       
+                    TrimAddSegment(pts, nPts, new_arb.bvh.triangles);
+                  }
+                }
+              } // end for loop over the facet of the elements
+            } // /PART found                         
+          }
+
+          // Build the BVH acceleration structure once for this entire surface.
+          // After this point, new_arb.bvh is ready for nearest-point queries.
+          TrimBuildBVH(new_arb.bvh);
+          // Move new_arb into the list to avoid deep-copying the BVH data.
+          mesh_trim_option.arbitrary.push_back(std::move(new_arb));
+          // ------------------------------------
+        }
+      }
+    } // while mesh_trim
+
+    Bcs_Struct bcs_data;
+    bcs_data.list.resize(6); // 0--> x-, 1-->x+, 2-->y-, 3-->y+, 4-->z-, 5-->z+
+    bcs_data.avail.resize(6,0); // -1--> no bcs, !=-1 --> bcs
+    bcs_data.bcs_nb=0;
+    for(i=0; i<6; i++)
+    {
+      bcs_data.avail[i] = -1; // default values --> no bcs
+    }
+    
+
+    // Boundary conditions
+    bool foundbcs = false;  
+    SelectionRead bcs_sale(g_pModelViewSDI, "/ALE/STRUCTURED_MESH/BCS");      
+    while (bcs_sale.Next())
+    {      
+      foundbcs = true;
+      int table_count = 0;
+      sdiValue vCount(table_count);
+
+      found = bcs_sale->GetValue(sdiIdentifier("table_count"), vCount);
+      if (found) vCount.GetValue(table_count);
+      if(debug_activation) printf("BCS option, operation number= %d \n", table_count);
+      for (int i = 0; i < table_count; i=i+1)
+      {      
+        int rsm_id = -1;
+        sdiValue v_rsm_id(rsm_id);
+        found = bcs_sale->GetValue(sdiIdentifier("RSM_id", 0, i), v_rsm_id);
+        if (found) v_rsm_id.GetValue(rsm_id);      
+        found = bcs_sale->GetValue(sdiIdentifier("rsm_id_table", 0, i), v_rsm_id);
+        if (found) v_rsm_id.GetValue(rsm_id);        
+        if(rsm_id!=s_ale_id) continue ; // get the trim option linked to the s_ale option 
+
+        string option_table = "";
+        sdiValue v_option(option_table);
+        found = bcs_sale->GetValue(sdiIdentifier("option_table", 0, i), v_option);
+        if (found) v_option.GetValue(option_table);
+       
+        
+        int my_type = -1;
+        if(option_table=="FIXED")
+        {
+           my_type = -1;
+        }
+        else if(option_table=="SLIPWALL")
+        {
+           my_type = 1;
+        }
+
+        else if(option_table=="NRF")
+        {
+           my_type = 2;
+        }
+
+        int negx = 0, posx = 0, negy = 0, posy = 0, negz = 0, posz = 0;
+        sdiValue vNegx(negx), vPosx(posx), vNegy(negy), vPosy(posy), vNegz(negz), vPosz(posz);
+        // X direction
+        found = bcs_sale->GetValue(sdiIdentifier("face_x_minus", 0, i), vNegx);
+        if (found) vNegx.GetValue(negx);        
+        found = bcs_sale->GetValue(sdiIdentifier("face_x_plus", 0, i), vPosx);
+        if (found) vPosx.GetValue(posx);
+        if(negx==1) bcs_data.avail[0] = my_type;
+        if(posx==1) bcs_data.avail[1] = my_type;
+        // Y direction
+        found = bcs_sale->GetValue(sdiIdentifier("face_y_minus", 0, i), vNegy);
+        if (found) vNegy.GetValue(negy);
+        found = bcs_sale->GetValue(sdiIdentifier("face_y_plus", 0, i), vPosy);
+        if (found) vPosy.GetValue(posy);
+        if(negy==1) bcs_data.avail[2] = my_type;
+        if(posy==1) bcs_data.avail[3] = my_type;        
+
+        // Z direction
+        found = bcs_sale->GetValue(sdiIdentifier("face_z_minus", 0, i), vNegz);
+        if (found) vNegz.GetValue(negz);
+        found = bcs_sale->GetValue(sdiIdentifier("face_z_plus", 0, i), vPosz);
+        if (found) vPosz.GetValue(posz);
+        if(negz==1) bcs_data.avail[4] = my_type;
+        if(posz==1) bcs_data.avail[5] = my_type;
+
+        if(debug_activation)printf("BCS option, id=%d, row=%d, option=%s, Negx=%d, Posx=%d, Negy=%d, Posy=%d, Negz=%d, Posz=%d \n",
+               (int)bcs_sale->GetId(), i, option_table.c_str(), negx, posx, negy, posy, negz, posz);
+        
+      }
+    }
+    if(debug_activation)printf("BCS option, x-=%d, x+=%d, y-=%d, y+=%d, z-=%d, z+=%d \n",
+           bcs_data.avail[0], bcs_data.avail[1], bcs_data.avail[2], bcs_data.avail[3], bcs_data.avail[4], bcs_data.avail[5]);
+    struct ControlPoint_Struct
+    { 
+      int icase;
+      int node_nb;
+      double offset;
+      double scale;
+      std::vector<int> node_ids;
+      std::vector<double> coords;
+      std::vector<double> ratio_from_input;
+      std::vector<double> ratios;
+    };
+    ControlPoint_Struct ControlPoint_data[3]; // 3 directions : x, y, z
+    for(int j = 0; j < 3; j++)
+    {
+      ControlPoint_data[j].icase = 0; 
+      ControlPoint_data[j].node_nb = 0;
+      ControlPoint_data[j].offset = 0.0;
+      ControlPoint_data[j].scale = 1.0;
+    }
+  
+    
+    bool foundcontrol = false;
+       
+    for(int j = 0; j < 3; j++)
+    {
+      SelectionRead control_points(g_pModelViewSDI, "/ALE/STRUCTURED_MESH/CONTROL_POINTS");      
+      int control_point_id = control_point[j];
+      message_value[37] = -2-j; // error related to control points --> 2/-3/-4 control point not found
+      while (control_points.Next())
+      {        
+        if ((int)control_points->GetId() != control_point_id) continue;
+        foundcontrol = true;
+        message_value[37] = 0; // control point found
+        int table_count = 0;
+        sdiValue vCount(table_count);
+
+        found = control_points->GetValue(sdiIdentifier("table_count"), vCount);
+        if (found) vCount.GetValue(table_count);
+
+        int control_icase = 0 ;
+        double control_offset = 0.0 ; 
+        double control_scale = 1.0 ;
+        sdiValue vControlIcase(control_icase);
+        sdiValue vControlOffset(control_offset);
+        sdiValue vControlScale(control_scale);
+        bool okIcase = control_points->GetValue(sdiIdentifier("Icase"), vControlIcase);          
+        bool okOffset = control_points->GetValue(sdiIdentifier("Offset"), vControlOffset);
+        bool okScale = control_points->GetValue(sdiIdentifier("Scale"), vControlScale);
+        if(okIcase) vControlIcase.GetValue(control_icase);
+        if(okOffset) vControlOffset.GetValue(control_offset);
+        if(okScale) vControlScale.GetValue(control_scale);
+        ControlPoint_data[j].icase = control_icase;
+        ControlPoint_data[j].offset = control_offset;
+        ControlPoint_data[j].scale = control_scale;
+        if(table_count<2) // not enough control points to define a pair, we stop here
+        {
+          message_value[37] = -5-j; // error related to control points --> 4/-5/-6 error in the control point definition
+          if(debug_activation) printf("Error: ALE/STRUCTURED_MESH/CONTROL_POINTS id=%d has less than 2 control points defined, the mesh will be regular in this direction \n",(int)control_points->GetId());
+          return;
+        }
+        if(debug_activation) printf("Control Points, Number of Point : %d \n",table_count);
+        message_value[4+j] = table_count; // save the number of control points
+        message_value[7+j] = 0; // default value for the type of mesh (0--> regular, 1--> refined)
+        for (int i = 0; i < table_count; ++i)
+        {
+          int node_id = 0;
+          double x_coord = 0.0;
+          double ratio = 0.0;
+
+          sdiValue vNode(node_id);
+          sdiValue vX(x_coord);
+          sdiValue vRatio(ratio);
+
+          bool okNode = control_points->GetValue(sdiIdentifier("nodes_table_id", 0, i), vNode);
+          if (okNode) vNode.GetValue(node_id);
+
+          bool okX = control_points->GetValue(sdiIdentifier("nodes_table_x", 0, i), vX);
+          if (okX) vX.GetValue(x_coord);
+
+          bool okRatio = control_points->GetValue(sdiIdentifier("nodes_table_ratio", 0,i), vRatio);
+          if (okRatio) vRatio.GetValue(ratio);
+
+          if(debug_activation) printf("Control Points, id=%d, row=%d, node_id=%d, x=%g, ratio=%g \n",
+                 (int)control_points->GetId(), i, node_id, x_coord, ratio);
+
+          if(debug_activation) printf("Control Points, id=%d, row=%d, control_offset=%f, control_scale=%f \n",
+                 (int)control_points->GetId(), i, control_offset, control_scale);
+          // Apply offset and scale to the x_coord
+          x_coord = control_offset + control_scale * x_coord;
+          // Sauvegarder dans les tableaux selon la direction (j)     
+          ControlPoint_data[j].node_nb++;         
+          ControlPoint_data[j].node_ids.push_back(node_id);
+          ControlPoint_data[j].coords.push_back(x_coord);
+          if(ratio<=-1.0) ratio = 0.0; // if the user input a wrong value, we set the ratio to 0 to avoid negative values
+          ControlPoint_data[j].ratio_from_input.push_back(ratio);
+          if(debug_activation) printf("Control Points, Pair: %d &  %d , ratio_from_input=%g\n", j,i, ControlPoint_data[j].ratio_from_input[i]);
+        }
+        break; // point trouve
+      }
+      if(message_value[37] < 0) return ; // control point not found, we stop here
+    } 
+    
+    // Define the number of pairs of control points 
+    int pair_nb_x = ControlPoint_data[0].node_nb / 2 + ControlPoint_data[0].node_nb % 2; // if odd number of control points, the last one will form a pair with itself
+    int pair_nb_y = ControlPoint_data[1].node_nb / 2 + ControlPoint_data[1].node_nb % 2;
+    int pair_nb_z = ControlPoint_data[2].node_nb / 2 + ControlPoint_data[2].node_nb % 2;
+    if(debug_activation) printf("Control points found: %d in X direction, %d in Y direction, %d in Z direction\n", ControlPoint_data[0].node_nb, ControlPoint_data[1].node_nb, ControlPoint_data[2].node_nb);
+    if(debug_activation) printf("Number of pairs of control points: %d in X direction, %d in Y direction, %d in Z direction\n", pair_nb_x, pair_nb_y, pair_nb_z);
+    if(pair_nb_x<1) message_value[37] = -5; // error related to control points --> not enough control points
+    if(pair_nb_y<1) message_value[37] = -6; // error related to control points --> not enough control points
+    if(pair_nb_z<1) message_value[37] = -7; // error related to control points --> not enough control points
+    if(message_value[37] < 0)
+    {
+      if(debug_activation) printf("Error: at least one direction has less than 2 control points, the mesh will be regular in this direction \n");
+      return ;
+    }
+    // Modification of the ratio for Icase = 1
+    // Icase = 1 means that the user defines the lenght of the element at the control point
+    for(int j=0;j<3;j++)
+    {
+      int next = 0 ;
+      if(ControlPoint_data[j].node_ids[0]!=1)
+      {
+        message_value[37] = -5-j; // error related to control points, 1rst point must be 1 --> 4/-5/-6 error in the control point definition
+        if(debug_activation) printf("Error: the first control point in direction %d has node_id %d, it must be 1, the mesh will be regular in this direction \n", j, ControlPoint_data[j].node_ids[0]);
+        return ;
+      }
+      for(int i=0;i<ControlPoint_data[j].node_nb / 2 + ControlPoint_data[j].node_nb % 2;i++)
+      {
+        if(debug_activation) printf("Control Point, Pair %d in direction %d, ratio_from_input=%g\n", i, j, ControlPoint_data[j].ratio_from_input[i]);
+        ControlPoint_data[j].ratios.push_back(ControlPoint_data[j].ratio_from_input[i]);
+        if(ControlPoint_data[j].icase==1)
+        {
+          ControlPoint_data[j].ratios[i] = 0.0 ;// default value
+          double pair_lenght = ControlPoint_data[j].coords[i+1] - ControlPoint_data[j].coords[i];
+          int pair_element_nb = ControlPoint_data[j].node_ids[i+1] - ControlPoint_data[j].node_ids[i];          
+          if(pair_element_nb<=0)
+          {
+            message_value[37] = -5-j; // error related to control points --> 4/-5/-6 error in the control point definition           
+            if(debug_activation) printf("Error: the control points %d and %d in direction %d have node_ids %d and %d, the second node_id must be higher than the first one, the mesh will be regular in this direction \n", i, i+1, j, ControlPoint_data[j].node_ids[i], ControlPoint_data[j].node_ids[i+1]);
+            return ;
+          }
+          double q = 0.;
+          int my_index = -1;
+
+          if(ControlPoint_data[j].ratio_from_input[i]>0.0 && ControlPoint_data[j].ratio_from_input[i+1]==0.0)
+          {
+            my_index = i;
+          }
+          else if(ControlPoint_data[j].ratio_from_input[i]==0.0&& ControlPoint_data[j].ratio_from_input[i+1]>0.0)
+          {
+            my_index = i+1;
+          }
+          if(my_index!=-1)
+          {
+            double dlbase = ControlPoint_data[j].ratio_from_input[my_index];
+            double a = dlbase/pair_lenght;
+            q = SolveGeometricQ_NewtonHybrid(a, pair_element_nb+1);
+            if(my_index==i+1&&q>0.0)
+            {
+              q = 1.0 / q; // if the user defined the length at the second control point of the pair, we take the inverse of q to get the correct ratio
+            }
+            q = q - 1.0; // because in the formula we have (1+q)
+            ControlPoint_data[j].ratios[i] = q ;
+            if(debug_activation) printf("Control Point, Pair %d in direction %d, pair_length=%g, pair_element_nb=%d, dlbase=%g, computed q=%g\n", i, j, pair_lenght, pair_element_nb, dlbase, q);
+          }
+        }
+      }
+    }
+    // Define the number of nodes in each direction
+    int nx = ControlPoint_data[0].node_ids[ControlPoint_data[0].node_nb-1]-ControlPoint_data[0].node_ids[0]+1;
+    int ny = ControlPoint_data[1].node_ids[ControlPoint_data[1].node_nb-1]-ControlPoint_data[1].node_ids[0]+1;
+    int nz = ControlPoint_data[2].node_ids[ControlPoint_data[2].node_nb-1]-ControlPoint_data[2].node_ids[0]+1;
+    for(int j=0;j<3;j++)
+    {
+      if((ControlPoint_data[j].node_ids[ControlPoint_data[j].node_nb-1]-ControlPoint_data[j].node_ids[0]+1)+1<2)
+      {
+        message_value[37] = -5-j; // error related to control points --> 5/-6/-7 not enough nodes to define the mesh in this direction
+        if(debug_activation) printf("Error: not enough nodes to define the mesh in direction %d, the mesh will be regular in this direction \n", j);
+        return ;
+      }
+    }
+
+    // Point 1 is the origin of the box
+    double x1 = ControlPoint_data[0].coords[0];
+    double y1 = ControlPoint_data[1].coords[0];
+    double z1 = ControlPoint_data[2].coords[0];
+    // Vector V defines the first direction (local Y-axis)
+    double vx = vector_y_x;
+    double vy = vector_y_y;
+    double vz = vector_y_z;
+    // Vector W defines the second direction (local Z-axis)
+    double wx = vector_z_x;
+    double wy = vector_z_y;
+    double wz = vector_z_z;
+    // Normalize W & V to get unit direction vectors
+    double v_length_raw = sqrt(vx * vx + vy * vy + vz * vz);    
+    double w_length_raw = sqrt(wx * wx + wy * wy + wz * wz);
+    if(v_length_raw > 0.0)
+    {
+        vx /= v_length_raw;
+        vy /= v_length_raw;
+        vz /= v_length_raw;
+    }
+    if(w_length_raw > 0.0)
+    {
+        wx /= w_length_raw;
+        wy /= w_length_raw;
+        wz /= w_length_raw;
+    }    
+    // Vector U defines the third direction (local X-axis)
+    double ux = vy * wz - vz * wy;
+    double uy = vz * wx - vx * wz;
+    double uz = vx * wy - vy * wx;
+    // Normalize U
+    double u_length_raw = sqrt(ux * ux + uy * uy + uz * uz);
+    if(u_length_raw > 0.0)
+    {
+        ux /= u_length_raw;
+        uy /= u_length_raw;
+        uz /= u_length_raw;
+    }
+
+    double length_x =  ControlPoint_data[0].coords[ControlPoint_data[0].node_nb - 1] - ControlPoint_data[0].coords[0];
+    double length_y =  ControlPoint_data[1].coords[ControlPoint_data[1].node_nb - 1] - ControlPoint_data[1].coords[0];
+    double length_z =  ControlPoint_data[2].coords[ControlPoint_data[2].node_nb - 1] - ControlPoint_data[2].coords[0];
+
+    // Create nodes in a structured grid
+    std::vector<int> nodeIdList,nodeIdList0,state,global_to_local_node_id;
+    std::vector<sdiTriple> nodePos0;
+    nodeIdList0.reserve(nx * ny * nz);
+    nodeIdList.reserve(nx * ny * nz);
+    global_to_local_node_id.reserve(nx * ny * nz);
+    state.reserve(nx * ny * nz);
+    std::vector <bool> elem_state;
+    elem_state.resize((nx-1) * (ny-1) * (nz-1), true); // initialize all elements as active (not void)
+    
+    u0_u = 1. / (nx - 1);
+    u0_v = 1. / (ny - 1);
+    u0_w = 1. / (nz - 1);    
+    message_value[11] = nx - 1 ; // save the number of elements in the X-direction (without trimming)
+    message_value[12] = ny - 1 ; // save the number of elements in the Y-direction (without trimming)
+    message_value[13] = nz - 1 ; // save the number of elements in the Z-direction (without trimming)
+
+    message_value[15] = nx ; // save the number of nodes in the X-direction (without trimming)
+    message_value[16] = ny ; // save the number of nodes in the Y-direction (without trimming)
+    message_value[17] = nz ; // save the number of nodes in the Z-direction (without trimming)    
+    int newNodeId = 0;
+    for( int kk=1; kk<=pair_nb_z; kk++)
+    {
+      int k1 = ControlPoint_data[2].node_ids[kk-1];
+      int k2 = ControlPoint_data[2].node_ids[kk];
+      double local_lenght_z = ControlPoint_data[2].coords[kk] - ControlPoint_data[2].coords[kk-1];
+      z1 = ControlPoint_data[2].coords[kk-1] ; // update the origin for each pair in z direction
+      q_w = 1 + ControlPoint_data[2].ratios[kk-1]; // update q_w for each pair in z direction
+      if(q_w!=0.&&q_w!=1.) message_value[9] = 1; // refined mesh is used
+      int local_nz = k2 - k1 + 1 ;
+      if(debug_activation) printf("Pair %d in Z direction: node ids (%d, %d) \n", kk, k1, k2);
+      u0_w = GetCharacteristicLenght(local_nz, local_lenght_z, q_w);
+      if(debug_activation) printf("u0_w for pair %d in Z direction: %f \n", kk, u0_w);      
+      k2 = k2 - k1 ;    
+      if(kk==pair_nb_z) k2 = k2 + 1; // to include the last node in the last pair
+      for(int k = 0; k < k2; k++) 
+      {
+        double tk = (local_nz > 0) ? (double)k / (local_nz - 1) : 0.0;
+        for(int jj=1 ; jj<=pair_nb_y; jj++)
+        {
+          int j1 = ControlPoint_data[1].node_ids[jj-1];
+          int j2 = ControlPoint_data[1].node_ids[jj];
+          double local_lenght_y = ControlPoint_data[1].coords[jj] - ControlPoint_data[1].coords[jj-1];
+          y1 = ControlPoint_data[1].coords[jj-1] ; // update the origin for each pair in y direction
+          q_v = 1 + ControlPoint_data[1].ratios[jj-1]; // update q_v for each pair in y direction
+          if(q_v!=0.&&q_v!=1.) message_value[8] = 1; // refined mesh is used
+          int local_ny = j2 - j1 + 1 ;
+          if(debug_activation) printf("Pair %d in Y direction: node ids (%d, %d) \n", jj, j1, j2);
+          u0_v = GetCharacteristicLenght(local_ny, local_lenght_y, q_v );
+          if(debug_activation) printf("u0_v for pair %d in Y direction: %f \n", jj, u0_v);
+          j2 = j2 - j1 ;
+          if(jj==pair_nb_y) {j2 = j2 + 1; } // to include the last node in the last pair
+          for(int j = 0; j < j2; j++)
+          {
+            double tj = (local_ny > 0) ? (double)j / (local_ny - 1) : 0.0;
+            for(int ii=1 ; ii<=pair_nb_x; ii++)
+            {
+              int i1 = ControlPoint_data[0].node_ids[ii-1];
+              int i2 = ControlPoint_data[0].node_ids[ii];
+              double local_lenght_x = ControlPoint_data[0].coords[ii] - ControlPoint_data[0].coords[ii-1];              
+              x1 = ControlPoint_data[0].coords[ii-1] ; // update the origin for each pair in x direction
+              q_u = 1 + ControlPoint_data[0].ratios[ii-1]; // update q_v for each pair in x direction 
+              if(q_u!=0.&&q_u!=1.) message_value[7] = 1; // refined mesh is used            
+              int local_nx = i2 - i1 + 1 ;              
+              if(debug_activation) printf("Pair %d in X direction: node ids (%d, %d) \n", ii, i1, i2);
+              u0_u = GetCharacteristicLenght(local_nx, local_lenght_x, q_u);
+              if(debug_activation) printf("u0_u for pair %d in X direction: %f \n", ii, u0_u);
+              i2 = i2 - i1 ;
+              if(ii==pair_nb_x) {i2 = i2 + 1; } // to include the last node in the last pair
+              for(i = 0; i < i2; i++)
+              {
+                double ti = (local_nx > 0) ? (double)i / (local_nx - 1) : 0.0;
+                
+                computeNodePosition(x1,y1,z1,ux,uy,uz,
+                                    vx,vy,vz,wx,wy,wz,
+                                    i,j,k,
+                                    i2,j2,k2,
+                                    u0_u,q_u,u0_v,q_v,u0_w,q_w,
+                                    nodeX,nodeY,nodeZ) ; 
+                if(debug_activation) printf("NEW Compute position for node (%d,%d,%d) --> (%f,%f,%f) \n", i+i1, j+j1, k+k1, nodeX, nodeY, nodeZ);
+                nodeIdList0.push_back(newNodeId);
+                newNodeId++;
+                nodePos0.push_back(sdiTriple(nodeX, nodeY, nodeZ));
+                state.push_back(1);
+                if(debug_activation) printf (" Created Node ID = %d at (%f,%f,%f) \n", newNodeId, nodeX, nodeY, nodeZ);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if(debug_activation) printf("Trimming option, number : %d \n", mesh_trim_option.option_nb);
+    message_value[10] = mesh_trim_option.option_nb ; // save the number of trimming option
+    std::flush(std::cout); ;
+    for(int i=0;i<mesh_trim_option.option_nb;i++)
+    {
+      int local_outside =  mesh_trim_option.inout[i] ; // 0 --> ouside, 1 --> inside
+      int local_operation =  mesh_trim_option.operation[i] ; // 0 --> trim , 1 --> keep
+      if(debug_activation) printf("Trimming option, line: %d, type = %d, index = %d, outside = %d, operation = %d \n", i, mesh_trim_option.type[i], mesh_trim_option.index[i], local_outside, local_operation);    
+
+      if(mesh_trim_option.type[i]==0) // plane
+      {
+        int plane_id = mesh_trim_option.index[i];
+        sdiTriple origin = mesh_trim_option.plane[plane_id].origin;
+        sdiTriple normal = mesh_trim_option.plane[plane_id].normal;
+        // check if the nodes are inside the plane
+        for(int j=0;j<nodeIdList0.size();j++)
+        {
+          sdiTriple local_pos = sdiTriple(nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ());
+          bool local_state = IsPointOutsidePlane(local_pos,origin,normal);
+          // Outside
+          if(local_outside==0)
+          {
+            if(local_state) state[j] = local_operation; // mark the nodes with the local_operation value
+            if(debug_activation) printf("Plane Outside Node ID %d at (%f,%f,%f) of plane id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), plane_id,state[j]);
+          }
+          // Inside
+          else
+          {
+            if(!local_state) state[j] = local_operation; // mark the nodes with the local_operation value
+            if(debug_activation) printf("Plane Inside Node ID %d at (%f,%f,%f) of plane id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), plane_id,state[j]);
+          }
+        }
+      }
+    
+      else if(mesh_trim_option.type[i]==1) // sphere
+      {
+        int sphere_id = mesh_trim_option.index[i];
+        sdiTriple origin = mesh_trim_option.sphere[sphere_id].origin_pos;
+        double radius_pow_2 = mesh_trim_option.sphere[sphere_id].radius * mesh_trim_option.sphere[sphere_id].radius;
+        // check if the nodes are inside the sphere
+        for(int j=0;j<nodeIdList0.size();j++)
+        {
+          sdiTriple local_pos = sdiTriple(nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ());
+          // IsPointOutsideSphere returns true if the point is outside the sphere, false if it is inside or on the sphere
+          bool local_state = IsPointOutsideSphere(local_pos,origin,radius_pow_2);
+          // Outside
+          if(local_outside==0)
+          {
+            if(local_state) state[j] = local_operation; // mark the nodes with the local_operation value
+            if(debug_activation) printf("Sphere Outside Node ID %d at (%f,%f,%f) of sphere id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), sphere_id,state[j]);
+          }
+          // Inside
+          else
+          {
+            if(!local_state) state[j] = local_operation; // mark the nodes with the local_operation value
+            if(debug_activation) printf("Sphere Inside Node ID %d at (%f,%f,%f) of sphere id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), sphere_id,state[j]);
+          }
+        }        
+      }
+      else if(mesh_trim_option.type[i]==2) // cylinder
+      {
+        int cylinder_id = mesh_trim_option.index[i];
+        double radius_1 = mesh_trim_option.cylinder[cylinder_id].radius_1;
+        double radius_2 = mesh_trim_option.cylinder[cylinder_id].radius_2;
+        sdiTriple pos_1 = mesh_trim_option.cylinder[cylinder_id].pos_1;
+        sdiTriple pos_2 = mesh_trim_option.cylinder[cylinder_id].pos_2;
+        // check if the nodes are inside the cylinder
+        for(int j=0;j<nodeIdList0.size();j++)
+        {
+          sdiTriple local_pos = sdiTriple(nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ());
+          // IsPointOutsideCylinder returns true if the point is outside the cylinder, false if it is inside or on the cylinder
+          bool local_state = IsPointOutsideCylinder(local_pos,pos_1,pos_2,radius_1,radius_2);
+          // Outside
+          if(local_outside==0)
+          {
+            if(local_state) 
+            {
+              state[j] = local_operation; // mark the nodes with the local_operation value
+              if(debug_activation) printf("Cylinder Outside Node ID %d at (%f,%f,%f) of cylinder id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), cylinder_id,state[j]);
+            }
+          }
+          // Inside
+          else
+          {
+            if(!local_state)
+            {
+              state[j] = local_operation; // mark the nodes with the local_operation value
+              if(debug_activation) printf("Cylinder Inside Node ID %d at (%f,%f,%f) of cylinder id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), cylinder_id,state[j]);
+            }
+          }
+        }
+      }
+      else if(mesh_trim_option.type[i]==3) // box
+      {
+        int box_id = mesh_trim_option.index[i];
+        double origin_box_x = mesh_trim_option.box[box_id].pos_1[0];
+        double origin_box_y = mesh_trim_option.box[box_id].pos_1[1];
+        double origin_box_z = mesh_trim_option.box[box_id].pos_1[2];
+        sdiTriple corner0 = sdiTriple(mesh_trim_option.box[box_id].pos_1[0], mesh_trim_option.box[box_id].pos_1[1], mesh_trim_option.box[box_id].pos_1[2]);
+        sdiTriple corner1 = sdiTriple(mesh_trim_option.box[box_id].pos_2[0], mesh_trim_option.box[box_id].pos_2[1], mesh_trim_option.box[box_id].pos_2[2]);
+        // check if the nodes are inside the BOX/RECTA
+        for(int j=0;j<nodeIdList0.size();j++)
+        {
+          sdiTriple local_pos = sdiTriple(nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ());
+          // IsPointOutsideOrientedBox returns true if the point is outside the box, false if it is inside or on the box
+          bool local_state = IsPointOutsideOrientedBox(local_pos,corner0,corner1,
+                                          mesh_trim_option.box[box_id].vector_x,
+                                          mesh_trim_option.box[box_id].vector_y,
+                                          mesh_trim_option.box[box_id].vector_z,
+                                          1.0e-8);
+          // Outside
+          if(local_outside==0)
+          {
+            if(local_state) state[j] = local_operation; // mark the nodes with the local_operation value
+            if(debug_activation) printf("Outside Node ID %d at (%f,%f,%f) of box id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), box_id,state[j]);
+          }
+          // Inside
+          else
+          {
+            if(!local_state) state[j] = local_operation; // mark the nodes with the local_operation value
+            if(debug_activation) printf("Inside Node ID %d at (%f,%f,%f) of box id=%d is %d \n", nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(), box_id,state[j]);
+          }
+        }
+      }
+
+      else if(mesh_trim_option.type[i]==4) // arbitrary surface (SEGMENT option, BVH-based)
+      {
+        // Retrieve the TrimArbitrary entry that was built at read time.
+        const int arb_id = mesh_trim_option.index[i];
+        const TrimArbitrary& arb = mesh_trim_option.arbitrary[arb_id];
+
+        // Loop over all candidate nodes and compute their signed distance
+        // to the arbitrary trim surface.
+        for(int j = 0; j<nodeIdList0.size(); j++)
+        {
+          if(debug_activation) printf("\n");
+          if(debug_activation) printf("Trimming option, arbitrary surface, node :%d \n",j);
+          // Query point = pre-computed position of node j
+          const TrimVec3 p = { nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ() };
+
+          // TrimSignedDist now uses the oriented normal of the closest
+          // triangle (derived from the user-provided segment node order).
+          //   sd > 0 -> point on normal side (local "outside")
+          //   sd < 0 -> point on opposite side (local "inside")
+          const double sd = TrimSignedDist(arb.bvh, p);
+          if(debug_activation) printf("Trimming option, arbitrary surface, node : %d (ID %d) at (%f,%f,%f) has signed distance sd=%f to arbitrary trim surface (option %d)\n",
+              j, nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(),
+              sd, i);
+          // Apply the exclusion criterion using the InOut flag and distance
+          // threshold, consistent with the plane/sphere/box convention.
+          bool local_state = false;
+          if (local_outside == 0) // InOut=0 "outside": exclude nodes beyond +distance
+          {
+            if(sd>0)
+            {
+              local_state = (sd >  arb.distance);
+              if (local_state)
+              {
+                state[j] = local_operation; // mark node: 0=trim, 1=keep (follows operation flag)
+              }
+              else
+              {
+                state[j] = 1 - local_operation ; // mark node with the opposite value
+              }            
+              if(debug_activation) printf("Trimming option, arbitrary surface, Outside, Node %d at (%f,%f,%f) sd=%f -> state=%d\n",
+                  nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(),
+                  sd, state[j]);
+            }            
+          }
+          else                    // InOut=1 "inside" : exclude nodes beyond -distance
+          {          
+            if(sd<=0)
+            {
+              local_state = (sd <= -arb.distance);
+              if (local_state)
+              {
+                state[j] = local_operation; // mark node: 0=trim, 1=keep (follows operation flag)
+              }
+              else
+              {
+                state[j] = 1 - local_operation ; // mark node with the opposite value
+              }            
+              if(debug_activation) printf("Trimming option, arbitrary surface, Inside, Node %d at (%f,%f,%f) sd=%f -> state=%d\n",
+                  nodeIdList0[j], nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ(),
+                  sd, state[j]);
+            }            
+          }
+        }
+      }
+    }
+
+    // loop over the elements and if at least 1 node is marked, then mark the other nodes of the element
+    for(int k = 0; k < nz - 1; k++)
+    {
+      for(int j = 0; j < ny - 1; j++)
+      {
+        for(int i = 0; i < nx - 1; i++)
+        {
+          // Calculate node indices for this brick element
+          // Bottom face (z level k)
+          int node_index0[8];
+          node_index0[0] = k * (nx * ny) + j * nx + i;
+          node_index0[1] = k * (nx * ny) + j * nx + (i + 1);
+          node_index0[2] = k * (nx * ny) + (j + 1) * nx + (i + 1);
+          node_index0[3] = k * (nx * ny) + (j + 1) * nx + i;
+          // Top face (z level k+1)
+          node_index0[4] = (k + 1) * (nx * ny) + j * nx + i;
+          node_index0[5] = (k + 1) * (nx * ny) + j * nx + (i + 1);
+          node_index0[6] = (k + 1) * (nx * ny) + (j + 1) * nx + (i + 1);
+          node_index0[7] = (k + 1) * (nx * ny) + (j + 1) * nx + i;
+          bool element_marked = false;
+          for(int n=0; n<8; n++)
+          {
+            if(state[node_index0[n]]==1) element_marked = true; // if at least 1 node is marked with 1
+          }
+          if(element_marked)
+          {
+            for(int n=0; n<8; n++)
+            {
+              if(state[node_index0[n]]==0) state[node_index0[n]] = 2; // mark all the nodes of the element with 2
+            }
+          }         
+          elem_state[k * ((nx-1) * (ny-1)) + j * (nx-1) + i] =  element_marked;
+        }
+      }
+    }
+
+    int cpt_node = 0;
+    int max_node_id = g_pModelViewSDI->GetNextAvailableId(radNodeType);
+    if(max_node_id<=node_offset)
+    {
+      max_node_id = node_offset ;
+      message_value[41] = node_offset;
+    }
+    else
+    {
+      message_value[41] = -max_node_id;
+    }
+
+    // ALE/LINK/VEL creation
+    int grnod_id = 0;
+    message_value[44] = 0; // initialize the message value for the /GRNOD/NODE id to 0, it will be updated if a reference node is defined
+    if(ref_node_id!=0)
+    {      
+      // check if the reference node exists
+      HandleRead nodeHread;
+      if(g_pModelViewSDI->FindById(radNodeType,ref_node_id,nodeHread)==0)
+      {
+        message_value[43] = -ref_node_id;
+        ref_node_id = 0; // if the reference node does not exist, we set it to 0 to avoid creating the /GRNOD/NODE and the /ALE/LINK/VEL
+      }
+    }
+
+    for(int j=0;j<nodeIdList0.size();j++)
+    {
+      global_to_local_node_id[j]=0;        
+      if(state[j]>0) // if the node is marked with 1 or 2 --> need to create it
+      {
+        HandleNodeEdit radnodeHEdit;
+        g_pModelViewSDI->CreateNode(radnodeHEdit, "/NODE", sdiTriple(nodePos0[j].GetX(),  nodePos0[j].GetY(), nodePos0[j].GetZ()),max_node_id+cpt_node);
+        sdiTriple local_pos = sdiTriple(nodePos0[j].GetX(), nodePos0[j].GetY(), nodePos0[j].GetZ());
+        int newNodeId = radnodeHEdit.GetId(g_pModelViewSDI);
+        nodeIdList.push_back(newNodeId);
+        global_to_local_node_id[j]=cpt_node; // store the mapping between the local node index and the global node id 
+        cpt_node++;
+      }
+    }
+
+    HandleEdit radGrnodEdit ;    
+    if(ref_node_id!=0)
+    {        
+      // if a reference node is defined, we create a /GRNOD/NODE entity to store the number of nodes and the id of the first node, this will allow to retrieve the correct node ids in the post-processing even if there are already nodes in the model before creating the mesh
+      g_pModelViewSDI->CreateEntity(radGrnodEdit, "/GRNOD/NODE","Automatically generated /GRNOD/NODE for Structured ALE option : " + g_pEntity->GetName()) ;
+      grnod_id = radGrnodEdit.GetId(g_pModelViewSDI); // get the id of the /GRNOD/NODE
+      int node_nb = nodeIdList.size(); // get the number of nodes
+      radGrnodEdit.SetValue(g_pModelViewSDI,sdiIdentifier("idsmax"),sdiValue(node_nb) ); // assign the number of nodes to the /GRNOD/NODE
+      message_value[44] = grnod_id; // save the id of the /GRNOD/NODE related to the refrence node id
+      
+      HandleEdit radAleLinkVelEdit ;
+      g_pModelViewSDI->CreateEntity(radAleLinkVelEdit, "/ALE/LINK/VEL","Automatically generated /ALE/LINK/VEL for Structured ALE option : " + g_pEntity->GetName()) ;      
+      radAleLinkVelEdit.SetValue(g_pModelViewSDI,sdiIdentifier("node_ID1"),sdiValue(sdiValueEntity(radNodeType,ref_node_id)) ); // assign the reference node id to the /ALE/LINK/VEL
+      radAleLinkVelEdit.SetValue(g_pModelViewSDI,sdiIdentifier("node_ID2"),sdiValue(sdiValueEntity(radNodeType,ref_node_id)) ); // assign the reference node id to the /ALE/LINK/VEL
+      radAleLinkVelEdit.SetValue(g_pModelViewSDI,sdiIdentifier("grnod_ID"),sdiValue(sdiValueEntity(radGrnodType,grnod_id)) ); // assign the /GRNOD/NODE id to the /ALE/LINK/VEL
+      int code_w = 1; // code for the Wx/y/z
+      radAleLinkVelEdit.SetValue(g_pModelViewSDI,sdiIdentifier("Wx"),sdiValue(code_w) ); // assign the code for the grid velocity in X direction
+      radAleLinkVelEdit.SetValue(g_pModelViewSDI,sdiIdentifier("Wy"),sdiValue(code_w) ); // assign the code for the grid velocity in Y direction
+      radAleLinkVelEdit.SetValue(g_pModelViewSDI,sdiIdentifier("Wz"),sdiValue(code_w) ); // assign the code for the grid velocity in Z direction
+      int iform = 1 ; // 1 for the standard ALE formulation, 2 for the non-conservative ALE formulation
+      radAleLinkVelEdit.SetValue(g_pModelViewSDI,sdiIdentifier("Iform"),sdiValue(iform) ); // assign the ALE formulation code
+    }
+    if(grnod_id!=0)
+    {
+      for(int j=0;j<nodeIdList.size();j++)
+      {
+        int newNodeId = nodeIdList[j];
+        // if a reference node is defined, save the nodes into the /GRNOD/NODE
+        radGrnodEdit.SetValue(g_pModelViewSDI, sdiIdentifier("ids",0,j),sdiValue(sdiValueEntity(radNodeType, newNodeId))); // assign the id of the created node to the /GRNOD/NODE
+      }
+    }    
+    
+    int cpt = 0;    
+    int max_brick_id = std::max({g_pModelViewSDI->GetNextAvailableId(radBrickType),
+                                 g_pModelViewSDI->GetNextAvailableId(radBrick16Type),
+                                 g_pModelViewSDI->GetNextAvailableId(radBrick20Type),                                 
+                                 g_pModelViewSDI->GetNextAvailableId(radTetra4Type),
+                                 g_pModelViewSDI->GetNextAvailableId(radTetra10Type)});
+    if(max_brick_id<=element_offset)
+    {
+      max_brick_id = element_offset ;
+      message_value[40] = element_offset;
+    }
+    else if(element_offset!=0)
+    {
+      message_value[40] = -max_brick_id;
+    }
+    else
+    {
+      message_value[40] = max_brick_id;
+    }
+    for(int k = 0; k < nz - 1; k++)
+    {
+      for(int j = 0; j < ny - 1; j++)
+      {
+        for(int i = 0; i < nx - 1; i++)
+        {
+          if(!elem_state[k * ((nx-1) * (ny-1)) + j * (nx-1) + i]) continue; // if the element is not marked, skip it
+          // Calculate node indices for this brick element
+          // Bottom face (z level k)
+          int n0 = global_to_local_node_id[k * (nx * ny) + j * nx + i];
+          int n1 = global_to_local_node_id[k * (nx * ny) + j * nx + (i + 1)];
+          int n2 = global_to_local_node_id[k * (nx * ny) + (j + 1) * nx + (i + 1)];
+          int n3 = global_to_local_node_id[k * (nx * ny) + (j + 1) * nx + i];
+                
+          // Top face (z level k+1)
+          int n4 = global_to_local_node_id[(k + 1) * (nx * ny) + j * nx + i];
+          int n5 = global_to_local_node_id[(k + 1) * (nx * ny) + j * nx + (i + 1)];
+          int n6 = global_to_local_node_id[(k + 1) * (nx * ny) + (j + 1) * nx + (i + 1)];
+          int n7 = global_to_local_node_id[(k + 1) * (nx * ny) + (j + 1) * nx + i];
+
+          // check the state of the west element i-1
+          bool need_it = false ;
+          int node_list[4];
+          if(i==0)
+          {
+            // save n0/n3/n4/n7 for the west face of the mesh
+            need_it = true ;
+          } 
+          else if(!elem_state[k * ((nx-1) * (ny-1)) + j * (nx-1) + i-1])
+          {
+            // save n0/n3/n4/n7 for the west face of the mesh
+            need_it = true ;
+          }
+          if(need_it)
+          {
+            node_list[0] = n0;
+            node_list[1] = n3;
+            node_list[2] = n4;
+            node_list[3] = n7; 
+            boundary_save(node_list,4,bcs_data,0) ; // x- --> save the nodes of the face in the boundary condition data structure              
+          }
+          // check the state of the east element i+1
+          need_it = false ;
+          if(i==nx-2)
+          {
+            // save n1/n2/n5/n6 for the east face of the mesh
+            need_it = true ;        
+          }
+          else if(!elem_state[k * ((nx-1) * (ny-1)) + j * (nx-1) + i+1])
+          {
+            // save n1/n2/n5/n6 for the east face of the mesh
+            need_it = true ;             
+          }
+          if(need_it)
+          {
+            node_list[0] = n1;
+            node_list[1] = n2;
+            node_list[2] = n5;
+            node_list[3] = n6;   
+            boundary_save(node_list,4,bcs_data,1) ; // x+ --> save the nodes of the face in the boundary condition data structure              
+          }
+          // check the state of the south element j-1
+          need_it = false ;
+          if(j==0)
+          {
+            // save n0/n1/n4/n5 for the south face of the mesh
+            need_it = true ;              
+          }
+          else if(!elem_state[k * ((nx-1) * (ny-1)) + (j-1) * (nx-1) + i])
+          {
+            // save n0/n1/n4/n5 for the south face of the mesh
+            need_it = true ;        
+          }
+          if(need_it)
+          {
+            node_list[0] = n0;
+            node_list[1] = n1;
+            node_list[2] = n4;
+            node_list[3] = n5;   
+            boundary_save(node_list,4,bcs_data,2) ; // y- --> save the nodes of the face in the boundary condition data structure              
+          }
+          // check the state of the north element j+1
+          need_it = false ;
+          if(j==ny-2)
+          {
+            // save n2/n3/n6/n7 for the north face of the mesh
+            need_it = true ;                
+          }
+          else if(!elem_state[k * ((nx-1) * (ny-1)) + (j+1) * (nx-1) + i])
+          {
+            // save n2/n3/n6/n7 for the north face of the mesh
+            need_it = true ;            
+          }
+          if(need_it)
+          {
+            node_list[0] = n2;
+            node_list[1] = n3;
+            node_list[2] = n6;
+            node_list[3] = n7; 
+            boundary_save(node_list,4,bcs_data,3) ; // y+ --> save the nodes of the face in the boundary condition data structure              
+          }
+
+          // check the state of the bottom element k-1
+          need_it = false ;
+          if(k==0) 
+          {
+            // save n0/n1/n2/n3 for the bottom face of the mesh
+            need_it = true;
+          }
+          else if(!elem_state[(k-1) * ((nx-1) * (ny-1)) + j * (nx-1) + i])
+          {
+            // save n0/n1/n2/n3 for the bottom face of the mesh
+            need_it = true;
+          }
+          if(need_it)
+          {
+            node_list[0] = n0;
+            node_list[1] = n1;
+            node_list[2] = n2;
+            node_list[3] = n3; 
+            boundary_save(node_list,4,bcs_data,4) ; // z- --> save the nodes of the face in the boundary condition data structure              
+          }
+          
+          // check the state of the top element k+1
+          need_it = false ;
+          if(k==nz-2)
+          {
+            // save n4/n5/n6/n7 for the top face of the mesh
+            need_it = true;
+          }
+          else if(!elem_state[(k+1) * ((nx-1) * (ny-1)) + j * (nx-1) + i])
+          {
+            // save n4/n5/n6/n7 for the top face of the mesh
+            need_it = true;
+          }
+          if(need_it)
+          {
+            node_list[0] = n4;
+            node_list[1] = n5;
+            node_list[2] = n6;
+            node_list[3] = n7; 
+            boundary_save(node_list,4,bcs_data,5) ; // z+ --> save the nodes of the face in the boundary condition data structure              
+          }
+
+                
+          // Create brick element
+          HandleElementEdit radBrickElemHEdit;          
+          g_pModelViewSDI->CreateElement(radBrickElemHEdit, "/BRICK",cpt+max_brick_id) ;
+               
+          // Set the 8 nodes for this brick
+          sdiUIntList brickNodes;
+          brickNodes.resize(8);
+          brickNodes[0] = nodeIdList[n0];
+          brickNodes[1] = nodeIdList[n1];
+          brickNodes[2] = nodeIdList[n2];
+          brickNodes[3] = nodeIdList[n3];
+          brickNodes[4] = nodeIdList[n4];
+          brickNodes[5] = nodeIdList[n5];
+          brickNodes[6] = nodeIdList[n6];
+          brickNodes[7] = nodeIdList[n7];
+                 
+          radBrickElemHEdit.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), 
+                                     sdiValue(sdiValueEntityList(radNodeType, brickNodes)));
+          radBrickElemHEdit.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), 
+                                     sdiValue(sdiValueEntity(radPartType,sale_part_id)));
+          if(debug_activation) printf("New element id = %d with nodes %d,%d,%d,%d,%d,%d,%d,%d \n", cpt+max_brick_id, brickNodes[0], brickNodes[1], brickNodes[2], brickNodes[3], brickNodes[4], brickNodes[5], brickNodes[6], brickNodes[7]);
+          cpt++;
+        }
+      }
+    }
+
+
+    SelectionRead entities(g_pModelViewSDI, "/SURF/SEG");
+    // Find the maximal segment id 
+    int segidmax = -1;
+    while(entities.Next())
+    {
+      int segmax = 0;
+      sdiValue tempValInt(segmax);
+      entities->GetValue(sdiIdentifier("segmax"), tempValInt);
+      tempValInt.GetValue(segmax);
+      for(int i=0; i<segmax; i++)
+      {
+        int segId = 0;
+        sdiValue tempValIntSegId(segId);
+        entities->GetValue(sdiIdentifier("SEGidArray",i), tempValIntSegId);
+        tempValIntSegId.GetValue(segId);
+        segidmax = std::max(segidmax, segId);
+      }
+    }
+
+    segidmax++;
+    if(!law151)
+    {
+      // Default boundary condition 
+      for(int facet_id=0; facet_id<6; facet_id++)
+      {
+        if(bcs_data.avail[facet_id]==-1)
+        {
+          bcs_data.avail[facet_id] = 1; // assign slip wall boundary condition for the facets without boundary condition
+        }
+      }
+    }
+     
+    // Boundary conditions for the faces of the mesh
+    for(int facet_id=0; facet_id<6; facet_id++)
+    {
+      message_value[31+facet_id] = bcs_data.avail[facet_id] ; // save the boundary condition type
+      if(bcs_data.avail[facet_id]!=-1)
+      {
+        if(debug_activation) printf("BCS option, facet id=%d, type=%d, number of nodes=%d \n", facet_id, bcs_data.avail[facet_id], bcs_data.list[facet_id].node_id.size());
+        if(((bcs_data.avail[facet_id]==0||bcs_data.avail[facet_id]==1))&& !law151) // Fixed boundary condition --> /ALE/BCS & /BCS
+                                                                                 // or No flow boundary condition --> /ALE/BCS
+        {
+          HandleEdit radGrnodEdit ;
+          g_pModelViewSDI->CreateEntity(radGrnodEdit, "/GRNOD/NODE","Automatically generated /GRNOD/NODE for Structured ALE option : " + g_pEntity->GetName()) ;
+          int grnod_id = radGrnodEdit.GetId(g_pModelViewSDI); // get the id of the /GRNOD/NODE
+          int node_nb = bcs_data.list[facet_id].node_id.size(); // get the number of nodes
+          if(debug_activation) printf("BCS option, /GRNOD/NODE creation, id=%d, number of nodes=%d \n", grnod_id, node_nb);
+          radGrnodEdit.SetValue(g_pModelViewSDI,sdiIdentifier("idsmax"),sdiValue(node_nb) ); // assign the number of nodes to the /GRNOD/NODE
+          int j=0;
+          for(auto local_node_id : bcs_data.list[facet_id].node_id) 
+          {
+            radGrnodEdit.SetValue(g_pModelViewSDI, sdiIdentifier("ids",0,j),sdiValue(sdiValueEntity(radNodeType, nodeIdList[local_node_id])));
+            j++;
+            if(debug_activation) printf("BCS option, /GRNOD/NODE, facet id=%d, node id=%d \n", facet_id, nodeIdList[local_node_id]);
+          }
+          int bcs_id =-1;
+          int dof[6] = {0};
+          int dof_index = -1;
+          if(facet_id==0||facet_id==1) // x- or x+ face
+          {
+            dof_index = 0; // block translation in x direction
+          }
+          else if(facet_id==2||facet_id==3) // y- or y+ face
+          {
+            dof_index = 1; // block translation in y direction
+          }
+          else if(facet_id==4||facet_id==5) // z- or z+ face
+          {
+            dof_index = 2; // block translation in z direction
+          }
+          if(true)
+          {
+          // /ALE/BCS creation
+          HandleEdit radAleBcsdEdit ;
+          g_pModelViewSDI->CreateEntity(radAleBcsdEdit, "/ALE/BCS","Automatically generated /ALE/BCS for Structured ALE option : " + g_pEntity->GetName()) ;
+          bcs_id = radAleBcsdEdit.GetId(g_pModelViewSDI); // get the id of the /ALE/BCS
+          message_value[19+facet_id] = bcs_id ; // save the /ALE/BCS bcs id
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("entityid"), sdiValue(sdiValueEntity(radGrnodType,grnod_id))); //  assign the /GRNOD/NODE id to the /ALE/BCS
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("inputsystem"), sdiValue(sdiValueEntity(radSkewType,skew_id))); //  assign the /SKEW id to the /ALE/BCS
+           dof[6] = {0};
+          if(bcs_data.avail[facet_id]==0)
+          {
+            dof[6] = {1}; // all directions are blocked for fixed boundary condition
+          }
+          else
+          {
+            dof[dof_index] = 1; // normal direction is blocked for No flow boundary condition
+          }
+          if(debug_activation) printf("BCS option, /ALE/BCS creation, id=%d, dof=%d,%d,%d,%d,%d,%d \n", bcs_id, dof[0], dof[1], dof[2], dof[3], dof[4], dof[5]);          
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("LX"), sdiValue(dof[0])); // assign the dof for translation LX
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("LY"), sdiValue(dof[1])); // assign the dof for translation LY
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("LZ"), sdiValue(dof[2])); // assign the dof for translation LZ
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("WX"), sdiValue(dof[3])); // assign the dof for rotation WX
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("WY"), sdiValue(dof[4])); // assign the dof for rotation WY
+          radAleBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("WZ"), sdiValue(dof[5])); // assign the dof for rotation WZ
+          }
+          // /BCS creation
+          HandleEdit radBcsdEdit ;
+          g_pModelViewSDI->CreateEntity(radBcsdEdit, "/BCS","Automatically generated /BCS for Structured ALE option : " + g_pEntity->GetName()) ;
+          bcs_id = radBcsdEdit.GetId(g_pModelViewSDI); // get the id of the /BCS
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("entityid"), sdiValue(sdiValueEntity(radGrnodType,grnod_id))); //  assign the /GRNOD/NODE id to the /BCS
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("inputsystem"), sdiValue(sdiValueEntity(radSkewType,skew_id))); //  assign the /SKEW id to the /BCS
+          int dof1 = 1;
+          int dof2 = 1;
+          int dof3 = 1;
+          int dof4 = 0;
+          int dof5 = 0;
+          int dof6 = 0;
+          dof[6] = {0};
+          dof[dof_index] = 1;
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("dof1"), sdiValue(dof[0])); // assign the dof for translation TX
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("dof2"), sdiValue(dof[1])); // assign the dof for translation TY
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("dof3"), sdiValue(dof[2])); // assign the dof for translation TZ
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("dof4"), sdiValue(dof[3])); // assign the dof for rotation RX
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("dof5"), sdiValue(dof[4])); // assign the dof for rotation RY
+          radBcsdEdit.SetValue(g_pModelViewSDI, sdiIdentifier("dof6"), sdiValue(dof[5])); // assign the dof for rotation RZ
+          message_value[25+facet_id] = bcs_id ; // save the /BCS bcs id
+          if(debug_activation) printf("BCS option, /BCS creation, id=%d, dof=%d,%d,%d,%d,%d,%d \n", bcs_id, dof[0], dof[1], dof[2], dof[3], dof[4], dof[5]);          
+        }
+        else if(bcs_data.avail[facet_id]==2) // Non reflecting boundary condition --> /SURF/EXT
+        {
+          HandleEdit radSurfExtEdit ;
+          g_pModelViewSDI->CreateEntity(radSurfExtEdit, "/SURF/SEG","Automatically generated /SURF/EXT for Structured ALE option : " + g_pEntity->GetName()) ;
+          int surf_seg_id = radSurfExtEdit.GetId(g_pModelViewSDI); // get the id of the /SURF/SEG
+          int segmax = bcs_data.list[facet_id].facet_node_id.size(); // get the number of segment
+          radSurfExtEdit.SetValue(g_pModelViewSDI,sdiIdentifier("segmax"),sdiValue(segmax) ); // assigne the max number of segment
+
+          int seg_count=0;
+          for(int j=0; j<bcs_data.list[facet_id].facet_node_id.size(); j++) // loop over the segments
+          {
+            array <int,4> local_node_id = bcs_data.list[facet_id].facet_node_id[j]; // get the 4 nodes of the segment
+            radSurfExtEdit.SetValue(g_pModelViewSDI, sdiIdentifier("SEGidArray",seg_count),sdiValue(segidmax)); // assign the semgent id      
+            // assign the 4 nodes of the segment   
+            radSurfExtEdit.SetValue(g_pModelViewSDI, sdiIdentifier("N1",0,seg_count),sdiValue(sdiValueEntity(radNodeType, nodeIdList[local_node_id[0]])));
+            radSurfExtEdit.SetValue(g_pModelViewSDI, sdiIdentifier("N2",0,seg_count),sdiValue(sdiValueEntity(radNodeType, nodeIdList[local_node_id[1]])));
+            radSurfExtEdit.SetValue(g_pModelViewSDI, sdiIdentifier("N3",0,seg_count),sdiValue(sdiValueEntity(radNodeType, nodeIdList[local_node_id[2]])));
+            radSurfExtEdit.SetValue(g_pModelViewSDI, sdiIdentifier("N4",0,seg_count),sdiValue(sdiValueEntity(radNodeType, nodeIdList[local_node_id[3]])));                                    
+            seg_count++;
+            segidmax++;
+          }
+
+          HandleEdit radEbcsNrfEdit ;
+          g_pModelViewSDI->CreateEntity(radEbcsNrfEdit, "/EBCS/NRF","Automatically generated /EBCS/NRF for Structured ALE option : " + g_pEntity->GetName()) ;
+          int ebcs_id = radEbcsNrfEdit.GetId(g_pModelViewSDI); // get the id of the /EBCS/NRF
+          radEbcsNrfEdit.SetValue(g_pModelViewSDI, sdiIdentifier("entityid"), sdiValue(sdiValueEntity(radSegmentType,surf_seg_id))); //  assign the /SURF/SEG id to the /EBCS/NRF
+          double default_value = 0.0;
+          radEbcsNrfEdit.SetValue(g_pModelViewSDI,sdiIdentifier("tcar_vf"),sdiValue(default_value) ); // default value for tcar_vf
+          radEbcsNrfEdit.SetValue(g_pModelViewSDI,sdiIdentifier("tcar_p"),sdiValue(default_value) ); // default value for tcar_p
+          message_value[19+facet_id] = ebcs_id ; // save the /EBCS/NRF bcs id
+          if(debug_activation) printf("BCS option, /EBCS/NRF creation, facet id=%d,id=%d, segment number=%d \n", ebcs_id, facet_id,bcs_data.list[facet_id].facet_node_id.size());          
+        }
+      }        
+    }
+
+    message_value[14] = cpt; // save the number of created elements
+    message_value[18] = cpt_node; // save the number of created nodes
+  }    
+
+
+
+
+
+  // ***************************************************************
+
+
+
+void computeNodePosition(
+    double x1, double y1, double z1, // Origine
+    double ux, double uy, double uz, // U
+    double vx, double vy, double vz, // V    
+    double wx, double wy, double wz, // W
+    int i, int j, int k,          // Index
+    int n_u, int n_v, int n_w,    // Number of nodes in the segment
+    double u0_u, double q_u,         // Initial size and factor U
+    double u0_v, double q_v,         // Initial size and factor V
+    double u0_w, double q_w,         // Initial size and factor W
+    double& nodeX, double& nodeY, double& nodeZ)
+{
+            //double tj = (ny > 1) ? (double)j / (ny - 1) : 0.0;  
+    double ti_disp = ((q_u == 1.0)||(q_u == 0.0)) ? i * u0_u :  u0_u * (1.0 - std::pow(q_u, i)) / (1.0 - q_u);
+    double tj_disp = ((q_v == 1.0)||(q_v == 0.0)) ? j * u0_v :  u0_v * (1.0 - std::pow(q_v, j)) / (1.0 - q_v);
+    double tk_disp = ((q_w == 1.0)||(q_w == 0.0)) ? k * u0_w :  u0_w * (1.0 - std::pow(q_w, k)) / (1.0 - q_w);
+
+    nodeX = x1 + ti_disp * ux + tj_disp * vx + tk_disp * wx;
+    nodeY = y1 + ti_disp * uy + tj_disp * vy + tk_disp * wy;
+    nodeZ = z1 + ti_disp * uz + tj_disp * vz + tk_disp * wz;
 }

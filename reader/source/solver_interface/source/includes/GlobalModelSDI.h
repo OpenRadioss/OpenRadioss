@@ -105,9 +105,22 @@ void GlobalEntitySDIdeleteEntity();
 void GlobalEntitySDIRbodiesCreateMainNode(int *addedNodeId);
 void GlobalEntitySDICreateNode(double *x, double *y, double *z, int *newNodeId);
 void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider);
+
 void GlobalEntitySDIConvertRigidPartToRbody(int *NewRbodyToPart, int *NewRbodyId);
 void GlobalModelSDIEvaluateAllPartsConnectedComponents(int *nbComponentsPerPart);
-
+void GlobalModelSDIIsPartWithElements(unsigned int *partId, bool *hasElements);
+void GlobalEntitySDISAleBuildMesh(int *message_value);
+void computeNodePosition(
+    double x1, double y1, double z1, // Origine
+    double ux, double uy, double uz, // U
+    double vx, double vy, double vz, // V    
+    double wx, double wy, double wz, // W
+    int i, int j, int k,          // Indices
+    int n_u, int n_v, int n_w,    // Nombre de noeuds du segment
+    double u0_u, double q_u,         // Taille init et facteur U
+    double u0_v, double q_v,         // Taille init et facteur V
+    double u0_w, double q_w,         // Taille init et facteur W
+    double& nodeX, double& nodeY, double& nodeZ);
 
 #endif /* !defined(GlobalModelSDI__INCLUDED_) */
 
