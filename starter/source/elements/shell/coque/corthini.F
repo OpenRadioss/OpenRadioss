@@ -201,7 +201,7 @@ C--         y' of cylintrical sys (using xc,yc,zc)
 C---    read property data
         IF (IGTYP == 9) THEN
           DO I=JFT,JLT
-            PHI1(1,I)= GEO(10,PID)
+            PHI1(1,I)= ANGLE(I) + GEO(10,PID)
           ENDDO
         ELSEIF (IGTYP == 10) THEN
           DO I=JFT,JLT
