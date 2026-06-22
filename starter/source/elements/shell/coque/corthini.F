@@ -206,13 +206,13 @@ C---    read property data
         ELSEIF (IGTYP == 10) THEN
           DO I=JFT,JLT
             DO J=1,NLAY
-              PHI1(J,I)= GEO(IPANG+J,PID)
+              PHI1(J,I)= ANGLE(I) +  GEO(IPANG+J,PID)
             ENDDO
           ENDDO
         ELSEIF (IGTYP == 11) THEN
           DO I=JFT,JLT
             DO J=1,NLAY
-              PHI1(J,I)= GEO(IPANG+J,PID)
+              PHI1(J,I)= ANGLE(I) + GEO(IPANG+J,PID)
             ENDDO
           ENDDO
          ELSEIF (IGTYP == 17 .AND. IRP /= 24) THEN !
