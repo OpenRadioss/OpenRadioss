@@ -4270,6 +4270,22 @@ c
                           ENDDO
                         ENDIF
                       ENDIF
+                    ELSE
+                      IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
+                        IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
+                        MAT_ID = MATPARAM(IMAT)%MAT_ID
+                        IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
+                          DO I = 1,NEL
+                            DO IR = 1,NPTR
+                              DO IS = 1,NPTS
+                                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
+                                VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS)
+                              ENDDO
+                            ENDDO
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDDO
+                        ENDIF
+                      ENDIF                      
                     ENDIF
 c  
                     ! If ply and int. point input: PLY=IPLY LAYER=null NPT=IPT
@@ -4507,6 +4523,23 @@ c
                           ENDDO
                         ENDIF
                       ENDIF
+                    ELSE
+                      IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
+                      NMOD = MATPARAM(IMAT)%NMOD
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
+                      IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
+                        IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
+                          DO I = 1,NEL
+                            DO IR = 1,NPTR
+                              DO IS = 1,NPTS
+                                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
+                                VALUE(I) = VALUE(I) + LBUF%DMG(NEL*MODE+I)/(NPTR*NPTS)
+                              ENDDO
+                            ENDDO
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDDO
+                        ENDIF
+                      ENDIF                      
                     ENDIF
 c  
                   ! If ply and int. point input: PLY=IPLY LAYER=null NPT=IPT

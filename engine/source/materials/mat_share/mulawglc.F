@@ -62,6 +62,7 @@ C-----------------------------------------------
       use mat_elem_mod
       use damping_range_shell_mod
       use damping_range_shell_mom_mod
+      USE SIGEPS136G_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,6 +129,7 @@ C-----------------------------------------------
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
 C-----------------------------------------------
 C   S o u r c e   L i n es
 C-----------------------------------------------
@@ -138,7 +140,7 @@ C
 C     for user material laws : pid(i)=pid(1)
       IGTYP = IGEO(11,PID(1))
       IMAT  = ELBUF_STR%BUFLY(1)%IMAT
-      IF (MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
+      IF (MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86.OR.MTN==136) THEN
         NUVAR  = ELBUF_STR%BUFLY(1)%NVAR_MAT
         UVAR  =>ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
       ENDIF
@@ -146,6 +148,7 @@ C     for user material laws : pid(i)=pid(1)
         NVARTMP= ELBUF_STR%BUFLY(1)%NVARTMP
         VARTMP=>ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VARTMP
       ENDIF
+      MATPARAM => MAT_ELEM%MAT_PARAM(IMAT)
       IOFF_DUCT(1:MVSIZ) = 0
       VISCMX(1:MVSIZ) = ZERO
 C
@@ -433,6 +436,16 @@ C-------------------------------------------
      A     SSP    ,VISCMX ,THKN    ,LBUF%PLA,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
      C     GS     ,SIGY   ,EPSPL   ,ISRATE  ,IPLA)
+      ELSEIF (MTN == 136) THEN 
+        CALL SIGEPS136G(
+     1     JLT    ,MATPARAM,RHO    ,LBUF%DMG,THK0   ,
+     2     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+     3     DEPBXX ,DEPBYY ,DEPBXY  ,
+     4     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+     5     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+     6     MOMNXX ,MOMNYY ,MOMNXY  ,
+     7     SSP    ,ETSE   ,GS      ,NUVAR   ,UVAR   ,
+     8     SHF    ,LBUF%PLA,LBUF%SIGB)
       ENDIF ! IF (MTN == 1) THEN
 C-----------------------
 C     DAMPING
