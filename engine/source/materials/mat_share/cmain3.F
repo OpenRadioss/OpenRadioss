@@ -263,7 +263,7 @@ c
 c
 c----------------------------
       IF (NPT == 0) THEN
-          ! Radioss laws 1,2,22,36,43,56,60,86 with global integration
+          ! Radioss laws 1,2,22,36,43,56,60,86,136 with global integration
 c----------------------------
         ILAY = 1
         IT   = 1

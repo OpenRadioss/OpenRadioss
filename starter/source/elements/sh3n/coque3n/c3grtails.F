@@ -711,9 +711,10 @@ C
           ENDIF
 c------
 c         global integration 
-          IF (NPN /= 1  .and. MLN == 1) NPN = 0
+          IF (NPN /= 1  .and. (MLN == 1 .or. MLN == 136)) NPN = 0
 c         switch global integration to npt=3 
-          IF (NPN == 0  .and. MLN /= 0 .and. MLN /= 1 .and. MLN /= 91) THEN
+          IF (NPN == 0  .and. MLN /= 0 .and. MLN /= 1 .and. MLN /= 91
+     .        .and. MLN /= 136) THEN
               CALL ANCMSG(MSGID=1912,
      .                    ANMODE=ANINFO,
      .                    MSGTYPE=MSGWARNING,
@@ -725,7 +726,8 @@ c         switch global integration to npt=3
           ENDIF
           IF (NPN == 0  .and. MLN > 2   .and. MLN /= 22 .and. 
      .        MLN /= 36 .and. MLN /= 43 .and. MLN /= 60 .and.
-     .        MLN /= 86 .and. MLN /= 13 .and. MLN /= 151) THEN
+     .        MLN /= 86 .and. MLN /= 13 .and. MLN /= 151.and.
+     .        MLN /= 136) THEN
               CALL FRETITL2(TITR1,
      .                      IPM(NPROPMI-LTITR+1,MID),
      .                      LTITR)
