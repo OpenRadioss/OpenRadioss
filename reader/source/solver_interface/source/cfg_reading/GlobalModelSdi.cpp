@@ -3341,9 +3341,24 @@ void GlobalModelSDIIsPartWithElements(unsigned int *partId, bool *hasElements)
     HandleRead partHread;
     if(g_pModelViewSDI->FindById(g_pModelViewSDI->GetEntityType("/PART"), *partId, partHread))
     {
-        EntityRead partEntity(g_pModelViewSDI, partHread);
-        SelectionElementRead elemSelection(partEntity);
-        *hasElements = elemSelection.Next();
+        if (partHread.IsValid())
+        {
+            EntityRead partEntity(g_pModelViewSDI, partHread);
+            SelectionElementRead elemSelection(partEntity);
+            int nbElems = elemSelection.Count();
+            if (nbElems > 0)
+            {
+                *hasElements = true;
+            }
+            else
+            {
+                *hasElements = false;
+            }
+        }
+        else
+        {
+            *hasElements = false;
+        }
     }
     else
     {
