@@ -7586,7 +7586,7 @@ C--------------------------------------------
      .                        NTRANSF   ,NRTRANS,RTRANS,RBY_INIAXIS,ISKWN,     
      .                         LISKN    ,NUMSKW ,LSKEW  ,SKEW   ,IFRAME  ,        
      .                         NUMFRAM  ,NXFRAME,XFRAME ,NGRNOD ,IGRNOD  , 
-     .                         N2D      ,X      ,V     ,VR  )
+     .                         N2D      ,X      ,V     ,VR      ,ITAB )
 
       END IF
 C--------------------------------------------

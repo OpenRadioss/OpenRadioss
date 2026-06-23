@@ -512,7 +512,7 @@
           ntransf   ,nrtrans,rtrans,rby_iniaxis,iskwn,       &
           liskn    ,numskw ,lskew  ,skew   ,iframe  ,        &
           numfram  ,nxframe,xframe ,ngrnod ,igrnod  ,        &
-          n2d      ,x      ,v     ,vr  )
+          n2d      ,x      ,v      ,vr     ,itab )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -553,9 +553,10 @@
           integer, intent(in)                                      :: slpby           !< dimesion of lpby
           integer, dimension(nnpby,nrbykin),    intent(inout)      :: npby            !< rbody data
           integer, dimension(slpby),            intent(inout)      :: lpby            !< rbody secondary node data
-          integer, dimension(2*numnod),         intent(in)         :: itabm1          !< node user id
+          integer, dimension(2*numnod),         intent(in)         :: itabm1          !< node user id index
           integer , intent(in  ),dimension(liskn,numskw+1)         :: iskwn           !< iskew skew id data
           integer , intent(in  ),dimension(liskn,numfram+1)        :: iframe          !< iframe frame id data
+          integer, dimension(numnod),           intent(in)         :: itab            !< node user id
           real(kind=WP), intent(in) ,dimension(3,numnod)           :: x               !< coordinate array
           real(kind=WP),dimension(3,numnod),     intent (inout)    :: v               !< velocity of nodes
           real(kind=WP),dimension(3,numnod),     intent (inout)    :: vr              !< rotational velocity of nodes
@@ -614,28 +615,28 @@
             tstart = zero
             sens_id = 0
             label='/inivel'
-            if(key(1:3)=='tra')then
+            if(key(1:3)=='TRA')then
               itype=0
               label='/inivel/tra'
-            elseif(key(1:3)=='rot')then
+            elseif(key(1:3)=='ROT')then
               itype=1
               label='/inivel/rot'
-            elseif(key(1:3)=='t+g')then
+            elseif(key(1:3)=='T+G')then
               itype=2
               label='/inivel/t+g'
               cycle
-            elseif(key(1:3)=='gri')then
+            elseif(key(1:3)=='GRI')then
               itype=3
               label='/inivel/grid'
               cycle
-            elseif(key(1:4)=='axis')then
+            elseif(key(1:4)=='AXIS')then
               itype=4
               label='/inivel/axis'
             elseif(key(1:3) == 'fvm') then
               itype=5
-              label='/inivel/fvm'
+              label='/inivel/FVM'
               cycle
-            elseif(key(1:4)=='node')then
+            elseif(key(1:4)=='NODE')then
               itype=6
               label='/inivel/node'
             else
@@ -678,14 +679,14 @@
             if (itype == 6) then
               call hm_get_intv('nb_nodes', nb_nodes, is_available, lsubmodel)
               do n=1,nb_nodes
-                call hm_get_int_array_index('node', id_node, n, is_available, lsubmodel)
-                call hm_get_int_array_index('skewa', isk, n, is_available, lsubmodel)
-                call hm_get_float_array_index('vxta', vi(1), n, is_available, lsubmodel, unitab)
-                call hm_get_float_array_index('vyta', vi(2), n, is_available, lsubmodel, unitab)
-                call hm_get_float_array_index('vzta', vi(3), n, is_available, lsubmodel, unitab)
-                call hm_get_float_array_index('vxra', vri(1), n, is_available, lsubmodel, unitab)
-                call hm_get_float_array_index('vyra', vri(2), n, is_available, lsubmodel, unitab)
-                call hm_get_float_array_index('vzra', vri(3), n, is_available, lsubmodel, unitab)
+                call hm_get_int_array_index('NODE', id_node, n, is_available, lsubmodel)
+                call hm_get_int_array_index('SKEWA', isk, n, is_available, lsubmodel)
+                call hm_get_float_array_index('VXTA', vi(1), n, is_available, lsubmodel, unitab)
+                call hm_get_float_array_index('VYTA', vi(2), n, is_available, lsubmodel, unitab)
+                call hm_get_float_array_index('VZTA', vi(3), n, is_available, lsubmodel, unitab)
+                call hm_get_float_array_index('VXRA', vri(1), n, is_available, lsubmodel, unitab)
+                call hm_get_float_array_index('VYRA', vri(2), n, is_available, lsubmodel, unitab)
+                call hm_get_float_array_index('VZRA', vri(3), n, is_available, lsubmodel, unitab)
                 if(n2d /= 0 .and. isk == 0)then
                   vi(1) = zero
                   vri(2:3) = zero
@@ -716,10 +717,10 @@
                     v(1:3,m_id)  = vi(1:3)
                     vr(1:3,m_id) = vri(1:3)
                   end if
-                  call ancmsg(msgid=3140,                      &
+                  call ancmsg(msgid=3140,            &
                     msgtype=msgwarning,              &
                     anmode=aninfo_blind_1,           &
-                    i1=m_id,                         &
+                    i1=itab(m_id),                   &
                     i2=id)
                 end if
               end do !n=1,nb_nodes
@@ -728,18 +729,18 @@
               call hm_get_intv('inputsystem',ifra,is_available,lsubmodel)
               call hm_get_intv('entityid',igr,is_available,lsubmodel)
 
-              call hm_get_floatv('vector_x',vi(1),is_available,lsubmodel,unitab)
-              call hm_get_floatv('vector_y',vi(2),is_available,lsubmodel,unitab)
-              call hm_get_floatv('vector_z',vi(3),is_available,lsubmodel,unitab)
+              call hm_get_floatv('vector_X',vi(1),is_available,lsubmodel,unitab)
+              call hm_get_floatv('vector_Y',vi(2),is_available,lsubmodel,unitab)
+              call hm_get_floatv('vector_Z',vi(3),is_available,lsubmodel,unitab)
               call hm_get_floatv('rad_rotational_velocity',vra,is_available,lsubmodel,unitab)
               if(n2d /= 0 .and. ifra == 0) vi(2:3) = zero
               if(ifra == 0 .and. sub_index  /=  0) call subrotvect(vi(1),vi(2),vi(3),rtrans,sub_id,lsubmodel)
               idir = 0
-              if(xyz(1:1)=='x') then
+              if(xyz(1:1)=='X') then
                 idir=1
-              elseif(xyz(1:1)=='y') then
+              elseif(xyz(1:1)=='Y') then
                 idir=2
-              elseif(xyz(1:1)=='z') then
+              elseif(xyz(1:1)=='Z') then
                 idir=3
               endif
               nixj = zero
@@ -795,11 +796,11 @@
                   rby_iniaxis(1,j) = one
                   rby_iniaxis(2:4,j) = v(1:3,m_id)
                   rby_iniaxis(5:7,j) = vr(1:3,m_id)
-                  call ancmsg(msgid=3140,                     &
+                  call ancmsg(msgid=3140,            &
                     msgtype=msgwarning,              &
                     anmode=aninfo_blind_1,           &
                     i1=id,                           &
-                    i2=m_id,                         &
+                    i2=itab(m_id),                   &
                     i3=npby(6,j))
                 end if
               end do
@@ -808,9 +809,9 @@
               call hm_get_intv('entityid',igr,is_available,lsubmodel)
               call hm_get_intv('inputsystem',isk,is_available,lsubmodel)
               if(isk == 0 .and. sub_index /= 0 ) isk = lsubmodel(sub_index)%skew
-              call hm_get_floatv('vector_x',vi(1),is_available,lsubmodel,unitab)
-              call hm_get_floatv('vector_y',vi(2),is_available,lsubmodel,unitab)
-              call hm_get_floatv('vector_z',vi(3),is_available,lsubmodel,unitab)
+              call hm_get_floatv('vector_X',vi(1),is_available,lsubmodel,unitab)
+              call hm_get_floatv('vector_Y',vi(2),is_available,lsubmodel,unitab)
+              call hm_get_floatv('vector_Z',vi(3),is_available,lsubmodel,unitab)
               if(n2d /= 0 .and. isk == 0) vi(1:3) = zero
               if (isk > 0) then
                 do j=0,numskw
@@ -833,11 +834,11 @@
                   elseif(itype == 1) then
                     vr(1:3,m_id)=vl(1:3)
                   end if
-                  call ancmsg(msgid=3140,                     &
+                  call ancmsg(msgid=3140,            &
                     msgtype=msgwarning,              &
                     anmode=aninfo_blind_1,           &
                     i1=id,                           &
-                    i2=m_id,                         &
+                    i2=itab(m_id),                   &
                     i3=npby(6,j))
                 end if
               end do
