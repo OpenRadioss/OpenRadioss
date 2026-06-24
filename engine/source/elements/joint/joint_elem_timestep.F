@@ -85,34 +85,34 @@ C--------> Loop over spring elements -------
             IGTYP =  IGEO(11,IG)
               NUVAR =  NINT(GEO(25,IG))
             NV = NUVAR*(I-1) + 1
-            IF (IGTYP==45 .OR. (IGTYP==23 .AND. ILAW == 135)) THEN    
-C           
+C            
+            IF (IGTYP==45 .OR. (IGTYP==23 .AND. ILAW == 135)) THEN               
 C--------> Calcul pas de temps nodal RB1 -------         
-                IRB = NINT(GBUF%VAR(NV + 37))
+              IRB = NINT(GBUF%VAR(NV + 37))
               IF (IRB > 0) THEN
                   M1 = NPBY(1,IRB)
               ELSE
                 M1 = IXR(2,J)
               ENDIF 
-                DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1))) !NORMALLY NODAL DT > ELEMENT DT
+              DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1))) !NORMALLY NODAL DT > ELEMENT DT
               IF (IN(M1) > 0) THEN
                   DTRB1 = MIN(DTRB1,DTFAC1(11)*SQRT(TWO*IN(M1)/MAX(EM20,STIFR(M1))))
-              ENDIF                               
+              ENDIF       
 C
 C--------> Calcul pas de temps nodal RB2 ------- 
-                IRB = NINT(GBUF%VAR(NV + 38))
+              IRB = NINT(GBUF%VAR(NV + 38))
               IF (IRB > 0) THEN
-                  M2 = NPBY(1,IRB)
+                M2 = NPBY(1,IRB)
               ELSE
                 M2 = IXR(3,J)
               ENDIF            
-                DTRB2 = DTFAC1(11)*SQRT(TWO*MS(M2)/MAX(EM20,STIFN(M2)))
+              DTRB2 = DTFAC1(11)*SQRT(TWO*MS(M2)/MAX(EM20,STIFN(M2)))
               IF (IN(M2) > 0) THEN
                   DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(TWO*IN(M2)/MAX(EM20,STIFR(M2))))
-              ENDIF
-C
-C--------> Calculation of Joint time step -------
-                DT = MIN(DTRB1,DTRB2)                
+              ENDIF       
+
+              DT = MIN(DTRB1,DTRB2) 
+C-------->    Calculation of Joint time step -------               
               IF(DT<DT2T) THEN
                 DT2T=DT
                 ITYPTST=11
@@ -121,9 +121,49 @@ C--------> Calculation of Joint time step -------
                 ELSE
                   NELTST = ITAB(M2)
                 ENDIF
+              ENDIF  
+C
+            ELSEIF(GBUF%OFF(I)>ZERO) THEN
+C
+              M1 = IXR(2,J)
+              IF (GBUF%G_RBODY_NODE > 0) THEN
+                IF (NINT(GBUF%RBODY_NODE(2*(I-1)+1)) > 0) THEN                           
+                  M1 = NINT(GBUF%RBODY_NODE(2*(I-1)+1))
+                ENDIF  
               ENDIF
-                
-            ENDIF                                                                                
+              DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1))) !NORMALLY NODAL DT > ELEMENT DT
+              IF (IN(M1) > 0) THEN
+                DTRB1 = MIN(DTRB1,DTFAC1(11)*SQRT(TWO*IN(M1)/MAX(EM20,STIFR(M1))))
+              ENDIF  
+C
+              M2 = IXR(3,J)
+              IF (GBUF%G_RBODY_NODE > 0) THEN
+                IF (NINT(GBUF%RBODY_NODE(2*(I-1)+2)) > 0) THEN                           
+                  M2 = NINT(GBUF%RBODY_NODE(2*(I-1)+2))
+                ENDIF  
+              ENDIF
+              DTRB2 = DTFAC1(11)*SQRT(TWO*MS(M2)/MAX(EM20,STIFN(M2)))
+              IF (IN(M2) > 0) THEN
+                DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(TWO*IN(M2)/MAX(EM20,STIFR(M2))))
+              ENDIF
+              DT = MIN(DTRB1,DTRB2)
+C-------->    Update minimum timestep
+              IF (DT < GBUF%DT(I) .AND. GBUF%DT(I) < DT2T) THEN
+                DT2T    = GBUF%DT(I)
+                NELTST  = IXR(NIXR,J)
+                ITYPTST = 6
+              ELSEIF (DT >= GBUF%DT(I) .AND. DT < DT2T) THEN
+                DT2T    = DT
+                ITYPTST = 11
+                IF (DTRB1 < DTRB2) THEN
+                  NELTST = ITAB(M1)
+                ELSE
+                  NELTST = ITAB(M2)
+                ENDIF
+              ENDIF
+C                
+            ENDIF                  
+C                                                                                    
           ENDDO
 C    
         ENDIF   

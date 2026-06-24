@@ -1036,8 +1036,8 @@ C-----------------------------------------------
      .           ISTOP,  NFIA, NFEA, NFOA, NDMA, NDIN,
      .           NFNCA, NFTCA,NDMA2, NFNCA2, NFTCA2,
      .           L1,L2,L3,LL1,LL2,LL3,NFT2,LISENDP_PXFEM,
-     .           LIRECVP_PXFEM,NDAMA2,FLG_KJ2,NCONT,BID,K12,IVAD,IAD_GREL,
-     .           FLG_KJ2_RAZ,I_EXCH_FLG_RAZ
+     .           LIRECVP_PXFEM,NDAMA2,FLG_KJ2,FLG_SPR_DT,NCONT,BID,K12,IVAD,IAD_GREL,
+     .           FLG_KJ2_RAZ,FLG_SPR_RAZ,I_EXCH_FLG_RAZ
               INTEGER :: LISENDP_CRK,LIRECVP_CRK
               INTEGER :: I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I13I
               INTEGER :: I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K
@@ -1402,6 +1402,7 @@ C
               IDAMP_RDOF_TAB = 0
               FLG_DTNODAMP = 0
               FLG_KJ2 = 0
+              FLG_SPR_DT = 0
               I_EXCH_FLG_RAZ = 0
               NELTST  = 0
               ITYPTST = 0
@@ -4212,7 +4213,7 @@ C
      Z         SBUFMAT        ,SNPC          ,STF         ,NODADT  ,DTFAC1,
      .         DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS,NSVOIS,
      .         IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
-     .         NGRTH          ,NELEM         ,SFEM  )
+     .         NGRTH          ,NELEM         ,SFEM        ,FLG_SPR_DT)
 
 C
 #include "lockon.inc"
@@ -5798,15 +5799,16 @@ C --------------------------
               IF (I_EXCH_FLG_RAZ==0) THEN
                 ! Flag for reset of stifn and stifr - must be set only at first cycle - ncycle=0 not enough because of chkpt
                 ! I_EXCH_FLG_RAZ ensures that it is set only once
-
                 FLG_KJ2_RAZ = FLG_KJ2
+                FLG_SPR_RAZ = FLG_SPR_DT
                 IF (NSPMD > 1) call spmd_allreduce(FLG_KJ2,FLG_KJ2_RAZ,1,SPMD_SUM)
+                IF (NSPMD > 1) call spmd_allreduce(FLG_SPR_DT,FLG_SPR_RAZ,1,SPMD_SUM)
                 I_EXCH_FLG_RAZ = 1
               ENDIF
 C
-              IF (FLG_KJ2==1) THEN
+              IF ((FLG_KJ2==1).OR.(FLG_SPR_DT==1)) THEN
 C
-                IF (NCYCLE==0) THEN
+                IF ((NCYCLE==0).AND.(FLG_KJ2==1)) THEN
                   ALLOCATE(STK_SN(NUMNOD),STK_SR(NUMNOD))
                   STK_SN(1:NUMNOD)=NODES%STIFN(1:NUMNOD)
                   STK_SR(1:NUMNOD)=NODES%STIFR(1:NUMNOD)
@@ -5955,7 +5957,7 @@ C------------Need to stop computation at Tstop for /DT/THERM----------
              CALL PYTHON_END_OPENMP(PYTHON)
 
 C ----RAZ of NODES%STIFN AND NODES%STIFR for kjoints with element time step----------------------
-              IF ((FLG_KJ2_RAZ==1).AND.(I7KGLO==0).AND.(IDTMINS==0).AND.(NODADT==0)) THEN
+              IF ((FLG_KJ2_RAZ + FLG_SPR_RAZ > 0).AND.(I7KGLO==0).AND.(IDTMINS==0).AND.(NODADT==0)) THEN
                 NODES%STIFN(1:NUMNOD) = EM20
                 IF (IRODDL > 0) NODES%STIFR(1:NUMNOD) = EM20
               ENDIF

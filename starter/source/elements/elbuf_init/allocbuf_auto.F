@@ -639,6 +639,8 @@ C
         GBUF%YIELD_IN_COMP = ZERO
       call my_alloc(GBUF%XXOLD_IN_COMP, NEL*GBUF%G_XXOLD_IN_COMP, "GBUF%XXOLD_IN_COMP", stat=Stat)
         GBUF%XXOLD_IN_COMP = ZERO
+      call my_alloc(GBUF%RBODY_NODE, NEL*GBUF%G_RBODY_NODE, "GBUF%RBODY_NODE", stat=Stat)
+        GBUF%RBODY_NODE = ZERO
 c---
 C seatbelt elements
 c---

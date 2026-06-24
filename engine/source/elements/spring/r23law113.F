@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
      G   NFT,       PRELD1,    STF_F,     STF,
-     S   SANIN,     IRESP,     SNPC)
+     S   SANIN,     IRESP,     SNPC,      FLG_SPR_DT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -100,6 +100,7 @@ C-----------------------------------------------
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*)
+      INTEGER, INTENT(INOUT) :: FLG_SPR_DT
       my_real DT2T ,
      .   GEO(NPROPG,*),X(*),F(*),TF(STF),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
@@ -263,7 +264,8 @@ C
      3   MS,       IN,       MSRT,     DMELRT,
      4   GBUF%G_DT,GBUF%DT,  NGL,      XCR,
      5   XIN,      XM,       XKM,      XCM,
-     6   XKR,      NC1,      NC2,      JSMS)
+     6   XKR,      NC1,      NC2,      JSMS,
+     7   NEL,      GBUF%RBODY_NODE,    FLG_SPR_DT)
         CALL R23BILAN(
      1   GBUF%EINT,PARTSAV,  IXR,      GEO,
      2   V,        IPARTR,   GBUF%MASS,GRESAV,

@@ -125,7 +125,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
      .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS,NSVOIS,
      *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
-     *    NGRTH     ,NELEM     ,SFEM )
+     *    NGRTH     ,NELEM     ,SFEM      ,FLG_SPR_DT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -214,6 +214,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDTMINS
       INTEGER, INTENT(IN) :: NGRTH
       INTEGER, INTENT(IN) :: NELEM
+      INTEGER, INTENT(INOUT) :: FLG_SPR_DT
       my_real, INTENT(IN) :: DTMINS
       my_real, INTENT(IN) :: DTFACS
       my_real
@@ -1439,7 +1440,8 @@ c
      F   DMELRT(NF1),          FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
      G   JSMS,                 IGRE,                 NFT,                  PRELOAD1   ,
      H   STF_F,                STF,                  SANIN,                IRESP,
-     I   SNPC ,                mat_elem,             NGRTH,                NELEM)
+     I   SNPC ,                mat_elem,             NGRTH,                NELEM,
+     J   FLG_SPR_DT)
          ELSE
           CALL RFORC3(PYTHON,
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,
@@ -1459,7 +1461,7 @@ c
      F   ITASK,               H3D_DATA,            JSMS,                NFT,
      G   IAD,                 IGRE,                PRELOAD1 ,           STF_F ,
      H   STF,                 SANIN,               IRESP,               IMPL_S,
-     I   IDYNA,               SNPC)
+     I   IDYNA,               SNPC,                FLG_SPR_DT)
              
          ENDIF
 C

@@ -57,7 +57,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
      G   JSMS,                 IGRE,                 NFT,                  PRELD1,
      H   STF_F,                STF,                  SANIN,                IRESP,
-     I   SNPC ,                mat_elem,             NGRTH,                NELEM)
+     I   SNPC ,                mat_elem,             NGRTH,                NELEM,
+     J   FLG_SPR_DT)
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -108,6 +109,7 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*),FLAG_SLIPRING_UPDATE,
      .        FLAG_RETRACTOR_UPDATE
+      INTEGER, INTENT(INOUT) :: FLG_SPR_DT
       my_real DT2T ,
      .   GEO(NPROPG,*),X(*),F(*),TF(STF),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
@@ -155,7 +157,7 @@ C=======================================================================
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
      G   NFT,       STF,       SANIN,     IRESP,
-     H   SNPC)
+     H   SNPC,      FLG_SPR_DT)
        
        ELSEIF(MTN == 113) THEN
          ! Like type13 spring
@@ -176,7 +178,7 @@ C=======================================================================
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
      G   NFT,       PRELD1,    STF_F,     STF,
-     H   SANIN,     IRESP,     SNPC)
+     H   SANIN,     IRESP,     SNPC,      FLG_SPR_DT)
 
        ELSEIF(MTN == 114) THEN
          ! seatbelt_element
@@ -197,7 +199,8 @@ C=======================================================================
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
      G   JSMS,                 IGRE,                 NFT,                  NSENSOR,
-     H   STF,                  SANIN,                IRESP,                SNPC )
+     H   STF,                  SANIN,                IRESP,                SNPC ,
+     I   FLG_SPR_DT)
        ELSEIF(MTN == 135) THEN
          FLG_KJ2 =1
          CALL R23LAW135(
