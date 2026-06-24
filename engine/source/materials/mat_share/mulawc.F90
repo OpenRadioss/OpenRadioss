@@ -1903,7 +1903,8 @@
                   sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
                   signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
                   off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-                  gbuf%dmg  ,lbuf%off)
+                  gbuf%dmg  ,lbuf%off  ,ngl      ,ply_id   ,ipg      ,&
+                  ilayer   ,islice     ,tt )
                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 128) then
