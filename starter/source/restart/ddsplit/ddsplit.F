@@ -3161,12 +3161,12 @@ C--------------------------------------------
       CALL W_BUFEL(IPARG,P-1,LBUFEL_L,ELBUF,LEN_AM)   ! old buffer
 c------------------
       FLAG_XFEM = 0
-      CALL W_ELBUF_STR(P-1,IPARG,ELBUF_TAB,LEN_AM,FLAG_XFEM)
+      CALL W_ELBUF_STR(P-1,IPARG,ELBUF_TAB,LEN_AM,FLAG_XFEM,NUMNOD,NODLOCAL)
 c------------------
       IF (ICRACK3D > 0) THEN   ! if XFEM
         DO IXEL=1,NXEL
           FLAG_XFEM = 1
-          CALL W_ELBUF_STR(P-1,IPARG,XFEM_TAB(1:NGROUP,IXEL),LEN_AM,FLAG_XFEM)
+          CALL W_ELBUF_STR(P-1,IPARG,XFEM_TAB(1:NGROUP,IXEL),LEN_AM,FLAG_XFEM,NUMNOD,NODLOCAL)
         ENDDO
       ENDIF
 C--------------------------------------------

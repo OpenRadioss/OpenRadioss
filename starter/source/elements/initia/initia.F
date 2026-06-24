@@ -198,7 +198,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
      O                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,IKINE          ,LSIGI     ,
      P                  LSIGSP     ,SRNOISE       ,NPRW             ,LPRW           , RWSTIF_PEN,
-     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM          ,NGUIDED_CABLE  ,TOTMAS1  )
+     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM          ,NGUIDED_CABLE  ,TOTMAS1   ,
+     N                  S_NOD2EL1D ,SPRING_CON_RBODY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -245,6 +246,7 @@ C-----------------------------------------------
       use ini_guided_cable_mod, ONLY : ini_guided_cable 
       use rini135_rb_mod
       use my_alloc_mod
+      use rbody_spring_check_mod, ONLY : rbody_spring_check
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -355,6 +357,8 @@ C
       INTEGER,INTENT(IN) :: LSIGI
       INTEGER,INTENT(IN) :: LSIGSP
       INTEGER,INTENT(IN) :: SRNOISE
+      INTEGER,INTENT(IN) :: S_NOD2EL1D
+      INTEGER,INTENT(INOUT) :: SPRING_CON_RBODY
 !
       INTEGER,INTENT(IN) :: SLN_PEN
       INTEGER, DIMENSION(NNPRW*NRWALL),INTENT(IN) :: NPRW
@@ -2136,8 +2140,18 @@ C------------------------------------------------------
           ENDIF
         ENDIF
       ENDDO
+C--------------------------------------------
+C     RBODY - SPRING MASS COMPUTATION :
+C--------------------------------------------
+      SPRING_CON_RBODY = 0
+      IF (NUMELR > 0) THEN
+        call rbody_spring_check(nrbykin, nnpby, npby, slpby, lpby, numnod,
+     .                          knod2el1d, s_nod2el1d, nod2el1d, numel, numelt, numelp, 
+     .                          numelr, numels, numelc, ixr, nixr,nparg, 
+     .                          iparg, ngroup, elbuf_tab,dtelem,spring_con_rbody)
+      ENDIF  
 C------------------------------------------------------
-C Initialization of joint type spring (PID33 and PID45)
+C Initialization of damping frequency range
 C------------------------------------------------------
       IF (NDAMP_FREQ_RANGE > 0) THEN
         call damping_range_init(ndamp,nrdamp,dampr,ngroup,nparg,iparg,elbuf_tab)    

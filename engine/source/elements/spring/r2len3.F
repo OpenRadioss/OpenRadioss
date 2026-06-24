@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   MS,      IN,      MSRT,    DMELRT,
      4   G_DT,    DTEL,    NGL,     XCR,
      5   XIN,     XM,      XKM,     XCM,
-     6   XKR,     NC1,     NC2,     JSMS)
+     6   XKR,     NC1,     NC2,     JSMS,
+     7   NEL,     RBY_NODE, FLG_SPR_DT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,84 +66,109 @@ C-----------------------------------------------
      .   XM(MVSIZ),XKM(MVSIZ),XCM(MVSIZ),XKR(MVSIZ)
       my_real,INTENT(INOUT) :: DTEL(JFT:JLT)
       INTEGER,INTENT(IN)    :: G_DT
+      INTEGER,INTENT(IN)    :: NEL
+      INTEGER,INTENT(INOUT) :: FLG_SPR_DT
+      my_real,INTENT(IN)    :: RBY_NODE(2*NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+      INTEGER I,IRB1,IRB2
       my_real
      .   DT(MVSIZ),DTC(MVSIZ),
      .   A, MASS2, IN2, DTA, DTB, MX
 C-----------------------------------------------
-      IF(NODADT/=0.OR.IDTMINS==2)THEN
+C   
+      FLG_SPR_DT = 1
 C
-       DO I=JFT,JLT
-       STI(1,I) = ZERO
-       STI(2,I) = ZERO
-       STIR(1,I) = ZERO
-       STIR(2,I) = ZERO
-       IF(OFF(I)>ZERO)THEN
-        IF(MS(NC1(I))/=ZERO)THEN
-         MASS2 = TWO * MS(NC1(I))
-        ELSE
-         MASS2 = XM(I)
-        ENDIF
-        IF(XKM(I)/=ZERO.AND.XCM(I)/=ZERO.AND.
-     .    MASS2/=ZERO)THEN
-         STI(1,I) = (XCM(I) + SQRT(XCM(I)**2+XKM(I)*MASS2))**2/MASS2
-        ELSEIF(XKM(I)/=ZERO)THEN
-         STI(1,I) = XKM(I)
-        ELSEIF(XCM(I)/=ZERO.AND.MASS2/=ZERO)THEN
-         A = FOUR * XCM(I)**2 
-         STI(1,I) = A / MASS2
-        ENDIF
+      DO I=JFT,JLT
+        STI(1,I) = ZERO
+        STI(2,I) = ZERO
+        STIR(1,I) = ZERO
+        STIR(2,I) = ZERO
+        IF(OFF(I)>ZERO)THEN
+C        
+          IRB1 = NINT(RBY_NODE(2*(I-1)+1))
+          IRB2 = NINT(RBY_NODE(2*(I-1)+2))
+C        
+          IF(MS(NC1(I))/=ZERO)THEN
+            MASS2 = TWO * MS(NC1(I))
+            IF (IRB1 > 0) THEN
+              IF (MS(IRB1) > MS(NC1(I))) MASS2 =  TWO * MS(IRB1)
+            ENDIF
+          ELSE
+           MASS2 = XM(I)
+          ENDIF
+C        
+          IF(XKM(I)/=ZERO.AND.XCM(I)/=ZERO.AND.
+     .      MASS2/=ZERO)THEN
+            STI(1,I) = (XCM(I) + SQRT(XCM(I)**2+XKM(I)*MASS2))**2/MASS2
+          ELSEIF(XKM(I)/=ZERO)THEN
+            STI(1,I) = XKM(I)
+          ELSEIF(XCM(I)/=ZERO.AND.MASS2/=ZERO)THEN
+            A = FOUR * XCM(I)**2 
+            STI(1,I) = A / MASS2
+          ENDIF
 C
-        IF(MS(NC2(I))/=ZERO)THEN
-         MASS2 = TWO * MS(NC2(I))
-        ELSE
-         MASS2 = XM(I)
-        ENDIF
-        IF(XKM(I)/=ZERO.AND.XCM(I)/=ZERO.AND.
-     .    MASS2/=ZERO)THEN
-         STI(2,I) = (XCM(I) + SQRT(XCM(I)**2+XKM(I)*MASS2))**2/MASS2
-        ELSEIF(XKM(I)/=ZERO)THEN
-         STI(2,I) = XKM(I)
-        ELSEIF(XCM(I)/=ZERO.AND.MASS2/=ZERO)THEN
-         A = FOUR * XCM(I)**2 
-         STI(2,I) = A / MASS2
-        ENDIF
+          IF(MS(NC2(I))/=ZERO)THEN
+            MASS2 = TWO * MS(NC2(I))
+            IF (IRB2 > 0) THEN
+              IF (MS(IRB2) > MS(NC2(I))) MASS2 =  TWO * MS(IRB2)
+            ENDIF
+          ELSE
+            MASS2 = XM(I)
+          ENDIF
+C        
+          IF(XKM(I)/=ZERO.AND.XCM(I)/=ZERO.AND.
+     .      MASS2/=ZERO)THEN
+            STI(2,I) = (XCM(I) + SQRT(XCM(I)**2+XKM(I)*MASS2))**2/MASS2
+          ELSEIF(XKM(I)/=ZERO)THEN
+            STI(2,I) = XKM(I)
+          ELSEIF(XCM(I)/=ZERO.AND.MASS2/=ZERO)THEN
+            A = FOUR * XCM(I)**2 
+            STI(2,I) = A / MASS2
+          ENDIF
 C
-        IF(IN(NC1(I))/=ZERO)THEN
-         IN2 = TWO * IN(NC1(I))
-        ELSE
-         IN2 = XIN(I)
-        ENDIF
-        IF(XKR(I)/=ZERO.AND.XCR(I)/=ZERO.AND.
-     .    IN2/=ZERO)THEN
-         STIR(1,I) = (XCR(I) + SQRT(XCR(I)**2+XKR(I)*IN2))**2/IN2
-        ELSEIF(XKR(I)/=ZERO)THEN
-         STIR(1,I) = XKR(I)
-        ELSEIF(XCR(I)/=ZERO.AND.IN2/=ZERO)THEN
-         A = FOUR * XCR(I)**2 
-         STIR(1,I) = A / IN2
-        ENDIF
+          IF(IN(NC1(I))/=ZERO)THEN
+            IN2 = TWO * IN(NC1(I))
+            IF (IRB1 > 0) THEN
+              IF (IN(IRB1) > IN(NC1(I))) IN2 =  TWO * IN(IRB1)
+            ENDIF
+          ELSE
+            IN2 = XIN(I)
+          ENDIF
+          IF(XKR(I)/=ZERO.AND.XCR(I)/=ZERO.AND.
+     .      IN2/=ZERO)THEN
+            STIR(1,I) = (XCR(I) + SQRT(XCR(I)**2+XKR(I)*IN2))**2/IN2
+          ELSEIF(XKR(I)/=ZERO)THEN
+            STIR(1,I) = XKR(I)
+          ELSEIF(XCR(I)/=ZERO.AND.IN2/=ZERO)THEN
+            A = FOUR * XCR(I)**2 
+            STIR(1,I) = A / IN2
+          ENDIF
 C
-        IF(IN(NC2(I))/=ZERO)THEN
-         IN2 = TWO * IN(NC2(I))
-        ELSE
-         IN2 = XIN(I)
+          IF(IN(NC2(I))/=ZERO)THEN
+            IN2 = TWO * IN(NC2(I))
+            IF (IRB2 > 0) THEN
+              IF (IN(IRB2) > IN(NC2(I))) IN2 =  TWO * IN(IRB2)
+            ENDIF
+          ELSE
+            IN2 = XIN(I)
+          ENDIF
+C          
+          IF(XKR(I)/=ZERO.AND.XCR(I)/=ZERO.AND.
+     .      IN2/=ZERO)THEN
+            STIR(2,I) = (XCR(I) + SQRT(XCR(I)**2+XKR(I)*IN2))**2/IN2
+          ELSEIF(XKR(I)/=ZERo)THEN
+            STIR(2,I) = XKR(I)
+          ELSEIF(XCR(I)/=ZERO.AND.IN2/=ZERO)THEN
+            A = FOUR * XCR(I)**2 
+            STIR(2,I) = A / IN2
+          ENDIF
         ENDIF
-        IF(XKR(I)/=ZERO.AND.XCR(I)/=ZERO.AND.
-     .    IN2/=ZERO)THEN
-         STIR(2,I) = (XCR(I) + SQRT(XCR(I)**2+XKR(I)*IN2))**2/IN2
-        ELSEIF(XKR(I)/=ZERo)THEN
-         STIR(2,I) = XKR(I)
-        ELSEIF(XCR(I)/=ZERO.AND.IN2/=ZERO)THEN
-         A = FOUR * XCR(I)**2 
-         STIR(2,I) = A / IN2
-        ENDIF
-       ENDIF
       ENDDO ! DO I=JFT,JLT
 C
+      IF(NODADT/=0.OR.IDTMINS==2)THEN
+C        
        IF(IDTMIN(6)==0.AND.(IDTMINS/=2.OR.JSMS==0))RETURN
 C
        IF(IDTMINS==2.AND.JSMS/=0)THEN
@@ -174,7 +200,6 @@ C
             ITYPTST=6
           ENDIF
         ENDDO
-       ELSE 
 C
         DO I=JFT,JLT
           IF(XCM(I)+XKM(I)<EM15)XM(I) =ONE
@@ -182,7 +207,7 @@ C
           DT(I)=XM(I)/MAX(EM15,SQRT(XCM(I)*XCM(I)+XM(I)*XKM(I))+XCM(I))
           IF(XCR(I)+XKR(I)<EM15)XIN(I)=ONE
           XKR(I)= MAX(EM15,XKR(I))
-        DTC(I)=XIN(I)/MAX(EM15,SQRT(XCR(I)*XCR(I)+XIN(I)*XKR(I))+XCR(I))
+          DTC(I)=XIN(I)/MAX(EM15,SQRT(XCR(I)*XCR(I)+XIN(I)*XKR(I))+XCR(I))
           DT(I)= MIN(DT(I),DTC(I))
         ENDDO
 C
@@ -216,65 +241,51 @@ C
         ENDDO
        END IF
 C
-      ELSE
+      ELSE          
 C
-       DO I=JFT,JLT
-         IF(XCM(I)+XKM(I)<EM15)XM(I) =ONE
-         XKM(I)= MAX(EM15,XKM(I))
-         DT(I)=XM(I)/MAX(EM15,SQRT(XCM(I)*XCM(I)+XM(I)*XKM(I))+XCM(I))
-       ENDDO
+        DO I=JFT,JLT
+          IF(XCM(I)+XKM(I)<EM15)XM(I) =ONE
+          XKM(I)= MAX(EM15,XKM(I))
+          DT(I)=XM(I)/MAX(EM15,SQRT(XCM(I)*XCM(I)+XM(I)*XKM(I))+XCM(I))
+        ENDDO
 C
-       DO I=JFT,JLT
-         STI(1,I) = ZERO
-         STI(2,I) = ZERO
-         STIR(1,I) = ZERO
-         STIR(2,I) = ZERO
-         IF(OFF(I)>ZERO) THEN   
-           STI(1,I) = XM(I) / DT(I)**2
-           STI(2,I) = STI(1,I)
-         ENDIF
-       ENDDO
+        DO  I=JFT,JLT
+          IF(XCR(I)+XKR(I)<EM15)XIN(I)=ONE
+          XKR(I)= MAX(EM15,XKR(I))
+          DTC(I)=XIN(I)/MAX(EM15,SQRT(XCR(I)*XCR(I)+XIN(I)*XKR(I))+XCR(I))
+          DT(I)= MIN(DT(I),DTC(I))
+        ENDDO
 C
-       DO  I=JFT,JLT
-         IF(XCR(I)+XKR(I)<EM15)XIN(I)=ONE
-         XKR(I)= MAX(EM15,XKR(I))
-        DTC(I)=XIN(I)/MAX(EM15,SQRT(XCR(I)*XCR(I)+XIN(I)*XKR(I))+XCR(I))
-         DT(I)= MIN(DT(I),DTC(I))
-       ENDDO
-C
-       DO I=JFT,JLT
-         IF(OFF(I)>ZERO)THEN
-           DT(I)=DTFAC1(6)*DT(I)
-           IF(IDTMIN(6)==1.AND.DT(I)<DTMIN1(6))THEN
-             TSTOP = TT
+        DO I=JFT,JLT
+          IF(OFF(I)>ZERO)THEN
+            DT(I)=DTFAC1(6)*DT(I)
+            IF(IDTMIN(6)==1.AND.DT(I)<DTMIN1(6))THEN
+              TSTOP = TT
 #include "lockon.inc"
-             WRITE(IOUT,*)
+              WRITE(IOUT,*)
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SPRING ELEMENT'
-             WRITE(ISTDO,*)
+              WRITE(ISTDO,*)
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SPRING ELEMENT'
 #include "lockoff.inc"
-           ELSEIF(IDTMIN(6)==5.AND.DT(I)<DTMIN1(6))THEN
-             MSTOP = 2
+            ELSEIF(IDTMIN(6)==5.AND.DT(I)<DTMIN1(6))THEN
+              MSTOP = 2
 #include "lockon.inc"
-             WRITE(IOUT,*)
+              WRITE(IOUT,*)
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SPRING ELEMENT'
-             WRITE(ISTDO,*)
+              WRITE(ISTDO,*)
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SPRING ELEMENT'
 #include "lockoff.inc"
-           ELSEIF(IDTMIN(6)==2.AND.DT(I)<DTMIN1(6))THEN
-             OFF(I)=ZERO
+            ELSEIF(IDTMIN(6)==2.AND.DT(I)<DTMIN1(6))THEN
+              OFF(I)=ZERO
 #include "lockon.inc"
-             WRITE(IOUT,*) '-- DELETE OF SPRING ELEMENT NUMBER',NGL(I)
+              WRITE(IOUT,*) '-- DELETE OF SPRING ELEMENT NUMBER',NGL(I)
 #include "lockoff.inc"
-             IDEL7NOK = 1
-           ENDIF
-           IF(DT(I)<DT2T)THEN
-             DT2T=DT(I)
-             NELTST =NGL(I)
-             ITYPTST=6
-           ENDIF
-         ENDIF
-       ENDDO
+              IDEL7NOK = 1
+            ENDIF
+C
+          ENDIF
+        ENDDO
+C        
       ENDIF
 C------------------------------
         IF(G_DT/=0)THEN

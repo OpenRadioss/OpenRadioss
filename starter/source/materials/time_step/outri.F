@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE OUTRI(DTELEM,IXS   ,IXQ   ,IXC   ,IXT   ,
      .                 IXP   ,IXR   ,IXTG  ,KXX   ,
-     .                 KXSP  ,KXIG3D,IGEO  ,NUMEL)
+     .                 KXSP  ,KXIG3D,IGEO  ,NUMEL ,IKINE,
+     .                 SPRING_CON_RBODY)
 C
 C     SORTING OF DTEL (FOR EACH TYPE OF ELEMENT) AND PRINTING
 C
@@ -53,6 +54,7 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
+#include      "kincod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -63,10 +65,12 @@ C-----------------------------------------------
       my_real
      .   DTELEM(2*NUMEL)
       INTEGER,INTENT(IN) :: NUMEL
+      INTEGER,INTENT(IN) :: IKINE(NUMNOD)
+      INTEGER,INTENT(IN) :: SPRING_CON_RBODY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUM2, I, NUMIMP, NUMELO, NUM1, IS_PROP45     
+      INTEGER NUM2, I, NUMIMP, NUMELO, NUM1, IS_PROP45   
       REAL*4 VINGTR4, TEMPO
       INTEGER :: IERROR
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
@@ -255,15 +259,17 @@ c        CALL ANCHECK(94)
         WRITE(IOUT,1001)
 c        CALL ANCHECK(95)
         DO I=1,NUMIMP
-           NUMELO=NINT(DTELEM(NUM2+I))
-           IF( IGEO(11,IXR(1,NUMELO)) == 45) THEN
-             IS_PROP45 = 1
-           ELSE
-             WRITE(IOUT,1002)DTELEM(NUM1+I),IXR(6,NUMELO)
-           ENDIF
+          NUMELO=NINT(DTELEM(NUM2+I))
+          IF( IGEO(11,IXR(1,NUMELO)) == 45) THEN
+C           Kjoint2            
+            IS_PROP45 = 1
+          ELSEIF ((IRB(IKINE(IXR(2,NUMELO)))/=1).AND.(IRB(IKINE(IXR(3,NUMELO)))/= 1)) THEN
+C           Spring connected to rigid body not printout            
+            WRITE(IOUT,1002)DTELEM(NUM1+I),IXR(6,NUMELO)
+          ENDIF
         END DO
-        IF (IS_PROP45 == 1)
-     .       WRITE(IOUT,5001)
+        IF (IS_PROP45 == 1) WRITE(IOUT,5001)
+        IF (SPRING_CON_RBODY == 1) WRITE(IOUT,5002)
       ENDIF
 
       IF(NUMELTG>0 .AND. N2D == 0) THEN
@@ -344,6 +350,7 @@ C--------------------------------------------------------
  4000 FORMAT(/,'         BEAM  ELEMENTS TIME STEP')
  5000 FORMAT(/,'         SPRING ELEMENTS TIME STEP')
  5001 FORMAT(/,'   Info : spring TYPE45 (KJOINT2) time step is evaluated at the beginning of the engine')
+ 5002 FORMAT(/,'   Info : spring connected to rigid body - time step is evaluated at the beginning of the engine')
  6000 FORMAT(/,'         TRIANGULAR SHELL ELEMENTS TIME STEP')
  7000 FORMAT(/,'         MULTI-PURPOSE ELEMENTS TIME STEP')
  8000 FORMAT(/,'         SMOOTH PARTICLES TIME STEP')

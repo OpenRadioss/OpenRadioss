@@ -844,6 +844,7 @@
           integer  :: g_skew_id
           integer  :: g_yield_in_comp
           integer  :: g_xxold_in_comp
+          integer  :: g_rbody_node
 !
 !    -  for seatbelt elements
           integer  :: g_slipring_id
@@ -975,6 +976,7 @@
           integer, dimension(:) , pointer ::   skew_id => null()
           real(kind=WP), dimension(:) , pointer ::   yield_in_comp => null()
           real(kind=WP), dimension(:) , pointer ::   xxold_in_comp => null()
+          real(kind=WP), dimension(:) , pointer ::   rbody_node => null()
           type (fail_loc_) , dimension(:) , pointer ::   fail => null()
 !
 !    -  for seatbelt elements

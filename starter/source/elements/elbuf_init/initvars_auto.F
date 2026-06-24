@@ -316,6 +316,10 @@ c---
         IF (GBUF%G_SKEW_ID     == 0) GBUF%G_SKEW_ID      = PTAG%G_SKEW_ID
       ENDIF ! IGTYP > 0
 C
+      IF ((IGTYP==23).OR.(IGTYP==8).OR.(IGTYP==13).OR.(IGTYP==25)) THEN
+        GBUF%G_RBODY_NODE = 2
+      ENDIF
+C
       IF (IGTYP == 23 .AND. GMAT > 0) THEN   ! spring with Material
         MTAG  => MLAW_TAG(GMAT)
         IF (GBUF%G_TOTDEPL     == 0) GBUF%G_TOTDEPL      = MTAG%G_TOTDEPL
