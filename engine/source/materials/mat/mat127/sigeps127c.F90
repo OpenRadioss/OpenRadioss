@@ -52,7 +52,8 @@
           sigoxx  ,sigoyy    ,sigoxy   ,sigozx   ,sigoyz ,         &
           signxx  ,signyy    ,signxy   ,signzx   ,signyz  ,      &
           off     ,sigy      ,etse     ,ssp      ,dmg     ,      &
-          dmg_g   ,offply   )
+          dmg_g   ,offply    ,ngl      ,ply_id   ,ipg     ,      &
+          ilayer  ,islice    ,time)
 !---------------------------------------------- -
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,6 +76,11 @@
           integer, intent(in) :: stf  !<
           integer, intent(in) :: nply_max  !< nbre of integration pt in the thickness
           integer, intent(in) :: ifunc(nfunc),npf(snpc)
+          integer, intent(in) :: ply_id ! id of ply
+          integer, intent(in) :: ipg     ! gauss point
+          integer, intent(in) :: ilayer  ! number of layer
+          integer, intent(in) :: islice  ! number of slice in the ply for type17,51 & 52
+          integer, dimension(nel), intent(in) :: ngl ! table of id of element
           !
           real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: mat_param !< material parameters data
@@ -111,10 +117,11 @@
           real(kind=WP), dimension(nel,8), intent(inout) ::  dmg
           real(kind=WP), dimension(nel), intent(inout) ::  dmg_g
           real(kind=WP), dimension(nel), intent(inout) :: offply !< ply element deletion flag
+          real(kind=WP), intent(in) :: time  ! current time 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer ::  i, ncyred, n,ndex,ndel_ply,ndex0
+          integer ::  i, ncyred, n,ndex,ndel_ply,ndex0,ndx_fail_ply,ndx_elt_del
           integer , dimension(nel) :: index,iad,ipos,ilen,index0
           real(kind=WP) :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,        &
             yt0, slimt2, yc0, sc0, d,                                           &
@@ -125,6 +132,7 @@
             scale,dam,ratio,del_ratio,eps_ef,tau2,sc2,tau_bar
 
           real(kind=WP), dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx,xt_0
+          integer  , dimension(nel) :: indx_fail_ply,indx_elt_del
 !!======================================================================
           e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
           e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
@@ -224,28 +232,36 @@
           endif
           ! Reduction of stress ply and checking the deletion of element
           ndex0 = 0
+          ndx_elt_del = 0
+          indx_elt_del(1:nel) = 0
           do i=1,nel
-            if(off(i) < one ) then
-              off(i) = zero
-            elseif(dmg(i,1) == one ) then
-              ndel_ply = nint(dmg_g(i))
-              signxx(i) = zero
-              signyy(i) = zero
-              signxy(i) = zero
-              signyz(i) = zero
-              signzx(i) = zero
-              del_ratio= ndel_ply/nply_max
-              if( ndel_ply == nply_max .or. del_ratio >= ratio) then
-                off(i) =  four_over_5
-              endif
-            else
+           if(off(i)  /= zero ) then 
+              if(off(i) < one ) then
+                 off(i) = zero
+                 ndx_elt_del = ndx_elt_del + 1
+                 indx_elt_del(ndx_elt_del) = i
+              elseif(dmg(i,1) == one ) then
+                 ndel_ply = nint(dmg_g(i))
+                 signxx(i) = zero
+                 signyy(i) = zero
+                 signxy(i) = zero
+                 signyz(i) = zero
+                 signzx(i) = zero
+                 del_ratio= ndel_ply/nply_max
+                if( ndel_ply == nply_max .or. del_ratio >= ratio) then
+                   off(i) =  four_over_5
+                endif
+             else
               ndex0 = ndex0 + 1
               index0(ndex0) = i
-            endif
+             endif
+            endif ! off(i)  /= zero
           enddo
 !! ------!!---------------------------------
           ndex = 0
           ! Failure based on  chang-chang model
+          ndx_fail_ply = 0
+          indx_fail_ply(1:nel) = 0 
           if(dfailt == zero) then
             do n=1,ndex0
               i=index0(n)
@@ -272,6 +288,8 @@
                   dmg_g(i) = dmg_g(i) + one
                   uvar(i,1) = ncycle
                   offply(i) = zero
+                  ndx_fail_ply = ndx_fail_ply + 1
+                  indx_fail_ply(ndx_fail_ply) = i
                 endif
               elseif(signxx(i) < zero .and. dmg(i,3) == zero ) then
                 efc = (signxx(i)/xc(i))**2
@@ -300,6 +318,8 @@
                 uvar(i,1) = ncycle
                 dmg_g(i) = dmg_g(i) + one
                 offply(i) = zero
+                ndx_fail_ply = ndx_fail_ply + 1
+                indx_fail_ply(ndx_fail_ply) = i
               endif
               if(offply(i) > zero )then
                 ndex = ndex + 1
@@ -314,6 +334,8 @@
             end do ! nel
           endif ! dfailt == zero
           ! criteria based on strain
+          ndx_fail_ply = 0
+          indx_fail_ply(1:nel) = 0 
           if (dfailt > zero )then
             do n=1,ndex0
               i=index0(n)
@@ -338,6 +360,8 @@
                 signxy(i) = zero
                 signzx(i) = zero
                 signyz(i) = zero
+                ndx_fail_ply = ndx_fail_ply + 1
+                indx_fail_ply(ndx_fail_ply) = i
               else
                 ! computing new stress
                 d = (one - nu12*nu21)
@@ -456,6 +480,32 @@
             dezz(i)  = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i))
             thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i)
           enddo ! nel loop
+          ! output failure message
+          if(ndx_fail_ply > 0 ) then
+#include "vectorize.inc"
+           do n=1,ndx_fail_ply
+              i= indx_fail_ply(n) 
+              if( ply_id > 0) then 
+                 write(iout,1000) ngl(i),ply_id,islice,ipg,time
+              else
+                write(iout,2000) ngl(i),ilayer,ipg,time
+              endif
+            enddo
+          endif 
+          ! rupture of element
+          if(ndx_elt_del > 0 ) then 
+#include "vectorize.inc"
+            do n = 1,ndx_elt_del
+                i = indx_elt_del(n)
+                write(iout,3000) ngl(i),time
+            enddo
+          endif
+!! ----------------------------------------------------------------------------------------------------------------------
+1000      format(" FAILURE ELEMENT #",i10,                       &
+                ", PLY-ID #",i10,", SLICE #",i3, ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+2000      format(" FAILURE ELEMENT #",i10,", LAYER #",i3,                       &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+3000      FORMAT(1X,'-- RUPTURE OF SHELL ELEMENT :',i10,' AT TIME :',1pe11.4)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sigeps127c
       end module sigeps127c_mod
