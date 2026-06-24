@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    roto                          ../engine/source/airbag/roto.F
 !||    sigeps01g                     ../engine/source/materials/mat/mat001/sigeps01g.F
 !||    sigeps02g                     ../engine/source/materials/mat/mat002/sigeps02g.F
+!||    sigeps136g                    ../engine/source/materials/mat/mat136/sigeps136g.F90
 !||    sigeps22g                     ../engine/source/materials/mat/mat022/sigeps22g.F
 !||    sigeps36g                     ../engine/source/materials/mat/mat036/sigeps36g.F
 !||    sigeps43g                     ../engine/source/materials/mat/mat043/sigeps43g.F
@@ -42,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    damping_range_shell_mom_mod   ../engine/source/general_controls/damping/damping_range_shell_mom.F90
 !||    elbufdef_mod                  ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    mat_elem_mod                  ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    sigeps136g_mod                ../engine/source/materials/mat/mat136/sigeps136g.F90
 !||    table_mod                     ../engine/share/modules/table_mod.F
 !||====================================================================
       SUBROUTINE MULAWGLC(ELBUF_STR,

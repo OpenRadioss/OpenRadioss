@@ -61,6 +61,7 @@
 !||    brokmann_elem_renum                      ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
 !||    brokmann_random                          ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
 !||    brokmann_random_def_mod                  ../common_source/modules/brokmann_random_def_mod.F90
+!||    calc_m                                   ../engine/source/materials/mat/mat136/sigeps136g.F90
 !||    calculp2                                 ../starter/source/materials/mat/mat057/calculp2.F90
 !||    check_sorting_criteria                   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
 !||    chk_shell_offset                         ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
@@ -256,6 +257,7 @@
 !||    hm_read_mat133                           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat134                           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat135                           ../starter/source/materials/mat/mat135/hm_read_mat135.F90
+!||    hm_read_mat136                           ../starter/source/materials/mat/mat136/hm_read_mat136.F90
 !||    hm_read_mat163                           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
 !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
 !||    hm_read_mat50                            ../starter/source/materials/mat/mat050/hm_read_mat50.F90
@@ -527,6 +529,7 @@
 !||    sigeps132c                               ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                                ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
+!||    sigeps136g                               ../engine/source/materials/mat/mat136/sigeps136g.F90
 !||    sigeps163                                ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps169_connect                        ../engine/source/materials/mat/mat169/sigeps169_connect.F90
 !||    sigeps50s                                ../engine/source/materials/mat/mat050/sigeps50s.F90

@@ -20,8 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sigeps136g_mod   ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||--- called by ------------------------------------------------------
+!||    mulawglc         ../engine/source/materials/mat_share/mulawglc.F
+!||====================================================================
       module sigeps136g_mod
       contains
+!||====================================================================
+!||    sigeps136g         ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||--- called by ------------------------------------------------------
+!||    mulawglc           ../engine/source/materials/mat_share/mulawglc.F
+!||--- calls      -----------------------------------------------------
+!||    calc_m             ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine sigeps136g(                                                   &
         nel    ,matparam,rho    ,dmg     ,thk0   ,                             &
         depsxx ,depsyy ,depsxy  ,depsyz  ,depszx ,                             &                             
@@ -647,6 +663,14 @@
         !=======================================================================
         !< Computation of bending limit moment M_pos and its derivative w.r.t N
         !=======================================================================
+!||====================================================================
+!||    calc_m          ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps136g      ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine calc_M(                                                     &
           sigma    ,f_c      ,sig_y    ,omega    ,rho      ,xi      ,M_val    ,&
           dM_dN    )
