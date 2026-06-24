@@ -187,7 +187,14 @@ c
 C--------------------------------------------------
             IF (KEYWORD == 'VECT/VEL') THEN 
 C--------------------------------------------------
-               IF (MLW == 151) THEN
+               IF (MLW == 151 .AND. N2D == 2) THEN
+                  DO I = 1, NEL
+                     EVAR(1,I) = ZERO
+                     EVAR(2,I) = MULTI_FVM%VEL(2, I + NFT)
+                     EVAR(3,I) = MULTI_FVM%VEL(3, I + NFT)
+                     IS_WRITTEN_VECTOR(I) = 1
+                  ENDDO
+               ELSE IF (MLW == 151) THEN
                   DO I = 1, NEL
                      EVAR(1,I) = MULTI_FVM%VEL(1, I + NFT)
                      EVAR(2,I) = MULTI_FVM%VEL(2, I + NFT)
@@ -206,7 +213,9 @@ C--------------------------------------------------
                ENDIF
                IF (JCVT == 0 .OR. ISORTH /= 0) THEN
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
-                 CALL QROTA_VECT(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 IF (MLW /= 151 .OR. N2D /= 2) THEN
+                    CALL QROTA_VECT(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 END IF
                ENDIF
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'VECT/ACC') THEN
