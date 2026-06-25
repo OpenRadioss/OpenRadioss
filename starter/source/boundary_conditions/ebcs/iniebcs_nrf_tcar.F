@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IMAT,MLN,IADBUF,IMAT_SUB,NIX,NELS,NBPHASE
+      INTEGER :: IMAT,MLN,IMAT_SUB,NIX,NELS
       INTEGER :: TAGMAT(NUMMAT+1),II, NBMAT, KK
       my_real :: TCP_REF,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax,SSP0,SSP0MAX,LC,LC0MAX
       INTEGER, DIMENSION(:, :), POINTER  :: IX      
@@ -72,6 +72,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
        SSP0 = ZERO
+       SSP0MAX = ZERO
        TAGMAT(1:NUMMAT) = 0
        NELS = -HUGE(NELS)
        NIX = -HUGE(NIX)        
@@ -93,35 +94,33 @@ C-----------------------------------------------
        !-----------------------------!
        ! CALCULATION OF SSP0MAX           !
        !-----------------------------!
-       NBPHASE = 0
-       DO II=1,NELS                                                                                                 
+       DO II=1,NELS
          IMAT   = IX(1,II)
          IF(IMAT == 0)CYCLE
          IF(TAGMAT(IMAT)==1)CYCLE
          TAGMAT(IMAT)=1                                                                                            
-         MLN    = IPM(2,IMAT)                                                                                         
-         IADBUF = IPM(7,IMAT)                                                                                         
-         IF(MLN == 51)THEN
-           SSP0=PM(27,IMAT)
-           NBPHASE=MAX(NBPHASE,4)
-         ELSEIF(MLN == 151)THEN
-           NBMAT =  MAT_PARAM(IMAT)%MULTIMAT%NB
-           NBPHASE = MAX(NBPHASE,NBMAT)
-           IMAT_SUB =  MAT_PARAM(IMAT)%MULTIMAT%MID(1)
-           SSP0 = IPM(27,IMAT_SUB)
-           DO KK=2,NBMAT
+         MLN    = IPM(2,IMAT)
+         IF(MLN == 51 .OR. MLN == 151)THEN
+           IF(MLN == 51)THEN
+             NBMAT = IPM(5,IMAT)
+           ELSE
+             NBMAT = MAT_PARAM(IMAT)%MULTIMAT%NB
+           ENDIF
+           SSP0 = ZERO
+           DO KK=1,NBMAT
              IMAT_SUB = MAT_PARAM(IMAT)%MULTIMAT%MID(KK)
-             SSP0=MAX(SSP0,PM(27,IMAT_SUB))
+             IF(IMAT_SUB > 0) SSP0 = MAX(SSP0, PM(27,IMAT_SUB))
            ENDDO
          ELSE
            SSP0=PM(27,IMAT)
-         ENDIF                                                                                  
-       ENDDO                                                                                                          
-       SSP0MAX = SSP0                                                                                                 
+         ENDIF
+         SSP0MAX = MAX(SSP0MAX, SSP0)
+       ENDDO
  
        !-----------------------------!
-       ! LC ESTIMATOR            !
+       ! LC ESTIMATOR                !
        !-----------------------------!
+        ! NB: LC0MAX is the largest extent of the GLOBAL model bounding box
         Xmin   = X(1,1)
         Ymin   = X(2,1)
         Zmin   = X(3,1)
@@ -147,7 +146,10 @@ C-----------------------------------------------
        IF(SSP0MAX == ZERO)THEN
          TCP_REF = EP20
        ELSE     
-         TCP_REF    = LC0MAX/TWO/SSP0MAX/LOG(TWO)
+         ! Default pressure relaxation time TCAR_P.
+         ! the HALF-LIFE of that decay is chosen equals the time for an acoustic wave to travel half the domain,
+         !   tau * ln(2) = LC0MAX / (2 * SSP0MAX)   ==>   tau = LC0MAX / (2*SSP0MAX*ln2)
+         TCP_REF = LC0MAX/TWO/SSP0MAX/LOG(TWO)
        ENDIF
        DO KK=1,EBCS_TAB%NEBCS
           select type (twf => EBCS_TAB%tab(KK)%poly)
@@ -155,21 +157,11 @@ C-----------------------------------------------
              CALL EBCS_SET_TCARP(twf,TCP_REF)
          end select
        ENDDO
-       
-       !-----------------------------!
-       ! ALLOCATION BUFFER VOL FRAC  !
-       !-----------------------------!  
-        !EBCS%NBMAT= NBPHASE   
-        !IF(NBPHASE > 0)THEN            
-        !  ALLOCATE(EBCS%PHASE_ALPHA(NBPHASE,EBCS%NB_ELEM))
-        !  EBCS%PHASE_ALPHA(1:NBPHASE,1:EBCS%NB_ELEM) = ZERO
-        !ENDIF
-        
+
        !-----------------------------!
        ! OUTPUT                      !
        !-----------------------------!          
         WRITE (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF
-        
 
  1001 FORMAT(
      .//
