@@ -110,13 +110,13 @@
           thetap, cos_thetap,sin_thetap, momn1, momn2,A11, A12, A21, A22, b1,  &
           b2, lam_I, lam_II, det2, dfI_dMx, dfI_dMy, dfI_dMxy, dfII_dMx,       &
           dfII_dMy,dfII_dMxy,depsp_x,depsp_y,dfI_dNx, dfI_dNy, dfII_dNx,       &
-          dfII_dNy, dkp_x, dkp_y,dkp_xy, den
+          dfII_dNy, dkp_x, dkp_y,dkp_xy, den, g1p, g2p, den_g
         integer, parameter :: nmax = 100
         real(kind=WP), parameter :: tol = 1d-8
         real(kind=WP), parameter :: xi_neg = -1.0d0
         real(kind=WP), parameter :: xi_pos =  1.0d0
         logical, dimension(nel) :: active_elements_mask1,active_elements_mask2,&
-          active_elements_mask3
+          active_elements_mask3, active_elements_mask4,active_elements_mask5
         logical :: converged
 !
         !=======================================================================
@@ -235,15 +235,36 @@
                                   mfy_pos(1:nel)) + momnxy(1:nel)*momnxy(1:nel)
         f2p(1:nel) = -(momnxx(1:nel) - mfx_neg(1:nel))*(momnyy(1:nel) -        &
                                   mfy_neg(1:nel)) + momnxy(1:nel)*momnxy(1:nel)
+        g1p(1:nel) = momnxx(1:nel) - mfx_pos(1:nel) + momnyy(1:nel) -          &
+                                                                 mfy_pos(1:nel)
+        g2p(1:nel) = -(momnxx(1:nel) - mfx_neg(1:nel) + momnyy(1:nel) -        &
+                                                       mfy_neg(1:nel))
+        temp_all_indices(1:nel) = [(i, i=1,nel)]       
 !
         !< Index of the yielding elements
-        active_elements_mask1(1:nel) = (f1p(1:nel) >= tol .and. f2p(1:nel) >= tol)
+        !-----------------------------------------------------------------------
+        !< Case 1 : both criteria active, on the correct layer
+        active_elements_mask1(1:nel) = (f1p(1:nel) >= tol  .and.               &
+                                        f2p(1:nel) >= tol  .and.               &
+                                        g1p(1:nel) <  zero .and.               &
+                                        g2p(1:nel) <  zero .and.               &
+                                        dmg(1:nel,2) >= dmax1 .and.            &
+                                        dmg(1:nel,3) >= dmax2)
         nindx1 = COUNT(active_elements_mask1(1:nel))
-        active_elements_mask2(1:nel) = (f1p(1:nel) >= tol .and. f2p(1:nel) <  tol)
+!
+        !< Case 2 : only f1p active, on the correct layer
+        active_elements_mask2(1:nel) = (f1p(1:nel) >= tol  .and.               &
+                                        f2p(1:nel) <  tol  .and.               &
+                                        g1p(1:nel) <  zero .and.               &
+                                        dmg(1:nel,2) >= dmax1)
         nindx2 = COUNT(active_elements_mask2(1:nel))
-        active_elements_mask3(1:nel) = (f1p(1:nel) <  tol .and. f2p(1:nel) >= tol)
+!
+        !< Case 3 : only f2p active, on the correct layer
+        active_elements_mask3(1:nel) = (f1p(1:nel) <  tol  .and.               &
+                                        f2p(1:nel) >= tol  .and.               &
+                                        g2p(1:nel) <  zero .and.               &
+                                        dmg(1:nel,3) >= dmax2)
         nindx3 = COUNT(active_elements_mask3(1:nel))
-        temp_all_indices(1:nel) = [(i, i=1,nel)]
 !
         !-----------------------------------------------------------------------
         !< Both criteria active : loop over the indices of the active criteria 
@@ -336,6 +357,24 @@
                 lam_I(ii)  = (b1(ii)*A22(ii) - b2(ii)*A12(ii)) / det2(ii)
                 lam_II(ii) = (A11(ii)*b2(ii) - A21(ii)*b1(ii)) / det2(ii)
               endif
+              !< Bound on lam_I to ensure g1p <= 0 after return
+              den_g(ii) = -(Db11(i) + Db12(i) + two*cb(i)) *                   &
+                           (dfI_dMx(ii) + dfI_dMy(ii)) / thk0(i)               &
+                   + dmfx_pos(i)*((Dm11 + cm)*dfI_dNx(ii) + Dm12*dfI_dNy(ii))  &
+                   + dmfy_pos(i)*(Dm12*dfI_dNx(ii) + (Dm11 + cm)*dfI_dNy(ii))
+              if ((g1p(i) + lam_I(ii)*den_g(ii)) > zero) then
+                den_g(ii) = sign(max(abs(den_g(ii)),em20),den_g(ii))
+                lam_I(ii) = min(lam_I(ii), -g1p(i) / den_g(ii))
+              endif
+              !< Bound on lam_II to ensure g2p <= 0 after return
+              den_g(ii) =  (Db11(i) + Db12(i) + two*cb(i)) *                   &
+                           (dfII_dMx(ii) + dfII_dMy(ii)) / thk0(i)             &
+                  - dmfx_neg(i)*((Dm11 + cm)*dfII_dNx(ii) + Dm12*dfII_dNy(ii)) &
+                  - dmfy_neg(i)*(Dm12*dfII_dNx(ii) + (Dm11 + cm)*dfII_dNy(ii))
+              if ((g2p(i) + lam_II(ii)*den_g(ii)) > zero) then
+                den_g(ii) = sign(max(abs(den_g(ii)),em20),den_g(ii))
+                lam_II(ii) = min(lam_II(ii), -g2p(i) / den_g(ii))
+              endif
               !< Compute the iteration plastic strain increment 
               depsp_x(ii) = lam_I(ii)*dfI_dNx(ii)   + lam_II(ii)*dfII_dNx(ii)
               depsp_y(ii) = lam_I(ii)*dfI_dNy(ii)   + lam_II(ii)*dfII_dNy(ii)
@@ -387,6 +426,8 @@
                                                       momnxy(i)*momnxy(i)
               f2p(i) = -(momnxx(i) - mfx_neg(i))*(momnyy(i) - mfy_neg(i)) +    &
                                                       momnxy(i)*momnxy(i)
+              g1p(i) =   momnxx(i) - mfx_pos(i) + momnyy(i) - mfy_pos(i)
+              g2p(i) = -(momnxx(i) - mfx_neg(i) + momnyy(i) - mfy_neg(i))
               !< Increment the iteration counter
               iter(i) = iter(i) + 1
             enddo
@@ -415,6 +456,14 @@
               !< Plastic multiplier
               den(ii) = sign(max(abs(den(ii)),em20),den(ii))      
               lam_I(ii) = f1p(i) / den(ii)
+              den_g(ii) = -(Db11(i) + Db12(i) + two*cb(i)) *                   &
+                           (dfI_dMx(ii) + dfI_dMy(ii)) / thk0(i)               &
+                   + dmfx_pos(i)*((Dm11 + cm)*dfI_dNx(ii) + Dm12*dfI_dNy(ii))  &
+                   + dmfy_pos(i)*(Dm12*dfI_dNx(ii) + (Dm11 + cm)*dfI_dNy(ii))
+              if ((g1p(i) + lam_I(ii)*den_g(ii)) > zero) then
+                den_g(ii) = sign(max(abs(den_g(ii)),em20),den_g(ii))
+                lam_I(ii) = min(lam_I(ii), -g1p(i) / den_g(ii))
+              endif
               !< Computation of plastic strains
               depsp_x(ii) = lam_I(ii) * dfI_dNx(ii)
               depsp_y(ii) = lam_I(ii) * dfI_dNy(ii)
@@ -463,6 +512,8 @@
                                                       momnxy(i)*momnxy(i)
               f2p(i) = -(momnxx(i) - mfx_neg(i))*(momnyy(i) - mfy_neg(i)) +    &
                                                       momnxy(i)*momnxy(i)
+              g1p(i) =   momnxx(i) - mfx_pos(i) + momnyy(i) - mfy_pos(i)
+              g2p(i) = -(momnxx(i) - mfx_neg(i) + momnyy(i) - mfy_neg(i))
               !< Increment the iteration counter
               iter(i) = iter(i) + 1
             enddo
@@ -490,7 +541,15 @@
                   dfII_dMxy(ii)*(Db33(i) + cb(i))*dfII_dMxy(ii)/thk0(i)
               !< Plastic multiplier
               den(ii) = sign(max(abs(den(ii)),em20),den(ii))      
-              lam_II(ii) = f2p(i) / den(ii)      
+              lam_II(ii) = f2p(i) / den(ii)
+              den_g(ii) = (Db11(i) + Db12(i) + two*cb(i)) *                    &
+                           (dfII_dMx(ii) + dfII_dMy(ii)) / thk0(i)             &
+                 - dmfx_neg(i)*((Dm11 + cm)*dfII_dNx(ii) + Dm12*dfII_dNy(ii))  &
+                 - dmfy_neg(i)*(Dm12*dfII_dNx(ii) + (Dm11 + cm)*dfII_dNy(ii))
+              if ((g2p(i) + lam_II(ii)*den_g(ii)) > zero) then
+                den_g(ii) = sign(max(abs(den_g(ii)),em20),den_g(ii))
+                lam_II(ii) = min(lam_II(ii), -g2p(i) / den_g(ii))
+              endif
               !< Computation of plastic strains
               depsp_x(ii) = lam_II(ii) * dfII_dNx(ii)
               depsp_y(ii) = lam_II(ii) * dfII_dNy(ii)
@@ -539,22 +598,37 @@
                                                       momnxy(i)*momnxy(i)
               f2p(i) = -(momnxx(i) - mfx_neg(i))*(momnyy(i) - mfy_neg(i)) +    &
                                                         momnxy(i)*momnxy(i)
+              g1p(i) =   momnxx(i) - mfx_pos(i) + momnyy(i) - mfy_pos(i)
+              g2p(i) = -(momnxx(i) - mfx_neg(i) + momnyy(i) - mfy_neg(i))
               !< Increment the iteration counter
               iter(i) = iter(i) + 1
             enddo
 !
             !< Update the active elements mask and check convergence
-            active_elements_mask1(1:nel) = (f1p(1:nel) >= tol .and.            &
-                                            f2p(1:nel) >= tol .and.            &
-                                            iter(1:nel) < nmax)
+            !< Case 1 : both criteria active, on the correct layer
+            active_elements_mask1(1:nel) = (f1p(1:nel) >= tol  .and.           &
+                                            f2p(1:nel) >= tol  .and.           &
+                                            iter(1:nel) < nmax .and.           &
+                                            g1p(1:nel) <  zero .and.           &
+                                            g2p(1:nel) <  zero .and.           &
+                                            dmg(1:nel,2) >= dmax1 .and.        &
+                                            dmg(1:nel,3) >= dmax2)
             nindx1 = COUNT(active_elements_mask1(1:nel))
-            active_elements_mask2(1:nel) = (f1p(1:nel) >= tol .and.            &
-                                            f2p(1:nel) <  tol .and.            &
-                                            iter(1:nel) < nmax)
+!    
+            !< Case 2 : only f1p active, on the correct layer
+            active_elements_mask2(1:nel) = (f1p(1:nel) >= tol  .and.           &
+                                            f2p(1:nel) <  tol  .and.           &
+                                            iter(1:nel) < nmax .and.           &
+                                            g1p(1:nel) <  zero .and.           &
+                                            dmg(1:nel,2) >= dmax1)
             nindx2 = COUNT(active_elements_mask2(1:nel))
-            active_elements_mask3(1:nel) = (f1p(1:nel) <  tol .and.            &
-                                            f2p(1:nel) >= tol .and.            &
-                                            iter(1:nel) < nmax)
+!    
+            !< Case 3 : only f2p active, on the correct layer
+            active_elements_mask3(1:nel) = (f1p(1:nel) <  tol  .and.           &
+                                            f2p(1:nel) >= tol  .and.           &
+                                            iter(1:nel) < nmax .and.           &
+                                            g2p(1:nel) <  zero .and.           &
+                                            dmg(1:nel,3) >= dmax2)
             nindx3 = COUNT(active_elements_mask3(1:nel))
             temp_all_indices(1:nel) = [(i, i=1,nel)]
             !< Extract the new indices of the yielding elements
@@ -566,7 +640,7 @@
                               active_elements_mask3(1:nel))
 
             converged = ((nindx1 == 0) .and. (nindx2 == 0) .and.               &
-                         (nindx3 == 0)) .or. (MAXVAL(iter(1:nel)) >= nmax)
+                         (nindx3 == 0))
           enddo
         endif
 ! 
@@ -658,92 +732,117 @@
         dmg(1:nel,1) = max(dmg(1:nel,2), dmg(1:nel,3)) 
 !
         !=======================================================================
-        end subroutine sigeps136g
+      end subroutine sigeps136g
 !
-        !=======================================================================
-        !< Computation of bending limit moment M_pos and its derivative w.r.t N
-        !=======================================================================
-!||====================================================================
-!||    calc_m          ../engine/source/materials/mat/mat136/sigeps136g.F90
-!||--- called by ------------------------------------------------------
-!||    sigeps136g      ../engine/source/materials/mat/mat136/sigeps136g.F90
-!||--- uses       -----------------------------------------------------
-!||    constant_mod    ../common_source/modules/constant_mod.F
-!||    precision_mod   ../common_source/modules/precision_mod.F90
-!||====================================================================
-        subroutine calc_M(                                                     &
-          sigma    ,f_c      ,sig_y    ,omega    ,rho      ,xi      ,M_val    ,&
-          dM_dN    )
-!----------------------------------------------------------------
-!   M o d u l e s
-!----------------------------------------------------------------
-          use precision_mod, only: WP
-          use constant_mod
-!----------------------------------------------------------------
-!   I m p l i c i t   T y p e s
-!----------------------------------------------------------------
+      !=========================================================================
+      !< Computation of bending limit moment M_pos and its derivative w.r.t N
+      !=========================================================================
+      subroutine calc_M(                                                       &
+        sigma    ,f_c      ,sig_y    ,omega    ,rho      ,xi      ,M_val    ,  &
+        dM_dN    )
+        !----------------------------------------------------------------
+        !   M o d u l e s
+        !----------------------------------------------------------------
+        use precision_mod, only: WP
+        use constant_mod
+        !----------------------------------------------------------------
+        !   I m p l i c i t   T y p e s
+        !----------------------------------------------------------------
           implicit none
-!----------------------------------------------------------------
-!  I n p u t   A r g u m e n t s
-!----------------------------------------------------------------
-          real(kind=WP), intent(in) :: sigma       !< Membrane stress in the direction of the bending moment
-          real(kind=WP), intent(in) :: f_c         !< Concrete compressive strength
-          real(kind=WP), intent(in) :: sig_y(2)    !< Yield stress of the reinforcement
-          real(kind=WP), intent(in) :: omega(2)    !< Area of the reinforcement in x direction
-          real(kind=WP), intent(in) :: rho(2)      !< Position of the reinforcement in x direction (normalized by the thickness)
-          real(kind=WP), intent(in) :: xi          !< +1 for positive bending, -1 for negative bending
-          real(kind=WP), intent(inout) :: M_val    !< Value of the bending moment for the given sigma
-          real(kind=WP), intent(inout) :: dM_dN    !< Derivative of the bending moment w.r.t. N for the given sigma
-!----------------------------------------------------------------
-!  L o c a l  V a r i a b l e s
-!----------------------------------------------------------------
-          real(kind=WP) :: N_lo, N_hi, N
-          real(kind=WP) :: xi_inf, xi_sup
-          real(kind=WP) :: gamma, rhoeq, denom, gamma1, gamma2
-          real(kind=WP) :: a0, a1, a2
+        !----------------------------------------------------------------
+        !  I n p u t   A r g u m e n t s
+        !----------------------------------------------------------------
+        real(kind=WP), intent(in)    :: sigma    !< Membrane stress
+        real(kind=WP), intent(in)    :: f_c      !< Concrete compressive strength
+        real(kind=WP), intent(in)    :: sig_y(2) !< Yield stress (1=lower, 2=upper)
+        real(kind=WP), intent(in)    :: omega(2) !< Reinforcement ratio (1=lower, 2=upper)
+        real(kind=WP), intent(in)    :: rho(2)   !< Position normalized by thickness (1=lower, 2=upper)
+        real(kind=WP), intent(in)    :: xi       !< +1 positive bending, -1 negative bending
+        real(kind=WP), intent(inout) :: M_val    !< Bending limit moment
+        real(kind=WP), intent(inout) :: dM_dN    !< Derivative of M w.r.t. N
+        !----------------------------------------------------------------
+        !  L o c a l  V a r i a b l e s
+        !----------------------------------------------------------------
+        real(kind=WP) :: N, N_A, N_B
+        real(kind=WP) :: s1, s2        !< Signs for layer 1 and layer 2 contributions
+        real(kind=WP) :: gamma, rhoeq, denom, gamma1, gamma2
 !
-          !< Computation of the limits of N 
-          gamma1 = (-omega(2)*sig_y(2))/(f_c)
-          N_lo = xi*gamma1 - (one - xi*rho(1))*half
-          gamma2 =  (omega(1)*sig_y(1))/(f_c)
-          N_hi = xi*gamma2 - (one - xi*rho(2))*half
+        !=======================================================================
+        !< Normalized membrane force
+        !=======================================================================
+        N = sigma / f_c
 !
-          !< Convert the normalized membrane stress to the equivalent normalized force N = sigma/f_c
-          N = sigma/f_c
+        !=======================================================================
+        !< Transition thresholds
+        !  N_A : threshold associated with layer 2 (original N_lo formula)
+        !  N_B : threshold associated with layer 1 (original N_hi formula)
+        !  These are always computed with the original formulas.
+        !  Their numerical order depends on xi, handled explicitly below.
+        !=======================================================================
+        gamma1 = (-omega(2)*sig_y(2)) / f_c
+        N_A    =  xi*gamma1 - (one - xi*rho(1))*half
+        gamma2 = ( omega(1)*sig_y(1)) / f_c
+        N_B    =  xi*gamma2 - (one - xi*rho(2))*half
 !
-          !< Choose the corresponding xi_inf and xi_sup for the given N
-          if (N <= N_lo) then
-            xi_inf = -one
-            xi_sup = -one
-          elseif (N <= N_hi) then
-            xi_inf = one
-            xi_sup = -one
+        !=======================================================================
+        !< Regime selection
+        !  For xi = +1 : N_A < N_B  → test N <= N_A then N <= N_B
+        !  For xi = -1 : N_A > N_B  → inequalities are reversed
+        !
+        !  Physical meaning of s1 and s2:
+        !    s1 = sign of layer 1 contribution (+1 tension, -1 compression)
+        !    s2 = sign of layer 2 contribution (+1 tension, -1 compression)
+        !
+        !  For xi = +1:
+        !    N <= N_A          → both in compression : s1=-1, s2=-1
+        !    N_A < N <= N_B    → layer 1 in tension  : s1=+1, s2=-1
+        !    N > N_B           → both in tension     : s1=+1, s2=+1
+        !
+        !  For xi = -1:
+        !    N >= N_A          → both in compression : s1=-1, s2=-1
+        !    N_B <= N < N_A    → layer 2 in tension  : s1=-1, s2=+1
+        !    N < N_B           → both in tension     : s1=+1, s2=+1
+        !=======================================================================
+        if (xi > zero) then
+          !< Positive bending : N_A < N_B
+          if (N <= N_A) then
+            s1 = -one ; s2 = -one
+          elseif (N <= N_B) then
+            s1 =  one ; s2 = -one
           else
-            xi_inf = one
-            xi_sup = one
-          endif          
-!
-          !< Computation of the contribution of the reinforcement to the bending resistance
-          gamma = (xi_sup*omega(2)*sig_y(2) + xi_inf*omega(1)*sig_y(1))/f_c
-!
-          !< Computation of the position of the equivalent reinforcement for the concrete contribution
-          denom = xi_sup*omega(2) + xi_inf*omega(1)
-          if (abs(denom) < em20) then
-            rhoeq = zero
-          else
-            rhoeq = (xi_sup*omega(2)*rho(2) + xi_inf*omega(1)*rho(1)) / denom
+            s1 =  one ; s2 =  one
           endif
+        else
+          !< Negative bending : N_A > N_B
+          if (N >= N_A) then
+            s1 = -one ; s2 = -one
+          elseif (N >= N_B) then
+            s1 = -one ; s2 =  one
+          else
+            s1 =  one ; s2 =  one
+          endif
+        endif
 !
-          !< Computation of the bending moment coefficient for the given N
-          a0 =  (one - xi*rhoeq)*gamma*half - xi*half*(gamma)**2
-          a1 =  gamma - xi*half
-          a2 = -xi*half
+        !=======================================================================
+        !< Equivalent reinforcement contribution
+        !=======================================================================
+        gamma = (s2*omega(2)*sig_y(2) + s1*omega(1)*sig_y(1)) / f_c
 !
-          !< Computation of the bending moment and its derivative for the given N
-          M_val = a0 + a1*N + a2*N**2
-          M_val = M_val * f_c
-          dM_dN = a1 + 2*a2*N
+        denom = s2*omega(2) + s1*omega(1)
+        if (abs(denom) < em20) then
+          rhoeq = half*(rho(1) + rho(2))
+        else
+          rhoeq = (s2*omega(2)*rho(2) + s1*omega(1)*rho(1)) / denom
+        endif
 !
-        end subroutine calc_M
+        !=======================================================================
+        !< Bending moment and its derivative w.r.t. N
+        !=======================================================================
+        M_val = (one - xi*rhoeq)*gamma*half - xi*half*N +                   &
+                 xi*((N - xi*gamma)**2)*half
+        M_val = M_val * f_c
+        dM_dN = -xi*half + xi*(N - xi*gamma)
+!
+      end subroutine calc_M
 !
       end module sigeps136g_mod
