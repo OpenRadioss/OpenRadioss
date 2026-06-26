@@ -81,6 +81,8 @@ char * H3D_open_file="Hyper3DExportOpen";
  
  bool (*DLHyper3DCompressionLevel)  (H3DFileInfo* h3d_file, unsigned int level);
 
+ uint32_t (*DLHyper3DExportLibraryVersion)  (uint32_t* majorVersion, uint32_t* minorVersion);
+
 /***********************/
 /* String Table Blocks */
 /***********************/
@@ -376,9 +378,12 @@ void h3dlib_load_(int * IERROR)
 
  DLHyper3DCompressionLevel=(void*)GetProcAddress(h3dhandle,"Hyper3DCompressionLevel");
   if( !DLHyper3DCompressionLevel) ierr=ierr+1;
+
+  DLHyper3DExportLibraryVersion=(void*)GetProcAddress(h3dhandle,"Hyper3DExportLibraryVersion");
+  if( !DLHyper3DExportLibraryVersion) ierr=ierr+1;
 /***********************/ 
 /* String Table Blocks */
-/***********************/ 
+/***********************/   
 
   DLHyper3DAddString=(void*)GetProcAddress(h3dhandle,"Hyper3DAddString");
   if( !DLHyper3DAddString) ierr=ierr+1;
@@ -683,9 +688,12 @@ void h3dlib_load_(int * IERROR)
   DLHyper3DCompressionLevel=dlsym(h3dhandle,"Hyper3DCompressionLevel");
   if( !DLHyper3DCompressionLevel) ierr=ierr+1;
 
+  DLHyper3DExportLibraryVersion=dlsym(h3dhandle,"Hyper3DExportLibraryVersion");
+  if( !DLHyper3DExportLibraryVersion) ierr=ierr+1;
+
 /***********************/ 
 /* String Table Blocks */
-/***********************/ 
+/***********************/   
 
   DLHyper3DAddString=dlsym(h3dhandle,"Hyper3DAddString");
   if( !DLHyper3DAddString) ierr=ierr+1;
@@ -924,6 +932,27 @@ void h3dlib_load__ (int *IERROR)
 void h3dlib_load (int * IERROR)
 {h3dlib_load_ (IERROR);}
 
+uint32_t hyper3dexportlibraryversion_(uint32_t* majorVersion, uint32_t* minorVersion)
+{
+  if (DLHyper3DExportLibraryVersion != NULL) {
+    return DLHyper3DExportLibraryVersion(majorVersion, minorVersion);
+  } else {
+    /* Function not available in library - set version to 0.0 to indicate error */
+    *majorVersion = 0;
+    *minorVersion = 0;
+    return 0;
+  }
+}
+
+uint32_t _FCALL HYPER3DEXPORTLIBRARYVERSION(uint32_t* majorVersion, uint32_t* minorVersion)
+{return hyper3dexportlibraryversion_(majorVersion, minorVersion);}
+
+uint32_t hyper3dexportlibraryversion__(uint32_t* majorVersion, uint32_t* minorVersion)
+{return hyper3dexportlibraryversion_(majorVersion, minorVersion);}
+
+uint32_t hyper3dexportlibraryversion(uint32_t* majorVersion, uint32_t* minorVersion)
+{return hyper3dexportlibraryversion_(majorVersion, minorVersion);}
+
 
 /**************/ 
 /* The Basics */
@@ -959,9 +988,23 @@ H3DFileInfo* Hyper3DExportOpen(const char* filename, H3D_FileMode mode,
    return return_value ;
 }
 
+ uint32_t Hyper3DExportLibraryVersion(uint32_t* majorVersion, uint32_t* minorVersion)
+{  
+   if (DLHyper3DExportLibraryVersion != NULL) {
+     uint32_t return_value;
+     return_value = DLHyper3DExportLibraryVersion(majorVersion, minorVersion);
+     return return_value;
+   } else {
+     /* Function not available in library - set version to 0.0 to indicate error */
+     *majorVersion = 0;
+     *minorVersion = 0;
+     return 0;
+   }
+}
+
 /***********************/ 
 /* String Table Blocks */
-/***********************/ 
+/***********************/   
 
  bool Hyper3DAddString(H3DFileInfo* h3d_file,
                     const char* const string, H3D_ID* const str_id)
