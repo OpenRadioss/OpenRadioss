@@ -506,6 +506,10 @@ c to be made allocatable
         INTEGER :: MAX_SHELL_STACKSIZE          ! Maximum number of shell scalar to write
         INTEGER :: SHELL_STACKSIZE              ! Number of shell scalar to write
         INTEGER :: SHELL_STACKSIZE_P0           ! total shell scalar to write after gather
+        INTEGER :: REQUESTED_H3D_VERSION_MAJOR        ! Requested H3D major version
+        INTEGER :: REQUESTED_H3D_VERSION_MINOR        ! Requested H3D minor version
+        INTEGER :: H3D_VERSION_MAJOR        ! H3D major version to write
+        INTEGER :: H3D_VERSION_MINOR        ! H3D minor version to write
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -680,8 +684,26 @@ C*******************************************************************************
               CALL ANCMSG(MSGID=274,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-C
-c**********************************************************************************************
+
+            REQUESTED_H3D_VERSION_MAJOR = 26
+            REQUESTED_H3D_VERSION_MINOR = 1
+
+            CALL C_H3D_EXPORT_LIBRARY_VERSION(H3D_VERSION_MAJOR, H3D_VERSION_MINOR)
+            IF(H3D_VERSION_MAJOR < REQUESTED_H3D_VERSION_MAJOR .AND. 
+     .        H3D_VERSION_MINOR < REQUESTED_H3D_VERSION_MINOR) THEN
+              CALL ANCMSG(MSGID=324,ANMODE=ANINFO,I1=H3D_VERSION_MAJOR,
+     .        I2=H3D_VERSION_MINOR,I3=REQUESTED_H3D_VERSION_MAJOR,I4=REQUESTED_H3D_VERSION_MINOR)
+              CALL ARRET(2)
+            ENDIF
+C**********************************************************************************************
+C PRINT H3D LIB VERSION 
+C**********************************************************************************************
+        IF (ISPMD==0) THEN
+          WRITE (IOUT,*) 
+          WRITE (IOUT,2000) H3D_VERSION_MAJOR,H3D_VERSION_MINOR
+          WRITE (IOUT,*) 
+        ENDIF
+C**********************************************************************************************
 C OPEN H3D FILE
 C**********************************************************************************************
             IS_H3D_USED = .TRUE.
@@ -3472,7 +3494,13 @@ C
         ENDIF
 c-----------
         CALL STOPTIME(TIMERS,MACRO_TIMER_GENH3D)
-
         RETURN
  1000   FORMAT (4X,' H3D FILE:',1X,A,' UPDATED:  FRAME=',1X,I5,' , NC=',1X,I7,' , TIME=',1X,G11.4)
+
+
+ 2000   FORMAT (4X,/,
+     .        4X,'------------------------------------------------------------',/,
+     .        4X,'  H3D LIBRARY VERSION:',1X,I2.2,'.',I2.2,/,
+     .        4X,'------------------------------------------------------------',
+     .        4X)
       END SUBROUTINE GENH3D
