@@ -61,7 +61,7 @@ extern "C"
 void c_h3d_export_library_version_(int *major_version, int *minor_version)
 {
     try {   
-        Hyper3DExportLibraryVersion((u_int32_t*)major_version, (u_int32_t*)minor_version);
+        Hyper3DExportLibraryVersion((uint32_t*)major_version, (uint32_t*)minor_version);
 
     } // end of try
 
