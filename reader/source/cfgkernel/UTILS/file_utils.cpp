@@ -30,7 +30,6 @@
 #endif
 #include <sys/types.h>  // For stat().
 #include <sys/stat.h>   // For stat().
-#include <array> 
 
 #ifdef WIN32
 #include <direct.h>
@@ -622,11 +621,11 @@ extern "C" char *utility_get_relative_path_from_absolute_path(const char *main_p
    const char *short_main = NULL, *short_other = NULL ;
    int  nbr_level = 0 ;
 #ifdef WIN32
-   char separator = '\\' ;
-   char *go_up_string = "..\\" ;
+   constexpr char separator = '\\';
+   constexpr const char* go_up_string = "..\\";
 #else
-   char separator = '/' ;
-   char *go_up_string = const_cast<char *>("../") ;
+   constexpr char separator = '/';
+   constexpr const char* go_up_string = "../";
 #endif
 
    if (main_path == NULL) return NULL ;

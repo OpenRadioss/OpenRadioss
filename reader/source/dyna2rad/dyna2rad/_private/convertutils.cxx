@@ -826,6 +826,33 @@ void sdiD2R::ConvertUtils::GetPartIdsFromPartSet(const sdiString& setType, const
     }
 }
 
+void sdiD2R::ConvertUtils::GetElementIdsFromElementSet(const sdiString& setType, const unsigned int& setId, sdiUIntList& elementIdList)
+{
+
+    HandleRead lsdSetHRead;
+    p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType(setType), setId, lsdSetHRead);
+
+    if (lsdSetHRead.IsValid())
+    {
+        EntityRead setRead(p_lsdynaModel, lsdSetHRead);
+        int maxIds = 0;
+        sdiString lsdKey;
+        sdiValue tempVal(maxIds);
+        setRead.GetValue(sdiIdentifier("idsmax"), tempVal);
+        tempVal.GetValue(maxIds);
+
+        if (maxIds)
+        {
+                elementIdList.reserve(maxIds);
+                sdiValueEntityList elementEntityList;
+                tempVal = sdiValue(elementEntityList);
+                setRead.GetValue(sdiIdentifier("ids"), tempVal);
+                tempVal.GetValue(elementEntityList);
+                elementEntityList.GetIdList(elementIdList);
+        }
+    }
+}
+
 void sdiD2R::ConvertUtils::GetPartIdsFromSetGeneral(const sdiString& setType, const unsigned int& setId, sdiUIntList& partIdList)
 {
 

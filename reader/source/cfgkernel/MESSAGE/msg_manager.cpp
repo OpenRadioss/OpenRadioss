@@ -75,13 +75,13 @@ void MvMsgManager_t::DisplayMess(type_message_e type,const string &msg) {
   }
 #endif //TXT_MSG
   //
+  /*
   switch (type) {
   case CFG_MESSAGE: Print_Message(const_cast<char *>(msg.c_str()));       break;
-  
   case CFG_WARNING: Print_Error_level(const_cast<char *>(msg.c_str()),1); break;
   case CFG_ERROR:   Print_Error_level(const_cast<char *>(msg.c_str()),2);         break;
-  
   }
+  */
 }
 
 void MvMsgManager_t::DisplayMess(type_message_e type, const char *format, ...) {

@@ -87,15 +87,15 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
         {
             selAirbagPressure->GetValue(sdiIdentifier("SID"), tempValue);
             tempValue.GetValue(surfSet);
-            
 
+            
             if(lsdSSTYP == 0)
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagPressure->GetHandle(), surfSet.GetId(), "*SET_SEGMENT"))));
             }
             else
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagPressure->GetHandle(), surfSet.GetId(), "*SET_PART"))));
             }
 
             tempValue = sdiValue(lsdBETA);
@@ -213,11 +213,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
 
         if(lsdSSTYP == 0)
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selSimpleAirbag->GetHandle(),surfSet.GetId(), "*SET_SEGMENT"))));
         }
         else
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selSimpleAirbag->GetHandle(),surfSet.GetId(), "*SET_PART"))));
         }
             
         radAirbagEdit.SetValue(sdiIdentifier("Pext"), sdiValue(lsdPE));
@@ -403,11 +403,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagAdiabaticGasModel()
 
             if(lsdSSTYP == 0)
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagAdiabaticGasModel->GetHandle(),surfSet.GetId(), "*SET_SEGMENT"))));
             }
             else
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagAdiabaticGasModel->GetHandle(),surfSet.GetId(), "*SET_PART"))));
             }
 //
             sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagAdiabaticGasModel->GetHandle()} };
@@ -474,11 +474,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLoadCurve()
 
         if(lsdSSTYP == 0)
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagLoadFunc->GetHandle(),surfSet.GetId(), "*SET_SEGMENT"))));
         }
         else
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagLoadFunc->GetHandle(),surfSet.GetId(), "*SET_PART"))));
         }
 
         double LSD_STIME = 0.0;
@@ -593,60 +593,155 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
         //-----------------------------
         //-----------------------------
 
-        sdiUIntList AllpartsList, PartsRefList, partsNodeLists;
-        PartsRefList.clear();
+        sdiUIntList AllpartsList, partsNodeLists;
 
         SelectionRead partsSelect(p_radiossModel, "/PART");
         while (partsSelect.Next())
         {
-            sdiString partName = partsSelect->GetName();
             EntityId partId = partsSelect->GetId();
             AllpartsList.push_back(partId);
         }
 
-        sdiUIntList v_intersection; // intersect list of nodes of each part with the *INITIAL_FOAM_REFERENCE_GEOMETRY list nodes
+        sdiUIntList v_intersection_tmp; // intersect list of nodes of each part with the *INITIAL_FOAM_REFERENCE_GEOMETRY list nodes
+        v_intersection_tmp.reserve(lsdrefnodlist.size());
         for (int i = 0; i < int(AllpartsList.size()); ++i)
         {
             unsigned int partId = int(AllpartsList[i]);
             partsNodeLists.clear();
             p_ConvertUtils.GetNodesOfParts(partId, partsNodeLists);
  
-            // intersect nodes of part i with *INITIAL_FOAM_REFERENCE_GEOMETRY list nodes
-            v_intersection.clear();
+            // intersect nodes of part with *INITIAL_FOAM_REFERENCE_GEOMETRY list nodes
+            v_intersection_tmp.clear();
             std::set_intersection(lsdrefnodlist.begin(), lsdrefnodlist.end(), partsNodeLists.begin(), partsNodeLists.end(),
-                                  std::back_inserter(v_intersection));
-        
-            int part_ID = 0;
-            for (int j = 0; j < int(v_intersection.size()); ++j)
-            {
-                part_ID = AllpartsList[i];
-            }
-            if (part_ID > 0) PartsRefList.push_back(part_ID);
-            //---
-            int nodeCount = 0;
-            if (v_intersection.size() > 0) // "nodeRef" is in part
-            {
-                HandleEdit radXREFHEdit;
-                p_radiossModel->CreateEntity(radXREFHEdit, "/XREF", "XREF_PART_" + to_string(part_ID),selInitialFoamRefGeom->GetId());
-                if(radXREFHEdit.IsValid())
-                {
-                    EntityEdit radXREFEdit(p_radiossModel, radXREFHEdit);
-                    for (int j = 0; j < int(v_intersection.size()); ++j)
-                    {
-                        radXREFEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount), sdiValue(sdiValueEntity(radNode, v_intersection[j])));
-                        radXREFEdit.SetValue(sdiIdentifier("globalx",0,nodeCount), sdiValue(nodeXInitialFoamRef[v_intersection[j]]));
-                        radXREFEdit.SetValue(sdiIdentifier("globaly",0,nodeCount), sdiValue(nodeYInitialFoamRef[v_intersection[j]]));
-                        radXREFEdit.SetValue(sdiIdentifier("globalz",0,nodeCount), sdiValue(nodeZInitialFoamRef[v_intersection[j]]));
-                        nodeCount++; // nodeRef found on part partID
-                    }
-                    if(ndtrrg > 0) radXREFEdit.SetValue(sdiIdentifier("NITRS"), sdiValue(ndtrrg));
-                    radXREFEdit.SetValue(sdiIdentifier("refnodesmax"), sdiValue(nodeCount));
-                    radXREFEdit.SetValue(sdiIdentifier("Comp_Id"),sdiValue(sdiValueEntity(radPart, part_ID)));
+                                  std::back_inserter(v_intersection_tmp));
 
-                    sdiConvert::SDIHandlReadList sourceINITIALFOAM = { {selInitialFoamRefGeom->GetHandle()} };
-                    if (radXREFHEdit.IsValid())
-                       sdiConvert::Convert::PushToConversionLog(std::make_pair(radXREFHEdit, sourceINITIALFOAM));
+            sdiVectorSort(v_intersection_tmp);
+            sdiVectorUnique(v_intersection_tmp);
+
+            int ref_part_ID = 0;
+            if (v_intersection_tmp.size() > 0) ref_part_ID = partId;
+
+            //----------------------------------------------------------
+            // check for any element in ref_part_ID if all its nodes are in "v_intersection" list, 
+            // if yes add ref_part_ID to "PartsRefList" list and add its nodes to be added in radioss model as "XREF_PART"
+            //----------------------------------------------------------
+
+            sdiUIntList v_intersection;
+            v_intersection.reserve(v_intersection_tmp.size());
+            v_intersection.clear();
+
+            if (ref_part_ID > 0)
+            {
+                HandleRead partHread;
+                if(p_radiossModel->FindById(radPart, ref_part_ID, partHread))
+                {
+                    EntityRead partEdit(p_radiossModel, partHread);
+                    SelectionElementRead elemSelect(partEdit);
+                    
+                    while(elemSelect.Next())
+                    {
+                        const sdiString& elemKeyWord = elemSelect->GetKeyword();
+
+                        if(elemKeyWord.find("BRICK") != sdiString::npos || elemKeyWord.find("TETRA4") != sdiString::npos)
+                        {
+                        sdiUIntList elemNodes;
+                        elemSelect->GetNodeIds(elemNodes);
+                        unsigned int nodeCount = elemSelect->GetNodeCount();
+
+                        sdiVectorSort(elemNodes);
+                        sdiVectorUnique(elemNodes);
+                        
+                        sdiUIntList v_inter_elem_nodes;
+                        v_inter_elem_nodes.clear();
+                        std::set_intersection(v_intersection_tmp.begin(), v_intersection_tmp.end(), elemNodes.begin(), elemNodes.end(), 
+                                  std::back_inserter(v_inter_elem_nodes));
+                        
+                        if (int(v_inter_elem_nodes.size()) == nodeCount)
+                            v_intersection.insert(v_intersection.end(), elemNodes.begin(), elemNodes.end());
+                        }
+                    }
                 }
+
+                // if no element has all its nodes in the intersection, then ref_part_ID is set to 0 to not be added in PartsRefList
+                if(int(v_intersection.size()) == 0) ref_part_ID = 0;
+
+                if(int(v_intersection.size()) > 0)
+                {
+                    sdiVectorSort(v_intersection);
+                    sdiVectorUnique(v_intersection);
+                }
+            }
+            
+
+            //----------------------------------------------------------
+            // Fill /XREF card in radioss model with nodes in "v_intersection" list and add ref_part_ID 
+            // as part reference in /XREF card
+            //----------------------------------------------------------
+
+            int nodeCount = 0;
+            if (int(v_intersection.size()) > 0) // "nodeRef" is in part
+            {
+                HandleRead partHRead;
+                p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*PART"), ref_part_ID, partHRead);
+                EntityRead partRead(p_lsdynaModel, partHRead);
+                HandleRead matHRead;
+                partHRead.GetEntityHandle(p_lsdynaModel, sdiIdentifier("MID"), matHRead);
+                EntityRead matEntityRead(p_lsdynaModel, matHRead);
+                double lsdmatREF = GetValue<double>(matEntityRead, "REF");
+
+                HandleRead radpartHRead;
+                p_radiossModel->FindById(p_radiossModel->GetEntityType("/PART"), ref_part_ID, radpartHRead);
+                HandleRead radmatHRead;
+                radpartHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("mat_ID"), radmatHRead);
+                EntityRead radmatEntityRead(p_radiossModel, radmatHRead);
+
+                sdiString matCard = matEntityRead.GetKeyword();
+                sdiString radmatCard = radmatEntityRead.GetKeyword();
+                
+                if (( lsdmatREF == 1.0 && 
+                    ( matCard.find("*MAT_ORTHOTROPIC_ELASTIC") != string::npos || matCard.find("*MAT_002") != string::npos ) ||
+                    ( matCard.find("*MAT_SOIL_AND_FOAM") != string::npos || matCard.find("*MAT_005") != string::npos ) ||
+                    ( matCard.find("*MAT_BLATZ-KO_RUBBER") != string::npos || matCard.find("*MAT_007") != string::npos ) ||
+                    ( matCard.find("*MAT_ORTHOTROPIC_THERMAL") != string::npos || matCard.find("*MAT_021") != string::npos ) ||
+                    ( matCard.find("*MAT_TEMPERATURE_DEPENDENT_ORTHOTROPIC") != string::npos || matCard.find("*MAT_023") != string::npos ) ||
+                    ( matCard.find("*MAT_MOONEY-RIVLIN_RUBBER") != string::npos || matCard.find("*MAT_027") != string::npos ) ||
+                    ( matCard.find("*MAT_FRAZER_NASH_RUBBER_MODEL") != string::npos || matCard.find("*MAT_031") != string::npos ) ||
+                    ( matCard.find("*MAT_BLATZ-KO_FOAM") != string::npos || matCard.find("*MAT_038") != string::npos ) ||
+                    ( matCard.find("*MAT_LOW_DENSITY_FOAM") != string::npos || matCard.find("*MAT_057") != string::npos ) ||
+                    ( matCard.find("*MAT_LOW_DENSITY_VISCOUS_FOAM") != string::npos || matCard.find("*MAT_073") != string::npos ) ||
+                    ( matCard.find("*MAT_OGDEN_RUBBER") != string::npos || matCard.find("*MAT_077_O") != string::npos ) ||
+                    ( matCard.find("*MAT_FU_CHANG_FOAM") != string::npos || matCard.find("*MAT_083") != string::npos ) ||
+                    ( matCard.find("*MAT_ORTHOTROPIC_SMEARED_CRACK") != string::npos || matCard.find("*MAT_132") != string::npos ) ||
+                    ( matCard.find("*MAT_LOW_DENSITY_SYNTHETIC_FOAM") != string::npos || matCard.find("*MAT_179") != string::npos ) ||
+                    ( matCard.find("*MAT_ANISOTROPIC_THERMOELASTIC") != string::npos || matCard.find("*MAT_189") != string::npos )) &&
+                    ( ( radmatCard.find("/MAT/OGDEN") != string::npos || matCard.find("/MAT/LAW42") != string::npos ) ||
+                      ( radmatCard.find("/MAT/FOAM_TAB") != string::npos || matCard.find("/MAT/LAW70") != string::npos ) ||
+                      ( radmatCard.find("/MAT/LAW90") != string::npos ) )
+                   )
+                {
+
+                    HandleEdit radXREFHEdit;
+                    p_radiossModel->CreateEntity(radXREFHEdit, "/XREF", "XREF_PART_" + to_string(ref_part_ID),selInitialFoamRefGeom->GetId());
+                    if(radXREFHEdit.IsValid())
+                    {
+                        EntityEdit radXREFEdit(p_radiossModel, radXREFHEdit);
+                        for (int j = 0; j < int(v_intersection.size()); ++j)
+                        {
+                            radXREFEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount), sdiValue(sdiValueEntity(radNode, v_intersection[j])));
+                            radXREFEdit.SetValue(sdiIdentifier("globalx",0,nodeCount), sdiValue(nodeXInitialFoamRef[v_intersection[j]]));
+                            radXREFEdit.SetValue(sdiIdentifier("globaly",0,nodeCount), sdiValue(nodeYInitialFoamRef[v_intersection[j]]));
+                            radXREFEdit.SetValue(sdiIdentifier("globalz",0,nodeCount), sdiValue(nodeZInitialFoamRef[v_intersection[j]]));
+                            nodeCount++; // nodeRef found on part partID
+                        }
+                        if(ndtrrg > 0) radXREFEdit.SetValue(sdiIdentifier("NITRS"), sdiValue(ndtrrg));
+                        radXREFEdit.SetValue(sdiIdentifier("refnodesmax"), sdiValue(nodeCount));
+                        radXREFEdit.SetValue(sdiIdentifier("Comp_Id"),sdiValue(sdiValueEntity(radPart, ref_part_ID)));
+
+                        sdiConvert::SDIHandlReadList sourceINITIALFOAM = { {selInitialFoamRefGeom->GetHandle()} };
+                        if (radXREFHEdit.IsValid())
+                           sdiConvert::Convert::PushToConversionLog(std::make_pair(radXREFHEdit, sourceINITIALFOAM));
+                    }
+                } // if (matCard.find)
             }
         }
     } // while (selInitialFoamRefGeom.Next())
@@ -2443,11 +2538,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
 
          if(lsdSIDTYP == 0)
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_SEGMENT"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagHybrid->GetHandle(),SID, "*SET_SEGMENT"))));
         }
         else
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_PART"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(p_lsdynaModel, selAirbagHybrid->GetHandle(),SID, "*SET_PART"))));
         }
 
         // Conversion of gas materials

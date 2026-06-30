@@ -954,21 +954,52 @@ void sdiD2R::ConvertInitialVelocity::HandleIrgidOption(const EntityRead& lsdIniv
             int dPartListSize = 0;
             if (iniVelSetkeyType == "PART")
             {
-                int idsMax = 0;
-                tempVal = sdiValue(idsMax);
-                radSetEdit.GetValue(sdiIdentifier("idsmax", 0, 0), tempVal);
-                tempVal.GetValue(idsMax);
-                for (int j = 0; j < idsMax; ++j)
+                radSetEdit.GetValue(sdiIdentifier("opt_G", 0, 0), tempVal);
+                int optG = 0;
+                tempVal.GetValue(optG);
+                if (optG == 1)
                 {
-                    sdiValueEntity entity;
-                    tempVal = sdiValue(entity);
-                    radSetEdit.GetValue(sdiIdentifier("ids", 0, 0, j), tempVal);
-                    tempVal.GetValue(entity);
-                    inivelEntityList.push_back(entity.GetId());
+                    radSetEdit.GetValue(sdiIdentifier("genemax", 0, 0), tempVal);
+                    int geneMax = 0;
+                    tempVal.GetValue(geneMax);
+                    radSetEdit.GetValue(sdiIdentifier("start", 0, 0), tempVal);
+                    sdiIntList startIdList;
+                    tempVal.GetValue(startIdList);
+                    radSetEdit.GetValue(sdiIdentifier("end", 0, 0), tempVal);
+                    sdiIntList endIdList;
+                    tempVal.GetValue(endIdList);
+                    radSetEdit.GetValue(sdiIdentifier("by", 0, 0), tempVal);
+                    sdiIntList incrList;
+                    tempVal.GetValue(incrList);   
+                    for (int i = 0; i < geneMax; ++i)
+                    {
+                        sdiUIntList parts;
+                        for (int partId = startIdList[i]; partId <= endIdList[i]; partId += incrList[i])
+                        {
+                            inivelEntityList.push_back(partId);
+                        }
+                    }
+                }
+                else
+                {
+                    int idsMax = 0;
+                    tempVal = sdiValue(idsMax);
+                    radSetEdit.GetValue(sdiIdentifier("idsmax", 0, 0), tempVal);
+                    tempVal.GetValue(idsMax);
+                    for (int j = 0; j < idsMax; ++j)
+                    {
+                        sdiValueEntity entity;
+                        tempVal = sdiValue(entity);
+                        radSetEdit.GetValue(sdiIdentifier("ids", 0, 0, j), tempVal);
+                        tempVal.GetValue(entity);
+                        inivelEntityList.push_back(entity.GetId());
+                    }
                 }
             }
             else if (iniVelSetkeyType == "NODE" || iniVelSetkeyType == "ALL")
+            {
                 p_ConvertUtils.ExtractNodesFromRadiossSet(radSetHEdit, inivelEntityList);
+            }
 
             if (iniVelSetkeyType == "ALL")
             {

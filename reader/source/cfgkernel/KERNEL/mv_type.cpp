@@ -359,7 +359,7 @@ void MvTypeMap_t::InitTypeMap() {
   myTypeMap["ORIENTATION"]                       = HCDI_OBJ_TYPE_ORIENTATIONS;
   myTypeMap["NONSTRUCTURALMASS"]                 = HCDI_OBJ_TYPE_NONSTRUCTURALMASSES;
   myTypeMap["INITIALSTATE"]                      = HCDI_OBJ_TYPE_INITIALSTATES;
-  myTypeMap["SUBOBJECT"]                     = HCDI_OBJ_TYPE_SUBOBJECTS;
+  myTypeMap["SUBOBJECTS"]                        = HCDI_OBJ_TYPE_SUBOBJECTS;
   myTypeMap["PLOTCONTROLLER"]                    = HCDI_OBJ_TYPE_PLOTCONTROLLERS;
   myTypeMap["GUIMODELVIEW"]                      = HCDI_OBJ_TYPE_GUIMODELVIEWS;
   myTypeMap["DATASOURCE"]                        = HCDI_OBJ_TYPE_DATASOURCES;

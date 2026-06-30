@@ -144,7 +144,8 @@ public:
                                 int                           ind=-1,
                                 unsigned int                  offset=0,
                                 bool                         *do_continue_p=NULL,
-                                bool                          is_next_card_cell_list=false);
+                                bool                          is_next_card_cell_list=false,
+                                char                         *card_p =nullptr);
     /// Reading Comment card
     virtual bool readCommentCard(const PseudoFileFormatCard_t* card_format_p,
                                  IMECPreObject* object_p,
@@ -266,7 +267,8 @@ public:
                                  bool                           has_offset = false,
                                  const char                    *offset_fmt = NULL,
                                  const char                    *offset_val = NULL,
-                                 bool                           is_next_card_cell_list = false);
+                                 bool                           is_next_card_cell_list = false,
+                                const PseudoFileFormatCell_t   *next_cell_format_p=nullptr);
     /// Reading a CELL_VALUE-type cell. If an ikeyword is given, method can be used to read other values than CELL_IKEYWORD.
     virtual const char *readCell_VALUE(const char                   *cell,
                                        const PseudoFileFormatCell_t *cell_format_p,
@@ -280,7 +282,8 @@ public:
                                        bool                          has_offset = false,
                                        const char*                   offset_fmt = NULL,
                                        const char*                   offset_val = NULL,
-                                       bool                          is_next_card_cell_list = false);
+                                       bool                          is_next_card_cell_list = false,
+                                       const PseudoFileFormatCell_t* next_cell_format_p=nullptr);
 
     virtual const char *readCell_ID(const char                   *cell,
                                        const PseudoFileFormatCell_t *cell_format_p,

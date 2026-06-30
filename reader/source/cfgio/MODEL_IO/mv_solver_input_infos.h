@@ -98,13 +98,138 @@ public:
         set<string>* stripheader = nullptr, obj_type_e etype = HCDI_OBJ_TYPE_NULL, bool isexactmatch = false) const;
 
     bool IsSupportedForContinueReadWithoutHeader() const;
-    void ProcessKeywordComments(std::vector<std::vector<string>>& comments, obj_type_e etype,
+    void ProcessKeywordComments(std::vector<std::vector<string>>& comments, obj_type_e& etype,
                                 IdentifierValuePairList& vallst) const;
     virtual bool IsExactUsername() const { return myUserNameExactMatch; }
 
     virtual std::map<string, CUserNameTypeInfo>& getlUserNamesSolverInfo() {
         return mymapkeywordsolverinfo;
     }
+    void getBlockKeywordLst(std::vector<std::pair<std::string, std::string>>& keylst_out) const {
+        keylst_out = myBlockKeywordsLst;
+    }
+
+    // Add a block Keyword pair
+    void addBlockKeyword(const std::string& start, const std::string& end) {
+        myBlockKeywordsLst.emplace_back(start, end);
+    }
+
+    // Check if string matches either start or end
+    // Optimized IsBlockKeyword for const char* input
+    //bool IsBlockKeyword(const char* str, bool start) const {
+    //    size_t inputLen = std::strlen(str);
+
+    //    for (const auto& p : myBlockKeywordsLst) {
+    //        const std::string& stored = start ? p.first : p.second;
+
+    //        // Only compare if input is at least as long as stored string
+    //        if (inputLen >= stored.size() &&
+    //            std::memcmp(str, stored.data(), stored.size()) == 0)
+    //        {
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
+
+    // IsBlock with optional case-insensitive comparison
+    //bool IsBlockKeyword(const char* str, bool start, bool caseInsensitive = true) const {
+    //    const size_t inputLen = std::strlen(str);
+
+    //    for (const auto& p : myBlockKeywordsLst) {
+    //        const std::string& stored = start ? p.first : p.second;
+    //        const size_t storedLen = stored.size();
+
+    //        if (inputLen < storedLen) continue;
+
+    //        bool match = true;
+
+    //        for (size_t i = 0; i < storedLen; ++i) {
+    //            char c1 = str[i];
+    //            char c2 = stored[i];
+
+    //            if (caseInsensitive) {
+    //                c1 = static_cast<char>(std::toupper(static_cast<unsigned char>(c1)));
+    //                c2 = static_cast<char>(std::toupper(static_cast<unsigned char>(c2)));
+    //            }
+
+    //            if (c1 != c2) {
+    //                match = false;
+    //                break;
+    //            }
+    //        }
+
+    //        if (match) return true;
+    //    }
+
+    //    return false;
+    //}
+
+    bool IsBlockKeyword(const char* str, bool start=true, bool caseInsensitive=true,
+        const std::string** matchedStr = nullptr) const
+    {
+        if (!str) return false;
+        size_t inputLen = std::strlen(str);
+
+        for (const auto& blk : myBlockKeywordsLst) {
+            const std::string& target = start ? blk.first : blk.second;
+            size_t len = target.size();
+            if (!len || inputLen < len) continue;
+
+            bool matched = false;
+            if (caseInsensitive) {
+                matched = std::equal(target.begin(), target.end(), str,
+                    [](char a, char b) { return std::tolower(static_cast<unsigned char>(a)) ==
+                    std::tolower(static_cast<unsigned char>(b)); });
+            }
+            else {
+                matched = (std::memcmp(target.data(), str, len) == 0);
+            }
+
+            if (matched) {
+                if (matchedStr) *matchedStr = &target;
+                return true;
+            }
+        }
+
+        if (matchedStr) *matchedStr = nullptr;
+        return false;
+    }
+
+    bool GetBlockEndKeywordFromStartName(const char* start_block_str, bool caseInsensitive = true, const std::string** matchedEndStr = nullptr) const
+    {
+        if (!start_block_str) return false;
+        size_t inputLen = std::strlen(start_block_str);
+
+        for (const auto& blk : myBlockKeywordsLst) {
+            const std::string& target = blk.first;
+            size_t len = target.size();
+            if (inputLen < len) continue;
+
+            bool matched = false;
+            if (caseInsensitive) {
+                matched = std::equal(target.begin(), target.end(), start_block_str,
+                    [](char a, char b) { return std::tolower(static_cast<unsigned char>(a)) ==
+                    std::tolower(static_cast<unsigned char>(b)); });
+            }
+            else {
+                matched = (std::memcmp(target.data(), start_block_str, len) == 0);
+            }
+
+            if (matched) {
+                if (matchedEndStr) *matchedEndStr = &(blk.second);
+                return true;
+            }
+        }
+
+        if (matchedEndStr) *matchedEndStr = nullptr;
+        return false;
+    }
+
+
+
+
+
 
 
 protected: // Data
@@ -118,6 +243,12 @@ protected: // Data
     string                 myendkeyword;
     string                 mysubmodelkeyword;
     string                 mysubmodelendkeyword;
+
+    std::vector<std::pair<std::string, std::string>> myBlockKeywordsLst;
+
+
+
+
     string                 mykeykeyword;
     string                 myincludekeyword;
     string                 myincludeendkeyword;

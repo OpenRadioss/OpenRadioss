@@ -37,7 +37,10 @@
 #include <HCDI/hcdi_utils.h>
 #include <MODEL_IO/cdr_reserveattribs.h>
 #include <MODEL_IO/hcioi_utils.h>
+#include <HCDI/hcdi_utils.h>
+#include "hw_cfg_reader_message.h"
 #include <assert.h>
+#include "hcioi_utils.h"
 
 
 
@@ -62,7 +65,7 @@ void ParameterPOImp::ClearProcessedParameters()
 int ParameterPOImp::GetFileIndex() const
 {
     if (pCurParameterObj) return pCurParameterObj->GetFileIndex();
-    return 0;// evaluateHandler.GetIncludeId();
+    return 0;
 }
 int ParameterPOImp::GetIntValue() const
 {
@@ -315,6 +318,10 @@ void ModelFactoryReaderPO::EvaluateExpressionParameters(const MECMsgManager* pMs
     }
 }
 
+
+
+
+
 void ModelFactoryReaderPO::AddSubDeckObjects()
 {
     vector<MECSubdeck*>::iterator It = MECSubdeck::mySubdeckVector.begin();
@@ -350,6 +357,7 @@ bool EntityHasNoId(IMECPreObject* preObj)
 
 void ModelFactoryReaderPO::PreTreatObject(const char* otype)
 {
+        // placeholder for future object combining logic
 }
 
 void ModelFactoryReaderPO::PostTreatObject(const char* otype)
@@ -370,6 +378,12 @@ void ModelFactoryReaderPO::PostTreatObject(const char* otype)
         IMECPreObject* a_pre_obj_p = (IMECPreObject*)(*itr);
         //SetParameterObjectUsageData(a_pre_obj_p);
     }
+}
+
+IMECPreObject* ModelFactoryReaderPO::CreateObject(const char *kernel_full_type, const char *input_full_type,
+                                                  const char *title, int id, int unit_id)
+{
+    return HCDI_GetPreObjectHandle(kernel_full_type, input_full_type, title, id, unit_id);
 }
 
 int ModelFactoryReaderPO::AddObject(const IMECPreObject& pre_object, const InputInfos::IdentifierValuePairList* metaarg)
@@ -474,6 +488,8 @@ CommonDataReaderCFG::~CommonDataReaderCFG()
         if (m_prev_loaded_fileformat != FF_UNKNOWN)
             MultiCFGKernelMgr::getInstance().SetActiveUserProfile(m_prev_loaded_fileformat);
     }
+
+    if(m_owningMessageList && m_pMessageList) delete m_pMessageList;
 }
 
 void CommonDataReaderCFG::ReadModel(const std::string& filepath, vector<IMECPreObject*>* preobjLst)
@@ -482,21 +498,40 @@ void CommonDataReaderCFG::ReadModel(const std::string& filepath, vector<IMECPreO
     m_pmodel->SetPreObjectLst(preobjLst);
     MvFileFormat_e a_fileformat = MultiCFGKernelMgr::getInstance().GetActiveUserProfile();
 
+    HWCFGReader* a_reader = nullptr;
+
     // Due to historical reasons, the CFG files for LSDyna are inconsistent. 
     // To handle this, we need to override the reader to correctly parse the deck.
     // In the future, as the CFG files are incrementally corrected, this check can be removed.
     if (m_psyntaxInfos->getAppMode() == HCDI_SOLVER_LSDYNA)
     {
-        HWCFGReaderLSDyna  a_reader(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo,
-                                    m_pfileFactory);
-        a_reader.readModel(m_pmodel);
+        a_reader = new HWCFGReaderLSDyna(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo,
+                                         m_pfileFactory);
     }
     else
     {
-        HWCFGReader  a_reader(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo,
-                              m_pfileFactory);
-        a_reader.readModel(m_pmodel);
+        a_reader = new HWCFGReader(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo,
+                                   m_pfileFactory);
     }
+
+    // set message list to HWCFGReader, if we have one
+    if(m_pMessageList) a_reader->SetMessageList(m_pMessageList, false);
+
+    // read model
+    a_reader->readModel(m_pmodel);
+
+    // if we have no message list, we have to copy the one of the HWCFGReader
+    if(!m_pMessageList)
+    {
+        const HWCFGReaderMessageList* pMessageList = a_reader->GetMessageList();
+        if(pMessageList)
+        {
+            m_pMessageList = new HWCFGReaderMessageList(*pMessageList);
+            m_owningMessageList = true;
+        }
+    }
+
+    delete a_reader;
 }
 
 
@@ -515,4 +550,11 @@ IMECPreObject* CommonDataReaderCFG::GetPreObject(unsigned int etype, unsigned in
     if (indx >= objlst.size())
         return nullptr;
     return objlst[indx];
+}
+
+void CommonDataReaderCFG::SetMessageList(HWCFGReaderMessageList* pMessageList, bool owningMessageList)
+{
+    if(m_owningMessageList && m_pMessageList) delete m_pMessageList;
+    m_pMessageList = pMessageList;
+    m_owningMessageList = owningMessageList;
 }
