@@ -2947,6 +2947,7 @@ C-----------------------------------------------
       INTEGER I
       my_real MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ
       CHARACTER(LEN=NCHARTITLE) :: TEXT
+      WRITE(IOUT,'(//,A)')'PART MASS & INERTIA'
       WRITE(IOUT,'(A,/)') '-------------------'
 C
       DO I=1,NPART
