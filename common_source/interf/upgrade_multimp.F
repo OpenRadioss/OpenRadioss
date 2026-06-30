@@ -1148,68 +1148,78 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             !-----------!
             ! IFPEN_E2S
             !-----------!
-            call my_move_alloc(intbuf_tab%ifpen_e2s, old_tab_i)
-            intbuf_tab%s_ifpen_e2s = multimp_parameter * nconte
-            call my_alloc(intbuf_tab%ifpen_e2s, intbuf_tab%s_ifpen_e2s, 'intbuf_tab%ifpen_e2s in upgrade_multimp')
-            intbuf_tab%ifpen_e2s = 0
-            intbuf_tab%ifpen_e2s(1:old_size) = old_tab_i
-            call my_dealloc(old_tab_i)
+            if(allocated(intbuf_tab%ifpen_e2s)) then
+              call my_move_alloc(intbuf_tab%ifpen_e2s, old_tab_i)
+              intbuf_tab%s_ifpen_e2s = multimp_parameter * nconte
+              call my_alloc(intbuf_tab%ifpen_e2s, intbuf_tab%s_ifpen_e2s, 'intbuf_tab%ifpen_e2s in upgrade_multimp')
+              intbuf_tab%ifpen_e2s = 0
+              intbuf_tab%ifpen_e2s(1:old_size) = old_tab_i
+              call my_dealloc(old_tab_i)
+            endif
 
             !-----------!
             ! FTSAVX_E2S
             !-----------!
-
-            call my_move_alloc(intbuf_tab%ftsavx_e2s, old_tab_r)
-            intbuf_tab%s_ftsavx_e2s = 4 * multimp_parameter * nconte
-            call my_alloc(intbuf_tab%ftsavx_e2s, intbuf_tab%s_ftsavx_e2s, 'intbuf_tab%ftsavx_e2s in upgrade_multimp')
-            intbuf_tab%ftsavx_e2s = 0
-            intbuf_tab%ftsavx_e2s(1:old_size) = old_tab_r
-            call my_dealloc(old_tab_r)
+            if(allocated(intbuf_tab%ftsavx_e2s)) then
+              call my_move_alloc(intbuf_tab%ftsavx_e2s, old_tab_r)
+              intbuf_tab%s_ftsavx_e2s = 4 * multimp_parameter * nconte
+              call my_alloc(intbuf_tab%ftsavx_e2s, intbuf_tab%s_ftsavx_e2s, 'intbuf_tab%ftsavx_e2s in upgrade_multimp')
+              intbuf_tab%ftsavx_e2s = 0
+              intbuf_tab%ftsavx_e2s(1:old_size) = old_tab_r
+              call my_dealloc(old_tab_r)
+            endif
 
 
             !-----------!
             ! FTSAVY_E2S
             !-----------!
-
-            call my_move_alloc(intbuf_tab%ftsavy_e2s, old_tab_r)
-            intbuf_tab%s_ftsavy_e2s = 4 * multimp_parameter * nconte
-            call my_alloc(intbuf_tab%ftsavy_e2s, intbuf_tab%s_ftsavy_e2s, 'intbuf_tab%ftsavy_e2s in upgrade_multimp')
-            intbuf_tab%ftsavy_e2s = 0
-            intbuf_tab%ftsavy_e2s(1:old_size) = old_tab_r
-            call my_dealloc(old_tab_r)
+            if(allocated(intbuf_tab%ftsavy_e2s)) then
+              call my_move_alloc(intbuf_tab%ftsavy_e2s, old_tab_r)
+              intbuf_tab%s_ftsavy_e2s = 4 * multimp_parameter * nconte
+              call my_alloc(intbuf_tab%ftsavy_e2s, intbuf_tab%s_ftsavy_e2s, 'intbuf_tab%ftsavy_e2s in upgrade_multimp')
+              intbuf_tab%ftsavy_e2s = 0
+              intbuf_tab%ftsavy_e2s(1:old_size) = old_tab_r
+              call my_dealloc(old_tab_r)
+            endif
 
 
             !-----------!
             ! FTSAVZ_E2S
             !-----------!
-
-            call my_move_alloc(intbuf_tab%ftsavz_e2s, old_tab_r)
-            intbuf_tab%s_ftsavz_e2s = 4 * multimp_parameter * nconte
-            call my_alloc(intbuf_tab%ftsavz_e2s, intbuf_tab%s_ftsavz_e2s, 'intbuf_tab%ftsavz_e2s in upgrade_multimp')
-            intbuf_tab%ftsavz_e2s = 0
-            intbuf_tab%ftsavz_e2s(1:old_size) = old_tab_r
-            call my_dealloc(old_tab_r)
+            if(allocated(intbuf_tab%ftsavz_e2s)) then
+              call my_move_alloc(intbuf_tab%ftsavz_e2s, old_tab_r)
+              intbuf_tab%s_ftsavz_e2s = 4 * multimp_parameter * nconte
+              call my_alloc(intbuf_tab%ftsavz_e2s, intbuf_tab%s_ftsavz_e2s, 'intbuf_tab%ftsavz_e2s in upgrade_multimp')
+              intbuf_tab%ftsavz_e2s = 0
+              intbuf_tab%ftsavz_e2s(1:old_size) = old_tab_r
+              call my_dealloc(old_tab_r)
+            endif
           end if
 
             !-------------!
             ! PENE_OLD_E2S
             !-------------!
-          call my_move_alloc(intbuf_tab%pene_old_e2s, old_tab_r)
-          intbuf_tab%s_pene_old_e2s = 4 * multimp_parameter * nconte
+          if(allocated(intbuf_tab%pene_old_e2s)) then
+
+            call my_move_alloc(intbuf_tab%pene_old_e2s, old_tab_r)
+            intbuf_tab%s_pene_old_e2s = 4 * multimp_parameter * nconte
       call my_alloc(intbuf_tab%pene_old_e2s, intbuf_tab%s_pene_old_e2s, 'intbuf_tab%pene_old_e2s in upgrade_multimp')
-          intbuf_tab%pene_old_e2s = 0
-          intbuf_tab%pene_old_e2s(1:4*old_size) = old_tab_r
-          call my_dealloc(old_tab_r)
+            intbuf_tab%pene_old_e2s = 0
+            intbuf_tab%pene_old_e2s(1:4*old_size) = old_tab_r
+            call my_dealloc(old_tab_r)
+          endif
 
             !-------------!
             ! STIF_OLD_E2S
             !-------------!
-          call my_move_alloc(intbuf_tab%stif_old_e2s, old_tab_r)
-          intbuf_tab%s_stif_old_e2s = 4 * multimp_parameter * nconte
+          if(allocated(intbuf_tab%stif_old_e2s)) then
+            call my_move_alloc(intbuf_tab%stif_old_e2s, old_tab_r)
+            intbuf_tab%s_stif_old_e2s = 4 * multimp_parameter * nconte
       call my_alloc(intbuf_tab%stif_old_e2s, intbuf_tab%s_stif_old_e2s, 'intbuf_tab%stif_old_e2s in upgrade_multimp')
-          intbuf_tab%stif_old_e2s = 0
-          intbuf_tab%stif_old_e2s(1:4*old_size) = old_tab_r
-          call my_dealloc(old_tab_r)
+            intbuf_tab%stif_old_e2s = 0
+            intbuf_tab%stif_old_e2s(1:4*old_size) = old_tab_r
+            call my_dealloc(old_tab_r)
+          endif
 
 
         end if !end all interfaces type
