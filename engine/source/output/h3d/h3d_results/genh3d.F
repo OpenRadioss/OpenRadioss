@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_h3d_eroded_skin                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_skin.cpp
 !||    c_h3d_eroded_solid                   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_solid.cpp
 !||    c_h3d_eroded_sph                     ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_sph.cpp
+!||    c_h3d_export_library_version         ../engine/source/output/h3d/h3d_build_cpp/c_h3d_export_library_version.cpp
 !||    c_h3d_open_file                      ../engine/source/output/h3d/h3d_build_cpp/c_h3d_open_file.cpp
 !||    c_h3d_reopen_file                    ../engine/source/output/h3d/h3d_build_cpp/c_h3d_open_file.cpp
 !||    c_h3d_update_nodal_fvmbag_scalar     ../engine/source/output/h3d/h3d_build_cpp/c_h3d_update_nodal_fvmbag_scalar.cpp

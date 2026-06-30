@@ -737,6 +737,14 @@
       !=========================================================================
       !< Computation of bending limit moment M_pos and its derivative w.r.t N
       !=========================================================================
+!||====================================================================
+!||    calc_m          ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps136g      ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine calc_M(                                                       &
         sigma    ,f_c      ,sig_y    ,omega    ,rho      ,xi      ,M_val    ,  &
         dM_dN    )
