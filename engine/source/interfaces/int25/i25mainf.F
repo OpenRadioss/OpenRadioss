@@ -192,8 +192,8 @@ C-----------------------------------------------
      .        NSMSE(4*MVSIZ), CS_LOC4(4*MVSIZ), CM_LOC4(4*MVSIZ),
      .        TYPEDGS(MVSIZ),
      .        IAM(MVSIZ),JAM(MVSIZ),IBM(MVSIZ),JBM(MVSIZ),     
-     .        IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ)
-
+     .        IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),
+     .        ETYP(MVSIZ)
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX2
 C     REAL
       my_real
@@ -423,7 +423,7 @@ C----------------------------------------------------------------------
 
       IF(IVIS2/=-1) THEN
 C
-        DO N=NSNFT, NSNLT
+        DO N=NSNFT, NSNLT         
           IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0 .AND. (INTBUF_TAB%TIME_S(2*(N-1)+1) == EP20 .OR.
      .                                           (INTBUF_TAB%IRTLM(4*(N-1)+2) < 0.AND.MOD(-INTBUF_TAB%IRTLM(4*(N-1)+2),5)==0)) )THEN
 C           No more contact (Reset Irtlm & PENE_OLD)
@@ -459,8 +459,6 @@ C
         END DO
       ELSE ! IVIS2 == -1
         DO N=NSNFT, NSNLT
-c          if(itab(intbuf_tab%NSV(n))==27324)
-c     .     print *,'natif',ispmd+1,INTBUF_TAB%IRTLM(N),INTBUF_TAB%TIME_S(N)
           IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0 .AND. (INTBUF_TAB%TIME_S(2*(N-1)+1) == EP20 .OR.
      .                                           (INTBUF_TAB%IRTLM(4*(N-1)+2) < 0.AND.MOD(-INTBUF_TAB%IRTLM(4*(N-1)+2),5)==0)) )THEN
 C
@@ -479,8 +477,6 @@ C
         END DO
 
         DO N=NSNRFT, NSNRLT
-c          if(itafi(nin)%p(n)==29482)
-c     .     print *,'remote',ispmd+1,IRTLM_FI(NIN)%P(1,N),TIME_SFI(NIN)%P(N)
           IF(IRTLM_FI(NIN)%P(1,N) > 0 .AND. (TIME_SFI(NIN)%P(2*(N-1)+1) == EP20 .OR.
      .                                    (IRTLM_FI(NIN)%P(2,N) < 0.AND.MOD(-IRTLM_FI(NIN)%P(2,N),5)==0)) )THEN
 C
@@ -621,7 +617,8 @@ C         Extraction of global data to local arrays
      K  Y3         ,Z3       ,X4          ,Y4          ,Z4      ,
      L  INTTH      ,TEMP     ,TEMPI       ,INTBUF_TAB%IELES     ,IELESI      ,
      M  INTBUF_TAB%IELEM,IELEMI,ISTIF_MSDT,DTSTIF      ,INTBUF_TAB%STIFMSDT_S,
-     N  INTBUF_TAB%STIFMSDT_M,NRTM        ,INTERFACES%PARAMETERS,NCYCLE      )
+     N  INTBUF_TAB%STIFMSDT_M,NRTM  ,INTERFACES%PARAMETERS,NCYCLE      ,ETYP,
+     M   INTBUF_TAB%MSEGTYP24)
           IKNON(1:JLT) = 0
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
@@ -641,7 +638,8 @@ C
      7 INACTI      ,KINI        ,ITAB        ,LB          ,LC          ,
      8 PENMIN      ,EPS         ,PENE        ,INTBUF_TAB%PENE_OLD,SUBTRIA,
      9 GAPV        ,IVIS2       ,INTBUF_TAB%IF_ADH,IFADHI ,BASE_ADH      ,
-     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  ,DIST,    TT )
+     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  ,DIST,    TT  ,
+     B ETYP       )
 C
           DO I = 1 ,JLT
 C

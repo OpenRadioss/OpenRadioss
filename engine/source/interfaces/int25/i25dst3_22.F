@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J                  FAR     ,PENT  ,
      L                  SUBTRIA ,LBS   ,LCS     ,LBP    ,LCP   ,
      P                  MVOISA  ,MVOISB,GAPMXL  ,IBOUNDA,IBOUNDB,
-     Q                  VTX_BISECTOR,DRAD,DGAPLOAD)
+     Q                  VTX_BISECTOR,DRAD,DGAPLOAD,ETYP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,6 +89,7 @@ C-----------------------------------------------
      .     GAP_NM(4,MVSIZ), GAPMXL(MVSIZ)
       INTEGER IRECT(4,*),ITAB(*),ICONT_I(*), FAR(MVSIZ)
       REAL*4 VTX_BISECTOR(3,2,*)
+      INTEGER  , INTENT(IN)    :: ETYP(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -147,6 +148,7 @@ C-----------------------------------------------
       DATA ITRIA/1,2,2,3,3,4,4,1/,
      .     ITPERM/1,4,3,2/
       LOGICAL :: ANY_TRIANGLE
+      LOGICAL :: SHELL_CONTACT
 C-----------------------------------------------------------------------
 C
       UNP   = ONE + EM4
@@ -244,6 +246,7 @@ C
 C
        DO I=1,JLT
 C   attention triangles 
+
 
          IF(ISHEL(I)/=0.AND.INACTI==0)THEN
            NX1 = XN(I,1)
@@ -368,7 +371,8 @@ C   attention triangles
          V12  = XN(I,1)*XI5 + YN(I,1)*YI5 + ZN(I,1)*ZI5 
          V23  = XN(I,2)*XI5 + YN(I,2)*YI5 + ZN(I,2)*ZI5
          V34  = XN(I,3)*XI5 + YN(I,3)*YI5 + ZN(I,3)*ZI5 
-         V41  = XN(I,4)*XI5 + YN(I,4)*YI5 + ZN(I,4)*ZI5   
+
+         V41  = XN(I,4)*XI5 + YN(I,4)*YI5 + ZN(I,4)*ZI5    
          
          IF(ISHEL(I)==0)THEN
            IF(V12 < ZERO .and. V23 < ZERO .and. 
@@ -479,6 +483,7 @@ c        (intersection time can be different for each sub-triangle)
            ELSE
               IF(ICONT_I_FI(NIN)%P(N-NSN) < 0) IKEEP = 0
            ENDIF
+
            IF(IKEEP == 1.AND.INTERSECA == 0)THEN ! IF contact in the same side : intersection is missed and have to be checked
               CALL INTERSECV0_25(
      1                      IX3(I)  ,IX4(I) , INTERSECA,
@@ -953,6 +958,12 @@ C
         YH=YI(I)+BB(I,IT)*YN(I,IT)
         ZH=ZI(I)+BB(I,IT)*ZN(I,IT)
 C
+        IF((ETYP(I)/= 0).OR.(GAPS(I)>ZERO)) THEN
+           SHELL_CONTACT = .TRUE.
+        ELSE
+           SHELL_CONTACT = .FALSE.
+        ENDIF
+C
         IF(IX3(I) /= IX4(I))THEN
 C
           IB1=IBOUNDA(I1,I)
@@ -961,7 +972,7 @@ C
 C
             IF( (XH-XX(I,I1))* NAX(I,IT)+
      .          (YH-YY(I,I1))* NAY(I,IT)+
-     .          (ZH-ZZ(I,I1))* NAZ(I,IT) >= GAPS(I)) FARA(I,IT) =3
+     .          (ZH-ZZ(I,I1))* NAZ(I,IT) >= GAPS(I).AND.SHELL_CONTACT) FARA(I,IT) =3
 C
           ELSEIF((IB1 /= 0 .AND. IB2 == 0).OR.
      .           (IB2 /= 0 .AND. IB1 == 0))THEN
@@ -991,14 +1002,14 @@ C
               P2 = (XH-XX(I,IX))* VTX_BISECTOR(1,2,IBX)+
      .             (YH-YY(I,IX))* VTX_BISECTOR(2,2,IBX)+
      .             (ZH-ZZ(I,IX))* VTX_BISECTOR(3,2,IBX)
-              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I)) FARA(I,IT) =3
+              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I).AND.SHELL_CONTACT) FARA(I,IT) =3
             ELSE
               VX = X0N(I,IX) ! fake bisector of angle at vertex IX
               VY = Y0N(I,IX)
               VZ = Z0N(I,IX)
               NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
-              IF(PN >= GAPS(I)) FARA(I,IT) =3
+              IF(PN >= GAPS(I).AND.SHELL_CONTACT) FARA(I,IT) =3
             END IF
 
           END IF
@@ -1038,9 +1049,9 @@ C
      .       (YH-YY(I,3))* NAY(I,4)+
      .       (ZH-ZZ(I,3))* NAZ(I,4)
 C
-          IF( (MVOISA(I,1) == 0 .AND. D1 >= GAPS(I)).OR.
+          IF(( (MVOISA(I,1) == 0 .AND. D1 >= GAPS(I)).OR.
      .        (MVOISA(I,2) == 0 .AND. D2 >= GAPS(I)).OR.
-     .        (MVOISA(I,4) == 0 .AND. D3 >= GAPS(I)) )THEN
+     .        (MVOISA(I,4) == 0 .AND. D3 >= GAPS(I))).AND.SHELL_CONTACT )THEN
 C
             FARA(I,IT) =3
 C
@@ -1075,14 +1086,14 @@ C
               P2 = (XH-XX(I,IX))* VTX_BISECTOR(1,2,IBX)+
      .             (YH-YY(I,IX))* VTX_BISECTOR(2,2,IBX)+
      .             (ZH-ZZ(I,IX))* VTX_BISECTOR(3,2,IBX)
-              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I)) FARA(I,IT) =3
+              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I).AND.SHELL_CONTACT) FARA(I,IT) =3
             ELSE
               VX = TWO*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
               VY = TWO*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
               VZ = TWO*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
               NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
-              IF(PN >= GAPS(I)) FARA(I,IT) =3
+              IF(PN >= GAPS(I).AND.SHELL_CONTACT) FARA(I,IT) =3
             END IF
 C
           END IF
@@ -1204,6 +1215,13 @@ C
         YH=YI(I)+BB(I,IT)*YN(I,IT)
         ZH=ZI(I)+BB(I,IT)*ZN(I,IT)
 C
+        IF((ETYP(I)/= 0).OR.(GAPS(I)>ZERO)) THEN
+           SHELL_CONTACT = .TRUE.
+
+        ELSE
+           SHELL_CONTACT = .FALSE.
+        ENDIF
+C
         IF(IX3(I) /= IX4(I))THEN
 C
 C         Cone
@@ -1213,7 +1231,7 @@ C         Cone
 C
             IF( (XH-XX(I,I1))* NBX(I,IT)+
      .          (YH-YY(I,I1))* NBY(I,IT)+
-     .          (ZH-ZZ(I,I1))* NBZ(I,IT) >= GAPS(I)) FARB(I,IT) =3
+     .          (ZH-ZZ(I,I1))* NBZ(I,IT) >= GAPS(I).AND.SHELL_CONTACT) FARB(I,IT) =3
 C
           ELSEIF((IB1 /= 0 .AND. IB2 == 0).OR.
      .           (IB2 /= 0 .AND. IB1 == 0))THEN
@@ -1241,14 +1259,14 @@ C
               P2 = (XH-XX(I,IX))* VTX_BISECTOR(1,2,IBX)+
      .             (YH-YY(I,IX))* VTX_BISECTOR(2,2,IBX)+
      .             (ZH-ZZ(I,IX))* VTX_BISECTOR(3,2,IBX)
-              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I)) FARB(I,IT) =3
+              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I).AND.SHELL_CONTACT) FARB(I,IT) =3
             ELSE
               VX = X0N(I,IX) ! fake bisector of angle at vertex IX
               VY = Y0N(I,IX)
               VZ = Z0N(I,IX)
               NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
-              IF(PN >= GAPS(I)) FARB(I,IT) =3
+              IF(PN >= GAPS(I).AND.SHELL_CONTACT) FARB(I,IT) =3
             END IF
 
           END IF
@@ -1289,9 +1307,9 @@ C
      .       (YH-YY(I,3))* NBY(I,4)+
      .       (ZH-ZZ(I,3))* NBZ(I,4)
 C
-          IF( (MVOISB(I,1) == 0 .AND. D1 >= GAPS(I)).OR.
+          IF( ((MVOISB(I,1) == 0 .AND. D1 >= GAPS(I)).OR.
      .        (MVOISB(I,2) == 0 .AND. D2 >= GAPS(I)).OR.
-     .        (MVOISB(I,4) == 0 .AND. D3 >= GAPS(I)) )THEN
+     .        (MVOISB(I,4) == 0 .AND. D3 >= GAPS(I))).AND.SHELL_CONTACT )THEN
 C
             FARB(I,IT) =3
 C
@@ -1326,14 +1344,14 @@ C
               P2 = (XH-XX(I,IX))* VTX_BISECTOR(1,2,IBX)+
      .             (YH-YY(I,IX))* VTX_BISECTOR(2,2,IBX)+
      .             (ZH-ZZ(I,IX))* VTX_BISECTOR(3,2,IBX)
-              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I)) FARB(I,IT) =3
+              IF(P1 >= GAPS(I) .AND. P2 >= GAPS(I).AND.SHELL_CONTACT) FARB(I,IT) =3
             ELSE
               VX = TWO*XX(I,IX)-(XX(I,IY)+XX(I,IZ)) ! fake bisector of angle 2,1,3
               VY = TWO*YY(I,IX)-(YY(I,IY)+YY(I,IZ))
               VZ = TWO*ZZ(I,IX)-(ZZ(I,IY)+ZZ(I,IZ))
               NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH-XX(I,IX))*VX+(YH-YY(I,IX))*VY+(ZH-ZZ(I,IX))*VZ)*NN
-              IF(PN >= GAPS(I)) FARB(I,IT) =3
+              IF(PN >= GAPS(I).AND.SHELL_CONTACT) FARB(I,IT) =3
             END IF
 C
           END IF
@@ -1475,6 +1493,7 @@ c     .      bb(i,1:4),dd(i,1:4)
 C            
 C           PENE_OLD(5,N)=PENE 
           END IF
+
 c      if(itab(nsvg(i))==27363)then
 cc      if(itab(nsvg(i))==27952.or.
 cc     .       itab(ix1(i))==27952.or.itab(ix2(i))==27952.or.itab(ix3(i))==27952.or.itab(ix4(i))==27952)then

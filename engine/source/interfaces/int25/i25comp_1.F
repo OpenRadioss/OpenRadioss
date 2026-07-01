@@ -80,7 +80,7 @@ C-----------------------------------------------
      .        NSN, NSNR, IVIS2, ISENS
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), FAR(MVSIZ,4), SUBTRIA(MVSIZ), 
-     .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ)
+     .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ),ETYP(MVSIZ)
 C     REAL
 C-----------------------------------------------
 C     REAL
@@ -143,7 +143,8 @@ C-----------------------------------------------------------------------
      8      NNX       ,NNY        ,NNZ       ,
      9      INTBUF_TAB%GAP_M,GAPM ,INTBUF_TAB%GAP_NM,GAP_NM ,SUBTRIA,
      A      INTBUF_TAB%MVOISIN,MVOISN    ,
-     B      INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML, GAPMXL,INTBUF_TAB%LBOUND,IBOUND)
+     B      INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML, GAPMXL,INTBUF_TAB%LBOUND,IBOUND,
+     C      ETYP      ,INTBUF_TAB%MSEGTYP24,IPARI(4,NIN)  )
 C
           CALL I25DST3_1(
      1      JLT         ,INTBUF_TAB%CAND_OPT_N(DEBUT+1),INTBUF_TAB%CAND_OPT_E(DEBUT+1),
@@ -156,7 +157,7 @@ C
      9      INTBUF_TAB%ICONT_I,NNX   ,NNY         ,NNZ         ,
      A      FAR               ,PENT  ,DIST        ,LB          ,LC          ,
      B      LBH               ,LCH   ,SUBTRIA     ,MVOISN      ,IBOUND      ,
-     C      INTBUF_TAB%VTX_BISECTOR  ,DRAD        ,DGAPLOAD    )
+     C      INTBUF_TAB%VTX_BISECTOR  ,DRAD        ,DGAPLOAD    ,ETYP       )
 C
           CALL I25GLOB_1(
      1      JLT    ,INTBUF_TAB%CAND_OPT_N(DEBUT+1),INTBUF_TAB%CAND_OPT_E(DEBUT+1),
