@@ -223,7 +223,7 @@
             nsl = npby(2,i)
             part_id = ipart(4,jpart)
             itag(lpby(iad+1:iad+nsl)) = 1
-            call rpart_bcs_check(m,nsl,lpby(iad+1:iad+nsl),icode,iskew,numnod,itab,part_id,numskw,ns1) 
+            call rpart_bcs_check(m,nsl,lpby(iad+1:iad+nsl),icode,iskew,numnod,itab,part_id,numskw,ns1)
             if (ns1>0) then ! special case w/ only one secondary node with bcs
               x(1:3,m)=x(1:3,ns1)
               npby(3,i) = 3   ! ICoG is fixed to 3 to respect the boundary conditions
@@ -308,7 +308,7 @@
                 jr_m(3) = 1
               end if
               if ((jt(3)+jt_m(3))==2) jr_m(1:2) = 1
-            end if 
+            end if
             if ((jt_m(1)+jt_m(2)+jt_m(3))<3) then
               jt(1) = ict/4
               jt(2) = (ict-4*jt(1))/2
@@ -328,16 +328,16 @@
             iskew(m) = isk_m
             if (ns1==0) then
               call ancmsg(msgid=3137,          &
-              msgtype=msgwarning,              &
-              anmode=aninfo_blind_1,           &
-              i1=part_id,                      &
-              i2=itab(m)) 
-            else 
+                msgtype=msgwarning,              &
+                anmode=aninfo_blind_1,           &
+                i1=part_id,                      &
+                i2=itab(m))
+            else
               call ancmsg(msgid=3144,          &
-              msgtype=msgwarning,              &
-              anmode=aninfo_blind_1,           &
-              i1=part_id,                      &
-              i2=itab(m)) 
+                msgtype=msgwarning,              &
+                anmode=aninfo_blind_1,           &
+                i1=part_id,                      &
+                i2=itab(m))
             end if
           end if
 
@@ -592,6 +592,7 @@
 ! for inivel w/ restart, to be done :do differently w/ module (adding n_add, i_add in each inivel_t)
 ! ======================================================================================================================
           vl = zero
+          m_id = -HUGE(m_id)
           call my_alloc(itagns2rb,numnod,"itagns2rb")
           itagns2rb = 0
           do i=1,nrbykin
