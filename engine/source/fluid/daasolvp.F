@@ -34,18 +34,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    python_funct_mod       ../common_source/modules/python_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE DAASOLVP(NDIM,   NNO,    NEL,   NEL_LOC,
+      SUBROUTINE DAASOLVP(NDIM,   NNO,    NEL,   NEL_LOC, NUMNOD,
      .                    IFLOW,  IBUF,   ELEM,  IBUFL,   SHELL_GA,  CNP,
      .                    RFLOW,  NORMAL, TA,    AREAF,   COSG,      DIST,  
      .                    MFLE,   ACCF,   PM,    PTI, X,  V, A, NPC, TF, 
      .                    NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                    CBEM   ,IPIV_L, MFLE_L,IBUFELR, IBUFELC,NFUNCT,
-     .                    PYTHON ,WFEXT)
+     .                    PYTHON ,WFEXT,
+     .                    NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
       USE PYTHON_FUNCT_MOD
+      USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDIM, NNO, NEL, NBGAUGE, NSENSOR, NEL_LOC,NFUNCT
+      INTEGER NDIM, NNO, NEL, NBGAUGE, NSENSOR, NEL_LOC, NUMNOD, NFUNCT
       INTEGER IFLOW(*), IBUF(*), ELEM(NDIM,*), SHELL_GA(*), NPC(*), LGAUGE(3,*)
       INTEGER IBUFL(*), CNP(*), IGRV(NIGRV,*)
       INTEGER IPIV_L(*), IBUFELR(NEL), IBUFELC(NEL)
@@ -69,8 +72,10 @@ C-----------------------------------------------
       my_real NORMAL(3,*), TA(*), AREAF(*), COSG(*), DIST(*), PM(*), ACCF(*), PTI(*)
       my_real MFLE(NEL,*), GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
       my_real CBEM(NEL,*), MFLE_L(NEL_LOC,*)
+      my_real,INTENT(INOUT) :: NODA_FEXT(3,NUMNOD), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
+      TYPE (OUTPUT_), INTENT(INOUT) :: OUTPUT
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -701,8 +706,11 @@ C-----------------------------------------------
          PTOT = PP(I)+PS(I)+PR(I)+RHO*HH(I)*ABS(GRAVITY)
          FEL(I) = AREAF(I)*MAX(PTOT,PMIN)
       ENDDO
-C    
+C-----------------------------------------------------------
+C     Compute forces and populate A and NODA_FEXT arrays
+C-----------------------------------------------------------
       IF(JFORM == 1) THEN
+C Triangular elements
         NEL_L=0
         DO I=1,NEL
            I1 = ELEM(1,I)
@@ -732,22 +740,32 @@ C
               A(1,N1) = A(1,N1) + FF*NRX
               A(2,N1) = A(2,N1) + FF*NRY
               A(3,N1) = A(3,N1) + FF*NRZ
+              NODA_FEXT(1,N1) = NODA_FEXT(1,N1) + FF*NRX
+              NODA_FEXT(2,N1) = NODA_FEXT(2,N1) + FF*NRY
+              NODA_FEXT(3,N1) = NODA_FEXT(3,N1) + FF*NRZ
               WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
            ENDIF
            IF(N2/=0) THEN
               A(1,N2) = A(1,N2) + FF*NRX
               A(2,N2) = A(2,N2) + FF*NRY
               A(3,N2) = A(3,N2) + FF*NRZ
+              NODA_FEXT(1,N2) = NODA_FEXT(1,N2) + FF*NRX
+              NODA_FEXT(2,N2) = NODA_FEXT(2,N2) + FF*NRY
+              NODA_FEXT(3,N2) = NODA_FEXT(3,N2) + FF*NRZ
               WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
            ENDIF
            IF(N3/=0) THEN
               A(1,N3) = A(1,N3) + FF*NRX
               A(2,N3) = A(2,N3) + FF*NRY
               A(3,N3) = A(3,N3) + FF*NRZ
+              NODA_FEXT(1,N3) = NODA_FEXT(1,N3) + FF*NRX
+              NODA_FEXT(2,N3) = NODA_FEXT(2,N3) + FF*NRY
+              NODA_FEXT(3,N3) = NODA_FEXT(3,N3) + FF*NRZ
               WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N3)+NRY*V(2,N3)+NRZ*V(3,N3))/CNP(I3)
            ENDIF
         ENDDO
       ELSEIF(JFORM == 2) THEN
+C Quadrangular elements
         NEL_L=0
         DO I=1,NEL
            I1 = ELEM(1,I)
@@ -784,27 +802,113 @@ C
               A(1,N1) = A(1,N1) + FF*NRX
               A(2,N1) = A(2,N1) + FF*NRY
               A(3,N1) = A(3,N1) + FF*NRZ
+              NODA_FEXT(1,N1) = NODA_FEXT(1,N1) + FF*NRX
+              NODA_FEXT(2,N1) = NODA_FEXT(2,N1) + FF*NRY
+              NODA_FEXT(3,N1) = NODA_FEXT(3,N1) + FF*NRZ
               WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
            ENDIF
            IF(N2/=0) THEN
               A(1,N2) = A(1,N2) + FF*NRX
               A(2,N2) = A(2,N2) + FF*NRY
               A(3,N2) = A(3,N2) + FF*NRZ
+              NODA_FEXT(1,N2) = NODA_FEXT(1,N2) + FF*NRX
+              NODA_FEXT(2,N2) = NODA_FEXT(2,N2) + FF*NRY
+              NODA_FEXT(3,N2) = NODA_FEXT(3,N2) + FF*NRZ
               WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
            ENDIF
            IF(N3/=0) THEN
               A(1,N3) = A(1,N3) + FF*NRX
               A(2,N3) = A(2,N3) + FF*NRY
               A(3,N3) = A(3,N3) + FF*NRZ
+              NODA_FEXT(1,N3) = NODA_FEXT(1,N3) + FF*NRX
+              NODA_FEXT(2,N3) = NODA_FEXT(2,N3) + FF*NRY
+              NODA_FEXT(3,N3) = NODA_FEXT(3,N3) + FF*NRZ
               WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N3)+NRY*V(2,N3)+NRZ*V(3,N3))/CNP(I3)
            ENDIF
            IF(N4/=0.AND.I5==1) THEN
               A(1,N4) = A(1,N4) + FF*NRX
               A(2,N4) = A(2,N4) + FF*NRY
               A(3,N4) = A(3,N4) + FF*NRZ
+              NODA_FEXT(1,N4) = NODA_FEXT(1,N4) + FF*NRX
+              NODA_FEXT(2,N4) = NODA_FEXT(2,N4) + FF*NRY
+              NODA_FEXT(3,N4) = NODA_FEXT(3,N4) + FF*NRZ
               WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N4)+NRY*V(2,N4)+NRZ*V(3,N4))/CNP(I4)
            ENDIF
         ENDDO
+      ENDIF
+C-----------------------------------------------------------
+C     Populate NODA_PEXT output array for H3D/NODA/PEXT
+C-----------------------------------------------------------
+      IF(TH_HAS_NODA_PEXT > 0 .OR. OUTPUT%DATA%ANIM_HAS_NODA_PEXT > 0 .OR. OUTPUT%DATA%H3D_HAS_NODA_PEXT > 0) THEN
+        IF(JFORM == 1) THEN
+          DO I=1,NEL
+             I1 = ELEM(1,I)
+             I2 = ELEM(2,I)
+             I3 = ELEM(3,I)
+             N1 = IBUF(I1)
+             N2 = IBUF(I2)
+             N3 = IBUF(I3)
+             IF(N1==0.AND.N2==0.AND.N3==0) CYCLE
+             PTOT = PP(I)+PS(I)+PR(I)+RHO*HH(I)*ABS(GRAVITY)
+             PTOT = MAX(PTOT,PMIN)
+             AREA2 = AREAF(I)*THIRD
+             IF(N1/=0) THEN
+                NODA_SURF(N1) = NODA_SURF(N1) + AREA2
+                NODA_PEXT(N1) = NODA_PEXT(N1) + PTOT*AREA2
+             ENDIF
+             IF(N2/=0) THEN
+                NODA_SURF(N2) = NODA_SURF(N2) + AREA2
+                NODA_PEXT(N2) = NODA_PEXT(N2) + PTOT*AREA2
+             ENDIF
+             IF(N3/=0) THEN
+                NODA_SURF(N3) = NODA_SURF(N3) + AREA2
+                NODA_PEXT(N3) = NODA_PEXT(N3) + PTOT*AREA2
+             ENDIF
+          ENDDO
+        ELSEIF(JFORM == 2) THEN
+          WI(1,1)=FOURTH
+          WI(2,1)=FOURTH
+          WI(3,1)=FOURTH
+          WI(4,1)=FOURTH
+          WI(1,2)=THIRD
+          WI(2,2)=THIRD
+          WI(3,2)=THIRD
+          WI(4,2)=ZERO
+          DO I=1,NEL
+             I1 = ELEM(1,I)
+             I2 = ELEM(2,I)
+             I3 = ELEM(3,I)
+             I4 = ELEM(4,I)
+             I5 = ELEM(5,I)
+             N1 = IBUF(I1)
+             N2 = IBUF(I2)
+             N3 = IBUF(I3)
+             N4 = IBUF(I4)
+             IF(N1==0.AND.N2==0.AND.N3==0.AND.N4==0) CYCLE
+             PTOT = PP(I)+PS(I)+PR(I)+RHO*HH(I)*ABS(GRAVITY)
+             PTOT = MAX(PTOT,PMIN)
+             AREA2 = AREAF(I)*WI(1,I5)
+             IF(N1/=0) THEN
+                NODA_SURF(N1) = NODA_SURF(N1) + AREA2
+                NODA_PEXT(N1) = NODA_PEXT(N1) + PTOT*AREA2
+             ENDIF
+             AREA2 = AREAF(I)*WI(2,I5)
+             IF(N2/=0) THEN
+                NODA_SURF(N2) = NODA_SURF(N2) + AREA2
+                NODA_PEXT(N2) = NODA_PEXT(N2) + PTOT*AREA2
+             ENDIF
+             AREA2 = AREAF(I)*WI(3,I5)
+             IF(N3/=0) THEN
+                NODA_SURF(N3) = NODA_SURF(N3) + AREA2
+                NODA_PEXT(N3) = NODA_PEXT(N3) + PTOT*AREA2
+             ENDIF
+             AREA2 = AREAF(I)*WI(4,I5)
+             IF(N4/=0.AND.I5==1) THEN
+                NODA_SURF(N4) = NODA_SURF(N4) + AREA2
+                NODA_PEXT(N4) = NODA_PEXT(N4) + PTOT*AREA2
+             ENDIF
+          ENDDO
+        ENDIF
       ENDIF
 C-----------------------------------------------------------
 C     5. Gauge
