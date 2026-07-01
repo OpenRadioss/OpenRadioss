@@ -3093,8 +3093,9 @@ C
               IF (NFLOW>0) THEN
                 CALL FLOW0(OUTPUT,IFLOW, RFLOW,   WIFLOW, WRFLOW, NODES%X,
      .                     NODES%V,     NODES%A,       NPC,    TF,     SENSORS%SENSOR_TAB,
-     .                     NBGAUGE,LGAUGE,  GAUGE , NSENSOR,
-     .                     IGRV,   AGRV  ,NFUNCT  ,PYTHON, OUTPUT%TH%WFEXT)
+     .                     NBGAUGE,LGAUGE,  GAUGE , NSENSOR,  IGRV,   
+     .                     AGRV  ,NFUNCT  ,NUMNOD   ,PYTHON, OUTPUT%TH%WFEXT,
+     .                     NODA_FEXT, OUTPUT%DATA%NODA_SURF, OUTPUT%DATA%NODA_PEXT)
               ENDIF
 
 C----------------------------------------
