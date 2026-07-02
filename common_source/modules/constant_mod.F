@@ -370,6 +370,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rbe3f_pen                                ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
 !||    rbe3fpen_ininp                           ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
 !||    rbe3pen_init                             ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+!||    rbody_spring_check                       ../starter/source/elements/spring/rbody_spring_check.F90
 !||    read_bcs_nrf                             ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_common_data                         ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90

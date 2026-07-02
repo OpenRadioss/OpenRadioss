@@ -23,7 +23,7 @@
 !||====================================================================
 !||    rbody_spring_check_mod   ../starter/source/elements/spring/rbody_spring_check.F90
 !||--- called by ------------------------------------------------------
-!||    initia               ../starter/source/elements/initia/initia.F
+!||    initia                   ../starter/source/elements/initia/initia.F
 !||====================================================================
       module rbody_spring_check_mod
         implicit none
@@ -40,6 +40,7 @@
 !||    rbody_spring_check   ../starter/source/elements/spring/rbody_spring_check.F90
 !||--- called by ------------------------------------------------------
 !||    initia               ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine rbody_spring_check(nrbykin, nnpby, npby, slpby, lpby, numnod,                &

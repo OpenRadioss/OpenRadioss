@@ -481,6 +481,7 @@
 !||    r4ke3                               ../engine/source/elements/spring/r4ke3.F
 !||    r8ke3                               ../engine/source/elements/spring/r8ke3.F
 !||    radiatoff                           ../engine/source/constraints/thermic/radiatoff.F
+!||    rbody_spring_check                  ../starter/source/elements/spring/rbody_spring_check.F90
 !||    rbyonf                              ../engine/source/constraints/general/rbody/rbyonf.F
 !||    rbypid                              ../engine/source/constraints/general/rbody/rbypid.F
 !||    rbysens                             ../engine/source/constraints/general/rbody/rbyonf.F

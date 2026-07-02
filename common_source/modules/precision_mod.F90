@@ -422,6 +422,7 @@
 !||    rbe3pen_init                             ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
 !||    rbody_part_check                         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    rbody_part_modif                         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rbody_spring_check                       ../starter/source/elements/spring/rbody_spring_check.F90
 !||    read_ale_grid                            ../engine/source/output/restart/read_ale_grid.F90
 !||    read_bcs_nrf                             ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall                            ../engine/source/output/restart/read_bcs_wall.F90

@@ -820,6 +820,7 @@
 !||    rbody_box                                ../starter/source/model/sets/fill_clause_rbody_box.F
 !||    rbody_part_check                         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    rbody_part_modif                         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rbody_spring_check                       ../starter/source/elements/spring/rbody_spring_check.F90
 !||    rby_imp5                                 ../engine/source/constraints/general/rbody/rby_impd.F
 !||    rbyvit                                   ../engine/source/constraints/general/rbody/rbyvit.F
 !||    rcheckmass                               ../starter/source/elements/spring/rcheckmass.F
