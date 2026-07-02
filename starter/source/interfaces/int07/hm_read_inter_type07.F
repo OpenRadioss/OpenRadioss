@@ -99,7 +99,7 @@ C-----------------------------------------------
      .    FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM7I2,IPRINT,
      .    INTFRIC,IASSIGN,IGAP_TYPE19,IRSTH,IDEL7N,
      .    ICURV,IFRICTH,NA1,NA2,IFORM,IADM,NRADM,FIELD6,ITIED,
-     .    IB1,IB2,IB3,ISU1,ISU2,ISU3,NTYP0
+     .    IB1,IB2,IB3,ISU1,ISU2,ISU3,NTYP0,N1D,ISU2_USER
       my_real
      .   FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
      .   GAPSCALE,GAPMAX,STMIN,STMAX,PADM, ANGLADM, CADM,
@@ -388,6 +388,7 @@ C
 C
 C....* Card1 :flags  *.............
 C
+        ISU2_USER =ISU2
         IS2=1
         INGR2USR => IGRSURF(1:NSURF)%ID
         ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
@@ -458,6 +459,20 @@ C
         IPARI(45)=ISU1
         IPARI(46)=ISU2
         IPARI(13)=IS1*10+IS2
+
+        N1D = 0
+        DO I=1,IGRSURF(ISU2)%NSEG
+             IF(IGRSURF(ISU2)%ELTYP(I)/=1.AND.IGRSURF(ISU2)%ELTYP(I)/=3
+     .          .AND.IGRSURF(ISU2)%ELTYP(I)/=7.AND.IGRSURF(ISU2)%ELTYP(I)/=0) N1D = N1D + 1
+        ENDDO
+        IF(N1D == IGRSURF(ISU2)%NSEG) THEN
+            CALL ANCMSG(MSGID=3160,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=NOINT,
+     .                  C1=TITR,
+     .                  I2=ISU2_USER)
+        ENDIF
 
 
         IF(IGAP>=2)THEN
@@ -649,7 +664,6 @@ C
         IPARI(30) = MFROT
 
         IPARI(72) =  INTFRIC
-
 C
 C.....* OPTIONAL Card8 : C1...C6 friction data *.........
 C
