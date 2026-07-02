@@ -3627,6 +3627,16 @@ C===============================================================================
 !$OMP END PARALLEL
 
               ENDIF
+
+              IF(GPU == 1) THEN
+C     GPU SHELL: launch async pipeline BEFORE CPU element work
+C     so that GPU kernels execute while FORINTC + FORINT run on CPU.
+C     Results are collected later by gpu_shell_sync_scatter.
+                CALL STARTIME(TIMERS,TIMER_GPU_SHELL)
+                CALL gpu_shell_launch_async(NODES,SHELLS,DT1)
+                CALL STOPTIME(TIMERS,TIMER_GPU_SHELL)
+               ENDIF
+
 C--- // 3N ------------------------------
 C       INTERFACES WITH VOID OPENING
 C----------------------------------------
@@ -3666,15 +3676,6 @@ C----------------------------------------
                   NELTST = NELTSTT
                   ITYPTST= ITYPTSTT
                 ENDIF
-
-             IF(GPU == 1) THEN
-C     GPU SHELL: launch async pipeline BEFORE CPU element work
-C     so that GPU kernels execute while FORINTC + FORINT run on CPU.
-C     Results are collected later by gpu_shell_sync_scatter.
-                CALL STARTIME(TIMERS,TIMER_GPU_SHELL)
-                CALL gpu_shell_launch_async(NODES,SHELLS,DT1)
-                CALL STOPTIME(TIMERS,TIMER_GPU_SHELL)
-              ENDIF
 
 
 
