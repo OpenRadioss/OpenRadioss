@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   MFLE,   ACCF,   PM,    PTI,   X, V, A, NPC, TF, 
      .                   NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                   CBEM   ,IPIV  , NFUNCT, PYTHON,WFEXT,
-     .                   NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
+     .                   S_NODA_FEXT, NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -61,14 +61,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDIM, NNO, NEL, NUMNOD, NBGAUGE, NSENSOR, NFUNCT
+      INTEGER NDIM, NNO, NEL, NUMNOD, NBGAUGE, NSENSOR, NFUNCT, S_NODA_FEXT
       INTEGER IFLOW(*), IBUF(*), ELEM(NDIM,*), SHELL_GA(*), NPC(*), LGAUGE(3,*)
       INTEGER IGRV(NIGRV,*), IPIV(*)
       my_real X(3,*), V(3,*), A(3,*), TF(*), RFLOW(*)
       my_real NORMAL(3,*), TA(*), AREAF(*), COSG(*), DIST(*), PM(*), ACCF(*), PTI(*)
       my_real MFLE(NEL,*), GAUGE(LLGAUGE,*),AGRV(LFACGRV,*)
       my_real CBEM(NEL,*)
-      my_real,INTENT(INOUT) :: NODA_FEXT(3,NUMNOD), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_FEXT(3,S_NODA_FEXT), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
       TYPE (OUTPUT_), INTENT(INOUT) :: OUTPUT

@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 V      , A      , NPC    , TF    , SENSOR_TAB,
      .                 NBGAUGE, LGAUGE , GAUGE  , NSENSOR, IGRV   ,
      .                 AGRV   , NFUNCT , NUMNOD , PYTHON, WFEXT,
-     .                 NODA_FEXT, NODA_SURF, NODA_PEXT)
+     .                 S_NODA_FEXT, NODA_FEXT, NODA_SURF, NODA_PEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -60,11 +60,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
-      INTEGER ,INTENT(IN) :: NSENSOR,NBGAUGE,NFUNCT,NUMNOD
+      INTEGER ,INTENT(IN) :: NSENSOR,NBGAUGE,NFUNCT,NUMNOD,S_NODA_FEXT
       INTEGER IFLOW(*), WIFLOW(*), NPC(*),LGAUGE(3,*)
       INTEGER IGRV(NIGRV,*)
       my_real RFLOW(*), WRFLOW(*), X(3,*), V(3,*), A(3,*), TF(*), GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
-      my_real,INTENT(INOUT) :: NODA_FEXT(3,*), NODA_SURF(*), NODA_PEXT(*)
+      my_real,INTENT(INOUT) :: NODA_FEXT(3,S_NODA_FEXT), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
@@ -192,7 +192,7 @@ C-------------------------------------------------------------------------------
      .      IFLOW(II10), IFLOW(II6),  IFLOW(II13), IFLOW(II14), WIFLOW(IADIP), 
      .      WRFLOW(IADH),WRFLOW(IADG),IFLOW(II11), IFLOW(II12), IPINT,
      .      PYTHON      ,WFEXT,
-     .      NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
+     .      S_NODA_FEXT,NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
 
          ELSEIF(ITYP == 3) THEN
             JFORM    = IFLOW(IADI+4)
@@ -227,7 +227,7 @@ C-------------------------------------------------------------------------------
      .                     RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,  
      .                     NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                     RFLOW(IR11),IFLOW(II7), NFUNCT, PYTHON, WFEXT,
-     .                     NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
+     .                     S_NODA_FEXT, NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
             ELSE
               II7=II6+NNO
               II8=II7+NEL
@@ -242,7 +242,7 @@ C-------------------------------------------------------------------------------
      .                      NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                      RFLOW(IR11),WIFLOW(IADIP), WRFLOW(IADH), IFLOW(II8), IFLOW(II9),
      .                      NFUNCT, PYTHON, WFEXT,
-     .                      NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
+     .                      S_NODA_FEXT, NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
             ENDIF
          ENDIF
          IADR=IADR+IFLOW(IADI+15)
