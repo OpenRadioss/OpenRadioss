@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    CNP   , ITAGEL, IBUFELR, IBUFELC, IPIV   ,
      .                    HBEM  , GBEM  , IBUFIL , CNPI   , IPINT  ,
      .                    PYTHON, WFEXT ,
-     .                    NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
+     .                    S_NODA_FEXT,NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -78,12 +78,12 @@ C-----------------------------------------------
      .        IINOUT(NIIOFLOW,*), IBUFI(*), IBUFR(*), IBUFC(*), 
      .        IBUFL(*), NPC(*),CNP(*),
      .        ITAGEL(*), IBUFELR(*), IBUFELC(*), IPIV(*), IBUFIL(*),
-     .        CNPI(*), IPINT, ISMOOTH
+     .        CNPI(*), IPINT, ISMOOTH,S_NODA_FEXT
       my_real
      .        RFLOW(*), PHI(*), PRES(*), U(3,*), RINOUT(NRIOFLOW,*),
      .        X(3,*), V(3,*), A(3,*), TF(*), HBEM(*),
      .        GBEM(*)
-      my_real,INTENT(INOUT) :: NODA_FEXT(3,NUMNOD), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_FEXT(3,S_NODA_FEXT), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(PYTHON_) , INTENT(INOUT) :: PYTHON
       TYPE(OUTPUT_) , INTENT(INOUT) :: OUTPUT

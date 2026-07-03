@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                    CBEM   ,IPIV_L, MFLE_L,IBUFELR, IBUFELC,NFUNCT,
      .                    PYTHON ,WFEXT,
-     .                    NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
+     .                    S_NODA_FEXT, NODA_FEXT, NODA_SURF, NODA_PEXT, OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDIM, NNO, NEL, NBGAUGE, NSENSOR, NEL_LOC, NUMNOD, NFUNCT
+      INTEGER NDIM, NNO, NEL, NBGAUGE, NSENSOR, NEL_LOC, NUMNOD, NFUNCT, S_NODA_FEXT
       INTEGER IFLOW(*), IBUF(*), ELEM(NDIM,*), SHELL_GA(*), NPC(*), LGAUGE(3,*)
       INTEGER IBUFL(*), CNP(*), IGRV(NIGRV,*)
       INTEGER IPIV_L(*), IBUFELR(NEL), IBUFELC(NEL)
@@ -74,7 +74,7 @@ C-----------------------------------------------
       my_real NORMAL(3,*), TA(*), AREAF(*), COSG(*), DIST(*), PM(*), ACCF(*), PTI(*)
       my_real MFLE(NEL,*), GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
       my_real CBEM(NEL,*), MFLE_L(NEL_LOC,*)
-      my_real,INTENT(INOUT) :: NODA_FEXT(3,NUMNOD), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_FEXT(3,S_NODA_FEXT), NODA_SURF(NUMNOD), NODA_PEXT(NUMNOD)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
       TYPE (OUTPUT_), INTENT(INOUT) :: OUTPUT

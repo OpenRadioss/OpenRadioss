@@ -1176,7 +1176,7 @@ C End Parith/ON specific
               my_real DT3
               INTEGER  IGROUPFLG(2)
               INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUPC,IGROUPTG,IGROUPS
-              INTEGER  IOLDSECT
+              INTEGER  IOLDSECT,S_NODA_FEXT
               ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS now in SFEM%
 C-----------------------------------------------------------------------------------
 C Parith/OFF + AMS
@@ -1833,13 +1833,13 @@ C ---------------------
 C Allocating FEXT Array
 C ---------------------
               IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .           ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0 .or. ViperCoupling) THEN
-                ALLOCATE(NODA_FEXT(3*NUMNOD))
-                NODA_FEXT(1:3*NUMNOD)=ZERO
+     .           ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0 .or. ViperCoupling .OR. NFLOW>0 ) THEN
+                S_NODA_FEXT = NUMNOD
               ELSE
-                ALLOCATE(NODA_FEXT(3))
-                NODA_FEXT(1:3)=ZERO
+                S_NODA_FEXT = 1
               ENDIF
+              ALLOCATE(NODA_FEXT(3*S_NODA_FEXT))
+              NODA_FEXT(1:3*S_NODA_FEXT)=ZERO
 C ---------------------
 C Allocating PEXT Array
 C ---------------------
@@ -3095,7 +3095,7 @@ C
      .                     NODES%V,     NODES%A,       NPC,    TF,     SENSORS%SENSOR_TAB,
      .                     NBGAUGE,LGAUGE,  GAUGE , NSENSOR,  IGRV,   
      .                     AGRV  ,NFUNCT  ,NUMNOD   ,PYTHON, OUTPUT%TH%WFEXT,
-     .                     NODA_FEXT, OUTPUT%DATA%NODA_SURF, OUTPUT%DATA%NODA_PEXT)
+     .                     S_NODA_FEXT, NODA_FEXT, OUTPUT%DATA%NODA_SURF, OUTPUT%DATA%NODA_PEXT)
               ENDIF
 
 C----------------------------------------
