@@ -34,8 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod      ../common_source/modules/python_mod.F90
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||    th_mod                ../engine/share/modules/th_mod.F
 !||====================================================================
       SUBROUTINE INCPFLOW(NNO   , NEL   , NINOUT , NNI    , IFLOW  ,
      .                    IBUF  , ELEM  , IINOUT , IBUFI  , IBUFR  ,

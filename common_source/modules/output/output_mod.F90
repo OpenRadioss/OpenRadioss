@@ -35,6 +35,8 @@
 !||    checksum_write_starter_restart     ../starter/source/output/checksum/checksum_option.F90
 !||    contrl                             ../starter/source/starter/contrl.F
 !||    cutcnt                             ../engine/source/tools/sect/cutcnt.F
+!||    daasolv                            ../engine/source/fluid/daasolv.F
+!||    daasolvp                           ../engine/source/fluid/daasolvp.F
 !||    ddsplit                            ../starter/source/restart/ddsplit/ddsplit.F
 !||    ebcs0_gradp0                       ../engine/source/boundary_conditions/ebcs/ebcs0_gradp0.F
 !||    ebcs10_nrf                         ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
@@ -130,6 +132,7 @@
 !||    imp_inttd0                         ../engine/source/implicit/imp_int_k.F
 !||    imp_solv                           ../engine/source/implicit/imp_solv.F
 !||    imp_tripi                          ../engine/source/implicit/imp_int_k.F
+!||    incpflow                           ../engine/source/fluid/incpflow.F
 !||    iniresa                            ../engine/source/output/restart/rdresa.F
 !||    init_h3d_engine                    ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    intal1                             ../engine/source/ale/inter/intal1.F
