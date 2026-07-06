@@ -120,7 +120,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   L o c a l   V a r i a b l e s
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i, ipos(nel,1), type, ndx, n, nfunc
+          integer :: i, ipos(nel,2), type, ndx, n, nfunc,dimx
           integer :: indx(nel)
           integer, parameter :: debug = 0 ! debug flag for checking failure plane
           !
@@ -141,13 +141,15 @@
           real(kind=wp) :: gamai, eps_kink, fac, gama_inel, max_f, critical_phi
           real(kind=wp) :: c, s, c2, s2, cs, phi_deg, la_m, lb_psi, l_car
           real(kind=wp) :: deint, d11, d22, d33, d12, d13, d23, e3,limit_strain
+          real(kind=wp) :: tau_back,alpha,X_tr,X_n,sxy_tr,sigy_tr,dlam,f_tr,nd,s_tr,sigma_tr
+          real(kind=wp) :: r
 
           real(kind=wp), dimension(nel) ::  check
           real(kind=wp), dimension(nel) ::  yy, dydx
           real(kind=wp), dimension(nel) ::  xt_1, xc_1, yt_1, yc_1, sl_1
-          real(kind=wp), dimension(nel) ::  thetai_1,mul_1,st_1
+          real(kind=wp), dimension(nel) ::  thetai_1,mul_1,st_1,lc
           real(kind=wp), dimension(nel) ::  enkink_1, ena_1, enb_1, ent_1, enl_1
-          real(kind=wp), dimension(nel,1) :: xvec
+          real(kind=wp), dimension(nel,2) :: xvec
 !!======================================================================
           ! Material parameters
           e1    = mat_param%uparam(1)
@@ -193,17 +195,65 @@
           eps_failure = mat_param%uparam(38)
           !
           if(time == zero) uvar(1:nel,16) = vol(1:nel)**third ! initial carateristic lenght
+          lc(:) = uvar(:,16) 
           ! plane shear behavior
           ipos(:,1) = vartmp(:,1)
+          ipos(:,2) = vartmp(:,2)
           do i=1,nel
             xvec(i,1)  = abs(epsxy(i))
+            xvec(i,2)  = epsp(i)
             uvar(i,11)  = max(xvec(i,1), uvar(i,11)) ! epsxy
           enddo
-          if( mat_param%table(1)%notable > 0 ) then
-            call table_mat_vinterp(mat_param%table(1),nel,nel,ipos,xvec,yy,dydx)
+          if( mat_param%table(12)%notable > 0 .and. yld > zero) then
+            ipos(:,1) = vartmp(:,1)
+            do i=1,nel
+              xvec(i,2)  = epsp(i)
+              ipos(i,1)  = vartmp(i,1)
+              ipos(i,2)  = vartmp(i,2)
+              uvar(i,11)  = max(xvec(i,1), uvar(i,11)) ! epsxy
+              xvec(i,1)   = uvar(i,12)
+            enddo
             !
-            vartmp(1:nel,1) = ipos(1:nel,1)
-            do i= 1,nel
+            dimx = mat_param%table(12)%ndim
+            call table_mat_vinterp(mat_param%table(12),nel,nel,ipos,xvec,yy,dydx)
+            vartmp(:,1) = ipos(1:nel,1)
+            vartmp(:,2) = ipos(:,2)
+            do i=1,nel
+              yy(i)    = beta*yld + (one - beta)*yy(i)     ! mixage, utilise l'ancien yy(i) = sigy_iso(eps_p_n)
+              tau_back  = uvar(i,17)
+              sigma_tr  = sigoxy(i) + g12*depsxy(i)          ! contrainte totale d'essai
+              s_tr      = sigma_tr - tau_back                ! contrainte relative d'essai
+
+              r = yy(i) / max(abs(s_tr), em20)
+              if (r <= one) then
+                  f_tr = (one - r)*abs(s_tr)
+                   nd    = sign(one, s_tr)
+                   dlam = f_tr / (g12 + dydx(i))              ! H = dydx(i) directement
+                   uvar(i,12) = uvar(i,12) + dlam             ! gama_inel (eps_p cumulee)
+                  ! --- Reconstruction DIRECTE (plus de s_proj + X) ---
+                   signxy(i) = sigma_tr - g12*dlam*nd
+                  ! --- Mise a jour du back-stress, part cinematique PURE ---
+                  alpha = beta*dydx(i) / (g12 + dydx(i))     ! sans two_third
+                  uvar(i,17) = tau_back + alpha*f_tr*nd
+              else
+                   signxy(i) = sigma_tr
+              endif
+            enddo 
+          elseif( mat_param%table(1)%notable > 0 ) then
+            ipos(:,1) = vartmp(:,1)
+            do i=1,nel
+              xvec(i,1)  = abs(epsxy(i))
+              xvec(i,2)  = epsp(i)
+              ipos(i,1)  = vartmp(i,1)
+              ipos(i,2)  = vartmp(i,2)
+              uvar(i,11)  = max(xvec(i,1), uvar(i,11)) ! epsxy
+            enddo
+            !
+            dimx = mat_param%table(1)%ndim
+            call table_mat_vinterp(mat_param%table(1),nel,nel,ipos,xvec,yy,dydx)
+            vartmp(:,1) = ipos(1:nel,1)
+            vartmp(:,2) = ipos(:,2)
+            do i= 1,nel 
               if(xvec(i,1) == uvar(i,11) ) then
                 signxy(i) = yy(i)*epsxy(i)/max(em20, xvec(i,1))
                 gama_inel = uvar(i,11) - yy(i)/g12
@@ -211,10 +261,15 @@
               else
                 gama_inel = uvar(i,12)
                 fac = epsxy(i)/max(em20, xvec(i,1))
-                signxy(i) = g12*fac*(xvec(i,1) -  gama_inel)
+                signxy(i) = g12*fac*(xvec(i,1) - gama_inel) 
+                if(abs(signxy(i)) >= yy(i)) then
+                    signxy(i) = sign(yy(i), signxy(i)) 
+                    gama_inel = xvec(i,1) - signxy(i)/g12
+                    uvar(i,12) = gama_inel
+                endif
               endif
             enddo
-          else! linear elastic behavior
+          else  ! linear elastic behavior
             signxy(1:nel) = g12*epsxy(1:nel)
           endif ! shear plane function
           !  element deletion check
@@ -246,10 +301,10 @@
           end do
           if(ndx == 0) return
           nfunc = mat_param%ntable
-          if(nfunc > 1) call strainrate_dependency(nel, mat_param , epsp, vartmp, nvartmp ,  &
-            xt_1,    xc_1,  yt_1,    yc_1,  sl_1, &
-            enkink_1, ena_1, enb_1,ent_1, enl_1,&
-            mul_1, st_1, thetai_1)
+          if(nfunc > 1) call strainrate_dependency(nel, mat_param , epsp, lc, vartmp, nvartmp ,  &
+                                                   xt_1,    xc_1,  yt_1,    yc_1,  sl_1, &
+                                                   enkink_1, ena_1, enb_1,ent_1, enl_1,&
+                                                   mul_1, st_1, thetai_1)
           do n=1,ndx
             i = indx(n)
             ! retrieving material parameters
@@ -391,8 +446,10 @@
                 !=======================================
                 xvec(1,1) = abs(half*(sigma_a - sigma_b_psi)*sin(two*thetai) + abs(tau_ab_psi)*cos(two*thetai))
                 if( mat_param%table(1)%notable > 0 ) then
-                  ipos(1,1)= 1
-                  call table_mat_vinterp_inv(mat_param%table(1),1,1,ipos(1,1),xvec,yy,dydx)
+                   ipos(1,1:2)= 1
+                   dimx = mat_param%table(1)%ndim
+                   xvec(1,2) = epsp(i)
+                  call table_mat_vinterp_inv(mat_param%table(1),dimx,1,ipos(1,1),xvec,yy,dydx)
                   gamai = yy(1)
                 else
                   gamai = xvec(1,1)/g12
