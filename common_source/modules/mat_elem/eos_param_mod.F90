@@ -33,6 +33,7 @@
 !||    eosexponential               ../common_source/eos/eosexponential.F90
 !||    eoslinear                    ../common_source/eos/eoslinear.F
 !||    eosmain                      ../common_source/eos/eosmain.F
+!||    eosmain105                   ../engine/source/materials/mat/mat105/sigeps105.F
 !||    eosmain51                    ../engine/source/materials/mat/mat051/eosmain51.F90
 !||    eospolyno                    ../common_source/eos/eospolyno.F
 !||    gruneisen                    ../common_source/eos/gruneisen.F
@@ -41,6 +42,7 @@
 !||    hm_read_eos_compaction2      ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_eos_exponential      ../starter/source/materials/eos/hm_read_eos_exponential.F90
+!||    hm_read_eos_powderburn       ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_eos_tabulated        ../starter/source/materials/eos/hm_read_eos_tabulated.F
 !||    idealgas                     ../common_source/eos/idealgas.F
 !||    idealgas_vt                  ../common_source/eos/idealgas_vt.F
@@ -59,6 +61,7 @@
 !||    s6zforc3                     ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zinit3                     ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    sesame                       ../common_source/eos/sesame.F
+!||    sigeps105                    ../engine/source/materials/mat/mat105/sigeps105.F
 !||    stiffgas                     ../common_source/eos/stiffgas.F
 !||    tabulated                    ../common_source/eos/tabulated.F
 !||    tillotson                    ../common_source/eos/tillotson.F

@@ -188,6 +188,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
 !||    hm_read_eos_osborne                      ../starter/source/materials/eos/hm_read_eos_osborne.F
+!||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_fail_chang                       ../starter/source/materials/fail/changchang/hm_read_fail_chang.F90
 !||    hm_read_fail_composite                   ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
 !||    hm_read_fail_hashin                      ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F90
@@ -293,6 +294,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    kinematic_hardening_chaboche             ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_chaboche.F90
 !||    kinematic_hardening_prager               ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_prager.F90
 !||    law02_upd                                ../starter/source/materials/mat/mat002/law02_upd.F90
+!||    law105_upd                               ../starter/source/materials/mat/mat133/law105_upd.F90
 !||    law123_upd                               ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law133_upd                               ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
@@ -439,6 +441,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    shour_ctl                                ../engine/source/elements/solid/solidez/shour_ctl.F90
 !||    sigeps01                                 ../starter/source/materials/mat/mat001/sigeps01.F90
 !||    sigeps100                                ../engine/source/materials/mat/mat100/sigeps100.F90
+!||    sigeps105                                ../engine/source/materials/mat/mat105/sigeps105.F
 !||    sigeps106                                ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                               ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps123                                ../engine/source/materials/mat/mat123/sigeps123.F90

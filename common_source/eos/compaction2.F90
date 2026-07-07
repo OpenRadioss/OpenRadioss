@@ -24,7 +24,9 @@
 !||    compaction2_mod   ../common_source/eos/compaction2.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain           ../common_source/eos/eosmain.F
+!||    eosmain105        ../engine/source/materials/mat/mat105/sigeps105.F
 !||    eosmain51         ../engine/source/materials/mat/mat051/eosmain51.F90
+!||    sigeps105         ../engine/source/materials/mat/mat105/sigeps105.F
 !||====================================================================
       module compaction2_mod
       contains
@@ -50,6 +52,7 @@
 !||    compaction2     ../common_source/eos/compaction2.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain         ../common_source/eos/eosmain.F
+!||    eosmain105      ../engine/source/materials/mat/mat105/sigeps105.F
 !||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod    ../common_source/modules/constant_mod.F

@@ -366,6 +366,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eos_noble_abel                 ../starter/source/materials/eos/hm_read_eos_noble_abel.F
 !||    hm_read_eos_osborne                    ../starter/source/materials/eos/hm_read_eos_osborne.F
 !||    hm_read_eos_polynomial                 ../starter/source/materials/eos/hm_read_eos_polynomial.F
+!||    hm_read_eos_powderburn                 ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_eos_puff                       ../starter/source/materials/eos/hm_read_eos_puff.F
 !||    hm_read_eos_sesame                     ../starter/source/materials/eos/hm_read_eos_sesame.F
 !||    hm_read_eos_stiffened_gas              ../starter/source/materials/eos/hm_read_eos_stiffened_gas.F
@@ -907,6 +908,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law100_upd_ab                          ../starter/source/materials/mat/mat100/law100_upd.F
 !||    law100_upd_nht                         ../starter/source/materials/mat/mat100/law100_upd.F
 !||    law104_upd                             ../starter/source/materials/mat/mat104/law104_upd.F
+!||    law105_upd                             ../starter/source/materials/mat/mat133/law105_upd.F90
 !||    law108_upd                             ../starter/source/materials/mat/mat108/law108_upd.F
 !||    law111_upd                             ../starter/source/materials/mat/mat111/law111_upd.F
 !||    law112_upd                             ../starter/source/materials/mat/mat112/law112_upd.F

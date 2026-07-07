@@ -31,8 +31,6 @@
 !!
 !||====================================================================
 !||    hm_read_eos_powderburn   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                   ../starter/source/output/message/message.F
 !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F

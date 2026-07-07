@@ -330,7 +330,6 @@
 !||    init_global_boundary_list                ../engine/source/mpi/init/init_global_boundary_list.F90
 !||    init_i25_edge                            ../engine/source/interfaces/int25/init_i25_edge.F
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
-!||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    init_link_spmd                           ../engine/source/coupling/rad2rad/r2r_init.F
 !||    init_monvol                              ../starter/source/airbag/init_monvol.F
 !||    init_monvol_omp_structure                ../engine/source/airbag/init_monvol_omp_structure.F90

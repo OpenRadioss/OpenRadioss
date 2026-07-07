@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    func_maxy        ../starter/source/tools/curve/func_maxy.F
 !||--- called by ------------------------------------------------------
 !||    law100_upd_nht   ../starter/source/materials/mat/mat100/law100_upd.F
+!||    law105_upd       ../starter/source/materials/mat/mat133/law105_upd.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../starter/share/message_module/message_mod.F
 !||    table_mod        ../starter/share/modules1/table_mod.F

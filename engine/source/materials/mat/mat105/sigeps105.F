@@ -1,31 +1,39 @@
-!Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
-!Copyright>
-!Copyright>        This program is free software: you can redistribute it and/or modify
-!Copyright>        it under the terms of the GNU Affero General Public License as published by
-!Copyright>        the Free Software Foundation, either version 3 of the License, or
-!Copyright>        (at your option) any later version.
-!Copyright>
-!Copyright>        This program is distributed in the hope that it will be useful,
-!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
-!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-!Copyright>        GNU Affero General Public License for more details.
-!Copyright>
-!Copyright>        You should have received a copy of the GNU Affero General Public License
-!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-!Copyright>
-!Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss Software
-!Copyright>
-!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+Copyright>
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sigeps105        ../engine/source/materials/mat/mat105/sigeps105.F
+!||    sigeps105            ../engine/source/materials/mat/mat105/sigeps105.F
 !||--- called by ------------------------------------------------------
-!||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw                ../engine/source/materials/mat_share/mulaw.F90
 !||--- calls      -----------------------------------------------------
-!||    finter           ../engine/source/tools/curve/finter.F
+!||    eosmain105           ../engine/source/materials/mat/mat105/sigeps105.F
+!||    finter               ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    compaction2_mod      ../common_source/eos/compaction2.F90
+!||    compaction_mod       ../common_source/eos/compaction.F90
+!||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    eos_param_mod        ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    eoslinear_mod        ../common_source/eos/eoslinear.F
 !||====================================================================
       SUBROUTINE SIGEPS105 (
      1     NEL     ,NUPARAM ,NUVAR   ,NFUNC     ,IFUNC     ,TBURN     ,
@@ -553,6 +561,22 @@ C-----------------------------------------------
       END SUBROUTINE SIGEPS105
 C-----------------------------------------------
 
+!||====================================================================
+!||    eosmain105           ../engine/source/materials/mat/mat105/sigeps105.F
+!||--- called by ------------------------------------------------------
+!||    sigeps105            ../engine/source/materials/mat/mat105/sigeps105.F
+!||--- calls      -----------------------------------------------------
+!||    compaction           ../common_source/eos/compaction.F90
+!||    compaction2          ../common_source/eos/compaction2.F90
+!||    compaction_tab       ../common_source/eos/compaction_tab.F90
+!||    eoslinear            ../common_source/eos/eoslinear.F
+!||--- uses       -----------------------------------------------------
+!||    compaction2_mod      ../common_source/eos/compaction2.F90
+!||    compaction_mod       ../common_source/eos/compaction.F90
+!||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
+!||    eos_param_mod        ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    eoslinear_mod        ../common_source/eos/eoslinear.F
+!||====================================================================
       SUBROUTINE EOSMAIN105(
      1     NEL, PMIN, OFF, EINT, MU, MU2, DVOL, PSH, PNEW, DPDM, DPDE,
      2     EOS_STRUCT, MU_BAK, DT1, IEOS, RHO, RHO0, NVAREOS, VAREOS,

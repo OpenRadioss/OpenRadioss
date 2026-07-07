@@ -21,7 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    law105_upd_mod   ../starter/source/materials/mat/mat105/law105_upd.F90
+!||    law105_upd_mod   ../starter/source/materials/mat/mat133/law105_upd.F90
 !||--- called by ------------------------------------------------------
 !||    updmat           ../starter/source/materials/updmat.F
 !||====================================================================
@@ -30,9 +30,15 @@
       contains
 !! \brief check & update of material law 105
 !||====================================================================
-!||    law105_upd              ../starter/source/materials/mat/mat105/law105_upd.F90
+!||    law105_upd         ../starter/source/materials/mat/mat133/law105_upd.F90
 !||--- called by ------------------------------------------------------
-!||    updmat                  ../starter/source/materials/updmat.F
+!||    updmat             ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||    finter             ../starter/source/tools/curve/finter.F
+!||    func_maxy          ../starter/source/tools/curve/func_maxy.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine law105_upd(  matparam , pm , npropm, mat_uid , nfunc, ifunc, npc   ,pld, fac_shear   )
 ! ----------------------------------------------------------------------------------------------------------------------

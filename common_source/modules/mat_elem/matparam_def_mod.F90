@@ -304,6 +304,7 @@
 !||    kinematic_hardening_prager               ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_prager.F90
 !||    law02_upd                                ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law104_upd                               ../starter/source/materials/mat/mat104/law104_upd.F
+!||    law105_upd                               ../starter/source/materials/mat/mat133/law105_upd.F90
 !||    law123_upd                               ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_init                              ../starter/source/materials/mat/mat129/law129_init.F90
 !||    law129_upd                               ../starter/source/materials/mat/mat129/law129_upd.F90

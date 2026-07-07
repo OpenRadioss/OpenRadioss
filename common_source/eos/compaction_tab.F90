@@ -24,7 +24,9 @@
 !||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain              ../common_source/eos/eosmain.F
+!||    eosmain105           ../engine/source/materials/mat/mat105/sigeps105.F
 !||    eosmain51            ../engine/source/materials/mat/mat051/eosmain51.F90
+!||    sigeps105            ../engine/source/materials/mat/mat105/sigeps105.F
 !||====================================================================
       module compaction_tab_mod
       contains
@@ -53,6 +55,7 @@
 !||    compaction_tab          ../common_source/eos/compaction_tab.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain                 ../common_source/eos/eosmain.F
+!||    eosmain105              ../engine/source/materials/mat/mat105/sigeps105.F
 !||    eosmain51               ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- calls      -----------------------------------------------------
 !||    compaction_tab_init     ../common_source/eos/compaction_tab.F90

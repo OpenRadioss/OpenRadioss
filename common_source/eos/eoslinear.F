@@ -24,7 +24,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eoslinear_mod   ../common_source/eos/eoslinear.F
 !||--- called by ------------------------------------------------------
 !||    eosmain         ../common_source/eos/eosmain.F
+!||    eosmain105      ../engine/source/materials/mat/mat105/sigeps105.F
 !||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
+!||    sigeps105       ../engine/source/materials/mat/mat105/sigeps105.F
 !||====================================================================
       MODULE EOSLINEAR_MOD
       IMPLICIT NONE
@@ -33,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eoslinear       ../common_source/eos/eoslinear.F
 !||--- called by ------------------------------------------------------
 !||    eosmain         ../common_source/eos/eosmain.F
+!||    eosmain105      ../engine/source/materials/mat/mat105/sigeps105.F
 !||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod    ../common_source/modules/constant_mod.F
