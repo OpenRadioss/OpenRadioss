@@ -237,15 +237,19 @@ C     VE formulation
                ENDIF
             ENDDO           
 
-            Vnew = NORMAL_VELII
+            !-- velocity relative to the (moving) grid, consistent with ebcs10_nrf.F (V0 = V - W).
+            Vnew = NORMAL_VELII - NORMALW
             Pvois = P_JJ
-            MACH = ABS(NORMAL_VELII / SSPII)
+            MACH = ZERO
+            IF (SSPII  /=  ZERO) MACH = ABS(Vnew / SSPII)
             Pold = EBCS%pold(IELEM)
             DP0 = EBCS%DP0(IELEM)
             IF(NCYCLE == 1)Pold=Pvois+DP0 
             Vold = EBCS%vold(IELEM)
-            IF(NCYCLE == 1) Vold=NORMAL_VELII
-            EBCS%vold(IELEM) = Vnew
+            IF(NCYCLE == 1) Vold=Vnew
+            !-- IMPORTANT: EBCS%vold/pold are the persistent "previous cycle" characteristic memory
+            !   It must be update only ONCE per full cycle (during the corrector, .NOT.PRED),
+             IF (.NOT. PRED) EBCS%vold(IELEM) = Vnew
 
             !-- fixed far-field reference pressure used as the relaxation target.
             IF(EBCS%has_pref .AND. ALLOCATED(EBCS%pref))THEN
@@ -270,8 +274,9 @@ C     VE formulation
               P_JJ  = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*Pref/(ALPHA + ONE)
             ENDIF
 
-            EBCS%pold(IELEM) = P_JJ
-            
+            !-- see comment above: commit the relaxed pressure to memory only once per cycle
+            IF (.NOT. PRED) EBCS%pold(IELEM) = P_JJ
+
             IF (SSPJJ / RHOJJ  >  ZERO) THEN
                SSPJJ = SQRT(SSPJJ / RHOJJ)
             ELSE
