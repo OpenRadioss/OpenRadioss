@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arruda_boyce                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    arruda_boyce_dyda                        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    bbc2005_evaluate                         ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_evaluate.F90
+!||    bbc2005_jacobian                         ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_jacobian.F90
 !||    bcs_nrf                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
 !||    biquad_tab                               ../starter/source/materials/fail/biquad/biquad_tab.F90

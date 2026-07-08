@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_dcod_key_0                   ../engine/source/output/anim/reader/anim_dcod_key_0.F
 !||    anstckc                           ../starter/source/output/analyse/analyse_char.F
 !||    ascii_encoding_mu_letter          ../starter/source/starter/ascii_encoding_mu_letter.F90
+!||    bbc2005_calcul_coeffs             ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||    bigbox                            ../starter/source/model/box/bigbox.F
 !||    boxbox                            ../starter/source/model/box/boxbox.F
 !||    bsigini                           ../starter/source/elements/beam/bsigini.F
@@ -605,6 +606,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_visc                      ../starter/source/materials/visc/hm_read_visc.F
 !||    hm_read_window_user               ../starter/source/tools/userwi/hm_read_window_user.F
 !||    hm_read_xref                      ../starter/source/loads/reference_state/xref/hm_read_xref.F
+!||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_BBC2005.F90
 !||    hm_s_ale                          ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||    hm_set                            ../starter/source/model/sets/hm_set.F
 !||    hm_setfxrbyon                     ../starter/source/constraints/fxbody/hm_setfxrbyon.F

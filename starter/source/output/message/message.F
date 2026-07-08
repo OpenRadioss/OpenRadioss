@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret_message                          ../starter/source/interfaces/int24/arret_message.F
 !||    arret_message_slid                     ../starter/source/interfaces/int24/arret_message.F
 !||    auto_node_merge                        ../starter/source/elements/nodes/auto_node_merge.F
+!||    bbc2005_calcul_coeffs                  ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||    bcscycmodif_nd                         ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    bcsmodif_nd                            ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    bigbox                                 ../starter/source/model/box/bigbox.F

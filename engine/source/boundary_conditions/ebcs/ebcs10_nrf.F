@@ -28,21 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE EBCS10_NRF_MOD
         IMPLICIT NONE
         CONTAINS
-!||====================================================================
-!||    ebcs10_nrf           ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
-!||--- called by ------------------------------------------------------
-!||    ebcs_main            ../engine/source/boundary_conditions/ebcs/ebcs_main.F
-!||--- uses       -----------------------------------------------------
-!||    ale_mod              ../common_source/modules/ale/ale_mod.F
-!||    ebcs_mod             ../common_source/modules/boundary_conditions/ebcs_mod.F90
-!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod          ../common_source/modules/elements/element_mod.F90
-!||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
-!||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
-!||    output_mod           ../common_source/modules/output/output_mod.F90
-!||    segvar_mod           ../engine/share/modules/segvar_mod.F
-!||    th_surf_mod          ../common_source/modules/interfaces/th_surf_mod.F
-!||====================================================================
 !! \brief Non-Reflecting Boundary Condition / Frontier (NRBC / NRF) for ALE (multimaterial 51 and all single material laws)
 !! \details
 !!   Purpose
@@ -76,6 +61,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   B o d y
 C-----------------------------------------------
+!||====================================================================
+!||    ebcs10_nrf           ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||--- called by ------------------------------------------------------
+!||    ebcs_main            ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod              ../common_source/modules/ale/ale_mod.F
+!||    ebcs_mod             ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
+!||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
+!||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+!||    output_mod           ../common_source/modules/output/output_mod.F90
+!||    segvar_mod           ../engine/share/modules/segvar_mod.F
+!||    th_surf_mod          ../common_source/modules/interfaces/th_surf_mod.F
+!||====================================================================
       SUBROUTINE EBCS10_NRF(NSEG,ISEG,SEGVAR,
      .                 A,V,W,X,
      .                 LISTE,NOD,IRECT,IELEM,IFACE,

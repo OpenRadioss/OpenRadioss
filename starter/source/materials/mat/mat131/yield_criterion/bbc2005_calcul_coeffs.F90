@@ -1,9 +1,30 @@
 !Copyright>        OpenRadioss
 !Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    bbc2005_calcul_coeffs_mod
-!||    Newton-Raphson Solver with Multi-Start Global Search
-!||    (Includes Dynamic LM, Line Search & Step Tolerance)
+!||    bbc2005_calcul_coeffs_mod         ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat78                     ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_BBC2005.F90
 !||====================================================================
       module bbc2005_calcul_coeffs_mod
         implicit none
@@ -18,13 +39,17 @@
 !||====================================================================
 !||    bbc2005_calcul_coeffs             ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat78                     ../starter/source/materials/mat/mat078/hm_read_mat78.F
 !||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_BBC2005.F90
 !||--- calls      -----------------------------------------------------
+!||    ancmsg                            ../starter/source/output/message/message.F
 !||    bbc2005_evaluate                  ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_evaluate.F90
+!||    bbc2005_jacobian                  ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_jacobian.F90
 !||    bbc2005_solve_linear_8x8          ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_solve_linear_8x8.F90
 !||--- uses       -----------------------------------------------------
 !||    bbc2005_evaluate_mod              ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_evaluate.F90
 !||    bbc2005_solve_linear_8x8_mod      ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_solve_linear_8x8.F90
+!||    message_mod                       ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine bbc2005_calcul_coeffs(y0, y45, y90, r0, r45, r90, yb, rb, k_val, &
                                          a, b, l_coeff, m_coeff, n_coeff, p, q, r_coeff, mat_id, titr)
