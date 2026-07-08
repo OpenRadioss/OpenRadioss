@@ -792,3 +792,38 @@ jobs:
               --git_token $SERVBOT_PAT \
               --action update_values      
                 
+  cleanup_artifacts:
+    if: ${{ always() && github.repository_owner == 'OpenRadioss' }}
+    needs: [qa_linux, qa_windows_no_container]
+    runs-on: [build,linux64]
+    permissions:
+      actions: write
+      contents: read
+
+    steps:
+      - name: Delete all artifacts for current run
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const artifacts = await github.paginate(
+              github.rest.actions.listWorkflowRunArtifacts,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.runId,
+                per_page: 100,
+              }
+            );
+
+            core.info(`Found ${artifacts.length} artifact(s) for run ${context.runId}.`);
+
+            for (const artifact of artifacts) {
+              core.info(`Deleting artifact: ${artifact.name} (id=${artifact.id})`);
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+              });
+            }
+
+            core.info('Artifact cleanup completed.');                            
