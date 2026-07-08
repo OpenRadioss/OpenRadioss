@@ -119,7 +119,6 @@
           normzx(1:nel) = inv_seq(1:nel) * M*two*signzx(1:nel)
           !< Second order derivative of eq. stress
           if (second_order) then 
-            N2(1:nel,1:6,1:6) = zero
             N2(1:nel,1,1) = inv_seq(1:nel) * ((H+G) - normxx(1:nel)**two) 
             N2(1:nel,1,2) = inv_seq(1:nel) * (- H - normyy(1:nel)*normxx(1:nel)) 
             N2(1:nel,1,3) = inv_seq(1:nel) * (- G - normzz(1:nel)*normxx(1:nel))
@@ -183,6 +182,36 @@
             N2(1:nel,4,2) = N2(1:nel,2,4)
             N2(1:nel,4,4) = inv_seq(1:nel) * (N*two - normxy(1:nel)**two)
           endif 
+        !< Beam element
+        !< The integrated beam stress state is limited to the axial stress xx
+        !< and the two transverse shear stresses xy and zx (syy = szz = syz = 0).
+        !< With syy = szz = 0 the Hill axial term reduces to (G+H)*sxx**2, so the
+        !< coefficients F and L are inactive and only G+H, N and M remain: the
+        !< in-plane anisotropy captured for solids/shells is only partially kept.
+        elseif (eltype == 3) then
+          seq(1:nel) = sqrt((H+G)*signxx(1:nel)**two +                         &
+                            N*two*signxy(1:nel)**two +                         &
+                            M*two*signzx(1:nel)**two)
+          !< First order derivative of eq. stress
+          inv_seq(1:nel) = one / max(seq(1:nel), em20)
+          normxx(1:nel) = inv_seq(1:nel)*((H+G)*signxx(1:nel))
+          normyy(1:nel) = zero
+          normzz(1:nel) = zero
+          normxy(1:nel) = inv_seq(1:nel)*N*two*signxy(1:nel)
+          normyz(1:nel) = zero
+          normzx(1:nel) = inv_seq(1:nel)*M*two*signzx(1:nel)
+          if (second_order) then 
+            N2(1:nel,1:6,1:6) = zero
+            N2(1:nel,1,1) = inv_seq(1:nel) * ((H+G) - normxx(1:nel)**two) 
+            N2(1:nel,1,4) = inv_seq(1:nel) * (  - normxy(1:nel)*normxx(1:nel))
+            N2(1:nel,1,6) = inv_seq(1:nel) * (  - normzx(1:nel)*normxx(1:nel))
+            N2(1:nel,4,1) = N2(1:nel,1,4)
+            N2(1:nel,4,4) = inv_seq(1:nel) * (N*two - normxy(1:nel)**two)
+            N2(1:nel,4,6) = inv_seq(1:nel) * (  - normzx(1:nel)*normxy(1:nel))
+            N2(1:nel,6,1) = N2(1:nel,1,6)
+            N2(1:nel,6,4) = N2(1:nel,4,6)
+            N2(1:nel,6,6) = inv_seq(1:nel) * (M*two - normzx(1:nel)**two)
+          endif
         endif
 !
       end subroutine yield_criterion_hill

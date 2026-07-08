@@ -72,7 +72,7 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          integer :: offset_tab,offset_var
+          integer :: offset_tab,offset_var,ndim
           real(kind=WP) :: eta,rhocp
           real(kind=WP), dimension(nel) :: weight,dweight,xvec(nel,3)
 !===============================================================================
@@ -82,6 +82,7 @@
           !=======================================================================
           offset_tab = matparam%iparam(21)
           offset_var = matparam%iparam(23)
+          ndim       = matparam%table(offset_tab+1)%ndim
           !< Recover self heating parameters
           eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
           rhocp = matparam%therm%rhocp        !< Material thermal inertia
@@ -91,7 +92,8 @@
           xvec(1:nel,3) = pla(1:nel)
           !< Strain rate weight factor interpolation
           call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
-            vartmp(1:nel,offset_var+1),xvec,weight,dweight)
+            vartmp(1:nel,offset_var+1:offset_var+ndim),xvec(1:nel,1:ndim),       &
+            weight,dweight)
           !< Update derivative of temperature w.r.t. cumulated plastic strain
           dtemp_dpla(1:nel) = (eta/rhocp)*sigy(1:nel)*weight(1:nel)
 !

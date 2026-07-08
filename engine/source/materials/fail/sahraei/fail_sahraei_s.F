@@ -163,11 +163,13 @@ C-----------------------------------------------
       EL_REF           = UPARAM(9)
 c      
       ! Initialization
-      IF ((UVAR(1,1) == ZERO).AND.(NFUNC == 2)) THEN
-        DO I=1,NEL
-          LAMBDA    = DELTAX(I)/EL_REF
-          UVAR(I,1) = FINTER(IFUNC(2),LAMBDA,NPF,TF,DYDX) 
-        ENDDO
+      IF (NFUNC == 2) THEN 
+        IF (UVAR(1,1) == ZERO) THEN
+          DO I=1,NEL
+            LAMBDA    = DELTAX(I)/EL_REF
+            UVAR(I,1) = FINTER(IFUNC(2),LAMBDA,NPF,TF,DYDX) 
+          ENDDO
+        ENDIF
       ENDIF
 c      
       ! Recovering internal variables

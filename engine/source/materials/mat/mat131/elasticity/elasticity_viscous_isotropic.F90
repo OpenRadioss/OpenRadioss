@@ -156,6 +156,12 @@
           s43(1:nel) = zero
           !< Sound speed
           soundsp(1:nel) = sqrt(cstf(1:nel,1,1)/rho(1:nel))
+        !< Beams
+        elseif (eltype == 3) then
+          !< Elastic stiffness matrix
+          cstf(1:nel,1,1) = young(1:nel)*young_fac(1:nel)
+          cstf(1:nel,4,4) = matparam%shear*shf(1:nel)*young_fac(1:nel)
+          cstf(1:nel,6,6) = matparam%shear*shf(1:nel)*young_fac(1:nel)
         endif
 !
         !=======================================================================

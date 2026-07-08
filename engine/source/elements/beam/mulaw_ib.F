@@ -39,11 +39,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                    EPSP    ,BUFMAT  ,NPF     ,TF      ,
      5                    EXX     ,EXY     ,EXZ     ,KXX     ,
      6                    KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY ,
-     7                    TORS_FACT)
+     7                    TORS_FACT,MATPARAM,ASRATE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE SIGEPS131PI_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +71,8 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: BUFMAT
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MATPARAM
+      my_real, INTENT(IN) :: ASRATE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -205,7 +209,15 @@ C---
                 GBUF%MAXEPS(II(2)+I) = MAX(GBUF%MAXEPS(II(2)+I) , ABS(EPSXY(I)))
                 GBUF%MAXEPS(II(3)+I) = MAX(GBUF%MAXEPS(II(3)+I) , ABS(EPSXZ(I)))
                ENDDO
-
+C---
+          CASE (131)
+            CALL SIGEPS131PI(                                                  
+     1         NEL      ,MATPARAM ,NVARTMP  ,VARTMP   ,DT1      ,OFF      ,              
+     2         DEPSXX   ,DEPSXY   ,DEPSXZ   ,SIGOXX   ,SIGOXY   ,SIGOXZ   ,           
+     3         SIGNXX   ,SIGNXY   ,SIGNXZ   ,LBUF%PLA ,LBUF%SEQ ,ETSE     ,           
+     4         SIGY_IPT ,EPSP     ,TEMPEL   ,ASRATE   ,BUFLY%L_SIGB ,LBUF%SIGB,
+     5         NUVAR    ,UVAR     ,JTHE     )
+C---
           CASE DEFAULT
 C---
         END SELECT

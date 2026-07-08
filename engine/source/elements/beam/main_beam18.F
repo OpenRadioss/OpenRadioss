@@ -206,7 +206,7 @@ c
      4                EPSD    ,BUFMAT  ,NPF     ,TF      ,
      5                EXX     ,EXY     ,EXZ     ,KXX     ,
      6                KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY  ,
-     7                TORS_FACT)
+     7                TORS_FACT,MAT_PARAM,ASRATE)
       ENDIF
 !
 c---------------------------

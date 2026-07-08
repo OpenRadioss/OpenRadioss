@@ -1555,6 +1555,8 @@
             if (pm(20,i) == zero) pm(20,i) = matparam%young
             if (pm(21,i) == zero) pm(21,i) = matparam%nu
             if (pm(22,i) == zero) pm(22,i) = matparam%shear
+            if (pm(27,i) == zero) pm(27,i) = sqrt(matparam%young/              &
+                                              max(matparam%rho,em20))  ! sound speed
             if (pm(32,i) == zero) pm(32,i) = matparam%bulk
 !
             ! to be defined

@@ -198,6 +198,32 @@
           s43(1:nel) = zero
           !< Sound speed
           soundsp(1:nel) = sqrt(cstf(1:nel,1,1)/rho(1:nel))
+        !< Beams
+        elseif (eltype == 3) then
+          !< Young modulus update for bimodular behavior     
+          if (ec > zero) then
+            p(1:nel) = -third*sigoxx(1:nel)
+            svm(1:nel) = sigoxx(1:nel)**2 +                                    &
+                         three*(sigoxy(1:nel)**2) +                            &
+                         three*(sigozx(1:nel)**2)
+            svm(1:nel) = sqrt(svm(1:nel))
+            triax(1:nel) = -p(1:nel)/max(svm(1:nel),em20)
+            if (abs(tt - tc) < em20) then
+              where (abs(triax(1:nel)) < em10)
+                young(1:nel) = ec
+              end where
+            else
+              fac(1:nel) = (triax(1:nel) - tc)/(tt - tc)
+              fac(1:nel) = max(zero, min(one, fac(1:nel)))
+              young(1:nel) = fac(1:nel)*et + (one - fac(1:nel))*ec
+            endif
+          endif
+          !< Compute elastic stiffness matrix components
+          shear(1:nel) = young(1:nel)/(two*(one + nu))
+          !< Elastic stiffness matrix
+          cstf(1:nel,1,1) = young(1:nel)
+          cstf(1:nel,4,4) = shear(1:nel)*shf(1:nel)
+          cstf(1:nel,6,6) = shear(1:nel)*shf(1:nel)
         endif 
 !
         !=======================================================================
