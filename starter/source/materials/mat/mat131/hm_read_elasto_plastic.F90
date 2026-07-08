@@ -634,6 +634,7 @@
           !< Properties compatibility
           call init_mat_keyword(matparam ,"SOLID_ISOTROPIC")
           call init_mat_keyword(matparam ,"SHELL_ISOTROPIC")
+          call init_mat_keyword(matparam ,"BEAM_INTEGRATED")
           call init_mat_keyword(matparam ,"SPH")
 !
           !< Material model keywords

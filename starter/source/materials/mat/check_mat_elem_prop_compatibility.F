@@ -248,6 +248,37 @@ c
             END SELECT   
 c
             ! ==============================================================
+            ! CHECK LAW131 YIELD CRITERION COMPATIBILITY WITH INTEGRATED BEAM
+            ! ==============================================================
+            ! For integrated beams (/PROP/TYPE18) the stress state is limited
+            ! to one axial and two transverse shear components. Anisotropic
+            ! yield criteria are therefore only partially effective (Hill,
+            ! Hershey) or not supported at all (Barlat, BBC2005 which are
+            ! plane-stress formulations). IPARAM(6) holds the yield criterion
+            ! type (1=von Mises, 2=Hershey, 3=Hill, 4=Barlat89, 5=Barlat2000,
+            ! 6=BBC2005).
+            IF (ILAW == 131 .AND. IGTYP == 18) THEN
+              SELECT CASE (MAT_PARAM(IMAT)%IPARAM(6))
+                ! Hershey and Hill : reduced anisotropy -> warning
+                CASE (2,3)
+                  CALL ANCMSG(MSGID=3147,
+     .                        MSGTYPE=MSGWARNING,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=PROP_ID,
+     .                        I2=MAT_ID,
+     .                        PRMOD=MSG_CUMU)
+                ! Barlat and BBC2005 : plane stress only -> error
+                CASE (4,5,6)
+                  CALL ANCMSG(MSGID=3148,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=PROP_ID,
+     .                        I2=MAT_ID,
+     .                        PRMOD=MSG_CUMU)
+              END SELECT
+            ENDIF
+c
+            ! ==============================================================
             ! CHECK MATERIAL LAW COMPATIBILITY WITH /EOS option
             ! ==============================================================
              IF (IEOS > 0 .and. MAT_PARAM(IMAT)%COMPATIBILITY_EOS == 0) THEN              

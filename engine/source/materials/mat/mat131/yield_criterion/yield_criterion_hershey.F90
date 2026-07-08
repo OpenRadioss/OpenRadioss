@@ -94,16 +94,16 @@
         real(kind=WP), dimension(mvsiz,3,3) :: dir
         real(kind=WP) :: dsigeq_dsig1,dsigeq_dsig2,dsigeq_dsig3
         real(kind=WP) :: dsig1_dsig(6),dsig2_dsig(6),dsig3_dsig(6)
-        real(kind=WP) :: dsig1_dsigxx,dsig1_dsigyy,dsig1_dsigxy
-        real(kind=WP) :: dsig2_dsigxx,dsig2_dsigyy,dsig2_dsigxy
+        real(kind=WP) :: dsig1_dsigxx,dsig1_dsigyy,dsig1_dsigxy,dsig1_dsigzx
+        real(kind=WP) :: dsig2_dsigxx,dsig2_dsigyy,dsig2_dsigxy,dsig2_dsigzx
         real(kind=WP), dimension(nel) :: norm,invnorm,center,rootv,ab12,ab1,ab2
         real(kind=WP) :: nexp,nexp_m1,one_m_nexp,inv_nexp,nexp_m2,half_one_m_nexp
         real(kind=WP) :: loc_seq, loc_ab12, loc_ab1, loc_ab2
         real(kind=WP) :: loc_s1, loc_s2, loc_s3, loc_s4, loc_rootv
         real(kind=WP) :: loc_norm, loc_half_seq_pow
         real(kind=WP) :: diff_ratio, two_s4_ratio
-        real(kind=WP) :: row1_xx, row1_yy, row1_xy
-        real(kind=WP) :: row2_xx, row2_yy, row2_xy
+        real(kind=WP) :: row1_xx, row1_yy, row1_xy, row1_zx
+        real(kind=WP) :: row2_xx, row2_yy, row2_xy, row2_zx
         real(kind=WP) :: ab12_n1, ab1_n1, ab2_n1
         real(kind=WP) :: ab12_n2, ab1_n2, ab2_n2
         real(kind=WP) :: d2sig12, d2sig2sig1, d2sig22
@@ -375,6 +375,108 @@
                 N(i,4,1) = (row1_xy*dsig1_dsigxx + row2_xy*dsig2_dsigxx) * inv_norm_i
                 N(i,4,2) = (row1_xy*dsig1_dsigyy + row2_xy*dsig2_dsigyy) * inv_norm_i
                 N(i,4,4) = (row1_xy*dsig1_dsigxy + row2_xy*dsig2_dsigxy) * inv_norm_i
+              endif
+            endif
+          enddo
+        !< Beam element
+        !< The integrated beam stress state is limited to the axial stress xx
+        !< and the two transverse shear stresses xy and zx (syy = szz = syz = 0).
+        !< The principal stresses are built from this reduced state, so the
+        !< Hershey/Hosford anisotropy is only partially accounted for on beams.
+        elseif (eltype == 3) then 
+          !< Normalization of the stress tensor
+          norm(1:nel) = signxx(1:nel)*signxx(1:nel) +                          &
+                        three*(signxy(1:nel)*signxy(1:nel)) +                  &
+                        three*(signzx(1:nel)*signzx(1:nel))
+          norm(1:nel) = max(sqrt(norm(1:nel)),one)
+          invnorm(1:nel) = one/norm(1:nel)
+          strs(1:nel,1)  = signxx(1:nel)*invnorm(1:nel)
+          strs(1:nel,2)  = signxy(1:nel)*invnorm(1:nel)
+          strs(1:nel,3)  = signzx(1:nel)*invnorm(1:nel)
+          !< Principal stresses under plane stress condition
+          center(1:nel) = strs(1:nel,1)*half
+          ab12(1:nel)   = center(1:nel)
+          rootv(1:nel)  = sqrt(ab12(1:nel)*ab12(1:nel) +                       &
+                           strs(1:nel,2)*strs(1:nel,2) +                       &
+                           strs(1:nel,3)*strs(1:nel,3))
+          pr_strs(1:nel,1) = center(1:nel) + rootv(1:nel)
+          pr_strs(1:nel,2) = center(1:nel) - rootv(1:nel)
+          rootv(1:nel) = max(rootv(1:nel),em20)
+          ab12(1:nel) = pr_strs(1:nel,1) - pr_strs(1:nel,2)
+          ab1(1:nel)  = abs(-pr_strs(1:nel,1))
+          ab2(1:nel)  = abs( pr_strs(1:nel,2))
+          !< Equivalent stress
+          seq(1:nel) = half*((ab12(1:nel))**nexp + (ab2(1:nel))**nexp +        &
+                                                   (ab1(1:nel))**nexp)
+          where (seq(1:nel) > zero)
+            seq(1:nel) = seq(1:nel)**inv_nexp
+          elsewhere
+            seq(1:nel) = zero
+          end where
+          !< Derivatives of eq. stress
+          do i = 1,nel
+            if (seq(i) > zero) then
+              !< First order derivative of eq. stress
+              loc_seq   = seq(i)
+              loc_ab12  = ab12(i)
+              loc_ab1   = ab1(i)
+              loc_ab2   = ab2(i)
+              loc_s1    = pr_strs(i,1)
+              loc_s2    = pr_strs(i,2)
+              loc_rootv = rootv(i)
+              loc_norm  = norm(i)
+              ab12_n1 = loc_ab12**(nexp_m1)
+              ab1_n1  = loc_ab1 **(nexp_m1)
+              ab2_n1  = loc_ab2 **(nexp_m1)
+              loc_half_seq_pow = half * loc_seq**(one - nexp)
+              dsigeq_dsig1 = loc_half_seq_pow * (                              &
+                   ab12_n1 * sign(one, loc_s1 - loc_s2) -                      &
+                   ab1_n1  * sign(one, -loc_s1))
+              dsigeq_dsig2 = loc_half_seq_pow * (                              &
+                   ab2_n1  * sign(one,  loc_s2) -                              &
+                   ab12_n1 * sign(one,  loc_s1 - loc_s2))
+              diff_ratio    = strs(i,1) / loc_rootv
+              dsig1_dsigxx =  half * (one + diff_ratio)
+              dsig1_dsigxy =  strs(i,2) / loc_rootv
+              dsig1_dsigzx =  strs(i,3) / loc_rootv
+              dsig2_dsigxx =  half * (one - diff_ratio)   
+              dsig2_dsigxy = -strs(i,2) / loc_rootv
+              dsig2_dsigzx = -strs(i,3) / loc_rootv
+              normxx(i) = dsigeq_dsig1*dsig1_dsigxx + dsigeq_dsig2*dsig2_dsigxx
+              normyy(i) = zero
+              normzz(i) = zero
+              normxy(i) = dsigeq_dsig1*dsig1_dsigxy + dsigeq_dsig2*dsig2_dsigxy
+              normyz(i) = zero
+              normzx(i) = dsigeq_dsig1*dsig1_dsigzx + dsigeq_dsig2*dsig2_dsigzx
+              !< Second order derivative of eq. stress  
+              if (second_order) then
+                ab12_n2 = loc_ab12**(nexp - two)
+                ab1_n2  = loc_ab1 **(nexp - two)
+                ab2_n2  = loc_ab2 **(nexp - two)
+                fac2 = loc_half_seq_pow * one_m_nexp
+                inv_seq = one / loc_seq
+                d2sig12    = fac2 * (two*(dsigeq_dsig1*dsigeq_dsig1)*inv_seq   &
+                                 - ab12_n2 - ab1_n2)
+                d2sig2sig1 = fac2 * (two*(dsigeq_dsig2*dsigeq_dsig1)*inv_seq   &
+                                 + ab12_n2)      
+                d2sig22    = fac2 * (two*(dsigeq_dsig2*dsigeq_dsig2)*inv_seq   &
+                                 - ab2_n2 - ab12_n2)
+                row1_xx = d2sig12    * dsig1_dsigxx + d2sig2sig1 * dsig2_dsigxx
+                row1_xy = d2sig12    * dsig1_dsigxy + d2sig2sig1 * dsig2_dsigxy
+                row1_zx = d2sig12    * dsig1_dsigzx + d2sig2sig1 * dsig2_dsigzx
+                row2_xx = d2sig2sig1 * dsig1_dsigxx + d2sig22    * dsig2_dsigxx
+                row2_xy = d2sig2sig1 * dsig1_dsigxy + d2sig22    * dsig2_dsigxy
+                row2_zx = d2sig2sig1 * dsig1_dsigzx + d2sig22    * dsig2_dsigzx
+                inv_norm_i = one / loc_norm
+                N(i,1,1) = (row1_xx*dsig1_dsigxx + row2_xx*dsig2_dsigxx) * inv_norm_i
+                N(i,1,4) = (row1_xx*dsig1_dsigxy + row2_xx*dsig2_dsigxy) * inv_norm_i
+                N(i,1,6) = (row1_xx*dsig1_dsigzx + row2_xx*dsig2_dsigzx) * inv_norm_i
+                N(i,4,1) = (row1_xy*dsig1_dsigxx + row2_xy*dsig2_dsigxx) * inv_norm_i
+                N(i,4,4) = (row1_xy*dsig1_dsigxy + row2_xy*dsig2_dsigxy) * inv_norm_i
+                N(i,4,6) = (row1_xy*dsig1_dsigzx + row2_xy*dsig2_dsigzx) * inv_norm_i
+                N(i,6,1) = (row1_zx*dsig1_dsigxx + row2_zx*dsig2_dsigxx) * inv_norm_i
+                N(i,6,4) = (row1_zx*dsig1_dsigxy + row2_zx*dsig2_dsigxy) * inv_norm_i
+                N(i,6,6) = (row1_zx*dsig1_dsigzx + row2_zx*dsig2_dsigzx) * inv_norm_i
               endif
             endif
           enddo

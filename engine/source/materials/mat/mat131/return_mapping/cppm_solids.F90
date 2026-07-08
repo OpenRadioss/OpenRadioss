@@ -137,7 +137,7 @@
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
         integer :: i,j,ii,iter(nel),nindx,indx(nel),idev,nindx_1,indx_1(nel)
-        real(kind=WP), dimension(nel,6,6) :: cstf,N,N_i
+        real(kind=WP), dimension(:,:,:), allocatable :: cstf,N,N_i
         real(kind=WP), dimension(nel) :: pla0,normxx,normyy,normzz,            &
           normxy,normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,s43,    &
           shf,sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx,sigy0,dsigy0_dpla,     &
@@ -151,8 +151,8 @@
         real(kind=WP) :: dX_dRes(nel,2,2),detdRes_dX(nel),Res(nel,2),X(nel,2), &
           dRes_dX(nel,2,2),N_dsigdlam(nel,6)
         logical :: converged
-        real(kind=WP), dimension(nel,l_sigb) :: dsigb_dlam,sigb_i
-        integer, dimension(nel,nvartmp) :: ipos0,vartmp_i
+        real(kind=WP), dimension(:,:), allocatable :: dsigb_dlam,sigb_i
+        integer, dimension(:,:), allocatable :: ipos0,vartmp_i
 !
         integer, parameter :: eltype = 1               !< Element type (1 - Solids, 2 - Shells)
         integer, parameter :: nitermax = 500           !< Maximum number of plastic iterations
@@ -161,6 +161,15 @@
         integer, dimension(nel) :: temp_all_indices
         zeros(1:nel) = zero
         !===============================================================================
+!
+        !< Allocate large arrays if not already allocated
+        if (.not. allocated(cstf))       allocate(cstf(nel,6,6))
+        if (.not. allocated(N))          allocate(N(nel,6,6))
+        if (.not. allocated(N_i))        allocate(N_i(nel,6,6))
+        if (.not. allocated(dsigb_dlam)) allocate(dsigb_dlam(nel,l_sigb))
+        if (.not. allocated(sigb_i))     allocate(sigb_i(nel,l_sigb))
+        if (.not. allocated(ipos0))      allocate(ipos0(nel,nvartmp))
+        if (.not. allocated(vartmp_i))   allocate(vartmp_i(nel,nvartmp))
 !
         !=======================================================================
         !< - Initialisation of computation on time step
@@ -795,6 +804,15 @@
           signyy(1:nel) = signyy(1:nel) - sigm(1:nel)
           signzz(1:nel) = signzz(1:nel) - sigm(1:nel)
         endif
+!
+        !< Large array deallocation
+        if (allocated(cstf))       deallocate(cstf)
+        if (allocated(N))          deallocate(N)
+        if (allocated(N_i))        deallocate(N_i)
+        if (allocated(dsigb_dlam)) deallocate(dsigb_dlam)
+        if (allocated(sigb_i))     deallocate(sigb_i)
+        if (allocated(ipos0))      deallocate(ipos0)
+        if (allocated(vartmp_i))   deallocate(vartmp_i)    
 !
        end subroutine cppm_solids
        end module cppm_solids_mod

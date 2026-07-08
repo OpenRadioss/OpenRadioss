@@ -50,6 +50,7 @@
         use matparam_def_mod
         use table_mat_vinterp_mod
         use precision_mod, only : WP
+        use constant_mod, only : em20
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -69,7 +70,7 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset_tab,offset_var
+        integer :: offset_tab,offset_var,ndim
         real(kind=WP) :: xvec(nel,2)
         logical :: flag_extrap
 !===============================================================================
@@ -81,13 +82,18 @@
         offset_var = matparam%iparam(4)
         !< Recover flat extrapolation flag from work hardening parameters
         flag_extrap = (matparam%uparam(offset + 1) == 0)
+        ndim = matparam%table(offset_tab+1)%ndim
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = pla(1:nel)
         xvec(1:nel,2) = epsd(1:nel)
         !< Interpolate to get sigy and dsigy_dpla
         call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
-          vartmp(1:nel,offset_var+1),xvec(1:nel,1),sigy(1:nel),                &
-          dsigy_dpla(1:nel),flag_extrap)
+          vartmp(1:nel,offset_var+1:offset_var+ndim),xvec(1:nel,1:ndim),       &
+          sigy(1:nel),dsigy_dpla(1:nel),flag_extrap)
+        !< Ensure that the derivative is non-negative
+        dsigy_dpla(1:nel) = max(dsigy_dpla(1:nel),em20)
+        !< Ensure that the equivalent stress is non-negative
+        sigy(1:nel) = max(sigy(1:nel),em20)
 !
       end subroutine work_hardening_tabulated
       end module work_hardening_tabulated_mod

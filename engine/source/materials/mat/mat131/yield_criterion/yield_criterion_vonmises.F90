@@ -112,18 +112,41 @@
           normzx(1:nel) = inv_seq(1:nel)*three*signzx(1:nel)              
           !< Second order derivative of eq. stress
           if (second_order) then 
-            N(1:nel,1:6,1:6) = zero
             N(1:nel,1,1) = inv_seq(1:nel)*(one - normxx(1:nel)**2)
             N(1:nel,1,2) = inv_seq(1:nel)*(- half - normyy(1:nel)*normxx(1:nel))
             N(1:nel,1,3) = inv_seq(1:nel)*(- half - normzz(1:nel)*normxx(1:nel))
-            N(1:nel,2,1) = inv_seq(1:nel)*(- half - normxx(1:nel)*normyy(1:nel))
+            N(1:nel,1,4) = inv_seq(1:nel)*(- normxy(1:nel)*normxx(1:nel))
+            N(1:nel,1,5) = inv_seq(1:nel)*(- normyz(1:nel)*normxx(1:nel))
+            N(1:nel,1,6) = inv_seq(1:nel)*(- normzx(1:nel)*normxx(1:nel))
+            N(1:nel,2,1) = N(1:nel,1,2)
             N(1:nel,2,2) = inv_seq(1:nel)*(one - normyy(1:nel)**2)
             N(1:nel,2,3) = inv_seq(1:nel)*(- half - normzz(1:nel)*normyy(1:nel))
-            N(1:nel,3,1) = inv_seq(1:nel)*(- half - normxx(1:nel)*normzz(1:nel))
-            N(1:nel,3,2) = inv_seq(1:nel)*(- half - normyy(1:nel)*normzz(1:nel))
+            N(1:nel,2,4) = inv_seq(1:nel)*(- normxy(1:nel)*normyy(1:nel))
+            N(1:nel,2,5) = inv_seq(1:nel)*(- normyz(1:nel)*normyy(1:nel))
+            N(1:nel,2,6) = inv_seq(1:nel)*(- normzx(1:nel)*normyy(1:nel))
+            N(1:nel,3,1) = N(1:nel,1,3)
+            N(1:nel,3,2) = N(1:nel,2,3)
             N(1:nel,3,3) = inv_seq(1:nel)*(one - normzz(1:nel)**2)
+            N(1:nel,3,4) = inv_seq(1:nel)*(- normxy(1:nel)*normzz(1:nel))
+            N(1:nel,3,5) = inv_seq(1:nel)*(- normyz(1:nel)*normzz(1:nel))
+            N(1:nel,3,6) = inv_seq(1:nel)*(- normzx(1:nel)*normzz(1:nel))
+            N(1:nel,4,1) = N(1:nel,1,4)
+            N(1:nel,4,2) = N(1:nel,2,4)
+            N(1:nel,4,3) = N(1:nel,3,4)
             N(1:nel,4,4) = inv_seq(1:nel)*(three - normxy(1:nel)**2)
+            N(1:nel,4,5) = inv_seq(1:nel)*(- normyz(1:nel)*normxy(1:nel))
+            N(1:nel,4,6) = inv_seq(1:nel)*(- normzx(1:nel)*normxy(1:nel))
+            N(1:nel,5,1) = N(1:nel,1,5)
+            N(1:nel,5,2) = N(1:nel,2,5)
+            N(1:nel,5,3) = N(1:nel,3,5)
+            N(1:nel,5,4) = N(1:nel,4,5)
             N(1:nel,5,5) = inv_seq(1:nel)*(three - normyz(1:nel)**2)
+            N(1:nel,5,6) = inv_seq(1:nel)*(- normzx(1:nel)*normyz(1:nel))
+            N(1:nel,6,1) = N(1:nel,1,6)
+            N(1:nel,6,2) = N(1:nel,2,6)
+            N(1:nel,6,3) = N(1:nel,3,6)
+            N(1:nel,6,4) = N(1:nel,4,6)
+            N(1:nel,6,5) = N(1:nel,5,6)
             N(1:nel,6,6) = inv_seq(1:nel)*(three - normzx(1:nel)**2)              
           endif      
         !< Shell element
@@ -145,10 +168,43 @@
             N(1:nel,1:6,1:6) = zero
             N(1:nel,1,1) = inv_seq(1:nel)*(one - normxx(1:nel)**2)
             N(1:nel,1,2) = inv_seq(1:nel)*(- half - normyy(1:nel)*normxx(1:nel))
-            N(1:nel,2,1) = inv_seq(1:nel)*(- half - normxx(1:nel)*normyy(1:nel))
+            N(1:nel,1,4) = inv_seq(1:nel)*(- normxy(1:nel)*normxx(1:nel))
+            N(1:nel,2,1) = N(1:nel,1,2)
             N(1:nel,2,2) = inv_seq(1:nel)*(one - normyy(1:nel)**2)
+            N(1:nel,2,4) = inv_seq(1:nel)*(- normxy(1:nel)*normyy(1:nel))
+            N(1:nel,4,1) = N(1:nel,1,4)
+            N(1:nel,4,2) = N(1:nel,2,4)
             N(1:nel,4,4) = inv_seq(1:nel)*(three - normxy(1:nel)**2)             
-          endif    
+          endif 
+        !< Beam element
+        !< The integrated beam stress state is limited to the axial stress xx
+        !< and the two transverse shear stresses xy and zx (syy = szz = syz = 0).
+        !< The equivalent stress therefore reduces to a 1D axial + shear form.
+        elseif (eltype == 3) then
+          !< Equivalent stress
+          seq(1:nel) = signxx(1:nel)**2 + three*(signxy(1:nel)**2 + signzx(1:nel)**2)
+          seq(1:nel) = sqrt(seq(1:nel))
+          !< First order derivative of eq. stress
+          inv_seq(1:nel) = one / max(seq(1:nel), em20)
+          normxx(1:nel) = inv_seq(1:nel)*signxx(1:nel)
+          normyy(1:nel) = zero
+          normzz(1:nel) = zero
+          normxy(1:nel) = three*inv_seq(1:nel)*signxy(1:nel)
+          normyz(1:nel) = zero
+          normzx(1:nel) = three*inv_seq(1:nel)*signzx(1:nel)
+          !< Second order derivative of eq. stress
+          if (second_order) then 
+            N(1:nel,1:6,1:6) = zero
+            N(1:nel,1,1) = inv_seq(1:nel)*(one - normxx(1:nel)**2)
+            N(1:nel,1,4) = inv_seq(1:nel)*(- normxy(1:nel)*normxx(1:nel))
+            N(1:nel,1,6) = inv_seq(1:nel)*(- normzx(1:nel)*normxx(1:nel))
+            N(1:nel,4,1) = N(1:nel,1,4)
+            N(1:nel,4,4) = inv_seq(1:nel)*(three - normxy(1:nel)**2)
+            N(1:nel,4,6) = inv_seq(1:nel)*(- normzx(1:nel)*normxy(1:nel))
+            N(1:nel,6,1) = N(1:nel,1,6)
+            N(1:nel,6,4) = N(1:nel,4,6)
+            N(1:nel,6,6) = inv_seq(1:nel)*(three - normzx(1:nel)**2)             
+          endif 
         endif
 !
       end subroutine yield_criterion_vonmises

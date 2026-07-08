@@ -70,7 +70,7 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          integer :: offset_tab,offset_var
+          integer :: offset_tab,offset_var,ndim
           real(kind=WP) :: xvec(nel,2),yldth(nel),dyldth(nel),yldth0(nel),       &
             dyldth0(nel),tref
 !===============================================================================
@@ -83,17 +83,20 @@
           !< Table offset
           offset_tab = matparam%iparam(16)
           offset_var = matparam%iparam(18)
+          ndim       = matparam%table(offset_tab+1)%ndim
           !< Prepare input vectors for interpolation
           xvec(1:nel,1) = pla(1:nel)
           xvec(1:nel,2) = tref
           !< Interpolate to get thermfac and dthermfac
           call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
-            vartmp(1:nel,offset_var+1),xvec,yldth0,dyldth0)
+            vartmp(1:nel,offset_var+1:offset_var+ndim),xvec(1:nel,1:ndim),       &
+            yldth0,dyldth0)
           !< Prepare input vectors for interpolation
           xvec(1:nel,2) = temp(1:nel)
           !< Interpolate to get thermfac and dthermfac
           call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
-            vartmp(1:nel,offset_var+3),xvec,yldth,dyldth)
+            vartmp(1:nel,offset_var+ndim+1:offset_var+2*ndim),xvec(1:nel,1:ndim),&
+            yldth,dyldth)
           !< Update temporary variables
           dsigy_dpla(1:nel) = dsigy_dpla(1:nel)*(yldth(1:nel)/yldth0(1:nel))
           sigy(1:nel) = sigy(1:nel)*(yldth(1:nel)/yldth0(1:nel))

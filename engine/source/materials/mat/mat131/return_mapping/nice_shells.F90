@@ -129,7 +129,7 @@
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
         integer :: i,j,ii,nindx,indx(nel)
-        real(kind=WP), dimension(nel,6,6) :: cstf,N
+        real(kind=WP), dimension(:,:,:), allocatable :: cstf,N
         real(kind=WP) :: dlam_nl
         real(kind=WP), dimension(nel) :: pla0,normxx,normyy,normzz,normxy,     &
           normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,s43,depzz,     &
@@ -142,9 +142,9 @@
           temp_i,seq_i,normxx_i,normyy_i,normzz_i,normxy_i,normyz_i,normzx_i,  &
           dphi_dseq,dphi_dsigy,dphi_dlam,sig_dseqdsig,dphi,dtemp_dpla_i,       &
           epsdot,dav,deve1,deve2,deve3,deve4
-        real(kind=WP), dimension(nel,l_sigb) :: dsigb_dlam,sigb_i
+        real(kind=WP), dimension(:,:), allocatable :: dsigb_dlam,sigb_i
         real(kind=WP), dimension(nel) :: signzz,sigozz,depszz,dezz
-        integer, dimension(nel,nvartmp) :: ipos0,vartmp_i
+        integer, dimension(:,:), allocatable :: ipos0,vartmp_i
 !
         integer, parameter :: eltype = 2               !< Element type (1 - Solids, 2 - Shells)
         integer, parameter :: iresp = 0                !< Response type (0 - standard)
@@ -154,6 +154,14 @@
         integer, dimension(nel) :: temp_all_indices
         zeros(1:nel) = zero
 !===============================================================================
+!
+        !< Allocate large arrays if not already allocated
+        if (.not. allocated(cstf))       allocate(cstf(nel,6,6))
+        if (.not. allocated(N))          allocate(N(nel,6,6))
+        if (.not. allocated(dsigb_dlam)) allocate(dsigb_dlam(nel,l_sigb))
+        if (.not. allocated(sigb_i))     allocate(sigb_i(nel,l_sigb))
+        if (.not. allocated(ipos0))      allocate(ipos0(nel,nvartmp))
+        if (.not. allocated(vartmp_i))   allocate(vartmp_i(nel,nvartmp))
 !
         !=======================================================================
         !< - Initialisation of computation on time step
@@ -461,6 +469,7 @@
                                       + norm0xy(ii) * dsigxy(ii))
             !< Assembling plastic multiplier
             dlam(ii) = -(phi0(ii) + dphi(ii))/dphi_dlam(ii)
+            dlam(ii) = max(dlam(ii),zero)
 !
             !<  b) Stress tensor update
             !<  ----------------------------------------------------------------
@@ -507,7 +516,7 @@
           call elasto_plastic_yield_stress(                                    &
             matparam ,nindx    ,sigy_i   ,pla_i    ,epsd_i   ,dsigy_dpla_i,    &
             nvartmp  ,vartmp_i(1:nindx,1:nvartmp)  ,temp_i   ,dtemp_dpla_i,    &
-            jthe  )
+            jthe     )
 !
           !<  e) Backstress tensor update
           !<  ------------------------------------------------------------------
@@ -674,6 +683,14 @@
             endif
           enddo
         endif
+!
+        !< Large array deallocation
+        if (allocated(cstf))       deallocate(cstf)
+        if (allocated(N))          deallocate(N)
+        if (allocated(dsigb_dlam)) deallocate(dsigb_dlam)
+        if (allocated(sigb_i))     deallocate(sigb_i)
+        if (allocated(ipos0))      deallocate(ipos0)
+        if (allocated(vartmp_i))   deallocate(vartmp_i)
 !
        end subroutine nice_shells
        end module nice_shells_mod
