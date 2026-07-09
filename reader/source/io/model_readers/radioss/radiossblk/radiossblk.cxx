@@ -422,8 +422,8 @@ static void RadiossblkMovePreobjects(
     pre_obj_lst[source_type].resize(i_new);
 }
 
-static unsigned int sUserProfileLoadedVersion = 2026;
-static string rad_version("radioss2026");
+static unsigned int sUserProfileLoadedVersion = 2612;
+static string rad_version("radioss2612");
 
 extern "C" RADIOSSBLK_DECLS
 void RadiossblkSetUserProfileVersion(unsigned int version)

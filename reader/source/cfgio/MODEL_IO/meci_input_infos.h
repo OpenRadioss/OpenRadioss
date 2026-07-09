@@ -89,6 +89,19 @@ public:
     /// Gets begin keyword
     /// </summary>
     virtual const char* GetBeginKeyword() const { return ""; }
+
+
+    virtual void  getBlockKeywordLst(std::vector<std::pair<std::string, std::string>>  &keylst_out) const {   }
+
+    // Add a block Keyword pair
+    virtual void addBlockKeyword(const std::string& start, const std::string& end) {    }
+
+    // Check if string matches either start or end
+    virtual bool IsBlockKeyword(const char* str, bool start = true, bool caseInsensitive = true,
+        const std::string** matchedStr = nullptr) const { return false; }
+
+    virtual bool GetBlockEndKeywordFromStartName(const char* start_block_str, bool caseInsensitive = true, 
+        const std::string** matchedEndStr = nullptr) const { return false; }
  public: /** @name Header Keywords */
   //@{
   
@@ -104,7 +117,7 @@ public:
   virtual bool IsSupportedForContinueReadWithoutHeader() const { return false; }
   ///
   virtual void ProcessKeywordComments(std::vector<std::vector<string>>& comments,
-                                      obj_type_e etype, IdentifierValuePairList& vallst) const
+                                      obj_type_e& etype, IdentifierValuePairList& vallst) const
   { return; }
   /// Gets the keywords and object types of the elements
   virtual PseudoObjectKeywords_t *GetElementKeywords(PseudoObjectKeywords_t *elt_keywords_p=NULL) const { return nullptr; }

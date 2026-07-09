@@ -88,7 +88,7 @@ namespace sdiD2R
 
         void p_CopyNumIntPtsFromMatAddErosion(const sdi::EntityRead& matEntityRead, sdi::HandleEdit& radProp,const sdi::EntityRead& dynaProp, int nip);
 
-        void p_CopyNumIntPtsFromMatPlasticity(const sdi::EntityRead& matEntityRead, sdi::HandleEdit& radProp, int nip);
+        void p_CopyNumIntPtsFromMatPlasticity(const sdi::EntityRead& matEntityRead, sdi::HandleEdit& radProp, int nip, int matLawNum);
 
         void p_ConvertSectionSeatbeltToProp23(const sdi::EntityRead& matEntityRead, const sdi::EntityRead& dynaProp, sdiString& destCard, sdi::HandleEdit& radProp);
 

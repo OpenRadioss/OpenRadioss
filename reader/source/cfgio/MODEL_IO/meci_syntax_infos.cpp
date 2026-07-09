@@ -197,7 +197,7 @@ bool SolverSyntaxInfos::isHeader(const char* buffer, char** keyword_p) const
         const char* a_header_char_p = buffer;
         while (*a_header_char_p != '\0')
         {
-            if (IsSpaceORContinueChars(a_header_char_p))
+            if (IsSpaceORContinueChars(a_header_char_p[0]))
                 count++;
             else
                 break;
@@ -232,9 +232,9 @@ io_types::format_type_e SolverSyntaxInfos::updateLineFormatType(const char* line
     myLineFormatType = io_types::FORMAT_UNDEFINED;
     return myLineFormatType;
 }
-bool SolverSyntaxInfos::IsSpaceORContinueChars(const char* cp) const
+bool SolverSyntaxInfos::IsSpaceORContinueChars(const char cp) const
 {
-    if (*cp == ' ')
+    if (cp == ' ')
         return true;
     return false;
 }

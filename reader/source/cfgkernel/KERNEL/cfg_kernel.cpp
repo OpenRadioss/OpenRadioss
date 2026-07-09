@@ -19,7 +19,10 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+#ifndef _HAS_STD_BYTE
+#define _HAS_STD_BYTE 0 // Disable std::byte to avoid conflict with Windows SDK typedef 'byte'
+#endif
 #include <UTILS/mv_string.h>
 #include <UTILS/mv_stl_various.h>
 #include <UTILS/file_utils.h>
@@ -56,7 +59,21 @@
 #define mkdir(dir, mode) _mkdir(dir)
 #endif
 
-using namespace std;
+// NOTE: Do NOT use 'using namespace std;' here.
+// Including <windows.h> pulls in headers (rpcndr.h, wtypes*.h, objidl*.h, oaidl.h)
+// which typedef a global 'byte' (typedef unsigned char byte;). In C++17 and later,
+// 'std::byte' is introduced. Bringing the entire std namespace into the global
+
+// producing error C2872. To avoid this, replace the broad using-directive with
+// selective using-declarations for only the standard library types we need.
+using std::string;
+using std::vector;
+using std::map;
+using std::set;
+using std::istringstream;
+using std::ifstream;
+using std::ofstream;
+// Add more as required, but keep the list minimal to prevent future symbol clashes.
 
 typedef vector<MvPreDatasHierarchy_t*> MvPreDatasHierarchyList_t;
 
@@ -263,7 +280,7 @@ void GetSolverFolderHierachy(map<ApplicationMode_e, string>& appfolderhierachy, 
     if (false == first)
     {
         app_folder_hierachy[HCDI_SOLVER_LSDYNA]     = "Keyword971_R16.0:Keyword971_R15.0:Keyword971_R14.1:Keyword971_R14.0:Keyword971_R13.1:Keyword971_R13.0:Keyword971_R12.0:Keyword971_R11.2:Keyword971_R11.1:Keyword971_R11.0:Keyword971_R10.1:Keyword971_R9.3:Keyword971_R9.0:Keyword971_R8.0:Keyword971_R7.1:Keyword971_R6.1:Keyword971";
-        app_folder_hierachy[HCDI_SOLVER_RADIOSS]    = "radioss2026:radioss2025:radioss2024:radioss2023:radioss2022:radioss2021:radioss2020:radioss2019:radioss2018:radioss2017:radioss140:radioss130:radioss120:radioss110:radioss100:radioss90:radioss51:radioss44:radioss42:radioss41";
+        app_folder_hierachy[HCDI_SOLVER_RADIOSS]    = "radioss2612:radioss2026:radioss2025:radioss2024:radioss2023:radioss2022:radioss2021:radioss2020:radioss2019:radioss2018:radioss2017:radioss140:radioss130:radioss120:radioss110:radioss100:radioss90:radioss51:radioss44:radioss42:radioss41";
         buildfileformatLookup(app_folder_hierachy);
         first = true;
     }

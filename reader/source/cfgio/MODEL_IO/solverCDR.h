@@ -42,6 +42,7 @@
 #include <MODEL_IO/mec_read_file_factory.h>
 // Forward declaration
 class HWCFGReader;
+class HWCFGReaderMessageList;
 
 class ParameterPOImp : public IParameter
 {
@@ -112,6 +113,8 @@ public:
         delete parameter_obj;
     }
 public:
+    virtual IMECPreObject* CreateObject(const char *kernel_full_type, const char *input_full_type,
+                                        const char *title = "", int id = 0, int unit_id = 0);
     int AddObject(const IMECPreObject& pre_object, const InputInfos::IdentifierValuePairList* metaarg = NULL);
 
     void PreTreatObject(const char* otype);
@@ -163,6 +166,11 @@ public:
 
     InputInfos* GetInputInfo()  { return m_pinputInfo.get(); }
 
+    /// Sets a message list which will be populated when reading
+    void SetMessageList(HWCFGReaderMessageList* pMessageList, bool owningMessageList);
+    /// Gets the message list (might be nullptr)
+    const HWCFGReaderMessageList* GetMessageList() const { return m_pMessageList; }
+
 private:
     ModelFactoryReaderPO*           m_pmodel = nullptr;
     std::unique_ptr<ISyntaxInfos>   m_psyntaxInfos;
@@ -171,6 +179,8 @@ private:
     MvFileFormat_e                  m_loaded_fileformat;
     bool                            m_set_cur_kernel = false;
     const ReadFileFactorySP         m_pfileFactory;
+    HWCFGReaderMessageList*         m_pMessageList = nullptr;
+    bool                            m_owningMessageList = false;
 };
 
 /*class to load kernel and unload it by setting prevoius kernel active*/

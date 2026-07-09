@@ -21,6 +21,11 @@
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
+
+//occurs because C++17 introduced a new type alias std::byte in the <cstddef> header, which may conflict with a byte macro or typedef defined elsewhere
+#if defined(_MSC_VER) && !defined(_HAS_STD_BYTE)
+#define _HAS_STD_BYTE 0
+#endif
 #include <UTILS/win32_utils.h>  
 
 #include <iostream>
@@ -1446,6 +1451,104 @@ HC_DATA_DLL_API int HCDIGetObjTypeFlags(obj_type_e type, string& username)
     return flag;
 }
 
+
+bool loc_recursive_get_key_value(int etype, const MvPreDatasHierarchy_t* data, const string& hkey_str,
+                                    const string& solverkey, string& out_htype_val)
+{
+    MvPreDatasHierarchyList_t::const_iterator it_begin = data->getChildList().begin();
+    MvPreDatasHierarchyList_t::const_iterator it_end = data->getChildList().end();
+    MvPreDatasHierarchyList_t::const_iterator it;
+
+    for (it = it_begin; it != it_end; ++it)
+    {
+        int nb_child = (*it)->getNbChildren();
+        string skey = (*it)->getKeyword();
+        obj_type_e a_type = (*it)->getType();
+        if (nb_child > 0)
+        {
+            bool ret = loc_recursive_get_key_value(etype, *it, hkey_str, solverkey, out_htype_val);
+            if (ret == true)
+                return true;
+        }
+        else
+        {
+            const MvSubtype_t* psubtype = (*it)->getSubtypePtr();
+            if (psubtype)
+            {
+                const MvStringList_t& user_names = psubtype->getUserNameList();
+                int size = (int)user_names.size();
+
+                auto itr = std::find(user_names.begin(), user_names.end(), solverkey);
+
+                if (itr != user_names.end()) {
+                    if (hkey_str == "KEYWORD")
+                    {
+                        out_htype_val = skey;
+                        return true;
+                    }
+                    else if (hkey_str == "CARD_IMAGE")
+                    {
+                        char* cimage = psubtype->getCardImage();
+                        out_htype_val = (cimage == NULL) ? "" : cimage;
+                        if (out_htype_val == "")
+                        {
+                            if(skey != "" && skey != "NO_KEYWORD")
+                                out_htype_val = skey;
+
+                            if (out_htype_val=="")
+                                out_htype_val = user_names.at((size_t)size - 1); /*last name*/
+                        }
+                        return true;
+                    }
+                    else if (hkey_str == "HTYPE")
+                    {
+                        out_htype_val = (*it)->getHtype();
+                        return true;
+                    }
+                    else if (hkey_str == "TITLE")
+                    {
+                        out_htype_val = (*it)->getTitle();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
+HC_DATA_DLL_API bool HCDIGetKeyValueFromSolverName(obj_type_e type, const string  &hkey_str, const string& solverkey, string & out_htype_val)
+{
+    MultiCFGKernelMgr& descrp_model = MultiCFGKernelMgr::getInstance();
+    const CFGKernel* a_cfgkernel = descrp_model.GetCurrentCFGKernel();
+    if (!a_cfgkernel)
+        return false;
+
+    const MvPreDatasHierarchy_t* a_data_cfg_p = a_cfgkernel->get_datastreehierarchy(DTT_ASSIGNED);
+    if (NULL == a_data_cfg_p)
+        return false;
+
+    MvPreDatasHierarchyList_t::const_iterator it_begin = a_data_cfg_p->getChildList().begin();
+    MvPreDatasHierarchyList_t::const_iterator it_end = a_data_cfg_p->getChildList().end();
+    MvPreDatasHierarchyList_t::const_iterator it;
+
+    for (it = it_begin; it != it_end; ++it)
+    {
+        int nb_child = (*it)->getNbChildren();
+        string skey = (*it)->getKeyword();
+        obj_type_e a_type = (*it)->getType();
+
+        if (a_type == type)
+        {
+            return loc_recursive_get_key_value(type, *it, hkey_str, solverkey, out_htype_val);
+        }
+    }
+    return false;
+}
+
+
 HC_DATA_DLL_API bool HCDIHasObjTypeFlags(obj_type_e type, int flag)
 {
     const MvPreDatasHierarchy_t* a_data_cfg_p = NULL;
@@ -2162,7 +2265,12 @@ HC_DATA_DLL_API int HCDI_TestTool(const string& path_home, int testid, const str
 {
     std::string str_error;
     unsigned int memUsage = 0, memUsage_st = 0, memUsage_st_begin = 0;
-    using namespace std;
+    
+    using std::string;
+    using std::vector;
+    using std::multimap;
+    using std::clock_t;
+    using std::map;
 
     void outputtimedifference(clock_t begin_time, string str);
     void PrintResults();
@@ -2641,3 +2749,306 @@ int main()
     return 0;
 }
 #endif //  _HCDI_INTERNAL_TEST_TOOL
+
+void fill_data(map<string, map<string, map<string, set<string>>>> &hier_data, const MvPreDatasHierarchy_t* data)
+{
+    MvPreDatasHierarchyList_t::const_iterator it_begin = data->getChildList().begin();
+    MvPreDatasHierarchyList_t::const_iterator it_end = data->getChildList().end();
+    MvPreDatasHierarchyList_t::const_iterator it;
+    for (it = it_begin; it != it_end; ++it)
+    {
+        int nb_child = (*it)->getNbChildren();
+
+        if (nb_child == 0)
+        {
+            obj_type_e a_type = (*it)->getType();
+            string s_type = MV_get_type(a_type);
+            string keyword = (*it)->getKeyword();
+            string title = (*it)->getTitle();
+            const MvSubtype_t* subtype = (*it)->getSubtypePtr();
+            map<string, set<string>> a_map;
+            map<string, map<string, set<string>>> a_map_map;
+            if (subtype)
+            {
+                int hm_config_type = subtype->getHMConfigType();
+                int hm_type = subtype->getHMType();
+                const MvStringList_t& list = subtype->getUserNameList();
+                string a_value = str_printf("%d", hm_config_type);
+                set<string> a_set;
+                a_set.insert(a_value);
+                a_map["HM_CONFIG_TYPE"] = a_set;
+                a_set.clear();
+                a_value = str_printf("%d", hm_type);
+                a_set.insert(a_value);
+                a_map["HM_TYPE"] = a_set;
+
+                a_set.clear();
+                a_set.insert(title);
+                a_map["TITLE"] = a_set;
+
+                a_set.clear();
+                int size = (int)list.size();
+                for (int i = 0; i < size; i++)
+                {
+                    string item = list.at(i);
+                    a_set.insert(item);
+                }
+                a_map["USER_NAMES"] = a_set;
+                a_map_map[keyword] = a_map;
+                map<string, map<string, map<string, set<string>>>>::iterator iter = hier_data.find(s_type);
+                if (iter != hier_data.end())
+                {
+                    map<string, map<string, set<string>>>& a_map_map_found = iter->second;
+                    a_map_map_found[keyword] = a_map;
+                }
+                else
+                    hier_data[s_type] = a_map_map;
+            }
+        }
+        else
+        {
+            fill_data(hier_data, *it);
+        }
+    }
+}
+
+int find_in_maps(map<string, set<string>>& a_map, map<string, set<string>>& second_map, string &key, string &line_to_print)
+{
+    int result = 0;
+    map<string, set<string>>::iterator map_iter = a_map.find(key);
+
+    if (map_iter != a_map.end())
+    {
+        set<string>& a_set1 = map_iter->second;
+        map<string, set<string>>::iterator second_map_iter = second_map.find(key);
+
+        if (second_map_iter != second_map.end())
+        {
+            line_to_print += "\t";
+            set<string>& a_set2 = second_map_iter->second;
+            set<string>::iterator set1_iter_b = a_set1.begin();
+            set<string>::iterator set1_iter_e = a_set1.end();
+            set<string>::iterator set1_iter;
+            for (set1_iter = set1_iter_b; set1_iter != set1_iter_e; ++set1_iter)
+            {
+                string a_str1 = *set1_iter;
+                set<string>::iterator set2_iter_b = a_set2.begin();
+                set<string>::iterator set2_iter_e = a_set2.end();
+                set<string>::iterator set2_iter;
+                bool found = false;
+                for (set2_iter = set2_iter_b; set2_iter != set2_iter_e; ++set2_iter)
+                {
+                    string a_str2 = *set2_iter;
+                    if (a_str1 == a_str2)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    line_to_print += a_str1;
+                    line_to_print += " ";
+                    result = 1;
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+void comp_data(map<string, map<string, map<string, set<string>>>>& hier_data1, map<string, map<string, map<string, set<string>>>>& hier_data2, FILE *fp, char *kernel)
+{
+    map<string, map<string, map<string, set<string>>>>::iterator iter_b = hier_data1.begin();
+    map<string, map<string, map<string, set<string>>>>::iterator iter_e = hier_data1.end();
+    map<string, map<string, map<string, set<string>>>>::iterator iter;
+    for (iter = iter_b; iter != iter_e; ++iter)
+    {
+        string type = iter->first;
+        map<string, map<string, set<string>>> &a_map_map = iter->second;
+        map<string, map<string, map<string, set<string>>>>::iterator iter_found = hier_data2.find(type);
+        if (iter_found != hier_data2.end())
+        {
+            map<string, map<string, set<string>>>::iterator m_iter_b = a_map_map.begin();
+            map<string, map<string, set<string>>>::iterator m_iter_e = a_map_map.end();
+            map<string, map<string, set<string>>>::iterator m_iter;
+            for (m_iter = m_iter_b; m_iter != m_iter_e; ++m_iter)
+            {
+                string a_key = m_iter->first;
+                map<string, set<string>> &a_map = m_iter->second;
+                map<string, map<string, set<string>>> &a_second_map_map = iter_found->second;
+                map<string, map<string, set<string>>>::iterator key_iter = a_second_map_map.find(a_key);
+                if (key_iter != a_second_map_map.end())
+                {
+                    string line_to_print = "";
+                    // title
+                    map<string, set<string>>& second_map = key_iter->second;
+                    int result = 0;
+                    string key = "TITLE";
+                    result = find_in_maps(a_map, second_map, key, line_to_print);
+                    
+                    key = "HM_CONFIG_TYPE";
+                    result += find_in_maps(a_map, second_map, key, line_to_print);
+                    
+                    key = "HM_TYPE";
+                    result += find_in_maps(a_map, second_map, key, line_to_print);
+                    // USER_NAMES
+                    key = "USER_NAMES";
+                    result += find_in_maps(a_map, second_map, key, line_to_print);
+                    if(result != 0)
+                        fprintf(fp, "%s\t%s\t%s\n", type.c_str(), kernel, line_to_print.c_str());
+                }
+                else
+                {
+                    fprintf(fp, "%s\t%s\t%s\n", type.c_str(), kernel, a_key.c_str());
+                }
+            }
+        }
+        else
+        {
+            fprintf(fp, "%s\t%s\n", type.c_str(), kernel);
+        }
+    }
+}
+
+HC_DATA_DLL_API void CompareCfgKernels(char* first_kernel, char* sec_kernel)
+{
+    MvFileFormat_e old_profile = MultiCFGKernelMgr::getInstance().GetActiveUserProfile();
+    char* path = getenv("HW_CFG_TEST_TOOL_PATH");
+    char* altair_home = getenv("ALTAIR_HOME");
+    char* root_dir = getenv("HW_ROOTDIR");
+    string filepath = "";
+    if (path != NULL)
+        filepath = path;
+    else if (altair_home != NULL)
+        filepath = altair_home;
+    else if (root_dir != NULL)
+    {
+        filepath = root_dir;
+        filepath += "/CFG_TESTTOOL_RESULTS";
+    }
+
+    filepath += "/comparison_result.txt";
+    vector<string> flags{ "HM_SUPPORTED" };
+    string path_home = "";
+    if (altair_home)
+    {
+        path_home = altair_home;
+    }
+    string str_error = "";
+    const CFGKernel* a_cfgkernel1 = MultiCFGKernelMgr::getInstance().InitCFGKernel(string(path_home), "", first_kernel, "", false, flags, str_error);
+    if (!a_cfgkernel1)
+        return;
+    if (str_error != "")
+    {
+        return;
+    }
+    const CFGKernel* a_cfgkernel2 = MultiCFGKernelMgr::getInstance().InitCFGKernel(string(path_home), "", sec_kernel, "", false, flags, str_error);
+    if (!a_cfgkernel2)
+        return;
+    if (str_error != "")
+    {
+        return;
+    }
+    const MvPreDatasHierarchy_t* data1 = a_cfgkernel1->get_datastreehierarchy(DTT_ASSIGNED);
+    if (data1 == NULL)
+        return;
+    const MvPreDatasHierarchy_t* data2 = a_cfgkernel2->get_datastreehierarchy(DTT_ASSIGNED);
+    if (data2 == NULL)
+        return;
+    FILE* fp = fopen(filepath.c_str(), "w+");
+    map<string, map<string, map<string, set<string>>>> hier_data1, hier_data2;
+    fill_data(hier_data1, data1);
+    fill_data(hier_data2, data2);
+    fprintf(fp, "Keyword / usernames not found\n");
+    fprintf(fp, "%-30s%-20s%-10s%-10s%-15s%-10s%-20s\n", "Entitytype", "Kernel", "Keyword", "Title", "HM_CONFIG_TYPE", "HM_TYPE", "USER_NAMES");
+    comp_data(hier_data1, hier_data2, fp, sec_kernel);
+    comp_data(hier_data2, hier_data1, fp, first_kernel);
+    fclose(fp);
+    fp = NULL;
+    MultiCFGKernelMgr::getInstance().SetActiveUserProfile(old_profile);
+}
+
+HC_DATA_DLL_API bool GetFlagStatus(const CFGKernel* cfgkernel, obj_type_e type, string &flag_string, string &username)
+{
+    int bitmask = 0;
+    if (cfgkernel)
+        bitmask = cfgkernel->get_data_hierarchy_bitmask(flag_string);
+    const MvPreDatasHierarchy_t* a_data_cfg_p = NULL;
+    if (cfgkernel)
+        a_data_cfg_p = cfgkernel->get_datastreehierarchy(DTT_ASSIGNED);
+
+    if (NULL == a_data_cfg_p)
+        return false;
+
+    bool if_found = false;
+    bool status = false;
+    loc_check_recursive_flag(type, username, a_data_cfg_p, bitmask, &if_found, &status);
+    return status;
+}
+
+HC_DATA_DLL_API void HCDIgetAllKeywordConfigTypesUsingKernel(const CFGKernel* cfgkernel, int etype, vector< std::pair<unsigned int, string> >& aListConfig)
+{
+    if (!cfgkernel)
+        return;
+
+    const MvPreDatasHierarchy_t* a_data_cfg_p = cfgkernel->get_datastreehierarchy(DTT_ASSIGNED);
+    if (NULL == a_data_cfg_p)
+        return;
+
+    loc_recursive_add_configs(etype, aListConfig, a_data_cfg_p);
+}
+
+void loc_recursive_add_skey_usernames(const MvPreDatasHierarchy_t* data, int etype, map< string, set<string> >& skeyUsername)
+{
+    MvPreDatasHierarchyList_t::const_iterator it_begin = data->getChildList().begin();
+    MvPreDatasHierarchyList_t::const_iterator it_end = data->getChildList().end();
+    MvPreDatasHierarchyList_t::const_iterator it;
+
+    for (it = it_begin; it != it_end; ++it)
+    {
+        int nb_child = (*it)->getNbChildren();
+        string skey = (*it)->getTitle();
+        obj_type_e a_type = (*it)->getType();
+
+        if (a_type == etype)
+        {
+            if (nb_child > 0)
+            {
+                loc_recursive_add_skey_usernames(*it, etype, skeyUsername);
+            }
+            else
+            {
+                string key;
+                key = (*it)->getKeyword();
+
+                const MvSubtype_t* psubtype = (*it)->getSubtypePtr();
+                if (!psubtype)
+                    continue;
+
+                const MvStringList_t& list = psubtype->getUserNameList();
+                int size = (int)list.size();
+
+                set<string> a_usernameset;
+                for (int i = 0; i < size; i++)
+                {
+                    string elem = list.at(i);
+                    a_usernameset.insert(elem);
+                }
+                skeyUsername[key] = a_usernameset;
+            }
+        }
+    }
+}
+
+HC_DATA_DLL_API void HCDIgetallskeywordUsernames(const CFGKernel* cfgkernel, int etype, map<string, set<string>> &askeywordUsernames)
+{
+    if (!cfgkernel)
+        return;
+
+    const MvPreDatasHierarchy_t* a_data_cfg_p = cfgkernel->get_datastreehierarchy(DTT_ASSIGNED);
+    if (NULL == a_data_cfg_p)
+        return;
+    loc_recursive_add_skey_usernames(a_data_cfg_p, etype, askeywordUsernames);
+}

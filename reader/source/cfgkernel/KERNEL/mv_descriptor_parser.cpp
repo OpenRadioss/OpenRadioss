@@ -3733,7 +3733,15 @@ string MvDescriptorParser_t::readNextCard(const MvDescriptor_t* descr_p, const s
 ff_cell_t* MvDescriptorParser_t::readCell(const MvDescriptor_t* descr_p, const string& format) {
     ff_cell_t* a_cell_p = NULL;
     //
-    switch (format[0]) {
+    char c = format[0];
+    const char* p = format.c_str();
+    if (format[0] == '%' && format[1] == '%')
+    {
+        c = ' ';
+        ++p;
+    }
+
+    switch (c) {
     case '%':
     {
         string a_func_name = "";
@@ -3908,7 +3916,17 @@ ff_cell_t* MvDescriptorParser_t::readCell(const MvDescriptor_t* descr_p, const s
                     }
                     if (getNextChar() == ',')
                     {
-                        a_skeyword = getNextQuotedString();
+                        char c = getNextChar();
+                        unreadChar();
+                        if (c != '\"') {
+                            int an_ikeyword1 = END_ARGS;
+                            a_skeyword = getNextString();
+                            an_ikeyword1 = descr_p->getIKeyword(a_skeyword);
+                            if(an_ikeyword1 <=0)  throwError("Quoted string not found");
+                        }
+                        else
+                            a_skeyword = getNextQuotedString();
+
                         if (getNextChar() != ']')
                         {
                             throwError(getMsg(13), "]");
@@ -4182,7 +4200,7 @@ ff_cell_t* MvDescriptorParser_t::readCell(const MvDescriptor_t* descr_p, const s
     default:
     {
         MCDS_new_ff_cell(&a_cell_p, CELL_COMMENT);
-        MCDS_set_ff_cell_attributes(a_cell_p, CELL_STRING, format.c_str(), END_ARGS);
+        MCDS_set_ff_cell_attributes(a_cell_p, CELL_STRING, p, END_ARGS);
     }
     break;
     
@@ -4215,7 +4233,10 @@ void MvDescriptorParser_t::readCard(const MvDescriptor_t* descr_p, PseudoCardLis
     
     try {
         for (int i = 0; i < a_nb_cells; ++i) {
-            if (a_fmt_list[i][0] == '%' && getNextChar() != ',') throwError(getMsg(13), ",");
+            if (a_fmt_list[i][0] == '%' && a_fmt_list[i][1] != '%')
+            {
+                if (getNextChar() != ',') throwError(getMsg(13), ",");
+            }
             ff_cell_t* a_cell_p = readCell(descr_p, a_fmt_list[i]);
             a_cell_list.push_back(a_cell_p);
             loc_multi_array_not_acceptable(descr_p, a_cell_p);
@@ -4353,6 +4374,18 @@ void MvDescriptorParser_t::readCardAssign(const MvDescriptor_t* descr_p, PseudoC
                 a_formula = getNextQuotedString();
                 a_char = getNextChar();
             }
+            else if (a_char == '"'  &&  (a_formula.find("_FIND") != std::string::npos || 
+                a_formula.find("_ERASE") != std::string::npos || 
+                a_formula.find("_COMBINE") != std::string::npos))
+            {
+                unreadChar();
+                a_formula += '"';
+                a_formula += getNextQuotedString();
+                a_formula += '"';
+                continue;
+            }
+
+
             if (a_char == ']' && b_square_parenthesis == false)
             {
                 throwError(getMsg(13), "[");
@@ -6924,6 +6957,12 @@ static int loc_get_fmt(const string& fmt_str, LocFormatList_t* fmt_p) {
     int i_ini = 0, i = i_ini;
     while (i < a_nb_char) {
         char c = fmt_str[i];
+        if (c == '%' && i  < a_nb_char && fmt_str[i+1] == '%')
+        {
+            i = i + 2;
+            continue;
+        }
+
         if (c == '%') {
             if (i > i_ini) {
                 fmt_p->push_back(fmt_str.substr(i_ini, i - i_ini));

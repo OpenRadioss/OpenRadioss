@@ -36,14 +36,21 @@
 #include <KERNEL/mv_descriptor.h>
 #include <HCDI/hcdi_mv_descriptor.h>
 #include <HCDI/hcdi_mec_pre_object.h>
+
+#include <variant>
+#include <optional>
+#include <cassert>
+#include <stdexcept>
+
 #include "mec_pre_object.h"
 
-struct find_id : std::unary_function<IMECPreObject*, bool> {
-    int id;
-    find_id(int id):id(id) { }
-    bool operator()(const IMECPreObject *obj) const {
-        return obj->GetId() == id;
-    }
+//std::unary_function was removed in C++17
+struct find_id {
+  int id;
+  explicit find_id(int idVal) : id(idVal) {}
+  bool operator()(const IMECPreObject* obj) const noexcept {
+    return obj && obj->GetId() == id;
+  }
 };
 
 static int getHMEntityTypeFromHM(obj_type_e type_hc);
@@ -68,6 +75,228 @@ public:
   string      myName;
 };
 
+class EntityArray {
+public:
+    using ObjectIDVec       = std::vector<int>;
+    using ObjectNameVec     = std::vector<std::string>;
+    using ObjectTVec        = std::vector<const char*>;
+    using ObjectIndexVec    = std::vector<int>;
+//private:
+public:
+    std::optional<ObjectIDVec>      myIds;
+    std::optional<ObjectNameVec>    myNames;
+    std::optional<const char*>      myOType;
+    std::optional<ObjectTVec>       myOTypes; // used only if not default
+    std::optional<ObjectIDVec>   myIndexes;
+
+public:
+    // ---------- Constructors ----------
+
+    EntityArray() = default;
+    // -------- Id only --------
+    EntityArray(const ObjectIDVec& ids, const char* default_otype = nullptr)
+        : myIds(ids)
+    {
+        if (default_otype) myOType = default_otype;
+    }
+
+    EntityArray(ObjectIDVec&& ids, const char* default_otype = nullptr)
+        : myIds(std::move(ids))
+    {
+        if (default_otype) myOType = default_otype;
+    }
+
+    // -------- Name only --------
+    EntityArray(const ObjectNameVec& names, const char* default_otype = nullptr)
+        : myNames(names)
+    {
+        if (default_otype) myOType = default_otype;
+    }
+
+    EntityArray(ObjectNameVec&& names, const char* default_otype = nullptr)
+        : myNames(std::move(names))
+    {
+        if (default_otype) myOType = default_otype;
+    }
+
+    // -------- Aid + Name --------
+    EntityArray(const ObjectIDVec& ids, const ObjectNameVec& names, const char* default_otype = nullptr)
+        : myIds(ids), myNames(names)
+    {
+        enforce_size_match();
+        if (default_otype) myOType = default_otype;
+    }
+
+    EntityArray(ObjectIDVec&& ids, ObjectNameVec&& names, const char* default_otype = nullptr)
+        : myIds(std::move(ids)), myNames(std::move(names))
+    {
+        enforce_size_match();
+        if (default_otype) myOType = default_otype;
+    }
+
+    // -------- Id + Name + OT --------
+    EntityArray(const ObjectIDVec& ids, const ObjectNameVec& names, const ObjectTVec& ot)
+        : myIds(ids), myNames(names), myOTypes(ot)
+    {
+        enforce_size_match();
+        enforce_ot_size_match();
+    }
+
+    EntityArray(ObjectIDVec&& ids, ObjectNameVec&& names, ObjectTVec&& ot)
+        : myIds(std::move(ids)), myNames(std::move(names)), myOTypes(std::move(ot))
+    {
+        enforce_size_match();
+        enforce_ot_size_match();
+    }
+
+    // -------- Id + OT --------
+    EntityArray(const ObjectIDVec& ids, const ObjectTVec& ot)
+        : myIds(ids), myOTypes(ot)
+    {
+        enforce_ot_size_match();
+    }
+
+    EntityArray(ObjectIDVec&& ids, ObjectTVec&& ot)
+        : myIds(std::move(ids)), myOTypes(std::move(ot))
+    {
+        enforce_ot_size_match();
+    }
+
+    // -------- Name + OT --------
+    EntityArray(const ObjectNameVec& names, const ObjectTVec& ot)
+        : myNames(names), myOTypes(ot)
+    {
+        enforce_ot_size_match();
+    }
+
+    EntityArray(ObjectNameVec&& names, ObjectTVec&& ot)
+        : myNames(std::move(names)), myOTypes(std::move(ot))
+    {
+        enforce_ot_size_match();
+    }
+
+    // ---------- Setters ----------
+
+    void setId(ObjectIDVec ids) {
+        if (myNames && myNames->size() != ids.size())
+            throw std::invalid_argument("ids and names size mismatch");
+        myIds = std::move(ids);
+        enforce_ot_size_match();
+    }
+
+    void setName(ObjectNameVec names) {
+        if (myIds && myIds->size() != names.size())
+            throw std::invalid_argument("ids and names size mismatch");
+        myNames = std::move(names);
+        enforce_ot_size_match();
+    }
+
+    void setOT(const char* default_ot_val) {
+        myOType = default_ot_val;
+        myOTypes.reset(); // drop vector
+    }
+
+    void setOT(ObjectTVec ot_vec) {
+        myOTypes = std::move(ot_vec);
+        myOType.reset(); // override default
+        enforce_ot_size_match();
+    }
+
+    void setIndex(ObjectIDVec indexes) {
+        if (myIds && myIds->size() != (*myIndexes).size())
+            throw std::invalid_argument("ind and id size mismatch");
+        myIndexes = std::move(indexes);
+        enforce_ot_size_match();
+    }
+
+
+    // ---------- Accessors ----------
+
+    size_t getSize() const {
+        if (myIds) return myIds->size();
+        if (myNames) return myNames->size();
+        if (myOTypes) return myOTypes->size();
+        if (myIndexes) return myIndexes->size();
+        return 0;
+    }
+
+    int getId(size_t i) const {
+        return (myIds && i < myIds->size()) ? (*myIds)[i] : 0;
+    }
+
+    const std::string* getName(size_t i) const {
+        return (myNames && i < myNames->size()) ? &(*myNames)[i] : nullptr;
+    }
+
+    const char* getObjectType(size_t i) const {
+        if (myOType) return *myOType;
+        if (myOTypes && i < myOTypes->size()) return (*myOTypes)[i];
+        return nullptr;
+    }
+
+    int getIndex(size_t i) const {
+        return (myIndexes && i < myIndexes->size()) ? (*myIndexes)[i] : 0;
+    }
+
+    void clear_all(bool full_reset = false) {
+        if (full_reset) {
+            myIds.reset();
+            myOTypes.reset();
+            myNames.reset();
+            myIndexes.reset();
+        }
+        else {
+            if (myIds)  myIds->clear();
+            if (myOTypes)   myOTypes->clear();
+            if (myNames) myNames->clear();
+            if (myIndexes) myIndexes->clear();
+        }
+    }
+
+    void reserve(size_t n) {
+        if (!myIds)  myIds.emplace();
+        myIds->reserve(n);
+
+        if (!myOTypes)   myOTypes.emplace();
+        myOTypes->reserve(n);
+
+        if (!myNames) myNames.emplace();
+        myNames->reserve(n);
+
+        if (!myIndexes)  myIndexes.emplace();
+        myIndexes->reserve(n);
+    }
+
+    void resize(size_t n) {
+        if (!myIds)  myIds.emplace();
+        myIds->resize(n);
+
+        if (!myOTypes)   myOTypes.emplace();
+        myOTypes->resize(n);
+
+        if (!myNames) myNames.emplace(n);
+        //myNames->reserve(n);
+        //myNames->emplace(n);
+
+        if (!myIndexes)  myIndexes.emplace();
+        myIndexes->resize(n);
+    }
+
+private:
+    void enforce_size_match() const {
+        if (myIds && myNames && myIds->size() != myNames->size()) {
+            throw std::invalid_argument("ids and names must have the same size");
+        }
+    }
+
+    void enforce_ot_size_match() const {
+        size_t ref_size = getSize();
+        if (myOTypes && myOTypes->size() != ref_size) {
+            throw std::invalid_argument("ot size must match ids/names size");
+        }
+    }
+};
+
 
 typedef LocAttribute_t<int>              LocIntSingleAttribute_t;
 typedef LocAttribute_t<unsigned int>     LocUIntSingleAttribute_t;
@@ -85,7 +314,8 @@ typedef vector<int>              LocIntArray_t;
 typedef vector<unsigned int>     LocUIntArray_t;
 typedef vector<double>           LocFloatArray_t;
 typedef vector<string>           LocStringArray_t;
-typedef vector<LocObjectTrack_t> LocObjectArray_t;
+typedef vector<LocObjectTrack_t>     LocObjectArray_t;
+typedef EntityArray                  LocEntityArray_t;
 
 typedef LocAttribute_t<LocIntArray_t>    LocIntArrayAttribute_t;
 typedef LocAttribute_t<LocUIntArray_t>    LocUIntArrayAttribute_t;
@@ -93,11 +323,18 @@ typedef LocAttribute_t<LocFloatArray_t>  LocFloatArrayAttribute_t;
 typedef LocAttribute_t<LocStringArray_t> LocStringArrayAttribute_t;
 typedef LocAttribute_t<LocObjectArray_t> LocObjectArrayAttribute_t;
 
+typedef LocAttribute_t <LocEntityArray_t> LocEntityArrayAttribute_t;
+
+
+
 typedef vector<LocIntArrayAttribute_t>    LocIntArrayAttributes_t;
 typedef vector<LocUIntArrayAttribute_t>    LocUIntArrayAttributes_t;
 typedef vector<LocFloatArrayAttribute_t>  LocFloatArrayAttributes_t;
 typedef vector<LocStringArrayAttribute_t> LocStringArrayAttributes_t;
 typedef vector<LocObjectArrayAttribute_t> LocObjectArrayAttributes_t;
+
+typedef vector<LocEntityArrayAttribute_t> LocEntityArrayAttributes_t;
+
 
 typedef map<string,int> LocKeywordMap_t;
 
@@ -244,7 +481,7 @@ MECPreObject::~MECPreObject()
   delete ((LocUIntArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_UINT-VTY_UNKNOWN-1]));
   delete ((LocFloatArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_FLOAT-VTY_UNKNOWN-1]));
   delete ((LocStringArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_STRING-VTY_UNKNOWN-1]));
-  delete ((LocObjectArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1]));
+  delete ((LocEntityArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1]));
   // Keyword maps
   int a_nb_atypes=ATY_LAST-ATY_UNKNOWN-1;
   int a_nb_vtypes=VTY_LAST-VTY_UNKNOWN-1;
@@ -256,10 +493,13 @@ MECPreObject::~MECPreObject()
   myfree(myCryptedData); 
   myfree(myCryptedKeyData);
   // Subobjects
+  /*
   for(auto subobject : sub_preobj)
   {
       if(subobject) delete subobject;
   }
+  sub_preobj.clear();
+  */
 }//End MECPreObject::~MECPreObject
 
 
@@ -281,7 +521,7 @@ void MECPreObject::InitAttributes() {
 
   myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_FLOAT-VTY_UNKNOWN-1]  = (PseudoAttribute_t *)(new LocFloatArrayAttributes_t());
   myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_STRING-VTY_UNKNOWN-1] = (PseudoAttribute_t *)(new LocStringArrayAttributes_t());
-  myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1] = (PseudoAttribute_t *)(new LocObjectArrayAttributes_t());
+  myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1] = (PseudoAttribute_t *)(new LocEntityArrayAttributes_t());
   // Single keyword maps
   int a_nb_atypes=ATY_LAST-ATY_UNKNOWN-1;
   int a_nb_vtypes=VTY_LAST-VTY_UNKNOWN-1;
@@ -328,7 +568,7 @@ void MECPreObject::Reserve(const IMECPreObject &pre_object) {
   Reserve(IMECPreObject::ATY_ARRAY,IMECPreObject::VTY_FLOAT,(int)a_nb_attributes);
   a_nb_attributes=((LocStringArrayAttributes_t *)(a_pre_object.myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_STRING-VTY_UNKNOWN-1]))->size();
   Reserve(IMECPreObject::ATY_ARRAY,IMECPreObject::VTY_STRING,(int)a_nb_attributes);
-  a_nb_attributes=((LocObjectArrayAttributes_t *)(a_pre_object.myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1]))->size();
+  a_nb_attributes=((LocEntityArrayAttributes_t *)(a_pre_object.myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1]))->size();
   Reserve(IMECPreObject::ATY_ARRAY,IMECPreObject::VTY_OBJECT,(int)a_nb_attributes);
 }
 
@@ -638,7 +878,7 @@ void MECPreObject::Reserve(IMECPreObject::MyAttributeType_e atype,IMECPreObject:
     case VTY_UINT:    ((LocUIntArrayAttributes_t *)a_attributes_p)->reserve(a_nb_attributes);    break;
     case VTY_FLOAT:  ((LocFloatArrayAttributes_t *)a_attributes_p)->reserve(a_nb_attributes);  break;
     case VTY_STRING: ((LocStringArrayAttributes_t *)a_attributes_p)->reserve(a_nb_attributes); break;
-    case VTY_OBJECT: ((LocObjectArrayAttributes_t *)a_attributes_p)->reserve(a_nb_attributes); break;
+    case VTY_OBJECT: ((LocEntityArrayAttributes_t *)a_attributes_p)->reserve(a_nb_attributes); break;
     default:
       // Wrong type of value
       break;
@@ -1009,13 +1249,13 @@ int MECPreObject::AddObjectArray(const char *skeyword,int nb_values) {
     return a_index;
   }
   void                       *a_attributes_p = myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1];
-  LocObjectArrayAttributes_t &a_attributes   = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+  LocEntityArrayAttributes_t &a_attributes   = (*((LocEntityArrayAttributes_t *)a_attributes_p));
   LocKeywordMap_t            &a_keyword_map  = (*((LocKeywordMap_t *)(myKeywordMaps[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
   string                      a_skeyword     = skeyword;
   //
   a_index=(int)(a_attributes.size());
   a_keyword_map[a_skeyword]=a_index;
-  a_attributes.push_back(LocObjectArrayAttribute_t(a_skeyword,LocObjectArray_t()));
+  a_attributes.push_back(LocEntityArrayAttribute_t(a_skeyword,LocEntityArray_t()));
   a_attributes.back().myValue.resize(nb_values);
   return a_index;
 }
@@ -1039,6 +1279,20 @@ void MECPreObject::AddIntValue(const char *skeyword,int i,int value) {
   //
   a_attribute.myValue[i]=value;
 }
+
+void MECPreObject::AddIntValues(const char* skeyword, std::vector<int>&& value) {
+    void* a_attributes_p = myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_INT - VTY_UNKNOWN - 1];
+    LocIntArrayAttributes_t& a_attributes = (*((LocIntArrayAttributes_t*)a_attributes_p));
+    LocKeywordMap_t& a_keyword_map = (*((LocKeywordMap_t*)(myKeywordMaps[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_INT - VTY_UNKNOWN - 1])));
+    string                     a_skeyword = skeyword;
+    int                        a_ind = a_keyword_map[a_skeyword];
+    LocIntArrayAttribute_t& a_attribute = a_attributes[a_ind];
+    //
+    a_attribute.myValue = std::move(value);
+}
+
+
+
 void MECPreObject::AddUIntValue(const char *skeyword,int i, unsigned int value) {
   void                      *a_attributes_p = myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_UINT-VTY_UNKNOWN-1];
   LocUIntArrayAttributes_t   &a_attributes   = (*((LocUIntArrayAttributes_t *)a_attributes_p));
@@ -1072,30 +1326,57 @@ void MECPreObject::AddStringValue(const char *skeyword,int i,const char *value) 
 
 void MECPreObject::AddObjectValue(const char *skeyword,int i,const char *otype, MYOBJ_INT id,int ind) {
   void                       *a_attributes_p = myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1];
-  LocObjectArrayAttributes_t &a_attributes   = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+  LocEntityArrayAttributes_t &a_attributes   = (*((LocEntityArrayAttributes_t *)a_attributes_p));
   LocKeywordMap_t            &a_keyword_map  = (*((LocKeywordMap_t *)(myKeywordMaps[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
   string                      a_skeyword     = skeyword;
   int                         a_ind          = a_keyword_map[a_skeyword];
-  LocObjectArrayAttribute_t  &a_attribute    = a_attributes[a_ind];
-  LocObjectTrack_t           &a_object       = a_attribute.myValue[i];
+  LocEntityArrayAttribute_t  &a_attribute    = a_attributes[a_ind];
+  EntityArray& a_object = a_attribute.myValue;
+
+  (*a_object.myIds)[i] = id;
+  (*a_object.myOTypes)[i] = otype;
+  (*a_object.myIndexes)[i] = ind;
   //
-  a_object.myOType = otype;
-  a_object.myId    = id;
-  a_object.myIndex = ind;
+  //a_object.myOType = otype;
+  //a_object.myId    = id;
+  //a_object.myIndex = ind;
 }  
+
+void MECPreObject::AddObjectValues(const char* skeyword, const char* otype, std::vector<int>&& ids) {
+    void* a_attributes_p = myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1];
+    LocEntityArrayAttributes_t& a_attributes = (*((LocEntityArrayAttributes_t*)a_attributes_p));
+    LocKeywordMap_t& a_keyword_map = (*((LocKeywordMap_t*)(myKeywordMaps[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1])));
+    string                      a_skeyword = skeyword;
+    int                         a_ind = a_keyword_map[a_skeyword];
+    LocEntityArrayAttribute_t& a_attribute = a_attributes[a_ind];
+    EntityArray& a_object = a_attribute.myValue;
+    //
+    a_object.myIds = std::move(ids);
+
+    if (otype)
+        a_object.setOT(otype);
+}
+
 
 void MECPreObject::AddObjectValue(const char *skeyword, int i, const char *otype,const char *name, int ind) {
     void                       *a_attributes_p = myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1];
-    LocObjectArrayAttributes_t &a_attributes = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+    LocEntityArrayAttributes_t &a_attributes = (*((LocEntityArrayAttributes_t *)a_attributes_p));
     LocKeywordMap_t            &a_keyword_map = (*((LocKeywordMap_t *)(myKeywordMaps[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1])));
     string                      a_skeyword = skeyword;
     int                         a_ind = a_keyword_map[a_skeyword];
-    LocObjectArrayAttribute_t  &a_attribute = a_attributes[a_ind];
-    LocObjectTrack_t           &a_object = a_attribute.myValue[i];
+    LocEntityArrayAttribute_t&a_attribute = a_attributes[a_ind];
+
+    EntityArray& a_object = a_attribute.myValue;
+
+    (*a_object.myNames)[i] = name;
+    (*a_object.myOTypes)[i] = otype;
+
+
+    //LocObjectTrack_t           &a_object = a_attribute.myValue[i];
     //
-    a_object.myOType = otype;
-    a_object.myIndex = ind;
-    a_object.myName = name;
+    //a_object.myOType = otype;
+    //a_object.myIndex = ind;
+    //a_object.myName = name;
 }
 
 
@@ -1133,6 +1414,20 @@ void MECPreObject::AddFloatValues(const char *skeyword,int i0,int nb_values,cons
   for(i=i0,j=0;j<nb_values;++i,++j) a_attribute.myValue[i]=value_tab[j];
 }
 
+void MECPreObject::AddFloatValues(const char* skeyword, vector<double> &&vec_d) {
+    void* a_attributes_p = myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_FLOAT - VTY_UNKNOWN - 1];
+    LocFloatArrayAttributes_t& a_attributes = (*((LocFloatArrayAttributes_t*)a_attributes_p));
+    LocKeywordMap_t& a_keyword_map = (*((LocKeywordMap_t*)(myKeywordMaps[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_FLOAT - VTY_UNKNOWN - 1])));
+    string                     a_skeyword = skeyword;
+    int                        a_ind = a_keyword_map[a_skeyword];
+    LocFloatArrayAttribute_t& a_attribute = a_attributes[a_ind];
+    //
+    a_attribute.myValue = std::move(vec_d);
+}
+
+
+
+
 void MECPreObject::AddStringValues(const char *skeyword,int i0,int nb_values,char * const *value_tab) {
   void                       *a_attributes_p = myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_STRING-VTY_UNKNOWN-1];
   LocStringArrayAttributes_t &a_attributes   = (*((LocStringArrayAttributes_t *)a_attributes_p));
@@ -1147,86 +1442,138 @@ void MECPreObject::AddStringValues(const char *skeyword,int i0,int nb_values,cha
 
 void MECPreObject::AddObjectValues(const char *skeyword,int i0,const char *otype,int nb_values,const MYOBJ_INT *id_tab,const int *ind_tab) {
   void                       *a_attributes_p = myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1];
-  LocObjectArrayAttributes_t &a_attributes   = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+  LocEntityArrayAttributes_t &a_attributes   = (*((LocEntityArrayAttributes_t *)a_attributes_p));
   LocKeywordMap_t            &a_keyword_map  = (*((LocKeywordMap_t *)(myKeywordMaps[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
   string                      a_skeyword     = skeyword;
   int                         a_ind          = a_keyword_map[a_skeyword];
-  LocObjectArrayAttribute_t  &a_attribute    = a_attributes[a_ind];
+  LocEntityArrayAttribute_t  &a_attribute    = a_attributes[a_ind];
   //
-  int i,j;
-  for(i=i0,j=0;j<nb_values;++i,++j) {
-    LocObjectTrack_t &a_object=a_attribute.myValue[i];
-    //
-    a_object.myOType = otype;
-    if (id_tab)
-    a_object.myId    = id_tab[j];
-    else
-        a_object.myId = 0;
+  //int i,j;
 
-    a_object.myIndex = (ind_tab==NULL ? -1 : ind_tab[j]);
-  }
+  EntityArray& a_object = a_attribute.myValue;
+
+  if (id_tab)
+      std::copy(id_tab, id_tab + (nb_values - i0), a_object.myIds->begin() + i0);
+
+  if (ind_tab)
+      std::copy(ind_tab, ind_tab + (nb_values - i0), a_object.myIndexes->begin() + i0);
+
+  if (otype)
+      a_object.setOT(otype);
+
+
+  //for(i=i0,j=0;j<nb_values;++i,++j) {
+  //  LocObjectTrack_t &a_object=a_attribute.myValue[i];
+  //  //
+  //  a_object.myOType = otype;
+  //  if (id_tab)
+  //  a_object.myId    = id_tab[j];
+  //  else
+  //      a_object.myId = 0;
+
+  //  a_object.myIndex = (ind_tab==NULL ? -1 : ind_tab[j]);
+  //}
 }
+
+
+
 
 void MECPreObject::AddObjectValues(const char *skeyword,int i0,const char *otype,int nb_values,const char **name_tab,const int *ind_tab) {
     void                       *a_attributes_p = myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1];
-    LocObjectArrayAttributes_t &a_attributes = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+    LocEntityArrayAttributes_t &a_attributes = (*((LocEntityArrayAttributes_t *)a_attributes_p));
     LocKeywordMap_t            &a_keyword_map = (*((LocKeywordMap_t *)(myKeywordMaps[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1])));
     string                      a_skeyword = skeyword;
     int                         a_ind = a_keyword_map[a_skeyword];
-    LocObjectArrayAttribute_t  &a_attribute = a_attributes[a_ind];
-    //
-    int i, j;
-    for (i = i0, j = 0; j<nb_values; ++i, ++j) {
-        LocObjectTrack_t &a_object = a_attribute.myValue[i];
-        //
-        a_object.myOType = otype;
+    LocEntityArrayAttribute_t  &a_attribute = a_attributes[a_ind];
 
-        if (name_tab[j])
-            a_object.myName = name_tab[j];
-        a_object.myIndex = (ind_tab == NULL ? -1 : ind_tab[j]);
-    }
+    EntityArray& a_object = a_attribute.myValue;
+
+    if (name_tab)
+        std::copy(name_tab, name_tab + (nb_values - i0), a_object.myNames->begin() + i0);
+
+    if (ind_tab)
+        std::copy(ind_tab, ind_tab + (nb_values - i0), a_object.myIndexes->begin() + i0);
+
+    if (otype)
+        a_object.setOT(otype);
+
+    //
+    //int i, j;
+    //for (i = i0, j = 0; j<nb_values; ++i, ++j) {
+    //    LocObjectTrack_t &a_object = a_attribute.myValue[i];
+    //    //
+    //    a_object.myOType = otype;
+
+    //    if (name_tab[j])
+    //        a_object.myName = name_tab[j];
+    //    a_object.myIndex = (ind_tab == NULL ? -1 : ind_tab[j]);
+    //}
 }
 
 
 
 void MECPreObject::AddObjectValues(const char *skeyword,int i0,int nb_values,const char **otype_tab,const MYOBJ_INT *id_tab,const int *ind_tab) {
   void                       *a_attributes_p = myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1];
-  LocObjectArrayAttributes_t &a_attributes   = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+  LocEntityArrayAttributes_t &a_attributes   = (*((LocEntityArrayAttributes_t *)a_attributes_p));
   LocKeywordMap_t            &a_keyword_map  = (*((LocKeywordMap_t *)(myKeywordMaps[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
   string                      a_skeyword     = skeyword;
   int                         a_ind          = a_keyword_map[a_skeyword];
-  LocObjectArrayAttribute_t  &a_attribute    = a_attributes[a_ind];
+  LocEntityArrayAttribute_t  &a_attribute    = a_attributes[a_ind];
   //
-  int i,j;
-  for(i=i0,j=0;j<nb_values;++i,++j) {
-    LocObjectTrack_t &a_object=a_attribute.myValue[i];
-    //
-    a_object.myOType = otype_tab[j];
-    if (id_tab)
-    a_object.myId    = id_tab[j];
-    else
-        a_object.myId = 0;
-    a_object.myIndex = (ind_tab==NULL ? -1 : ind_tab[j]);
-  }
+
+  EntityArray& a_object = a_attribute.myValue;
+
+  if (id_tab)
+      std::copy(id_tab, id_tab + (nb_values - i0), a_object.myIds->begin() + i0);
+
+  if (otype_tab)
+      std::copy(otype_tab, otype_tab + (nb_values - i0), a_object.myOTypes->begin() + i0);
+
+  if (ind_tab)
+      std::copy(ind_tab, ind_tab + (nb_values - i0), a_object.myIndexes->begin() + i0);
+
+  //int i,j;
+  //for(i=i0,j=0;j<nb_values;++i,++j) {
+  //  LocObjectTrack_t &a_object=a_attribute.myValue[i];
+  //  //
+  //  a_object.myOType = otype_tab[j];
+  //  if (id_tab)
+  //  a_object.myId    = id_tab[j];
+  //  else
+  //      a_object.myId = 0;
+  //  a_object.myIndex = (ind_tab==NULL ? -1 : ind_tab[j]);
+  //}
 }
 
 void MECPreObject::AddObjectValues(const char *skeyword, int i0, int nb_values, const char **otype_tab, const char **name_tab, const int *ind_tab) {
     void                       *a_attributes_p = myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1];
-    LocObjectArrayAttributes_t &a_attributes = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+    LocEntityArrayAttributes_t &a_attributes = (*((LocEntityArrayAttributes_t *)a_attributes_p));
     LocKeywordMap_t            &a_keyword_map = (*((LocKeywordMap_t *)(myKeywordMaps[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1])));
     string                      a_skeyword = skeyword;
     int                         a_ind = a_keyword_map[a_skeyword];
-    LocObjectArrayAttribute_t  &a_attribute = a_attributes[a_ind];
+    LocEntityArrayAttribute_t  &a_attribute = a_attributes[a_ind];
     //
-    int i, j;
-    for (i = i0, j = 0; j<nb_values; ++i, ++j) {
-        LocObjectTrack_t &a_object = a_attribute.myValue[i];
-        //
-        a_object.myOType = otype_tab[j];
-        if(name_tab[j])
-           a_object.myName = name_tab[j];
-        a_object.myIndex = (ind_tab == NULL ? -1 : ind_tab[j]);
-    }
+
+    EntityArray& a_object = a_attribute.myValue;
+
+    if (name_tab)
+        std::copy(name_tab, name_tab + (nb_values - i0), (*a_object.myNames).begin() + i0);
+
+    if (otype_tab)
+        std::copy(otype_tab, otype_tab + (nb_values - i0), a_object.myOTypes->begin() + i0);
+
+    if (ind_tab)
+        std::copy(ind_tab, ind_tab + (nb_values - i0), a_object.myIndexes->begin() + i0);
+
+    //int i, j;
+    //for (i = i0, j = 0; j<nb_values; ++i, ++j) {
+    //    LocObjectTrack_t &a_object = a_attribute.myValue[i];
+    //    //
+    //    a_object.myOType = otype_tab[j];
+    //    if(name_tab[j])
+    //       a_object.myName = name_tab[j];
+    //    a_object.myIndex = (ind_tab == NULL ? -1 : ind_tab[j]);
+    //}
 }
 
 void MECPreObject::SetBoolValue(int attrib_index,int i,bool value) {
@@ -1272,26 +1619,38 @@ void MECPreObject::SetStringValue(int attrib_index,int i,const char *value) {
 
 void MECPreObject::SetObjectValue(int attrib_index,int i,const char *otype, MYOBJ_INT id,int ind) {
   void                       *a_attributes_p = myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1];
-  LocObjectArrayAttributes_t &a_attributes   = (*((LocObjectArrayAttributes_t *)a_attributes_p));
-  LocObjectArrayAttribute_t  &a_attribute    = a_attributes[attrib_index];
+  LocEntityArrayAttributes_t &a_attributes   = (*((LocEntityArrayAttributes_t *)a_attributes_p));
+  LocEntityArrayAttribute_t  &a_attribute    = a_attributes[attrib_index];
   //
-  LocObjectTrack_t &a_object=a_attribute.myValue[i];
+  EntityArray &a_object=a_attribute.myValue;
+
+
+  (*a_object.myIds)[i] = id;
+
+  if( a_object.myOTypes )
+    (*a_object.myOTypes)[i] = otype;
+
+  (*a_object.myIndexes)[i] = ind;
   //
-  a_object.myOType = otype;
-  a_object.myId    = id;
-  a_object.myIndex = ind;
+  //a_object.myOType = otype;
+  //a_object.myId    = id;
+  //a_object.myIndex = ind;
 }
 
 void MECPreObject::SetObjectValue(int attrib_index, int i, const char *otype,const char *name,int ind) {
     void                       *a_attributes_p = myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1];
-    LocObjectArrayAttributes_t &a_attributes = (*((LocObjectArrayAttributes_t *)a_attributes_p));
-    LocObjectArrayAttribute_t  &a_attribute = a_attributes[attrib_index];
+    LocEntityArrayAttributes_t &a_attributes = (*((LocEntityArrayAttributes_t *)a_attributes_p));
+    LocEntityArrayAttribute_t  &a_attribute = a_attributes[attrib_index];
     //
-    LocObjectTrack_t &a_object = a_attribute.myValue[i];
+    EntityArray &a_object = a_attribute.myValue;
+
+    (*a_object.myNames)[i] = name;
+    (*a_object.myOTypes)[i] = otype;
+    (*a_object.myIndexes)[i] = ind;
     //
-    a_object.myOType = otype;
-    a_object.myName = name;
-    a_object.myIndex = ind;
+    //a_object.myOType = otype;
+    //a_object.myName = name;
+    //a_object.myIndex = ind;
 }
 
 
@@ -1341,10 +1700,19 @@ void MECPreObject::resizeArray(IMECPreObject::MyValueType_e vtype,int attrib_ind
     break;
   case VTY_OBJECT:
     {
-      LocObjectArrayAttributes_t &a_attributes = (*((LocObjectArrayAttributes_t *)a_attributes_p));
-      LocObjectArrayAttribute_t  &a_attribute  = a_attributes[attrib_index];
+      LocEntityArrayAttributes_t &a_attributes = (*((LocEntityArrayAttributes_t *)a_attributes_p));
+      LocEntityArrayAttribute_t  &a_attribute  = a_attributes[attrib_index];
       //
-      a_attribute.myValue.resize(nb_values);
+      //a_attribute.myValue.resize(nb_values);
+
+      EntityArray& a_object = a_attribute.myValue;
+
+      a_object.resize(nb_values);
+
+      //(*a_object.myIds).resize(nb_values); /*no need to allocate all as any one of them will be present*/
+      //(*a_object.myNames).resize(nb_values);
+      //(*a_object.myOTypes).resize(nb_values);
+
     }
     break;
   default:
@@ -1489,7 +1857,7 @@ int MECPreObject::GetNbAttributes(IMECPreObject::MyAttributeType_e atype,IMECPre
     case VTY_UINT:    a_nb_attributes=(int)(((LocUIntArrayAttributes_t *)a_attributes_p)->size());    break;
     case VTY_FLOAT:  a_nb_attributes=(int)(((LocFloatArrayAttributes_t *)a_attributes_p)->size());  break;
     case VTY_STRING: a_nb_attributes=(int)(((LocStringArrayAttributes_t *)a_attributes_p)->size()); break;
-    case VTY_OBJECT: a_nb_attributes=(int)(((LocObjectArrayAttributes_t *)a_attributes_p)->size()); break;
+    case VTY_OBJECT: a_nb_attributes=(int)(((LocEntityArrayAttributes_t *)a_attributes_p)->size()); break;
     default:
       // Wrong type of value
       break;
@@ -1528,7 +1896,7 @@ const char *MECPreObject::GetKeyword(IMECPreObject::MyAttributeType_e atype,IMEC
     case VTY_UINT:    a_keyword=(*((LocUIntArrayAttributes_t *)a_attributes_p))[ind].myKeyword.c_str();    break;
     case VTY_FLOAT:  a_keyword=(*((LocFloatArrayAttributes_t *)a_attributes_p))[ind].myKeyword.c_str();  break;
     case VTY_STRING: a_keyword=(*((LocStringArrayAttributes_t *)a_attributes_p))[ind].myKeyword.c_str(); break;
-    case VTY_OBJECT: a_keyword=(*((LocObjectArrayAttributes_t *)a_attributes_p))[ind].myKeyword.c_str(); break;
+    case VTY_OBJECT: a_keyword=(*((LocEntityArrayAttributes_t *)a_attributes_p))[ind].myKeyword.c_str(); break;
     default:
       // Wrong type of value
       break;
@@ -1749,7 +2117,7 @@ int MECPreObject::GetNbValues(IMECPreObject::MyValueType_e vtype,int attrib_ind)
   case VTY_UINT:    a_nb_values=(int)((*((LocUIntArrayAttributes_t *)a_attributes_p))[attrib_ind].myValue.size());    break;
   case VTY_FLOAT:  a_nb_values=(int)((*((LocFloatArrayAttributes_t *)a_attributes_p))[attrib_ind].myValue.size());  break;
   case VTY_STRING: a_nb_values=(int)((*((LocStringArrayAttributes_t *)a_attributes_p))[attrib_ind].myValue.size()); break;
-  case VTY_OBJECT: a_nb_values=(int)((*((LocObjectArrayAttributes_t *)a_attributes_p))[attrib_ind].myValue.size()); break;
+  case VTY_OBJECT: a_nb_values=(int)((*((LocEntityArrayAttributes_t *)a_attributes_p))[attrib_ind].myValue.getSize()); break;
   default:
     // Wrong type of value
     break;
@@ -1802,32 +2170,45 @@ const char *MECPreObject::GetObjectType(int attrib_ind,int i) const {
       if(attrib_ind<0)
       return "";
   if (i<0) return GetObjectType(attrib_ind); 
-  const LocObjectArrayAttributes_t &a_attributes=(*((LocObjectArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
-  return a_attributes[attrib_ind].myValue[i].myOType;
+  const LocEntityArrayAttributes_t &a_attributes=(*((LocEntityArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
+  const LocEntityArrayAttribute_t& a_attribute = a_attributes[attrib_ind];
+  //
+  const EntityArray& a_object = a_attribute.myValue;
+  return   a_object.getObjectType(i);
 }
 
 MYOBJ_INT MECPreObject::GetObjectId(int attrib_ind,int i) const {
   if(attrib_ind<0)
       return 0;
   if (i<0) return GetObjectId(attrib_ind); 
-  const LocObjectArrayAttributes_t &a_attributes=(*((LocObjectArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
-  return a_attributes[attrib_ind].myValue[i].myId;  
+  const LocEntityArrayAttributes_t &a_attributes=(*((LocEntityArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
+  const LocEntityArrayAttribute_t& a_attribute = a_attributes[attrib_ind];
+  const EntityArray& a_object = a_attribute.myValue;
+  return   a_object.getId(i);
 }
 
 int MECPreObject::GetObjectIndex(int attrib_ind,int i) const {
   if(attrib_ind<0)
       return 0;
   if (i<0) return GetObjectIndex(attrib_ind); 
-  const LocObjectArrayAttributes_t &a_attributes=(*((LocObjectArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
-  return a_attributes[attrib_ind].myValue[i].myIndex;  
+  const LocEntityArrayAttributes_t &a_attributes=(*((LocEntityArrayAttributes_t *)(myAttributes[ATY_ARRAY-ATY_UNKNOWN-1][VTY_OBJECT-VTY_UNKNOWN-1])));
+
+  const LocEntityArrayAttribute_t& a_attribute = a_attributes[attrib_ind];
+  const EntityArray& a_object = a_attribute.myValue;
+
+  return a_object.getIndex(i);
 }
 
 const char* MECPreObject::GetObjectName(int attrib_ind, int i) const {
     if (attrib_ind<0)
         return "";
     if (i<0) return GetObjectName(attrib_ind); 
-    const LocObjectArrayAttributes_t &a_attributes = (*((LocObjectArrayAttributes_t *)(myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1])));
-    return a_attributes[attrib_ind].myValue[i].myName.c_str();
+    const LocEntityArrayAttributes_t &a_attributes = (*((LocEntityArrayAttributes_t *)(myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1])));
+
+    const LocEntityArrayAttribute_t& a_attribute = a_attributes[attrib_ind];
+    const EntityArray& a_object = a_attribute.myValue;
+    const std::string* name_ptr = a_object.getName(i);
+    return name_ptr ? name_ptr->c_str() : "";
 }
 
 /* --------- Initialization --------- */
@@ -3024,7 +3405,7 @@ void MECPreObject::EraseAttributeKeyword(IMECPreObject::MyAttributeType_e a_atyp
         }
         case VTY_OBJECT:
         {
-            LocObjectArrayAttributes_t  &a_attributes = (*((LocObjectArrayAttributes_t *)a_attributes_p));
+            LocEntityArrayAttributes_t  &a_attributes = (*((LocEntityArrayAttributes_t *)a_attributes_p));
             a_attributes.erase(a_attributes.begin() + a_ind);
             a_keyword_map.erase(skeyword);
             for (int i = 0; i < a_attributes.size(); i++)
@@ -3063,7 +3444,7 @@ void MECPreObject::ClearAllAttribValues(bool is_subobj_arr) {
         ((LocUIntArrayAttributes_t*)(myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_UINT - VTY_UNKNOWN - 1]))->clear();
         ((LocFloatArrayAttributes_t*)(myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_FLOAT - VTY_UNKNOWN - 1]))->clear();
         ((LocStringArrayAttributes_t*)(myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_STRING - VTY_UNKNOWN - 1]))->clear();
-        ((LocObjectArrayAttributes_t*)(myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1]))->clear();
+        ((LocEntityArrayAttributes_t*)(myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1]))->clear();
 
 
         int a_nb_atypes = ATY_LAST - ATY_UNKNOWN - 1;
@@ -3121,11 +3502,18 @@ void MECPreObject::ClearAllAttribValues(bool is_subobj_arr) {
         for (auto& element : a_attributearrsstring)
             element.myValue.clear();
 
-        LocObjectArrayAttributes_t& a_attributesarrobject = (*((LocObjectArrayAttributes_t*)myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1]));
+        LocEntityArrayAttributes_t& a_attributesarrobject = (*((LocEntityArrayAttributes_t*)myAttributes[ATY_ARRAY - ATY_UNKNOWN - 1][VTY_OBJECT - VTY_UNKNOWN - 1]));
         for (auto& element : a_attributesarrobject)
         {
-            LocObjectArrayAttribute_t &obj = element;
-            obj.myValue.clear();
+            LocEntityArrayAttribute_t &obj = element;
+
+            EntityArray& a_object = obj.myValue;
+
+            a_object.clear_all();
+
+            //a_object.myIds->clear();
+            //a_object.myNames->clear();
+            //a_object.myOTypes->clear();
         }
     }
 

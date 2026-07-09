@@ -149,6 +149,31 @@ unsigned int sdiD2R::DynaToRad::GetRadiossSetIdFromLsdSet(const unsigned int& Ls
     return LsdSetId;
 }
 
+unsigned int sdiD2R::DynaToRad::GetRadiossSetIdFromLsdSet(sdi::ModelViewRead* lsdynaModel, const sdi::HandleRead& sourceEntityHandle, const unsigned int& LsdSetId, const sdiString& keyWord)
+{
+    // Get the base mapped ID
+    unsigned int baseMappedId = GetRadiossSetIdFromLsdSet(LsdSetId, keyWord);
+    
+    // Get the include file offset from the source entity
+    int includeOffset = 0;
+    if (lsdynaModel && sourceEntityHandle.IsValid())
+    {
+        EntityRead sourceEntity(lsdynaModel, sourceEntityHandle);
+        HandleRead sourceIncludeHandle = sourceEntity.GetInclude();
+        if (sourceIncludeHandle.IsValid())
+        {
+            EntityRead includeRead(lsdynaModel, sourceIncludeHandle);
+            sdiValue offsetValue;
+            if (includeRead.GetValue(sdiIdentifier("IDNOFF"), offsetValue))
+            {
+                offsetValue.GetValue(includeOffset);
+            }
+        }
+    }
+    
+    return includeOffset + baseMappedId;
+}
+
 void sdiD2R::DynaToRad::PushIntoStoreLsdVIDVsRadSkewId(const unsigned int& LsdVId, const unsigned int& radSkewId)
 {
     storeLsdVIDVsRadSkewId[LsdVId] = radSkewId;
@@ -357,6 +382,8 @@ void DynaToRad::CallConvert()
     /*automatic conversion*/
     p_AutoConvert();
 
+    /*create MERGE cards for RBODIES with common secondary nodes*/
+    p_AutoMergeRigidBodiesWithCommonSecondaryNodes();
     
     UpdateRunNameForCards();
 
@@ -411,11 +438,10 @@ void DynaToRad::p_GetCurrentUnitSystem(sdiString& unitSyst)
 
 void DynaToRad::UpdateRunNameForCards()
 {
-    size_t fPos = p_RunName.find(".");
-    while (fPos != p_RunName.npos)
-    {
-        p_RunName.erase(fPos, 1);
-        fPos = p_RunName.find(".");
+    // Remove everything after and including the first '.'
+    size_t dotPos = p_RunName.find('.');
+    if (dotPos != sdiString::npos) {
+        p_RunName = p_RunName.substr(0, dotPos);
     }
 
     vector<sdiString> cardsList({ {"/RUN"},{"/BEGIN"} });
@@ -777,4 +803,167 @@ void sdiD2R::DynaToRad::p_AutoConvert()
     }
 
 
+}
+
+void sdiD2R::DynaToRad::p_AutoMergeRigidBodiesWithCommonSecondaryNodes()
+{
+    /* Auto create MERGE cards for RBODIES with common secondary nodes*/
+    EntityType radRbodyType = p_radiossModel->GetEntityType("/RBODY");
+    ConvertUtils convertUtil(p_lsdynaModel, p_radiossModel);
+    SelectionRead selRbody(p_radiossModel, "/RBODY");
+
+    // Find origin keyword for each /RBODY using conversion log
+    map<unsigned int, sdiString> rbodyOriginKeyword;
+    for (auto& logEntry : conversionLog)
+    {
+        HandleRead radHandle = logEntry.first;
+        EntityRead radEntity(p_radiossModel, radHandle);
+        if (radEntity.GetKeyword() == "/RBODY")
+        {
+            unsigned int rbodyId = radEntity.GetId();
+            for (auto& srcHandle : logEntry.second)
+            {
+                if (srcHandle.IsValid())
+                {
+                    EntityRead srcEntity(p_lsdynaModel, srcHandle);
+                    rbodyOriginKeyword[rbodyId] = srcEntity.GetKeyword();
+                    break;
+                }
+            }
+        }
+    }
+    map<unsigned int, vector<unsigned int>> secondaryNodeVsRbodyIds;
+    while (selRbody.Next())
+    {
+        unsigned int rbodyId = selRbody->GetId();
+        
+        // Only process RBODIES that originated from *CONSTRAINED_NODAL_RIGID_BODY
+        auto kwItr = rbodyOriginKeyword.find(rbodyId);
+
+        if (kwItr == rbodyOriginKeyword.end() || kwItr->second.find("CONSTRAINED_NODAL_RIGID_BODY") == sdiString::npos)
+            continue;
+        
+        HandleRead grnodHread;
+        sdiString grnodStr = "grnd_ID";
+        selRbody->GetEntityHandle(sdiIdentifier(grnodStr), grnodHread);
+        sdiUIntList nodeids;
+        convertUtil.ExtractNodesFromRadiossSet(grnodHread, nodeids);
+        
+        if (!nodeids.empty())
+        {
+            for (unsigned int nodeId : nodeids)
+                secondaryNodeVsRbodyIds[nodeId].push_back(rbodyId);
+        }
+    }   
+
+    // Build dependency graph: RBODIES connected if they share at least one secondary node
+    map<unsigned int, vector<unsigned int>> rbodyGraph;
+    for (const auto& nodeVsRbodies : secondaryNodeVsRbodyIds)
+    {
+        const vector<unsigned int>& rbodyIds = nodeVsRbodies.second;
+        if (rbodyIds.size() < 2)
+            continue;
+
+        unsigned int first = rbodyIds[0];
+        for (size_t i = 1; i < rbodyIds.size(); ++i)
+        {
+            rbodyGraph[first].push_back(rbodyIds[i]);
+            rbodyGraph[rbodyIds[i]].push_back(first);
+        }
+    }
+
+    // Collect all connected components first
+    map<unsigned int, bool> visited;
+    vector<vector<unsigned int>> allComponents;
+    
+    for (const auto& entry : rbodyGraph)
+    {
+        unsigned int start = entry.first;
+        if (visited[start])
+            continue;
+
+        vector<unsigned int> stack(1, start);
+        vector<unsigned int> component;
+        visited[start] = true;
+
+        while (!stack.empty())
+        {
+            unsigned int current = stack.back();
+            stack.pop_back();
+            component.push_back(current);
+
+            for (unsigned int nbr : rbodyGraph[current])
+            {
+                if (!visited[nbr])
+                {
+                    visited[nbr] = true;
+                    stack.push_back(nbr);
+                }
+            }
+        }
+
+        if (component.size() > 1)
+        {
+            std::sort(component.begin(), component.end());
+            component.erase(std::unique(component.begin(), component.end()), component.end());
+            allComponents.push_back(component);
+        }
+    }
+    
+    // Build a mapping: secondary ID -> main ID
+    map<unsigned int, unsigned int> secondaryToMain;
+    for (const auto& component : allComponents)
+    {
+        unsigned int mainId = component[0];
+        for (size_t i = 1; i < component.size(); ++i)
+        {
+            secondaryToMain[component[i]] = mainId;
+        }
+    }
+    
+    // Function to find the ultimate main ID by following the chain
+    auto findUltimateMain = [&secondaryToMain](unsigned int id) -> unsigned int {
+        unsigned int current = id;
+        std::set<unsigned int> visited_chain;
+        while (secondaryToMain.find(current) != secondaryToMain.end())
+        {
+            if (visited_chain.find(current) != visited_chain.end())
+                break; // Cycle detected
+            visited_chain.insert(current);
+            current = secondaryToMain[current];
+        }
+        return current;
+    };
+    
+    // Create /MERGE/RBODY entities with corrected Main_IDs
+    for (auto& component : allComponents)
+    {
+        // Find the ultimate main ID for this component
+        unsigned int ultimateMain = findUltimateMain(component[0]);
+        
+        // Find the handle for the main RBODY
+        HandleEdit mainRbodyHandle;
+        p_radiossModel->FindById(radRbodyType, ultimateMain, mainRbodyHandle);
+        
+        HandleEdit mergeHEdit;
+        p_radiossModel->CreateEntity(mergeHEdit, "/MERGE/RBODY",
+                "MERGE_RBODY_" + to_string(component.front()) + "_" + to_string(component.back()));
+                
+        EntityEdit mergeEdit(p_radiossModel, mergeHEdit);
+
+        // NB_SUBOBJVE is a SIZE attribute, not indexed
+        mergeEdit.SetValue(sdiIdentifier("NB_SUBOBJVE"), sdiValue((int)component.size()-1));
+        
+        for(int i=1; i<component.size(); ++i)
+        {
+            // Find the handle for the secondary RBODY
+            HandleEdit secondaryRbodyHandle;
+            p_radiossModel->FindById(radRbodyType, component[i], secondaryRbodyHandle);
+            
+            mergeEdit.SetValue(sdiIdentifier("M_type",0,i-1), sdiValue(1)); // Type 1 for RBODY
+            mergeEdit.SetEntityHandle(sdiIdentifier("Main_ID",0,i-1), mainRbodyHandle);
+            mergeEdit.SetValue(sdiIdentifier("S_type",0,i-1), sdiValue(1)); // Type 1 for RBODY
+            mergeEdit.SetEntityHandle(sdiIdentifier("Secon_ID",0,i-1), secondaryRbodyHandle);
+        }
+    }
 }

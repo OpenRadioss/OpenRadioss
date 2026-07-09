@@ -23,6 +23,7 @@
 
 #include <dyna2rad/convertcontacts.h>
 #include <dyna2rad/dyna2rad.h>
+#include <cmath> 
 
 using namespace sdi;
 using namespace std;
@@ -217,24 +218,21 @@ void sdiD2R::ConvertContact::ConvertEntities()
 
         else if (keyWord.find("TIED_SURFACE_TO_SURFACE")      != keyWord.npos)
         {
-           dSearch = (lsdSFST*lsdSST+lsdSFMT*lsdMST)/2.0;
-           if(dSearch >= 0)
-           {
-             interType = "TYPE2";
-             surfAttrNames = sdiStringList ({ "grnd_IDs", "surf_IDm" });
-             dSearch = fabs((lsdSFS*lsdSST+lsdSFM*lsdMST))/2.0;
-           }
-           else
-           {
-             interType = "TYPE10";
-             surfAttrNames = sdiStringList ({ "grnod_id", "surf_id" });
-           }
+            interType = "TYPE2";
+            surfAttrNames = sdiStringList({ "grnd_IDs", "surf_IDm" });
+            if(lsdSST != 0 || lsdMST != 0)
+                dSearch = 0.5*(fabs(lsdSST) + fabs(lsdMST));
         }
 
         if (interType.empty())
             continue;
+            
         HandleEdit radInterHEdit;
-        p_radiossModel->CreateEntity(radInterHEdit, "/INTER/" + interType, dynaContactName, dynaContactId);
+        if (p_radiossModel->IsIdAvailable(destEntityType, dynaContactId))
+            p_radiossModel->CreateEntity(radInterHEdit, "/INTER/" + interType, dynaContactName, dynaContactId);
+        else
+            p_radiossModel->CreateEntity(radInterHEdit, "/INTER/" + interType, dynaContactName);
+            
         EntityEdit radInterEdit(p_radiossModel, radInterHEdit);
         sdiConvert::Convert::PushToConversionLog(std::make_pair(radInterHEdit, sourceHandleList));
 
@@ -335,6 +333,19 @@ void sdiD2R::ConvertContact::ConvertEntities()
             vector< reference_wrapper<double> > fricAttrVals({ lsdFS, lsdFD, lsdDC, lsdBT, lsdDT });
             p_ConvertUtils.GetAttribValues(*selContact, fricAttrNames, fricAttrVals);
         }
+
+        if (lsdDT == -9999.0)
+        {
+            lsdBT = 0.0;
+            lsdDT = 0.0;
+        }
+        else
+        {
+            if (lsdBT < 0.0)
+                lsdBT = 0.0;
+            lsdDT = std::fabs(lsdDT);
+        }
+
 
         // check for *DEFINE_FRICTION connected to contact interfaces
 
@@ -478,6 +489,14 @@ void sdiD2R::ConvertContact::ConvertEntities()
             GapMax = slaveGapMax;
             Gapmin = slaveGapMax;
         }
+        else if(keyWord.find("AUTOMATIC_GENERAL_INTERIOR") != keyWord.npos)
+        {
+            if(interType == "TYPE25")
+            {
+                if(lsdSOFT != -7 && lsdSOFT != -11 && lsdSOFT != -19)
+                    radInterEdit.SetValue(sdiIdentifier("Iedge"), sdiValue(22));
+            }
+        }
         else if(keyWord.find("AUTOMATIC_GENERAL") != keyWord.npos)
         {
             stfac = lsdSFS;
@@ -491,6 +510,8 @@ void sdiD2R::ConvertContact::ConvertEntities()
             else if(interType == "TYPE25")
             {
                 //masterGapMax = slaveGapMax; // Gap_max_m
+                if(lsdSOFT != -7 && lsdSOFT != -11 && lsdSOFT != -19)
+                    radInterEdit.SetValue(sdiIdentifier("Iedge"), sdiValue(1));
             }
         }
         else
@@ -606,8 +627,9 @@ void sdiD2R::ConvertContact::ConvertEntities()
             {
                 radInterEdit.SetValue(sdiIdentifier("Istf"), sdiValue(2));
                 radInterEdit.SetValue(sdiIdentifier("IPSTIF"), sdiValue(1));
-                if (lsdDEPTH == 5 || lsdDEPTH == 15 || lsdDEPTH == 25 || lsdDEPTH == 35 ||
-                    lsdDEPTH == 45 || lsdDEPTH == 55)
+                if (lsdDEPTH == 3 || lsdDEPTH == 13 || lsdDEPTH == 23 || 
+                    lsdDEPTH == 5 || lsdDEPTH == 15 || lsdDEPTH == 25 ||
+                    lsdDEPTH == 35 ||lsdDEPTH == 45 || lsdDEPTH == 55)
                   radInterEdit.SetValue(sdiIdentifier("Iedge"), sdiValue(22));
             }
         }

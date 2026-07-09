@@ -509,6 +509,7 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
               HandleRead partHRead;
               elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
 
+              int itetra4 = 0;
               if (partHRead.IsValid())
               {
                 HandleRead propHRead;
@@ -518,6 +519,8 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
                 tempValue = sdiValue(Isolid);
                 propEntityRead.GetValue(sdiIdentifier("Isolid"), tempValue);
                 tempValue.GetValue(Isolid);
+
+                itetra4 = GetValue<int>(propEntityRead, "Itetra4");
               }
 
               // ----------------------------
@@ -529,9 +532,27 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
               selIniStressSolid->GetValue(sdiIdentifier("NINT",0,cntDyna), tempValue);
               tempValue.GetValue(totintpoints);
 
-              inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(Isolid));
-              inistressEdit.SetValue(sdiIdentifier("Isolnod",0,cnt), sdiValue(8));
+              // check if element is brick of tetra4, to set Isolnod to 8 or 4 (for solid elements only in *INITIAL_STRESS_SOLID)
 
+              HandleElementRead elementSolidHRead;
+              p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*ELEMENT_SOLID"), eid, elementSolidHRead);
+              ElementRead elemRead(p_lsdynaModel, elementSolidHRead);
+
+              //int nodeCount = elemRead.GetNodeCount();
+
+              string destElemType = "UNDEFINED";
+              sdiUIntList elemNodes;
+              elemRead.GetNodeIds(elemNodes);
+
+              int ncount = 0;
+              for(int j = 0; j < elemNodes.size(); ++j)
+              {
+                  if(elemNodes[j] != 0)
+                  {
+                      ncount++;
+                  }
+              }
+              inistressEdit.SetValue(sdiIdentifier("Isolnod",0,cnt), sdiValue(ncount));
               // ----------------------------
               // Loop over integration points
               // ----------------------------
@@ -539,11 +560,13 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
               if ( Isolid == 1 || Isolid == 2 || Isolid == 5 || Isolid == 24 )
               {
                 // reduced integration (one integration point)
+                inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(Isolid));
                 if(totintpoints == 1)
                 {
                     inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(1));
                     inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
                     inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                    inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
                     inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(1));
 
                     double lsdSIGXX = 0;
@@ -647,6 +670,10 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
                       lsdmeanSIGZX = lsdmeanSIGZX + lsdSIGZX/totintpoints;
                       lsdmeanEPS = lsdmeanEPS + lsdEPS/totintpoints;
                   }
+                  inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(1));
+                  inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                  inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                  inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
                   inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(1));
                   inistressEdit.SetValue(sdiIdentifier("E_int",0,cnt,0), sdiValue(0.));
                   inistressEdit.SetValue(sdiIdentifier("RHO",0,cnt,0), sdiValue(0.));
@@ -662,58 +689,276 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
               else if( Isolid == 17 || Isolid == 18 )
               {
                 // fully integrated NINT = 8 (2*2*2)
+                // for tetra4 : NINT = 4 (4*1*1) if Itetra4 = 1
+                //        else  NINT = 1 (1*1*1) if Itetra4 = 0 ,3, 1000
 
-                inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(2));
-                inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(2));
-                inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(2));
-                inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(totintpoints));
+                //inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(totintpoints));
+                //
+                // NINT = totintpoints
+                // check if NINT is 8, then do the mapping:
+                //
+                // NINT=8 to NINT=8 points for brick
+                // NINT=8 to NINT=1 for tetra4 (if Itetra4 = 0, 3, 1000) or 
+                // NINT=8 to NINT=4 for tetra4 (if Itetra4 = 1)
+                //
+                // else if NINT is 1, then do the mapping :
+                //
+                // NINT=1 to NINT=8 points for brick 
+                // NINT=1 to NINT=1 for tetra4 (if Itetra4 = 0, 3, 1000) or 
+                // NINT=1 to NINT=4 for tetra4 (if Itetra4 = 1)
 
-                for (int j = 0; j < totintpoints; ++j)
+                if (totintpoints == 8)
                 {
+                  if(ncount == 8)
+                  {
+                    // NINT=8 to NINT=8 points for brick
+                    inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(Isolid));
+                    inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(2));
+                    inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(2));
+                    inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(2));
+                    inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                    inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(8));
+                    for (int j = 0; j < totintpoints; ++j)
+                    {
+                      double lsdSIGXX = 0;
+                      tempValue = sdiValue(lsdSIGXX);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGXX",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGXX);
+
+                      double lsdSIGYY = 0;
+                      tempValue = sdiValue(lsdSIGYY);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGYY",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGYY);
+
+                      double lsdSIGZZ = 0;
+                      tempValue = sdiValue(lsdSIGZZ);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGZZ",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGZZ);
+
+                      double lsdSIGXY = 0;
+                      tempValue = sdiValue(lsdSIGXY);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGXY",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGXY);
+
+                      double lsdSIGYZ = 0;
+                      tempValue = sdiValue(lsdSIGYZ);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGYZ",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGYZ);
+
+                      double lsdSIGZX = 0;
+                      tempValue = sdiValue(lsdSIGZX);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGZX",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGZX);
+
+                      double lsdEPS = 0;
+                      tempValue = sdiValue(lsdEPS);
+                      selIniStressSolid->GetValue(sdiIdentifier("EPS",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdEPS);
+
+                      inistressEdit.SetValue(sdiIdentifier("E_int",0,cnt,j), sdiValue(0.));
+                      inistressEdit.SetValue(sdiIdentifier("RHO",0,cnt,j), sdiValue(0.));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA1",0,cnt,j), sdiValue(lsdSIGXX));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA2",0,cnt,j), sdiValue(lsdSIGYY));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA3",0,cnt,j), sdiValue(lsdSIGZZ));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA12",0,cnt,j), sdiValue(lsdSIGXY));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA23",0,cnt,j), sdiValue(lsdSIGYZ));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA31",0,cnt,j), sdiValue(lsdSIGZX));
+                      inistressEdit.SetValue(sdiIdentifier("EPSILON_p",0,cnt,j), sdiValue(lsdEPS));
+                    }
+                  }
+                  else if(ncount == 4)
+                  {
+                    double lsdmeanSIGXX = 0;
+                    double lsdmeanSIGYY = 0;
+                    double lsdmeanSIGZZ = 0;
+                    double lsdmeanSIGXY = 0;
+                    double lsdmeanSIGYZ = 0;
+                    double lsdmeanSIGZX = 0;
+                    double lsdmeanEPS = 0;
+
+                    for (int j = 0; j < totintpoints; ++j)
+                    {
+                      double lsdSIGXX = 0;
+                      tempValue = sdiValue(lsdSIGXX);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGXX",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGXX);
+
+                      double lsdSIGYY = 0;
+                      tempValue = sdiValue(lsdSIGYY);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGYY",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGYY);
+
+                      double lsdSIGZZ = 0;
+                      tempValue = sdiValue(lsdSIGZZ);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGZZ",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGZZ);
+
+                      double lsdSIGXY = 0;
+                      tempValue = sdiValue(lsdSIGXY);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGXY",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGXY);
+
+                      double lsdSIGYZ = 0;
+                      tempValue = sdiValue(lsdSIGYZ);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGYZ",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGYZ);
+
+                      double lsdSIGZX = 0;
+                      tempValue = sdiValue(lsdSIGZX);
+                      selIniStressSolid->GetValue(sdiIdentifier("SIGZX",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdSIGZX);
+
+                      double lsdEPS = 0;
+                      tempValue = sdiValue(lsdEPS);
+                      selIniStressSolid->GetValue(sdiIdentifier("EPS",0,cntDyna,j), tempValue);
+                      tempValue.GetValue(lsdEPS);
+
+                      lsdmeanSIGXX = lsdmeanSIGXX + lsdSIGXX/totintpoints;
+                      lsdmeanSIGYY = lsdmeanSIGYY + lsdSIGYY/totintpoints;
+                      lsdmeanSIGZZ = lsdmeanSIGZZ + lsdSIGZZ/totintpoints;
+                      lsdmeanSIGXY = lsdmeanSIGXY + lsdSIGXY/totintpoints;
+                      lsdmeanSIGYZ = lsdmeanSIGYZ + lsdSIGYZ/totintpoints;
+                      lsdmeanSIGZX = lsdmeanSIGZX + lsdSIGZX/totintpoints;
+                      lsdmeanEPS = lsdmeanEPS + lsdEPS/totintpoints;
+                    }
+
+                    if(itetra4 == 0 || itetra4 == 3 || itetra4 == 1000)
+                    {
+                      // NINT=8 to NINT=1 for tetra4 (if Itetra4 = 0, 3, 1000)
+                      // mean value over 8 integration points and write this mean value in one integration point for Radioss
+                      inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("E_int",0,cnt,0), sdiValue(0.));
+                      inistressEdit.SetValue(sdiIdentifier("RHO",0,cnt,0), sdiValue(0.));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA1",0,cnt,0), sdiValue(lsdmeanSIGXX));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA2",0,cnt,0), sdiValue(lsdmeanSIGYY));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA3",0,cnt,0), sdiValue(lsdmeanSIGZZ));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA12",0,cnt,0), sdiValue(lsdmeanSIGXY));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA23",0,cnt,0), sdiValue(lsdmeanSIGYZ));
+                      inistressEdit.SetValue(sdiIdentifier("SIGMA31",0,cnt,0), sdiValue(lsdmeanSIGZX));
+                      inistressEdit.SetValue(sdiIdentifier("EPSILON_p",0,cnt,0), sdiValue(lsdmeanEPS));
+                    }
+                    else if(itetra4 == 1)
+                    {
+                      // NINT=8 to NINT=4 for tetra4 (if Itetra4 = 1)
+                      // mean value over 8 integration points and write this mean value in four integration points for Radioss
+                      inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(4));
+                      inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(4));
+                      inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                      for (int j = 0; j < 4; ++j)
+                      {
+                        inistressEdit.SetValue(sdiIdentifier("E_int",0,cnt,j), sdiValue(0.));
+                        inistressEdit.SetValue(sdiIdentifier("RHO",0,cnt,j), sdiValue(0.));
+                        inistressEdit.SetValue(sdiIdentifier("SIGMA1",0,cnt,j), sdiValue(lsdmeanSIGXX));
+                        inistressEdit.SetValue(sdiIdentifier("SIGMA2",0,cnt,j), sdiValue(lsdmeanSIGYY));
+                        inistressEdit.SetValue(sdiIdentifier("SIGMA3",0,cnt,j), sdiValue(lsdmeanSIGZZ));
+                        inistressEdit.SetValue(sdiIdentifier("SIGMA12",0,cnt,j), sdiValue(lsdmeanSIGXY));
+                        inistressEdit.SetValue(sdiIdentifier("SIGMA23",0,cnt,j), sdiValue(lsdmeanSIGYZ));
+                        inistressEdit.SetValue(sdiIdentifier("SIGMA31",0,cnt,j), sdiValue(lsdmeanSIGZX));
+                        inistressEdit.SetValue(sdiIdentifier("EPSILON_p",0,cnt,j), sdiValue(lsdmeanEPS));
+                      }
+                    }
+                  }
+                }
+                else if (totintpoints == 1)
+                {
+                   // need to map the initial stresses from 1 point to 8 points for brick, 
+                   // or from 1 point to 1 point for tetra4 (if Itetra4 = 0, 3, 1000),
+                   // or from 1 point to 4 points for tetra4 (if Itetra4 = 1)
+
+                  int map_nint = 0;
+
+                  if(ncount == 4)
+                  {
+                    if(itetra4 == 0 || itetra4 == 3 || itetra4 == 1000)
+                    {
+                      // from 1 point to 1 point for tetra4 (if Itetra4 = 0, 3, 1000)
+                      map_nint = 1;
+                      inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                    }
+                    else if(itetra4 == 1)
+                    {
+                      // from 1 point to 4 points for tetra4 (if Itetra4 = 1)
+                      map_nint = 4;
+                      inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(4));
+                      inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(4));
+                      inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                      inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                    }
+                  }
+                  else if(ncount == 8)
+                  {
+                    // from 1 point to 8 points for brick
+                    map_nint = 8;
+                    inistressEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(18));
+                    inistressEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(8));
+                    inistressEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(2));
+                    inistressEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(2));
+                    inistressEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(2));
+                    inistressEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                  }
+
                   double lsdSIGXX = 0;
                   tempValue = sdiValue(lsdSIGXX);
-                  selIniStressSolid->GetValue(sdiIdentifier("SIGXX",0,cntDyna,j), tempValue);
+                  selIniStressSolid->GetValue(sdiIdentifier("SIGXX",0,cntDyna,0), tempValue);
                   tempValue.GetValue(lsdSIGXX);
 
                   double lsdSIGYY = 0;
                   tempValue = sdiValue(lsdSIGYY);
-                  selIniStressSolid->GetValue(sdiIdentifier("SIGYY",0,cntDyna,j), tempValue);
+                  selIniStressSolid->GetValue(sdiIdentifier("SIGYY",0,cntDyna,0), tempValue);
                   tempValue.GetValue(lsdSIGYY);
 
                   double lsdSIGZZ = 0;
                   tempValue = sdiValue(lsdSIGZZ);
-                  selIniStressSolid->GetValue(sdiIdentifier("SIGZZ",0,cntDyna,j), tempValue);
+                  selIniStressSolid->GetValue(sdiIdentifier("SIGZZ",0,cntDyna,0), tempValue);
                   tempValue.GetValue(lsdSIGZZ);
 
                   double lsdSIGXY = 0;
                   tempValue = sdiValue(lsdSIGXY);
-                  selIniStressSolid->GetValue(sdiIdentifier("SIGXY",0,cntDyna,j), tempValue);
+                  selIniStressSolid->GetValue(sdiIdentifier("SIGXY",0,cntDyna,0), tempValue);
                   tempValue.GetValue(lsdSIGXY);
 
                   double lsdSIGYZ = 0;
                   tempValue = sdiValue(lsdSIGYZ);
-                  selIniStressSolid->GetValue(sdiIdentifier("SIGYZ",0,cntDyna,j), tempValue);
+                  selIniStressSolid->GetValue(sdiIdentifier("SIGYZ",0,cntDyna,0), tempValue);
                   tempValue.GetValue(lsdSIGYZ);
 
                   double lsdSIGZX = 0;
                   tempValue = sdiValue(lsdSIGZX);
-                  selIniStressSolid->GetValue(sdiIdentifier("SIGZX",0,cntDyna,j), tempValue);
+                  selIniStressSolid->GetValue(sdiIdentifier("SIGZX",0,cntDyna,0), tempValue);
                   tempValue.GetValue(lsdSIGZX);
 
                   double lsdEPS = 0;
                   tempValue = sdiValue(lsdEPS);
-                  selIniStressSolid->GetValue(sdiIdentifier("EPS",0,cntDyna,j), tempValue);
+                  selIniStressSolid->GetValue(sdiIdentifier("EPS",0,cntDyna,0), tempValue);
                   tempValue.GetValue(lsdEPS);
 
-                  inistressEdit.SetValue(sdiIdentifier("E_int",0,cnt,j), sdiValue(0.));
-                  inistressEdit.SetValue(sdiIdentifier("RHO",0,cnt,j), sdiValue(0.));
-                  inistressEdit.SetValue(sdiIdentifier("SIGMA1",0,cnt,j), sdiValue(lsdSIGXX));
-                  inistressEdit.SetValue(sdiIdentifier("SIGMA2",0,cnt,j), sdiValue(lsdSIGYY));
-                  inistressEdit.SetValue(sdiIdentifier("SIGMA3",0,cnt,j), sdiValue(lsdSIGZZ));
-                  inistressEdit.SetValue(sdiIdentifier("SIGMA12",0,cnt,j), sdiValue(lsdSIGXY));
-                  inistressEdit.SetValue(sdiIdentifier("SIGMA23",0,cnt,j), sdiValue(lsdSIGYZ));
-                  inistressEdit.SetValue(sdiIdentifier("SIGMA31",0,cnt,j), sdiValue(lsdSIGZX));
-                  inistressEdit.SetValue(sdiIdentifier("EPSILON_p",0,cnt,j), sdiValue(lsdEPS));
+                  for (int j = 0; j < map_nint; ++j)
+                  {
+                    inistressEdit.SetValue(sdiIdentifier("E_int",0,cnt,j), sdiValue(0.));
+                    inistressEdit.SetValue(sdiIdentifier("RHO",0,cnt,j), sdiValue(0.));
+                    inistressEdit.SetValue(sdiIdentifier("SIGMA1",0,cnt,j), sdiValue(lsdSIGXX));
+                    inistressEdit.SetValue(sdiIdentifier("SIGMA2",0,cnt,j), sdiValue(lsdSIGYY));
+                    inistressEdit.SetValue(sdiIdentifier("SIGMA3",0,cnt,j), sdiValue(lsdSIGZZ));
+                    inistressEdit.SetValue(sdiIdentifier("SIGMA12",0,cnt,j), sdiValue(lsdSIGXY));
+                    inistressEdit.SetValue(sdiIdentifier("SIGMA23",0,cnt,j), sdiValue(lsdSIGYZ));
+                    inistressEdit.SetValue(sdiIdentifier("SIGMA31",0,cnt,j), sdiValue(lsdSIGZX));
+                    inistressEdit.SetValue(sdiIdentifier("EPSILON_p",0,cnt,j), sdiValue(lsdEPS));
+                  }
                 }
               }
               //--------------------

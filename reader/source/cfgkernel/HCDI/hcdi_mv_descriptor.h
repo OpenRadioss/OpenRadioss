@@ -592,6 +592,11 @@ EXTERNC HC_DATA_DLL_API const MvSubtype_t* HCDIGetSubtypePtrFromFullType(const s
 EXTERNC HC_DATA_DLL_API int HCDI_TestTool(const string& path_home, int testid, const string& userprofile, vector<string>& vec_report);
 EXTERNC HC_DATA_DLL_API unsigned int  HCDIGetDefaultConfigType(int etype, int id_pool);
 HC_DATA_DLL_API string HCDIGetLatestUserSubProfile(unsigned int solvercode);
+EXTERNC HC_DATA_DLL_API void CompareCfgKernels(char* first_kernel, char* sec_kernel);
+EXTERNC HC_DATA_DLL_API bool GetFlagStatus(const CFGKernel* cfgkernel, obj_type_e type, string& flag_string, string& username);
+EXTERNC HC_DATA_DLL_API void HCDIgetAllKeywordConfigTypesUsingKernel(const CFGKernel* cfgkernel, int etype, vector< std::pair<unsigned int, string> >& aListConfig);
+EXTERNC HC_DATA_DLL_API void HCDIgetallskeywordUsernames(const CFGKernel* cfgkernel, int etype, map<string, set<string>>& askeywordUsernames);
+EXTERNC HC_DATA_DLL_API bool HCDIGetKeyValueFromSolverName(obj_type_e type, const string& hkey_str, const string& solverkey, string& out_hype_val);
 
 #endif //HCDI_MV_DESCRIPTOR_H
 

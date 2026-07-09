@@ -57,6 +57,7 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
         convertedJoints.reserve(reserveCapacity);
         PopulateConstExtraNodePartRelation();
         EntityType radCrvType = p_radiossModel->GetEntityType("/FUNCT");
+        EntityType radTableType = p_radiossModel->GetEntityType("/TABLE/1");
         while (selConsStiffGen.Next())
         {
             HandleRead pidAHread;
@@ -152,7 +153,7 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                             jntType = 5;
                         else
                             continue;
-
+ 
                         if (jntType)
                         {
                             sdiValueEntity N1Entity;
@@ -167,6 +168,7 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                             int nbNodesFoundB = 0;
 
                             nodeList = { { N1Entity.GetId(), N2Entity.GetId(), N3Entity.GetId(), N4Entity.GetId()} };
+
                             for (unsigned int jntNode : nodeList)
                             {
                                 if (jntNode != 0 && binary_search(partsNodeListA.begin(), partsNodeListA.end(), jntNode))
@@ -174,7 +176,7 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
 
                                 if (jntNode != 0 && binary_search(partsNodeListB.begin(), partsNodeListB.end(), jntNode))
                                     nbNodesFoundB = 1;
-                            }
+                             }
 
                             if (nbNodesFoundA == 1 && nbNodesFoundB == 1)
                             {
@@ -187,7 +189,6 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                         {
                             sdiConvert::SDIHandlReadList sourceList = { {jidHread , selConsStiffGen->GetHandle()} };
                             HandleElementEdit sprElemHEdit;
-
                             nodeList.resize(3);
                             if (jntType == 1)
                                 nodeList.resize(2);
@@ -257,10 +258,84 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                                     for (const auto pair : map<sdiString, double>({ {"Kfrx", lsdESPH}, {"Kfry", lsdEST }, { "Kfrz", lsdESPS }, { "FMx", lsdFMPH }, { "FMy", lsdFMT  }, { "FMz", lsdFMPS } }))
                                         jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(pair.second));
 
-                                    for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lciphHread }, { "fct_Kry", lcidtHread }, { "fct_Krz", lcidpsHread }, { "fct_Crx", dlcidpHread }, { "fct_Cry", dlcidtHread }, { "fct_Crz", dlcidpsHread }, { "fct_fmx", fmphCrvHread }, { "fct_fmy", fmtCrvHread }, { "fct_fmz", fmpsCrvHread } }))
+                                    for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lciphHread }, { "fct_Kry", lcidtHread }, { "fct_Krz", lcidpsHread }, { "fct_Crx", dlcidpHread }, { "fct_Cry", dlcidtHread }, { "fct_Crz", dlcidpsHread } }))
                                     {
                                         if (pair.second.IsValid())
                                             jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(sdiValueEntity(radCrvType, pair.second.GetId(p_lsdynaModel))));
+                                    }
+
+                                    // FMPH --> functions/table
+                                    sdiValue tempValue;
+
+                                    if (fmphCrvHread.IsValid())
+                                    {
+                                        EntityRead fmphEntRead(p_lsdynaModel, fmphCrvHread);
+                                        sdiString fmphType = fmphEntRead.GetKeyword();
+                                        if(!fmphType.compare(0, 13, "*DEFINE_CURVE"))
+                                        {
+                                            jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radCrvType, fmphCrvHread.GetId(p_lsdynaModel))));
+                                        }
+                                        else if(!fmphType.compare(0, 13, "*DEFINE_TABLE"))
+                                        {
+                                            int tableId = fmphCrvHread.GetId(p_lsdynaModel);
+                                            HandleEdit RadTableHandle;
+                                            p_radiossModel->FindById(p_radiossModel->GetEntityType("/TABLE/1"), tableId, RadTableHandle);
+
+                                            sdiValueEntity functabEntity;
+                                            RadTableHandle.GetValue(p_radiossModel, sdiIdentifier("fct_ID",0,0), tempValue);
+                                            tempValue.GetValue(functabEntity);
+                                            int firstfunctabId = functabEntity.GetId();
+
+                                            jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radTableType, firstfunctabId)));
+                                        }
+                                    }
+
+                                    // FMT --> functions/table
+                                    if (fmtCrvHread.IsValid())
+                                    {
+                                        EntityRead fmtEntRead(p_lsdynaModel, fmtCrvHread);
+                                        sdiString fmtType = fmtEntRead.GetKeyword();
+                                        if(!fmtType.compare(0, 13, "*DEFINE_CURVE"))
+                                        {
+                                            jntPropEntEdit.SetValue(sdiIdentifier("fct_fmy"), sdiValue(sdiValueEntity(radCrvType, fmtCrvHread.GetId(p_lsdynaModel))));
+                                        }
+                                        else if(!fmtType.compare(0, 13, "*DEFINE_TABLE"))
+                                        {
+                                            int tableId = fmtCrvHread.GetId(p_lsdynaModel);
+                                            HandleEdit RadTableHandle;
+                                            p_radiossModel->FindById(p_radiossModel->GetEntityType("/TABLE/1"), tableId, RadTableHandle);
+
+                                            sdiValueEntity functabEntity;
+                                            RadTableHandle.GetValue(p_radiossModel, sdiIdentifier("fct_ID",0,0), tempValue);
+                                            tempValue.GetValue(functabEntity);
+                                            int firstfunctabId = functabEntity.GetId();
+
+                                            jntPropEntEdit.SetValue(sdiIdentifier("fct_fmy"), sdiValue(sdiValueEntity(radTableType, firstfunctabId)));
+                                        }
+                                    }
+
+                                    // FMPS --> functions/table
+                                    if (fmpsCrvHread.IsValid())
+                                    {
+                                        EntityRead fmpsEntRead(p_lsdynaModel, fmpsCrvHread);
+                                        sdiString fmpsType = fmpsEntRead.GetKeyword();
+                                        if(!fmpsType.compare(0, 13, "*DEFINE_CURVE"))
+                                        {
+                                            jntPropEntEdit.SetValue(sdiIdentifier("fct_fmz"), sdiValue(sdiValueEntity(radCrvType, fmpsCrvHread.GetId(p_lsdynaModel))));
+                                        }
+                                        else if(!fmpsType.compare(0, 13, "*DEFINE_TABLE"))
+                                        {
+                                            int tableId = fmpsCrvHread.GetId(p_lsdynaModel);
+                                            HandleEdit RadTableHandle;
+                                            p_radiossModel->FindById(p_radiossModel->GetEntityType("/TABLE/1"), tableId, RadTableHandle);
+
+                                            sdiValueEntity functabEntity;
+                                            RadTableHandle.GetValue(p_radiossModel, sdiIdentifier("fct_ID",0,0), tempValue);
+                                            tempValue.GetValue(functabEntity);
+                                            int firstfunctabId = functabEntity.GetId();
+
+                                            jntPropEntEdit.SetValue(sdiIdentifier("fct_fmz"), sdiValue(sdiValueEntity(radTableType, firstfunctabId)));
+                                        }
                                     }
                                 }
                                 else 
@@ -307,7 +382,8 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                                             vector<sdiString> attribVect2({ "X2", "Y2", "Z2" });
                                             HandleEdit skew1Handle;
                                             HandleEdit skew2Handle;
-                                            int tempint = 1;  
+                                            int tempint = 1;
+                                            sdiValue tempValue;
                                             switch (axisIndex)
                                             {
                                             case 0:
@@ -326,10 +402,34 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                                                 for (const auto pair : map<sdiString, double>({ {"Kfrx", lsdESPH}, { "FMx", lsdFMPH }}))
                                                     jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(pair.second));
 
-                                                for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lciphHread }, { "fct_Crx", dlcidpHread }, { "fct_fmx", fmphCrvHread } }))
+                                                for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lciphHread }, { "fct_Crx", dlcidpHread } }))
                                                 {
                                                     if (pair.second.IsValid())
                                                         jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(sdiValueEntity(radCrvType, pair.second.GetId(p_lsdynaModel))));
+                                                }
+
+                                                // FMPH --> functions/table
+                                                if (fmphCrvHread.IsValid())
+                                                {
+                                                    EntityRead fmphEntRead(p_lsdynaModel, fmphCrvHread);
+                                                    sdiString fmphType = fmphEntRead.GetKeyword();
+                                                    if(!fmphType.compare(0, 13, "*DEFINE_CURVE"))
+                                                    {
+                                                        jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radCrvType, fmphCrvHread.GetId(p_lsdynaModel))));
+                                                    }
+                                                    else if(!fmphType.compare(0, 13, "*DEFINE_TABLE"))
+                                                    {
+                                                        int tableId = fmphCrvHread.GetId(p_lsdynaModel);
+                                                        HandleEdit RadTableHandle;
+                                                        p_radiossModel->FindById(p_radiossModel->GetEntityType("/TABLE/1"), tableId, RadTableHandle);
+
+                                                        sdiValueEntity functabEntity;
+                                                        RadTableHandle.GetValue(p_radiossModel, sdiIdentifier("fct_ID",0,0), tempValue);
+                                                        tempValue.GetValue(functabEntity);
+                                                        int firstfunctabId = functabEntity.GetId();
+
+                                                        jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radTableType, firstfunctabId)));
+                                                    }
                                                 }
                                                 break;
                                             case 1:
@@ -345,10 +445,34 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                                                 for (const auto pair : map<sdiString, double>({ {"Kfrx", lsdEST }, { "FMx", lsdFMT  },}))
                                                     jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(pair.second));
 
-                                                for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lcidtHread }, { "fct_Crx", dlcidtHread }, { "fct_fmx", fmtCrvHread } }))
+                                                for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lcidtHread }, { "fct_Crx", dlcidtHread } }))
                                                 {
                                                     if (pair.second.IsValid())
                                                         jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(sdiValueEntity(radCrvType, pair.second.GetId(p_lsdynaModel))));
+                                                }
+
+                                                // FMT --> functions/table
+                                                if (fmtCrvHread.IsValid())
+                                                {
+                                                    EntityRead fmtEntRead(p_lsdynaModel, fmtCrvHread);
+                                                    sdiString fmtType = fmtEntRead.GetKeyword();
+                                                    if(!fmtType.compare(0, 13, "*DEFINE_CURVE"))
+                                                    {
+                                                        jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radCrvType, fmtCrvHread.GetId(p_lsdynaModel))));
+                                                    }
+                                                    else if(!fmtType.compare(0, 13, "*DEFINE_TABLE"))
+                                                    {
+                                                        int tableId = fmtCrvHread.GetId(p_lsdynaModel);
+                                                        HandleEdit RadTableHandle;
+                                                        p_radiossModel->FindById(p_radiossModel->GetEntityType("/TABLE/1"), tableId, RadTableHandle);
+
+                                                        sdiValueEntity functabEntity;
+                                                        RadTableHandle.GetValue(p_radiossModel, sdiIdentifier("fct_ID",0,0), tempValue);
+                                                        tempValue.GetValue(functabEntity);
+                                                        int firstfunctabId = functabEntity.GetId();
+
+                                                        jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radTableType, firstfunctabId)));
+                                                    }
                                                 }
                                                 break;
                                             case 2:
@@ -363,10 +487,34 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                                                 for (const auto pair : map<sdiString, double>({ { "Kfrx", lsdESPS }, { "FMx", lsdFMPS } }))
                                                     jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(pair.second));
 
-                                                for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lcidpsHread }, { "fct_Crx", dlcidpsHread }, { "fct_fmx", fmpsCrvHread } }))
+                                                for (const auto pair : map<sdiString, HandleRead>({ { "fct_Krx", lcidpsHread }, { "fct_Crx", dlcidpsHread } }))
                                                 {
                                                     if (pair.second.IsValid())
                                                         jntPropEntEdit.SetValue(sdiIdentifier(pair.first), sdiValue(sdiValueEntity(radCrvType, pair.second.GetId(p_lsdynaModel))));
+                                                }
+
+                                                // FMPS --> functions/table
+                                                if (fmpsCrvHread.IsValid())
+                                                {
+                                                    EntityRead fmpsEntRead(p_lsdynaModel, fmpsCrvHread);
+                                                    sdiString fmpsType = fmpsEntRead.GetKeyword();
+                                                    if(!fmpsType.compare(0, 13, "*DEFINE_CURVE"))
+                                                    {
+                                                        jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radCrvType, fmpsCrvHread.GetId(p_lsdynaModel))));
+                                                    }
+                                                    else if(!fmpsType.compare(0, 13, "*DEFINE_TABLE"))
+                                                    {
+                                                        int tableId = fmpsCrvHread.GetId(p_lsdynaModel);
+                                                        HandleEdit RadTableHandle;
+                                                        p_radiossModel->FindById(p_radiossModel->GetEntityType("/TABLE/1"), tableId, RadTableHandle);
+
+                                                        sdiValueEntity functabEntity;
+                                                        RadTableHandle.GetValue(p_radiossModel, sdiIdentifier("fct_ID",0,0), tempValue);
+                                                        tempValue.GetValue(functabEntity);
+                                                        int firstfunctabId = functabEntity.GetId();
+
+                                                        jntPropEntEdit.SetValue(sdiIdentifier("fct_fmx"), sdiValue(sdiValueEntity(radTableType, firstfunctabId)));
+                                                    }
                                                 }
                                                 break;
                                             default:
@@ -1602,6 +1750,8 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
             if (keyWord.find("CYL") != keyWord.npos)
             {
                 nodeList.resize(3);
+                if (nodeList[2] == 0 && (nodeList[3] != 0 && nodeList[3] != UINT_MAX))
+                    nodeList[2] = nodeList[3];
                 if (!cylJointPartHEdit.IsValid())
                 {
                     p_radiossModel->CreateEntity(cylJointPartHEdit, "/PART", "CONSTRAINED_JOINT_CYLINDRICAL");

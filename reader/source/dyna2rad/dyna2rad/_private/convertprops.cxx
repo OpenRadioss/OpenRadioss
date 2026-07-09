@@ -408,7 +408,10 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                         matCard.find("*MAT_026") != string::npos ||
                         matCard.find("*MAT_002") != string::npos ||
                         matCard.find("*MAT_126") != string::npos ||
-                        matCard.find("*MAT_058") != string::npos)
+                        matCard.find("*MAT_058") != string::npos ||
+                        matCard.find("*MAT_ENHANCED_COMPOSITE_DAMAGE") != string::npos ||
+                        matCard.find("*MAT_ANISOTROPIC_VISCOPLASTIC") != string::npos ||
+                        matCard.find("*MAT_103") != string::npos)
                     {
                         destCard = "/PROP/TYPE6";
                         isolid = 1;
@@ -423,7 +426,7 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                 EntityEdit radPropEdit(p_radiossModel, radProp);
                 radPropEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(isolid));
                 radPropEdit.SetValue(sdiIdentifier("Itetra4"), sdiValue(itetra4));
-                if(matLawNum != 26 && matLawNum != 126 && matLawNum != 2)
+                if(matLawNum != 26 && matLawNum != 126 && matLawNum != 2 && matLawNum != 54)
                    UpdateSystemForOrthPropFromDynaMat(p_lsdynaModel, p_radiossModel, matEntityRead, p_ConvertUtils, radPropEdit);
 
                 size_t pos = matCard.find("_TITLE");
@@ -512,6 +515,11 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     {
                         radPropEdit.SetValue(sdiIdentifier("Ismstr"), sdiValue(10));
                     }
+                }
+                else if( (matCard.find("*MAT_ENHANCED_COMPOSITE_DAMAGE") != string::npos || matCard.find("*MAT_054_055") != string::npos) ||
+                         (matCard.find("*MAT_ANISOTROPIC_VISCOPLASTIC") != string::npos || matCard.find("*MAT_103") != string::npos) )
+                {
+                    ConvertSolidOrthType6(matEntityRead, dynaProp, destCard, radProp);
                 }
             }
             else if (keyword == "*SECTION_SEATBELT")
@@ -645,6 +653,13 @@ void ConvertProp::p_ConvertSectionShell(const sdi::EntityRead& matEntityRead, co
     sdiString dynaPropName = dynaProp.GetName();
     EntityId dynaPropId = dynaProp.GetId();
 
+    size_t pos = matCard.find("_TITLE");
+    if (pos != string::npos)
+    {
+        matCard.erase(pos);
+    }
+    unsigned short int matLawNum = dynaMatLawMap[matCard];
+
     double lsdT1 = GetValue<double>(dynaProp, "T1");
     int elform = GetValue<int>(dynaProp, "LSD_ELFORM");
     //int lsdQR = 0;
@@ -733,7 +748,9 @@ void ConvertProp::p_ConvertSectionShell(const sdi::EntityRead& matEntityRead, co
     }
     else
     {
-        if (matCard.find("*MAT_ORTHOTROPIC_ELASTIC") != string::npos || matCard.find("*MAT_002") != string::npos)
+        //if (matCard.find("*MAT_ORTHOTROPIC_ELASTIC") != string::npos || matCard.find("*MAT_002") != string::npos)
+        if ( (matCard.find("*MAT_ORTHOTROPIC_ELASTIC") != string::npos || matCard.find("*MAT_002") != string::npos) ||
+             (matCard.find("*MAT_ANISOTROPIC_VISCOPLASTIC") != string::npos || matCard.find("*MAT_103") != string::npos) )
         {
             /*
             destCard = "/PROP/TYPE9";
@@ -825,7 +842,11 @@ void ConvertProp::p_ConvertSectionShell(const sdi::EntityRead& matEntityRead, co
         }
         else if (matCard.find("*MAT_PLASTICITY_WITH_DAMAGE") != string::npos)
         {
-            p_CopyNumIntPtsFromMatPlasticity(matEntityRead, radProp, nip);
+            p_CopyNumIntPtsFromMatPlasticity(matEntityRead, radProp, nip, matLawNum);
+        }
+        else if (matCard.find("*MAT_MODIFIED_PIECEWISE_LINEAR_PLASTICITY") != string::npos)
+        {
+            p_CopyNumIntPtsFromMatPlasticity(matEntityRead, radProp, nip, matLawNum);
         }
         if (nip > 0)
         {
@@ -836,8 +857,13 @@ void ConvertProp::p_ConvertSectionShell(const sdi::EntityRead& matEntityRead, co
             }
             if (matCard.find("*MAT_JOHNSON_COOK") != string::npos || matCard.find("*MAT_015") != string::npos)
             {
-                double lsdNUMINT = GetValue<int>(matEntityRead, "NUMINT");
+                double lsdNUMINT = GetValue<double>(matEntityRead, "NUMINT");
                 radPropEdit.SetValue(sdiIdentifier("P_Thick_Fail"), sdiValue(lsdNUMINT / nip));
+            }
+            if (matCard.find("*MAT_ANISOTROPIC_VISCOPLASTIC") != string::npos || matCard.find("*MAT_103") != string::npos)
+            {
+                double lsdNUMINT = GetValue<double>(matEntityRead, "NUMINT");
+                radPropEdit.SetValue(sdiIdentifier("P_Thick_Fail"), sdiValue(-lsdNUMINT / nip));
             }
         }
     }
@@ -1664,10 +1690,10 @@ void ConvertProp::ConvertSecShellsRelatedMat37(const EntityRead& matEntityRead, 
 
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ip"), sdiValue(20));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(12));
-    radProp.SetValue(p_radiossModel, sdiIdentifier("Ismstr"), sdiValue(11));
-    radProp.SetValue(p_radiossModel, sdiIdentifier("Ish3n"), sdiValue(3));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ismstr"), sdiValue(2));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ish3n"), sdiValue(0));
     radProp.SetValue(p_radiossModel, sdiIdentifier("N"), sdiValue(NIP));
-    radProp.SetValue(p_radiossModel, sdiIdentifier("Dm"), sdiValue(0.25));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Dm"), sdiValue(0.0));
 
     //The rest of parameters are set to default 0 values in converson
     radProp.SetValue(p_radiossModel, sdiIdentifier("P_Thick_Fail"), sdiValue(0.0));
@@ -1679,8 +1705,8 @@ void ConvertProp::ConvertSecShellsRelatedMat37(const EntityRead& matEntityRead, 
 
     radProp.SetValue(p_radiossModel, sdiIdentifier("ISTRAIN"), sdiValue(0));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ashear"), sdiValue(0.0));
-    radProp.SetValue(p_radiossModel, sdiIdentifier("ITHICK"), sdiValue(0));
-    radProp.SetValue(p_radiossModel, sdiIdentifier("IPLAS"), sdiValue(0));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("ITHICK"), sdiValue(1));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("IPLAS"), sdiValue(1));
 
 }
 void ConvertProp::ConvertSecShellsRelatedMatFabric(const EntityRead& matEntityRead, const EntityRead& dynaProp, sdiString& destCard, HandleEdit& radProp)
@@ -2489,29 +2515,39 @@ void sdiD2R::ConvertProp::p_CopyNumIntPtsFromMatAddErosion(const EntityRead& mat
     }
 }
 
-void sdiD2R::ConvertProp::p_CopyNumIntPtsFromMatPlasticity(const EntityRead& matEntityRead, HandleEdit& radProp, int nip)
+void sdiD2R::ConvertProp::p_CopyNumIntPtsFromMatPlasticity(const EntityRead& matEntityRead, HandleEdit& radProp, int nip, int matLawNum)
 {
-    int lsdNUMINT = 0;
     unsigned int matId = matEntityRead.GetId();
 
     if (nip == 0.0)
         return;
 
-    sdiValue tempValue(lsdNUMINT);
-    matEntityRead.GetValue(sdiIdentifier("NUMINT"), tempValue);
-    tempValue.GetValue(lsdNUMINT);
+    double lsdNUMINT = 0.0;
+
+    if (matLawNum == 81)
+      lsdNUMINT = static_cast<double>(GetValue<int>(matEntityRead, "NUMINT"));
+    else if (matLawNum == 123)
+      lsdNUMINT = GetValue<double>(matEntityRead, "NUMINT");
 
     SelectionEdit selFailTab(p_radiossModel, "/FAIL/TAB1");
     while (selFailTab.Next())
     {
-        sdiValueEntity lsdMIDEntity;
-        tempValue = sdiValue(lsdMIDEntity);
-        selFailTab->GetValue(sdiIdentifier("mat_id"), tempValue);
-        tempValue.GetValue(lsdMIDEntity);
+        sdiValueEntity lsdMIDEntity = GetValue<sdiValueEntity>(*selFailTab, "mat_id");
 
         if (matId == lsdMIDEntity.GetId())
         {
-            selFailTab->SetValue(sdiIdentifier("P_THICKFAIL"), sdiValue(lsdNUMINT * 1.0 / nip));
+            selFailTab->SetValue(sdiIdentifier("P_THICKFAIL"), sdiValue(lsdNUMINT / nip));
+        }
+    }
+
+    SelectionEdit selFailGene1(p_radiossModel, "/FAIL/GENE1");
+    while (selFailGene1.Next())
+    {
+        sdiValueEntity lsdMIDEntity = GetValue<sdiValueEntity>(*selFailGene1, "mat_id");
+
+        if (matId == lsdMIDEntity.GetId())
+        {
+            selFailGene1->SetValue(sdiIdentifier("Pthickfail"), sdiValue(lsdNUMINT / nip));
         }
     }
 }
@@ -2606,16 +2642,16 @@ void ConvertProp::ConvertSecBeamRelatedMatMuscle(const EntityRead& matEntityRead
         Mass = lsdRo*lsdArea;
         radProp.SetValue(p_radiossModel, sdiIdentifier("Mass"), sdiValue(Mass));
 
-        double lsdPis = 0.0, Force = 0.0, scaleF = 0.0;
+        double lsdPis = 0.0, scaleF = 0.0;
         tempVal = sdiValue(lsdPis);
         matEntityRead.GetValue(sdiIdentifier("PIS"), tempVal);
         tempVal.GetValue(lsdPis);
         if(lsdPis > 0.0)
-          Force = lsdPis*lsdArea;
+          scaleF = lsdPis*lsdArea;
         else
-          Force = lsdArea;
-        radProp.SetValue(p_radiossModel, sdiIdentifier("Force"), sdiValue(Force));
-        radProp.SetValue(p_radiossModel, sdiIdentifier("Scale_F"), sdiValue(Force));
+          scaleF = lsdArea;
+        
+        radProp.SetValue(p_radiossModel, sdiIdentifier("Scale_F"), sdiValue(scaleF));
 
         double lsdCER = 0.0;
         tempVal = sdiValue(lsdCER);

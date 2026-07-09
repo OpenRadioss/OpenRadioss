@@ -592,6 +592,7 @@ void SolverInputInfo::initSolverSpecialKeywords() {
         mybeginkeyword = "*KEYWORD";
         myendkeyword = "*END";
         mysubmodelkeyword = "*INCLUDE_TRANSFORM";
+        addBlockKeyword("*INCLUDE_TRANSFORM", "");
         mysubmodelendkeyword = "";
         mykeykeyword = "";
         myincludekeyword = "*INCLUDE";
@@ -604,6 +605,9 @@ void SolverInputInfo::initSolverSpecialKeywords() {
         myendkeyword = "/END";
         mysubmodelkeyword = "//SUBMODEL";
         mysubmodelendkeyword = "//ENDSUB";
+
+        addBlockKeyword("//SUBMODEL", "//ENDSUB");
+
         mykeykeyword = "/KEY";
         myincludekeyword = "#include";
         myincludeendkeyword = "#enddata";
@@ -719,8 +723,8 @@ const CUserNameTypeInfo* SolverInputInfo::GetKeywordSolverInfoFromHeaderLine(
 
     bool fromStart = pSyntaxInfo->GetHeaderFromStartFlag();
     char ch = pSyntaxInfo->getHeaderSeparator();
-    if(isexactmatch)
-        eraseLastNumericParts(a_header_line, ch);
+    //if(isexactmatch)
+    //    eraseLastNumericParts(a_header_line, ch);
 
     //vector<string> erased_strings;
     if (stripheader && stripheader->size())
@@ -786,10 +790,86 @@ const CUserNameTypeInfo* SolverInputInfo::GetKeywordSolverInfoFromHeaderLine(
             // Check for exact match first
             //auto it = mymapkeywordsolverinfo.lower_bound(a_header_line); // Find the first key >= a_header_line
             string str_trim = get_trimmed_substr(a_header_line, myheader_size);
+
+            int h_len = pSyntaxInfo->getHeaderKeywordCellLength();
+            if (h_len > 0)
+            {
+                int n = pSyntaxInfo->getHeaderKeywordCellLength();
+                if (n > 0)
+                {
+                    size_t search_len = std::min<size_t>(n, str_trim.size());
+                    size_t pos = str_trim.find(pSyntaxInfo->getFreeFormatSpecifier(), 0);
+
+                    if (pos != std::string::npos && pos < search_len) {
+                        str_trim.erase(pos);  // erase everything from ',' onwards
+                    }
+                    str_trim.erase(
+                        std::remove_if(str_trim.begin(), str_trim.end(),
+                            [pSyntaxInfo](char c) { return pSyntaxInfo->IsSpaceORContinueChars(c); }),
+                        str_trim.end()
+                    );
+                }
+            }
+
             auto it = mymapkeywordsolverinfo.lower_bound(str_trim);
             if (it != mymapkeywordsolverinfo.end() && it->first == str_trim) {
                 // Exact match found
                 return &(it->second);
+            }
+
+            // If lower_bound returns the first or last element, compare with str_trim
+            if (it == mymapkeywordsolverinfo.begin() || it == mymapkeywordsolverinfo.end()) {
+                // If at end, move to last valid element
+                if (it == mymapkeywordsolverinfo.end() && !mymapkeywordsolverinfo.empty()) {
+                    --it;
+                }
+                string str = it->first;
+                // Compare only up to str_trim.size()
+                if (str.compare(0, str_trim.size(), str_trim) == 0) {
+                    return &(it->second);
+                }
+                if (it != mymapkeywordsolverinfo.end())
+                    ++it;
+            }
+            // New use-case: if myUserNameExactMatch, check for partial match with numeric suffix
+            if (myUserNameExactMatch) {
+                auto check_numeric_suffix = [&](const std::string& key, const std::string& candidate) -> bool {
+                    if (candidate.size() > key.size() && candidate.compare(0, key.size(), key) == 0) {
+                        // PART_2 style match
+                        if (candidate[key.size()] == ch) {
+                            std::string suffix = candidate.substr(key.size() + 1);
+                            return !suffix.empty() &&
+                                std::all_of(suffix.begin(), suffix.end(), [ch](char c) { return std::isdigit(c) || c == ch; });
+                        }
+                        // PART123 style match
+                        std::string suffix = candidate.substr(key.size());
+                        return !suffix.empty() &&
+                            std::all_of(suffix.begin(), suffix.end(), [](char c) { return std::isdigit(c); });
+                    }
+                    return false;
+                    };
+
+                if (it != mymapkeywordsolverinfo.end() && check_numeric_suffix(it->first, str_trim)) {
+                    return &(it->second);
+                }
+                if (it != mymapkeywordsolverinfo.begin()) {
+                    auto prev = std::prev(it);
+                    if (check_numeric_suffix(prev->first, str_trim)) {
+                        return &(prev->second);
+                    }
+                }
+            }
+            else 
+            {
+                // Check if the previous key is a prefix of str_trim
+                if (it != mymapkeywordsolverinfo.begin()) {
+                    auto prev = std::prev(it);
+                    const std::string& key = prev->first;
+                    if (str_trim.compare(0, key.size(), key) == 0) {
+                        // key is a prefix of str_trim
+                        return &(prev->second);
+                    }
+                }
             }
 
             int first_size = 0;
@@ -803,6 +883,12 @@ const CUserNameTypeInfo* SolverInputInfo::GetKeywordSolverInfoFromHeaderLine(
                     first_size = (int)firstPart.length();
                 }
             }
+            else if (!myUserNameExactMatch && h_len && pSyntaxInfo)
+            {
+                first_size = (int)str_trim.length();
+                firstPart = str_trim;
+            }
+
             if (first_size > 0)
             {
                 // Search for the best prefix using reverse iterator from current position
@@ -846,7 +932,7 @@ bool SolverInputInfo::IsSupportedForContinueReadWithoutHeader() const
 
 
 void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& comments,
-                                             obj_type_e etype, IdentifierValuePairList& vallst) const
+                                             obj_type_e& etype, IdentifierValuePairList& vallst) const
 {
     ApplicationMode_e appmode = (ApplicationMode_e)GetAppMode();
     bool id_read = false;
@@ -870,12 +956,8 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
             int sz = (int)result.size();
             if (sz > 2)
             {
-                result[2].erase(result[2].begin(), std::find_if(result[2].begin(), result[2].end(), [](char c) {return c != ' ';}));
-                result[2].erase(std::find_if(result[2].rbegin(), result[2].rend(), [](char c) { return c != ' '; }).base(), result[2].end());
-                // Remove trailing carriage return if present
-                if (!result[2].empty() && result[2].back() == '\n') {
-                    result[2].pop_back();
-                }
+                result[2].erase(result[2].begin(), std::find_if(result[2].begin(), result[2].end(), std::bind(std::not_equal_to<char>(), ' ', std::placeholders::_1)));
+                result[2].erase(std::find_if(result[2].rbegin(), result[2].rend(), std::bind(std::not_equal_to<char>(), ' ', std::placeholders::_1)).base(), result[2].end());
                 //skwy_val.push_back(string("name=") + result[2]);
                 cfgkernel::Variant val(result[2]);
                 vallst.push_back(std::make_pair("name", val));
@@ -883,8 +965,8 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
             }
             if (sz > 1)
             {
-                result[1].erase(result[1].begin(), std::find_if(result[1].begin(), result[1].end(), [](char c) { return c != ' '; }));
-                result[1].erase(std::find_if(result[1].rbegin(), result[1].rend(), [](char c) { return c != ' '; }).base(), result[1].end());
+                result[1].erase(result[1].begin(), std::find_if(result[1].begin(), result[1].end(), std::bind(std::not_equal_to<char>(), ' ', std::placeholders::_1)));
+                result[1].erase(std::find_if(result[1].rbegin(), result[1].rend(), std::bind(std::not_equal_to<char>(), ' ', std::placeholders::_1)).base(), result[1].end());
                 unsigned int a_id = strtoul(result[1].c_str(), NULL, 0);
                 if (a_id > 0)
                 {
@@ -910,7 +992,13 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
             const char* a_hm_line = rem_str.c_str();
             int id_format = 8;
             unsigned int a_id = 0;
-            int hm_entity_sz = GetHMNAMEEntityNameSize(etype, a_hm_line, &id_format);
+            
+            obj_type_e a_etype = HCDI_OBJ_TYPE_NULL;
+
+            int hm_entity_sz = GetHMNAMEEntityNameSize(a_etype, a_hm_line, &id_format);
+            if (etype == HCDI_OBJ_TYPE_NULL)
+                etype = a_etype;
+
             char frt[20];
             strncpy(frt, a_hm_line + hm_entity_sz, id_format);
             string id_param_str = "";
@@ -932,6 +1020,37 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
                     vallst.push_back(std::make_pair("id", val));
                     id_read = true;
                 }
+                else
+                {
+                    const char* p = a_hm_line + hm_entity_sz;
+                    id_format = 0;
+
+                    
+                    if(*p == '*' || *p == '+')
+                    {
+                        ++p;
+                        id_format++;
+                    }
+                    // Skip leading spaces
+                    while (*p && std::isspace(static_cast<unsigned char>(*p)))
+                    {
+                        ++p;
+                        id_format++;
+                    } 
+
+                    // Extract integer
+                    while (*p && std::isdigit(static_cast<unsigned char>(*p))) {
+                        a_id = a_id * 10 + (*p - '0');
+                        ++p;
+                        id_format++;
+                    }
+
+                    if (a_id > 0)
+                    {
+                        cfgkernel::Variant val(a_id);
+                        vallst.push_back(std::make_pair("id", val));
+                    }
+                }
             }
 
 
@@ -940,6 +1059,20 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
                 char title[256] = { 0 };
                 std::string stringVal = a_hm_line + hm_entity_sz + id_format;
                 stringVal.erase(stringVal.find_last_not_of(" \t\n\r\f\v") + 1);
+
+                // Extract first quoted string if present, else take all
+                std::string extractedVal;
+                size_t first_quote = stringVal.find('\"');
+                if (first_quote != std::string::npos) {
+                    size_t second_quote = stringVal.find('\"', first_quote + 1);
+                    if (second_quote != std::string::npos) {
+                        stringVal = stringVal.substr(first_quote + 1, second_quote - first_quote - 1);
+                    }
+                    else {
+                        // Only one quote, take all after first quote
+                        stringVal = stringVal.substr(first_quote + 1);
+                    }
+                }
                 cfgkernel::Variant val(stringVal);
                 vallst.push_back(std::make_pair("name", val));
             }
@@ -952,7 +1085,13 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
 
             int id_format = 8;
             unsigned int a_id = 0;
-            int hm_entity_sz = GetHMNAMEEntityNameSize(etype, a_commments[i].c_str(), &id_format);
+            obj_type_e a_etype = HCDI_OBJ_TYPE_NULL;
+            int hm_entity_sz = GetHMNAMEEntityNameSize(a_etype, a_commments[i].c_str(), &id_format);
+
+            if (etype == HCDI_OBJ_TYPE_NULL)
+                etype = a_etype;
+
+
 
             string frt = a_commments[i].substr(hm_entity_sz + id_format);
 
