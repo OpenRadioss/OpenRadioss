@@ -76,23 +76,27 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          real(kind=WP) :: cjc,epsdref,fcut
+          real(kind=WP) :: cjc,epsdref,sigsat,fcut
 !===============================================================================
 !       
           !===================================================================
           !< Johnson-Cook strain rate dependency parameters
           !===================================================================
-          call hm_get_float_array_index("SRATE_JCOOK_C"   ,cjc    ,ikey,is_available,lsubmodel,unitab)
-          call hm_get_float_array_index("SRATE_JCOOK_EREF",epsdref,ikey,is_available,lsubmodel,unitab)
-          call hm_get_int_array_index  ("SRATE_VFLAG"     ,vpflag ,ikey,is_available,lsubmodel)
-          call hm_get_float_array_index("SRATE_FCUT"      ,fcut   ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("SRATE_JCOOK_C"   ,cjc     ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("SRATE_JCOOK_EREF",epsdref ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("SRATE_JCOOK_SIGSAT",sigsat,ikey,is_available,lsubmodel,unitab)
+          call hm_get_int_array_index  ("SRATE_VFLAG"     ,vpflag  ,ikey,is_available,lsubmodel)
+          call hm_get_float_array_index("SRATE_FCUT"      ,fcut    ,ikey,is_available,lsubmodel,unitab)
           !< Strain rate dependency type
           iratedep = 1
+          !< Default values
+          if (sigsat <= zero) sigsat = infinity
           !< Number of parameters
-          nupar_ratedep = 2
+          nupar_ratedep = 3
           !< Save strain rate dependency parameters
           upar_ratedep(1) = cjc
           upar_ratedep(2) = epsdref
+          upar_ratedep(3) = sigsat
           !< Viscous formulation
           vpflag = min(max(vpflag,0),3)
           if (vpflag == 0) vpflag = 1
@@ -105,7 +109,7 @@
           if (is_encrypted)then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
-            write(iout,1000) cjc,epsdref,vpflag,fcut
+            write(iout,1000) cjc,epsdref,sigsat,vpflag,fcut
           endif
 ! ------------------------------------------------------------------------------
 1000 format(/                                                                  &
@@ -114,6 +118,7 @@
           5X,"-------------------------------------------------------",/,      &
           5X,"STRAIN-RATE DEPENDENCY PARAMETER (C) . . . . . . . . .=",1PG20.13/&
           5X,"REFERENCE STRAIN RATE (EPSD_REF) . . . . . . . . . . .=",1PG20.13/&
+          5X,"SATURATION STRESS (SIGSAT) . . . . . . . . . . . . . .=",1PG20.13/&
           5X,'VISCOPLASTIC FLAG (VP) . . . . . . . . . . . . . . . .=',I10/,   &
           5X,'    = 1: SCALED YIELD STRESS WITH PLASTIC STRAIN RATE   ',/,     &
           5X,'    = 2: SCALED YIELD STRESS WITH TOTAL STRAIN RATE     ',/,     &
