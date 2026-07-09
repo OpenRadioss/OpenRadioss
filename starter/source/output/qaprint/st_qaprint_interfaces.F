@@ -93,9 +93,8 @@ C             VARNAME: variable name in ref.extract (without blanks)
           END DO
 C
           IF(INTBUF_TAB(MY_INTER)%STFAC(1)/=ZERO)THEN
-C
 C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'STFAC_',I
+            WRITE(VARNAME,'(A)') 'STFAC '
             TEMP_DOUBLE = INTBUF_TAB(MY_INTER)%STFAC(1)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           END IF
