@@ -63,7 +63,7 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        real(kind=WP) :: cjc,epsdref
+        real(kind=WP) :: cjc,epsdref,sigsat
         real(kind=WP), dimension(nel) :: ratefac
 !===============================================================================
 !
@@ -73,11 +73,13 @@
         !< Recover strain rate dependency parameters
         cjc     = matparam%uparam(offset + 1) !< Johnson-Cook strain rate sensitivity coefficient
         epsdref = matparam%uparam(offset + 2) !< Reference strain rate
+        sigsat  = matparam%uparam(offset + 3) !< Saturation stress
         !< Compute strain rate dependency factor
         ratefac(1:nel)  = one + cjc*log(one + (epsd(1:nel)/epsdref))
         !< Apply strain rate dependency to sigy and dsigy_dpla
-        sigy(1:nel) = sigy(1:nel)*ratefac(1:nel)
+        sigy(1:nel) = min(sigy(1:nel)*ratefac(1:nel),sigsat)
         dsigy_dpla(1:nel) = dsigy_dpla(1:nel)*ratefac(1:nel)
+        where (sigy(1:nel) >= sigsat) dsigy_dpla(1:nel) = zero
 !
       end subroutine srate_dependency_johnsoncook
       end module srate_dependency_johnsoncook_mod
