@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II, IRUPT, NINDXF, ICRITTYP, IEVOSHAP
+      INTEGER :: I,II, IRUPT, NINDXF, ICRITTYP, IEVOSHAP, ISYM
       INTEGER ,DIMENSION(NEL)  :: INDXF
       my_real ::   DM,   DAM,  STF,DTB, ALPHA, DENOM1, DENOM2, U_NORM,
      .   E_ELAS_N,DTINV , T_N,T_S, EXP_ALPHA,COEF0, FUNC_ALPHA,
@@ -101,6 +101,7 @@ C=======================================================================
       ICRITTYP  = INT(UPARAM(18)) ! 1=displacement-based, 2=energy-based
       IEVOSHAP  = INT(UPARAM(19)) ! 1=linear, 2=exponential
       ALPHA     = UPARAM(20)
+      ISYM      = INT(UPARAM(21)) ! 0=asymmetric (tension only), 1=symmetric tension/compression
 c
       DTINV   = ONE / (MAX(TIMESTEP, EM20))
       STF     = E_ELAS_N + E_ELAS_S
@@ -165,7 +166,11 @@ C     COMPUTE DELTA KNOWN AS EPSMMAX (i.e. MAX STRAIN)
 C=======================================================================
       DO I=1, NEL
           ! Compute norm and tang strain
-          EPSN(I) = MAX(EPSZZ(I) , ZERO) ! Ignore compressive state
+          IF (ISYM == 1) THEN
+              EPSN(I) = ABS(EPSZZ(I)) ! Symmetric: compression drives damage like tension
+          ELSE
+              EPSN(I) = MAX(EPSZZ(I) , ZERO) ! Ignore compressive state
+          ENDIF
           EPST(I) = SQRT(EPSYZ(I)**2  + EPSZX(I)**2) ! Combine both plans
           ! Compute mixt stain state
           EPSM(I) = SQRT( EPSN(I)**2  + EPST(I)**2) ! Mixt strain
@@ -308,7 +313,9 @@ C=======================================================================
               
               ! Compute the energy-increment with forward Euler             
               DGI(I) = ZERO
-              IF (EPSZZ(I) > ZERO) THEN
+              IF (ISYM == 1) THEN
+                  DGI(I) = SIGNZZ(I) * DEPSZZ(I)
+              ELSE IF (EPSZZ(I) > ZERO) THEN
                   DGI(I) = SIGNZZ(I) * DEPSZZ(I)
               ENDIF
                 
@@ -446,7 +453,10 @@ C     STRESS FIELD UPDATE
 C======================================================================= 
       DO I=1,NEL
           ! New field
-          IF (EPSZZ(I) < ZERO )  THEN 
+          IF (ISYM == 1) THEN
+              ! Symmetric: damage degrades both tension and compression
+              SIGNZZ(I) = (ONE-DMG(I))*E_ELAS_N*EPSZZ(I)
+          ELSE IF (EPSZZ(I) < ZERO )  THEN 
               SIGNZZ(I) = E_ELAS_N*EPSZZ(I) 
           ELSE
               SIGNZZ(I) = (ONE-DMG(I))*E_ELAS_N*EPSZZ(I)
