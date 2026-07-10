@@ -105,15 +105,14 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,nindx,indx(nel),idel,ifail,noff(nel),icowpsym
-          real(kind=WP)                                                        &
-            :: g,g2,aa,bb,nn,fc,t0,cc,eps0,sfmax,efmin,pc,muc,pl,mul,          &
-            k0,k1,k2,k3,d1,d2,emax,h,cst,powt,csc,powc
-          real(kind=WP)                                                        &
-            :: pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),      &
-            pstar(nel),phard(nel),scale(nel),dav(nel)
-          real(kind=WP)                                                        &
-            :: j2,kav,pmin,mubar,sigstar,epfail
+          real(kind=WP) :: g,g2,aa,bb,nn,fc,t0,cc,eps0,sfmax,efmin,pc,muc,pl,  &
+            mul,k0,k1,k2,k3,d1,d2,emax,h,cst,powt,csc,powc,lambda,muplock
+          real(kind=WP) ::                                                     &
+            pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),         &
+            pstar(nel),phard(nel),scale(nel),dav(nel),mu_max(nel)
+          real(kind=WP) :: j2,kav,pmin,mubar,sigstar,epfail,fact
           logical :: dmg_on
+          real(kind=WP), parameter :: onem = 0.999d0
 !
           !========================================================================
           !< Initialisation of computation on time step
@@ -150,6 +149,8 @@
           powt     = matparam%uparam(22) !< Cowper-Symonds tension exponent
           csc      = matparam%uparam(23) !< Cowper-Symonds compression parameter
           powc     = matparam%uparam(24) !< Cowper-Symonds compression exponent
+          lambda   = matparam%uparam(25) !< Locking parameter
+          muplock  = matparam%uparam(26) !< Locking volumetric strain (for which p = pl)
           !< Recovering user variables and initialization of local variables
           nindx = 0
           dmg_on = (d1 > zero)
@@ -159,6 +160,7 @@
             mup(i)   = uvar(i,1)
             phard(i) = uvar(i,2)
             noff(i)  = nint(uvar(i,4))
+            mu_max(i) = uvar(i,5)
             dpla(i)  = zero
             dmup(i)  = zero
             if (.not.dmg_on) dmg(i) = zero
@@ -254,9 +256,21 @@
             end if
             ! -> Region III: fully dense concrete
             if (mup(i) >= mul) then
-              mubar    = (amu(i) - mul)/(one + mul)
-              pnew(i)  = k1*mubar + k2*(mubar**2) + k3*(mubar**3)
-              dpdmu(i) = (k1 + two*k2*mubar + three*k3*(mubar**2))/(one + mul)
+              if ((amu(i) - mup(i)) < zero) then
+                pnew(i)  = k1*(amu(i) - mup(i))
+                dpdmu(i) = k1
+              else
+                mu_max(i) = max(amu(i),mu_max(i),zero)
+                fact      = exp(-lambda*((mu_max(i)-muplock)/muplock))
+                fact      = min(max(fact,zero),one)
+                if (fact >= onem) fact = one
+                mubar     = (amu(i) - mul)/(one + mul)
+                pnew(i)   = k1*mubar + k2*(mubar**2) + k3*(mubar**3)
+                pnew(i)   = k1*(amu(i) - mul)*fact + pnew(i)*(one - fact)
+                dpdmu(i)  = (k1 + two*k2*mubar + three*k3*(mubar**2))/(one + mul)
+                dpdmu(i)  = k1*fact + dpdmu(i)*(one - fact)
+                uvar(i,5) = mu_max(i)
+              endif
             end if
             !< Check pressure for tension
             pnew(i)  = max(pnew(i),pmin)

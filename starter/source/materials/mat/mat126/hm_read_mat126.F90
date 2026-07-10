@@ -84,6 +84,7 @@
           real(kind=WP) ::                                                     &
             rho0,shear,aa,bb,nn,fc,t0,cc,eps0,asrate,sfmax,efmin,pc,muc,       &
             pl,mul,k0,k1,k2,k3,d1,d2,young,nu,eps_max,h,cst,powt,csc,powc
+          real(kind=WP) :: muplock,mu_star,lambda
           logical :: is_encrypted, is_available
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
@@ -141,6 +142,12 @@
           k0 = pc/muc
           !< Initial young modulus
           young = nine*k0*shear/(three*k0+shear)
+          !< Volumetric strain at which P = PL
+          muplock = mul + pl/k1
+          !< Define mu_star for a smooth transition between 
+          !  region 2 and region 3
+          mu_star = muplock + 0.05d0*muplock
+          lambda = -log(em01)*muplock/(mu_star - muplock)
           !< Initial Poisson ratio
           nu = (three*k0-two*shear)/(six*k0+two*shear)
           !< Tangent bulk modulus
@@ -182,9 +189,9 @@
           !< Number of integer material parameters
           matparam%niparam = 3
           !< Number of real material parameters
-          matparam%nuparam = 24
+          matparam%nuparam = 26
           !< Number of user variables
-          nuvar = 4
+          nuvar = 5
 !
           !< Allocation of material parameters tables
           call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
@@ -224,6 +231,8 @@
           matparam%uparam(22) = powt
           matparam%uparam(23) = csc
           matparam%uparam(24) = powc
+          matparam%uparam(25) = lambda
+          matparam%uparam(26) = muplock
 !
           !< PARMAT table
           parmat(1) = k1
