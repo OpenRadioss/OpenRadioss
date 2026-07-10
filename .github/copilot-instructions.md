@@ -4,9 +4,10 @@
 1. [File Types and Formats](#file-types-and-formats)
 2. [Naming Conventions](#naming-conventions)
 3. [Coding Rules](#coding-rules)
-4. [Template Structure](#template-structure)
-5. [Code Examples](#code-examples)
-6. [Common Pitfalls](#common-pitfalls)
+4. [Tooling and Navigation](#tooling-and-navigation)
+5. [Template Structure](#template-structure)
+6. [Code Examples](#code-examples)
+7. [Common Pitfalls](#common-pitfalls)
 
 ## File Types and Formats
 
@@ -58,6 +59,10 @@
   - Leaf routines: ≤ 200 lines
   - Main routines: ≤ 1000 lines
 - **DO NOT USE POINTER** when this can be avoided. In particular pointers to noncontiguous data are forbidden because of performance issues.
+
+## Tooling and Navigation
+
+- Prefer the OpenRadioss MCP index tools (`openradioss-index-*`) for code navigation and symbol lookup instead of grep/rg whenever possible.
 
 ## Template Structure
 
