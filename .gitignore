@@ -40,3 +40,4 @@ extlib.zip
 .idea/
 *.s
 *.backup
+.code_index.db*
