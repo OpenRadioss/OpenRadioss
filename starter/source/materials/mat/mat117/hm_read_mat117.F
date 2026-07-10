@@ -90,7 +90,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ILAW,IMASS,IDEL,
-     .    IRUPT,ICRITTYP,IEVOSHAP
+     .    IRUPT,ICRITTYP,IEVOSHAP,ISYM
       my_real :: RHO0,FSCALEX,FSCALEX_UNIT,UDN,UDS,ALPHA,EXP_ALPHA,DENOM,
      .   E_ELAS_N,E_ELAS_S,TMAX_N,TMAX_S,COEF_N,COEF_T,COEF0,FUNC_ALPHA,
      .   GIC,GIIC,EXP_G,EXP_BK,DELTA0N,DELTA0S,UND,UTD,GAMA
@@ -119,6 +119,7 @@ Card1
 
       CALL HM_GET_INTV  ('MAT_IRUPT'      ,IRUPT        ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_IDEL'       ,IDEL         ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('MAT_ISYM'       ,ISYM         ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_GIC'        ,GIC          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_GIIC'       ,GIIC         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
@@ -141,7 +142,7 @@ C Number of User Element Variables and Curves
 C-------------------------------------------
       NUVAR = 15
       NFUNC = 2
-      NUPARAM = 20
+      NUPARAM = 21
 c-------------------
 c     Default Values
 c-------------------
@@ -330,6 +331,7 @@ C-------------------------------------------
       UPARAM(18) = ICRITTYP
       UPARAM(19) = IEVOSHAP
       UPARAM(20) = ALPHA
+      UPARAM(21) = ISYM
 
 C-------------------------------------------
 C Interface Contact
@@ -359,7 +361,7 @@ c-------------------
         WRITE(IOUT,1200) RHO0,E_ELAS_N,E_ELAS_S,TMAX_N,TMAX_S,
      .                   IFUNC(1),IFUNC(2),FSCALEX,
      .                   IRUPT,GIC,GIIC,UDN,UDS,EXP_G,EXP_BK,GAMA,
-     .                   ICRITTYP,IEVOSHAP,ALPHA
+     .                   ICRITTYP,IEVOSHAP,ALPHA,ISYM
       ENDIF
 c-----------
       RETURN
@@ -404,6 +406,9 @@ c
      & 5X,'             = 2 => EXPONENTIAL (LINEAR-EXPONENTIAL)       '/,
      & 5X,'             = 3 => XU-NEEDLEMAN EXPONENTIAL (C-INFTY)     '/,
 c
-     & 5X,'EXPONENTIAL DAMAGE EXPONENT ALPHA . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'EXPONENTIAL DAMAGE EXPONENT ALPHA . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'SYMMETRIC TENSION/COMPRESSION FLAG . . . . . . . . . . =',I10/,
+     & 5X,'             = 0:   ASYMMETRIC (ONLY TENSION DAMAGES)   '/,
+     & 5X,'             = 1:   SYMMETRIC (TENSION = COMPRESSION)   '/)
 c--------
       END
