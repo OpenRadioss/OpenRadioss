@@ -1335,6 +1335,9 @@ C---------- no warning message as ICPRE = 11 is the internal flag
             END IF
           END IF
 C
+          !< Default distortion control for /MAT/LAW100
+          IF (MLN == 100) IGEO(97,PID) = 1
+C
           IF (JHBE == 16.AND.MLN == 25)THEN
              CALL ANCMSG(MSGID=855,
      .                   MSGTYPE=MSGERROR,
