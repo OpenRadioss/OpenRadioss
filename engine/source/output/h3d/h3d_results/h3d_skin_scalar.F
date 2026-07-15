@@ -212,7 +212,7 @@ C----------    F.I. uses also average strain to be consisting
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                   CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                    DO I=1,NEL 
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
@@ -246,7 +246,7 @@ C-------- grp skin_up
                   DO I=1,NEL                                                      
                      CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -284,7 +284,7 @@ C------
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                   CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                    DO I=1,NEL 
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
@@ -318,7 +318,7 @@ C-------- grp skin_up
                   DO I=1,NEL                                                      
                      CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -355,7 +355,7 @@ C-------- grp skin_inf first
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                   CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -389,7 +389,7 @@ C-------- grp skin_up
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                   CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -427,7 +427,7 @@ C-------- grp skin_inf first
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                   CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -461,7 +461,7 @@ C-------- grp skin_up
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                   CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
      .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,STRAIN,NEL )
+     .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           

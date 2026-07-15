@@ -32,8 +32,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_param_mod    ../common_source/modules/mat_elem/fail_param_mod.F90
 !||====================================================================
       SUBROUTINE H3D_FLD_TSH(ELBUF_TAB,FAIL,
-     .                       IR,IS,IT,ILAY,IFAIL,
-     .                       NPF,TF,NGL,EVAR,NEL )
+     .                       IR,IS,IT,ILAY,IFAIL,NGL,EVAR,NEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,8 +56,6 @@ C-----------------------------------------------
       INTEGER , INTENT(IN) :: IR,IS,IT,ILAY,IFAIL,NEL 
       INTEGER , DIMENSION(NEL), INTENT(IN) ::  NGL
       my_real , DIMENSION(3,MVSIZ), INTENT(IN) ::  EVAR
-      my_real , DIMENSION(STF), INTENT(IN) ::  TF
-      INTEGER , DIMENSION(SNPC), INTENT(IN) ::  NPF
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
       TYPE (FAIL_PARAM_) ,INTENT(IN) :: FAIL
 C-----------------------------------------------
@@ -92,13 +89,12 @@ C-----------------------------------------------
       ES2(1:NEL) = EVAR(2,1:NEL)
       ES4(1:NEL) = TWO*EVAR(3,1:NEL)
 
-      CALL FAIL_FLD_TSH(
-     1          NEL       ,NPAR      ,NVARF     ,NFUNC    ,FAIL%IFUNC ,
-     2          NPF       ,TF        ,TT        ,DT1      ,FAIL%UPARAM,   
-     3          UVARF     ,NGL       ,IT        ,ILAY     ,IT         ,
+      CALL FAIL_FLD_TSH(FAIL,
+     1          NEL       ,NVARF     ,UVARF     ,TT       ,DT1        ,
+     3          NGL       ,IT        ,ILAY      ,IT       ,
      4          ES1       ,ES2       ,ES4       ,ES5      ,ES6        ,
      5          LBUF%OFF  ,FOFF      ,FLD_IDX   ,DAM      ,DFMAX      ,
-     6          NIPAR     ,FAIL%IPARAM,LBUF%PLA ,LF_DAMMX )
+     6          LBUF%PLA  ,LF_DAMMX  )
 C-----------
       RETURN
       END SUBROUTINE H3D_FLD_TSH
