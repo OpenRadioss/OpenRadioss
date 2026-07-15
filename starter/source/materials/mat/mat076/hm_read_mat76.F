@@ -315,7 +315,7 @@ c-----------------------------------------------------------------------------
               if (ndim == 1) then
                 if (minval(mat_param%table(i)%y1d) <= zero) ierror = 1
               else if (ndim == 2) then
-                if (minval(mat_param%table(i)%y2d) <= zero) ierror = 1
+                if (minval(mat_param%table(i)%y2d(1,:)) <= zero) ierror = 1
               end if
               if (ierror == 1) then
                 CALL ANCMSG(MSGID=2063, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
