@@ -69,7 +69,7 @@
 !===============================================================================
 !
           !=======================================================================
-          !< - Voce work hardening model
+          !< - Linear-Voce work hardening model
           !=======================================================================
           !< Recover work hardening parameters
           r0 = matparam%uparam(offset + 1) !< Initial yield stress

@@ -94,6 +94,7 @@
         use work_hardening_voce_mod
         use work_hardening_tabulated_mod
         use work_hardening_linearvoce_mod
+        use work_hardening_zerilli_armstrong_mod
         use srate_dependency_johnsoncook_mod
         use srate_dependency_cowpersymonds_mod
         use srate_dependency_tabulated_mod
@@ -158,6 +159,13 @@
           case(4)
             call work_hardening_linearvoce(                                    &
               matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
+          !---------------------------------------------------------------------
+          !< Zerilli-Armstrong hardening
+          !---------------------------------------------------------------------
+          case(5)
+            call work_hardening_zerilli_armstrong(                             &
+              matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   ,    &
+              epsd     ,temp     ,dtemp_dpla)
         end select
 !
         !=======================================================================
