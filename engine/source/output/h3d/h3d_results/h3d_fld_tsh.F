@@ -91,13 +91,12 @@ C-----------------------------------------------
       ES2(1:NEL) = EVAR(2,1:NEL)
       ES4(1:NEL) = TWO*EVAR(3,1:NEL)
 
-      CALL FAIL_FLD_TSH(
-     1          NEL       ,NPAR      ,NVARF     ,NFUNC    ,FAIL%IFUNC ,
-     2          NPF       ,TF        ,TT        ,DT1      ,FAIL%UPARAM,   
-     3          UVARF     ,NGL       ,IT        ,ILAY     ,IT         ,
+      CALL FAIL_FLD_TSH(FAIL,
+     1          NEL       ,NVARF     ,UVARF     ,TT       ,DT1        ,
+     3          NGL       ,IT        ,ILAY      ,IT       ,
      4          ES1       ,ES2       ,ES4       ,ES5      ,ES6        ,
      5          LBUF%OFF  ,FOFF      ,FLD_IDX   ,DAM      ,DFMAX      ,
-     6          NIPAR     ,FAIL%IPARAM,LBUF%PLA ,LF_DAMMX )
+     6          LBUF%PLA  ,LF_DAMMX  )
 C-----------
       RETURN
       END SUBROUTINE H3D_FLD_TSH

@@ -2254,26 +2254,23 @@
                       epszx(i)= gstr(i,5)
                     enddo
                     if (ixfem == 0) then
-                      call fail_fld_c(&
-                      &nel       ,nupar     ,nfunc_fail,ifunc_fail ,&
-                      &npf       ,tf        ,tt        ,uparamf    ,&
-                      &ngl       ,ipg       ,ilayer    ,it         ,&
+                      call fail_fld_c(fail_param    ,&
+                      &nel       ,nvarf     ,nvartmp   ,uvarf      ,vartmp    ,&
+                      &tt        ,ngl       ,ipg       ,ilayer     ,it        ,&
                       &epsxx     ,epsyy     ,epsxy     ,lf_dammx   ,&
                       &depsxx    ,depsyy    ,depsxy    ,el_pla     ,&
                       &zt        ,off       ,foff      ,tdel       ,&
-                      &fld_idx   ,dam       ,dfmax     ,dt1        ,&
-                      &nipar     ,iparamf   ,nvarf     ,uvarf      )
+                      &fld_idx   ,dam       ,dfmax     ,dt1        )
                     else if (matparam%ixfem > 0) then
-                      call fail_fld_xfem(&
-                      &nel       ,nupar     ,nvarf     ,nfunc_fail,ifunc_fail,&
-                      &npf       ,tf        ,tt        ,uparamf   ,&
-                      &ngl       ,ipt       ,mpt       ,ssp       ,tensx     ,&
+                      call fail_fld_xfem(fail_param    ,&
+                      &nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp    ,&
+                      &tt        ,ngl       ,ipt       ,mpt       ,ssp       ,tensx     ,&
                       &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
                       &epsxx     ,epsyy     ,epsxy     ,epsyz     ,epszx     ,&
-                      &uvarf     ,gbuf%noff ,off       ,lf_dammx  ,&
+                      &gbuf%noff ,off       ,lf_dammx  ,&
                       &elcrkini  ,ixfem     ,ixel      ,ilayer    ,it        ,&
                       &offl      ,nptt      ,uelr1     ,dfmax     ,tdel      ,&
-                      &dam       ,fld_idx   ,nipar     ,iparamf   ,el_pla    ,&
+                      &dam       ,fld_idx   ,el_pla    ,&
                       &depsxx    ,depsyy    ,depsxy    ,dt1       )
                     endif
 !

@@ -1290,26 +1290,24 @@ c
                   EPSZX(I)= GSTR(I,5)
                 ENDDO
                 IF (IXFEM == 0) THEN
-                  CALL FAIL_FLD_C(
-     1            NEL       ,NUPAR     ,NFUNC_FAIL,IFUNC_FAIL ,
-     2            NPF       ,TF        ,TT        ,UPARAMF    ,   
-     3            NGL       ,IPG       ,ILAYER    ,IT         ,
+                  CALL FAIL_FLD_C(fail_param , 
+     1            NEL       ,NVARF     ,NVARTMP   ,UVARF      ,VARTMP   ,
+     2            TT        ,NGL       ,IPG       ,ILAYER    ,IT         ,
      4            EPSXX     ,EPSYY     ,EPSXY     ,LF_DAMMX   ,
      5            DEPSXX    ,DEPSYY    ,DEPSXY    ,EL_PLA     ,
      6            ZT        ,OFF       ,FOFF      ,TDEL       ,
-     7            FLD_IDX   ,DAM       ,DFMAX     ,DT1        ,
-     8            NIPAR     ,IPARAMF   ,NVARF     ,UVARF      )
+     7            FLD_IDX   ,DAM       ,DFMAX     ,DT1        )
                 ELSE
-                  CALL FAIL_FLD_XFEM(                                      
-     1            NEL       ,NUPAR     ,NVARF     ,NFUNC_FAIL,IFUNC_FAIL,
-     2            NPF       ,TF        ,TT        ,UPARAMF   ,
+                  CALL FAIL_FLD_XFEM(fail_param ,                                       
+     1            NEL       ,NUPAR     ,NVARF     ,UVARF      ,VARTMP   ,
+     2            TT        ,
      3            NGL       ,IPT       ,MPT       ,SSP       ,TENSX     ,
      4            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
      5            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,  
-     6            UVARF     ,GBUF%NOFF ,OFF       ,LF_DAMMX  ,
+     6            GBUF%NOFF ,OFF       ,LF_DAMMX  ,
      7            ELCRKINI  ,IXFEM     ,IXEL      ,ILAYER    ,IT        ,  
      8            OFFL      ,NPTT      ,UELR1     ,DFMAX     ,TDEL      ,
-     9            DAM       ,FLD_IDX   ,NIPAR     ,IPARAMF   ,EL_PLA    ,
+     9            DAM       ,FLD_IDX   ,EL_PLA    ,
      A            DEPSXX    ,DEPSYY    ,DEPSXY    ,DT1       )
                 ENDIF
 c

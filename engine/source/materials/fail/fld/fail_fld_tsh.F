@@ -31,31 +31,32 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
 !||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
-      SUBROUTINE FAIL_FLD_TSH(
-     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,
-     3     UVAR     ,NGL      ,IPG      ,ILAY     ,IPTT     ,
+      SUBROUTINE FAIL_FLD_TSH(FAIL,
+     1     NEL      ,NUVAR    ,UVAR     ,TIME     ,TIMESTEP ,
+     3     NGL      ,IPG      ,ILAY     ,IPTT     ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      6     OFF      ,FOFF     ,FLD_IDX  ,DAM      ,DFMAX    ,
-     7     NIPARAM  ,IPARAM   ,PLA      ,LF_DAMMX )
+     7     PLA      ,LF_DAMMX )
 C-----------------------------------------------
 c    FLD failure model
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
       use my_alloc_mod
       use my_dealloc_mod, only : my_dealloc
+C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
+#include  "units_c.inc"
 #include  "comlock.inc"
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C---------+---------+---+---+--------------------------------------------
@@ -77,14 +78,12 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NFUNC,IPG,ILAY,IPTT,NIPARAM,LF_DAMMX
+      INTEGER, INTENT(IN) :: NEL,NUVAR,IPG,ILAY,IPTT,LF_DAMMX
       INTEGER ,DIMENSION(NEL)   :: NGL
-      INTEGER ,DIMENSION(NFUNC) :: IFUNC
       my_real TIME
       my_real ,DIMENSION(NEL), INTENT(IN) ::  TIMESTEP,OFF,
      .              EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,PLA
-      my_real,DIMENSION(NUPARAM) :: UPARAM
-      INTEGER, DIMENSION(NIPARAM) :: IPARAM
+      type (fail_param_) ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -93,26 +92,14 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: DAM
       my_real UVAR(NEL,NUVAR)
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER , FINTERFLD ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,J,IENG,LENF,NINDX,IMARGIN
-      INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
-      my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
+      INTEGER :: I,J,IENG,LENF,NINDX,IMARGIN
+      INTEGER ,DIMENSION(NEL) :: INDX,IPOS
+      my_real :: RANI,R1,R2,S1,S2,SS,Q,E12,FACT_MARGIN,FACT_LOOSEMETAL
+      my_real ,ALLOCATABLE, DIMENSION(:) :: XF,YF
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM,BETA
+      my_real, DIMENSION(NEL) :: TAB_LOC,Y_LOC,DYDX
 C=======================================================================
 c
       !=================================================================
@@ -120,12 +107,13 @@ c
       !=================================================================
       ! Recovering failure criterion parameters
       ! -> Real parameters
-      FACT_MARGIN     = UPARAM(1)
-      RANI            = UPARAM(3)
-      FACT_LOOSEMETAL = UPARAM(4)
+      FACT_MARGIN     = FAIL%UPARAM(1)
+      RANI            = FAIL%UPARAM(3)
+      FACT_LOOSEMETAL = FAIL%UPARAM(4)
       ! -> Integer parameters
-      IMARGIN  = IPARAM(2)
-      IENG     = IPARAM(3)
+      IMARGIN  = FAIL%IPARAM(2)
+      IENG     = FAIL%IPARAM(3)
+      IPOS(:) = 1
 c
       ! Check if the element is already broken
       NINDX  = 0
@@ -163,38 +151,56 @@ c
       !=================================================================
       ! -> Engineering strains input
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
-        II   = NPF(IFUNC(1))
-        LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
+        LENF = size(fail%table4d(1)%x(1)%values)
         call my_alloc(XF, LENF, "XF")
+        call my_alloc(YF, LENF, "YF")
         DO I = 1,LENF
-          XF(I) = LOG(TF(II + I-1) + ONE)
+          XF(I) = LOG(fail%table4d(1)%x(1)%values(i) + ONE)
+          YF(I) = fail%table4d(1)%y1d(i)
         ENDDO
+        call vinter_1d(nindx,nel,lenf,ipos,xf,yf,emin,y_loc)
 c
+#include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
-          EM(I)  = FINTERFLD(EMIN(I),LENF,XF)
+          EM(I) = Y_LOC(J)
           DAM(I) = EMAJ(I) / EM(I)
           DFMAX(I,2) = DAM(I)
           DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
         call my_dealloc(XF)
+        call my_dealloc(YF)
       ! -> True strains input
       ELSE
         ! -> Classical formulation
         IF (IENG == 0) THEN 
+#include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
-            EM(I)  = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
+            TAB_LOC(J) = EMIN(I)
+          ENDDO
+          call table_mat_vinterp(fail%table4d(1),nindx,nel,ipos,tab_loc,y_loc,dydx)
+#include "vectorize.inc"
+          DO J = 1,NINDX
+            I = INDX(J)
+            EM(I)  = Y_LOC(J)
             DAM(I) = EMAJ(I) / EM(I)
             DFMAX(I,2) = DAM(I)
             DFMAX(I,1) = MIN(ONE, DAM(I))
           ENDDO
         ! -> Non-linear path formulation
         ELSEIF (IENG == 2) THEN 
+#include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
-            EM(I)  = FINTER(IFUNC(1),BETA(I),NPF,TF,DYDX)
-            DAM(I) = PLA(I) / EM(I)
+            TAB_LOC(J) = BETA(I)
+          ENDDO
+          call table_mat_vinterp(fail%table4d(1),nindx,nel,ipos,tab_loc,y_loc,dydx)
+#include "vectorize.inc"
+          DO J = 1,NINDX
+            I = INDX(J)
+            EM(I)  = Y_LOC(J)
+            DAM(I) = EMAJ(I) / EM(I)
             DFMAX(I,2) = DAM(I)
             DFMAX(I,1) = MIN(ONE, DAM(I))
           ENDDO
