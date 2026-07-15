@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inigrav             ../starter/share/modules1/inigrav_mod.F
 !||    message_mod         ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE INIGRAV_PART_LIST(IPART, IGRPART, EBCS_TAB)
+      SUBROUTINE INIGRAV_PART_LIST(IPART, IGRPART, EBCS_TAB, SKEW)
 C-----------------------------------------------
 C   Description
 C-----------------------------------------------
@@ -52,19 +52,21 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN),TARGET          :: IPART(LIPART1,*)    
       TYPE (GROUP_)  , DIMENSION(NGRPART) :: IGRPART
       TYPE(T_EBCS_TAB), INTENT(INOUT)     :: EBCS_TAB
+      my_real, INTENT(IN)                 :: SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: lFOUND_EBCS_NRF
       INTEGER :: KK,JJ,ID_PART,TYP,NSEG,NP
-      INTEGER :: IGRP
-      my_real :: GRAV0,NGX,NGY,NGZ
+      INTEGER :: IGRP,ISK
+      my_real :: GRAV0,NGX,NGY,NGZ,NGX0,NGY0,NGZ0
 C---------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -101,6 +103,15 @@ C-----------------------------------------------
         NGX     = LINIGRAV(08,KK)
         NGY     = LINIGRAV(09,KK)
         NGZ     = LINIGRAV(10,KK) 
+        ISK     = INIGRV(5,KK)
+        IF(ISK>1)THEN
+          NGX0 = NGX
+          NGY0 = NGY
+          NGZ0 = NGZ
+          NGX  = SKEW(1,ISK)*NGX0 + SKEW(4,ISK)*NGY0 + SKEW(7,ISK)*NGZ0
+          NGY  = SKEW(2,ISK)*NGX0 + SKEW(5,ISK)*NGY0 + SKEW(8,ISK)*NGZ0
+          NGZ  = SKEW(3,ISK)*NGX0 + SKEW(6,ISK)*NGY0 + SKEW(9,ISK)*NGZ0
+        ENDIF
         IF(IGRP == 0)CYCLE
         NP      = IGRPART(IGRP)%NENTITY
         DO JJ=1,NP

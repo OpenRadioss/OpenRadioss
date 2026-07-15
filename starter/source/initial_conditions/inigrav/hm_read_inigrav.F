@@ -329,6 +329,8 @@ C
         INIGRV(2,K)    = IIS
         INIGRV(3,K)    = IIGRAV
         INIGRV(4,K)    = ID
+        INIGRV(5,K)    = 0
+        IF(IIGRAV>0) INIGRV(5,K) = IGRV(2,IIGRAV)/10
 C
         ! Storing real data in LINIGRAV table
         LINIGRAV(01,K) = BX_

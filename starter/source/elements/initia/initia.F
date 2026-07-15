@@ -1847,10 +1847,10 @@ C---------------------------------
         IF(N2D==0)NV46 = 6
         CALL INIGRAV_LOAD(
      1                    ELBUF_TAB       , IPART      , IGRPART   ,   IPARG  ,   IPART(I15H),
-     2                    IPART(I15A)     , IPART(I15B), X         ,   IXS    ,   IXQ        ,
-     3                    IXTG            , PM         , IPM       ,   BUFMAT ,   MULTI_FVM  ,
-     4                    ALE_CONNECTIVITY, NV46       , IGRSURF   ,   ITAB   ,   EBCS_TAB   ,
-     5                    NPC             , PLD        , MAT_PARAM)
+     2                    IPART(I15A)     , IPART(I15B), X         ,   SKEW   ,   IXS        ,
+     3                    IXQ             , IXTG       , PM        ,   IPM    ,   BUFMAT     ,
+     4                    MULTI_FVM       , ALE_CONNECTIVITY       ,   NV46   ,   IGRSURF    ,
+     5                    ITAB            , EBCS_TAB   , NPC       ,   PLD    ,   MAT_PARAM)
       ENDIF
 C---------------------------------
 C Initialization on 1D curves
