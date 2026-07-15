@@ -35,11 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inigrav                ../starter/share/modules1/inigrav_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE INIGRAV_LOAD(ELBUF_TAB ,IPART  ,IGRPART ,IPARG  ,IPARTTG  ,
-     1                        IPARTS    ,IPARTQ ,X       ,IXS    ,IXQ      ,
-     2                        IXTG      ,PM     ,IPM     ,BUFMAT ,MULTI_FVM,
-     3                        ALE_CONNECTIVITY ,NV46   ,IGRSURF ,ITAB   ,EBCS_TAB,
-     4                        NPF       ,TF    ,MAT_PARAM)
+      SUBROUTINE INIGRAV_LOAD(ELBUF_TAB ,IPART  ,IGRPART   ,IPARG  ,IPARTTG  ,
+     1                        IPARTS    ,IPARTQ ,X         ,SKEW   ,IXS      ,
+     2                        IXQ       ,IXTG   ,PM        ,IPM    ,BUFMAT   ,
+     3                        MULTI_FVM ,ALE_CONNECTIVITY  ,NV46   ,IGRSURF  ,
+     4                        ITAB      ,EBCS_TAB,NPF      ,TF     ,MAT_PARAM)
 C-----------------------------------------------
 C   Description
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)                          :: IPARG(NPARG,NGROUP),NV46
       INTEGER, INTENT(IN), TARGET                  :: IXS(NIXS, NUMELS), IXQ(NIXQ, NUMELQ), IXTG(NIXTG, NUMELTG)
       TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP),TARGET :: ELBUF_TAB
-      my_real, INTENT(IN)                          :: X(3,NUMNOD), PM(NPROPM,NUMMAT), BUFMAT(*)
+      my_real, INTENT(IN)                          :: X(3,NUMNOD), SKEW(LSKEW,*), PM(NPROPM,NUMMAT), BUFMAT(*)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN)           :: MULTI_FVM
       TYPE (SURF_), DIMENSION(NSURF),INTENT(IN)    :: IGRSURF      
       TYPE(T_EBCS_TAB), INTENT(INOUT)              :: EBCS_TAB
@@ -114,10 +114,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: GRAV0,BX,BY,BZ,NX,NY,NZ,DOTP,RHO0,NGX,NGY,NGZ,ALPHA,INTERP(3),NORM
+      my_real :: NGX0,NGY0,NGZ0
       my_real :: Z(3), DEPTH(MVSIZ), N(3,8),PSURF,PGRAV(MVSIZ),VFRAC,P(3,1:4)
       my_real :: LAMBDA,DIAG1(3),DIAG2(3),DIST,B(3),VOLFRAC,DEPT
       my_real,ALLOCATABLE,DIMENSION(:,:) :: MIN_COOR, MAX_COOR, N_SURF, ZF
       my_real :: TOLSEG
+      INTEGER :: GRAV_ID
       INTEGER :: K,KK,IGRP,ISURF,NPART_IN_GROUP,MLW,NG,NEL,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
       INTEGER :: USERID
       INTEGER :: MATID, IADBUF,IFORM,NEL2,LIST(MVSIZ),NBMAT,MATLAW,NIX,UID,SURF_TYPE
@@ -126,16 +128,19 @@ C-----------------------------------------------
       TYPE(L_BUFEL_), POINTER            :: LBUF
       LOGICAL :: lCYCLE,lERROR,lTRIA,lFOUND_PROJ,lTEST,l_PLANAR_SURF,l_USER_SURF
       INTEGER, DIMENSION(:, :), POINTER  :: IX
+      INTEGER :: ISK  !< skew id
       character*64                       :: ERRMSG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      CALL INIGRAV_PART_LIST( IPART  ,IGRPART, EBCS_TAB ) !list related parts to apply gravity loading with /ebcs/nrf
+      !list related parts to apply gravity loading with /ebcs/nrf
+      CALL INIGRAV_PART_LIST( IPART  ,IGRPART, EBCS_TAB, SKEW )
 
       DO K=1,NINIGRAV     
         IGRP    = INIGRV(1,K)
         ISURF   = INIGRV(2,K)
+        GRAV_ID = INIGRV(3,K)
         UID     = INIGRV(4,K)        
         BX      = LINIGRAV(01,K)
         BY      = LINIGRAV(02,K)
@@ -149,6 +154,27 @@ C-----------------------------------------------
         NGZ     = LINIGRAV(10,K) 
         PSURF   = LINIGRAV(11,K)
         IF (GRAV0==ZERO)CYCLE          !nothing to do if g=0 at time=0 => Delta_P=0 => P=P(t=0)=P0
+
+        ! Gravity direction is defined in a user skew (see /GRAV).       !
+        ISK=INIGRV(5,K)
+        IF(ISK>1)THEN
+          NGX0 = NGX
+          NGY0 = NGY
+          NGZ0 = NGZ
+          NGX  = SKEW(1,ISK)*NGX0 + SKEW(4,ISK)*NGY0 + SKEW(7,ISK)*NGZ0
+          NGY  = SKEW(2,ISK)*NGX0 + SKEW(5,ISK)*NGY0 + SKEW(8,ISK)*NGZ0
+          NGZ  = SKEW(3,ISK)*NGX0 + SKEW(6,ISK)*NGY0 + SKEW(9,ISK)*NGZ0
+          ! When no input surface is given (ISURF==0), the reference plane
+          ! normal was set equal to the (local) gravity direction in
+          ! hm_read_inigrav. It must be rotated to the global frame too,
+          ! otherwise the depth projection mixes local and global frames.
+          IF(ISURF==0)THEN
+            NX = NGX
+            NY = NGY
+            NZ = NGZ
+          ENDIF
+        ENDIF
+
         !READING GRPART DATA
         IF(IGRP/=0)THEN
          NPART_IN_GROUP = IGRPART(IGRP)%NENTITY
