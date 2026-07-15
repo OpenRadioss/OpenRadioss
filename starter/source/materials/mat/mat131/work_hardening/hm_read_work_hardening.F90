@@ -53,7 +53,7 @@
           ikey     ,type     ,ihard    ,nupar_hard,upar_hard,ntab_hard,        &
           itab_hard,x2vect   ,x3vect   ,x4vect    ,fscale   ,nvartmp  ,        &
           is_available,unitab,lsubmodel,iout      ,is_encrypted,vpflag,        &
-          israte   ,parmat   ,titr     ,mat_id    ,matparam    )
+          israte   ,parmat   ,titr     ,mat_id    ,matparam    ,mtag  )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -62,11 +62,13 @@
           use hm_option_read_mod
           use constant_mod
           use matparam_def_mod
+          use elbuftag_mod
           use precision_mod, only : WP
           use hm_read_work_hardening_powerlaw_mod
           use hm_read_work_hardening_voce_mod
           use hm_read_work_hardening_tabulated_mod
           use hm_read_work_hardening_linearvoce_mod
+          use hm_read_work_hardening_zerilli_armstrong_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -97,6 +99,7 @@
           character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
           integer,                 intent(in)    :: mat_id                !< Material law user ID
           type(matparam_struct_),  intent(inout) :: matparam              !< Matparam data structure
+          type(mlaw_tag_), intent(inout)         :: mtag                  !< Material tag for internal variables in element buffer
 !===============================================================================
 !     
           !=====================================================================
@@ -135,6 +138,19 @@
             call hm_read_work_hardening_linearvoce(                            &
               ikey     ,ihard    ,nupar_hard,upar_hard,is_available,           &
               unitab   ,lsubmodel,iout     ,is_encrypted)
+          !=====================================================================
+          !< Zerilli-Armstrong hardening parameters
+          !=====================================================================
+          elseif (type(1:15) == 'ZERILLI_FCC') then
+            call hm_read_work_hardening_zerilli_armstrong(                     &
+              ikey     ,ihard    ,nupar_hard,upar_hard,is_available,           &
+              unitab   ,lsubmodel,iout     ,is_encrypted,matparam  ,           &
+                      1,     mtag)
+          elseif (type(1:15) == 'ZERILLI_BCC') then
+            call hm_read_work_hardening_zerilli_armstrong(                     &
+              ikey     ,ihard    ,nupar_hard,upar_hard,is_available,           &
+              unitab   ,lsubmodel,iout     ,is_encrypted,matparam  ,           &
+              2,        mtag     )
           endif
           !=====================================================================
 !-------------------------------------------------------------------------------

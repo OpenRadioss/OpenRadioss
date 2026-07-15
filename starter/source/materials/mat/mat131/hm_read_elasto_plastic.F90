@@ -315,7 +315,7 @@
                 itab_hard,x2vect_hard     ,x3vect_hard   ,x4vect_hard     ,  &
                 fscale_hard,nvartmp_hard  ,is_available  ,unitab,lsubmodel,  &
                 iout  ,is_encrypted       ,vpflag        ,israte          ,  &
-                parmat   ,titr  ,mat_id   ,matparam      )
+                parmat   ,titr  ,mat_id   ,matparam      ,mtag            )
               !< Strain rate dependency
              case ('SRAT')
               if (iratedep /= 0) then
