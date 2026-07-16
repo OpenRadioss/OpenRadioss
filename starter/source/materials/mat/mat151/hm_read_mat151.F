@@ -74,23 +74,24 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE
+      INTEGER, PARAMETER :: MAX_NBMAT = 21
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
       INTEGER :: II
       my_real :: FRAC_VOL, SUM_FRAC_VOL
-      my_real :: VFRAC(21)
-      INTEGER :: IMID(21)
+      my_real :: VFRAC(MAX_NBMAT)
+      INTEGER :: IMID(MAX_NBMAT)
 C-----------------------------------------------
 C     B o d y
 C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       NBMAT = 0
       CALL HM_GET_INTV('NIP',NBMAT,IS_AVAILABLE,LSUBMODEL)
-      MULTI_FVM%NBMAT = MAX(MULTI_FVM%NBMAT, NBMAT)
 
-      IF (NBMAT > 21) THEN
-         !! Limitation to 20 material
+      IF (NBMAT > MAX_NBMAT) THEN
          CALL ANCMSG(MSGID = 87, MSGTYPE = MSGERROR, ANMODE = ANINFO)
+         NBMAT = MAX_NBMAT
       ENDIF
+      MULTI_FVM%NBMAT = MAX(MULTI_FVM%NBMAT, NBMAT)
 
       ! Storing number of materials
       IPM(20) = NBMAT
