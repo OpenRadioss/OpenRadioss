@@ -18,11 +18,13 @@
 !     rhoxi*: Output surface tangent vectors
 !     m_ij, detm, mij, detmPrimary: Output metric parameters
 !-----------------------------------------------
-      real*8  xupd(3,8)
-      real*8  daxi1(3,24), daxi2(3,24), daeta1(3,24), daeta2(3,24)
-      real*8  rhoxi1(3), rhoxi2(3), reta1(3), reta2(3)
-      real*8  m_ij(2,2), detm, mij(2,2), mSecondary_ij(2,2), detmPrimary
-      real*8  norm(3)
+      real*8, intent(in)    :: xupd(3,8)
+      real*8, intent(in)    :: daxi1(3,24), daxi2(3,24), daeta1(3,24), daeta2(3,24)
+      real*8, intent(inout) :: rhoxi1(3), rhoxi2(3)
+      real*8, intent(inout) :: m_ij(2,2), detm, mij(2,2), detmPrimary
+      real*8, intent(inout) :: norm(3)
+      real*8  reta1(3), reta2(3)
+      real*8  mSecondary_ij(2,2)
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------

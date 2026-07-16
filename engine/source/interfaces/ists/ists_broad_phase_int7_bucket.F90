@@ -50,6 +50,7 @@
      &    ISTS_STS_BP_PERSIST_TRY_RESTORE
         USE MY_ALLOC_MOD, ONLY : MY_ALLOC
         USE MY_DEALLOC_MOD, ONLY : MY_DEALLOC
+        USE PRECISION_MOD, ONLY : WP
         IMPLICIT NONE
         PRIVATE
         PUBLIC :: STS_INT7_BUCKET_BROAD_PHASE
@@ -69,12 +70,11 @@
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
-#include      "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
           INTEGER, INTENT(IN)  :: NIN
-          TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
+          TYPE(INTBUF_STRUCT_), INTENT(IN) :: INTBUF_TAB
           INTEGER, INTENT(IN)  :: NSURF
           TYPE(SURF_), DIMENSION(NSURF), INTENT(IN) :: IGRSURF
           INTEGER, INTENT(IN)  :: SEC_SURF_IDX, MST_SURF_IDX
@@ -82,14 +82,14 @@
           INTEGER, INTENT(IN)  :: NSN
           INTEGER, INTENT(IN)  :: NRTM
           INTEGER, INTENT(IN)  :: MAX_STS_SIZE_ACTUAL
-          my_real, INTENT(IN)  :: X(3, NUMNOD)
-          INTEGER, INTENT(OUT) :: CAND_SEC_SEG_ID(MAX_STS_SIZE_ACTUAL, 5)
-          INTEGER, INTENT(OUT) :: CAND_MST_SEG_ID(MAX_STS_SIZE_ACTUAL, 5)
-          INTEGER, INTENT(OUT) :: CAND_SEC_GP_MASK(MAX_STS_SIZE_ACTUAL, 4)
-          my_real, INTENT(OUT) :: CONT_ELEMENT(MAX_STS_SIZE_ACTUAL, 3, 8)
-          INTEGER, INTENT(OUT) :: COUNT
-          LOGICAL, INTENT(OUT) :: OVERFLOW
-          my_real, INTENT(OUT) :: D_MIN
+          real(kind=WP), INTENT(IN)  :: X(3, NUMNOD)
+          INTEGER, INTENT(INOUT) :: CAND_SEC_SEG_ID(MAX_STS_SIZE_ACTUAL, 5)
+          INTEGER, INTENT(INOUT) :: CAND_MST_SEG_ID(MAX_STS_SIZE_ACTUAL, 5)
+          INTEGER, INTENT(INOUT) :: CAND_SEC_GP_MASK(MAX_STS_SIZE_ACTUAL, 4)
+          real(kind=WP), INTENT(INOUT) :: CONT_ELEMENT(MAX_STS_SIZE_ACTUAL, 3, 8)
+          INTEGER, INTENT(INOUT) :: COUNT
+          LOGICAL, INTENT(INOUT) :: OVERFLOW
+          real(kind=WP), INTENT(INOUT) :: D_MIN
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -111,8 +111,8 @@
           INTEGER, ALLOCATABLE :: PERSIST_SEC_ID(:,:)
           INTEGER, ALLOCATABLE :: PERSIST_MST_ID(:,:)
           INTEGER, ALLOCATABLE :: PERSIST_GP_MASK(:,:)
-          my_real, ALLOCATABLE :: FRESH_CONT_ELEMENT(:,:,:)
-          my_real, ALLOCATABLE :: PERSIST_CONT_ELEMENT(:,:,:)
+          real(kind=WP), ALLOCATABLE :: FRESH_CONT_ELEMENT(:,:,:)
+          real(kind=WP), ALLOCATABLE :: PERSIST_CONT_ELEMENT(:,:,:)
           LOGICAL :: PERSIST_RESTORED
           LOGICAL :: PERSIST_STABILIZE, PAIR_EXISTS
 !-----------------------------------------------
@@ -369,7 +369,7 @@
           INTEGER, INTENT(INOUT) :: HASH_SEC(HASH_SIZE)
           INTEGER, INTENT(INOUT) :: HASH_MST(HASH_SIZE)
           INTEGER, INTENT(INOUT) :: HASH_INDEX(HASH_SIZE)
-          INTEGER, INTENT(OUT) :: HASH_INDEX_OUT
+          INTEGER, INTENT(INOUT) :: HASH_INDEX_OUT
           INTEGER :: IDX, PROBE
           INTEGER(KIND=8) :: HKEY
 

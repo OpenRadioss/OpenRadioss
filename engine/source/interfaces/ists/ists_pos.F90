@@ -17,8 +17,8 @@
 !     xi1, xi2: Parametric coordinates on Primary surface 
 !     eta1, eta2: Parametric coordinates on Secondary surface
 !-----------------------------------------------
-      real*8  a(3,24), daxi1(3,24), daxi2(3,24), daeta1(3,24), daeta2(3,24)
-      real*8  xi1, xi2, eta1, eta2
+      real*8, intent(inout) :: a(3,24), daxi1(3,24), daxi2(3,24), daeta1(3,24), daeta2(3,24)
+      real*8, intent(in)    :: xi1, xi2, eta1, eta2
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------

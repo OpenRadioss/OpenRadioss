@@ -49,7 +49,8 @@
                        numnod         ,numels         ,econtv         ,econt          , &
                        debug          ,sdebug         ,imon           ,inconv         , &
                        anim_v         ,sanim_v        ,outp_v         , &
-                       soutp_v)
+                       soutp_v        ,npari          ,nthvki         , &
+                       tt             ,dt1            ,dt12           ,dtfac1_10)
 !======================================================================
 !-----------------------------------------------
 !   m o d u l e s
@@ -75,14 +76,12 @@
         ists_sts_voxel_grid_get, ists_sts_voxel_grid_get_tol_static, &
         ists_sts_voxel_grid_update_dynamic
       use ists_ass0_mod, only: ists_ass0, ists_ass_parith
-      use com08_mod, only : tt, dt1, dt12
-      use param_c_mod, only : npari, nthvki
       use constant_mod
+      use precision_mod, only : WP
 !-----------------------------------------------
 !   i m p l i c i t   t y p e s
 !-----------------------------------------------
       implicit none
-#include      "my_real.inc"
 !-----------------------------------------------
 !   g l o b a l   p a r a m e t e r s
 !-----------------------------------------------
@@ -96,6 +95,12 @@
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
       integer, intent(in)    :: nin                            !< interface number (column index in ipari)
+      integer, intent(in)    :: npari                          !< first dimension of ipari
+      integer, intent(in)    :: nthvki                         !< size of the fsav array
+      real(kind=WP), intent(in)    :: tt                             !< current time
+      real(kind=WP), intent(in)    :: dt1                            !< current time step
+      real(kind=WP), intent(in)    :: dt12                           !< time step used for force integration
+      real(kind=WP), intent(in)    :: dtfac1_10                      !< time-step scale factor dtfac1(10)
       integer, intent(inout) :: ipari(npari,ninter)            !< interface parameter array
       integer, intent(in)    :: jtask                          !< current thread/task id
       integer, intent(inout) :: nb_jlt_new                     !< running count of new candidate pairs
@@ -124,19 +129,19 @@
       integer, intent(in)    :: anim_v(sanim_v)                !< animation output flags
       integer, intent(in)    :: soutp_v                        !< size of the outp_v array
       integer, intent(in)    :: outp_v(soutp_v)                !< output file flags
-      my_real, intent(in)    :: x(3,numnod)                    !< nodal coordinates
-      my_real, intent(in)    :: v(3,numnod)                    !< nodal velocities
-      my_real, intent(inout) :: a(3,numnod)                    !< nodal accelerations / forces
-      my_real, intent(inout) :: stifn(numnod)                  !< nodal stiffness
-      my_real, intent(inout) :: fcont(3,numnod)                !< contact forces
-      my_real, intent(in)    :: ms(numnod)                     !< nodal masses
-      my_real, intent(inout) :: fsav(nthvki)                   !< interface saved quantities
-      my_real, intent(inout) :: dt2t                           !< current time-step candidate
-      my_real, intent(inout) :: fskyi(lskyi,nfskyi)            !< sky force array (parith/on)
-      my_real, intent(in)    :: temp(numnod)                   !< nodal temperatures
-      my_real, intent(in)    :: tf(stf)                        !< time functions
-      my_real, intent(inout) :: econtv                         !< contact viscous energy
-      my_real, intent(inout) :: econt                          !< contact energy
+      real(kind=WP), intent(in)    :: x(3,numnod)                    !< nodal coordinates
+      real(kind=WP), intent(in)    :: v(3,numnod)                    !< nodal velocities
+      real(kind=WP), intent(inout) :: a(3,numnod)                    !< nodal accelerations / forces
+      real(kind=WP), intent(inout) :: stifn(numnod)                  !< nodal stiffness
+      real(kind=WP), intent(inout) :: fcont(3,numnod)                !< contact forces
+      real(kind=WP), intent(in)    :: ms(numnod)                     !< nodal masses
+      real(kind=WP), intent(inout) :: fsav(nthvki)                   !< interface saved quantities
+      real(kind=WP), intent(inout) :: dt2t                           !< current time-step candidate
+      real(kind=WP), intent(inout) :: fskyi(lskyi,nfskyi)            !< sky force array (parith/on)
+      real(kind=WP), intent(in)    :: temp(numnod)                   !< nodal temperatures
+      real(kind=WP), intent(in)    :: tf(stf)                        !< time functions
+      real(kind=WP), intent(inout) :: econtv                         !< contact viscous energy
+      real(kind=WP), intent(inout) :: econt                          !< contact energy
       type(timer_),              intent(inout) :: timers                             !< timer structure
       type(intbuf_struct_),      intent(inout) :: intbuf_tab                         !< interface buffer structure
       type(h3d_database),        intent(in)    :: h3d_data                           !< h3d output database
@@ -145,9 +150,9 @@
 !-----------------------------------------------
 !     n e w   v a r i a b l e s
 !-----------------------------------------------
-      my_real, dimension(:,:,:), allocatable :: cont_element        !contact element array
-      my_real, dimension(:,:,:), allocatable :: load_arr            !load array
-      my_real, dimension(:),     allocatable :: sts_stif            !STS pair stiffness
+      real(kind=WP), dimension(:,:,:), allocatable :: cont_element        !contact element array
+      real(kind=WP), dimension(:,:,:), allocatable :: load_arr            !load array
+      real(kind=WP), dimension(:),     allocatable :: sts_stif            !STS pair stiffness
       integer, dimension(:,:),     allocatable :: cand_sec_seg_id   !secondary segment nodes
       integer, dimension(:,:),     allocatable :: cand_mst_seg_id   !primary segment nodes
       integer, dimension(:,:),     allocatable :: cand_sec_gp_mask   !active secondary Lobatto corners
@@ -167,25 +172,25 @@
               intfric, nsetprts, npartfric, iorthfric
       integer ix1(mvsiz), ix2(mvsiz), ix3(mvsiz), ix4(mvsiz), &
               ipartfricsi(mvsiz), ipartfricmi(mvsiz)
-      my_real startt, fric, gap, stopt, visc, viscf, stiglo, gapmin, &
+      real(kind=WP) startt, fric, gap, stopt, visc, viscf, stiglo, gapmin, &
               kmin, kmax, gapmax, gap_for_sts, tint
 !-----------------------------------------------
-      my_real h1(mvsiz), h2(mvsiz), h3(mvsiz), h4(mvsiz), &
+      real(kind=WP) h1(mvsiz), h2(mvsiz), h3(mvsiz), h4(mvsiz), &
               tempi(mvsiz)
       integer ifric
 
-      my_real xfiltr_fric,fric_coefs(mvsiz,10),viscffric(mvsiz), &
+      real(kind=WP) xfiltr_fric,fric_coefs(mvsiz,10),viscffric(mvsiz), &
               fricc(mvsiz), xmu(mvsiz)
       integer, dimension(:) ,pointer  :: tabcoupleparts_fric
       integer, dimension(:) ,pointer  :: tabparts_fric
       integer, dimension(:) ,pointer  :: adparts_fric
       integer, dimension(:) ,pointer  :: ifricorth
-      my_real, dimension(:) ,pointer  :: tabcoef_fric
+      real(kind=WP), dimension(:) ,pointer  :: tabcoef_fric
       integer,target, dimension(1):: tabcoupleparts_fric_bid
       integer,target, dimension(1):: tabparts_fric_bid
       integer,target, dimension(1):: adparts_fric_bid
       integer,target, dimension(1):: ifricorth_bid
-      my_real,target, dimension(1):: tabcoef_fric_bid
+      real(kind=WP),target, dimension(1):: tabcoef_fric_bid
       integer :: nsn, nty, noint
       integer :: nrtm
 !
@@ -199,8 +204,8 @@
       logical :: sts_do_skip                              ! adaptive skip active this cycle
       integer :: sts_cap_limit
       integer :: sts_n_cell_radius_skip
-      my_real :: sts_d_min, sts_cell_size_skip
-      my_real :: sts_search_padding_skip, sts_pad_sq_skip
+      real(kind=WP) :: sts_d_min, sts_cell_size_skip
+      real(kind=WP) :: sts_search_padding_skip, sts_pad_sq_skip
       logical, save :: int7_contact_mode_msg_done = .false. ! one-time flag for the contact-mode banner
       logical, save :: sts_voxel_overflow_warn_done = .false.
       real(kind=8) sts_econtt_pass, sts_econvt_pass
@@ -418,10 +423,10 @@
                 cand_mst_seg_id, cand_sec_seg_id, cand_sec_gp_mask, &
                 load_arr, node_id_load, l, impact_glob, sts_stif, &
                 max_sts_size_actual, fricc, xmu, sts_ifpen, &
-                gap_for_sts, v, ms, visc, ivis2, viscffric, &
+                gap_for_sts, v, ms, numnod, visc, ivis2, viscffric, &
                 dt2t, neltst, ityptst, &
                 sts_econtt_pass, sts_econvt_pass, &
-                sts_fn_tot, sts_ft_tot)
+                sts_fn_tot, sts_ft_tot, dt1, dtfac1_10)
               if (impact_glob /= 0) then
 #include "lockon.inc"
                 fsav(1) = fsav(1) - sts_fn_tot(1) * dt12
@@ -450,10 +455,10 @@
                   cand_mst_seg_id, cand_sec_seg_id, cand_sec_gp_mask, &
                   load_arr, node_id_load, l, impact_glob, sts_stif, &
                   max_sts_size_actual, fricc, xmu, sts_ifpen, &
-                  gap_for_sts, v, ms, visc, ivis2, viscffric, &
+                  gap_for_sts, v, ms, numnod, visc, ivis2, viscffric, &
                   dt2t, neltst, ityptst, &
                   sts_econtt_pass, sts_econvt_pass, &
-                  sts_fn_tot, sts_ft_tot)
+                  sts_fn_tot, sts_ft_tot, dt1, dtfac1_10)
                 if (impact_glob /= 0) then
 #include "lockon.inc"
                 fsav(1) = fsav(1) - sts_fn_tot(1) * dt12

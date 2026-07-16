@@ -6,6 +6,7 @@
       MODULE ists_contact_visc_mod
 
       USE constant_mod
+      USE PRECISION_MOD, ONLY : WP
       IMPLICIT NONE
 
       CONTAINS
@@ -15,14 +16,14 @@
 !||--- called by ------------------------------------------------------
 !||    sts_gp_ivis2_normal      ../engine/source/interfaces/ists/ists_contact_visc_mod.F90
 !||====================================================================
-      SUBROUTINE sts_gp_secondary_mass(N_eta, node_ids, MS, msi_gp)
-#include      "my_real.inc"
+      SUBROUTINE sts_gp_secondary_mass(N_eta, node_ids, MS, numnod, msi_gp)
       IMPLICIT NONE
 
       REAL*8, INTENT(IN)     :: N_eta(3,4)
       INTEGER, INTENT(IN)    :: node_ids(8)
-      my_real, INTENT(IN)    :: MS(*)
-      REAL*8, INTENT(OUT)    :: msi_gp
+      INTEGER, INTENT(IN)    :: numnod
+      real(kind=WP), INTENT(IN)    :: MS(numnod)
+      REAL*8, INTENT(INOUT)    :: msi_gp
 
       INTEGER :: j, nid
 
@@ -45,19 +46,19 @@
 !   d1_out : stiffness for STIFN assembly (post IVIS2 boost).
 !   f_visc : scalar normal viscous force (add to d1*penetr).
       SUBROUTINE sts_gp_ivis2_normal(d1_in, GAPV, PENE, v_n, N_eta, &
-     &     node_ids, MS, VISC, IVIS2, VISCFFRIC, DT1, &
+     &     node_ids, MS, numnod, VISC, IVIS2, VISCFFRIC, DT1, &
      &     d1_out, f_visc)
-#include      "my_real.inc"
       IMPLICIT NONE
 
       REAL*8, INTENT(IN)    :: d1_in, PENE, v_n
       REAL*8, INTENT(IN)    :: GAPV
-      my_real, INTENT(IN)   :: VISC, VISCFFRIC, DT1
+      real(kind=WP), INTENT(IN)   :: VISC, VISCFFRIC, DT1
       INTEGER, INTENT(IN)   :: IVIS2
       REAL*8, INTENT(IN)    :: N_eta(3,4)
       INTEGER, INTENT(IN)   :: node_ids(8)
-      my_real, INTENT(IN)   :: MS(*)
-      REAL*8, INTENT(OUT)   :: d1_out, f_visc
+      INTEGER, INTENT(IN)   :: numnod
+      real(kind=WP), INTENT(IN)   :: MS(numnod)
+      REAL*8, INTENT(INOUT)   :: d1_out, f_visc
 
       REAL*8 :: gap_dist, vis2, vis, visca, fac_stif, c_damp, dt1inv
       REAL*8 :: msi_gp, gapvd
@@ -68,7 +69,7 @@
       IF (VISC <= EM20) RETURN
       IF (.NOT.(IVIS2 == 0 .OR. IVIS2 == 1)) RETURN
 
-      CALL sts_gp_secondary_mass(N_eta, node_ids, MS, msi_gp)
+      CALL sts_gp_secondary_mass(N_eta, node_ids, MS, numnod, msi_gp)
 
       gap_dist = MAX(EM10, DBLE(GAPV) + PENE)
       gapvd = DABS(DBLE(GAPV))

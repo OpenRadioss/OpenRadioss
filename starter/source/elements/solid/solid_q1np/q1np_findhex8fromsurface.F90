@@ -65,9 +65,9 @@
 !-----------------------------------------------------------------------
           integer, intent(in) :: nodes_surf(4)
           integer, intent(in) :: nixs, numels
-          integer, intent(in) :: ixs(nixs, *)
-          integer, intent(out) :: iel_hex8
-          integer, intent(out) :: nodes_bulk(4)
+          integer, intent(in) :: ixs(nixs, numels)
+          integer, intent(inout) :: iel_hex8
+          integer, intent(inout) :: nodes_bulk(4)
 !-----------------------------------------------------------------------
 !     Local variables
 !-----------------------------------------------------------------------
@@ -75,20 +75,19 @@
           integer :: nodes_hex8(4)   ! Current face node IDs from HEX8
           integer :: nodes_opp(4)    ! Opposite face node IDs from HEX8
           integer :: match_count     ! Number of matching nodes found
-          integer :: face_ixs(4,6)   ! IXS row index for each face's 4 nodes
-          integer :: opposite(6)     ! Opposite face index for each face
-          integer :: opp_pair(4,6)   ! Corner pairing from face -> opposite face
           logical :: found_pos
 !     HEX8 faces: IXS(2:9)=nodes 1-8. Face 1: 1,2,3,4; Face 2: 5,6,7,8;
 !     Face 3: 1,2,6,5; Face 4: 2,3,7,6; Face 5: 3,4,8,7; Face 6: 4,1,5,8
-          data face_ixs / &
-     &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /
-          data opposite / 2,1,5,6,3,4 /
+!     IXS row index for each face's 4 nodes
+          integer, parameter :: face_ixs(4,6) = reshape( (/ &
+     &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /), (/4,6/) )
+!     Opposite face index for each face
+          integer, parameter :: opposite(6) = (/ 2,1,5,6,3,4 /)
 !     Same-corner pairing between each matched face and its opposite face.
 !     Faces 3<->5 and 4<->6 need a flip because the stored local face order
 !     follows outward normals, not through-thickness corner correspondence.
-          data opp_pair / &
-     &      1,2,3,4, 1,2,3,4, 2,1,4,3, 2,1,4,3, 2,1,4,3, 2,1,4,3 /
+          integer, parameter :: opp_pair(4,6) = reshape( (/ &
+     &      1,2,3,4, 1,2,3,4, 2,1,4,3, 2,1,4,3, 2,1,4,3, 2,1,4,3 /), (/4,6/) )
 !=======================================================================
 !   1. Initialize: no element found yet
 !=======================================================================
@@ -97,23 +96,25 @@
 !   2. Loop through all HEX8 elements and all six faces
 !=======================================================================
           do iel = 1, numels
-            do iface = 1, 6
+            face_loop: do iface = 1, 6
 !           Extract the 4 nodes of this face
               do i = 1, 4
                 nodes_hex8(i) = ixs(face_ixs(i,iface), iel)
               end do
-!           Match surface segment nodes to this face (ID)
+!           Match surface segment nodes to this face (ID):
+!           every surface node must be found among this face's nodes
               match_count = 0
               do i = 1, 4
+                found_pos = .false.
                 do j = 1, 4
                   if (nodes_surf(i) == nodes_hex8(j)) then
-                    match_count = match_count + 1
-                    goto 100
+                    found_pos = .true.
+                    exit
                   end if
                 end do
 !               No match for this surface node: skip to next face
-                goto 101
-  100           continue
+                if (.not. found_pos) cycle face_loop
+                match_count = match_count + 1
               end do
               if (match_count >= 4) then
                 iel_hex8 = iel
@@ -137,8 +138,7 @@
                 end do
                 return
               end if
-  101         continue
-            end do
+            end do face_loop
           end do
 !=======================================================================
 !   No matching element found

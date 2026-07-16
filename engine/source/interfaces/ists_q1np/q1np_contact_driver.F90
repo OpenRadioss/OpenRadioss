@@ -53,7 +53,7 @@
      &      STIFN, GAP, IGSTI, KMIN, KMAX, IRECTM, NSV, STFNS, NSN, &
      &      STFM, NRTM, FCONT, DO_FCONT, IMPACT_glob)
           INTEGER, INTENT(IN) :: NCYCLE, NUMNOD, IGSTI, NSN, NRTM
-          INTEGER, INTENT(OUT) :: IMPACT_glob
+          INTEGER, INTENT(INOUT) :: IMPACT_glob
           INTEGER, INTENT(IN) :: IRECTM(:)
           INTEGER, INTENT(IN) :: NSV(:)
           REAL(KIND=WP), INTENT(IN) :: X(3,NUMNOD)

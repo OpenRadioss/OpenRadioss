@@ -100,7 +100,7 @@
           REAL(KIND=WP), INTENT(IN)  :: XI_PARAM, ETA_PARAM
           REAL(KIND=WP), INTENT(IN)  :: U_KNOT_VEC(:), V_KNOT_VEC(:)
           REAL(KIND=WP), INTENT(IN)  :: X_COORDS(3,NUMNOD)
-          REAL(KIND=WP), INTENT(OUT) :: XYZ_OUT(3)
+          REAL(KIND=WP), INTENT(INOUT) :: XYZ_OUT(3)
 !C----------------------------------------------------------------------
 !C   L o c a l   V a r i a b l e s
 !C----------------------------------------------------------------------
@@ -151,8 +151,8 @@
           REAL(KIND=WP), INTENT(IN)  :: XI_PARAM, ETA_PARAM
           REAL(KIND=WP), INTENT(IN)  :: U_KNOT_VEC(:), V_KNOT_VEC(:)
           REAL(KIND=WP), INTENT(IN)  :: X_COORDS(3,NUMNOD)
-          REAL(KIND=WP), INTENT(OUT) :: XYZ_OUT(3)
-          REAL(KIND=WP), INTENT(OUT) :: DXYZ_DXI(3), DXYZ_DETA(3)
+          REAL(KIND=WP), INTENT(INOUT) :: XYZ_OUT(3)
+          REAL(KIND=WP), INTENT(INOUT) :: DXYZ_DXI(3), DXYZ_DETA(3)
 
           INTEGER :: NNODE_TOTAL, K, GID
           INTEGER, PARAMETER :: NBULK = 4
@@ -196,7 +196,7 @@
           INTEGER, INTENT(IN) :: NCTRL
           REAL(KIND=WP), INTENT(IN)  :: XI_PARAM, ETA_PARAM
           REAL(KIND=WP), INTENT(IN)  :: U_KNOT_VEC(:), V_KNOT_VEC(:)
-          REAL(KIND=WP), INTENT(OUT) :: NVAL_OUT(NCTRL)
+          REAL(KIND=WP), INTENT(INOUT) :: NVAL_OUT(NCTRL)
 
           INTEGER :: NNODE_TOTAL
           INTEGER, PARAMETER :: NBULK = 4

@@ -428,7 +428,9 @@ C-------------------------
      7                      SNPC, NUMGEO, NUMNOD, NUMELS, NUMELQ, NGROUP,
      8                      SBUFMAT, STF, NUMMAT, NTABLE, NSVOIS, IRESP,
      9                      IDEL7NOK, MAXFUNC, USERL_AVAIL, IMON_MAT, impl_s,
-     A                      idyna, IDTMIN, DT, SENSORS)    
+     A                      idyna, IDTMIN, DT, SENSORS,
+     B                      MTN, ISMSTR, JLAG, JEUL, JALE, JCVT, JSPH, JPLASOL,
+     C                      NPARG, NPROPG, NPROPGI, NPROPM, NPROPMI, NPSAV, TT, DT1)    
 C            
           ELSEIF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN
 C---------

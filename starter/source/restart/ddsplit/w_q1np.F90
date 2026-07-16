@@ -21,17 +21,18 @@
 
         SUBROUTINE W_Q1NP_INT(NUMELQ1NP_IN, NKQ1NP, KQ1NP_TAB, &
           IQ1NP_TAB, IQ1NP_BULK_TAB, NODLOCAL, CEL,            &
-          CEP, IPROC, NUMELS, NUMELS_L, LEN_IA)
+          CEP, IPROC, NUMELS, NUMELS_L, NUMNOD, LEN_IA)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Dummy arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           INTEGER, INTENT(IN)    :: NUMELQ1NP_IN, NKQ1NP
-          INTEGER, INTENT(IN)    :: KQ1NP_TAB(NKQ1NP, *)
-          INTEGER, INTENT(IN)    :: IQ1NP_TAB(*) 
-          INTEGER, INTENT(IN)    :: IQ1NP_BULK_TAB(*) 
-          INTEGER, INTENT(IN)    :: NODLOCAL(*) ! Local node ID
-          INTEGER, INTENT(IN)    :: CEL(*) ! HEX8 element ID
-          INTEGER, INTENT(IN)    :: CEP(*) ! Domain owner of each solid element (0-based)
+          INTEGER, INTENT(IN)    :: KQ1NP_TAB(NKQ1NP, NUMELQ1NP_IN)
+          INTEGER, INTENT(IN)    :: IQ1NP_TAB(SIQ1NP_G)
+          INTEGER, INTENT(IN)    :: IQ1NP_BULK_TAB(SQ1NPBULK_G)
+          INTEGER, INTENT(IN)    :: NUMNOD ! Number of nodes
+          INTEGER, INTENT(IN)    :: NODLOCAL(NUMNOD) ! Local node ID
+          INTEGER, INTENT(IN)    :: CEL(NUMELS) ! HEX8 element ID
+          INTEGER, INTENT(IN)    :: CEP(NUMELS) ! Domain owner of each solid element (0-based)
           INTEGER, INTENT(IN)    :: IPROC ! Current domain id (0-based)
           INTEGER, INTENT(IN)    :: NUMELS ! Global number of solid elements
           INTEGER, INTENT(IN)    :: NUMELS_L ! Local number of solid elements in this domain
@@ -194,9 +195,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Dummy arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          REAL(KIND=WP), INTENT(IN)    :: Q1NP_WTAB(*)
-          REAL(KIND=WP), INTENT(IN)    :: Q1NP_KTAB(*)
-          REAL(KIND=WP), INTENT(IN)    :: Q1NP_CPTAB(3, *)
+          REAL(KIND=WP), INTENT(IN)    :: Q1NP_WTAB(SQ1NPWEIGHT_L_G)
+          REAL(KIND=WP), INTENT(IN)    :: Q1NP_KTAB(SQ1NPKNOT_L_G)
+          REAL(KIND=WP), INTENT(IN)    :: Q1NP_CPTAB(3, SQ1NPCTRL_SHARED_G)
           INTEGER,       INTENT(INOUT) :: LEN_AM
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

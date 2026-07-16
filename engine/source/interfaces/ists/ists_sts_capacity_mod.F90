@@ -4,7 +4,7 @@
 !||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
 !||====================================================================
       MODULE ISTS_STS_CAPACITY_MOD
-#include      "my_real.inc"
+        USE PRECISION_MOD, ONLY : WP
         IMPLICIT NONE
         PRIVATE
         PUBLIC :: ISTS_STS_INIT_CAPACITY
@@ -21,7 +21,7 @@
      &    STS_WB_CAPACITY, MAX_STS_SIZE_ACTUAL, STS_CAP_LIMIT)
           INTEGER, INTENT(IN) :: NSEG_SEC, NSEG_MST
           INTEGER, INTENT(IN) :: STS_WB_CAPACITY
-          INTEGER, INTENT(OUT) :: MAX_STS_SIZE_ACTUAL, STS_CAP_LIMIT
+          INTEGER, INTENT(INOUT) :: MAX_STS_SIZE_ACTUAL, STS_CAP_LIMIT
           INTEGER :: CAP_INIT
           INTEGER, PARAMETER :: ISTS_STS_CAP_MIN_INIT = 10
 
@@ -48,9 +48,9 @@
           use my_dealloc_mod, only : my_dealloc
           INTEGER, INTENT(IN) :: CAPACITY
           INTEGER, INTENT(INOUT) :: WB_CAPACITY
-          my_real, ALLOCATABLE, INTENT(INOUT) :: CONT_ELEMENT(:,:,:)
-          my_real, ALLOCATABLE, INTENT(INOUT) :: load_arr(:,:,:)
-          my_real, ALLOCATABLE, INTENT(INOUT) :: STS_STIF(:)
+          real(kind=WP), ALLOCATABLE, INTENT(INOUT) :: CONT_ELEMENT(:,:,:)
+          real(kind=WP), ALLOCATABLE, INTENT(INOUT) :: load_arr(:,:,:)
+          real(kind=WP), ALLOCATABLE, INTENT(INOUT) :: STS_STIF(:)
           INTEGER, ALLOCATABLE, INTENT(INOUT) :: CAND_SEC_SEG_ID(:,:)
           INTEGER, ALLOCATABLE, INTENT(INOUT) :: CAND_MST_SEG_ID(:,:)
           INTEGER, ALLOCATABLE, INTENT(INOUT) :: CAND_SEC_GP_MASK(:,:)
@@ -91,7 +91,7 @@
           LOGICAL, INTENT(IN) :: BP_OVERFLOW
           INTEGER, INTENT(INOUT) :: MAX_STS_SIZE_ACTUAL
           INTEGER, INTENT(IN) :: STS_CAP_LIMIT
-          LOGICAL, INTENT(OUT) :: RETRY
+          LOGICAL, INTENT(INOUT) :: RETRY
 
           RETRY = .FALSE.
           IF (.NOT. BP_OVERFLOW) RETURN

@@ -117,7 +117,7 @@
   !C   D u m m y   A r g u m e n t s
   !C-----------------------------------------------
       type(surf_), dimension(nsurf), intent(in) :: igrsurf
-      integer, intent(in) :: ixs(nixs, *)
+      integer, intent(in) :: ixs(nixs, numels)
       integer, intent(in) :: iparts(:)
       real(kind=WP), intent(in) :: x(3, numnod)
       integer, intent(in) :: nsurf 
@@ -129,7 +129,7 @@
       integer, intent(in) :: knot_set_id_in
       integer, intent(in) :: nweight_max
       integer, intent(in) :: csv_surf_id_in
-      integer, intent(out) :: numelq1np_out
+      integer, intent(inout) :: numelq1np_out
       integer, intent(in), optional :: kq1np_ielem0
       integer, intent(inout) :: kq1np_tab(:,:)
       integer, intent(inout) :: iq1np_tab(:)
@@ -947,7 +947,8 @@
   !C     The goal here is to assemble the normal equations for a least-squares NURBS surface fit.
   !C     - ATA  (matrix): Accumulates the outer products of the NURBS basis
   !C       functions evaluated at every data point.
-  !C     - ATD  (matrix): Accumulates the products of the NURBS basis functions and the coordinates (X,Y,Z) of each data point.
+  !C     - ATD  (matrix): Accumulates products of NURBS basis functions with
+  !C       data-point coordinates (X,Y,Z).
   !C
   !C     In least-squares surface fitting, we are solving for the control points C such that:
   !C         minimize || A * C - D ||^2,
@@ -1342,24 +1343,19 @@
         INTEGER, INTENT(IN) :: I_ELEM, J_ELEM, P_ELEM, Q_ELEM
         INTEGER, INTENT(IN) :: NCP_U, NCP_V, NCP, NUMNOD, NIXS, NUMELS, IEL_HEX8
         INTEGER, INTENT(IN) :: CP_MAP(:,:), IFLIP, IXS(NIXS,NUMELS)
-        INTEGER, INTENT(OUT) :: NODES_BULK_OUT(4)
+        INTEGER, INTENT(INOUT) :: NODES_BULK_OUT(4)
         REAL(WP), INTENT(IN) :: U_KNOT(:), V_KNOT(:), Q1NP_CPTAB(3,NCP), X(3,NUMNOD)
-        REAL(WP), INTENT(OUT) :: MATCH_SCORE_OUT
-        INTEGER, INTENT(OUT) :: IERR
+        REAL(WP), INTENT(INOUT) :: MATCH_SCORE_OUT
+        INTEGER, INTENT(INOUT) :: IERR
   !C-----------------------------------------------
   !C   L o c a l   V a r i a b l e s
   !C-----------------------------------------------
-        INTEGER :: FACE_IXS(4,6), OPPOSITE(6), OPP_PAIR(4,6), CORNER_PERM(4,8)
-        INTEGER :: NCTRL_ELEM, CP_ID, IDX, II, JJ, IFACE, IFOPP, IPERM, K, JCORNER
-        INTEGER :: NODES_FACE(4), NODES_OPP(4), CANDIDATE_BULK(4)
-        REAL(WP) :: TOP_CP(3,(P_ELEM+1)*(Q_ELEM+1))
-        REAL(WP) :: TOP_CORNER(3,4), DIFF(3), SCORE_LOCAL, BEST_SCORE
-        DATA FACE_IXS / &
-     &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /
-        DATA OPPOSITE / 2,1,5,6,3,4 /
-        DATA OPP_PAIR / &
-     &      1,2,3,4, 1,2,3,4, 2,1,4,3, 2,1,4,3, 2,1,4,3, 2,1,4,3 /
-        DATA CORNER_PERM / &
+        INTEGER, PARAMETER :: FACE_IXS(4,6) = RESHAPE( (/ &
+     &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /), (/ 4,6 /) )
+        INTEGER, PARAMETER :: OPPOSITE(6) = (/ 2,1,5,6,3,4 /)
+        INTEGER, PARAMETER :: OPP_PAIR(4,6) = RESHAPE( (/ &
+     &      1,2,3,4, 1,2,3,4, 2,1,4,3, 2,1,4,3, 2,1,4,3, 2,1,4,3 /), (/ 4,6 /) )
+        INTEGER, PARAMETER :: CORNER_PERM(4,8) = RESHAPE( (/ &
      &      1,2,3,4, &
      &      2,3,4,1, &
      &      3,4,1,2, &
@@ -1367,7 +1363,11 @@
      &      1,4,3,2, &
      &      4,3,2,1, &
      &      3,2,1,4, &
-     &      2,1,4,3 /
+     &      2,1,4,3 /), (/ 4,8 /) )
+        INTEGER :: NCTRL_ELEM, CP_ID, IDX, II, JJ, IFACE, IFOPP, IPERM, K, JCORNER
+        INTEGER :: NODES_FACE(4), NODES_OPP(4), CANDIDATE_BULK(4)
+        REAL(WP) :: TOP_CP(3,(P_ELEM+1)*(Q_ELEM+1))
+        REAL(WP) :: TOP_CORNER(3,4), DIFF(3), SCORE_LOCAL, BEST_SCORE
 
         NODES_BULK_OUT = 0
         MATCH_SCORE_OUT = HUGE(ONE)
@@ -1452,7 +1452,7 @@
         REAL(WP), INTENT(IN) :: U_KNOT(:), V_KNOT(:)
         REAL(WP), INTENT(IN) :: TOP_CP(3,(P_ELEM+1)*(Q_ELEM+1))
         REAL(WP), INTENT(IN) :: XI, ETA
-        REAL(WP), INTENT(OUT) :: XYZ_OUT(3)
+        REAL(WP), INTENT(INOUT) :: XYZ_OUT(3)
   !C-----------------------------------------------
   !C   L o c a l   V a r i a b l e s
   !C-----------------------------------------------
@@ -1699,8 +1699,8 @@
         INTEGER, INTENT(IN) :: CP_MAP(MAX_CP_U,MAX_CP_V)
         INTEGER, INTENT(IN) :: NODES_BULK(4)
         REAL(KIND=WP), INTENT(IN) :: Q1NP_CPTAB(3,NCP), X(3,NUMNOD)
-        REAL(KIND=WP), INTENT(OUT) :: TOP_MAG, BOT_MAG, TOP_BOT_DOT, TOP_BOT_COS
-        INTEGER, INTENT(OUT) :: IERR
+        REAL(KIND=WP), INTENT(INOUT) :: TOP_MAG, BOT_MAG, TOP_BOT_DOT, TOP_BOT_COS
+        INTEGER, INTENT(INOUT) :: IERR
   !C-----------------------------------------------
   !C   L o c a l   V a r i a b l e s
   !C-----------------------------------------------

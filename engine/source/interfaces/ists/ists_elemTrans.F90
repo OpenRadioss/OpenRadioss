@@ -13,13 +13,13 @@
       implicit none
 
 !-- Input arguments
-      real*8  xi1_local_prev, xi1_local_new
-      real*8  xi2_local_prev, xi2_local_new
-      real*8  tol
+      real*8, intent(in)    :: xi1_local_prev, xi1_local_new
+      real*8, intent(in)    :: xi2_local_prev, xi2_local_new
+      real*8, intent(in)    :: tol
 
 !-- In/out arguments
-      integer gp_xi1_period
-      integer gp_xi2_period
+      integer, intent(inout) :: gp_xi1_period
+      integer, intent(inout) :: gp_xi2_period
 
       real*8, parameter :: edge_eps = 0.5d0
       logical xi1_crossed, xi2_crossed

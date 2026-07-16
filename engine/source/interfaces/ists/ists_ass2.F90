@@ -55,10 +55,10 @@ subroutine ists_ass2(fskyi, isky, count, max_sts_size_actual, &
   integer,       intent(in)    :: count                                   !< number of contact pairs + 1
   integer,       intent(inout) :: nisky                                   !< current skyline counter (/PARIT/ NISKY)
   integer,       intent(in)    :: lskyi                                   !< skyline buffer size (/PARIT/ LSKYI)
-  integer,       intent(in)    :: nfskyi                                  !< skyline force buffer columns (/PARIT/ NFSKYI)
-  integer,       intent(inout) :: isky(*)                                  !< skyline node id array
+  integer,       intent(in)    :: nfskyi                                  !< skyline force columns (/PARIT/ NFSKYI)
+  integer,       intent(inout) :: isky(lskyi)                              !< skyline node id array
   real(kind=WP), intent(inout) :: fskyi(lskyi, nfskyi)                  !< skyline force buffer
-  real(kind=WP), intent(in)    :: load_arr(max_sts_size_actual, 8, 4)   !< per-pair load: (pairs, 8 nodes, fx/fy/fz/stiff)
+  real(kind=WP), intent(in)    :: load_arr(max_sts_size_actual, 8, 4)   !< per-pair load array
   integer,       intent(in)    :: node_arr(max_sts_size_actual * 8)      !< node id array, 8 ids per pair
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

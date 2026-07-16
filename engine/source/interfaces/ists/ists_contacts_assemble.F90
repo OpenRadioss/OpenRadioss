@@ -12,9 +12,9 @@
       SUBROUTINE STS_CONTACTS_ASSEMBLE(CONT_ELEMENT, COUNT, OPTION, STS_INTERFACE_ID, NCYCLE_IN, &
      & CAND_MST_SEG_ID, CAND_SEC_SEG_ID, CAND_SEC_GP_MASK, &
      & load_arr, node_id_load, L_out, IMPACT_glob, STIF, &
-     & MAX_STS_SIZE_ACTUAL, FRICC, XMU, IFPEN, GAP, V, MS, &
+     & MAX_STS_SIZE_ACTUAL, FRICC, XMU, IFPEN, GAP, V, MS, NUMNOD, &
      & VISC, IVIS2, VISCFFRIC, DT2T, NELTST, ITYPTST, &
-     & ECONTT_TOT, ECONVT_TOT, FN_TOT, FT_TOT)
+     & ECONTT_TOT, ECONVT_TOT, FN_TOT, FT_TOT, DT1, DTFAC1_10)
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -24,32 +24,38 @@
      &  STS_PAIR_ACTIVITY_SHOULD_SKIP, STS_PAIR_ACTIVITY_UPDATE
       use my_alloc_mod, only : my_alloc
       use my_dealloc_mod, only : my_dealloc
+      use precision_mod, only : WP
       implicit none
 !-----------------------------------------------
 !   G l o b a l   P a r a m e t e r s
 !-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      REAL*8 CONT_ELEMENT(MAX_STS_SIZE_ACTUAL,3,8)
-      my_real STIF(MAX_STS_SIZE_ACTUAL)
-      INTEGER COUNT, OPTION, STS_INTERFACE_ID, NCYCLE_IN
-      INTEGER CAND_SEC_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
-      INTEGER CAND_MST_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
-      INTEGER CAND_SEC_GP_MASK(MAX_STS_SIZE_ACTUAL,4)
-      REAL*8 load_arr(MAX_STS_SIZE_ACTUAL,8,4)
-      INTEGER node_id_load(MAX_STS_SIZE_ACTUAL*8)
-      INTEGER L_out, IMPACT_glob, MAX_STS_SIZE_ACTUAL
-      my_real FRICC(MVSIZ)
-      my_real XMU(MVSIZ)
-      INTEGER IFPEN(MAX_STS_SIZE_ACTUAL)     
-      my_real GAP  ! Gap value from user input
-      my_real V(3,*), MS(*), VISC, VISCFFRIC(MVSIZ), DT2T
-      INTEGER IVIS2, NELTST, ITYPTST
-      REAL*8 ECONTT_TOT, ECONVT_TOT
-      REAL*8 FN_TOT(3), FT_TOT(3)
+      REAL*8, INTENT(IN)    :: CONT_ELEMENT(MAX_STS_SIZE_ACTUAL,3,8)
+      real(kind=WP), INTENT(IN)    :: STIF(MAX_STS_SIZE_ACTUAL)
+      INTEGER, INTENT(IN)    :: COUNT, OPTION, STS_INTERFACE_ID, NCYCLE_IN
+      INTEGER, INTENT(IN)    :: CAND_SEC_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
+      INTEGER, INTENT(IN)    :: CAND_MST_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
+      INTEGER, INTENT(IN)    :: CAND_SEC_GP_MASK(MAX_STS_SIZE_ACTUAL,4)
+      REAL*8, INTENT(INOUT) :: load_arr(MAX_STS_SIZE_ACTUAL,8,4)
+      INTEGER, INTENT(INOUT) :: node_id_load(MAX_STS_SIZE_ACTUAL*8)
+      INTEGER, INTENT(INOUT) :: L_out, IMPACT_glob
+      INTEGER, INTENT(IN)    :: MAX_STS_SIZE_ACTUAL
+      real(kind=WP), INTENT(IN)    :: FRICC(MVSIZ)
+      real(kind=WP), INTENT(INOUT) :: XMU(MVSIZ)
+      INTEGER, INTENT(INOUT) :: IFPEN(MAX_STS_SIZE_ACTUAL)
+      real(kind=WP), INTENT(IN)    :: GAP  ! Gap value from user input
+      INTEGER, INTENT(IN)    :: NUMNOD
+      real(kind=WP), INTENT(IN)    :: V(3,numnod), MS(numnod)
+      real(kind=WP), INTENT(IN)    :: VISC, VISCFFRIC(MVSIZ)
+      real(kind=WP), INTENT(INOUT) :: DT2T
+      INTEGER, INTENT(IN)    :: IVIS2
+      INTEGER, INTENT(INOUT) :: NELTST, ITYPTST
+      REAL*8, INTENT(INOUT) :: ECONTT_TOT, ECONVT_TOT
+      REAL*8, INTENT(INOUT) :: FN_TOT(3), FT_TOT(3)
+      real(kind=WP), INTENT(IN)    :: DT1, DTFAC1_10
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -71,7 +77,7 @@
       REAL*8 min_pene_gauss, min_pene_lobatto
       REAL*8 econt_pair, econtv_pair
       REAL*8 econt_probe, econtv_probe
-      my_real DT2T_PROBE
+      real(kind=WP) DT2T_PROBE
       INTEGER node_ids(8)  ! Node IDs for velocity interpolation
       REAL*8 gap_abs, lobatto_margin
       REAL*8, ALLOCATABLE, SAVE :: lobatto_gp_weight(:,:)
@@ -152,14 +158,14 @@
      &                      impact_gauss, I, node_stiff_probe, 0, &
      &                      FRICC, XMU, IFPEN, &
      &                      p_friction_probe, &
-     &                      node_ids, V, .FALSE., MAX_STS_SIZE_ACTUAL, &
+     &                      node_ids, V, numnod, .FALSE., MAX_STS_SIZE_ACTUAL, &
      &                      GAP, unit_gp_weight, probe_pen_gauss, &
      &                      econt_probe, &
      &                      econtv_probe, MS, STS_INTERFACE_ID, VISC, &
      &                      IVIS2, VISCFFRIC(MIN(I,MVSIZ)), DT2T_PROBE, &
      &                      NELTST_PROBE, ITYPTST_PROBE, &
      &                      .FALSE., probe_score_gauss, valid_gauss, &
-     &                      min_pene_gauss)
+     &                      min_pene_gauss, DT1, DTFAC1_10)
           DT2T_PROBE = DT2T
           NELTST_PROBE = NELTST
           ITYPTST_PROBE = ITYPTST
@@ -168,7 +174,7 @@
      &                      impact_lobatto, I, node_stiff_probe, 1, &
      &                      FRICC, XMU, IFPEN, &
      &                      p_friction_probe, &
-     &                      node_ids, V, .FALSE., MAX_STS_SIZE_ACTUAL, &
+     &                      node_ids, V, numnod, .FALSE., MAX_STS_SIZE_ACTUAL, &
      &                      GAP, lobatto_gp_weight(1:4,I), &
      &                      probe_pen_lobatto, &
      &                      econt_probe, &
@@ -176,7 +182,7 @@
      &                      IVIS2, VISCFFRIC(MIN(I,MVSIZ)), DT2T_PROBE, &
      &                      NELTST_PROBE, ITYPTST_PROBE, &
      &                      .FALSE., probe_score_lobatto, &
-     &                      valid_lobatto, min_pene_lobatto)
+     &                      valid_lobatto, min_pene_lobatto, DT1, DTFAC1_10)
         ENDIF
 
         IF (OPTION == 2) THEN
@@ -241,14 +247,14 @@
         CALL STS_CONTACT_EVAL_PAIR(XUPD, STIF(I), p_load_new, IMPACT, I, &
      &                    node_stiff, selected_option, &
      &                    FRICC, XMU, IFPEN, &
-     &                    p_friction, node_ids, V, &
+     &                    p_friction, node_ids, V, numnod, &
      &                    .TRUE., MAX_STS_SIZE_ACTUAL, GAP, &
      &                    lobatto_gp_weight(1:4,I), &
      &                    pair_max_penetration, econt_pair, econtv_pair, &
      &                    MS, STS_INTERFACE_ID, VISC, IVIS2, &
      &                    VISCFFRIC(MIN(I,MVSIZ)), DT2T, NELTST, ITYPTST, &
      &                    .TRUE., probe_score_gauss, valid_gauss, &
-     &                    min_pene_gauss)
+     &                    min_pene_gauss, DT1, DTFAC1_10)
         CALL STS_PAIR_ACTIVITY_UPDATE(NCYCLE_IN, STS_INTERFACE_ID, &
      &    CAND_SEC_SEG_ID(I,1), CAND_MST_SEG_ID(I,1), selected_option, &
      &    IMPACT, valid_gauss, min_pene_gauss, DBLE(GAP))
@@ -308,10 +314,10 @@
 !   separated by more than a conservative gap-scaled padding.
 !=======================================================================
       LOGICAL FUNCTION STS_CONTACT_PAIR_AABB_SKIP(XPAIR, GAP_IN)
+      USE PRECISION_MOD, ONLY : WP
       IMPLICIT NONE
-#include      "my_real.inc"
       REAL*8, INTENT(IN) :: XPAIR(3,8)
-      my_real, INTENT(IN) :: GAP_IN
+      real(kind=WP), INTENT(IN) :: GAP_IN
       REAL*8, PARAMETER :: STS_AABB_SKIP_GAP_FACTOR = 1.5D0
       REAL*8, PARAMETER :: STS_AABB_SKIP_ABS = 1.0D-12
       REAL*8 :: MST_MIN(3), MST_MAX(3), SEC_MIN(3), SEC_MAX(3)

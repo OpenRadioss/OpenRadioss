@@ -286,12 +286,12 @@
 !   FUNCTION TO CHECK IF AN ELEMENT IS A BRICK8
 !   True if IXS(2:9,iel) are eight positive, pairwise different node IDs.
 !=======================================================================
-        logical function q1np_ixs_is_distinct_brick8(ixs, nixs, iel)
+        logical function q1np_ixs_is_distinct_brick8(ixs, nixs, numels, iel)
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent(in) :: nixs, iel
-          integer, intent(in) :: ixs(nixs, *)
+          integer, intent(in) :: nixs, numels, iel
+          integer, intent(in) :: ixs(nixs, numels)
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: n8(8), ii, jj
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -328,10 +328,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: numels, nixs, numnod
           integer, intent(in) :: numelq1np_in, nkq1np
-          integer, intent(in) :: ixs(nixs, *)
-          integer, intent(in) :: kq1np_tab(nkq1np, *)
+          integer, intent(in) :: ixs(nixs, numels)
+          integer, intent(in) :: kq1np_tab(nkq1np, numelq1np_in)
           integer, intent(in), optional :: surface_id_opt
-          real(kind=WP), intent(in) :: x(3, *)
+          real(kind=WP), intent(in) :: x(3, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: iel, i, node_id, unit_el, unit_nd, ios, maxnode
           integer :: iq, iel_hex
@@ -354,7 +354,7 @@
           maxnode = 0
           do iel = 1, numels
             if (skip_q1np_under(iel)) cycle
-            if (.not. q1np_ixs_is_distinct_brick8(ixs, nixs, iel)) cycle
+            if (.not. q1np_ixs_is_distinct_brick8(ixs, nixs, numels, iel)) cycle
             do i = 2, 9
               node_id = ixs(i, iel)
               if (node_id > maxnode) maxnode = node_id
@@ -381,7 +381,7 @@
 
           do iel = 1, numels
             if (skip_q1np_under(iel)) cycle
-            if (.not. q1np_ixs_is_distinct_brick8(ixs, nixs, iel)) cycle
+            if (.not. q1np_ixs_is_distinct_brick8(ixs, nixs, numels, iel)) cycle
             write(unit_el, &
      &        '(I0,'','',I0,8('','',I0))') &
      &        iel, &
@@ -414,7 +414,7 @@
           mark = 0
           do iel = 1, numels
             if (skip_q1np_under(iel)) cycle
-            if (.not. q1np_ixs_is_distinct_brick8(ixs, nixs, iel)) cycle
+            if (.not. q1np_ixs_is_distinct_brick8(ixs, nixs, numels, iel)) cycle
             do i = 2, 9
               node_id = ixs(i, iel)
               if (node_id .gt. 0 .and. node_id .le. maxnode) mark(node_id) = 1

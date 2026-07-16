@@ -45,7 +45,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         PUBLIC :: Q1NP_GET_KNOT_VECTORS ! Extract U,V knot vectors from Q1NP_KTAB
         PUBLIC :: Q1NP_DERS_BASIS_FUNS ! Compute B-spline basis functions and their derivatives
-        PUBLIC :: Q1NP_SHAPE_FUNCTIONS ! Compute Q1NP shape functions and their derivatives (NURBS top + bilinear bottom)
+!       Compute Q1NP shape functions and derivatives (NURBS top + bilinear bottom).
+        PUBLIC :: Q1NP_SHAPE_FUNCTIONS
         PUBLIC :: Q1NP_JACOBIAN ! Jacobian matrix and determinant computation
         PUBLIC :: Q1NP_FIND_SPAN ! find knot span index i such that U(i) <= UVAL < U(i+1).
         PUBLIC :: Q1NP_BERNSTEIN_BASIS ! Bernstein basis of degree P at T in [0,1].
@@ -63,7 +64,7 @@
   !C-----------------------------------------------
           INTEGER, INTENT(IN) :: NX, NY, P, Q
           REAL(KIND=WP), INTENT(IN)  :: Q1NP_KTAB(:)
-          REAL(KIND=WP), INTENT(OUT) :: U(:), V(:)
+          REAL(KIND=WP), INTENT(INOUT) :: U(:), V(:)
   !C-----------------------------------------------
   !C   L o c a l   V a r i a b l e s
   !C-----------------------------------------------
@@ -102,7 +103,7 @@
           INTEGER, INTENT(IN) :: SPAN, P, NDERS
           REAL(KIND=WP), INTENT(IN) :: UVAL
           REAL(KIND=WP), INTENT(IN) :: U(:)
-          REAL(KIND=WP), INTENT(OUT) :: DERS(0:NDERS,0:P)
+          REAL(KIND=WP), INTENT(INOUT) :: DERS(0:NDERS,0:P)
   !C----------------------------------------------------------------------
   !C   L o c a l   V a r i a b l e s
   !C----------------------------------------------------------------------
@@ -247,7 +248,7 @@
           INTEGER,      INTENT(IN)  :: P, Q, ELEM_U, ELEM_V
           REAL(KIND=WP),INTENT(IN)  :: XI, ETA, ZETA
           REAL(KIND=WP),INTENT(IN)  :: U(:), V(:)
-          REAL(KIND=WP),INTENT(OUT) :: N(:), DN_LOCAL(:,:)
+          REAL(KIND=WP),INTENT(INOUT) :: N(:), DN_LOCAL(:,:)
   !C----------------------------------------------------------------------
   !C   L o c a l   V a r i a b l e s
   !C----------------------------------------------------------------------
@@ -388,10 +389,10 @@
   !C----------------------------------------------------------------------
           INTEGER,      INTENT(IN)  :: NNODE
           REAL(KIND=WP),INTENT(IN)  :: DN_LOCAL(NNODE,3), XNODE(3,NNODE)
-          REAL(KIND=WP),INTENT(OUT) :: J(3,3), DETJ
-          REAL(KIND=WP),INTENT(OUT), OPTIONAL :: JINV(3,3)
-          REAL(KIND=WP),INTENT(OUT), OPTIONAL :: DN_GLOBAL(NNODE,3)
-          INTEGER,      INTENT(OUT), OPTIONAL :: IERR
+          REAL(KIND=WP),INTENT(INOUT) :: J(3,3), DETJ
+          REAL(KIND=WP),INTENT(INOUT), OPTIONAL :: JINV(3,3)
+          REAL(KIND=WP),INTENT(INOUT), OPTIONAL :: DN_GLOBAL(NNODE,3)
+          INTEGER,      INTENT(INOUT), OPTIONAL :: IERR
   !C----------------------------------------------------------------------
   !C   L o c a l   V a r i a b l e s
   !C----------------------------------------------------------------------
@@ -463,7 +464,7 @@
   !C   D u m m y   A r g u m e n t s
   !C----------------------------------------------------------------------
           INTEGER,      INTENT(IN)  :: NK, P
-          INTEGER,      INTENT(OUT) :: SPAN
+          INTEGER,      INTENT(INOUT) :: SPAN
           REAL(KIND=WP),INTENT(IN)  :: U(:), UVAL
   !C----------------------------------------------------------------------
   !C   L o c a l   V a r i a b l e s
@@ -492,7 +493,7 @@
         SUBROUTINE Q1NP_BERNSTEIN_BASIS(P, T, B)
           INTEGER,      INTENT(IN)  :: P
           REAL(KIND=WP),INTENT(IN)  :: T
-          REAL(KIND=WP),INTENT(OUT) :: B(0:P)
+          REAL(KIND=WP),INTENT(INOUT) :: B(0:P)
           INTEGER :: I, K
           REAL(KIND=WP) :: COEF, TI, T1I
 
@@ -539,7 +540,7 @@
           INTEGER,      INTENT(IN) :: P, Q, NCP_U, NCP_V
           REAL(KIND=WP),INTENT(IN) :: UU, VV
           REAL(KIND=WP),INTENT(IN) :: U(:), V(:)
-          REAL(KIND=WP),INTENT(OUT):: A_ROW(:)
+          REAL(KIND=WP),INTENT(INOUT):: A_ROW(:)
           INTEGER :: SPAN_U, SPAN_V, COL, II, JJ, I, J, NKU, NKV
           REAL(KIND=WP) :: NU_DERS(0:0,0:10), NV_DERS(0:0,0:10)
           REAL(KIND=WP) :: UU_EVAL, VV_EVAL
@@ -590,4 +591,3 @@
         END SUBROUTINE Q1NP_BASIS_ROW_AT_UV
 
       END MODULE Q1NP_GEOM_MOD
-

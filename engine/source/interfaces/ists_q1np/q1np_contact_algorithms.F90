@@ -161,8 +161,8 @@
           REAL(KIND=WP), INTENT(IN) :: X_COORDS(3,NUMNOD)
           INTEGER, INTENT(IN) :: NUMNOD, NUMELQ1NP
           REAL(KIND=WP), INTENT(IN) :: GAP
-          TYPE(Q1NP_CONTACT_WORKSPACE), INTENT(OUT) :: WS
-          REAL(KIND=WP), INTENT(OUT) :: D_MIN
+          TYPE(Q1NP_CONTACT_WORKSPACE), INTENT(INOUT) :: WS
+          REAL(KIND=WP), INTENT(INOUT) :: D_MIN
 
           INTEGER :: IDX_A, IDX_B, MAX_PTS
           REAL(KIND=WP) :: GAP_CONTACT
@@ -175,9 +175,9 @@
           IF (NUMELQ1NP <= 0) RETURN
           IF (Q1NP_NKNOT_SETS_G < 2) RETURN
 
-!  ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !                                                BUILD POINT CLOUDS
-!  ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           MAX_PTS = NUMELQ1NP * Q1NP_CONTACT_BP_NGP_U &
      &                        * Q1NP_CONTACT_BP_NGP_V
           CALL MY_ALLOC(WS%SURF_POINTS_A, 3, MAX_PTS, "SURF_POINTS_A")
@@ -213,9 +213,9 @@
           WS%CANDIDATE_COUNT(:) = 0
           WS%CANDIDATE_OVERFLOW(:) = .FALSE.
 
-!  ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !                                                VOXEL SEARCH
-!  ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           CALL Q1NP_CONTACT_BROAD_PHASE_VOXEL_MIN_DISTANCE( &
      &        WS%SURF_POINTS_A, WS%NPTS_A, &
      &        WS%SURF_POINTS_B, WS%NPTS_B, &
@@ -241,14 +241,15 @@
           REAL(KIND=WP), INTENT(IN) :: X_COORDS(3,NUMNOD)
           INTEGER, INTENT(IN) :: NUMNOD
           REAL(KIND=WP), INTENT(IN) :: GAP
-          TYPE(Q1NP_CONTACT_PAIR), ALLOCATABLE, INTENT(OUT) :: PAIRS(:)
-          INTEGER, INTENT(OUT) :: N_PAIRS
+          TYPE(Q1NP_CONTACT_PAIR), ALLOCATABLE, INTENT(INOUT) :: PAIRS(:)
+          INTEGER, INTENT(INOUT) :: N_PAIRS
 
           REAL(KIND=WP) :: GAP_CONTACT
 
           N_PAIRS = 0
           GAP_CONTACT = MAX(Q1NP_CONTACT_GAP_FALLBACK, ABS(GAP))
 
+          IF (ALLOCATED(PAIRS)) DEALLOCATE(PAIRS)
           ALLOCATE(PAIRS(MAX(1, WS%NPTS_B)))
 
           CALL Q1NP_CONTACT_NARROW_PHASE_PROJECT( &
@@ -355,10 +356,10 @@
           INTEGER, INTENT(IN) :: KNOT_SET_ID_FILTER
           INTEGER, INTENT(IN) :: NGP_SURF_U, NGP_SURF_V
           REAL(KIND=WP), INTENT(IN)  :: X_COORDS(3,NUMNOD)
-          REAL(KIND=WP), INTENT(OUT) :: SURF_POINTS(3,MAX_PTS)
-          INTEGER, INTENT(OUT) :: NPTS_TOTAL
-          INTEGER, INTENT(OUT), OPTIONAL :: PT_ELEM_IDS(:)
-          REAL(KIND=WP), INTENT(OUT), OPTIONAL :: PT_XI(:), PT_ETA(:)
+          REAL(KIND=WP), INTENT(INOUT) :: SURF_POINTS(3,MAX_PTS)
+          INTEGER, INTENT(INOUT) :: NPTS_TOTAL
+          INTEGER, INTENT(INOUT), OPTIONAL :: PT_ELEM_IDS(:)
+          REAL(KIND=WP), INTENT(INOUT), OPTIONAL :: PT_XI(:), PT_ETA(:)
 !C----------------------------------------------------------------------
 !C   L o c a l   V a r i a b l e s
 !C----------------------------------------------------------------------
@@ -455,11 +456,11 @@
           REAL(KIND=WP), INTENT(IN)  :: SURF_POINTS_A(3, NPTS_A)
           REAL(KIND=WP), INTENT(IN)  :: SURF_POINTS_B(3, NPTS_B)
           REAL(KIND=WP), INTENT(IN)  :: TRIGGER_TOL
-          REAL(KIND=WP), INTENT(OUT) :: D_MIN_OUT
-          INTEGER, INTENT(OUT) :: IDX_A_OUT, IDX_B_OUT
-          INTEGER, INTENT(OUT) :: CANDIDATE_IA(:,:)
-          INTEGER, INTENT(OUT) :: CANDIDATE_COUNT(:)
-          LOGICAL, INTENT(OUT) :: CANDIDATE_OVERFLOW(:)
+          REAL(KIND=WP), INTENT(INOUT) :: D_MIN_OUT
+          INTEGER, INTENT(INOUT) :: IDX_A_OUT, IDX_B_OUT
+          INTEGER, INTENT(INOUT) :: CANDIDATE_IA(:,:)
+          INTEGER, INTENT(INOUT) :: CANDIDATE_COUNT(:)
+          LOGICAL, INTENT(INOUT) :: CANDIDATE_OVERFLOW(:)
 !C----------------------------------------------------------------------
 !C   L o c a l   V a r i a b l e s
 !C----------------------------------------------------------------------
@@ -684,8 +685,8 @@
           REAL(KIND=WP), INTENT(IN) :: XI_B(:), ETA_B(:)
           INTEGER, INTENT(IN) :: CANDIDATE_IA(:,:)
           INTEGER, INTENT(IN) :: CANDIDATE_COUNT(:)
-          TYPE(Q1NP_CONTACT_PAIR), INTENT(OUT) :: CONTACT_PAIRS(:)
-          INTEGER, INTENT(OUT) :: N_PAIRS
+          TYPE(Q1NP_CONTACT_PAIR), INTENT(INOUT) :: CONTACT_PAIRS(:)
+          INTEGER, INTENT(INOUT) :: N_PAIRS
 
           INTEGER :: IA, IB, ICAND
           INTEGER :: BEST_IA, U_MAX, V_MAX
@@ -895,6 +896,7 @@
             K_PAIR = Q1NP_CONTACT_STIFFNESS(K_PRIMARY, K_SECONDARY, IGSTI, KMIN, KMAX)
 
 !           --- gap scaling ---
+            FAC = 1.0_WP
             IF (GAP_REF > EPS .AND. PEN_ABS < GAP_REF) THEN
               FAC = GAP_REF / MAX(EPS, (GAP_REF - PEN_ABS))
             END IF
@@ -983,8 +985,8 @@
           INTEGER, INTENT(IN) :: NODE_TO_STFNS(:), NSV(:), ELEM_TO_STFM_SEG(:), IRECTM(:)
           REAL(KIND=WP), INTENT(IN) :: Q1NP_KTAB(:), X_COORDS(3,NUMNOD), STFNS(:), STFM(:)
           REAL(KIND=WP), INTENT(IN) :: XI, ETA
-          INTEGER, INTENT(OUT) :: CTRL_IDS(50), NCTRL_EFF
-          REAL(KIND=WP), INTENT(OUT) :: NVALS(50), K_PRIMARY, K_SECONDARY
+          INTEGER, INTENT(INOUT) :: CTRL_IDS(50), NCTRL_EFF
+          REAL(KIND=WP), INTENT(INOUT) :: NVALS(50), K_PRIMARY, K_SECONDARY
           REAL(KIND=WP), INTENT(INOUT) :: U_KNOT_WS(:), V_KNOT_WS(:)
 
           INTEGER :: P_CUR, Q_CUR, NCTRL, ELEM_U_IDX, ELEM_V_IDX
@@ -1061,7 +1063,8 @@
         SUBROUTINE Q1NP_CONTACT_BUILD_NODE_TO_STFNS(NSV, NSN_EFF, NODE_TO_STFNS)
           INTEGER, INTENT(IN) :: NSV(:) ! NSV is the surface node indices
           INTEGER, INTENT(IN) :: NSN_EFF ! NSN_EFF is the number of active nodes in NSV
-          INTEGER, INTENT(OUT) :: NODE_TO_STFNS(:) ! NODE_TO_STFNS is the array that maps node IDs to their position in NSV
+          ! NODE_TO_STFNS maps node IDs to their position in NSV.
+          INTEGER, INTENT(INOUT) :: NODE_TO_STFNS(:)
 
           INTEGER :: I, NODE_ID, NEFF
 
@@ -1091,7 +1094,7 @@
           INTEGER, INTENT(IN) :: IQ1NP_BULK_TAB(:)
           INTEGER, INTENT(IN) :: IRECTM(:)
           INTEGER, INTENT(IN) :: NRTM_EFF
-          INTEGER, INTENT(OUT) :: ELEM_TO_STFM_SEG(:)
+          INTEGER, INTENT(INOUT) :: ELEM_TO_STFM_SEG(:)
 
           INTEGER :: ELEM_IDX, SEG_GUESS, NELEM
 
@@ -1265,7 +1268,7 @@
           INTEGER, INTENT(IN) :: NVAL, NUMNOD
           REAL(KIND=WP), INTENT(IN) :: NVALS(:)
           REAL(KIND=WP), INTENT(IN) :: X_COORDS(3,NUMNOD)
-          REAL(KIND=WP), INTENT(OUT) :: X_PAIR(3)
+          REAL(KIND=WP), INTENT(INOUT) :: X_PAIR(3)
 
           INTEGER :: K, GID, NEFF
           REAL(KIND=WP) :: WEIGHT, WSUM
@@ -1448,7 +1451,7 @@
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
           REAL(KIND=WP), INTENT(IN) :: K_A_PRIMARY, K_A_SECONDARY
           REAL(KIND=WP), INTENT(IN) :: K_B_PRIMARY, K_B_SECONDARY
-          REAL(KIND=WP), INTENT(OUT) :: K_PRIMARY, K_SECONDARY
+          REAL(KIND=WP), INTENT(INOUT) :: K_PRIMARY, K_SECONDARY
 
           INTEGER :: KNOT_A, KNOT_B
           REAL(KIND=WP), PARAMETER :: EPS_STIFF = 1.0E-30_WP
@@ -1548,8 +1551,8 @@
           INTEGER, INTENT(IN) :: ELEM_IDX
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
           INTEGER, INTENT(IN) :: IQ1NP_BULK_TAB(:)
-          INTEGER, INTENT(OUT) :: NODE_IDS(4)
-          LOGICAL, INTENT(OUT) :: HAS_NODES
+          INTEGER, INTENT(INOUT) :: NODE_IDS(4)
+          LOGICAL, INTENT(INOUT) :: HAS_NODES
 
           INTEGER :: OFF_BULK
 
@@ -1569,7 +1572,7 @@
 !=======================================================================
         SUBROUTINE Q1NP_CONTACT_BILINEAR_WEIGHTS(XI, ETA, WEIGHT)
           REAL(KIND=WP), INTENT(IN) :: XI, ETA
-          REAL(KIND=WP), INTENT(OUT) :: WEIGHT(4)
+          REAL(KIND=WP), INTENT(INOUT) :: WEIGHT(4)
 
           REAL(KIND=WP) :: XI_CLAMP, ETA_CLAMP, WSUM
 
@@ -1679,13 +1682,13 @@
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
           INTEGER, INTENT(IN) :: IQ1NP_TAB(:)
           REAL(KIND=WP), INTENT(IN) :: Q1NP_KTAB(:)
-          INTEGER, INTENT(OUT) :: P_OUT, Q_OUT, NCTRL_OUT
-          INTEGER, INTENT(OUT) :: ELEM_U_IDX_OUT, ELEM_V_IDX_OUT
+          INTEGER, INTENT(INOUT) :: P_OUT, Q_OUT, NCTRL_OUT
+          INTEGER, INTENT(INOUT) :: ELEM_U_IDX_OUT, ELEM_V_IDX_OUT
           INTEGER, PARAMETER :: MAX_CTRL = 50
-          INTEGER, INTENT(OUT) :: CTRL_IDS_OUT(MAX_CTRL)
-          REAL(KIND=WP), INTENT(OUT) :: U_KNOT_OUT(:)
-          REAL(KIND=WP), INTENT(OUT) :: V_KNOT_OUT(:)
-          INTEGER, INTENT(OUT) :: U_LEN_OUT, V_LEN_OUT
+          INTEGER, INTENT(INOUT) :: CTRL_IDS_OUT(MAX_CTRL)
+          REAL(KIND=WP), INTENT(INOUT) :: U_KNOT_OUT(:)
+          REAL(KIND=WP), INTENT(INOUT) :: V_KNOT_OUT(:)
+          INTEGER, INTENT(INOUT) :: U_LEN_OUT, V_LEN_OUT
 
           INTEGER :: CP_OFFSET, KNOT_SET_ID
           INTEGER :: NX_CUR, NY_CUR, IPT
@@ -1747,7 +1750,7 @@
      &      KQ1NP_TAB, NUMELQ1NP, U_MAX_OUT, V_MAX_OUT)
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
           INTEGER, INTENT(IN) :: NUMELQ1NP
-          INTEGER, INTENT(OUT) :: U_MAX_OUT, V_MAX_OUT
+          INTEGER, INTENT(INOUT) :: U_MAX_OUT, V_MAX_OUT
 
           INTEGER :: IEL, P_CUR, Q_CUR, NX_CUR, NY_CUR
           INTEGER :: KNOT_SET_ID, U_LEN, V_LEN
@@ -1807,13 +1810,13 @@
           REAL(KIND=WP), INTENT(IN) :: X_COORDS(3,NUMNOD)
           INTEGER, INTENT(IN) :: NUMNOD, ELEM_IDX
           REAL(KIND=WP), INTENT(IN)  :: XI_SEED, ETA_SEED
-          REAL(KIND=WP), INTENT(OUT) :: XI_OUT, ETA_OUT
-          REAL(KIND=WP), INTENT(OUT) :: XYZ_PROJ(3), PROJ_DIST
-          REAL(KIND=WP), INTENT(OUT) :: SIGNED_PENETRATION_OUT
-          REAL(KIND=WP), INTENT(OUT) :: NORMAL_OUT(3)
-          REAL(KIND=WP), INTENT(OUT) :: RESIDUAL_OUT
-          INTEGER, INTENT(OUT) :: N_ITER_OUT
-          LOGICAL, INTENT(OUT) :: VALID
+          REAL(KIND=WP), INTENT(INOUT) :: XI_OUT, ETA_OUT
+          REAL(KIND=WP), INTENT(INOUT) :: XYZ_PROJ(3), PROJ_DIST
+          REAL(KIND=WP), INTENT(INOUT) :: SIGNED_PENETRATION_OUT
+          REAL(KIND=WP), INTENT(INOUT) :: NORMAL_OUT(3)
+          REAL(KIND=WP), INTENT(INOUT) :: RESIDUAL_OUT
+          INTEGER, INTENT(INOUT) :: N_ITER_OUT
+          LOGICAL, INTENT(INOUT) :: VALID
           REAL(KIND=WP), INTENT(INOUT) :: U_KNOT_WS(:), V_KNOT_WS(:)
 
           INTEGER, PARAMETER :: MAX_ITER = 5
@@ -1933,11 +1936,11 @@
 
           INTEGER :: IEL, IEL_HEX8, IFACE, K, J2
           INTEGER :: HEX_NODES(8), BULK_IDS(4), OFF_BULK
-          INTEGER :: FACE_LOC(4,6), OPP(6)
+          INTEGER, PARAMETER :: FACE_LOC(4,6) = RESHAPE( (/ &
+        &      1,2,3,4, 5,6,7,8, 1,2,6,5, 2,3,7,6, &
+        &      3,4,8,7, 4,1,5,8 /), (/ 4,6 /) )
+          INTEGER, PARAMETER :: OPP(6) = (/ 2,1,5,6,3,4 /)
           LOGICAL :: MATCH
-          DATA FACE_LOC / 1,2,3,4, 5,6,7,8, 1,2,6,5, 2,3,7,6, &
-     &                    3,4,8,7, 4,1,5,8 /
-          DATA OPP       / 2,1,5,6,3,4 /
 
           IF (Q1NP_FCONT_GRID_READY) RETURN
           IF (NUMELQ1NP_G <= 0) RETURN

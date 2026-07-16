@@ -32,7 +32,7 @@
 !   with refreshed node coordinates so narrow phase can continue.
 !
       MODULE ISTS_STS_BP_PERSIST_MOD
-#include      "my_real.inc"
+        USE PRECISION_MOD, ONLY : WP
         IMPLICIT NONE
         PRIVATE
 
@@ -133,8 +133,8 @@
      &    COUNT_IN, SEC_ID, MST_ID, X, NUMNOD, CONT_ELEMENT, CAPACITY)
           INTEGER, INTENT(IN) :: COUNT_IN, NUMNOD, CAPACITY
           INTEGER, INTENT(IN) :: SEC_ID(CAPACITY, 5), MST_ID(CAPACITY, 5)
-          my_real, INTENT(IN) :: X(3, NUMNOD)
-          my_real, INTENT(OUT) :: CONT_ELEMENT(CAPACITY, 3, 8)
+          real(kind=WP), INTENT(IN) :: X(3, NUMNOD)
+          real(kind=WP), INTENT(INOUT) :: CONT_ELEMENT(CAPACITY, 3, 8)
           INTEGER :: I, J, K, NI
 
           DO I = 1, COUNT_IN
@@ -215,13 +215,13 @@
      &    CAPACITY, COUNT_OUT, SEC_ID, MST_ID, SEC_GP_MASK, &
      &    CONT_ELEMENT, RESTORED)
           INTEGER, INTENT(IN) :: NIN, NUMNOD, CAPACITY
-          my_real, INTENT(IN) :: X(3, NUMNOD)
-          INTEGER, INTENT(OUT) :: COUNT_OUT
-          INTEGER, INTENT(OUT) :: SEC_ID(CAPACITY, 5)
-          INTEGER, INTENT(OUT) :: MST_ID(CAPACITY, 5)
-          INTEGER, INTENT(OUT) :: SEC_GP_MASK(CAPACITY, 4)
-          my_real, INTENT(OUT) :: CONT_ELEMENT(CAPACITY, 3, 8)
-          LOGICAL, INTENT(OUT) :: RESTORED
+          real(kind=WP), INTENT(IN) :: X(3, NUMNOD)
+          INTEGER, INTENT(INOUT) :: COUNT_OUT
+          INTEGER, INTENT(INOUT) :: SEC_ID(CAPACITY, 5)
+          INTEGER, INTENT(INOUT) :: MST_ID(CAPACITY, 5)
+          INTEGER, INTENT(INOUT) :: SEC_GP_MASK(CAPACITY, 4)
+          real(kind=WP), INTENT(INOUT) :: CONT_ELEMENT(CAPACITY, 3, 8)
+          LOGICAL, INTENT(INOUT) :: RESTORED
           INTEGER :: I, N_STORED, AGE
 
           COUNT_OUT = 0

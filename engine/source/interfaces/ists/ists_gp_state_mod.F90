@@ -71,7 +71,7 @@
       ! This ensures that the node IDs are in the same order for all Gauss/Lobatto points
       SUBROUTINE sts_gp_canonical_nodes(NODES_IN, NODES_OUT)
       INTEGER, INTENT(IN)  :: NODES_IN(4)
-      INTEGER, INTENT(OUT) :: NODES_OUT(4)
+      INTEGER, INTENT(INOUT) :: NODES_OUT(4)
       INTEGER :: I, J, TMP
       NODES_OUT(:) = NODES_IN(:)
       DO I = 1, 3
@@ -92,7 +92,7 @@
       ! This ensures that the pair key is in the same order for all Gauss/Lobatto points
       SUBROUTINE sts_gp_canonical_pair_key(NODE_IDS, MST_KEY, SEC_KEY)
       INTEGER, INTENT(IN)  :: NODE_IDS(8)
-      INTEGER, INTENT(OUT) :: MST_KEY(4), SEC_KEY(4)
+      INTEGER, INTENT(INOUT) :: MST_KEY(4), SEC_KEY(4)
       CALL sts_gp_canonical_nodes(NODE_IDS(1:4), MST_KEY)
       CALL sts_gp_canonical_nodes(NODE_IDS(5:8), SEC_KEY)
       END SUBROUTINE sts_gp_canonical_pair_key
@@ -192,7 +192,7 @@
       ! This ensures that the slot is acquired for all Gauss/Lobatto points
       SUBROUTINE sts_gp_acquire_slot(MST_KEY, SEC_KEY, Z, Q, QUAD, GP_SLOT)
       INTEGER, INTENT(IN)  :: MST_KEY(4), SEC_KEY(4), Z, Q, QUAD
-      INTEGER, INTENT(OUT) :: GP_SLOT
+      INTEGER, INTENT(INOUT) :: GP_SLOT
       INTEGER :: IH, PROBE, START_IH
       LOGICAL :: KEY_MATCH
       GP_SLOT = 0

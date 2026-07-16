@@ -17,8 +17,9 @@
 !     weight: Output array of quadrature weights
 !-----------------------------------------------
       implicit none
-      integer norder, i
-      real*8 xtab(norder), weight(norder)
+      integer, intent(in)    :: norder
+      integer :: i
+      real*8, intent(inout)  :: xtab(norder), weight(norder)
 
       real*8, parameter :: ONE = 1.0d0
 

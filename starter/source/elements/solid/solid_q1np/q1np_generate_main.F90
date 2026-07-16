@@ -106,7 +106,7 @@ contains
     integer,                            intent(inout) :: snod2sp         !< size of NOD2SP
     integer,                            intent(in)    :: ncharkey        !< length of character keys
     integer,                            intent(in)    :: hm_ninter       !< number of interface cards
-    type(submodel_data)                               :: lsubmodel(nsubmod)
+    type(submodel_data),                intent(in)    :: lsubmodel(nsubmod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   LOCAL VARIABLES
 ! ----------------------------------------------------------------------------------------------------------------------

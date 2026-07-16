@@ -97,7 +97,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           type(surf_), intent(in) :: surf
           integer, intent(in)  :: nseg
-          integer, intent(out) :: nx, ny, ierr
+          integer, intent(inout) :: nx, ny, ierr
           integer, intent(inout), dimension(nseg) :: seg_i, seg_j
           integer, intent(inout), dimension(nseg*4, nseg*4) :: grid_node
           integer, intent(inout), dimension(nseg, nseg) :: grid_to_seg
@@ -112,24 +112,22 @@
           integer :: iseg, jseg, k, kk, dir, idir, d, dir_local
           integer :: ii, jj, i_min, i_max, j_min, j_max
           integer :: head, tail, nassign
-          integer :: idx, itr, ii_new, jj_new, next(4)
+          integer :: idx, itr, ii_new, jj_new
           integer :: gi(4), gj(4), base(4), cand(4), exist(4)
           integer, allocatable :: grid_node_tmp(:, :)
           integer :: istat_tmp
 !     Direction order for BFS: right(2), top(4), left(1), bottom(3)
-          integer :: dir_list(4), delta_i(4), delta_j(4)
-          integer :: gioff(4, 4), gjoff(4, 4)
-          integer :: corner_xform(4, 8)
-          integer :: jseg_found
-          data next / 2, 3, 4, 1 /
-          data dir_list / 2, 4, 1, 3 /
-          data delta_i / -1, 1, 0, 0 /
-          data delta_j / 0, 0, -1, 1 /
+          integer, parameter :: next(4)     = (/ 2, 3, 4, 1 /)
+          integer, parameter :: dir_list(4) = (/ 2, 4, 1, 3 /)
+          integer, parameter :: delta_i(4)  = (/ -1, 1, 0, 0 /)
+          integer, parameter :: delta_j(4)  = (/ 0, 0, -1, 1 /)
 !     Grid offsets for neighbor quad corners (dir, corner): 1=left, 2=right, 3=bottom, 4=top
-          data gioff / -1, 1, 0, 0,  0, 2, 1, 1,  0, 2, 1, 1,  -1, 1, 0, 0 /
-          data gjoff / 0, 0, -1, 1,  0, 0, -1, 1,  1, 1, 0, 2,  1, 1, 0, 2 /
+          integer, parameter :: gioff(4,4) = RESHAPE( (/ &
+     &      -1, 1, 0, 0,  0, 2, 1, 1,  0, 2, 1, 1,  -1, 1, 0, 0 /), (/ 4,4 /) )
+          integer, parameter :: gjoff(4,4) = RESHAPE( (/ &
+     &      0, 0, -1, 1,  0, 0, -1, 1,  1, 1, 0, 2,  1, 1, 0, 2 /), (/ 4,4 /) )
 !     Try the four cyclic rotations first, then the four mirrored orderings.
-          data corner_xform / &
+          integer, parameter :: corner_xform(4,8) = RESHAPE( (/ &
      &      1, 2, 3, 4, &
      &      2, 3, 4, 1, &
      &      3, 4, 1, 2, &
@@ -137,7 +135,8 @@
      &      1, 4, 3, 2, &
      &      4, 3, 2, 1, &
      &      3, 2, 1, 4, &
-     &      2, 1, 4, 3 /
+     &      2, 1, 4, 3 /), (/ 4,8 /) )
+          integer :: jseg_found
 !=======================================================================
           ierr = 0
           nx = 0

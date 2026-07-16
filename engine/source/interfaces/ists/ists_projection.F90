@@ -27,10 +27,11 @@
 !     xi1_guess, xi2_guess: Warm-start coordinates when use_guess is true
 !     use_guess: If true, start Newton from xi1_guess/xi2_guess
 !-----------------------------------------------          
-      real*8  xupd(3,8)     
-      real*8  xi1, xi2, eta1, eta2
-      real*8  xi1_guess, xi2_guess
-      logical use_guess
+      real*8, intent(in)    :: xupd(3,8)
+      real*8, intent(inout) :: xi1, xi2
+      real*8, intent(in)    :: eta1, eta2
+      real*8, intent(in)    :: xi1_guess, xi2_guess
+      logical, intent(in)   :: use_guess
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
