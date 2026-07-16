@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "openradioss-index": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--script",
+        "${workspaceFolder}/scripts/code_index_mcp.py"
+      ]
+    }
+  }
+}

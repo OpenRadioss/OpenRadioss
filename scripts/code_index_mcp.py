@@ -6,6 +6,7 @@
 """OpenRadioss local code-index MCP server.
 
 Indexes the OpenRadioss source tree (.F, .F90, .inc, .c, .cpp, .cxx, .h)
+and Markdown documentation files (*.md)
 into a SQLite database (with FTS5 full-text search) and serves it over the
 Model Context Protocol (stdio) so AI tooling gets fast symbol lookup,
 caller/callee navigation and code search instead of repeated greps.
@@ -108,6 +109,7 @@ EXT_LANG = {
     ".F90": "fortran_free",
     ".f90": "fortran_free",
     ".inc": "fortran_inc",
+    ".md": "markdown",
     ".c": "c",
     ".cpp": "cpp",
     ".cxx": "cpp",
@@ -117,6 +119,7 @@ EXT_LANG = {
 }
 
 FORTRAN_LANGS = ("fortran_fixed", "fortran_free", "fortran_inc")
+C_LIKE_LANGS = ("c", "cpp", "c_header")
 
 MAX_LIMIT = 200  # hard cap for every tool's `limit` parameter
 
@@ -417,6 +420,19 @@ def parse_c(lines: list[str], lang: str):
     return symbols, edges, content
 
 
+def parse_text(lines: list[str], lang: str):
+    """Parse a text-only file (e.g. Markdown): no symbols/edges, FTS content only."""
+    symbols: list[list] = []
+    edges: set[tuple] = set()
+    content: list[tuple[int, str]] = []
+    for line_no, raw in enumerate(lines, 1):
+        stripped = raw.strip()
+        if not stripped:
+            continue
+        content.append((line_no, stripped[:500]))
+    return symbols, edges, content
+
+
 # ---------------------------------------------------------------------------
 # Database
 # ---------------------------------------------------------------------------
@@ -522,7 +538,11 @@ def connect(db_path: Path) -> tuple[sqlite3.Connection, bool]:
 # ---------------------------------------------------------------------------
 
 def discover_files(repo_root: Path) -> dict[str, tuple[float, int, str]]:
-    """Walk INDEX_ROOTS. Returns {rel_path: (mtime, size, lang)}."""
+    """Discover indexable files.
+
+    - Source languages are discovered under INDEX_ROOTS.
+    - Markdown files (*.md) are discovered across the whole repository.
+    """
     found: dict[str, tuple[float, int, str]] = {}
     for root_name in INDEX_ROOTS:
         top = repo_root / root_name
@@ -545,6 +565,24 @@ def discover_files(repo_root: Path) -> dict[str, tuple[float, int, str]]:
                     continue
                 rel = os.path.relpath(full, repo_root).replace(os.sep, "/")
                 found[rel] = (st.st_mtime, st.st_size, lang)
+
+    # Include Markdown docs from anywhere in the repository tree.
+    for dirpath, dirnames, filenames in os.walk(repo_root):
+        dirnames[:] = [
+            d for d in dirnames
+            if d not in _PRUNE_EXACT and not d.startswith(_PRUNE_PREFIXES)
+        ]
+        for fn in filenames:
+            if os.path.splitext(fn)[1] != ".md":
+                continue
+            full = os.path.join(dirpath, fn)
+            try:
+                st = os.stat(full)
+            except OSError:
+                continue
+            rel = os.path.relpath(full, repo_root).replace(os.sep, "/")
+            found[rel] = (st.st_mtime, st.st_size, "markdown")
+
     return found
 
 
@@ -558,7 +596,12 @@ def index_one_file(conn: sqlite3.Connection, repo_root: Path, rel: str,
         log(f"Skipping {rel}: {exc}")
         return
 
-    parser = parse_fortran if lang in FORTRAN_LANGS else parse_c
+    if lang in FORTRAN_LANGS:
+        parser = parse_fortran
+    elif lang in C_LIKE_LANGS:
+        parser = parse_c
+    else:
+        parser = parse_text
     symbols, edges, content = parser(lines, lang)
 
     row = conn.execute("SELECT id FROM files WHERE path=?", (rel,)).fetchone()
