@@ -15,7 +15,7 @@
 **                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2023 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 2026 Siemens                                         **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -27,10 +27,10 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fr-lap233-0.europe.altair.com   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
-   2   fr-lap233-0.europe.altair.com   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
-   3   fr-lap233-0.europe.altair.com   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
-   4   fr-lap233-0.europe.altair.com   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
+   1   fr-lap233-0   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
+   2   fr-lap233-0   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
+   3   fr-lap233-0   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
+   4   fr-lap233-0   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,   7982 MB RAM,      0 MB swap
   
 ************************************************************************
 

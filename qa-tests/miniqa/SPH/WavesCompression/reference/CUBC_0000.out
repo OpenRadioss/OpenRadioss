@@ -15,7 +15,7 @@
 **                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2024 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 2026 Siemens                                         **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-kelpie0.europe.altair.com   13th Gen Intel(R) Core(TM) i7-13850HX (x86_64), 2303 MHz,  16046 MB RAM,      0 MB swap
+ fr-kelpie0   13th Gen Intel(R) Core(TM) i7-13850HX (x86_64), 2303 MHz,  16046 MB RAM,      0 MB swap
   
 ************************************************************************
 

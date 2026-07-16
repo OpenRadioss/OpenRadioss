@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>        Copyright (C) 2026 Siemens
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -15,11 +15,24 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>        Commercial Alternative: Simcenter Radioss Software
 !Copyright>
-!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
+!Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
+!Copyright>        commercial version may interest you: 
+!Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    q1np_contact_algorithms           ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    resol                             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    q1np_evaluate_nurbs_top_surface_point  ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                     ../common_source/modules/precision_mod.F
+!||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    q1np_restart_mod                  ../common_source/modules/q1np_restart_mod.F90
+!||    q1np_nurbs_surface_eval_mod       ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||====================================================================
 !
 !   Q1NP NURBS contact: broad phase, narrow phase, and penalty forces.
 !

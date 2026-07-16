@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>        Copyright (C) 2026 Siemens
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -15,11 +15,32 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>        Commercial Alternative: Simcenter Radioss Software
 !Copyright>
-!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
+!Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
+!Copyright>        commercial version may interest you: 
+!Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- called by ------------------------------------------------------
+!||    STS_CONTACTS_ASSEMBLE   ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- calls ---------------------------------------------------------
+!||    sts_gausspt             ../engine/source/interfaces/ists/ists_sts_gausspt.F90
+!||    sts_lobattopt           ../engine/source/interfaces/ists/ists_sts_lobattopt.F90
+!||    sts_project             ../engine/source/interfaces/ists/ists_sts_project.F90
+!||    sts_pos                 ../engine/source/interfaces/ists/ists_pos.F90
+!||    sts_surfgeom            ../engine/source/interfaces/ists/ists_sts_surfgeom.F90
+!||    sts_penetr              ../engine/source/interfaces/ists/ists_sts_penetr.F90
+!||    sts_gp_update_xi_history ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_warm_start_xi    ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_tangential_velocity ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_covariant_slip      ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_update_dt2t       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||    sts_gp_ivis2_normal      ../engine/source/interfaces/ists/ists_contact_visc_mod.F90
+!||    sts_shape               ../engine/source/interfaces/ists/ists_shape_fct.F90
+!||    com08_mod               ../engine/share/modules/com08_mod.F
+!||====================================================================
 !
 !   Evaluate one STS segment pair for Gauss or Lobatto quadrature,
 !   including projection, normal penalty, optional friction, and energy.
