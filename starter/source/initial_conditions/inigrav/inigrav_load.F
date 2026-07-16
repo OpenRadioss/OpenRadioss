@@ -459,10 +459,14 @@ C-----------------------------------------------
                  IX => IXTG(1:NIXTG, 1:NUMELTG)
                  NIX = NIXTG                 
               ENDIF
-              IFORM = BUFMAT(IADBUF + 31 - 1)
-              IF (IFORM /= 3) THEN
-                 CALL INIGRAV_M51(NEL  , NEL2,     NG, MATID,  IPM, GRAV0, DEPTH, PM,    BUFMAT(IADBUF), ELBUF_TAB, 
-     .                            PSURF, LIST,  ALE_CONNECTIVITY,   NV46, IX , NIX  , NFT  , BUFMAT, IPARG)
+              IFORM = BUFMAT(IADBUF + 76 - 1)
+              IF (IFORM == 12) THEN
+                  CALL INIGRAV_M51_ANY_EOS(NEL  , NEL2,     NG, MATID,  IPM, GRAV0, DEPTH, PM,    BUFMAT(IADBUF), ELBUF_TAB,
+     .                            PSURF, LIST,  ALE_CONNECTIVITY,   IX , NIX  , NFT  , BUFMAT, IPARG,
+     .                            MAT_PARAM, NUMMAT, NPF, TF,NPROPMI, NPROPM,NGROUP, NPARG, SNPC,STF)
+              ELSEIF (IFORM /= 3) THEN
+                CALL INIGRAV_M51(NEL  , NEL2,     NG, MATID,  IPM, GRAV0, DEPTH, PM,    BUFMAT(IADBUF), ELBUF_TAB,
+     .                           PSURF, LIST,  ALE_CONNECTIVITY,   NV46, IX , NIX  , NFT  , BUFMAT, IPARG)
               ELSE
                 CALL ANCMSG(MSGID   = 84,
      .                      ANMODE  = ANINFO,
@@ -513,7 +517,11 @@ C-----------------------------------------------
                   GBUF%EINT(I)          = ZERO
                   DO IMAT=1,NBMAT
                     LBUF         => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
-                    VFRAC        = LBUF%VOL(I) / GBUF%VOL(I)
+                    IF (GBUF%VOL(I) > ZERO) THEN
+                      VFRAC        = LBUF%VOL(I) / GBUF%VOL(I)
+                    ELSE
+                      VFRAC        = ZERO
+                    ENDIF
                     GBUF%EINT(I) = GBUF%EINT(I) + VFRAC*LBUF%EINT(I)
                     GBUF%RHO(I)  = GBUF%RHO(I)  + VFRAC*LBUF%RHO(I)                    
                   ENDDO
