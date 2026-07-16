@@ -69,7 +69,7 @@
 !===============================================================================
 !
         !=======================================================================
-        !< - Select strain rate dependency model
+        !< - Johnson-Cook strain rate dependency model
         !=======================================================================
         !< Recover strain rate dependency parameters
         cjc     = matparam%uparam(offset + 1) !< Johnson-Cook strain rate sensitivity coefficient

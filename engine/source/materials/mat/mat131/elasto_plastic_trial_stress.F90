@@ -76,7 +76,7 @@
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
           eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,           &
           dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,           &
-          temp     )
+          temp     ,pla      )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -89,6 +89,7 @@
           use elasticity_viscous_isotropic_mod
           use elasticity_temp_isotropic_mod
           use elasticity_bimod_isotropic_mod
+          use elasticity_plas_isotropic_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -133,6 +134,7 @@
           integer,                       intent(in)    :: nuvar    !< Number of internal variables
           real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< Internal variable array
           real(kind=WP), dimension(nel), intent(in)    :: temp     !< Temperature
+          real(kind=WP), dimension(nel), intent(in)    :: pla      !< Plastic strain
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -142,77 +144,88 @@
           !< Initialize elastic stiffness matrix
           cstf(1:nel,1:6,1:6) = zero
 !
-          !=======================================================================
+          !=====================================================================
           !< - Select elastic model
-          !=======================================================================
+          !=====================================================================
           ielas = matparam%iparam(1)
           select case(ielas)
-            !---------------------------------------------------------------------
+            !-------------------------------------------------------------------
             !< Isotropic elastic model
-            !---------------------------------------------------------------------
-           case(1)
-            call elasticity_isotropic(                                         &
-              matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,     &
-              depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,     &
-              sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,     &
-              signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
-              shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
-              young    )
-            !---------------------------------------------------------------------
+            !-------------------------------------------------------------------
+            case(1)
+              call elasticity_isotropic(                                       &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
+                depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
+                sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,   &
+                young    )
+            !-------------------------------------------------------------------
             !< Orthotropic elastic model
-            !---------------------------------------------------------------------
-           case(2)
-            call elasticity_orthotropic(                                       &
-              matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,     &
-              depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,     &
-              sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,     &
-              signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
-              shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
-              young    )
-            !---------------------------------------------------------------------
+            !-------------------------------------------------------------------
+            case(2)
+              call elasticity_orthotropic(                                     &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
+                depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
+                sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,   &
+                young    )
+            !-------------------------------------------------------------------
             !< Anisotropic elastic model
-            !---------------------------------------------------------------------
-           case(3)
-            call elasticity_anisotropic(                                       &
-              matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,     &
-              depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,     &
-              sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,     &
-              signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
-              shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
-              young    )
-            !---------------------------------------------------------------------
+            !-------------------------------------------------------------------
+            case(3)
+              call elasticity_anisotropic(                                     &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
+                depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
+                sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,   &
+                young    )
+            !-------------------------------------------------------------------
             !< Viscous isotropic elastic model
-            !---------------------------------------------------------------------
-           case(4)
-            call elasticity_viscous_isotropic(                                 &
-              matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,     &
-              depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,     &
-              sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,     &
-              signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
-              shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
-              epsd     ,nvartmp  ,vartmp   ,young    )
-            !---------------------------------------------------------------------
+            !-------------------------------------------------------------------
+            case(4)
+              call elasticity_viscous_isotropic(                               &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
+                depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
+                sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,   &
+                epsd     ,nvartmp  ,vartmp   ,young    )
+            !-------------------------------------------------------------------
             !< Temperature-dependent isotropic elastic model
-            !---------------------------------------------------------------------
-           case(5)
-            call elasticity_temp_isotropic(                                    &
-              matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,     &
-              depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,     &
-              sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,     &
-              signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
-              shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
-              temp     ,nvartmp  ,vartmp   ,young    ,nuvar    ,uvar     )
-            !---------------------------------------------------------------------
+            !-------------------------------------------------------------------
+            case(5)
+              call elasticity_temp_isotropic(                                  &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
+                depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
+                sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,   &
+                temp     ,nvartmp  ,vartmp   ,young    ,nuvar    ,uvar     )
+            !-------------------------------------------------------------------
             !< Bimodular isotropic elastic model
-            !---------------------------------------------------------------------
-           case(6)
-            call elasticity_bimod_isotropic(                                   &
-              matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,     &
-              depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,     &
-              sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,     &
-              signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
-              shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
-              young    )
+            !-------------------------------------------------------------------
+            case(6)
+              call elasticity_bimod_isotropic(                                 &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
+                depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
+                sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,   &
+                young    )
+            !-------------------------------------------------------------------
+            !< Plastic strain-dependent isotropic elastic model
+            !-------------------------------------------------------------------
+            case(7)
+              call elasticity_plas_isotropic(                                  &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
+                depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
+                sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,   &
+                pla      ,nvartmp  ,vartmp   ,young    ,nuvar    ,uvar     )
           end select
 !
         end subroutine elasto_plastic_trial_stress
