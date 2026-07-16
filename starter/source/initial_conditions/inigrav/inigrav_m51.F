@@ -73,6 +73,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF  , MBUFv
       INTEGER :: IAD
+      my_real :: ABS_GRAV0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -80,6 +81,8 @@ C-----------------------------------------------
 C LIST IS SUBGROUP TO TREAT : ONLY ELEM WITH RELEVANT PARTS ARE KEPT
 C NEL IS ISEZ OF LIST
 C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VAR
+
+      ABS_GRAV0=ABS(GRAV0)
 
       !Global buffer
       GBUF => ELBUF_TAB(NG)%GBUF
@@ -217,7 +220,7 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
       !Mean initial density
          RHO0 = ALPHA1 * RHO10 + ALPHA2 * RHO20 + ALPHA3 * RHO30 + ALPHA4 * RHO40        
       !Hydrostatic pressure
-         PGRAV = PSURF - RHO0  * GRAV0 * DEPTH(K)
+         PGRAV = PSURF + RHO0  * ABS_GRAV0 * DEPTH(K)
       !Solve for partial densities
          VOL  = GBUF%VOL(I)
          VOL1 = ALPHA1*VOL
@@ -225,14 +228,34 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
          VOL3 = ALPHA3*VOL
          VOL4 = ALPHA4*VOL
 C
-         CALL POLYSOLVE(C01, C11, C21, C31, C41, C51, PGRAV, EINT1, MU, RHO10, VOL1,PEXT,IX(NIX,I+NFT))
-         RHO1 = RHO10 * (MU + ONE)
-         CALL POLYSOLVE(C02, C12, C22, C32, C42, C52, PGRAV, EINT2, MU, RHO20, VOL2,PEXT,IX(NIX,I+NFT))
-         RHO2 = RHO20 * (MU + ONE)
-         CALL POLYSOLVE(C03, C13, C23, C33, C43, C53, PGRAV, EINT3, MU, RHO30, VOL3,PEXT,IX(NIX,I+NFT))
-         RHO3 = RHO30 * (MU + ONE)
-         CALL POLYSOLVE(C04, C14, C24, C34, C44, C54, PGRAV, EINT4, MU, RHO40, VOL4,PEXT,IX(NIX,I+NFT))
-         RHO4 = RHO40 * (MU + ONE)
+         IF(RHO10 > ZERO .AND. VOL1 >  EM20)THEN
+           CALL POLYSOLVE(C01, C11, C21, C31, C41, C51, PGRAV, EINT1, MU, RHO10, VOL1,PEXT,IX(NIX,I+NFT))
+           RHO1 = RHO10 * (MU + ONE)
+         ELSE
+           RHO1 = RHO10
+         ENDIF
+
+         IF(RHO20 > ZERO .AND. VOL2 >  EM20)THEN
+           CALL POLYSOLVE(C02, C12, C22, C32, C42, C52, PGRAV, EINT2, MU, RHO20, VOL2,PEXT,IX(NIX,I+NFT))
+           RHO2 = RHO20 * (MU + ONE)
+         ELSE
+           RHO2 = RHO20
+         ENDIF
+
+         IF(RHO30 > ZERO .AND. VOL3 >  EM20)THEN
+           CALL POLYSOLVE(C03, C13, C23, C33, C43, C53, PGRAV, EINT3, MU, RHO30, VOL3,PEXT,IX(NIX,I+NFT))
+           RHO3 = RHO30 * (MU + ONE)
+         ELSE
+           RHO3 = RHO30
+         ENDIF
+
+         IF(RHO40 > ZERO .AND. VOL4 >  EM20)THEN
+           CALL POLYSOLVE(C04, C14, C24, C34, C44, C54, PGRAV, EINT4, MU, RHO40, VOL4,PEXT,IX(NIX,I+NFT))
+           RHO4 = RHO40 * (MU + ONE)
+         ELSE
+           RHO4 = RHO40
+         ENDIF
+
       !Store partial densities
          MBUF%VAR(I + (K1 + 09 - 1) * NELG) = RHO1  !initialize rho(t=0)
          MBUF%VAR(I + (K2 + 09 - 1) * NELG) = RHO2
