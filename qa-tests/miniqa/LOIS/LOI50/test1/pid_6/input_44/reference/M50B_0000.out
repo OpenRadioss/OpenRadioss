@@ -15,7 +15,7 @@
 ** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 2026 Siemens                                         **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ fr-shady   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
   
 ************************************************************************
 

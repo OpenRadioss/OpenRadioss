@@ -1,5 +1,5 @@
 -------------------------------------------------------------------
-From : Altair
+From : Simcenter Radioss
 -------------------------------------------------------------------
 Description : Degenerating Multimaterial JWL eos into Perfect Gas (PG) and coupling it with 50% pure PG.
 

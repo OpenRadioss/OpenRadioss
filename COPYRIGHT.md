@@ -1,5 +1,7 @@
+# Copyright
+
     OpenRadioss Software
-    Copyright (C) 1986-2026 Altair Engineering Inc.  
+    Copyright (C) 2026 SISW Siemens Industry Software Inc. (“SISW”)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
@@ -14,18 +16,17 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
----                                                                                
-Commercial Alternative: Altair Radioss Software 
+---
 
-As an alternative to this open-source version, Altair also offers Altair Radioss 
+Commercial Alternative: Simcenter Radioss Software
+
+As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
 software under a commercial license.  
 
-To learn more about the alternative commercial version, please review the 
-following link: https://www.altair.com/radioss/. 
+Contact Siemens to discuss further if the commercial version may interest you:
 
-To discuss the commercial version further, please contact Altair through the 
-following link: <https://www.altair.com/contact-us/?product_or_services=Radioss>.
+[https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/](https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/).
 
----                                                                                
+---
 OpenRadioss software may contain third-party code, which may be subject to its own license(s).
 See [extlib](./extlib) directory for more information.  

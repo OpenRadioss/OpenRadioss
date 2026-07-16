@@ -19,8 +19,8 @@ def is_rad_file(f):
 
 def is_copyright_block_start(line):
     """Check if a line is the start of the specific copyright block"""
-    # Match: # Copyright (C) 202X Altair Engineering Inc. ("Holder")
-    pattern = r'#\s*Copyright\s*\(C\)\s*202\d.*Altair.*Holder'
+    # Match: # Copyright (C) 202X Siemens ("Holder")
+    pattern = r'#\s*Copyright\s*\(C\)\s*202\d.*Siemens.*Holder'
     return bool(re.search(pattern, line, re.IGNORECASE))
 
 def remove_copyright_from_file(filename):

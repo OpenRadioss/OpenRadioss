@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+Copyright>        Copyright (C) 2026 Siemens
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -15,11 +15,12 @@ Copyright>        You should have received a copy of the GNU Affero General Publ
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Copyright>
 Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>        Commercial Alternative: Simcenter Radioss Software
 Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Copyright>        As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
+Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
+Copyright>        commercial version may interest you: 
+Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
 !||    report                 ../engine/source/output/report/report.F
 !||--- called by ------------------------------------------------------
@@ -141,9 +142,9 @@ c
        WRITE(IOUTREP,'(A)')'<html>'
        WRITE(IOUTREP,'(A)')'<head>'
        IF(GOT_INSPIRE_ALM == 1)THEN
-         WRITE(IOUTREP,'(A,I4,A)')'<title>Altair Solver ',2022,' Report</title>'
+         WRITE(IOUTREP,'(A,I4,A)')'<title>Simcenter Radioss Solver ',2026,' Report</title>'
        ELSE
-         WRITE(IOUTREP,'(A,I4,A)')'<title>Altair Radioss(TM) ',2022,' Report</title>'
+         WRITE(IOUTREP,'(A,I4,A)')'<title>Simcenter Radioss(TM) ',2026,' Report</title>'
        ENDIF
        WRITE(IOUTREP,'(A)')'<script language="JavaScript">'
        WRITE(IOUTREP,'(A)')'function h3d()'
@@ -161,9 +162,9 @@ c
        WRITE(IOUTREP,'(A)')'<tr>'
        WRITE(IOUTREP,'(A)')'<td>'
        IF(GOT_INSPIRE_ALM == 1)THEN
-       WRITE(IOUTREP,'(A,I10,A)')'<font face="Arial" size="5"><b><i>Altair Solver ',2022,' Report</i></b></font><br>'
+       WRITE(IOUTREP,'(A,I10,A)')'<font face="Arial" size="5"><b><i>Simcenter(TM) Radioss(R)',2026,' Report</i></b></font><br>'
        ELSE
-       WRITE(IOUTREP,'(A,I10,A)')'<font face="Arial" size="5"><b><i>Altair Radioss(TM) ',2022,' Report</i></b></font><br>'
+       WRITE(IOUTREP,'(A,I10,A)')'<font face="Arial" size="5"><b><i>Simcenter(TM) Radioss(R)',2026,' Report</i></b></font><br>'
        ENDIF
        WRITE(IOUTREP,'(A)')'<font face="Arial" size="4"><b><i> </i></b></font>'
        WRITE(IOUTREP,'(A)')'</td></tr>'
@@ -794,7 +795,7 @@ c     .HyperViewPlayer plugin installed.'
        WRITE(IOUTREP,'(A)')'<hr size="1" color="#000000" width="50%" noshade>'
        WRITE(IOUTREP,'(A)')'<center>'
        WRITE(IOUTREP,'(A)')'<font face="Arial" size="1">'
-       WRITE(IOUTREP,'(A)')'<b>&#169; 1996-2026 Altair Engineering, Inc.</b>'
+       WRITE(IOUTREP,'(A)')'<b>&#169; 2026 Siemens</b>'
        WRITE(IOUTREP,'(A)')'</font> '
        WRITE(IOUTREP,'(A)')'</center> '
        WRITE(IOUTREP,'(A)')'</body>'
