@@ -468,7 +468,7 @@ C
         IF(N1D == IGRSURF(ISU2)%NSEG) THEN
             CALL ANCMSG(MSGID=3160,
      .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
+     .                  ANMODE=ANSTOP,
      .                  I1=NOINT,
      .                  C1=TITR,
      .                  I2=ISU2_USER)
