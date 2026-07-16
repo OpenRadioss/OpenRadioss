@@ -213,9 +213,16 @@
         SUBROUTINE Q1NP_BUILD_GAUSS_SCHEME(NP_U, NP_V, NP_T, &
      &      GP_U, GW_U, GP_V, GW_V, GP_T, GW_T)
           INTEGER, INTENT(IN) :: NP_U, NP_V, NP_T
-          REAL(KIND=WP), ALLOCATABLE, INTENT(OUT) :: GP_U(:), GW_U(:)
-          REAL(KIND=WP), ALLOCATABLE, INTENT(OUT) :: GP_V(:), GW_V(:)
-          REAL(KIND=WP), ALLOCATABLE, INTENT(OUT) :: GP_T(:), GW_T(:)
+          REAL(KIND=WP), ALLOCATABLE, INTENT(INOUT) :: GP_U(:), GW_U(:)
+          REAL(KIND=WP), ALLOCATABLE, INTENT(INOUT) :: GP_V(:), GW_V(:)
+          REAL(KIND=WP), ALLOCATABLE, INTENT(INOUT) :: GP_T(:), GW_T(:)
+
+          IF (ALLOCATED(GP_U)) DEALLOCATE(GP_U)
+          IF (ALLOCATED(GW_U)) DEALLOCATE(GW_U)
+          IF (ALLOCATED(GP_V)) DEALLOCATE(GP_V)
+          IF (ALLOCATED(GW_V)) DEALLOCATE(GW_V)
+          IF (ALLOCATED(GP_T)) DEALLOCATE(GP_T)
+          IF (ALLOCATED(GW_T)) DEALLOCATE(GW_T)
 
           IF (NP_U > 0) THEN
             ALLOCATE(GP_U(NP_U), GW_U(NP_U))
@@ -236,7 +243,7 @@
 
         SUBROUTINE Q1NP_GAUSS_1D(N, GP, GW)
           INTEGER, INTENT(IN) :: N
-          REAL(KIND=WP), INTENT(OUT) :: GP(N), GW(N)
+          REAL(KIND=WP), INTENT(INOUT) :: GP(N), GW(N)
           INTEGER :: I
 ! 
 !         Simple Gauss-Legendre quadrature for [-1,1]

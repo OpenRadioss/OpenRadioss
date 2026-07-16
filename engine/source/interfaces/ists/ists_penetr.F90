@@ -16,10 +16,10 @@
 !     norm: Normal vector
 !     a: Position matrix (3,24)
 !-----------------------------------------------
-      real*8  xupd(3,8)
-      real*8  penetr
-      real*8  norm(3)
-      real*8  a(3,24)
+      real*8, intent(in)    :: xupd(3,8)
+      real*8, intent(inout) :: penetr
+      real*8, intent(in)    :: norm(3)
+      real*8, intent(in)    :: a(3,24)
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------

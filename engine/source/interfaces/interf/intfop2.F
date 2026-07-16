@@ -118,6 +118,7 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr11_c.inc"
+#include      "scr18_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "warn_c.inc"
@@ -323,7 +324,8 @@ C
      B                      NUMNOD        ,NUMELS         ,ECONTV         ,ECONT          ,
      C                      DEBUG         ,MX_DEBUG       ,IMON           ,INCONV         ,
      D                      ANIM_V        ,MX_ANI         ,OUTP_V         ,
-     E                      MX_OUTP)
+     E                      MX_OUTP        ,NPARI          ,NTHVKI         ,
+     F                      TT             ,DT1            ,DT12           ,DTFAC1(10))
 C
             ELSE  
 C                      

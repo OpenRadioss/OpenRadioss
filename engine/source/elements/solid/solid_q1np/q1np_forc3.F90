@@ -39,7 +39,6 @@
 !||    sstra3                           ../engine/source/elements/solid/solide/sstra3.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
-!||    com08_mod                        ../engine/share/modules/com08_mod.F
 !||    constant_mod                     ../common_source/modules/constant_mod.F
 !||    debug_mod                        ../engine/share/modules/debug_mod.F
 !||    dt_mod                           ../engine/source/modules/dt_mod.F
@@ -50,7 +49,6 @@
 !||    mmain_mod                        ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod                   ../common_source/modules/nlocal_reg_mod.F
 !||    output_mod                       ../common_source/modules/output/output_mod.F90
-!||    param_c_mod                      ../engine/share/modules/param_c_mod.F
 !||    q1np_geom_mod                    ../common_source/modules/q1np_geom_mod.F90
 !||    q1np_restart_mod                 ../common_source/modules/q1np_restart_mod.F90
 !||    restmod                          ../engine/share/modules/restart_mod.F
@@ -68,7 +66,9 @@
      &                      TABLE, IPRI, MAT_ELEM, NG, H3D_STRAIN, SVIS, GLOB_THERM, &
      &                      SNPC, NUMGEO, NUMNOD, NUMELS, NUMELQ, NGROUP, SBUFMAT, STF, &
      &                      NUMMAT, NTABLE, NSVOIS, IRESP, IDEL7NOK, MAXFUNC, USERL_AVAIL, &
-     &                      IMON_MAT, IMPL_S, IDYNA, IDTMIN, DT, SENSORS)
+     &                      IMON_MAT, IMPL_S, IDYNA, IDTMIN, DT, SENSORS, &
+     &                      MTN, ISMSTR, JLAG, JEUL, JALE, JCVT, JSPH, JPLASOL, &
+     &                      NPARG, NPROPG, NPROPGI, NPROPM, NPROPMI, NPSAV, TT, DT1)
   !-----------------------------------------------
   !   M o d u l e s
   !-----------------------------------------------
@@ -86,12 +86,10 @@
       USE Q1NP_RESTART_MOD
       USE Q1NP_GEOM_MOD
       USE SENSOR_MOD
-      USE PARAM_C_MOD
-      USE COM08_MOD
       USE ELEMENT_MOD, ONLY : NIXS
       USE PRECISION_MOD, ONLY : WP
       USE MY_ALLOC_MOD, ONLY : MY_ALLOC
-      USE MY_DEALLOC_MOD, ONLY : MY_DEALLOC
+      USE MVSIZ_MOD, ONLY : MVSIZ
 
       IMPLICIT NONE
   !=======================================================================
@@ -115,18 +113,20 @@
   !=======================================================================
 
   !-----------------------------------------------
-  !   G l o b a l   P a r a m e t e r s
-  !-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "my_real.inc"
-#include      "vect01_ff.inc"
-  !-----------------------------------------------
   !   D u m m y   A r g u m e n t s
   !-----------------------------------------------
       TYPE(TIMER_),  INTENT(INOUT) :: TIMERS
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE(ELBUF_STRUCT_), TARGET, INTENT(INOUT) :: ELBUF_STR
       INTEGER,            INTENT(IN)    :: NG
+      INTEGER,            INTENT(IN)    :: NPARG
+      INTEGER,            INTENT(IN)    :: NPROPG
+      INTEGER,            INTENT(IN)    :: NPROPGI
+      INTEGER,            INTENT(IN)    :: NPROPM
+      INTEGER,            INTENT(IN)    :: NPROPMI
+      INTEGER,            INTENT(IN)    :: NPSAV
+      INTEGER,            INTENT(IN)    :: MTN, ISMSTR, JLAG, JEUL, JALE, JCVT, JSPH, JPLASOL
+      real(kind=WP),      INTENT(IN)    :: TT, DT1
       INTEGER,            INTENT(IN)    :: H3D_STRAIN
       INTEGER,            INTENT(IN)    :: SNPC
       INTEGER,            INTENT(IN)    :: NUMGEO
@@ -157,26 +157,26 @@
       INTEGER,            INTENT(IN)    :: IPARG(NPARG,NGROUP)
       INTEGER,            INTENT(IN)    :: IGEO(NPROPGI,NUMGEO)
       INTEGER,            INTENT(INOUT) :: IGRTH(*), GRTH(*)
-      my_real,            INTENT(INOUT) :: PM(NPROPM,NUMMAT)
-      my_real,            INTENT(INOUT) :: GEO(NPROPG,NUMGEO)
-      my_real,            INTENT(IN)    :: X(3,NUMNOD)
-      my_real,            INTENT(INOUT) :: A(3,NUMNOD)
-      my_real,            INTENT(INOUT) :: V(3,NUMNOD)
-      my_real,            INTENT(IN)    :: W(3,NUMNOD)
-      my_real,            INTENT(INOUT) :: STIFN(NUMNOD)
-      my_real,            INTENT(INOUT) :: TF(STF)
-      my_real,            INTENT(INOUT) :: BUFMAT(SBUFMAT)
-      my_real,            INTENT(INOUT) :: FV(*) !SIZE MAXFUNC?
-      my_real,            INTENT(INOUT) :: PARTSAV(NPSAV,NPART)
-      my_real,            INTENT(INOUT) :: GRESAV(*)
-      my_real,            INTENT(INOUT) :: DT2T
-      my_real,            INTENT(INOUT) :: MSSA(*)
-      my_real,            INTENT(INOUT) :: DMELS(*)
-      TYPE(TTABLE),       INTENT(INOUT) :: TABLE(*)
+      real(kind=WP),            INTENT(INOUT) :: PM(NPROPM,NUMMAT)
+      real(kind=WP),            INTENT(INOUT) :: GEO(NPROPG,NUMGEO)
+      real(kind=WP),            INTENT(IN)    :: X(3,NUMNOD)
+      real(kind=WP),            INTENT(INOUT) :: A(3,NUMNOD)
+      real(kind=WP),            INTENT(INOUT) :: V(3,NUMNOD)
+      real(kind=WP),            INTENT(IN)    :: W(3,NUMNOD)
+      real(kind=WP),            INTENT(INOUT) :: STIFN(NUMNOD)
+      real(kind=WP),            INTENT(INOUT) :: TF(STF)
+      real(kind=WP),            INTENT(INOUT) :: BUFMAT(SBUFMAT)
+      real(kind=WP),            INTENT(INOUT) :: FV(*) !SIZE NFUNCT (global); framework array, kept assumed-size
+      real(kind=WP),            INTENT(INOUT) :: PARTSAV(NPSAV,NPART)
+      real(kind=WP),            INTENT(INOUT) :: GRESAV(*)
+      real(kind=WP),            INTENT(INOUT) :: DT2T
+      real(kind=WP),            INTENT(INOUT) :: MSSA(*)
+      real(kind=WP),            INTENT(INOUT) :: DMELS(*)
+      TYPE(TTABLE),       INTENT(INOUT) :: TABLE(NTABLE)
       TYPE(MAT_ELEM_),    INTENT(INOUT) :: MAT_ELEM
       TYPE(NLOCAL_STR_),  INTENT(INOUT) :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
+      real(kind=WP), DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(GLOB_THERM_),  INTENT(INOUT) :: GLOB_THERM
       TYPE(DT_),          INTENT(IN)    :: DT
       TYPE(SENSORS_),     INTENT(INOUT) :: SENSORS
@@ -209,44 +209,40 @@
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(ELBUF_STRUCT_) :: ELBUF_TAB_LOCAL(1)
-      my_real :: XI, ETA, ZETA, GPW
-      my_real, ALLOCATABLE :: X_ELEM(:,:,:), V_ELEM(:,:,:)
-      my_real, ALLOCATABLE :: F_INT_ELEM(:,:,:)
-      my_real, ALLOCATABLE :: MASS_ELEM(:,:), STIG_ELEM(:,:)
-      my_real, ALLOCATABLE :: U_KNOT(:,:), V_KNOT(:,:)
-      my_real, ALLOCATABLE :: NVAL(:), DN_LOCAL(:,:), DN_GLOBAL(:,:)
-      my_real, ALLOCATABLE :: MATB_GP(:,:)
-      my_real, ALLOCATABLE :: VX_BAL(:,:), VY_BAL(:,:), VZ_BAL(:,:)
-      my_real, ALLOCATABLE :: XX_BAL(:,:), YY_BAL(:,:), ZZ_BAL(:,:)
-      my_real, ALLOCATABLE :: VGAUSS(:,:)
-      my_real :: STI(MVSIZ), OFF(MVSIZ), RHO0(MVSIZ)
-      my_real :: VOLN(MVSIZ), VOLG(MVSIZ), DVOL(MVSIZ), VD2(MVSIZ)
-      my_real :: DELTAX(MVSIZ), DIVDE(MVSIZ)
-      my_real :: VIS(MVSIZ), QVIS(MVSIZ), CXX(MVSIZ)
-      my_real :: S1(MVSIZ), S2(MVSIZ), S3(MVSIZ), S4(MVSIZ), S5(MVSIZ), S6(MVSIZ)
-      my_real :: DXX(MVSIZ), DYY(MVSIZ), DZZ(MVSIZ)
-      my_real :: DXY(MVSIZ), DYX(MVSIZ), DYZ(MVSIZ), DZY(MVSIZ), DZX(MVSIZ), DXZ(MVSIZ)
-      my_real :: D4(MVSIZ), D5(MVSIZ), D6(MVSIZ)
-      my_real :: WXX(MVSIZ), WYY(MVSIZ), WZZ(MVSIZ)
-      my_real :: AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), AJ4(MVSIZ), AJ5(MVSIZ), AJ6(MVSIZ)
-      my_real :: VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ), MUVOID(MVSIZ)
-      my_real :: SSP_EQ(MVSIZ), AIRE(MVSIZ), SIGY(MVSIZ), ET(MVSIZ)
-      my_real :: BUFVOIS(MVSIZ), R3_DAM(MVSIZ), AMU(MVSIZ)
-      my_real :: MFXX(MVSIZ), MFXY(MVSIZ), MFXZ(MVSIZ), MFYX(MVSIZ), MFYY(MVSIZ)
-      my_real :: MFYZ(MVSIZ), MFZX(MVSIZ), MFZY(MVSIZ), MFZZ(MVSIZ)
-      my_real :: GAMA(MVSIZ,6), FR_WAV(MVSIZ), TEMPEL(MVSIZ), DIE(MVSIZ)
-      my_real :: VARNL(MVSIZ), CONDE(MVSIZ)
-      my_real :: FVD2(MVSIZ), FDELTAX(MVSIZ), FSSP(MVSIZ), FQVIS(MVSIZ)
-      my_real :: FHEAT(MVSIZ)
+      real(kind=WP) :: XI, ETA, ZETA, GPW
+      real(kind=WP), ALLOCATABLE :: X_ELEM(:,:,:), V_ELEM(:,:,:)
+      real(kind=WP), ALLOCATABLE :: F_INT_ELEM(:,:,:)
+      real(kind=WP), ALLOCATABLE :: MASS_ELEM(:,:), STIG_ELEM(:,:)
+      real(kind=WP), ALLOCATABLE :: U_KNOT(:,:), V_KNOT(:,:)
+      real(kind=WP), ALLOCATABLE :: NVAL(:), DN_LOCAL(:,:), DN_GLOBAL(:,:)
+      real(kind=WP), ALLOCATABLE :: MATB_GP(:,:)
+      real(kind=WP), ALLOCATABLE :: VX_BAL(:,:), VY_BAL(:,:), VZ_BAL(:,:)
+      real(kind=WP), ALLOCATABLE :: XX_BAL(:,:), YY_BAL(:,:), ZZ_BAL(:,:)
+      real(kind=WP), ALLOCATABLE :: VGAUSS(:,:)
+      real(kind=WP) :: STI(MVSIZ), OFF(MVSIZ), RHO0(MVSIZ)
+      real(kind=WP) :: VOLN(MVSIZ), VOLG(MVSIZ), DVOL(MVSIZ), VD2(MVSIZ)
+      real(kind=WP) :: DELTAX(MVSIZ), DIVDE(MVSIZ)
+      real(kind=WP) :: VIS(MVSIZ), QVIS(MVSIZ), CXX(MVSIZ)
+      real(kind=WP) :: S1(MVSIZ), S2(MVSIZ), S3(MVSIZ), S4(MVSIZ), S5(MVSIZ), S6(MVSIZ)
+      real(kind=WP) :: DXX(MVSIZ), DYY(MVSIZ), DZZ(MVSIZ)
+      real(kind=WP) :: DXY(MVSIZ), DYX(MVSIZ), DYZ(MVSIZ), DZY(MVSIZ), DZX(MVSIZ), DXZ(MVSIZ)
+      real(kind=WP) :: D4(MVSIZ), D5(MVSIZ), D6(MVSIZ)
+      real(kind=WP) :: WXX(MVSIZ), WYY(MVSIZ), WZZ(MVSIZ)
+      real(kind=WP) :: AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), AJ4(MVSIZ), AJ5(MVSIZ), AJ6(MVSIZ)
+      real(kind=WP) :: VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ), MUVOID(MVSIZ)
+      real(kind=WP) :: SSP_EQ(MVSIZ), AIRE(MVSIZ), SIGY(MVSIZ), ET(MVSIZ)
+      real(kind=WP) :: BUFVOIS(MVSIZ), R3_DAM(MVSIZ), AMU(MVSIZ)
+      real(kind=WP) :: MFXX(MVSIZ), MFXY(MVSIZ), MFXZ(MVSIZ), MFYX(MVSIZ), MFYY(MVSIZ)
+      real(kind=WP) :: MFYZ(MVSIZ), MFZX(MVSIZ), MFZY(MVSIZ), MFZZ(MVSIZ)
+      real(kind=WP) :: GAMA(MVSIZ,6), FR_WAV(MVSIZ), TEMPEL(MVSIZ), DIE(MVSIZ)
+      real(kind=WP) :: VARNL(MVSIZ), CONDE(MVSIZ)
+      real(kind=WP) :: FVD2(MVSIZ), FDELTAX(MVSIZ), FSSP(MVSIZ), FQVIS(MVSIZ)
+      real(kind=WP) :: FHEAT(MVSIZ)
       DOUBLE PRECISION :: VOLDP(MVSIZ)
-      my_real :: DUMMY_FLUX(1,1)
-      my_real :: DTFAC1(102), DTMIN1(102), PERCENT_ADDMASS
-      my_real :: DT_STOP_PERCENT_ADDMASS, MASS0_START, PERCENT_ADDMASS_OLD
+      real(kind=WP) :: DUMMY_FLUX(1,1)
       LOGICAL :: Q1NP_MAP_ERROR
       INTEGER, SAVE, ALLOCATABLE :: Q1NP_BULK_FIX_IDS(:,:)
       LOGICAL, SAVE, ALLOCATABLE :: Q1NP_BULK_FIX_READY(:)
-      COMMON /SCR18R/ DTFAC1, DTMIN1, PERCENT_ADDMASS, &
-     &                DT_STOP_PERCENT_ADDMASS, MASS0_START, PERCENT_ADDMASS_OLD
 
   !=======================================================================
   !   S o u r c e  L i n e s
@@ -555,12 +551,12 @@
 !=======================================================================
         SUBROUTINE Q1NP_GET_BULK_NODE_IDS(IEL_LOCAL, IQ1NP_LOCAL, BULK_NODE_IDS_OUT)
           INTEGER, INTENT(IN)  :: IEL_LOCAL, IQ1NP_LOCAL
-          INTEGER, INTENT(OUT) :: BULK_NODE_IDS_OUT(4)
+          INTEGER, INTENT(INOUT) :: BULK_NODE_IDS_OUT(4)
           INTEGER :: STORED_BULK(4), REBUILT_BULK(4), CENTROID_BULK(4)
           INTEGER :: K_LOCAL, IERR_LOCAL, IERR_CENTROID, OFF14, TOP_FACE
           INTEGER :: STORED_SORTED(4), REBUILT_SORTED(4), CENTROID_SORTED(4)
           LOGICAL :: BULK_SETS_MATCH, BULK_VS_CENTROID_MATCH
-          my_real :: MATCH_SCORE, CENTROID_DIST
+          real(kind=WP) :: MATCH_SCORE, CENTROID_DIST
 
           OFF14 = KQ1NP_TAB(14,IQ1NP_LOCAL)
           DO K_LOCAL = 1, 4
@@ -678,27 +674,26 @@
 !=======================================================================
         SUBROUTINE Q1NP_REBUILD_BULK_FROM_HEX(IEL_LOCAL, IQ1NP_LOCAL, BULK_NODE_IDS_OUT, MATCH_SCORE_OUT, IERR_OUT)
           INTEGER, INTENT(IN)  :: IEL_LOCAL, IQ1NP_LOCAL
-          INTEGER, INTENT(OUT) :: BULK_NODE_IDS_OUT(4)
-          my_real, INTENT(OUT) :: MATCH_SCORE_OUT
-          INTEGER, INTENT(OUT) :: IERR_OUT
+          INTEGER, INTENT(INOUT) :: BULK_NODE_IDS_OUT(4)
+          real(kind=WP), INTENT(INOUT) :: MATCH_SCORE_OUT
+          INTEGER, INTENT(INOUT) :: IERR_OUT
           INTEGER :: IEL_HEX8, IFACE, IFOPP, IPERM, K_LOCAL, J_LOCAL
-          INTEGER :: FACE_IXS(4,6), OPPOSITE(6), OPP_PAIR(4,6), CORNER_PERM(4,8)
+          INTEGER, PARAMETER :: FACE_IXS(4,6) = RESHAPE( (/ &
+        &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /), (/ 4,6 /) )
+          INTEGER, PARAMETER :: OPPOSITE(6) = (/ 2,1,5,6,3,4 /)
+          INTEGER, PARAMETER :: OPP_PAIR(4,6) = RESHAPE( (/ &
+        &      1,2,3,4, 1,2,3,4, 2,1,4,3, 2,1,4,3, 2,1,4,3, 2,1,4,3 /), (/ 4,6 /) )
+          INTEGER, PARAMETER :: CORNER_PERM(4,8) = RESHAPE( (/ &
+        &      1,2,3,4, &
+        &      2,3,4,1, &
+        &      3,4,1,2, &
+        &      4,1,2,3, &
+        &      1,4,3,2, &
+        &      4,3,2,1, &
+        &      3,2,1,4, &
+        &      2,1,4,3 /), (/ 4,8 /) )
           INTEGER :: NODES_FACE(4), NODES_OPP(4), CANDIDATE_BULK(4)
-          my_real :: TOP_CORNER(3,4), DIFF_LOCAL(3), SCORE_LOCAL, BEST_SCORE
-          DATA FACE_IXS / &
-     &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /
-          DATA OPPOSITE / 2,1,5,6,3,4 /
-          DATA OPP_PAIR / &
-     &      1,2,3,4, 1,2,3,4, 2,1,4,3, 2,1,4,3, 2,1,4,3, 2,1,4,3 /
-          DATA CORNER_PERM / &
-     &      1,2,3,4, &
-     &      2,3,4,1, &
-     &      3,4,1,2, &
-     &      4,1,2,3, &
-     &      1,4,3,2, &
-     &      4,3,2,1, &
-     &      3,2,1,4, &
-     &      2,1,4,3 /
+          real(kind=WP) :: TOP_CORNER(3,4), DIFF_LOCAL(3), SCORE_LOCAL, BEST_SCORE
 
           BULK_NODE_IDS_OUT = 0
           MATCH_SCORE_OUT = HUGE(ONE)
@@ -781,20 +776,19 @@
      &                                          BULK_NODE_IDS_OUT, TOP_FACE_OUT, &
      &                                          DIST_OUT, IERR_OUT)
           INTEGER, INTENT(IN)  :: IEL_LOCAL, IQ1NP_LOCAL
-          INTEGER, INTENT(OUT) :: BULK_NODE_IDS_OUT(4)
-          INTEGER, INTENT(OUT) :: TOP_FACE_OUT
-          my_real, INTENT(OUT) :: DIST_OUT
-          INTEGER, INTENT(OUT) :: IERR_OUT
+          INTEGER, INTENT(INOUT) :: BULK_NODE_IDS_OUT(4)
+          INTEGER, INTENT(INOUT) :: TOP_FACE_OUT
+          real(kind=WP), INTENT(INOUT) :: DIST_OUT
+          INTEGER, INTENT(INOUT) :: IERR_OUT
           INTEGER :: IEL_HEX8, IFACE, IFOPP, K_LOCAL, J_LOCAL, IBEST
-          INTEGER :: FACE_IXS(4,6), OPPOSITE(6)
+          INTEGER, PARAMETER :: FACE_IXS(4,6) = RESHAPE( (/ &
+        &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /), (/ 4,6 /) )
+          INTEGER, PARAMETER :: OPPOSITE(6) = (/ 2,1,5,6,3,4 /)
           INTEGER :: NODES_FACE_LOCAL(4,6), NODES_OPP_LOCAL(4,6)
-          my_real :: FACE_CENTROID(3,6), TOP_CORNER(3,4), TOP_CENTROID(3)
-          my_real :: D_LOCAL(3), DIST_LOCAL, BEST_DIST
+          real(kind=WP) :: FACE_CENTROID(3,6), TOP_CORNER(3,4), TOP_CENTROID(3)
+          real(kind=WP) :: D_LOCAL(3), DIST_LOCAL, BEST_DIST
           INTEGER :: USED_LOCAL(4), IBEST_NODE
-          my_real :: BEST_NODE_DIST, D_CORNER(3), DC_NORM
-          DATA FACE_IXS / &
-     &      2,3,4,5, 6,7,8,9, 2,3,7,6, 3,4,8,7, 4,5,9,8, 5,2,6,9 /
-          DATA OPPOSITE / 2,1,5,6,3,4 /
+          real(kind=WP) :: BEST_NODE_DIST, D_CORNER(3), DC_NORM
 
           BULK_NODE_IDS_OUT = 0
           TOP_FACE_OUT = 0
@@ -901,12 +895,12 @@
 !=======================================================================
         SUBROUTINE Q1NP_EVAL_TOP_SURF_POINT(IEL_LOCAL, XI_LOCAL, ETA_LOCAL, XYZ_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
-          my_real, INTENT(IN) :: XI_LOCAL, ETA_LOCAL
-          my_real, INTENT(OUT) :: XYZ_OUT(3)
+          real(kind=WP), INTENT(IN) :: XI_LOCAL, ETA_LOCAL
+          real(kind=WP), INTENT(INOUT) :: XYZ_OUT(3)
           INTEGER :: IQ1NP_LOCAL, P_LOCAL, Q_LOCAL
           INTEGER :: NNODE_LOCAL, K_LOCAL, LOCAL_ID
-          my_real :: NVAL_LOCAL(MAX_NNODE)
-          my_real :: DN_TMP(MAX_NNODE,3)
+          real(kind=WP) :: NVAL_LOCAL(MAX_NNODE)
+          real(kind=WP) :: DN_TMP(MAX_NNODE,3)
 
           IQ1NP_LOCAL = Q1NP_IDS(IEL_LOCAL)
           P_LOCAL = KQ1NP_TAB(8,IQ1NP_LOCAL)
@@ -1111,10 +1105,10 @@
 ! Geometry terms (derivatives + Gauss point volume)
 !=======================================================================
         SUBROUTINE Q1NP_GP_GEOM(XI, ETA, ZETA, GPW, IERR_OUT)
-          my_real, INTENT(IN)  :: XI, ETA, ZETA, GPW
-          INTEGER, INTENT(OUT) :: IERR_OUT
+          real(kind=WP), INTENT(IN)  :: XI, ETA, ZETA, GPW
+          INTEGER, INTENT(INOUT) :: IERR_OUT
           INTEGER :: IEL_LOCAL, NNODE_LOCAL, K_LOCAL, P_LOCAL, Q_LOCAL
-          my_real :: JMAT_LOCAL(3,3), JINV_LOCAL(3,3), DETJ_LOCAL
+          real(kind=WP) :: JMAT_LOCAL(3,3), JINV_LOCAL(3,3), DETJ_LOCAL
           INTEGER :: IERR_LOCAL
           INTEGER :: IEL_HEX8_DBG, K_DBG, IQ1NP_DBG
 
@@ -1131,8 +1125,10 @@
      &                                  ELEM_U(IEL_LOCAL), ELEM_V(IEL_LOCAL), &
      &                                  NVAL(1:NNODE_LOCAL), DN_LOCAL(1:NNODE_LOCAL,1:3))
 
-            CALL Q1NP_JACOBIAN(DN_LOCAL(1:NNODE_LOCAL,1:3), X_ELEM(1:3,1:NNODE_LOCAL,IEL_LOCAL), &
-     &                           NNODE_LOCAL, JMAT_LOCAL, DETJ_LOCAL, JINV_LOCAL, DN_GLOBAL(1:NNODE_LOCAL,1:3), IERR_LOCAL)
+            CALL Q1NP_JACOBIAN(DN_LOCAL(1:NNODE_LOCAL,1:3), &
+     &                         X_ELEM(1:3,1:NNODE_LOCAL,IEL_LOCAL), &
+     &                         NNODE_LOCAL, JMAT_LOCAL, DETJ_LOCAL, JINV_LOCAL, &
+     &                         DN_GLOBAL(1:NNODE_LOCAL,1:3), IERR_LOCAL)
 
             IF (IERR_LOCAL /= 0) THEN
               IQ1NP_DBG = Q1NP_IDS(IEL_LOCAL)
@@ -1202,6 +1198,7 @@
 !=======================================================================
         SUBROUTINE Q1NP_GP_MAT(IU, IV, IT)
           INTEGER, INTENT(IN) :: IU, IV, IT
+          INTEGER :: JSPH_LOC, JPLASOL_LOC
 
           LBUF => ELBUF_STR%BUFLY(1)%LBUF(IU,IV,IT)
 
@@ -1220,6 +1217,8 @@
 
 
           ! main material-law driver
+          JSPH_LOC = JSPH
+          JPLASOL_LOC = JPLASOL
           CALL MMAIN(TIMERS, OUTPUT, ELBUF_TAB_LOCAL, 1, PM, GEO, ALE_CONNECT, IXS, IPARG_LOCAL, &
      &                 V, TF, NPF, BUFMAT, STI, X, DT2T, NELTST, ITYPTST, OFFSET, NEL, W, &
      &                 OFF, PID_ELEM, MAT_ID_ELEM, NGL_ELEM, VOLN, VD2, DVOL, DELTAX, VIS, &
@@ -1229,7 +1228,7 @@
      &                 MFYY, MFYZ, MFZX, MFZY, MFZZ, IPM, GAMA, FR_WAV, DXY, DYX, DYZ, DZY, &
      &                 DZX, DXZ, ISTRAIN, TEMPEL, DIE, IEXPAN, ILAY, MSSA, DMELS, IU, IV, IT, &
      &                 TABLE, FVD2, FDELTAX, FSSP, FQVIS, IPARG_LOCAL(:,1), IGEO, CONDE, ITASK, &
-     &                 NLOC_DMG, VARNL, MAT_ELEM, H3D_STRAIN, JPLASOL, JSPH, MVSIZ, &
+     &                 NLOC_DMG, VARNL, MAT_ELEM, H3D_STRAIN, JPLASOL_LOC, JSPH_LOC, MVSIZ, &
      &                 SNPC, STF, SBUFMAT, GLOB_THERM, SVIS, SZ_IX, IRESP, 0, TH_STRAIN, &
      &                 1, TT, DT1, NTABLE, NUMELQ, NUMMAT, NUMGEO, NUMNOD, NUMELS, &
      &                 IDEL7NOK, IDTMIN, MAXFUNC, IMON_MAT, USERL_AVAIL, IMPL_S, IDYNA, DT, &
@@ -1247,7 +1246,7 @@
 !=======================================================================
         SUBROUTINE Q1NP_FILL_MATB(IEL_LOCAL, NNODE_LOCAL, DRDX_LOCAL) 
           INTEGER, INTENT(IN) :: IEL_LOCAL, NNODE_LOCAL
-          my_real, INTENT(IN) :: DRDX_LOCAL(NNODE_LOCAL,3)
+          real(kind=WP), INTENT(IN) :: DRDX_LOCAL(NNODE_LOCAL,3)
           INTEGER :: K_LOCAL, IAD_LOCAL
 
           DO K_LOCAL = 1, NNODE_LOCAL
@@ -1265,7 +1264,7 @@
 !=======================================================================
         SUBROUTINE Q1NP_EVAL_DEF()
           INTEGER :: IEL_LOCAL, K_LOCAL, IAD_LOCAL
-          my_real :: DT1D2_LOCAL, AAA_LOCAL
+          real(kind=WP) :: DT1D2_LOCAL, AAA_LOCAL
 
           DO IEL_LOCAL = 1, NEL
             IF (.NOT. Q1NP_IS_ACTIVE(IEL_LOCAL)) CYCLE
@@ -1305,11 +1304,14 @@
             IF (.NOT. Q1NP_IS_ACTIVE(IEL_LOCAL)) CYCLE
 
             DXX(IEL_LOCAL) = DXX(IEL_LOCAL) - DT1D2_LOCAL * &
-     &                       (DXX(IEL_LOCAL)*DXX(IEL_LOCAL) + DYX(IEL_LOCAL)*DYX(IEL_LOCAL) + DZX(IEL_LOCAL)*DZX(IEL_LOCAL))
+     &                       (DXX(IEL_LOCAL)*DXX(IEL_LOCAL) + DYX(IEL_LOCAL)*DYX(IEL_LOCAL) &
+     &                       + DZX(IEL_LOCAL)*DZX(IEL_LOCAL))
             DYY(IEL_LOCAL) = DYY(IEL_LOCAL) - DT1D2_LOCAL * &
-     &                       (DYY(IEL_LOCAL)*DYY(IEL_LOCAL) + DZY(IEL_LOCAL)*DZY(IEL_LOCAL) + DXY(IEL_LOCAL)*DXY(IEL_LOCAL))
+     &                       (DYY(IEL_LOCAL)*DYY(IEL_LOCAL) + DZY(IEL_LOCAL)*DZY(IEL_LOCAL) &
+     &                       + DXY(IEL_LOCAL)*DXY(IEL_LOCAL))
             DZZ(IEL_LOCAL) = DZZ(IEL_LOCAL) - DT1D2_LOCAL * &
-     &                       (DZZ(IEL_LOCAL)*DZZ(IEL_LOCAL) + DXZ(IEL_LOCAL)*DXZ(IEL_LOCAL) + DYZ(IEL_LOCAL)*DYZ(IEL_LOCAL))
+     &                       (DZZ(IEL_LOCAL)*DZZ(IEL_LOCAL) + DXZ(IEL_LOCAL)*DXZ(IEL_LOCAL) &
+     &                       + DYZ(IEL_LOCAL)*DYZ(IEL_LOCAL))
 
             AAA_LOCAL = DT1D2_LOCAL * &
      &                  (DXX(IEL_LOCAL)*DXY(IEL_LOCAL) + DYX(IEL_LOCAL)*DYY(IEL_LOCAL) + DZX(IEL_LOCAL)*DZY(IEL_LOCAL))
@@ -1341,13 +1343,13 @@
         SUBROUTINE Q1NP_ACCUM_FINT(IEL_LOCAL, SIG1_IN, SIG2_IN, SIG3_IN, SIG4_IN, SIG5_IN, SIG6_IN, &
      &                                 FX_SUM_OUT, FY_SUM_OUT, FZ_SUM_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
-          my_real, INTENT(IN) :: SIG1_IN, SIG2_IN, SIG3_IN, SIG4_IN, SIG5_IN, SIG6_IN
-          my_real, INTENT(OUT) :: FX_SUM_OUT, FY_SUM_OUT, FZ_SUM_OUT
+          real(kind=WP), INTENT(IN) :: SIG1_IN, SIG2_IN, SIG3_IN, SIG4_IN, SIG5_IN, SIG6_IN
+          real(kind=WP), INTENT(INOUT) :: FX_SUM_OUT, FY_SUM_OUT, FZ_SUM_OUT
           INTEGER :: K_LOCAL, IAD_LOCAL
-          my_real :: SUMX_LOCAL, SUMY_LOCAL, SUMZ_LOCAL
-          my_real :: FX_LOCAL, FY_LOCAL, FZ_LOCAL
-          my_real :: STIN_LOCAL, AA_LOCAL
-          my_real :: FCOMP_LOCAL(3,6)
+          real(kind=WP) :: SUMX_LOCAL, SUMY_LOCAL, SUMZ_LOCAL
+          real(kind=WP) :: FX_LOCAL, FY_LOCAL, FZ_LOCAL
+          real(kind=WP) :: STIN_LOCAL, AA_LOCAL
+          real(kind=WP) :: FCOMP_LOCAL(3,6)
 
           FX_SUM_OUT = ZERO
           FY_SUM_OUT = ZERO
@@ -1404,9 +1406,9 @@
         SUBROUTINE Q1NP_ACCUM_NFORCE(IU, IV, IT)
           INTEGER, INTENT(IN) :: IU, IV, IT
           INTEGER :: IEL_LOCAL
-          my_real :: SIG1_LOCAL, SIG2_LOCAL, SIG3_LOCAL
-          my_real :: SIG4_LOCAL, SIG5_LOCAL, SIG6_LOCAL
-          my_real :: FX_SUM, FY_SUM, FZ_SUM
+          real(kind=WP) :: SIG1_LOCAL, SIG2_LOCAL, SIG3_LOCAL
+          real(kind=WP) :: SIG4_LOCAL, SIG5_LOCAL, SIG6_LOCAL
+          real(kind=WP) :: FX_SUM, FY_SUM, FZ_SUM
 
           LBUF => ELBUF_STR%BUFLY(1)%LBUF(IU,IV,IT)
 
@@ -1510,7 +1512,7 @@
 !=======================================================================
         SUBROUTINE Q1NP_BUILD_SIG(IEL_LOCAL, SIG1_OUT, SIG2_OUT, SIG3_OUT, SIG4_OUT, SIG5_OUT, SIG6_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
-          my_real, INTENT(OUT) :: SIG1_OUT, SIG2_OUT, SIG3_OUT, SIG4_OUT, SIG5_OUT, SIG6_OUT
+          real(kind=WP), INTENT(INOUT) :: SIG1_OUT, SIG2_OUT, SIG3_OUT, SIG4_OUT, SIG5_OUT, SIG6_OUT
           SIG1_OUT = LBUF%SIG(II(1)+IEL_LOCAL) + SVIS(IEL_LOCAL,1) - QVIS(IEL_LOCAL)
           SIG2_OUT = LBUF%SIG(II(2)+IEL_LOCAL) + SVIS(IEL_LOCAL,2) - QVIS(IEL_LOCAL)
           SIG3_OUT = LBUF%SIG(II(3)+IEL_LOCAL) + SVIS(IEL_LOCAL,3) - QVIS(IEL_LOCAL)
@@ -1535,14 +1537,14 @@
 !=======================================================================
         SUBROUTINE Q1NP_CHAR_LEN(IEL_LOCAL, DELTAX_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
-          my_real, INTENT(OUT) :: DELTAX_OUT
-          my_real, PARAMETER :: SPAN_SCALE = 0.2
-          my_real :: TOP_1_XYZ(3), TOP_2_XYZ(3), TOP_3_XYZ(3), TOP_4_XYZ(3)
-          my_real :: BOT_1_XYZ(3), BOT_2_XYZ(3), BOT_3_XYZ(3), BOT_4_XYZ(3)
-          my_real :: LU_TOP_1, LU_TOP_2, LV_TOP_1, LV_TOP_2
-          my_real :: LU_BOT_1, LU_BOT_2, LV_BOT_1, LV_BOT_2
-          my_real :: LT_1, LT_2, LT_3, LT_4
-          my_real :: SPAN_U, SPAN_V, SPAN_T
+          real(kind=WP), INTENT(INOUT) :: DELTAX_OUT
+          real(kind=WP), PARAMETER :: SPAN_SCALE = 0.2
+          real(kind=WP) :: TOP_1_XYZ(3), TOP_2_XYZ(3), TOP_3_XYZ(3), TOP_4_XYZ(3)
+          real(kind=WP) :: BOT_1_XYZ(3), BOT_2_XYZ(3), BOT_3_XYZ(3), BOT_4_XYZ(3)
+          real(kind=WP) :: LU_TOP_1, LU_TOP_2, LV_TOP_1, LV_TOP_2
+          real(kind=WP) :: LU_BOT_1, LU_BOT_2, LV_BOT_1, LV_BOT_2
+          real(kind=WP) :: LT_1, LT_2, LT_3, LT_4
+          real(kind=WP) :: SPAN_U, SPAN_V, SPAN_T
 
           CALL Q1NP_EVAL_PHYS_POINT(IEL_LOCAL, -ONE, -ONE,  ONE, TOP_1_XYZ)
           CALL Q1NP_EVAL_PHYS_POINT(IEL_LOCAL,  ONE, -ONE,  ONE, TOP_2_XYZ)
@@ -1581,12 +1583,12 @@
 !=======================================================================
         SUBROUTINE Q1NP_EVAL_PHYS_POINT(IEL_LOCAL, XI_LOCAL, ETA_LOCAL, ZETA_LOCAL, XYZ_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
-          my_real, INTENT(IN) :: XI_LOCAL, ETA_LOCAL, ZETA_LOCAL
-          my_real, INTENT(OUT) :: XYZ_OUT(3)
+          real(kind=WP), INTENT(IN) :: XI_LOCAL, ETA_LOCAL, ZETA_LOCAL
+          real(kind=WP), INTENT(INOUT) :: XYZ_OUT(3)
           INTEGER :: IQ1NP_LOCAL, P_LOCAL, Q_LOCAL
           INTEGER :: NNODE_LOCAL, K_LOCAL
-          my_real :: NVAL_LOCAL(MAX_NNODE)
-          my_real :: DN_TMP(MAX_NNODE,3)
+          real(kind=WP) :: NVAL_LOCAL(MAX_NNODE)
+          real(kind=WP) :: DN_TMP(MAX_NNODE,3)
 
           IQ1NP_LOCAL = Q1NP_IDS(IEL_LOCAL)
           P_LOCAL = KQ1NP_TAB(8,IQ1NP_LOCAL)
@@ -1608,9 +1610,9 @@
 !=======================================================================
 ! Calculate the distance between two physical points
 !=======================================================================
-        my_real FUNCTION Q1NP_POINT_DIST(POINT_A, POINT_B)
-          my_real, INTENT(IN) :: POINT_A(3), POINT_B(3)
-          my_real :: DX_LOCAL, DY_LOCAL, DZ_LOCAL
+        real(kind=WP) FUNCTION Q1NP_POINT_DIST(POINT_A, POINT_B)
+          real(kind=WP), INTENT(IN) :: POINT_A(3), POINT_B(3)
+          real(kind=WP) :: DX_LOCAL, DY_LOCAL, DZ_LOCAL
 
           DX_LOCAL = POINT_B(1) - POINT_A(1)
           DY_LOCAL = POINT_B(2) - POINT_A(2)
@@ -1639,7 +1641,7 @@
 ! Rebuild the grid for a given number of control points
 !=======================================================================
         SUBROUTINE Q1NP_REBUILD_GRID(NX_OUT, NY_OUT, P_IN, Q_IN)
-          INTEGER, INTENT(OUT) :: NX_OUT, NY_OUT
+          INTEGER, INTENT(INOUT) :: NX_OUT, NY_OUT
           INTEGER, INTENT(IN)  :: P_IN, Q_IN
           NX_OUT = 0
           NY_OUT = 0

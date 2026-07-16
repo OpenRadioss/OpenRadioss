@@ -16,7 +16,6 @@
 !||    sts_gp_update_dt2t       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
 !||    sts_gp_ivis2_normal      ../engine/source/interfaces/ists/ists_contact_visc_mod.F90
 !||    sts_shape               ../engine/source/interfaces/ists/ists_shape_fct.F90
-!||    com08_mod               ../engine/share/modules/com08_mod.F
 !||====================================================================
 !
 !   Evaluate one STS segment pair for Gauss or Lobatto quadrature,
@@ -24,12 +23,13 @@
 !
       subroutine STS_CONTACT_EVAL_PAIR(XUPD, STIF, p, IMPACT, EL_NR, node_stiff, OPTION, &
       &                   FRICC, XMU, IFPEN, &
-      &                   p_friction, node_ids, V, &
+      &                   p_friction, node_ids, V, numnod, &
       &                   CALC_FRICTION, MAX_STS_SIZE, GAP, GP_WEIGHT, &
       &                   PAIR_MAX_PENETRATION, &
       &                   ECONTT_PAIR, ECONVT_PAIR, MS, NOINT, VISC, IVIS2, &
       &                   VISCFFRIC, DT2T, NELTST, ITYPTST, &
-      &                   COMMIT_CONTACT, PROBE_SCORE, VALID_GP, MIN_PENE)
+      &                   COMMIT_CONTACT, PROBE_SCORE, VALID_GP, MIN_PENE, &
+      &                   DT1, DTFAC1_10)
 !-----------------------------------------------
 !   M o d u l e s   /   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -37,13 +37,12 @@
       use sts_gp_state_mod
       use ists_contact_dt_mod
       use ists_contact_visc_mod
-      USE COM08_MOD
+      use precision_mod, only : WP
       implicit none
 !-----------------------------------------------
 !   G l o b a l   P a r a m e t e r s
 !-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -65,30 +64,35 @@
 !     GAP   : Gap used in penetration test.
 !     PAIR_MAX_PENETRATION : Max |penetr - gap| over activated Gauss points.
 !-----------------------------------------------
-      INTEGER IMPACT, OPTION, EL_NR
-      INTEGER node_ids(8)
-      my_real V(3,*)
-      LOGICAL CALC_FRICTION
-      my_real STIF
-      real*8  p(24), p_friction(24)
-      real*8  XUPD(3,8)
-      real*8  node_stiff(8)
-      my_real FRICC(MVSIZ), XMU(MVSIZ)
-      INTEGER IFPEN(MAX_STS_SIZE)
-      INTEGER MAX_STS_SIZE  ! Maximum size for history arrays
-      my_real GAP  ! Gap value from user input
+      INTEGER, INTENT(INOUT) :: IMPACT
+      INTEGER, INTENT(IN)    :: OPTION, EL_NR
+      INTEGER, INTENT(IN)    :: node_ids(8)
+      INTEGER, INTENT(IN)    :: numnod
+      real(kind=WP), INTENT(IN)    :: V(3,numnod)
+      LOGICAL, INTENT(IN)    :: CALC_FRICTION
+      real(kind=WP), INTENT(IN)    :: STIF
+      real*8, INTENT(INOUT) :: p(24), p_friction(24)
+      real*8, INTENT(IN)    :: XUPD(3,8)
+      real*8, INTENT(INOUT) :: node_stiff(8)
+      real(kind=WP), INTENT(IN)    :: FRICC(MVSIZ)
+      real(kind=WP), INTENT(INOUT) :: XMU(MVSIZ)
+      INTEGER, INTENT(IN)    :: MAX_STS_SIZE
+      INTEGER, INTENT(INOUT) :: IFPEN(MAX_STS_SIZE)
+      real(kind=WP), INTENT(IN)    :: GAP  ! Gap value from user input
       REAL*8, INTENT(IN)  :: GP_WEIGHT(4)
-      REAL*8, INTENT(OUT) :: PAIR_MAX_PENETRATION
-      REAL*8, INTENT(OUT) :: ECONTT_PAIR, ECONVT_PAIR
-      my_real, INTENT(IN)    :: MS(*)
+      REAL*8, INTENT(INOUT) :: PAIR_MAX_PENETRATION
+      REAL*8, INTENT(INOUT) :: ECONTT_PAIR, ECONVT_PAIR
+      real(kind=WP), INTENT(IN)    :: MS(numnod)
       INTEGER, INTENT(IN)    :: NOINT, IVIS2
-      my_real, INTENT(IN)    :: VISC, VISCFFRIC
-      my_real, INTENT(INOUT) :: DT2T
+      real(kind=WP), INTENT(IN)    :: VISC, VISCFFRIC
+      real(kind=WP), INTENT(INOUT) :: DT2T
       INTEGER, INTENT(INOUT) :: NELTST, ITYPTST
       LOGICAL, INTENT(IN)    :: COMMIT_CONTACT
-      REAL*8, INTENT(OUT)    :: PROBE_SCORE
-      INTEGER, INTENT(OUT)   :: VALID_GP
-      REAL*8, INTENT(OUT)    :: MIN_PENE
+      REAL*8, INTENT(INOUT)    :: PROBE_SCORE
+      INTEGER, INTENT(INOUT)   :: VALID_GP
+      REAL*8, INTENT(INOUT)    :: MIN_PENE
+      real(kind=WP), INTENT(IN)    :: DT1
+      real(kind=WP), INTENT(IN)    :: DTFAC1_10
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -189,6 +193,16 @@
       node_stiff = 0.0d0
       FAC = 1.0d0
       valid_gp_count = 0
+      rhoxi1_gauss = 0.0d0
+      rhoxi2_gauss = 0.0d0
+      xi1_gauss = 0.0d0
+      xi2_gauss = 0.0d0
+      m_ij_gauss = 0.0d0
+      detm_gauss = 0.0d0
+      eta1_gauss = 0.0d0
+      eta2_gauss = 0.0d0
+      wi1_gauss = 0.0d0
+      wi2_gauss = 0.0d0
 !-----------------------------------------------
 !   M a i n   C o m p u t a t i o n
 !-----------------------------------------------
@@ -322,13 +336,13 @@
 !         Shape functions for stiffness integration and IVIS2 mass.
           call sts_shape(xi1, xi2, N_xi)
 
-          CALL sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, &
+          CALL sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &        norm_contact, v_n)
 
           d1_stif = d1
           f_visc = 0.d0
           CALL sts_gp_ivis2_normal(d1, GAPV, PENE, v_n, N_eta, &
-     &        node_ids, MS, VISC, IVIS2, VISCFFRIC, DT1, &
+     &        node_ids, MS, numnod, VISC, IVIS2, VISCFFRIC, DT1, &
      &        d1_stif, f_visc)
 
           f_normal = d1 * penetr
@@ -342,9 +356,9 @@
      &        + d1_stif * DABS(N_eta(1,j)) * area_weight
           ENDDO
 
-          CALL sts_gp_update_dt2t(node_ids, MS, d1_stif, N_xi, N_eta, &
+          CALL sts_gp_update_dt2t(node_ids, MS, numnod, d1_stif, N_xi, N_eta, &
      &        area_weight, GAPV, PENE, V, norm_contact, NOINT, &
-     &        DT2T, NELTST, ITYPTST)
+     &        DT2T, NELTST, ITYPTST, DTFAC1_10)
 
           INDEX_CAND = EL_NR
           IF (INDEX_CAND >= 1 .AND. INDEX_CAND <= MAX_STS_SIZE) THEN
@@ -437,7 +451,7 @@
             norm_fric = norm_contact
 
             ! Calculate the tangential velocity at the current Gauss/Lobatto point
-            call sts_gp_tangential_velocity(N_xi, N_eta, node_ids, V, &
+            call sts_gp_tangential_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &          norm_fric, v_tang)
 
             ! Calculate the covariant slip at the current Gauss/Lobatto point

@@ -47,13 +47,13 @@
       USE DEBUG_MOD, ONLY: ITAB_DEBUG
       USE MY_ALLOC_MOD, ONLY: MY_ALLOC
       USE MY_DEALLOC_MOD, ONLY: MY_DEALLOC
+      USE PRECISION_MOD, ONLY : WP
 
 
       implicit none
-#include      "my_real.inc"
-      my_real, INTENT(IN) :: TIME_CUR
+      real(kind=WP), INTENT(IN) :: TIME_CUR
       INTEGER, INTENT(IN) :: NUMNOD
-      my_real, INTENT(IN) :: X(3,NUMNOD)
+      real(kind=WP), INTENT(IN) :: X(3,NUMNOD)
       INTEGER :: LUX_BULK
       INTEGER :: LUX_CP
       LOGICAL, SAVE :: FIRST_CALL     = .TRUE.

@@ -56,10 +56,10 @@ subroutine ists_ass0(a, stifn, load_arr, node_arr, count, max_sts_size_actual, &
   integer,       intent(in)    :: anim_v4                                 !< ANIM_V(4) animation flag (/SCR14/)
   integer,       intent(in)    :: outp_v4                                 !< OUTP_V(4) output flag (/SCR16/)
   integer,       intent(in)    :: n_vect_cont                             !< H3D contact vector count
-  real(kind=WP), intent(inout) :: a(3, *)                                 !< nodal accelerations (global array)
-  real(kind=WP), intent(inout) :: stifn(*)                                !< nodal stiffnesses (global array)
-  real(kind=WP), intent(inout) :: fcont(3, *)                             !< contact forces, size numnod
-  real(kind=WP), intent(in)    :: load_arr(max_sts_size_actual, 8, 4)     !< per-pair load: (pairs, 8 nodes, fx/fy/fz/stiff)
+  real(kind=WP), intent(inout) :: a(3, numnod)                            !< nodal accelerations (global array)
+  real(kind=WP), intent(inout) :: stifn(numnod)                          !< nodal stiffnesses (global array)
+  real(kind=WP), intent(inout) :: fcont(3, numnod)                       !< contact forces, size numnod
+  real(kind=WP), intent(in)    :: load_arr(max_sts_size_actual, 8, 4)     !< per-pair load array
   integer,       intent(in)    :: node_arr(max_sts_size_actual * 8)       !< node id array, 8 ids per pair
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -135,10 +135,10 @@ subroutine ists_ass_parith(fskyi, isky, nisky, lskyi, nfskyi, load_arr, node_arr
   integer,       intent(in)    :: outp_v4                                 !< OUTP_V(4) output flag (/SCR16/)
   integer,       intent(in)    :: n_vect_cont                             !< H3D contact vector count
   integer,       intent(inout) :: nisky                                   !< global sky slot counter (/PARIT/ NISKY)
-  integer,       intent(inout) :: isky(*)                                 !< sky slot to node id map
+  integer,       intent(inout) :: isky(lskyi)                             !< sky slot to node id map
   real(kind=WP), intent(inout) :: fskyi(lskyi, nfskyi)                    !< sky force array (fx/fy/fz/stiff/...)
-  real(kind=WP), intent(inout) :: fcont(3, *)                             !< contact forces, size numnod
-  real(kind=WP), intent(in)    :: load_arr(max_sts_size_actual, 8, 4)     !< per-pair load: (pairs, 8 nodes, fx/fy/fz/stiff)
+  real(kind=WP), intent(inout) :: fcont(3, numnod)                       !< contact forces, size numnod
+  real(kind=WP), intent(in)    :: load_arr(max_sts_size_actual, 8, 4)     !< per-pair load array
   integer,       intent(in)    :: node_arr(max_sts_size_actual * 8)       !< node id array, 8 ids per pair
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

@@ -80,7 +80,7 @@
 !=======================================================================
         SUBROUTINE ISTS_STS_SKIP_TICK(NIN, DO_SKIP)
           INTEGER, INTENT(IN) :: NIN
-          LOGICAL, INTENT(OUT) :: DO_SKIP
+          LOGICAL, INTENT(INOUT) :: DO_SKIP
 
           DO_SKIP = .FALSE.
           IF (NIN <= 0) RETURN

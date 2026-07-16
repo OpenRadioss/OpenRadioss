@@ -68,9 +68,9 @@
 !C     Q1NP_WTAB - weights array (output: all 1.0 for non-rational)
 !C     NWEIGHT_MAX- maximum number of weights available in Q1NP_WTAB
           integer, intent(in) :: nx, ny, p, q
-          integer, intent(out) :: ncp_u, ncp_v
+          integer, intent(inout) :: ncp_u, ncp_v
           integer, intent(in) :: nweight_max
-          real(kind=WP), intent(out) :: q1np_ktab(:), q1np_wtab(:)
+          real(kind=WP), intent(inout) :: q1np_ktab(:), q1np_wtab(:)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------

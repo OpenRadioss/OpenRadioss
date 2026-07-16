@@ -53,7 +53,7 @@
           integer,                   intent(in)    :: nrhs
           real(kind=WP),             intent(inout) :: a(lda, n)
           real(kind=WP),             intent(in)    :: b(lda, nrhs)
-          real(kind=WP),             intent(out)   :: x(lda, nrhs)
+          real(kind=WP),             intent(inout)   :: x(lda, nrhs)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------

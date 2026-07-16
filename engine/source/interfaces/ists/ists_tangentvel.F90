@@ -12,9 +12,9 @@
       use sts_gp_state_mod
       implicit none
 
-      integer, intent(in)  :: gp_index
-      real*8,  intent(out) :: xi1_guess, xi2_guess
-      logical, intent(out) :: have_guess
+      integer, intent(in)    :: gp_index
+      real*8,  intent(inout) :: xi1_guess, xi2_guess
+      logical, intent(inout) :: have_guess
 
       have_guess = .false.
       xi1_guess  = 0.d0
@@ -47,9 +47,9 @@
       use sts_gp_state_mod
       implicit none
 
-      real*8,  intent(in)  :: xi1, xi2
-      integer, intent(in)  :: gp_index
-      real*8,  intent(out) :: dxi1, dxi2
+      real*8,  intent(in)    :: xi1, xi2
+      integer, intent(in)    :: gp_index
+      real*8,  intent(inout) :: dxi1, dxi2
 
       real*8  xi1_prev_local, xi2_prev_local
       real*8, parameter :: tol = 1.0d-6
@@ -118,8 +118,8 @@
 
       implicit none
 
-      real*8, intent(in)  :: v_tang(3), rhoxi1(3), rhoxi2(3), dt
-      real*8, intent(out) :: slip1, slip2
+      real*8, intent(in)    :: v_tang(3), rhoxi1(3), rhoxi2(3), dt
+      real*8, intent(inout) :: slip1, slip2
 
       real*8 :: s(3)
 
@@ -141,17 +141,18 @@
 !   Relative tangential velocity at a contact GP
 !   (secondary minus primary, projected onto tangent plane).
 !-----------------------------------------------
-      subroutine sts_gp_tangential_velocity(N_xi, N_eta, node_ids, V, &
+      subroutine sts_gp_tangential_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &     norm_contact, v_tang)
 
-#include      "my_real.inc"
+     use precision_mod, only : WP
       implicit none
 
-      real*8  N_xi(3,4), N_eta(3,4)
-      integer node_ids(8)
-      my_real V(3,*)
-      real*8  norm_contact(3)
-      real*8  v_tang(3)
+      real*8,  intent(in)    :: N_xi(3,4), N_eta(3,4)
+      integer, intent(in)    :: node_ids(8)
+      integer, intent(in)    :: numnod
+      real(kind=WP), intent(in) :: V(3,numnod)
+      real*8,  intent(in)    :: norm_contact(3)
+      real*8,  intent(inout) :: v_tang(3)
 
       integer j
       real*8  v_prim(3), v_sec(3), v_rel(3), v_n

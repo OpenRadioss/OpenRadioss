@@ -17,8 +17,8 @@
 !            shape(2,i): Derivatives w.r.t. xi1
 !            shape(3,i): Derivatives w.r.t. xi2
 !-----------------------------------------------
-      real*8  shape(3,4)
-      real*8  xi1, xi2
+      real*8, intent(inout) :: shape(3,4)
+      real*8, intent(in)    :: xi1, xi2
 !-----------------------------------------------
 !   Bilinear shape functions for quadrilateral element
 !-----------------------------------------------

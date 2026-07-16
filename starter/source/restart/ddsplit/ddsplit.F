@@ -2824,7 +2824,7 @@ C--------------------------------------
       IF (NUMELQ1NP_G  > 0) THEN
         CALL W_Q1NP_INT(NUMELQ1NP_G ,NKQ1NP,KQ1NP_TAB,
      .                  IQ1NP_TAB,IQ1NP_BULK_TAB,NODLOCAL,CEL,
-     .                  CEP,P-1,NUMELS,NUMELS_L,LEN_IA)
+     .                  CEP,P-1,NUMELS,NUMELS_L,NUMNOD,LEN_IA)
       ENDIF
 C--------------------------------------
 C TAG_SKINS6 : used for /H3D/STRESS/TENS/OUTER

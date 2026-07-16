@@ -38,9 +38,9 @@
 !-----------------------------------------------------------------------
           implicit none
           integer, intent(in)    :: numnod_in
-          integer, intent(out)   :: numnod_out
+          integer, intent(inout)   :: numnod_out
           integer, intent(in)    :: numelq1np_in
-          integer, intent(out)   :: numnod_cp_added
+          integer, intent(inout)   :: numnod_cp_added
           integer, intent(inout) :: iq1np_tab(:)
           integer, intent(inout) :: kq1np_tab(:, :)
           real(kind=WP), intent(inout) :: x(:)

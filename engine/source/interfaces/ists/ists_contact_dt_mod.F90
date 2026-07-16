@@ -6,7 +6,7 @@
       MODULE ists_contact_dt_mod
 
       USE constant_mod
-      USE SCR18_R_MOD
+      USE PRECISION_MOD, ONLY : WP
       IMPLICIT NONE
 
       CONTAINS
@@ -19,16 +19,16 @@
 !-----------------------------------------------
 ! Compute the normal velocity between the primary and secondary surfaces
 !-----------------------------------------------
-      SUBROUTINE sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, &
+      SUBROUTINE sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &     norm_contact, v_n)
-#include      "my_real.inc"
       IMPLICIT NONE
 
       REAL*8, INTENT(IN)  :: N_xi(3,4), N_eta(3,4)
       INTEGER, INTENT(IN) :: node_ids(8)
-      my_real, INTENT(IN) :: V(3,*)
+      INTEGER, INTENT(IN) :: numnod
+      real(kind=WP), INTENT(IN) :: V(3,numnod)
       REAL*8, INTENT(IN)  :: norm_contact(3)
-      REAL*8, INTENT(OUT) :: v_n
+      REAL*8, INTENT(INOUT) :: v_n
 
       INTEGER :: j
       REAL*8  :: v_prim(3), v_sec(3), v_rel(3)
@@ -60,21 +60,22 @@
 !-----------------------------------------------
 ! Update the critical timestep limit (DT2T) for a contact GP
 !-----------------------------------------------
-      SUBROUTINE sts_gp_update_dt2t(node_ids, MS, d1, N_xi, N_eta, &
+      SUBROUTINE sts_gp_update_dt2t(node_ids, MS, numnod, d1, N_xi, N_eta, &
      &     area_weight, GAPV, PENE, V, norm_contact, NOINT, &
-     &     DT2T, NELTST, ITYPTST)
-#include      "my_real.inc"
+     &     DT2T, NELTST, ITYPTST, DTFAC1_10)
       IMPLICIT NONE
 
       INTEGER, INTENT(IN)    :: node_ids(8), NOINT
-      my_real, INTENT(IN)    :: MS(*)
+      INTEGER, INTENT(IN)    :: numnod
+      real(kind=WP), INTENT(IN)    :: MS(numnod)
       REAL*8, INTENT(IN)     :: d1, GAPV
       REAL*8, INTENT(IN)     :: N_xi(3,4), N_eta(3,4), area_weight
       REAL*8, INTENT(IN)     :: PENE
-      my_real, INTENT(IN)    :: V(3,*)
+      real(kind=WP), INTENT(IN)    :: V(3,numnod)
       REAL*8, INTENT(IN)     :: norm_contact(3)
-      my_real, INTENT(INOUT) :: DT2T
+      real(kind=WP), INTENT(INOUT) :: DT2T
       INTEGER, INTENT(INOUT) :: NELTST, ITYPTST
+      real(kind=WP), INTENT(IN)    :: DTFAC1_10
 
       INTEGER :: j, nid
       REAL*8  :: d1d, k_node, mas2, dt_stif, dt_kin, dt_gp, dist, v_n
@@ -93,7 +94,7 @@
         IF (nid > 0) THEN
           mas2 = TWO * DBLE(MS(nid))
           IF (mas2 > ZERO .AND. k_node > EM20) THEN
-            dt_stif = DTFAC1(10) * DSQRT(mas2 / k_node)
+            dt_stif = DTFAC1_10 * DSQRT(mas2 / k_node)
             dt_gp = MIN(dt_gp, dt_stif)
           ENDIF
         ENDIF
@@ -106,13 +107,13 @@
         IF (nid > 0) THEN
           mas2 = TWO * DBLE(MS(nid))
           IF (mas2 > ZERO .AND. k_node > EM20) THEN
-            dt_stif = DTFAC1(10) * DSQRT(mas2 / k_node)
+            dt_stif = DTFAC1_10 * DSQRT(mas2 / k_node)
             dt_gp = MIN(dt_gp, dt_stif)
           ENDIF
         ENDIF
       ENDDO
 
-      CALL sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, &
+      CALL sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &     norm_contact, v_n)
 
 !     PENE is the signed gap residual used by STS_CONTACT_EVAL_PAIR:

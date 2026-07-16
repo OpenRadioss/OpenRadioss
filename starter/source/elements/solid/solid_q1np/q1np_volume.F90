@@ -55,8 +55,8 @@
           integer,      intent(in)  :: kq1np_tab(:,:), iq1np_tab(:)
           integer,      intent(in)  :: iq1np_bulk_tab(:)
           real(kind=WP),intent(in)  :: q1np_ktab(:), x(:,:)
-          real(kind=WP),intent(out) :: vol_el
-          real(kind=WP),intent(out),optional :: detj_min_out
+          real(kind=WP),intent(inout) :: vol_el
+          real(kind=WP),intent(inout),optional :: detj_min_out
           real(kind=WP),intent(in), optional :: q1np_cptab_opt(:,:)
 !C-----------------------------------------------
 !C   L o c a l   V a r i a b l e s
