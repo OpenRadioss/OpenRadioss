@@ -111,7 +111,7 @@
           !< Number of tabulated hardening functions/tables
           ntab_hard = 1
           !< Number of variables used in tabulated hardening
-          nvartmp = 2
+          nvartmp = 3
           !< Flat extrapolation flag
           flat = min(max(flat,0),1)
           npar_hard = 1

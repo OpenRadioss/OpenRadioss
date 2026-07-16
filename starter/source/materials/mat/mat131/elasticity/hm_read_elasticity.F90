@@ -76,6 +76,7 @@
           use hm_read_elasticity_viscous_isotropic_mod
           use hm_read_elasticity_temp_isotropic_mod
           use hm_read_elasticity_bimod_isotropic_mod
+          use hm_read_elasticity_plas_isotropic_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -163,6 +164,16 @@
               ikey     ,ielas    ,nupar_elas,upar_elas,is_available,           &
               unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,           &
               is_encrypted,mat_id,titr      )
+          !=====================================================================
+          !< Plastic strain-dependent isotropic elasticity parameters
+          !=====================================================================
+          elseif (type(1:14) == 'PLAS_ISOTROPIC') then
+            call hm_read_elasticity_plas_isotropic(                            &
+              ikey     ,ielas    ,nupar_elas,is_available,                     &
+              unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,           &
+              is_encrypted,mat_id,titr      ,ntab_elas,itab_elas   ,           &
+              x2vect   ,x3vect   ,x4vect    ,fscale   ,nvartmp     ,           &
+              nuvar_elas,upar_elas)
           endif
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity

@@ -233,7 +233,7 @@
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
           dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
-          temp     )
+          temp     ,pla      )
 !
         !=======================================================================
         !< - Computation of the initial yield stress

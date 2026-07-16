@@ -45,7 +45,7 @@
 !||====================================================================
       subroutine work_hardening_tabulated(                                     &
         matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,nvartmp  ,&
-        vartmp   ,offset   )
+        vartmp   ,offset   ,temp     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -69,11 +69,12 @@
         integer,                         intent(in)    :: nvartmp    !< Number of variables used in tabulated hardening
         integer, dimension(nel,nvartmp), intent(inout) :: vartmp     !< Temporary variables for tabulated hardening
         integer,                         intent(in)    :: offset     !< Offset in the material parameters array for work hardening parameters
+        real(kind=WP),   dimension(nel), intent(in)    :: temp       !< Temperature
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
         integer :: offset_tab,offset_var,ndim
-        real(kind=WP) :: xvec(nel,2)
+        real(kind=WP) :: xvec(nel,3)
         logical :: flag_extrap
 !===============================================================================
 !
@@ -88,6 +89,7 @@
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = pla(1:nel)
         xvec(1:nel,2) = epsd(1:nel)
+        xvec(1:nel,3) = temp(1:nel)
         !< Interpolate to get sigy and dsigy_dpla
         call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
           vartmp(1:nel,offset_var+1:offset_var+ndim),xvec(1:nel,1:ndim),       &

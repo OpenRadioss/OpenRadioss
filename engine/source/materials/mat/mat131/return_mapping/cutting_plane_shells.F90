@@ -218,17 +218,17 @@
             off(1:nel) = off(1:nel)*four_over_5
           end where
 !
-          !=======================================================================
-          !< - Computation of the elastic trial stress tensor
-          !=======================================================================
-          call elasto_plastic_trial_stress(                                      &
-            matparam ,nel      ,soundsp  ,cstf     ,young    ,rho      ,         &
-            depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
-            sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
-            signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
-            eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-            dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
-            temp     )
+        !=======================================================================
+        !< - Computation of the elastic trial stress tensor
+        !=======================================================================
+        call elasto_plastic_trial_stress(                                      &
+          matparam ,nel      ,soundsp  ,cstf     ,young    ,rho      ,         &
+          depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
+          sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
+          signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
+          eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
+          dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
+          temp     ,pla      )
 !
           !=======================================================================
           !< - Computation of the initial yield stress

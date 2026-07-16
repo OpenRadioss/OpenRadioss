@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 2026 Siemens
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -15,42 +15,22 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Simcenter Radioss Software
+!Copyright>        Commercial Alternative: Altair Radioss Software
 !Copyright>
-!Copyright>        As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
-!Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
-!Copyright>        commercial version may interest you: 
-!Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    hm_read_elasticity_temp_isotropic_mod   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_elasticity                      ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
-!||====================================================================
-      module hm_read_elasticity_temp_isotropic_mod
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module hm_read_elasticity_plas_isotropic_mod
         implicit none
-! \brief Read temperature-dependent isotropic elasticity input data for /MAT/LAW131
-! \details Read the temperature-dependent isotropic elasticity model
+! \brief Read plastic strain dependent isotropic elasticity input data for /MAT/LAW131
+! \details Read the plastic strain dependent isotropic elasticity model
 !          parameters for /MAT/LAW131 (elasto-plastic material law).
       contains
-!||====================================================================
-!||    hm_read_elasticity_temp_isotropic   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_elasticity                  ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                              ../starter/source/output/message/message.F
-!||    hm_get_float_array_index            ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-!||    hm_get_int_array_index              ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-!||--- uses       -----------------------------------------------------
-!||    elbuftag_mod                        ../starter/share/modules1/elbuftag_mod.F
-!||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod                         ../starter/share/message_module/message_mod.F
-!||    submodel_mod                        ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-        subroutine hm_read_elasticity_temp_isotropic(                          &
+        subroutine hm_read_elasticity_plas_isotropic(                          &
           ikey     ,ielas    ,nupar_elas,is_available,                         &
           unitab   ,lsubmodel,matparam ,parmat    ,iout        ,is_encrypted,  &
           mat_id   ,titr     ,ntab_elas,itab_elas ,x2vect      ,x3vect      ,  &
-          x4vect   ,fscale   ,nvartmp  ,mtag      ,nuvar_elas  )
+          x4vect   ,fscale   ,nvartmp  ,nuvar_elas,upar_elas   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -88,23 +68,23 @@
           real(kind=WP),dimension(100),intent(inout) :: x4vect            !< x4 scale factor for tabulated elasticity
           real(kind=WP),dimension(100),intent(inout) :: fscale            !< y scale factor for tabulated elasticity
           integer,                 intent(inout) :: nvartmp               !< Number of temporary variables used in tabulated elasticity
-          type(mlaw_tag_),         intent(inout) :: mtag                  !< Material tag for internal variables in element buffer
           integer,                 intent(inout) :: nuvar_elas            !< Number of user variables for elasticity
+          real(kind=WP),dimension(100),intent(inout) :: upar_elas         !< Elastic parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          integer :: fct_id_heat,fct_id_cool,fct_id_nu
-          real(kind=WP) :: young,nu
+          integer :: fct_id_e
+          real(kind=WP) :: young,nu,einf,ce
 !===============================================================================
 ! 
           !=====================================================================
-          !< Elastic temperature-dependent isotropic parameters
+          !< Elastic plastic straindependent isotropic parameters
           !=====================================================================
-          call hm_get_float_array_index("ELAS_TEMP_E"    ,young      ,ikey,is_available,lsubmodel,unitab)
-          call hm_get_float_array_index("ELAS_TEMP_NU"   ,nu         ,ikey,is_available,lsubmodel,unitab)
-          call hm_get_int_array_index  ("ELAS_TEMP_FCTH" ,fct_id_heat,ikey,is_available,lsubmodel)
-          call hm_get_int_array_index  ("ELAS_TEMP_FCTC" ,fct_id_cool,ikey,is_available,lsubmodel)
-          call hm_get_int_array_index  ("ELAS_TEMP_FCTN" ,fct_id_nu  ,ikey,is_available,lsubmodel)
+          call hm_get_float_array_index("ELAS_PLAS_E"    ,young      ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_PLAS_NU"   ,nu         ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_PLAS_EINF" ,einf       ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_PLAS_CE"   ,ce         ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_int_array_index  ("ELAS_PLAS_FCTE" ,fct_id_e   ,ikey,is_available,lsubmodel)
           !< Check parameters values
           if (nu < zero .or. nu >= half) then
             call ancmsg(msgid=3131,                                            &
@@ -113,7 +93,7 @@
                         i1=mat_id,                                             &
                         c1="ERROR",                                            &
                         c2=titr,                                               &
-                        c3="ELAS_TEMP_ISOTROPIC",                              &
+                        c3="ELAS_PLAS_ISOTROPIC",                              &
                         c4="POISSON'S RATIO MUST BE IN THE RANGE [0,0.5[.")
           endif
           !< Fill MATPARAM values
@@ -128,46 +108,52 @@
           parmat(16) = 2
           parmat(17) = (one - two*nu)/(one - nu)
           !< Elasticity type
-          ielas = 5
+          ielas = 7
           !< Number of parameters
-          nupar_elas = 0
-          !< Number of variables used in tabulated viscous elasticity
-          nvartmp = 3
+          nupar_elas = 2
+          !< Number of variables used in tabulated plastic strain dependent elasticity
+          nvartmp = 1
           !< Number of tables used in elasticity
-          ntab_elas = 3
+          ntab_elas = 1
           !< Number of user variables for elasticity
-          nuvar_elas = 3
+          nuvar_elas = 1
           !< Save table id
-          itab_elas(1) = fct_id_heat
-          itab_elas(2) = fct_id_cool
-          itab_elas(3) = fct_id_nu
+          itab_elas(1) = fct_id_e
           !< Save scale factors
-          x2vect(1:3) = one
-          x3vect(1:3) = one
-          x4vect(1:3) = one
-          fscale(1:2) = young
-          fscale(3)   = nu 
-          !< Set temperature variable tag
-          if (mtag%g_temp == 0) mtag%g_temp = 1
-          if (mtag%l_temp == 0) mtag%l_temp = 1
-          !< Activate heat source calculation in material
-          if (matparam%heat_flag == 0) matparam%heat_flag = 1
+          x2vect(1) = one
+          x3vect(1) = one
+          x4vect(1) = one
+          fscale(1) = young
+          !< Save elastic parameters
+          upar_elas(1) = einf
+          upar_elas(2) = ce
           !< Printing elastic parameters
           if (is_encrypted) then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
-            write(iout,1000) young,nu,fct_id_heat,fct_id_cool,fct_id_nu
+            write(iout,1000) young,nu
+            if (fct_id_e > 0) then 
+              write(iout,2000) fct_id_e
+            else
+              write(iout,2001) einf,ce
+            endif
           endif
 ! ------------------------------------------------------------------------------
 1000 format(/                                                                  &
           5X,"-------------------------------------------------------",/       &
-          5X,"TEMPERATURE DEPENDENT ISOTROPIC ELASTICITY             ",/,      &
+          5X,"PLASTIC STRAIN DEPENDENT ISOTROPIC ELASTICITY          ",/,      &
           5X,"-------------------------------------------------------",/,      &
-          5X,"YOUNG MODULUS (E). . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,'FUNCTION E(T) (HEATING) ID . . . . . . . . . . . . . .=',I10/    &
-          5X,'FUNCTION E(T) (COOLING) ID . . . . . . . . . . . . . .=',I10/    &
-          5X,'FUNCTION NU(T) ID. . . . . . . . . . . . . . . . . . .=',I10/)
+          5X,"INITIAL YOUNG MODULUS (E). . . . . . . . . . . . . . .=",1PG20.13/&
+          5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13)
+2000 format(/                                                                  &
+          5X,"TABULATED DEPENDENCY                                   ",/,      &
+          5X,"--------------------                                   ",/,      &
+          5X,"FUNCTION E(PLASTIC STRAIN) ID. . . . . . . . . . . . .=",I10/)
+2001 format(/                                                                  &
+          5X,"ANALYTICAL EXPONENTIAL DEPENDENCY                      ",/,      &
+          5X,"---------------------------------                      ",/,      &
+          5X,"SATURATED YOUNG MODULUS (EINF) . . . . . . . . . . . .=",1PG20.13/&
+          5X,"YOUNG MODULUS SATURATION RATE (CE) . . . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
-        end subroutine hm_read_elasticity_temp_isotropic
-      end module hm_read_elasticity_temp_isotropic_mod
+        end subroutine hm_read_elasticity_plas_isotropic
+      end module hm_read_elasticity_plas_isotropic_mod

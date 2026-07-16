@@ -152,7 +152,7 @@
           case(3)
             call work_hardening_tabulated(                                     &
               matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,    &
-              nvartmp  ,vartmp   ,offset   )
+              nvartmp  ,vartmp   ,offset   ,temp     )
           !---------------------------------------------------------------------
           !< Linear-Voce work hardening
           !---------------------------------------------------------------------
