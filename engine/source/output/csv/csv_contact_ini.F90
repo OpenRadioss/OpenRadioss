@@ -1,0 +1,107 @@
+!||====================================================================
+!||    csv_contact_ini_mod   ../engine/source/output/csv/csv_contact_ini.F90
+!||--- called by ------------------------------------------------------
+!||    sortie_main           ../engine/source/output/sortie_main.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+!||    q1np_restart_mod      ../common_source/modules/q1np_restart_mod.F90
+!||    sts_voxel_driver_mod  ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||====================================================================
+!! \brief Delete stale contact-force CSV output files at engine startup
+!! \details Removes leftover STS/NTS/Q1NP contact-force CSV files from a
+!!          previous run so that the current run starts appending to clean
+!!          output files. The set of files to remove depends on the active
+!!          interfaces:
+!!          - q1np_contact_forces.csv when Q1NP contact is active
+!!          - sts_contact_forces.csv / nts_contact_forces.csv otherwise,
+!!            depending on the availability of the STS voxel driver data.
+!!          The cleanup is performed only once, on the first call, and the
+!!          caller is responsible for restricting the call to the master
+!!          process (ISPMD == 0).
+module csv_contact_ini_mod
+  implicit none
+contains
+
+! ======================================================================================================================
+!                                                   PROCEDURES
+! ======================================================================================================================
+
+!! \brief Delete stale contact-force CSV files left over from a previous run
+subroutine csv_contact_ini(ipari, npari, ninter, igrsurf, nsurf)
+
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   MODULES
+! ----------------------------------------------------------------------------------------------------------------------
+  use GROUPDEF_MOD, only : surf_
+  use Q1NP_RESTART_MOD, only : numelq1np_g, q1np_nknot_sets_g, kq1np_tab
+  use STS_VOXEL_DRIVER_MOD, only : sts_voxel_driver_data_ready
+
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   IMPLICIT NONE
+! ----------------------------------------------------------------------------------------------------------------------
+  implicit none
+
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   ARGUMENTS
+! ----------------------------------------------------------------------------------------------------------------------
+  integer,     intent(in) :: npari               !< Leading dimension of IPARI
+  integer,     intent(in) :: ninter              !< Number of interfaces
+  integer,     intent(in) :: nsurf               !< Number of surfaces
+  integer,     intent(in) :: ipari(npari,ninter) !< Interface parameter array
+  type(surf_), intent(in) :: igrsurf(nsurf)      !< Surface groups
+
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   LOCAL VARIABLES
+! ----------------------------------------------------------------------------------------------------------------------
+  logical, parameter :: i7sts = .true.  ! STS voxel driver preferred over NTS for INT7
+  logical, save      :: first = .true.  ! Ensures the cleanup runs only once
+  logical :: sts, nts, q1, q1on, vox
+  integer :: ni, nt7, id, si, mi
+
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   BODY
+! ----------------------------------------------------------------------------------------------------------------------
+  if (.not. first) return
+  first = .false.
+
+  sts = .false.
+  nts = .false.
+  q1on = numelq1np_g > 0 .and. q1np_nknot_sets_g >= 2 .and. allocated(kq1np_tab)
+  q1 = q1on
+
+  ! Determine which STS/NTS CSV files may exist when Q1NP is not active
+  if (.not. q1on) then
+    do ni = 1, ninter
+      if (ipari(33, ni) == 1) cycle
+      nt7 = ipari(7, ni)
+      if (nt7 /= 7) cycle
+      id = ipari(15, ni)
+      vox = sts_voxel_driver_data_ready(igrsurf, nsurf, id, .false., si, mi)
+      if (i7sts .and. vox) sts = .true.
+      if (.not. i7sts .or. .not. vox) nts = .true.
+    end do
+  end if
+
+  ! Remove the stale CSV files for the active contact families
+  if (sts) call delete_file_if_exists('sts_contact_forces.csv')
+  if (nts) call delete_file_if_exists('nts_contact_forces.csv')
+  if (q1)  call delete_file_if_exists('q1np_contact_forces.csv')
+
+contains
+
+  !! \brief Delete a file if it exists, ignoring I/O errors
+  subroutine delete_file_if_exists(fname)
+    character(len=*), intent(in) :: fname
+    logical :: fex
+    integer :: lu, ioa, iob
+    inquire(file=fname, exist=fex)
+    if (fex) then
+      open(newunit=lu, file=fname, status='old', iostat=ioa)
+      if (ioa == 0) close(unit=lu, status='delete', iostat=iob)
+    end if
+  end subroutine delete_file_if_exists
+
+! ----------------------------------------------------------------------------------------------------------------------
+end subroutine csv_contact_ini
+
+end module csv_contact_ini_mod

@@ -99,7 +99,7 @@ C-----------------------------------------------
      .    FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM7I2,IPRINT,
      .    INTFRIC,IASSIGN,IGAP_TYPE19,IRSTH,IDEL7N,
      .    ICURV,IFRICTH,NA1,NA2,IFORM,IADM,NRADM,FIELD6,ITIED,
-     .    IB1,IB2,IB3,ISU1,ISU2,ISU3,NTYP0,N1D,ISU2_USER
+     .    IB1,IB2,IB3,ISU1,ISU2,ISU3,NTYP0,N1D,ISU2_USER, ISTS
       my_real
      .   FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
      .   GAPSCALE,GAPMAX,STMIN,STMAX,PADM, ANGLADM, CADM,
@@ -235,6 +235,7 @@ C--------------------------------------------------
       CALL HM_GET_INTV('Iadm',IADM,IS_AVAILABLE,LSUBMODEL)
 C
       CALL HM_GET_INTV('Itied',ITIED,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Ists',ISTS,IS_AVAILABLE,LSUBMODEL)
 C
       CALL HM_GET_INTV('IKREM',FLAGREMNOD,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ICOG',IREM7I2,IS_AVAILABLE,LSUBMODEL)
@@ -393,9 +394,16 @@ C
         INGR2USR => IGRSURF(1:NSURF)%ID
         ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
         IF(ISU1/=0)THEN
-          INGR2USR => IGRNOD(1:NGRNOD)%ID
-          ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)
-          IS1 =2
+          IF (ISTS ==0) THEN
+            INGR2USR => IGRNOD(1:NGRNOD)%ID
+            ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)
+            IS1 =2
+          ELSE
+C--         surface_to_surface contact - surf is red instead of grnod          
+            INGR2USR => IGRSURF(1:NSURF)%ID
+            IS1=1
+            ISU1=NGR2USR(ISU1,INGR2USR,NSURF)
+          ENDIF  
         ENDIF
 
         IF (INTTH > 0 ) INTHEAT = 1
@@ -487,6 +495,7 @@ C
 
         IPARI(85)=ITIED
         FRIGAP(27) = FPENMAX
+        IPARI(105) = ISTS
 C
 C....* Card3  *.............
 C

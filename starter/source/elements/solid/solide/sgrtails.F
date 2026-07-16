@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE ALE_MOD , ONLY : ALE
       use element_mod , only : nixs
+      USE Q1NP_RESTART_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -131,8 +132,10 @@ C-----------------------------------------------
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
      .   IPERT,STAT,ITSH,IT10,ICPT10,JALE_FROM_MAT,JALE_FROM_PROP,IDAMP_FREQ_RANGE
-       DATA IPMAT /100/
-       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
+      INTEGER :: I_Q1NP_GROUP
+      DATA IPMAT /100/
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INUM_Q1NP
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER :: CLUSTER_TYP,CLUSTER_NEL
@@ -156,6 +159,11 @@ C
      .                           C1='XNUM_RNOISE')
       ELSE
         call my_alloc(XNUM_RNOISE, 0, 0, "XNUM_RNOISE")
+      ENDIF
+C
+      IF (NUMELQ1NP_G > 0) THEN
+        CALL MY_ALLOC(INUM_Q1NP,NUMELS,"INUM_Q1NP")
+        INUM_Q1NP(1:NUMELS) = 0
       ENDIF
 C
 C Phase 1: Domain Decomposition
@@ -208,6 +216,12 @@ C
             INUM(16,I)=SOL2SPH_TYP(NFT+I)
           ENDDO
         END IF
+
+        IF (NUMELQ1NP_G > 0) THEN
+          DO I=1, NEL
+            INUM_Q1NP(I) = KQ1NP_TAB_INV(NFT+I)  
+          ENDDO
+        ENDIF
       
         IF(DOQA .NE. 0 .OR. IDDLEVEL == 0) THEN
           MODE=0
@@ -352,6 +366,19 @@ C rebuild SOL2SPH
             SOL2SPH_TYP(NFT+I)=INUM(16,INDEX(I))
           END DO
         END IF
+C
+!   Update KQ1NP_TAB based on the new order after sorting
+        IF (NUMELQ1NP_G > 0 .AND. ALLOCATED(KQ1NP_TAB_INV)) then
+          DO I=1,NEL
+            KQ1NP_TAB_INV(NFT+I)=INUM_Q1NP(INDEX(I))
+          ENDDO
+          DO  I=1,NEL
+            II = KQ1NP_TAB_INV(NFT+I)
+            IF (II > 0) THEN
+              KQ1NP_TAB(10,II) = NFT + I
+            ENDIF
+          ENDDO
+        ENDIF
 C
         P = CEP(NFT+INDEX(1))
         NB = 1
@@ -1465,6 +1492,14 @@ C-------
      .                      C1=TITR)
         ENDIF
 C-------------------------------------------------
+C Q1NP element group detection
+C-------------------------------------------------
+          I_Q1NP_GROUP = 0
+          IF (NUMELQ1NP_G > 0) THEN
+            IF (KQ1NP_TAB_INV(EADD(N)+NFT) > 0) I_Q1NP_GROUP = 1
+          ENDIF
+C
+C-------------------------------------------------
 C IPARG STORAGE
 C-------------------------------------------------
           IPARG(1,NGROUP) = MLN
@@ -1558,6 +1593,8 @@ c         non-local variable regularization flag for failure models
           IPARG(78,NGROUP) = MATPARAM%NLOC   ! NLOC_FAIL
 c         id of damping frequency range apply to group
           IPARG(93,NGROUP) = IDAMP_FREQ_RANGE
+c         tag for group of q1np elements
+          IPARG(94,NGROUP) = I_Q1NP_GROUP 
 C------------------------------------------------------
 C BUFFER LENGTH
 C------------------------------------------------------
@@ -1690,6 +1727,7 @@ C-----------
 c-----
       CALL MY_DEALLOC(INDEXS2)
       IF (ALLOCATED(XNUM_RNOISE)) CALL MY_DEALLOC(XNUM_RNOISE)
+      IF (ALLOCATED(INUM_Q1NP)) CALL MY_DEALLOC(INUM_Q1NP)
 c------------------------------------------------------------
  1010 FORMAT(//,
      + 7X,'8-NODE ELEMENT GROUPS'/

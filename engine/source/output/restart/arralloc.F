@@ -109,6 +109,7 @@ C-----------------------------------------------
       use rbe3_mod
       use rwall_mod
       use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
+      USE Q1NP_RESTART_MOD
       use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -131,6 +132,8 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "couple_c.inc"
 #include      "warn_c.inc"
+#include      "sysunit.inc"
+#include      "units_c.inc"
 #include      "parit_c.inc"
 #include      "intstamp_c.inc"
 #include      "spmd_c.inc"
@@ -157,7 +160,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IERR0,IERROR, NBMAT,ISIZ1,ISIZ2
+      INTEGER IERR0, IERROR, NBMAT, ISIZ1, ISIZ2, NKQ1NP_LOC
 C-----------------------------------------------
       IERROR = 0
 C to avoid conflict with IERR in common
@@ -243,6 +246,85 @@ C       ISKEW = e
         ALLOCATE (IXR(SIXR),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         IXR = 0  
+
+C Q1Np element arrays
+        IF (NUMELQ1NP_G > 0) THEN
+          NKQ1NP_LOC = NKQ1NP_G
+          IF (NKQ1NP_LOC <= 0 .AND. SKQ1NP_G > 0) THEN
+            NKQ1NP_LOC = SKQ1NP_G / NUMELQ1NP_G
+          ENDIF
+          IF (NKQ1NP_LOC <= 0) THEN
+            WRITE(ISTDO,'(A)') 
+     .        ' ** ERROR: Invalid NKQ1NP dimension (<=0)'
+            GOTO 1000
+          ENDIF
+          IF (MOD(SKQ1NP_G,NUMELQ1NP_G) /= 0) THEN
+            WRITE(ISTDO,'(A,I10,A,I10)') 
+     .        ' ** WARNING: SKQ1NP_G=', SKQ1NP_G,
+     .        ' not divisible by NUMELQ1NP=', NUMELQ1NP_G
+          ENDIF
+          NKQ1NP_G = NKQ1NP_LOC
+          CALL MY_ALLOC(KQ1NP_TAB, NKQ1NP_G, NUMELQ1NP_G, 'KQ1NP_TAB', STAT=IERR)
+          IF (IERR/=0) GOTO 1000
+          KQ1NP_TAB = 0
+          
+          IF (SIQ1NP_G > 0) THEN
+            CALL MY_ALLOC(IQ1NP_TAB, SIQ1NP_G, 'IQ1NP_TAB', STAT=IERR)
+            IF (IERR/=0) GOTO 1000
+            IQ1NP_TAB = 0
+          ELSE
+            CALL MY_ALLOC(IQ1NP_TAB, 0, 'IQ1NP_TAB', STAT=IERR)
+          ENDIF
+          
+          IF (SQ1NPBULK_G > 0) THEN
+            CALL MY_ALLOC(IQ1NP_BULK_TAB, SQ1NPBULK_G, 'IQ1NP_BULK_TAB', STAT=IERR)
+            IF (IERR/=0) GOTO 1000
+            IQ1NP_BULK_TAB = 0
+          ELSE
+            CALL MY_ALLOC(IQ1NP_BULK_TAB, 0, 'IQ1NP_BULK_TAB', STAT=IERR)
+          ENDIF
+          
+          IF (SQ1NPWEIGHT_L_G > 0) THEN
+            CALL MY_ALLOC(Q1NP_WTAB, SQ1NPWEIGHT_L_G, 'Q1NP_WTAB', STAT=IERR)
+            IF (IERR/=0) GOTO 1000
+            Q1NP_WTAB = ZERO
+          ELSE
+            CALL MY_ALLOC(Q1NP_WTAB, 0, 'Q1NP_WTAB', STAT=IERR)
+          ENDIF
+          
+          IF (SQ1NPKNOT_L_G > 0) THEN
+            CALL MY_ALLOC(Q1NP_KTAB, SQ1NPKNOT_L_G, 'Q1NP_KTAB', STAT=IERR)
+            IF (IERR/=0) GOTO 1000
+            Q1NP_KTAB = ZERO
+          ELSE
+            CALL MY_ALLOC(Q1NP_KTAB, 0, 'Q1NP_KTAB', STAT=IERR)
+          ENDIF
+          
+          IF (SQ1NPCTRL_SHARED_G > 0) THEN
+            CALL MY_ALLOC(Q1NP_CPTAB, 3, SQ1NPCTRL_SHARED_G, 'Q1NP_CPTAB', STAT=IERR)
+            IF (IERR/=0) GOTO 1000
+            Q1NP_CPTAB = ZERO
+          ELSE
+            CALL MY_ALLOC(Q1NP_CPTAB, 3, 0, 'Q1NP_CPTAB', STAT=IERR)
+          ENDIF
+C         Q1NP inverse connectivity (local solid element -> Q1NP element)
+          IF (NUMELS > 0) THEN
+            ALLOCATE (KQ1NP_TAB_INV(NUMELS),STAT=IERR)
+            IF (IERR/=0) GOTO 1000
+            KQ1NP_TAB_INV = 0
+          ELSE
+            ALLOCATE (KQ1NP_TAB_INV(0),STAT=IERR)
+          ENDIF
+        ELSE
+          NKQ1NP_G = 0
+          CALL MY_ALLOC(KQ1NP_TAB, 0, 0, 'KQ1NP_TAB', STAT=IERR)
+          CALL MY_ALLOC(IQ1NP_TAB, 0, 'IQ1NP_TAB', STAT=IERR)
+          CALL MY_ALLOC(IQ1NP_BULK_TAB, 0, 'IQ1NP_BULK_TAB', STAT=IERR)
+          CALL MY_ALLOC(Q1NP_WTAB, 0, 'Q1NP_WTAB', STAT=IERR)
+          CALL MY_ALLOC(Q1NP_KTAB, 0, 'Q1NP_KTAB', STAT=IERR)
+          CALL MY_ALLOC(Q1NP_CPTAB, 3, 0, 'Q1NP_CPTAB', STAT=IERR)
+          ALLOCATE (KQ1NP_TAB_INV(0),STAT=IERR)
+        ENDIF
 
 C       ALLOCATE (ITAB(SITAB),STAT=IERR)
 C       IF (IERR/=0) GOTO 1000

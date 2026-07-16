@@ -1,0 +1,141 @@
+!||====================================================================
+!||    ists_contact_dt_mod  ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||--------------------------------------------------------------------
+!||  STS critical timestep limits (Phase 1, NTS i7for3 analog).
+!||====================================================================
+      MODULE ists_contact_dt_mod
+
+      USE constant_mod
+      USE SCR18_R_MOD
+      IMPLICIT NONE
+
+      CONTAINS
+
+!||====================================================================
+!||    sts_gp_normal_velocity  ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_gp_update_dt2t       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||====================================================================
+!-----------------------------------------------
+! Compute the normal velocity between the primary and secondary surfaces
+!-----------------------------------------------
+      SUBROUTINE sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, &
+     &     norm_contact, v_n)
+#include      "my_real.inc"
+      IMPLICIT NONE
+
+      REAL*8, INTENT(IN)  :: N_xi(3,4), N_eta(3,4)
+      INTEGER, INTENT(IN) :: node_ids(8)
+      my_real, INTENT(IN) :: V(3,*)
+      REAL*8, INTENT(IN)  :: norm_contact(3)
+      REAL*8, INTENT(OUT) :: v_n
+
+      INTEGER :: j
+      REAL*8  :: v_prim(3), v_sec(3), v_rel(3)
+
+      v_prim = 0.d0
+      v_sec  = 0.d0
+      DO j = 1, 4
+        v_prim(1) = v_prim(1) + N_xi(1,j)  * DBLE(V(1, node_ids(j)))
+        v_prim(2) = v_prim(2) + N_xi(1,j)  * DBLE(V(2, node_ids(j)))
+        v_prim(3) = v_prim(3) + N_xi(1,j)  * DBLE(V(3, node_ids(j)))
+        v_sec(1)  = v_sec(1)  + N_eta(1,j) * DBLE(V(1, node_ids(j+4)))
+        v_sec(2)  = v_sec(2)  + N_eta(1,j) * DBLE(V(2, node_ids(j+4)))
+        v_sec(3)  = v_sec(3)  + N_eta(1,j) * DBLE(V(3, node_ids(j+4)))
+      ENDDO
+
+      v_rel(1) = v_sec(1) - v_prim(1)
+      v_rel(2) = v_sec(2) - v_prim(2)
+      v_rel(3) = v_sec(3) - v_prim(3)
+
+      v_n = v_rel(1)*norm_contact(1) + v_rel(2)*norm_contact(2) &
+     &    + v_rel(3)*norm_contact(3)
+      END SUBROUTINE sts_gp_normal_velocity
+
+!||====================================================================
+!||    sts_gp_update_dt2t  ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||--- called by ------------------------------------------------------
+!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||====================================================================
+!-----------------------------------------------
+! Update the critical timestep limit (DT2T) for a contact GP
+!-----------------------------------------------
+      SUBROUTINE sts_gp_update_dt2t(node_ids, MS, d1, N_xi, N_eta, &
+     &     area_weight, GAPV, PENE, V, norm_contact, NOINT, &
+     &     DT2T, NELTST, ITYPTST)
+#include      "my_real.inc"
+      IMPLICIT NONE
+
+      INTEGER, INTENT(IN)    :: node_ids(8), NOINT
+      my_real, INTENT(IN)    :: MS(*)
+      REAL*8, INTENT(IN)     :: d1, GAPV
+      REAL*8, INTENT(IN)     :: N_xi(3,4), N_eta(3,4), area_weight
+      REAL*8, INTENT(IN)     :: PENE
+      my_real, INTENT(IN)    :: V(3,*)
+      REAL*8, INTENT(IN)     :: norm_contact(3)
+      my_real, INTENT(INOUT) :: DT2T
+      INTEGER, INTENT(INOUT) :: NELTST, ITYPTST
+
+      INTEGER :: j, nid
+      REAL*8  :: d1d, k_node, mas2, dt_stif, dt_kin, dt_gp, dist, v_n
+      REAL*8  :: shape_w
+      REAL*8, PARAMETER :: STS_DT_CLEAR_FRAC = 5.0D-4
+
+      d1d = DBLE(d1)
+      IF (d1d <= EM20) RETURN
+
+      dt_gp = 1.d20
+
+      DO j = 1, 4
+        shape_w = DABS(N_xi(1,j)) * area_weight
+        k_node = d1d * shape_w
+        nid = node_ids(j)
+        IF (nid > 0) THEN
+          mas2 = TWO * DBLE(MS(nid))
+          IF (mas2 > ZERO .AND. k_node > EM20) THEN
+            dt_stif = DTFAC1(10) * DSQRT(mas2 / k_node)
+            dt_gp = MIN(dt_gp, dt_stif)
+          ENDIF
+        ENDIF
+      ENDDO
+
+      DO j = 1, 4
+        shape_w = DABS(N_eta(1,j)) * area_weight
+        k_node = d1d * shape_w
+        nid = node_ids(j+4)
+        IF (nid > 0) THEN
+          mas2 = TWO * DBLE(MS(nid))
+          IF (mas2 > ZERO .AND. k_node > EM20) THEN
+            dt_stif = DTFAC1(10) * DSQRT(mas2 / k_node)
+            dt_gp = MIN(dt_gp, dt_stif)
+          ENDIF
+        ENDIF
+      ENDDO
+
+      CALL sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, &
+     &     norm_contact, v_n)
+
+!     PENE is the signed gap residual used by STS_CONTACT_EVAL_PAIR:
+!       PENE = current_clearance - GAPV
+!     The kinematic contact timestep must therefore use the remaining
+!     physical clearance, not GAPV - PENE. The old expression grew as
+!     penetration increased and delayed the timestep cut exactly when a
+!     Lobatto point was approaching zero clearance.
+      dist = DBLE(GAPV) + PENE
+      dist = MAX(EM10, dist)
+      IF (DABS(DBLE(GAPV)) > EM10) THEN
+        dist = MAX(dist, DABS(DBLE(GAPV)) * STS_DT_CLEAR_FRAC)
+      ENDIF
+      IF (v_n < ZERO) THEN
+        dt_kin = HALF * dist / MAX(EM30, -v_n)
+        dt_gp = MIN(dt_gp, dt_kin)
+      ENDIF
+
+      IF (dt_gp < DBLE(DT2T)) THEN
+        DT2T = dt_gp
+        NELTST = NOINT
+        ITYPTST = 10
+      ENDIF
+      END SUBROUTINE sts_gp_update_dt2t
+
+      END MODULE ists_contact_dt_mod

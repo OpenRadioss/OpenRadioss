@@ -34,11 +34,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2      CAND_P ,CAND_FX ,CAND_FY,CAND_FZ,
      3      CAND_A ,IFPEN   ,INACTI ,IFQ    ,
      4      NUM_IMP,IND_IMP ,STFNS  ,NIN    ,
-     5      NSNL   ,ITIED   ,CAND_F  )
+     5      NSNL   ,ITIED   ,CAND_F ,IPSTS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE ISTS_STS_BP_ALGO_MOD, ONLY : STS_BP_ALGO, STS_BP_ALGO_INT7_BUCKET
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_STOK,NSN,INACTI,IFQ,NUM_IMP,IND_IMP(*),
-     .        NIN, NSNL, ITIED
+     .        NIN, NSNL, ITIED, IPSTS
+C     IPSTS == 1 means that the STS is enabled.
+C     Passed with IPARI(105,NIN) on inter_trc_7.F.
       INTEGER CAND_N(*),CAND_E(*),CAND_A(*), IFPEN(*),
      .        CAND_T
 C     REAL
@@ -68,10 +71,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NN,K,NI,
      .        IGET(I_STOK),IPUT(I_STOK)
+      LOGICAL SKIP_I7TRC_WIPE
 C=======================================================================
 C
       DO 100 N=1,NSN+3
  100  CAND_A(N) = 0
+C=======================================================================
+C     Voxel + INT7_BUCKET broad-phase: keep CAND_N/CAND_E for STS_REMAP; do not
+C     apply INACTI/IFQ candidate wiping that would drop STS broad phase.
+C=======================================================================
+      SKIP_I7TRC_WIPE = IPSTS==1 .AND. STS_BP_ALGO==STS_BP_ALGO_INT7_BUCKET
+      IF (.NOT. SKIP_I7TRC_WIPE) THEN
 C=======================================================================
 C     LES NODES DELETES DEVIENNENT NSN+1 
 C=======================================================================
@@ -253,6 +263,7 @@ C
 
             CAND_N(I) = NSN+1
         ENDDO
+      ENDIF
       ENDIF
 C=======================================================================
 C     CAND_A : DENOMBREMENT DE CHAQUE NODE C     APRES 300 CAND_A[3:NSN+3] : occurrence DES NODES [1:NSN+1] 

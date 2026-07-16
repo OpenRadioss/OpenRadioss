@@ -226,6 +226,7 @@ C-----------------------------------------------
       use rwall_mod
       use restart_rwallpen_mod, only : write_rrwallpen
       use sfem_mod
+      USE Q1NP_RESTART_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1104,6 +1105,30 @@ C--------------------------------------
         CALL WRITE_I_C(IXIG3D,SIXIG3D)
       ENDIF
 C----------------------------------
+C Q1NP element integer arrays
+C----------------------------------
+      IF (NUMELQ1NP_G > 0) THEN
+        IF (SKQ1NP_G > 0) THEN
+          CALL WRITE_I_C(KQ1NP_TAB,SKQ1NP_G)
+        ENDIF
+        IF (SIQ1NP_G > 0) THEN
+          CALL WRITE_I_C(IQ1NP_TAB,SIQ1NP_G)
+        ENDIF
+        IF (SQ1NPBULK_G > 0) THEN
+          CALL WRITE_I_C(IQ1NP_BULK_TAB,SQ1NPBULK_G)
+        ENDIF
+        ITMP = MAX(0, Q1NP_NKNOT_SETS_G)
+        CALL WRITE_I_C(ITMP,1)
+        IF (Q1NP_NKNOT_SETS_G > 0) THEN
+          CALL WRITE_I_C(Q1NP_NX_SET_G,Q1NP_NKNOT_SETS_G)
+          CALL WRITE_I_C(Q1NP_NY_SET_G,Q1NP_NKNOT_SETS_G)
+          CALL WRITE_I_C(Q1NP_KTAB_OFF_G,Q1NP_NKNOT_SETS_G)
+          CALL WRITE_I_C(Q1NP_KTAB_LEN_G,Q1NP_NKNOT_SETS_G)
+        ENDIF
+C       Q1NP inverse connectivity (local solid element -> Q1NP element)
+        CALL WRITE_I_C(KQ1NP_TAB_INV,NUMELS)
+      ENDIF
+C----------------------------------
       CALL WRITE_I_C(TAG_SKINS6,NUMELS)
 C--------------------------------------
 C /BCS/CYCLIC
@@ -1753,6 +1778,21 @@ C
       IF (NDRAPE > 0) CALL DRAPE_WREST(DRAPE_SH4N  , DRAPE_SH3N,DRAPEG)
 C
       IF (NUMPLY > 0) CALL PLY_INFO_WREST(PLY_INFO)
+C
+C--------------------------------------
+C Q1NP element real arrays
+C--------------------------------------
+      IF (NUMELQ1NP_G > 0) THEN
+        IF (SQ1NPWEIGHT_L_G > 0) THEN
+          CALL WRITE_DB(Q1NP_WTAB,SQ1NPWEIGHT_L_G)
+        ENDIF
+        IF (SQ1NPKNOT_L_G > 0) THEN
+          CALL WRITE_DB(Q1NP_KTAB,SQ1NPKNOT_L_G)
+        ENDIF
+        IF (SQ1NPCTRL_SHARED_G > 0) THEN
+          CALL WRITE_DB(Q1NP_CPTAB,3*SQ1NPCTRL_SHARED_G)
+        ENDIF
+      ENDIF
 
       ! ---------------------------
       ! write the starter + engine elapsed time

@@ -219,6 +219,9 @@ C-----------------------------------------------
       use restart_rwallpen_mod, only : get_nrwallpen_l,read_rrwallpen
       use sfem_mod
       use dt_mod , only : dt_
+      USE Q1NP_RESTART_MOD
+      USE MY_ALLOC_MOD
+      USE MY_DEALLOC_MOD, ONLY : MY_DEALLOC
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1015,6 +1018,47 @@ C----------------------------------
       CALL READ_I_C(KXIG3D,SKXIG3D)
       CALL READ_I_C(IXIG3D,SIXIG3D)
 C----------------------------------
+C Q1Np element integer arrays
+C----------------------------------
+      IF (NUMELQ1NP_G > 0) THEN
+C Bounds validation
+        IF (SKQ1NP_G > 0) THEN
+          CALL READ_I_C(KQ1NP_TAB,SKQ1NP_G)
+        ENDIF
+        IF (SIQ1NP_G > 0) THEN
+          CALL READ_I_C(IQ1NP_TAB,SIQ1NP_G)
+        ENDIF
+        IF (SQ1NPBULK_G > 0) THEN
+          CALL READ_I_C(IQ1NP_BULK_TAB,SQ1NPBULK_G)
+        ENDIF
+
+C       Q1NP knot-set metadata (heterogeneous NX/NY support)
+        CALL READ_I_C(ITMP,1)
+        Q1NP_NKNOT_SETS_G = MAX(0, ITMP)
+        IF (Q1NP_NKNOT_SETS_G > 0) THEN
+          IF (ALLOCATED(Q1NP_NX_SET_G)) CALL MY_DEALLOC(Q1NP_NX_SET_G)
+          IF (ALLOCATED(Q1NP_NY_SET_G)) CALL MY_DEALLOC(Q1NP_NY_SET_G)
+          IF (ALLOCATED(Q1NP_KTAB_OFF_G)) CALL MY_DEALLOC(Q1NP_KTAB_OFF_G)
+          IF (ALLOCATED(Q1NP_KTAB_LEN_G)) CALL MY_DEALLOC(Q1NP_KTAB_LEN_G)
+
+          CALL MY_ALLOC(Q1NP_NX_SET_G, Q1NP_NKNOT_SETS_G, 'Q1NP_NX_SET_G')
+          CALL MY_ALLOC(Q1NP_NY_SET_G, Q1NP_NKNOT_SETS_G, 'Q1NP_NY_SET_G')
+          CALL MY_ALLOC(Q1NP_KTAB_OFF_G, Q1NP_NKNOT_SETS_G, 'Q1NP_KTAB_OFF_G')
+          CALL MY_ALLOC(Q1NP_KTAB_LEN_G, Q1NP_NKNOT_SETS_G, 'Q1NP_KTAB_LEN_G')
+
+          CALL READ_I_C(Q1NP_NX_SET_G,Q1NP_NKNOT_SETS_G)
+          CALL READ_I_C(Q1NP_NY_SET_G,Q1NP_NKNOT_SETS_G)
+          CALL READ_I_C(Q1NP_KTAB_OFF_G,Q1NP_NKNOT_SETS_G)
+          CALL READ_I_C(Q1NP_KTAB_LEN_G,Q1NP_NKNOT_SETS_G)
+
+         ! Keep legacy single-grid view compatible with existing code paths.
+          Q1NP_NX_G = Q1NP_NX_SET_G(1)
+          Q1NP_NY_G = Q1NP_NY_SET_G(1)
+        ENDIF
+C       Q1NP inverse connectivity (local solid element -> Q1NP element)
+        CALL READ_I_C(KQ1NP_TAB_INV,NUMELS)
+      ENDIF
+C----------------------------------
       CALL READ_I_C(TAG_SKINS6,NUMELS)
 C----------------------------------
 C /BCS/CYCLIC
@@ -1711,6 +1755,29 @@ C--------------------------------------
       ENDIF
 
       IF (NUMPLY > 0) CALL PLY_INFO_REST(PLY_INFO)
+
+C--------------------------------------
+C Q1Np element real arrays
+C--------------------------------------
+      IF (NUMELQ1NP_G > 0) THEN
+C Read real arrays
+        IF (SQ1NPWEIGHT_L_G > 0) THEN
+          CALL READ_DB(Q1NP_WTAB,SQ1NPWEIGHT_L_G)
+        ENDIF
+        IF (SQ1NPKNOT_L_G > 0) THEN
+          CALL READ_DB(Q1NP_KTAB,SQ1NPKNOT_L_G)
+        ENDIF
+        IF (SQ1NPCTRL_SHARED_G > 0) THEN
+          CALL READ_DB(Q1NP_CPTAB,3*SQ1NPCTRL_SHARED_G)
+        ENDIF
+C       Bind Q1NP_KTAB_G pointer to Q1NP_KTAB so engine-side helpers
+C       that still test ASSOCIATED(Q1NP_KTAB_G) see a valid target.
+        IF (ALLOCATED(Q1NP_KTAB) .AND. SIZE(Q1NP_KTAB) > 0) THEN
+          Q1NP_KTAB_G => Q1NP_KTAB
+        ELSE
+          Q1NP_KTAB_G => NULL()
+        ENDIF
+      ENDIF
 
       !       read the starter elapsed time
       CALL READ_DPDB(GLOBAL_COMP_TIME%STARTER_TIME,1)

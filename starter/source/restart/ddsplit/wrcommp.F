@@ -95,6 +95,7 @@ C-----------------------------------------------
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
+      USE Q1NP_RESTART_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -159,6 +160,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
+#include      "units_c.inc"
 #include      "com09_c.inc"
 #include      "com10_c.inc"
 #include      "com_xfem1.inc"
@@ -1566,6 +1568,33 @@ C
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = SENSORS%STABSEN
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=NUMELQ1NP_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=SKQ1NP_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=SIQ1NP_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=SQ1NPBULK_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=SQ1NPCTRL_SHARED_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=SQ1NPWEIGHT_L_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=SQ1NPKNOT_L_G
+C Validation: verify Q1Np data is being written
+      IF (NUMELQ1NP_G > 0) THEN
+        WRITE(IOUT,'(A)') ' ** Q1Np RESTART WRITE VALIDATION:'
+        WRITE(IOUT,'(A,I10)') '    NUMELQ1NP = ', NUMELQ1NP_G
+        WRITE(IOUT,'(A,I10)') '    SKQ1NP_G = ', SKQ1NP_G
+        WRITE(IOUT,'(A,I10)') '    SIQ1NP_G = ', SIQ1NP_G
+        WRITE(IOUT,'(A,I10)') '    SQ1NPBULK_G = ', SQ1NPBULK_G
+        WRITE(IOUT,'(A,I10)') '    SQ1NPCTRL_SHARED_G = ', SQ1NPCTRL_SHARED_G
+        WRITE(IOUT,'(A,I10)') '    SQ1NPWEIGHT_L_G = ', SQ1NPWEIGHT_L_G
+        WRITE(IOUT,'(A,I10)') '    SQ1NPKNOT_L_G = ', SQ1NPKNOT_L_G
+        WRITE(IOUT,'(A,I10,A,I10)') 
+     .    '    TABVINT indices: ', LVARINT-6, ' to ', LVARINT
+      ENDIF
 C Stack info
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IPART_STACK 

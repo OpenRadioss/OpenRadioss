@@ -246,6 +246,8 @@ C-----------------------------------------------
       use init_rwall_penalty_mod , only : init_rwall_penalty
       use ush_init_mod , only : ush_init
       use ini_guided_cable_mod, ONLY : ini_guided_cable 
+      USE Q1NP_RESTART_MOD
+      USE Q1NP_INIT_MOD
       use rini135_rb_mod
       use my_alloc_mod
       use rbody_spring_check_mod, ONLY : rbody_spring_check
@@ -2169,6 +2171,14 @@ C----------------------------------------------------------------
          WRITE(IOUT,1700)
          WRITE(IOUT,'(5(I10,1X,1PG20.13))') (ITAB(I),MCP(I),I=1,NUMNOD)
         ENDIF
+      ENDIF
+C---------------------------------------------
+C     Q1Np enriched element mass calculation
+C---------------------------------------------
+      IF (NUMELQ1NP_G > 0) THEN
+        CALL Q1NP_INIT(IPARG, ELBUF_TAB, X, V, MS, MSSA, PARTSAV, PM,
+     .                 NUMNOD, NUMELS, NPART, NPROPM, NUMMAT, NGROUP, NPARG,
+     .                 SFILL, IREST_MSELT)
       ENDIF
 C-------------------------------------
 C Mass and Inertia by parts
