@@ -75,6 +75,7 @@ C-----------------------------------------------
       use RWALL_MOD                    !< RWALL type
       use output_mod
       use sfem_mod
+      USE Q1NP_RESTART_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,6 +126,7 @@ C-----------------------------------------------
       DO I=1,LMXVINT
         TABVINT(I)=0
       ENDDO
+      CALL RESET_Q1NP_STATE()
 C-----------------------------------------------
 C     Read Restart File
 C-----------------------------------------------
@@ -176,6 +178,7 @@ C     STARTER INPUT VERSION
 C
       LVARINT= TABHEAD(14)
       LVARREA= TABHEAD(15)
+      CALL SET_Q1NP_TABVINT_LEN(LVARINT)
 C ------------------------------------------
 
       IF(LVARINT>LMXVINT)THEN

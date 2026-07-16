@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P       PSKIDS    ,T2MAIN_SMS ,FORNEQS    ,KNOTLOCPC,KNOTLOCEL,
      Q       APINCH    ,STIFPINCH   ,T2FAC_SMS ,TAGNCONT ,
      R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,
-     S       INTERFACES,XCELL_REMOTE)
+     S       INTERFACES,XCELL_REMOTE,IGRSURF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,6 +102,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE ARRAY_MOD 
       USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT      
+      USE ISTS_MAINF_MOD, ONLY : ISTS_MAINF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,7 +115,9 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
+#include      "com06_c.inc"
 #include      "com08_c.inc"
+#include      "scr11_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "warn_c.inc"
@@ -123,6 +126,8 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "timeri_c.inc"
 #include      "tabsiz_c.inc"
+#include      "scr14_c.inc"
+#include      "scr16_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------     
@@ -177,6 +182,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (INTERFACES_) ,INTENT(INOUT):: INTERFACES
       TYPE(array_type), DIMENSION(NINTER), INTENT(in) :: XCELL_REMOTE !< remote data structure for interface 18 
+      TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------  
@@ -300,7 +306,28 @@ C
           ENDIF
 
           IF(IMPL_S /= 1)THEN
-           CALL I7MAINF(output,TIMERS,
+C
+            IF(IPARI(105,N) > 0) THEN
+C
+              CALL ISTS_MAINF(TIMERS,
+     1                      IPARI         ,PTR_X          ,PTR_V          ,A              ,
+     2                      STIFN         ,FCONT          ,N              ,FSAV(1,NTH)    ,
+     3                      JTASK         ,NB_JLT_NEW(JTASK),
+     4                      TEMP          ,NPC            ,TF             ,
+     5                      INTERFACES%INTBUF_TAB(N)      ,IXS            ,
+     6                      H3D_DATA      ,INTERFACES%INTBUF_FRIC_TAB,IGRSURF,
+     7                      PTR_MS        ,DT2T           ,NELTST         ,ITYPTST        ,
+     8                      IPARIT        ,LSKYI          ,NFSKYI         ,FSKYI          ,
+     9                      ISKY          ,NISKY          ,SNPC           ,STF            ,
+     A                      NCYCLE        ,NSURF          ,NINTER         ,NINTERFRIC     ,
+     B                      NUMNOD        ,NUMELS         ,ECONTV         ,ECONT          ,
+     C                      DEBUG         ,MX_DEBUG       ,IMON           ,INCONV         ,
+     D                      ANIM_V        ,MX_ANI         ,OUTP_V         ,
+     E                      MX_OUTP)
+C
+            ELSE  
+C                      
+              CALL I7MAINF(output,TIMERS,
      1  IPARI          ,PTR_X          ,A                ,ALE_CONNECTIVITY,XCELL       ,
      2  ICODT          ,FSAV(1,NTH)    ,PTR_V            ,PTR_MS          ,DT2T        ,
      3  NELTST         ,ITYPTST        ,ITAB             ,STIFN           ,FSKYI       ,
@@ -321,7 +348,11 @@ C
      J  H3D_DATA       ,INTERFACES%INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK        ,
      K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
      L  S_LOADPINTER   ,INTEREFRIC     ,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
+C
+            ENDIF     
+C
           ELSE
+C            
            CALL I7MAINF(output, TIMERS,
      1  IPARI      ,PTR_X         ,A                 ,ALE_CONNECTIVITY,XCELL       ,
      2  ICODT      ,FSAV(1,NTH)   ,PTR_V             ,PTR_MS          ,DT2T        ,

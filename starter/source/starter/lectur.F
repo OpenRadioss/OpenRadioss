@@ -599,6 +599,9 @@ C-----------------------------------------------
       USE INIMAP1D_MOD
       USE INIMAP2D_MOD
       USE FUNC2D_MOD
+      USE Q1NP_RESTART_MOD
+      USE Q1NP_GENERATE_MAIN_MOD
+      USE Q1NP_FIX_FRONT_MOD
       USE GROUPDEF_MOD
       USE GROUP_MOD
       USE OPTIONDEF_MOD
@@ -1274,7 +1277,7 @@ C RWALL PENALTY
 C SPRING ELEMENT TIME STEP      
       INTEGER :: SPRING_CON_RBODY
 
-      integer, parameter :: nb_key = 8 
+      integer, parameter :: nb_key = 9 
       integer :: iwarnhb,n_entity
       integer :: sh4tree_dim1,sh4tree_dim2,sh3tree_dim1,sh3tree_dim2
       type(elm_group_) :: elm_group
@@ -3314,6 +3317,20 @@ C---
         ENDDO
       ENDIF
 
+C--------------------------------------------
+C     GENERATE Q1NP ELEMENTS FROM SURFACE (ENRICHED HEX)
+C     Elements generated internally from surface definition.
+C     Prototype mode: generate Q1NP for external /SURF IDs 100 and 200.
+C--------------------------------------------
+
+      CALL Q1NP_GENERATE_MAIN(IWCONT, IWCIN2, IKINE1LAG, DSDOF, ADDCNE,
+     .                        ADDCNE_PXFEM, FXBTAG, ITAG, FLAGKIN, XYZREF,
+     .                        SX, SV, SD, SMS, SIN,
+     .                        SVR, SDR, S_NOD2ELS, IPARTS, IRODDL,
+     .                        IRODDL0, ISECUT, IMPOSE_DR, NSURF, NUMNOD,
+     .                        NUMELS, IOUT, IISROT, IDROT, SICODE,
+     .                        SISKEW, SNOD2SP, NCHARKEY, HM_NINTER, LSUBMODEL)
+
       NSEGS=NPART
 !
       NSEGSMAX=0
@@ -5095,6 +5112,19 @@ C---------------------------
      1    DSDOF,IXS , IXQ,  IXC , IXT,
      2    IXP  ,IXR , IXTG, KXX,
      3    IXX  ,GEO )
+
+C     Set DOFs for the Q1NP control point nodes appended after DSDIM0.
+C     DSDIM0 only processes nodes in standard element arrays (IXS, IXQ, ...),
+C     but Q1NP control points are stored separately and appended at the end of
+C     the node numbering, so they are left at zero. Nothing to do for non-Q1NP models.
+      IF (NUMELQ1NP_G > 0 .AND. NUMNOD_CP_ADDED > 0) THEN
+        IF (ALLOCATED(DSDOF) .AND. SIZE(DSDOF) >= NUMNOD) THEN
+          DO I = NUMNOD_OLD + 1, NUMNOD
+            DSDOF(I) = 3  ! 3 DOFs for solid element control points
+          ENDDO
+        ENDIF
+      ENDIF
+
 C---------------------------
 C DOMAIN DECOMPOSITION ON COMPLETE MODEL
 C CEP array giving the associated processor for each element.
@@ -5683,7 +5713,7 @@ C---------------------------------
         K2 = K1 + NUMELS
         K3 = K2 + NUMELS+1
         K4 = K3 + NUMELS*2
-        K5 = K4 + NUMELS*8
+        K5 = K4 + NUMELS*9
         !K5B= K4 + NUMELS
         K6 = K5 + NUMELS
         !warning: please also update any index change
@@ -10580,6 +10610,15 @@ c         start CPU timer for ddsplit
           CALL STARTIME(3,1)
 !       compute the size of TAG_SCRATCH and check if /INTER/24 or /25 is used
           CALL GET_SIZE_INTER24(I24MAXNSNE2,NINTER,NPARI,IPARI,FLAG_24_25)
+!          
+!       Q1NP promoted control points are appended after DOMDEC and therefore do
+!       not appear in the standard element connectivities used to build IFRONT.
+!       Before computing NUMNOD_L for restart splitting, propagate the parent
+!       solid/front ownership to those promoted nodes.
+          IF (NUMELQ1NP_G > 0 .AND. NUMNOD_CP_ADDED > 0) THEN
+            CALL Q1NP_FIX_FRONT(IXS, NIXS, NUMELS, NUMNOD, NSPMD, IOUT)
+          ENDIF
+
 !       compute the local number of element
           CALL GET_SIZE_NUMNOD_LOCAL(NUMNOD,NUMNOD_L)
 
@@ -11151,6 +11190,17 @@ C
       IF(ALLOCATED(FAIL_TAG)) DEALLOCATE(FAIL_TAG)
       call report_alloc()
 
+C----------------------------------------------
+C     Q1NP: deallocate arrays
+C----------------------------------------------
+
+      IF (ALLOCATED(Q1NP_CPTAB)) CALL MY_DEALLOC(Q1NP_CPTAB)
+      IF (ALLOCATED(Q1NP_WTAB)) CALL MY_DEALLOC(Q1NP_WTAB)
+      IF (ALLOCATED(Q1NP_KTAB)) CALL MY_DEALLOC(Q1NP_KTAB)
+
+      IF (ALLOCATED(IQ1NP_TAB)) CALL MY_DEALLOC(IQ1NP_TAB)
+      IF (ALLOCATED(IQ1NP_BULK_TAB)) CALL MY_DEALLOC(IQ1NP_BULK_TAB)
+      IF (ALLOCATED(KQ1NP_TAB)) CALL MY_DEALLOC(KQ1NP_TAB)
 C----------------------------------------------
 
       RETURN

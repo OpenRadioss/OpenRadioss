@@ -1113,6 +1113,11 @@
           real(kind=WP), dimension(:)  , pointer ::  var => null()
         end type buf_poro_
 
+        Type buf_q1np_      ! Q1NP Gauss point data buffer
+          real(kind=WP), dimension(:) , pointer :: gp_coord => null()   ! 3*NEL: (ξ, η, ζ) per element
+          real(kind=WP), dimension(:) , pointer :: gp_weight => null() ! NEL: weight per element
+        end type buf_q1np_
+
         Type buf_visc_
 !        integer  ilaw    ! type de loi de viscosite
 !        integer  nvar
@@ -1286,6 +1291,7 @@
           type (buf_poro_) , dimension(:,:,:)  , pointer :: poro => null()
           type (buf_xfem_) , dimension(:)      , pointer :: xfem => null()      ! xfem (nxel)
           type (l_bufel_dir_) , dimension(:)  , pointer :: lbuf_dir => null()   ! local direction by int point in the thickness for slice)
+          type (buf_q1np_) , dimension(:,:,:)  , pointer :: q1np => null()      ! Q1NP buffer (only for Q1NP groups)
         end type buf_lay_
 !
 !--------------------

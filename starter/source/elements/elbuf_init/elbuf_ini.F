@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DEFAULTS_MOD
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      USE Q1NP_RESTART_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,11 +103,14 @@ C-----------------------------------------------
      .   NUVAR,NUVARM,NVARTMP,NVARTMP_EOS,NUVARV,IGTYP,TSHELL,TSH_ORT,
      .   NPAR_LAY,NPAR_TAB,NPAR_LBUF,NIP_LAY,NINTLAY,LIMAT,
      .   LIFAIL,LGLOB,LLAY,LLOC,LFAIL,GFAIL,LVISC,LMAT,LPORO,LEOS,NCTRL,
-     .   ISUBSTACK,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
+     .   IEL_Q1NP,II,ISUBSTACK,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NVAR_EOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
      .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL,IDAMP_FREQ_RANGE,
-     .   LDAMP_FREQ_RANGE,NVAR_DAMP_FREQ_RANGE,NPT0,L_EPS  ,L_SIG ,LY_EINT, LY_COUNT 
+     .   LDAMP_FREQ_RANGE,NVAR_DAMP_FREQ_RANGE,NPT0,L_EPS  ,L_SIG ,LY_EINT, LY_COUNT,
+     .   IEL, LQ1NP, I_Q1NP_GROUP
+      LOGICAL :: IS_ELEMENT_Q1NP, IS_Q1NP_CHECK
+      my_real :: XI_GP, ETA_GP, ZETA_GP, GP_WEIGHT, GP_WT_CHECK
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
@@ -203,6 +207,8 @@ c
         ELSE  
           NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
         ENDIF  
+        I_Q1NP_GROUP = IPARG(94,NG)
+c        
         NINTLAY = 0
         NPT0 = NPT
 cc        NXEL    = 0
@@ -253,6 +259,19 @@ c=======================================================================
 c
 c---------ELEMENT PROPERTY
           IF (ITY == 101) THEN
+            NLAY = 1
+          ELSEIF (I_Q1NP_GROUP == 1) THEN
+c           Set Q1NP Gauss scheme parameters for Q1NP elements
+            IF (Q1NP_NP_U_G > 0 .AND. Q1NP_NP_V_G > 0 .AND. Q1NP_NP_T_G > 0) THEN
+              NPTR = Q1NP_NP_U_G
+              NPTS = Q1NP_NP_V_G
+              NPTT = Q1NP_NP_T_G
+            ELSE
+C             Error: Gauss scheme not properly initialized
+              NPTR = 3
+              NPTS = 3
+              NPTT = 2
+            ENDIF
             NLAY = 1
           ELSEIF (NPT == 1) THEN
             NPTR  = 1                           
@@ -391,6 +410,14 @@ c----------------------------------------------------
             ALLOCATE(BUFLY%EOS(NPTR, NPTS, NPTT))
             ALLOCATE(BUFLY%VISC(NPTR, NPTS, NPTT))
             ALLOCATE(BUFLY%PORO(NPTR, NPTS, NPTT))
+            
+C           Q1NP buffer allocation (only for Q1NP groups)
+            IF (I_Q1NP_GROUP==1) THEN
+              ALLOCATE(BUFLY%Q1NP(NPTR,NPTS,NPTT))
+            ELSE
+              ALLOCATE(BUFLY%Q1NP(0,0,0))  ! Empty allocation for non-Q1NP groups
+            ENDIF
+            
           ENDDO
 c          ALLOCATE (ELBUF_TAB(NG)%XFEM(NPTR,NPTS,NPTT) ,STAT=Stat)   
           ELBUF_TAB(NG)%IGTYP = IGTYP                       
@@ -651,6 +678,42 @@ c
                 LMAT  = LMAT  + NUVARM*NEL
                 LVISC = LVISC + NUVARV*NEL
                 LEOS  = LEOS  + NVAR_EOS*NEL
+C
+C               Q1NP buffer allocation and initialization (only for Q1NP groups)
+                IF (I_Q1NP_GROUP==1) THEN
+C                 Allocate: 3*NEL for GP_COORD (ξ, η, ζ per element), NEL for GP_WEIGHT
+                  CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_COORD, 3*NEL)
+                  CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_WEIGHT, NEL)
+C
+C                 Compute and store Gauss point coordinates and weights
+C                 Reference coordinates: ξ = Q1NP_GP_U_G(IR), η = Q1NP_GP_V_G(IS), ζ = Q1NP_GP_T_G(IT)
+C                 Weight: w = Q1NP_GW_U_G(IR) * Q1NP_GW_V_G(IS) * Q1NP_GW_T_G(IT)
+                  IF (Q1NP_NP_U_G > 0 .AND. Q1NP_NP_V_G > 0 .AND. Q1NP_NP_T_G > 0) THEN
+                    IF (IR <= Q1NP_NP_U_G .AND. IS <= Q1NP_NP_V_G .AND. IT <= Q1NP_NP_T_G) THEN
+                      XI_GP = Q1NP_GP_U_G(IR)
+                      ETA_GP = Q1NP_GP_V_G(IS)
+                      ZETA_GP = Q1NP_GP_T_G(IT)
+                      GP_WEIGHT = Q1NP_GW_U_G(IR) * Q1NP_GW_V_G(IS) * Q1NP_GW_T_G(IT)
+C
+C                     Store for all elements in the group
+                      DO IEL = 1, NEL
+                        ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_COORD(3*(IEL-1)+1) = XI_GP
+                        ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_COORD(3*(IEL-1)+2) = ETA_GP
+                        ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_COORD(3*(IEL-1)+3) = ZETA_GP
+                        ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_WEIGHT(IEL) = GP_WEIGHT
+                      ENDDO
+C
+                    ELSE
+C                     Invalid indices: initialize to zero
+                      ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_COORD(1:3*NEL) = ZERO
+                      ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_WEIGHT(1:NEL) = ZERO
+                    ENDIF
+                  ELSE
+C                   Gauss scheme not initialized: initialize to zero
+                    ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_COORD(1:3*NEL) = ZERO
+                    ELBUF_TAB(NG)%BUFLY(IL)%Q1NP(IR,IS,IT)%GP_WEIGHT(1:NEL) = ZERO
+                  ENDIF
+                ENDIF
                 
       call my_alloc(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC, NFAIL, "ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC")
                 MX = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
@@ -715,6 +778,14 @@ c----------------------------------------------------
             ELBUF_TAB(NG)%BUFLY(1)%L_EPSA = 3
             ELBUF_TAB(NG)%BUFLY(1)%L_EPE  = 3
           ENDIF                                                        
+C
+C         Q1NP starter mass and GP-volume reconstruction always need
+C         the local volume field, independent of the small/large strain
+C         branch below.
+          IF (I_Q1NP_GROUP == 1) THEN
+            ELBUF_TAB(NG)%BUFLY(1)%L_VOL = 1
+          ENDIF
+
           IF (ISMSTR /= 4 .OR. JLAG >0)THEN
            IF (IGTYP == 43) THEN       
              ELBUF_TAB(NG)%BUFLY(1)%L_VOL = 1

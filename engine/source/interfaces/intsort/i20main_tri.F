@@ -229,7 +229,7 @@ C
      2    INTBUF_TAB%CAND_P,INTBUF_TAB%CAND_FX,INTBUF_TAB%CAND_FY,INTBUF_TAB%CAND_FZ,
      3    MWAG(IP0)        ,INTBUF_TAB%IFPEN  ,INACTI          ,IFQ               ,
      4    NUM_IMP          ,IND_IMP           ,INTBUF_TAB%STFA  ,NIN               ,
-     5    NSN              ,ITIED             ,RBID)
+     5    NSN              ,ITIED             ,RBID             ,0)
 
 ctmp          IF(I_SK_OLD==0)INACTI=0
           INTBUF_TAB%I_STOK(1)=I_SK_OLD

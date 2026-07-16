@@ -56,6 +56,7 @@
           use precision_mod, only : WP
           use element_mod, only : nixs
           use matparam_def_mod , only : matparam_struct_
+          use Q1NP_RESTART_MOD , only : NUMELQ1NP_G, KQ1NP_TAB_INV
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -264,6 +265,13 @@
             sort_key(7,i) = ieos + ivisc0 + nuvar + isvis + iboltp + itet10 + nloc_fail ! must remain alone for this key (flags)
 
             sort_key(8,i) = damp_range_part(iparts(i))
+
+            if (numelq1np_g > 0) then
+              if (kq1np_tab_inv(i) > 0) then
+                sort_key(9,i) = 1
+              endif
+            endif
+
           enddo
 
           return

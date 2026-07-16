@@ -88,6 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sfem_mod                ../common_source/modules/elements/sfem_mod.F90
 !||    table_mod               ../engine/share/modules/table_mod.F
 !||    timer_mod               ../engine/source/system/timer_mod.F90
+!||    Q1NP_FORC3              ../engine/source/elements/solid/solid_q1np/q1np_forc3.F
 !||====================================================================
       SUBROUTINE FORINT(TIMERS, PYTHON, 
      1    PM        ,GEO       ,X          ,A         ,AR        ,
@@ -149,6 +150,7 @@ C-----------------------------------------------
       USE PRELOAD_SOLID_INI_MOD
       USE S6ZFORC3_MOD
       use element_mod , only : nixs,nixq,nixt,nixr,nixp
+      USE Q1NP_RESTART_MOD
       use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -262,6 +264,7 @@ C-----------------------------------------------
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
      .   ICP,ICS,IMATVIS,IEXPAN,NPT0,IG,OFF_IGRTH,
      .   NCTRL,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
+      LOGICAL IS_Q1NP_GROUP, lFOUND
       my_real BID,QMVBID,PRELOAD1,STF_F
       my_real SBID
       my_real VOLN(MVSIZ)
@@ -375,6 +378,10 @@ C
         IPREID   = IPARG(72,NG)  
         IFORMDT  = IPARG(73,NG)  
 C
+C       Group of enriched elements for contact
+        IS_Q1NP_GROUP = .FALSE.  
+        IF (IPARG(94,NG) == 1) IS_Q1NP_GROUP = .TRUE.
+C
         IF (ITY==1) ICP = NSG                                       
         IF (ITY==1 .OR. ITY==2) JPLASOL=IPLA
 C---------------------------------
@@ -407,7 +414,23 @@ C----6---------------------------------------------------------------7---------8
      3           GBUF%BPRELD   ,GBUF%G_BPRELD ,NEL          )
           END IF
 C---------
-          IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
+          IF(IS_Q1NP_GROUP)THEN
+C-------------------------
+C             Q1NP replacement for tagged HEX8 solids.
+C-------------------------
+            CALL Q1NP_FORC3(TIMERS, OUTPUT,
+     1                      ELBUF_TAB(NG), PM, GEO, IXS, IGEO, X, A, V, W,
+     2                      FV, ALE_CONNECT, IPARG, TF, NPC, BUFMAT, PARTSAV, NPART,
+     3                      NLOC_DMG, STIFN, OFFSET, IPARTS(NF1), NEL, DT2T,
+     4                      NELTST, ITYPTST, IPM, ITASK, GRESAV, GRTH,
+     5                      IGRTH(NF1), MSSA(NF1), DMELS(NF1), TABLE, IPRI,
+     6                      MAT_ELEM, NG, H3D_DATA%STRAIN, SVIS, GLOB_THERM,
+     7                      SNPC, NUMGEO, NUMNOD, NUMELS, NUMELQ, NGROUP,
+     8                      SBUFMAT, STF, NUMMAT, NTABLE, NSVOIS, IRESP,
+     9                      IDEL7NOK, MAXFUNC, USERL_AVAIL, IMON_MAT, impl_s,
+     A                      idyna, IDTMIN, DT, SENSORS)    
+C            
+          ELSEIF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN
 C---------
             CALL S4FORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,              PM,         GEO,

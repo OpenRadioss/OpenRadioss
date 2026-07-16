@@ -59,9 +59,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .  PARTSAV(NPSAV,*), EINT(*), RHO(*), VOL0(*),
-     .  VX(MVSIZ,*),VY(MVSIZ,*),VZ(MVSIZ,*),
+     .  VX(NCP,MVSIZ),VY(NCP,MVSIZ),VZ(NCP,MVSIZ),
      .  VOL(*),GRESAV(*),
-     .  X(MVSIZ,*),Y(MVSIZ,*),Z(MVSIZ,*)
+     .  X(NCP,MVSIZ),Y(NCP,MVSIZ),Z(NCP,MVSIZ)
       type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

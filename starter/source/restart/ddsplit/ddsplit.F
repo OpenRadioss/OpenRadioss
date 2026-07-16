@@ -241,6 +241,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod                        ../starter/share/modules1/table_mod.F
 !||    w_bcs_proc_mod                   ../starter/source/restart/ddsplit/w_bcs_proc.F90
 !||    w_inivel_str_mod                 ../starter/source/restart/ddsplit/w_inivel_str.F90
+!||    W_Q1NP_MOD                       ../starter/source/restart/ddsplit/w_q1np.F90
 !||====================================================================
       SUBROUTINE DDSPLIT(
      1   P            ,CEP          ,CEL            ,IGEO         ,MAT_ELEM    ,
@@ -364,6 +365,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MID_PID_MOD
       USE FAILWAVE_MOD
+      USE Q1NP_RESTART_MOD
       USE NLOCAL_REG_MOD
       USE SKEW_MOD
       USE SPLIT_CFD_MOD
@@ -391,6 +393,7 @@ C-----------------------------------------------
       use constraint_mod , only : constraint_
       use c_inivell_mod ,  only : c_inivell
       use w_inivel_str_mod , only : w_inivel_str
+      use W_Q1NP_MOD
       use glob_therm_mod
       use write_ale_grid_mod, only : write_ale_grid
       use PBLAST_MOD
@@ -409,6 +412,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
+#include      "units_c.inc"
 #include      "com10_c.inc"
 #include      "com_xfem1.inc"
 #include      "eigcom.inc"
@@ -2816,6 +2820,12 @@ C--------------------------------------
 C     Isogeo                                      
 C--------------------------------------
       IF (NUMELIG3D>0) CALL W_ELIG3D(KXIG3D,NUMELIG3D,ISUMNIG3D_L,IXIG3D,P-1,NODLOCAL,LEN_IA)
+
+      IF (NUMELQ1NP_G  > 0) THEN
+        CALL W_Q1NP_INT(NUMELQ1NP_G ,NKQ1NP,KQ1NP_TAB,
+     .                  IQ1NP_TAB,IQ1NP_BULK_TAB,NODLOCAL,CEL,
+     .                  CEP,P-1,NUMELS,NUMELS_L,LEN_IA)
+      ENDIF
 C--------------------------------------
 C TAG_SKINS6 : used for /H3D/STRESS/TENS/OUTER
 C--------------------------------------
@@ -2834,6 +2844,7 @@ C--------------------------------------
       LEN_AM = 0
       CALL WRITE_DB(TABVREA, LVARREA)
       LEN_AM = LEN_AM + LVARREA
+
 C--------------------------------------------
 C X, D, V, VR, DR
 C--------------------------------------------
@@ -3724,6 +3735,13 @@ C PLY_INFO ( need for animation file )
 C--------------------------------------------
       IF (NUMPLY>0)
      .  CALL W_PLY_INFO(PLY_INFO,NUMPLY)
+C
+C--------------------------------------------
+C Q1Np real restart
+C--------------------------------------------
+      IF (NUMELQ1NP_G  > 0) THEN
+        CALL W_Q1NP_REAL(Q1NP_WTAB,Q1NP_KTAB,Q1NP_CPTAB,LEN_AM)
+      ENDIF
 C
 C--------------------------------------------
 C Pressure & concentrated loads --> DISP & VEL saved

@@ -548,11 +548,16 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||    q1np_get_elem_nodes   ../starter/source/elements/solid/solid_q1np/q1np_get_elem_nodes_mod.F90
 !||--- uses       -----------------------------------------------------
+!||    q1np_get_elem_nodes_mod   ../starter/source/elements/solid/solid_q1np/q1np_get_elem_nodes_mod.F90
+!||    q1np_restart_mod   ../common_source/modules/q1np_restart_mod.F90
 !||====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)
       use element_mod , only : nixs
       use my_alloc_mod
+      use q1np_restart_mod , only : numelq1np_g, kq1np_tab_inv
+      use q1np_get_elem_nodes_mod , only : q1np_get_elem_nodes
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -571,6 +576,7 @@ C-----------------------------------------------
       INTEGER FACES(4,6),PWR(7)
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG
       INTEGER ::  FACES10(3,6)
+      INTEGER NSJS8(8),NSKS8(8),IQ_JS,IQ_KS
       DATA FACES/4,3,2,1,
      .           5,6,7,8,
      .           1,2,6,5,
@@ -589,9 +595,18 @@ Co=======================================================================
         FASTAG=0
 C       Tag nodes External surface (solid)
         DO JS=1,NUMELS
+C         Q1NP element : rebuild the 8 corner nodes from the Q1NP tables
+          IQ_JS=0
+          IF(NUMELQ1NP_G>0) IQ_JS=KQ1NP_TAB_INV(JS)
+          IF(IQ_JS>0)CALL Q1NP_GET_ELEM_NODES(IQ_JS,NSJS8)
+C          
           DO JJ=1,6
             DO II=1,4
-              NS(II)=IXS(FACES(II,JJ)+1,JS)
+              IF(IQ_JS>0)THEN
+                NS(II)=NSJS8(FACES(II,JJ))
+              ELSE
+                NS(II)=IXS(FACES(II,JJ)+1,JS)
+              END IF
             END DO
 C
 C           keep only 1 occurrence of each node (triangles, degenerated cases...)
@@ -629,11 +644,19 @@ C           looks for an elt sharing the face.
             DO K=KNOD2ELS(NI(1))+1,KNOD2ELS(NI(1)+1)
               KS=NOD2ELS(K)
               IF(KS==JS .OR. KS > NUMELS8+NUMELS10)CYCLE
+C             Q1NP neighbour : rebuild the 8 corner nodes from the Q1NP tables
+              IQ_KS=0
+              IF(NUMELQ1NP_G>0)IQ_KS=KQ1NP_TAB_INV(KS)
+              IF(IQ_KS>0) CALL Q1NP_GET_ELEM_NODES(IQ_KS,NSKS8)
               DO II=1,NF
                 NODTAG(NI(II))=0
               END DO
               DO II=1,8
-                NODTAG(IXS(II+1,KS))=1
+                IF(IQ_KS>0)THEN
+                  NODTAG(NSKS8(II))=1
+                ELSE
+                  NODTAG(IXS(II+1,KS))=1
+                END IF
               END DO
               NN=0
               DO II=1,NF
@@ -642,7 +665,11 @@ C           looks for an elt sharing the face.
               IF(NN==NF)THEN
                 DO KK=1,6
             DO II=1,4
-              MS(II)=IXS(FACES(II,KK)+1,KS)
+              IF(IQ_KS>0)THEN
+                MS(II)=NSKS8(FACES(II,KK))
+              ELSE
+                MS(II)=IXS(FACES(II,KK)+1,KS)
+              END IF
             END DO
 C
 C                 keep only 1 occurrence of each node (triangles, degenerated cases...)

@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixs
       use get_sort_key_solid_mod , only : get_sort_key_solid
+      USE Q1NP_RESTART_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -91,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      integer, parameter :: nb_key = 8
+      integer, parameter :: nb_key = 9
       INTEGER IXS(NIXS,NUMELS),INUM(16,*),IPARTS(*),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(nb_key,*),
      .        ND, ISOLNOD(*), CEP(*),
@@ -116,7 +117,7 @@ C-----------------------------------------------
       INTEGER 
      .        I,J,K, NN,
      .        II,II0,JJ0,II1,JJ1,II2,JJ2,JJ,II3,JJ3,II4,JJ4,II5,JJ5,
-     .        II6,JJ6,MODE,
+     .        II6,JJ6,II7,JJ7,MODE,
      .        INUM_R2R(1+R2R_SIU*NUMELS),
      .        IPERT,STAT
           
@@ -181,7 +182,7 @@ C
         XEP(I)=CEP(I)
       ENDDO
 
-      itri(1:8,1:numels) = 0
+      itri(1:nb_key,1:numels) = 0
       call get_sort_key_solid(numels,nb_key,nummat,numgeo, 
      .                                 npart,npropgi, 
      .                                 npropmi,npropm,npropg, 
@@ -192,7 +193,7 @@ C
      .                                 mat_param)
 
       MODE=0
-      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELS , 8)
+      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELS , 9)
 C
       DO I=1,NUMELS
         IPARTS(I) =INUM(1,INDEX(I))
@@ -379,6 +380,15 @@ C
         ENDIF
       ENDDO
 !   -----------------------
+ !   Update KQ1NP_TAB_INV based on the new order after sorting      
+      IF (NUMELQ1NP_G > 0) THEN
+        KQ1NP_TAB_INV(1:NUMELS) = 0
+        DO  I=1,NUMELQ1NP_G
+          K = KQ1NP_TAB(10,I)
+          KQ1NP_TAB(10,I) = ITR1(K)
+          KQ1NP_TAB_INV(ITR1(K)) = I
+        ENDDO
+      ENDIF  
 C
 C--------------------------------------------------------------
 C         SUPER_GROUPS DETERMINATION
@@ -401,9 +411,11 @@ C--------------------------------------------------------------
         JJ5=ITRI(7,INDEX(I-1))
         II6=ITRI(8,INDEX(I))
         JJ6=ITRI(8,INDEX(I-1))
+        II7=ITRI(9,INDEX(I))
+        JJ7=ITRI(9,INDEX(I-1))
         IF(II0/=JJ0.OR.II/=JJ.OR.II1/=JJ1.OR.II2/=JJ2.OR.
      .     II5/=JJ5.OR.II3/=JJ3.OR.II4/=JJ4.OR.
-     .     II6/=JJ6) THEN
+     .     II6/=JJ6.OR.II7/=JJ7) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF
