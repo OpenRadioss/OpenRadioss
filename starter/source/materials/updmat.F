@@ -255,12 +255,6 @@ c-------------------------
           CASE (19) 
             CALL LAW19_UPD(MAT_PARAM(IMAT),SENSORS)
 c-------------------------
-          CASE (36) 
-            MTAG => MLAW_TAG(IMAT)
-            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
-     .                    NFUNC  ,IFUNC  ,FUNC_ID ,NPC    ,PLD  ,
-     .                    MTAG   ,NFUNCT )        
-c-------------------------
           CASE (42) 
             CALL LAW42_UPD(MAT_PARAM(IMAT),IOUT,TITR,MAT_ID,PM(1,IMAT),GAMA_INF)        
 c-------------------------
