@@ -383,8 +383,8 @@
           integer, intent(in) :: numnod_old
           integer, intent(in) :: nspmd
           integer, intent(in) :: bnd_add_orig(2, nspmd + 1)
-          integer, intent(in) :: bnd_orig(bnd_size_orig)
           integer, intent(in) :: bnd_size_orig
+          integer, intent(in) :: bnd_orig(bnd_size_orig)
 
           integer :: j, k, pos, new_size
           integer :: orig_recv_start, orig_recv_end
