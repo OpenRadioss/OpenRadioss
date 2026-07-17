@@ -376,6 +376,7 @@ C
               E3Z=ONE_OVER_8*E3Z
 C         
 !              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
+                NI=  ITAGN(N1) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
                   AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
@@ -425,6 +426,7 @@ C
               E3Z=ONE_OVER_6*E3Z
 C         
 !              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
+                NI=  ITAGN(N1) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
                   AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
@@ -473,6 +475,7 @@ C
             E3Z=ONE_OVER_6*E3Z
 C         
 !            AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
+            NI=  ITAGN(N1) 
             IF (NI > 0 ) THEN 
               NORMAL(1:3)= NORM_N(1:3,NI) 
               AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
