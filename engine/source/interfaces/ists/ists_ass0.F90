@@ -20,11 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    ists_ass0_mod     ../engine/source/interfaces/ists/ists_ass0.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf        ../engine/source/interfaces/ists/ists_mainf.F
-!||====================================================================
 module ists_ass0_mod
   implicit none
 contains

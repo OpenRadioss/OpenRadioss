@@ -22,9 +22,10 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    ig3daverage   ../engine/source/elements/ige3d/ig3daverage.F
+!||    ig3daverage          ../engine/source/elements/ige3d/ig3daverage.F
 !||--- called by ------------------------------------------------------
-!||    ig3duforc3    ../engine/source/elements/ige3d/ig3duforc3.F
+!||    ig3duforc3           ../engine/source/elements/ige3d/ig3duforc3.F
+!||    q1np_avg_sig_bilan   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||====================================================================
       SUBROUTINE IG3DAVERAGE(
      1   SIG,     SIGG,    VOL0,    VOL0G,

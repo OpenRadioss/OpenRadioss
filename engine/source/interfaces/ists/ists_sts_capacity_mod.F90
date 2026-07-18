@@ -1,7 +1,31 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    ists_sts_capacity_mod  ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||    ists_sts_capacity_mod   ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
 !||--- called by ------------------------------------------------------
-!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
+!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE ISTS_STS_CAPACITY_MOD
         USE PRECISION_MOD, ONLY : WP
@@ -17,6 +41,11 @@
 !   ISTS_STS_INIT_CAPACITY
 !   Initial STS pair-buffer capacity and hard cap from segment counts.
 !=======================================================================
+!||====================================================================
+!||    ists_sts_init_capacity   ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf               ../engine/source/interfaces/ists/ists_mainf.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_INIT_CAPACITY(NSEG_SEC, NSEG_MST, &
      &    STS_WB_CAPACITY, MAX_STS_SIZE_ACTUAL, STS_CAP_LIMIT)
           INTEGER, INTENT(IN) :: NSEG_SEC, NSEG_MST
@@ -40,6 +69,15 @@
 !   ISTS_STS_ENSURE_BUFFERS
 !   (Re)allocate persistent STS working buffers when capacity grows.
 !=======================================================================
+!||====================================================================
+!||    ists_sts_ensure_buffers   ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod            ../common_source/tools/memory/my_dealloc.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_ENSURE_BUFFERS(CAPACITY, WB_CAPACITY, &
      &    CONT_ELEMENT, load_arr, STS_STIF, &
      &    CAND_SEC_SEG_ID, CAND_MST_SEG_ID, CAND_SEC_GP_MASK, &
@@ -86,6 +124,11 @@
 !   ISTS_STS_TRY_GROW_CAPACITY
 !   Double pair capacity on broad-phase overflow, up to STS_CAP_LIMIT.
 !=======================================================================
+!||====================================================================
+!||    ists_sts_try_grow_capacity   ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                   ../engine/source/interfaces/ists/ists_mainf.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_TRY_GROW_CAPACITY(BP_OVERFLOW, &
      &    MAX_STS_SIZE_ACTUAL, STS_CAP_LIMIT, RETRY)
           LOGICAL, INTENT(IN) :: BP_OVERFLOW

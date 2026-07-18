@@ -171,6 +171,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nrf51ini                         ../starter/source/materials/mat/mat051/nrf51ini.F
 !||    ns_fvm_diffusion                 ../engine/source/multifluid/ns_fvm_diffusion.F
 !||    output_schlieren                 ../engine/source/output/anim/generate/output_schlieren.F
+!||    q1np_forc3                       ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    q4forc2                          ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    q4init2                          ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    qforc2                           ../engine/source/elements/solid_2d/quad/qforc2.F

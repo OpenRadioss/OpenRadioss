@@ -20,14 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    sts_broad_phase_voxel_mod   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
-!||--- uses       -----------------------------------------------------
-!||    contact_broad_phase_tol_mod   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
-!||    ists_sts_voxel_grid_mod        ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
-!||====================================================================
 !
 !   STS voxel broad-phase: produce (master_seg, secondary_seg) candidate
 !   pairs from two surfaces (IGRSURF entries) without using the legacy
@@ -50,6 +42,19 @@
 !     CONT_ELEMENT(I, 1:3, 1:4) = master   (primary)   coordinates
 !     CONT_ELEMENT(I, 1:3, 5:8) = secondary            coordinates
 !
+!||====================================================================
+!||    sts_broad_phase_voxel_mod     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                    ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    contact_broad_phase_tol_mod   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
+!||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
+!||    ists_sts_voxel_grid_mod       ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE STS_BROAD_PHASE_VOXEL_MOD
         USE PRECISION_MOD, ONLY : WP
         USE CONSTANT_MOD,  ONLY : ZERO, ONE, THREE
@@ -81,6 +86,19 @@
 !   MAX_STS_SIZE_ACTUAL). OVERFLOW is set to .TRUE. if the storage was
 !   saturated and not all candidate pairs could be stored.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_broad_phase                ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                           ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_voxel_grid_get_tol_static   ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    ists_sts_voxel_grid_is_ready         ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    ists_sts_voxel_grid_update_dynamic   ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    sts_voxel_build_seg_points           ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_init_grid_params           ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_pair_search                ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_sort_pairs                 ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_BROAD_PHASE( &
      &      NIN, IGRSURF, NSURF, SEC_SURF_IDX, MST_SURF_IDX, &
      &      X, V, NUMNOD, GAP, DT1, MAX_STS_SIZE_ACTUAL, &
@@ -201,6 +219,11 @@
 !   NSAMPLES_PER_SEG must be either 4 or 5. Any other value falls back
 !   to corners-only and the centroid sample is skipped.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_build_seg_points   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_broad_phase        ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_BUILD_SEG_POINTS( &
      &      IGRSURF, NSURF, SURF_IDX, X, NUMNOD, &
      &      NSAMPLES_PER_SEG, PTS, SEG_OF_PT, NPTS_OUT)
@@ -253,6 +276,11 @@
 !   STS_VOXEL_AABB
 !   Axis-aligned bounding box of a 3 x NPTS point cloud.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_aabb          ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_pair_search   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_AABB(PTS, NPTS, XMIN, XMAX, YMIN, YMAX, ZMIN, ZMAX)
           INTEGER, INTENT(IN) :: NPTS
           REAL(KIND=WP), INTENT(IN) :: PTS(3, NPTS)
@@ -278,6 +306,11 @@
 !   STS_VOXEL_PT_TO_CELL
 !   Map a point into clamped voxel indices and a linear cell id.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_pt_to_cell    ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_pair_search   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_PT_TO_CELL( &
      &      PX, PY, PZ, XMIN, YMIN, ZMIN, &
      &      NBX, NBY, NBZ, SPAN_X, SPAN_Y, SPAN_Z, NVOXELS, &
@@ -306,6 +339,14 @@
 !   Compute static (GAP + mesh margin) and CELL_SIZE once per
 !   interface; kinematic VMAXDT is added each cycle in broad phase.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_init_grid_params     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_broad_phase          ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_voxel_grid_init       ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    ists_sts_voxel_grid_is_ready   ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_INIT_GRID_PARAMS( &
      &      NIN, IGRSURF, NSURF, SEC_SURF_IDX, MST_SURF_IDX, &
      &      X, NUMNOD, GAP)
@@ -343,6 +384,16 @@
 !        3x3x3 cell neighborhood and emit unique (mst_seg, sec_seg)
 !        pairs into the output arrays.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_pair_search     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_broad_phase     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_voxel_grid_get   ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    sts_voxel_aabb            ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_emit_pair       ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_pt_to_cell      ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_PAIR_SEARCH( &
      &      NIN, IGRSURF, NSURF, SEC_SURF_IDX, MST_SURF_IDX, X, NUMNOD, &
      &      PTS_S, SEG_OF_PT_S, NPTS_S, &
@@ -515,6 +566,11 @@
 !   it already exists. On overflow (COUNT == MAX_STS_SIZE_ACTUAL) the
 !   OVERFLOW flag is set and no further pairs are stored.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_emit_pair     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_pair_search   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_EMIT_PAIR( &
      &      IGRSURF, NSURF, SEC_SURF_IDX, MST_SURF_IDX, X, NUMNOD, &
      &      SEC_SEG, MST_SEG, HASH_STRIDE, HASH_SIZE, HASH_KEYS, &
@@ -608,6 +664,14 @@
 !   STS_VOXEL_SORT_PAIRS
 !   Heap sort by (mst_seg, sec_seg) for stable pair-indexed friction history.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_sort_pairs    ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_broad_phase   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_voxel_sift_down     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_swap_pair     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_SORT_PAIRS( &
      &      CAND_SEC_SEG_ID, CAND_MST_SEG_ID, CONT_ELEMENT, &
      &      COUNT, MAX_STS_SIZE_ACTUAL)
@@ -637,6 +701,14 @@
 !   STS_VOXEL_SIFT_DOWN
 !   Sift down the root of the heap
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_sift_down    ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_sort_pairs   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_voxel_pair_less    ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_swap_pair    ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_SIFT_DOWN( &
      &      CAND_SEC_SEG_ID, CAND_MST_SEG_ID, CONT_ELEMENT, &
      &      START, FINISH, MAX_STS_SIZE_ACTUAL)
@@ -675,6 +747,11 @@
 !   STS_VOXEL_PAIR_LESS
 !   Compare two pairs by primary segment index
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_pair_less   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_sift_down   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         LOGICAL FUNCTION STS_VOXEL_PAIR_LESS( &
      &      CAND_SEC_SEG_ID, CAND_MST_SEG_ID, I, J, MAX_STS_SIZE_ACTUAL)
           INTEGER, INTENT(IN) :: I, J, MAX_STS_SIZE_ACTUAL
@@ -694,6 +771,12 @@
 !   STS_VOXEL_SWAP_PAIR
 !   Swap two pairs
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_swap_pair    ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_sift_down    ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_voxel_sort_pairs   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_SWAP_PAIR( &
      &      CAND_SEC_SEG_ID, CAND_MST_SEG_ID, CONT_ELEMENT, &
      &      I, J, MAX_STS_SIZE_ACTUAL)

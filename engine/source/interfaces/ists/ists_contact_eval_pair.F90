@@ -1,26 +1,58 @@
-!||====================================================================
-!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||--- called by ------------------------------------------------------
-!||    STS_CONTACTS_ASSEMBLE   ../engine/source/interfaces/ists/ists_contacts_assemble.F90
-!||--- calls ---------------------------------------------------------
-!||    sts_gausspt             ../engine/source/interfaces/ists/ists_sts_gausspt.F90
-!||    sts_lobattopt           ../engine/source/interfaces/ists/ists_sts_lobattopt.F90
-!||    sts_project             ../engine/source/interfaces/ists/ists_sts_project.F90
-!||    sts_pos                 ../engine/source/interfaces/ists/ists_pos.F90
-!||    sts_surfgeom            ../engine/source/interfaces/ists/ists_sts_surfgeom.F90
-!||    sts_penetr              ../engine/source/interfaces/ists/ists_sts_penetr.F90
-!||    sts_gp_update_xi_history ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||    sts_gp_warm_start_xi    ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||    sts_gp_tangential_velocity ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||    sts_gp_covariant_slip      ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||    sts_gp_update_dt2t       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
-!||    sts_gp_ivis2_normal      ../engine/source/interfaces/ists/ists_contact_visc_mod.F90
-!||    sts_shape               ../engine/source/interfaces/ists/ists_shape_fct.F90
-!||====================================================================
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !
 !   Evaluate one STS segment pair for Gauss or Lobatto quadrature,
 !   including projection, normal penalty, optional friction, and energy.
 !
+!||====================================================================
+!||    sts_contact_eval_pair        ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contacts_assemble        ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_gausspt                  ../engine/source/interfaces/ists/ists_gauss.F90
+!||    sts_gp_acquire_slot          ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_canonical_pair_key    ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_covariant_slip        ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_ivis2_normal          ../engine/source/interfaces/ists/ists_contact_visc_mod.F90
+!||    sts_gp_normal_velocity       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||    sts_gp_reset_slot            ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_tangential_velocity   ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_update_dt2t           ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||    sts_gp_update_xi_history     ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_warm_start_xi         ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_lobattopt                ../engine/source/interfaces/ists/ists_lobatto.F90
+!||    sts_penetr                   ../engine/source/interfaces/ists/ists_penetr.F90
+!||    sts_pos                      ../engine/source/interfaces/ists/ists_pos.F90
+!||    sts_project                  ../engine/source/interfaces/ists/ists_projection.F90
+!||    sts_shape                    ../engine/source/interfaces/ists/ists_shape_fct.F90
+!||    sts_surfgeom                 ../engine/source/interfaces/ists/ists_sufgeom.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                 ../common_source/modules/constant_mod.F
+!||    ists_contact_dt_mod          ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||    ists_contact_visc_mod        ../engine/source/interfaces/ists/ists_contact_visc_mod.F90
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||    sts_gp_state_mod             ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       subroutine STS_CONTACT_EVAL_PAIR(XUPD, STIF, p, IMPACT, EL_NR, node_stiff, OPTION, &
       &                   FRICC, XMU, IFPEN, &
       &                   p_friction, node_ids, V, numnod, &

@@ -24,7 +24,10 @@
 !||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
 !||--- called by ------------------------------------------------------
 !||    allocate_output_data          ../common_source/modules/output/output_mod.F90
+!||    apply_crack                   ../engine/source/engine/node_spliting/apply_crack.F90
 !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_from_rwalls       ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_nloc              ../engine/source/engine/node_spliting/detach_node_nloc.F90
 !||    extend_nodal_arrays           ../common_source/modules/nodal_arrays.F90
 !||    fill_voxel_local              ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
@@ -33,7 +36,6 @@
 !||    lag_mult                      ../engine/source/tools/lagmul/lag_mult.F
 !||    lag_multp                     ../engine/source/tools/lagmul/lag_mult.F
 !||    lecsec42                      ../starter/source/tools/sect/hm_read_sect.F
-!||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
 !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
 !||--- calls      -----------------------------------------------------
 !||    build_error_message           ../common_source/tools/memory/extend_array.F90

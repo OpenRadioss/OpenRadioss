@@ -26,6 +26,12 @@
 !C=======================================================================
 !C   Initialize per-Gauss-point reference volumes for Q1NP solid groups.
 !C=======================================================================
+!||====================================================================
+!||    q1np_init_lbuf_vol_mod   ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_init_mod            ../starter/source/elements/solid/solid_q1np/q1np_init.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module q1np_init_lbuf_vol_mod
         use precision_mod, only : WP
         use q1np_restart_mod
@@ -36,6 +42,15 @@
       contains
 !
       !  INITIALIZE PER-GAUSS-POINT REFERENCE VOLUMES FOR Q1NP SOLID GROUPS
+!||====================================================================
+!||    q1np_init_lbuf_gp_vol          ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_init                      ../starter/source/elements/solid/solid_q1np/q1np_init.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_ensure_gauss_scheme       ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_fill_element_gp_volumes   ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine q1np_init_lbuf_gp_vol(iparg, elbuf_tab, x, numnod, numels, &
      &                                   kq1np_tab, iq1np_tab, &
      &                                   iq1np_bulk_tab)
@@ -119,6 +134,12 @@
         end subroutine q1np_init_lbuf_gp_vol
 !
         !  ENSURE THE GAUSS SCHEME IS SET UP
+!||====================================================================
+!||    q1np_ensure_gauss_scheme         ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_init_lbuf_gp_vol            ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine q1np_ensure_gauss_scheme(kq1np_tab)
 !-----------------------------------------------------------------------
           integer, intent(in) :: kq1np_tab(:,:)
@@ -138,6 +159,13 @@
         end subroutine q1np_ensure_gauss_scheme
 !
         !  FILL ELEMENT GP VOLUMES
+!||====================================================================
+!||    q1np_fill_element_gp_volumes   ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_init_lbuf_gp_vol          ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine q1np_fill_element_gp_volumes(iel_q1np, iel_local, &
      &      lbuf_arr, x, kq1np_tab, iq1np_tab, iq1np_bulk_tab)
 !-----------------------------------------------------------------------

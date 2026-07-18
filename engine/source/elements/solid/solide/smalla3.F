@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    smalla3    ../engine/source/elements/solid/solide/smalla3.F
+!||    smalla3      ../engine/source/elements/solid/solide/smalla3.F
 !||--- called by ------------------------------------------------------
-!||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
-!||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
-!||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
+!||    q1np_forc3   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    s16forc3     ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||    s20forc3     ../engine/source/elements/solid/solide20/s20forc3.F
+!||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
 !||====================================================================
       SUBROUTINE SMALLA3(
      1   SAV,     OFFG,    OFF,     WXX,

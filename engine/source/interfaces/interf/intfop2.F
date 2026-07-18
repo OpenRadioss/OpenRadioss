@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    int18_law151_nsv_shift       ../common_source/interf/int18_law151_nsv_shift.F
 !||    int_startime                 ../engine/source/system/timer_interf.F
 !||    int_stoptime                 ../engine/source/system/timer_interf.F
+!||    ists_mainf                   ../engine/source/interfaces/ists/ists_mainf.F90
 !||    my_barrier                   ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
@@ -49,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
 !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
+!||    ists_mainf_mod               ../engine/source/interfaces/ists/ists_mainf.F90
 !||    metric_mod                   ../common_source/modules/interfaces/metric_mod.F
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
 !||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90

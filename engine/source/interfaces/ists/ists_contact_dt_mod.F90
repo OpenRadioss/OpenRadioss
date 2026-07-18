@@ -1,7 +1,32 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    ists_contact_dt_mod  ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
-!||--------------------------------------------------------------------
-!||  STS critical timestep limits (Phase 1, NTS i7for3 analog).
+!||    ists_contact_dt_mod     ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE ists_contact_dt_mod
 
@@ -11,14 +36,15 @@
 
       CONTAINS
 
-!||====================================================================
-!||    sts_gp_normal_velocity  ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
-!||--- called by ------------------------------------------------------
-!||    sts_gp_update_dt2t       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
-!||====================================================================
 !-----------------------------------------------
 ! Compute the normal velocity between the primary and secondary surfaces
 !-----------------------------------------------
+!||====================================================================
+!||    sts_gp_normal_velocity   ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair    ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||    sts_gp_update_dt2t       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &     norm_contact, v_n)
       IMPLICIT NONE
@@ -52,14 +78,16 @@
      &    + v_rel(3)*norm_contact(3)
       END SUBROUTINE sts_gp_normal_velocity
 
-!||====================================================================
-!||    sts_gp_update_dt2t  ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
-!||--- called by ------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||====================================================================
 !-----------------------------------------------
 ! Update the critical timestep limit (DT2T) for a contact GP
 !-----------------------------------------------
+!||====================================================================
+!||    sts_gp_update_dt2t       ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair    ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_gp_normal_velocity   ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_update_dt2t(node_ids, MS, numnod, d1, N_xi, N_eta, &
      &     area_weight, GAPV, PENE, V, norm_contact, NOINT, &
      &     DT2T, NELTST, ITYPTST, DTFAC1_10)

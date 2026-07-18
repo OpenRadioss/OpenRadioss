@@ -94,6 +94,7 @@
 !||    mulawc                    ../engine/source/materials/mat_share/mulawc.F90
 !||    mulawglc                  ../engine/source/materials/mat_share/mulawglc.F
 !||    pforc3                    ../engine/source/elements/beam/pforc3.F
+!||    q1np_forc3                ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    q4forc2                   ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                    ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    r23forc3                  ../engine/source/elements/spring/r23forc3.F

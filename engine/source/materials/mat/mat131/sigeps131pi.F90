@@ -20,11 +20,32 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sigeps131pi_mod   ../engine/source/materials/mat/mat131/sigeps131pi.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw_ib          ../engine/source/elements/beam/mulaw_ib.F
+!||====================================================================
       module sigeps131pi_mod
 ! \brief Main stress computation for /MAT/LAW131 (beams)
 ! \details Main routine for computing stresses and internal variables
 !          for beam elements using /MAT/LAW131 (elasto-plastic material law).
       contains
+!||====================================================================
+!||    sigeps131pi               ../engine/source/materials/mat/mat131/sigeps131pi.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw_ib                  ../engine/source/elements/beam/mulaw_ib.F
+!||--- calls      -----------------------------------------------------
+!||    cppm_beams                ../engine/source/materials/mat/mat131/return_mapping/cppm_beams.F90
+!||    cutting_plane_beams       ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_beams.F90
+!||    nice_beams                ../engine/source/materials/mat/mat131/return_mapping/nice_beams.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||    cppm_beams_mod            ../engine/source/materials/mat/mat131/return_mapping/cppm_beams.F90
+!||    cutting_plane_beams_mod   ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_beams.F90
+!||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    nice_beams_mod            ../engine/source/materials/mat/mat131/return_mapping/nice_beams.F90
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine sigeps131pi(                                                  &
         nel      ,matparam ,nvartmp  ,vartmp   ,timestep ,off      ,           &        
         depsxx   ,depsxy   ,depszx   ,sigoxx   ,sigoxy   ,sigozx   ,           &   

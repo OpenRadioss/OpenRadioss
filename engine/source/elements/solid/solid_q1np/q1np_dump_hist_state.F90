@@ -15,22 +15,23 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss
+!Copyright>        Commercial Alternative: Altair Radioss Software
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    q1np_dump_hist_state           ../engine/source/elements/solid/solid_q1np/q1np_dump_hist_state.F90
-!||--- called by ------------------------------------------------------
-!||    forint                           ../engine/source/elements/forint.F
-!||--- uses       ------------------------------------------------------
-!||    debug_mod                        ../engine/share/modules/debug_mod.F
-!||    q1np_restart_mod                 ../common_source/modules/q1np_restart_mod.F90
-!||    restmod                          ../engine/share/modules/restart_mod.F
-!||====================================================================
 ! Dump Q1NP bulk and control-point node coordinates to CSV (debug / post-processing).
 !=======================================================================
+!||====================================================================
+!||    q1np_dump_hist_state   ../engine/source/elements/solid/solid_q1np/q1np_dump_hist_state.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    debug_mod              ../engine/share/modules/debug_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||    q1np_restart_mod       ../common_source/modules/q1np_restart_mod.F90
+!||====================================================================
       SUBROUTINE Q1NP_DUMP_HIST_STATE(TIME_CUR, X, NUMNOD)
 !-----------------------------------------------------------------------
 !   Dump Q1NP bulk and control-point node coordinates to CSV files.

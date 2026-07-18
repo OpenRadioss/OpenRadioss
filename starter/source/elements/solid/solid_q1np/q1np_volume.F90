@@ -1,9 +1,9 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
-!Copyright>        The Free Software Foundation, either version 3 of the License, or
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
 !Copyright>        (at your option) any later version.
 !Copyright>
 !Copyright>        This program is distributed in the hope that it will be useful,
@@ -28,6 +28,13 @@
 !C
 !C   This module implements 3D Gauss volume integration for Q1NP elements
 !C   over (u, v, t) using enriched element shape functions (NURBS top + Bulk)
+!||====================================================================
+!||    q1np_volume_mod    ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np_mod        ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       module q1np_volume_mod
         use message_mod
         use q1np_restart_mod
@@ -40,6 +47,13 @@
 !C=======================================================================
 !C   Main volume integration over element routine
 !C=======================================================================
+!||====================================================================
+!||    q1np_compute_volume_element      ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine q1np_compute_volume_element(iel_q1np, &
      &                                         kq1np_tab, iq1np_tab, &
      &                                         iq1np_bulk_tab, q1np_ktab, &

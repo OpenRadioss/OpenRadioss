@@ -21,20 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    apply_crack_mod            ../engine/source/engine/node_spliting/apply_crack.F90
+!||    apply_crack_mod     ../engine/source/engine/node_spliting/apply_crack.F90
 !||--- called by ------------------------------------------------------
-!||    nloc_shell_detach          ../engine/source/engine/node_spliting/nloc_shell_detach.F90
-!||--- calls      -----------------------------------------------------
-!||    detach_node                ../engine/source/engine/node_spliting/detach_node.F90
-!||    mirror_node_split          ../engine/source/engine/node_spliting/detach_node.F90
-!||--- uses       -----------------------------------------------------
-!||    connectivity_mod           ../common_source/modules/connectivity.F90
-!||    detach_node_mod            ../engine/source/engine/node_spliting/detach_node.F90
-!||    interfaces_mod             ../common_source/modules/interfaces/interfaces_mod.F90
-!||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
-!||    nodal_arrays_mod           ../common_source/modules/nodal_arrays.F90
-!||    precision_mod              ../common_source/modules/precision_mod.F90
-!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||    nloc_shell_detach   ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||====================================================================
       module apply_crack_mod
         implicit none
@@ -58,6 +47,13 @@
 !! \details Sum of the two triangles (n1,n2,n3) and (n1,n3,n4).  Degenerated quads
 !!          (triangles stored with node4 = node3) get a zero second triangle, so the
 !!          formula is valid for both true quads and degenerated ones.
+!||====================================================================
+!||    shell_area4     ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- called by ------------------------------------------------------
+!||    apply_crack     ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         function shell_area4(x, n1, n2, n3, n4) result(area)
           use precision_mod, only: wp
           implicit none
@@ -92,6 +88,14 @@
 !!          spmd_exchange_ghost_shells), and the sums run in ascending shell-user-id
 !!          order, so all ranks holding the parent — and a 1-rank run — compute the
 !!          exact same fraction.
+!||====================================================================
+!||    split_mass_fraction   ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- called by ------------------------------------------------------
+!||    apply_crack           ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- uses       -----------------------------------------------------
+!||    connectivity_mod      ../common_source/modules/connectivity.F90
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         function split_mass_fraction(element, parent_id, n_uids, shell_uids, &
           numelc, shell_area, nghost, ghost_area) result(w)
           use connectivity_mod
@@ -207,6 +211,13 @@
 !!          owning rank of row k: a rank builds row k as a LOCAL row when
 !!          row_procne(k)==ispmd+1, otherwise as a RECV row.  Used by BOTH the mechanical
 !!          (update_pon_shells) and non-local (detach_node_nloc) skylines.
+!||====================================================================
+!||    build_contrib_order   ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- called by ------------------------------------------------------
+!||    apply_crack           ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- uses       -----------------------------------------------------
+!||    connectivity_mod      ../common_source/modules/connectivity.F90
+!||====================================================================
         subroutine build_contrib_order(element, n_uids, shell_uids, ispmd, nspmd, &
           m, row_uid, row_procne)
           use connectivity_mod
@@ -262,6 +273,15 @@
 !!          ranks: the parent keeps (1 - w) of its mass, rotational inertia,
 !!          assembled force/moment and non-local mass.  Every rank holding the
 !!          parent must apply the same factor so all MPI copies stay consistent.
+!||====================================================================
+!||    scale_parent_on_noncreating_rank   ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- called by ------------------------------------------------------
+!||    apply_crack                        ../engine/source/engine/node_spliting/apply_crack.F90
+!||--- uses       -----------------------------------------------------
+!||    nlocal_reg_mod                     ../common_source/modules/nlocal_reg_mod.F
+!||    nodal_arrays_mod                   ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                      ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine scale_parent_on_noncreating_rank(nodes, nloc_dmg, parent_uid, w)
           use nodal_arrays_mod
           use nlocal_reg_mod
@@ -319,20 +339,34 @@
 !!             created a local N' for the same parent get the SAME uid assigned to their local slot.
 !!          5. Phase 5: ranks that hold the parent locally but did NOT create N' halve ms/ms0.
 !||====================================================================
-!||    apply_crack                ../engine/source/engine/node_spliting/apply_crack.F90
+!||    apply_crack                        ../engine/source/engine/node_spliting/apply_crack.F90
 !||--- called by ------------------------------------------------------
-!||    nloc_shell_detach          ../engine/source/engine/node_spliting/nloc_shell_detach.F90
+!||    nloc_shell_detach                  ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||--- calls      -----------------------------------------------------
-!||    detach_node                ../engine/source/engine/node_spliting/detach_node.F90
-!||    mirror_node_split          ../engine/source/engine/node_spliting/detach_node.F90
+!||    build_contrib_order                ../engine/source/engine/node_spliting/apply_crack.F90
+!||    detach_node                        ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_nloc                   ../engine/source/engine/node_spliting/detach_node_nloc.F90
+!||    extend_nodal_arrays                ../common_source/modules/nodal_arrays.F90
+!||    mirror_node_split                  ../engine/source/engine/node_spliting/detach_node.F90
+!||    scale_parent_on_noncreating_rank   ../engine/source/engine/node_spliting/apply_crack.F90
+!||    set_new_node_values                ../engine/source/engine/node_spliting/detach_node.F90
+!||    shell_area4                        ../engine/source/engine/node_spliting/apply_crack.F90
+!||    split_mass_fraction                ../engine/source/engine/node_spliting/apply_crack.F90
+!||    spmd_exchange_ghost_shells         ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    stlsort_int_int                    ../common_source/tools/sort/cppsort.cpp
+!||    update_pon_shells                  ../engine/source/engine/node_spliting/update_pon.F90
 !||--- uses       -----------------------------------------------------
-!||    connectivity_mod           ../common_source/modules/connectivity.F90
-!||    detach_node_mod            ../engine/source/engine/node_spliting/detach_node.F90
-!||    interfaces_mod             ../common_source/modules/interfaces/interfaces_mod.F90
-!||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
-!||    nodal_arrays_mod           ../common_source/modules/nodal_arrays.F90
-!||    precision_mod              ../common_source/modules/precision_mod.F90
-!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||    connectivity_mod                   ../common_source/modules/connectivity.F90
+!||    detach_node_mod                    ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_nloc_mod               ../engine/source/engine/node_spliting/detach_node_nloc.F90
+!||    extend_array_mod                   ../common_source/tools/memory/extend_array.F90
+!||    ghost_shells_mod                   ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    interfaces_mod                     ../common_source/modules/interfaces/interfaces_mod.F90
+!||    nlocal_reg_mod                     ../common_source/modules/nlocal_reg_mod.F
+!||    nodal_arrays_mod                   ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                      ../common_source/modules/precision_mod.F90
+!||    spmd_mod                           ../engine/source/mpi/spmd_mod.F90
+!||    update_pon_mod                     ../engine/source/engine/node_spliting/update_pon.F90
 !||====================================================================
         subroutine apply_crack(nodes, element, interf, npari, ninter, ipari, numnod, numnodg, &
           ispmd, nspmd, nloc_dmg, nthread, new_crack, crack_info_list)

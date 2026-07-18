@@ -56,7 +56,6 @@
 !||    remn_i2op              ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    remn_i2op_edg25        ../starter/source/interfaces/int25/i25remlin.F
 !||    split_cfd_solide       ../starter/source/spmd/split_cfd_solide.F
-!||    update_pon_shells      ../engine/source/engine/node_spliting/update_pon.F90
 !||    upgrade_cand_opt       ../common_source/interf/upgrade_multimp.F
 !||    upgrade_lcand_e2s      ../common_source/interf/upgrade_multimp.F
 !||    upgrade_lcand_edg      ../common_source/interf/upgrade_multimp.F

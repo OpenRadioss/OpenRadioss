@@ -88,6 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_knotloc                 ../starter/source/restart/ddsplit/w_knotloc.F
 !||    w_outmaxn                 ../starter/source/restart/ddsplit/w_outmaxn.F
 !||    w_pxfem                   ../starter/source/restart/ddsplit/w_pxfem.F
+!||    w_q1np_real               ../starter/source/restart/ddsplit/w_q1np.F90
 !||    w_r3nloc                  ../starter/source/restart/ddsplit/w_r3nloc.F
 !||    w_reloc                   ../starter/source/restart/ddsplit/w_reloc.F
 !||    w_reloc2                  ../starter/source/restart/ddsplit/w_reloc2.F

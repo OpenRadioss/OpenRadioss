@@ -820,6 +820,7 @@
 !||    intvo3                                   ../engine/source/interfaces/inter3d/intvo3.F
 !||    intvo8                                   ../engine/source/interfaces/inter3d/intvo8.F
 !||    ipari_l_ini                              ../starter/source/restart/ddsplit/ipari_l_ini.F
+!||    ists_mainf                               ../engine/source/interfaces/ists/ists_mainf.F90
 !||    itagsl12                                 ../starter/source/interfaces/inter3d1/inintr2.F
 !||    itagsl2                                  ../starter/source/interfaces/inter3d1/itagsl2.F
 !||    iwcontdd_type24                          ../starter/source/spmd/domain_decomposition/iwcontdd_type24.F
@@ -987,6 +988,8 @@
 !||    st_qaprint_driver                        ../starter/source/output/qaprint/st_qaprint_driver.F
 !||    st_qaprint_interfaces                    ../starter/source/output/qaprint/st_qaprint_interfaces.F
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
+!||    sts_broad_phase_int7_bucket_mod          ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||    sts_remap_segments                       ../engine/source/interfaces/ists/ists_remap_segments.F90
 !||    ud_int5                                  ../engine/source/implicit/upd_glob_k.F
 !||    upd_fr                                   ../engine/source/mpi/implicit/imp_fri.F
 !||    upd_glob_k                               ../engine/source/implicit/upd_glob_k.F

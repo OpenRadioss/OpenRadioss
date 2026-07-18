@@ -1,9 +1,45 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sts_remap_segments  ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_segments                      ../engine/source/interfaces/ists/ists_remap_segments.F90
 !||--- called by ------------------------------------------------------
-!||    sts_int7_bucket_broad_phase  ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
-!||--- calls ---------------------------------------------------------
-!||    (none - local mapping only)
+!||    sts_int7_bucket_broad_phase             ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_remap_add_sec_segs_for_node_patch   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_build_master_neighbors        ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_build_master_node_adj         ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_build_node_seg_adj            ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_clear_topo_cache              ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_deallocate_work               ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_nearest_sec_seg               ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_try_add_pair                  ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                            ../common_source/modules/constant_mod.F
+!||    groupdef_mod                            ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod                           ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod                            ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                          ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod                           ../common_source/modules/precision_mod.F90
 !||====================================================================
       SUBROUTINE STS_REMAP_SEGMENTS(INTBUF_TAB, X, NUMNOD, NRTM, NSN, CAND_SEC_SEG, &
      &  JLT, CAND_N_CUR, CAND_E_CUR, IRECT, CONT_ELEMENT, COUNT, &
@@ -242,6 +278,12 @@
       !
       ! Try to add a segment pair to the candidate list.
       !=======================================================================
+!||====================================================================
+!||    sts_remap_try_add_pair            ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_add_sec_segs_for_node   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||    sts_remap_segments                ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||====================================================================
         SUBROUTINE STS_REMAP_TRY_ADD_PAIR(SEC_SEG_IN, MST_SEG_IN, &
      &    COUNT_INOUT, CAND_SEC, CAND_MST, CAPACITY, PAIR_ADDED, &
      &    PAIR_INDEX)
@@ -293,6 +335,13 @@
         ! master facets are required when the projected point lies across the
         ! original INT7 facet edge.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_add_sec_segs_for_node_patch   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_segments                      ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_remap_add_sec_segs_for_node         ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||====================================================================
         SUBROUTINE STS_REMAP_ADD_SEC_SEGS_FOR_NODE_PATCH( &
      &    NSEG_IN, SEC_NODE_IN, MST_SEG_IN, &
      &    SEC_COUNT, SEC_OFF, SEC_LIST, MST_NEI_COUNT, MST_NEI_OFF, &
@@ -350,6 +399,13 @@
         ! every secondary surface segment sharing it; keeping only one segment
         ! makes the integrated contact patch too sparse on curved surfaces.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_add_sec_segs_for_node         ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_add_sec_segs_for_node_patch   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_remap_try_add_pair                  ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||====================================================================
         SUBROUTINE STS_REMAP_ADD_SEC_SEGS_FOR_NODE( &
      &    NSEG_IN, SEC_NODE_IN, MST_SEG_IN, SEC_COUNT, SEC_OFF, &
      &    SEC_LIST, COUNT_INOUT, CAND_SEC, CAND_MST, GP_MASK, &
@@ -398,6 +454,12 @@
         !
         ! Build a compressed node-to-secondary-segment adjacency table.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_build_node_seg_adj   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_segments             ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE STS_REMAP_BUILD_NODE_SEG_ADJ(SEG_NODES, NSEG_IN, &
      &    NUMNOD_IN, NODE_COUNT, NODE_OFF, NODE_LIST)
           INTEGER, INTENT(IN) :: NSEG_IN, NUMNOD_IN
@@ -446,6 +508,12 @@
         !
         ! Build a compressed node-to-master-segment adjacency table.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_build_master_node_adj   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_segments                ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE STS_REMAP_BUILD_MASTER_NODE_ADJ(IRECT_IN, NRTM_IN, &
      &    NUMNOD_IN, NODE_COUNT, NODE_OFF, NODE_LIST)
           INTEGER, INTENT(IN) :: NRTM_IN, NUMNOD_IN
@@ -494,6 +562,13 @@
         !
         ! Build sorted master-segment neighbor lists by shared corner nodes.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_build_master_neighbors   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_segments                 ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_remap_sort_int                 ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||====================================================================
         SUBROUTINE STS_REMAP_BUILD_MASTER_NEIGHBORS(IRECT_IN, NRTM_IN, &
      &    NODE_COUNT, NODE_OFF, NODE_LIST, SEG_COUNT, SEG_OFF, SEG_LIST)
           INTEGER, INTENT(IN) :: NRTM_IN
@@ -576,6 +651,11 @@
         !
         ! Sort a short integer work array in ascending order.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_sort_int                 ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_build_master_neighbors   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||====================================================================
         SUBROUTINE STS_REMAP_SORT_INT(ARR, N)
           INTEGER, INTENT(INOUT) :: ARR(:)
           INTEGER, INTENT(IN) :: N
@@ -597,6 +677,12 @@
         !
         ! Release per-call hash and nearest-segment work arrays.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_deallocate_work   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_segments          ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE STS_REMAP_DEALLOCATE_WORK()
           IF (ALLOCATED(PAIR_HASH_SEC)) CALL MY_DEALLOC(PAIR_HASH_SEC)
           IF (ALLOCATED(PAIR_HASH_MST)) CALL MY_DEALLOC(PAIR_HASH_MST)
@@ -609,6 +695,12 @@
         !
         ! Release cached surface topology adjacency tables.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_clear_topo_cache   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_segments           ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE STS_REMAP_CLEAR_TOPO_CACHE()
           IF (ALLOCATED(IGRSURF_S_TEMP)) CALL MY_DEALLOC(IGRSURF_S_TEMP)
           IF (ALLOCATED(SEC_NODE_SEG_COUNT)) CALL MY_DEALLOC(SEC_NODE_SEG_COUNT)
@@ -628,6 +720,11 @@
         !
         ! Find the secondary segment that is closest to the main segment centroid.
         !=======================================================================
+!||====================================================================
+!||    sts_remap_nearest_sec_seg   ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||--- called by ------------------------------------------------------
+!||    sts_remap_segments          ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||====================================================================
         INTEGER FUNCTION STS_REMAP_NEAREST_SEC_SEG(IGRSURF_NODES, &
      &    NSEG_IN, IRECT_IN, NRTM_IN, MST_SEG_IN, NUMNOD_IN, X_IN)
           INTEGER, INTENT(IN) :: NSEG_IN, NRTM_IN, MST_SEG_IN, NUMNOD_IN

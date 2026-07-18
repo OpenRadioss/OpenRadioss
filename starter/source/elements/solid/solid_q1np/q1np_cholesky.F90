@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,12 @@
 !   A is overwritten with Cholesky factor L (lower). B and X are N x NRHS.
 !   NRHS is the number of right-hand sides (3 for 3D surface fit).
 !=======================================================================
+!||====================================================================
+!||    q1np_cholesky_mod         ../starter/source/elements/solid/solid_q1np/q1np_cholesky.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np_mod               ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_fit_control_points   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||====================================================================
       module q1np_cholesky_mod
         implicit none
       contains
@@ -35,6 +41,12 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! result in X
+!||====================================================================
+!||    cholesky_solve_q1np       ../starter/source/elements/solid/solid_q1np/q1np_cholesky.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_fit_control_points   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine cholesky_solve_q1np(n, a, lda, b, nrhs, x)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

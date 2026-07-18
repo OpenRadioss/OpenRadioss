@@ -20,16 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    sts_broad_phase_int7_bucket_mod   ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
-!||--- calls      -----------------------------------------------------
-!||    sts_remap_segments      ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- uses       -----------------------------------------------------
-!||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    groupdef_mod            ../engine/share/modules/groupdef_mod.F
-!||====================================================================
 !
 !   Legacy INT7 bucket broad-phase adapter for STS contact.
 !
@@ -42,6 +32,19 @@
 !   matches STS_VOXEL_BROAD_PHASE so the downstream STS pipeline
 !   (STS_CONTACT_STIFFNESS, STS_CONTACTS_ASSEMBLE) is unchanged.
 !
+!||====================================================================
+!||    sts_broad_phase_int7_bucket_mod   ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                        ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    groupdef_mod                      ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod                     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    ists_sts_bp_persist_mod           ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||    my_alloc_mod                      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                    ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod                     ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE STS_BROAD_PHASE_INT7_BUCKET_MOD
         USE INTBUFDEF_MOD, ONLY : INTBUF_STRUCT_
         USE GROUPDEF_MOD,  ONLY : SURF_
@@ -62,6 +65,17 @@
 !   COUNT is clamped to MAX_STS_SIZE_ACTUAL; OVERFLOW is set when the
 !   storage saturated so the caller can grow capacity and retry.
 !=======================================================================
+!||====================================================================
+!||    sts_int7_bucket_broad_phase       ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                        ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_bp_persist_save          ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||    ists_sts_bp_persist_try_restore   ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||    sts_pair_hash_contains            ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||    sts_pair_hash_insert              ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||    sts_remap_segments                ../engine/source/interfaces/ists/ists_remap_segments.F90
+!||====================================================================
         SUBROUTINE STS_INT7_BUCKET_BROAD_PHASE( &
      &      NIN, INTBUF_TAB, IGRSURF, NSURF, SEC_SURF_IDX, MST_SURF_IDX, &
      &      X, NUMNOD, NSN, NRTM, MAX_STS_SIZE_ACTUAL, &
@@ -362,6 +376,11 @@
 !
 !   Insert a secondary/master segment pair into an open-addressed hash.
 !=======================================================================
+!||====================================================================
+!||    sts_pair_hash_insert          ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- called by ------------------------------------------------------
+!||    sts_int7_bucket_broad_phase   ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||====================================================================
         SUBROUTINE STS_PAIR_HASH_INSERT(SEC_SEG, MST_SEG, PAIR_INDEX_IN, &
      &    HASH_SIZE, HASH_SEC, HASH_MST, HASH_INDEX, HASH_INDEX_OUT)
           INTEGER, INTENT(IN) :: SEC_SEG, MST_SEG, PAIR_INDEX_IN
@@ -404,6 +423,11 @@
 !
 !   Return whether an open-addressed hash contains a segment pair.
 !=======================================================================
+!||====================================================================
+!||    sts_pair_hash_contains        ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- called by ------------------------------------------------------
+!||    sts_int7_bucket_broad_phase   ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||====================================================================
         LOGICAL FUNCTION STS_PAIR_HASH_CONTAINS(SEC_SEG, MST_SEG, &
      &    HASH_SIZE, HASH_SEC, HASH_MST, HASH_INDEX)
           INTEGER, INTENT(IN) :: SEC_SEG, MST_SEG, HASH_SIZE

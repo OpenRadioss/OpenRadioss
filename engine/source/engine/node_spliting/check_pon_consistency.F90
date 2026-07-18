@@ -34,8 +34,6 @@
 !!          Read-only; intended to be called right after node-splitting to locate ADSKY/IADC mismatches.
 !||====================================================================
 !||    check_pon_consistency   ../engine/source/engine/node_spliting/check_pon_consistency.F90
-!||--- called by ------------------------------------------------------
-!||    nloc_shell_detach       ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||--- uses       -----------------------------------------------------
 !||    connectivity_mod        ../common_source/modules/connectivity.F90
 !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90

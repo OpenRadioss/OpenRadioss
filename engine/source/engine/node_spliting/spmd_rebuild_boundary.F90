@@ -24,8 +24,6 @@
 !||    spmd_rebuild_boundary_mod   ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||--- called by ------------------------------------------------------
 !||    resol                       ../engine/source/engine/resol.F
-!||--- uses       -----------------------------------------------------
-!||    spmd_mod                    ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       module spmd_rebuild_boundary_mod
 
@@ -36,11 +34,6 @@
 
       contains
 
-!||====================================================================
-!||    spmd_rebuild_boundary   ../engine/source/mpi/nodes/spmd_rebuild_boundary.F90
-!||--- called by ------------------------------------------------------
-!||    resol                   ../engine/source/engine/resol.F
-!||====================================================================
 !! \brief Rebuild BOUNDARY and BOUNDARY_ADD from scratch.
 !!
 !! \details
@@ -77,6 +70,18 @@
 !!                              row 2: start of each domain's send sub-block
 !! \param[out] boundary_size    total number of entries in boundary
 
+!||====================================================================
+!||    spmd_rebuild_boundary   ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    add_entry               ../common_source/tools/container/umap_mod.F90
+!||    reserve_capacity        ../common_source/tools/container/umap_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
+!||    spmd_mod                ../engine/source/mpi/spmd_mod.F90
+!||    umap_mod                ../common_source/tools/container/umap_mod.F90
+!||====================================================================
         subroutine spmd_rebuild_boundary(numnod, nspmd, ispmd, nodes)
 
           use spmd_mod,  only : spmd_allgatherv, spmd_allgather, spmd_allreduce, &
@@ -373,6 +378,14 @@
 !! \param[in]    bnd_add_orig    saved startup BOUNDARY_ADD (2 × nspmd+1)
 !! \param[in]    bnd_orig        saved startup BOUNDARY (bnd_size_orig elements)
 !! \param[in]    bnd_size_orig   size of bnd_orig
+!||====================================================================
+!||    merge_boundary_with_split   ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
+!||--- called by ------------------------------------------------------
+!||    resol                       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
+!||====================================================================
         subroutine merge_boundary_with_split(nodes, numnod_old, nspmd, &
           bnd_add_orig, bnd_orig, bnd_size_orig)
 

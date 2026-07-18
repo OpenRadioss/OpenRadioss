@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,13 @@
 !     - hex8_elements.csv       (iel,elem_id,n1..n8 from IXS(2:9), IXS(11)=elem_id)
 !     - hex8_nodes.csv          (node_id,x,y,z for nodes used by exported HEX8)
 !=======================================================================
+!||====================================================================
+!||    q1np_export_csv_mod       ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np_mod               ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_fit_control_points   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module q1np_export_csv_mod
         use precision_mod, only : WP
         implicit none
@@ -41,6 +48,11 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
+!||====================================================================
+!||    q1np_export_nurbs_csv   ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                 ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||====================================================================
         subroutine q1np_export_nurbs_csv(ncp_u, ncp_v, max_cp_u, max_cp_v, &
      &                                   q1np_cptab, cp_map, &
      &                                   numelq1np_out, kq1np_tab, &
@@ -170,6 +182,13 @@
         end subroutine q1np_export_nurbs_csv
 
 !=======================================================================
+!||====================================================================
+!||    q1np_export_bulk_nodes_csv   ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                      ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine q1np_export_bulk_nodes_csv(numelq1np_out, numnod, &
      &                                         kq1np_tab, iq1np_bulk_tab, x, &
      &                                         surface_id)
@@ -235,6 +254,11 @@
 !   Export original surface nodes before they are replaced by control points.
 !   Caller passes GRID_NODE such that GRID_NODE(1:NX+1,1:NY+1) holds node IDs (0 if missing).
 !=======================================================================
+!||====================================================================
+!||    q1np_export_surface_nodes_csv   ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_fit_control_points         ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||====================================================================
         subroutine q1np_export_surface_nodes_csv(nx, ny, x_grid, grid_node, &
      &                                           surface_id)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -286,6 +310,11 @@
 !   FUNCTION TO CHECK IF AN ELEMENT IS A BRICK8
 !   True if IXS(2:9,iel) are eight positive, pairwise different node IDs.
 !=======================================================================
+!||====================================================================
+!||    q1np_ixs_is_distinct_brick8   ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_export_hex8_csv          ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||====================================================================
         logical function q1np_ixs_is_distinct_brick8(ixs, nixs, numels, iel)
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -318,6 +347,12 @@
 !   HEX8 elements that are replaced by a Q1NP element (KQ1NP_TAB(10,:) = local
 !   IXS index) are omitted so the CSV matches “remaining” classical bricks only.
 !=======================================================================
+!||====================================================================
+!||    q1np_export_hex8_csv          ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_ixs_is_distinct_brick8   ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine q1np_export_hex8_csv(numels, nixs, ixs, x, numnod, &
      &                                  numelq1np_in, kq1np_tab, nkq1np, &
      &                                  surface_id_opt)

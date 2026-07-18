@@ -55,6 +55,7 @@
 !||====================================================================
 !||    interfaces_mod                ../common_source/modules/interfaces/interfaces_mod.F90
 !||--- called by ------------------------------------------------------
+!||    apply_crack                   ../engine/source/engine/node_spliting/apply_crack.F90
 !||    ddsplit                       ../starter/source/restart/ddsplit/ddsplit.F
 !||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
 !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
@@ -72,6 +73,7 @@
 !||    lecins                        ../starter/source/interfaces/interf1/lecins.F
 !||    lecint                        ../starter/source/interfaces/interf1/lecint.F
 !||    lectur                        ../engine/source/input/lectur.F
+!||    nloc_shell_detach             ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    radioss2                      ../engine/source/engine/radioss2.F
 !||    rdresa                        ../engine/source/output/restart/rdresa.F
 !||    rdresb                        ../engine/source/output/restart/rdresb.F
@@ -83,7 +85,6 @@
 !||    spmd_i7fcom_poff              ../engine/source/mpi/forces/spmd_i7fcom_poff.F
 !||    spmd_i7fcom_pon               ../engine/source/mpi/forces/spmd_i7fcom_pon.F
 !||    spmd_i7xvcom2                 ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-!||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
 !||    wrrestp                       ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
 !||    intbuf_fric_mod               ../common_source/modules/interfaces/intbuf_fric_mod.F90

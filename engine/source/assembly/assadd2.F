@@ -432,6 +432,7 @@ C
 !||====================================================================
 !||    assinit              ../engine/source/assembly/assadd2.F
 !||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
 !||    resol_alloc_phase2   ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       SUBROUTINE ASSINIT(
@@ -486,7 +487,7 @@ C
 C
       RETURN
       END
- !||====================================================================
+!||====================================================================
 !||    rebuild_pon_tables   ../engine/source/assembly/assadd2.F
 !||--- called by ------------------------------------------------------
 !||    resol                ../engine/source/engine/resol.F

@@ -32,6 +32,7 @@
 !||    init_ale_boundary_condition     ../engine/source/ale/init_ale_boundary_condition.F90
 !||    mmain                           ../engine/source/materials/mat_share/mmain.F90
 !||    mulaw8                          ../engine/source/materials/mat_share/mulaw8.F90
+!||    q1np_forc3                      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    r23l135def3                     ../engine/source/elements/spring/r23l135def3.F90
 !||    r23law135                       ../engine/source/elements/spring/r23law135.F90
 !||    r2len3law135                    ../engine/source/elements/spring/r2len3law135.F90

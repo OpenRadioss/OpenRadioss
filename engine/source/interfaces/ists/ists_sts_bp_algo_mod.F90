@@ -20,13 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    ists_sts_bp_algo_mod  ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
-!||    inter_sort_07           ../engine/source/interfaces/int07/inter_sort_07.F
-!||    i7main_tri              ../engine/source/interfaces/intsort/i7main_tri.F
-!||====================================================================
 !
 !   Hardcoded broad-phase algorithm selector for STS contact.
 !
@@ -41,6 +34,15 @@
 !   study toolchain (patch_engine_constants.py); no input/deck change
 !   is required to switch between the two paths.
 !
+!||====================================================================
+!||    ists_sts_bp_algo_mod   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||--- called by ------------------------------------------------------
+!||    i7main_tri             ../engine/source/interfaces/intsort/i7main_tri.F
+!||    i7trc                  ../engine/source/interfaces/intsort/i7trc.F
+!||    inter_check_sort       ../engine/source/interfaces/generic/inter_check_sort.F
+!||    inter_sort_07          ../engine/source/interfaces/int07/inter_sort_07.F
+!||    ists_mainf             ../engine/source/interfaces/ists/ists_mainf.F90
+!||====================================================================
       MODULE ISTS_STS_BP_ALGO_MOD
         IMPLICIT NONE
         PRIVATE
@@ -65,6 +67,13 @@
 !   Decide whether Type 7 sorting must rebuild INT7 bucket candidates for
 !   the STS INT7-bucket broad phase on the current cycle.
 !=======================================================================
+!||====================================================================
+!||    sts_int7_bucket_sort_decide   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||--- called by ------------------------------------------------------
+!||    i7main_tri                    ../engine/source/interfaces/intsort/i7main_tri.F
+!||    inter_check_sort              ../engine/source/interfaces/generic/inter_check_sort.F
+!||    inter_sort_07                 ../engine/source/interfaces/int07/inter_sort_07.F
+!||====================================================================
         SUBROUTINE STS_INT7_BUCKET_SORT_DECIDE(NCYCLE_IN, &
      &    TIME_ACTIVE, IPSTS, BP_ALGO_IN, CAND_COUNT, INACTI, IFQ, &
      &    NUM_IMP, ITIED, NEED_SORT)
@@ -105,14 +114,16 @@
 
       END MODULE ISTS_STS_BP_ALGO_MOD
 
-!||====================================================================
-!||    ists_sts_pair_activity_mod
-!||====================================================================
 !
 !   Short-lived activity cache for conservative STS Lobatto candidate
 !   lists.  Empty remap pairs are rechecked after a few cycles, while
 !   active or near-gap pairs remain evaluated every cycle.
 !
+!||====================================================================
+!||    ists_sts_pair_activity_mod   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contacts_assemble        ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||====================================================================
       MODULE ISTS_STS_PAIR_ACTIVITY_MOD
         IMPLICIT NONE
         PRIVATE
@@ -140,6 +151,12 @@
 !   Find or reserve a hash slot for one STS segment pair and quadrature
 !   option in the short-lived pair activity cache.
 !=======================================================================
+!||====================================================================
+!||    sts_pair_activity_find          ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_pair_activity_should_skip   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||    sts_pair_activity_update        ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||====================================================================
         SUBROUTINE STS_PAIR_ACTIVITY_FIND(STS_INTERFACE_ID, SEC_SEG, &
      &    MST_SEG, OPTION, SLOT, FOUND)
           INTEGER, INTENT(IN) :: STS_INTERFACE_ID, SEC_SEG
@@ -184,6 +201,13 @@
 !
 !   Return whether an inactive Lobatto pair can be skipped this cycle.
 !=======================================================================
+!||====================================================================
+!||    sts_pair_activity_should_skip   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contacts_assemble           ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_pair_activity_find          ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||====================================================================
         SUBROUTINE STS_PAIR_ACTIVITY_SHOULD_SKIP(NCYCLE_IN, &
      &    STS_INTERFACE_ID, SEC_SEG, MST_SEG, OPTION, DO_SKIP)
           INTEGER, INTENT(IN) :: NCYCLE_IN, STS_INTERFACE_ID
@@ -209,6 +233,13 @@
 !
 !   Update the skip horizon for one pair after narrow-phase evaluation.
 !=======================================================================
+!||====================================================================
+!||    sts_pair_activity_update   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contacts_assemble      ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_pair_activity_find     ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||====================================================================
         SUBROUTINE STS_PAIR_ACTIVITY_UPDATE(NCYCLE_IN, &
      &    STS_INTERFACE_ID, SEC_SEG, MST_SEG, OPTION, IMPACT, &
      &    VALID_GP, MIN_PENE, GAP)

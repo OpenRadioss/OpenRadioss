@@ -23,6 +23,7 @@
 !||====================================================================
 !||    update_pon_mod            ../engine/source/engine/node_spliting/update_pon.F90
 !||--- called by ------------------------------------------------------
+!||    apply_crack               ../engine/source/engine/node_spliting/apply_crack.F90
 !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
 !||    resol                     ../engine/source/engine/resol.F
 !||====================================================================
@@ -33,6 +34,7 @@
 !||====================================================================
 !||    update_pon_shells         ../engine/source/engine/node_spliting/update_pon.F90
 !||--- called by ------------------------------------------------------
+!||    apply_crack               ../engine/source/engine/node_spliting/apply_crack.F90
 !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------

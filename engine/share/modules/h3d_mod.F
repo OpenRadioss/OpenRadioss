@@ -222,6 +222,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intvo3                                       ../engine/source/interfaces/inter3d/intvo3.F
 !||    intvo8                                       ../engine/source/interfaces/inter3d/intvo8.F
 !||    iqela1                                       ../engine/source/ale/inter/iqela1.F
+!||    ists_mainf                                   ../engine/source/interfaces/ists/ists_mainf.F90
 !||    lag_anith                                    ../engine/source/tools/lagmul/lag_anith.F
 !||    lag_anithp                                   ../engine/source/tools/lagmul/lag_anith.F
 !||    lag_mult                                     ../engine/source/tools/lagmul/lag_mult.F

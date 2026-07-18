@@ -336,6 +336,7 @@ C
 !||    i24mainf                   ../engine/source/interfaces/int24/i24main.F
 !||    i25mainf                   ../engine/source/interfaces/int25/i25mainf.F
 !||    i7mainf                    ../engine/source/interfaces/int07/i7mainf.F
+!||    ists_mainf                 ../engine/source/interfaces/ists/ists_mainf.F90
 !||--- calls      -----------------------------------------------------
 !||    finter                     ../engine/source/tools/curve/finter.F
 !||====================================================================

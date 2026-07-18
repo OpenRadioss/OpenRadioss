@@ -127,6 +127,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fvmesh1                                ../starter/source/airbag/fvmesh.F
 !||    fvventhole                             ../starter/source/airbag/fvventhole.F
 !||    fvverif                                ../starter/source/airbag/fvmbag1.F
+!||    genq1np                                ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
 !||    get_skew                               ../starter/source/elements/joint/rjoint/rini33.F
 !||    get_skew45                             ../starter/source/elements/joint/rjoint/rini45.F
 !||    get_sort_key_shell3n                   ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
@@ -747,6 +748,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    prelecsec                              ../starter/source/tools/sect/prelecsec.F
 !||    prepare_int25                          ../starter/source/model/mesh/build_cnel.F
 !||    printgroup                             ../starter/source/output/outfile/printgroup.F
+!||    q1np_fit_control_points                ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_mass3                             ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||    q1np_promote_cp_to_nodes               ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
 !||    q4deri2                                ../starter/source/elements/solid_2d/quad4/q4deri2.F
 !||    q4init2                                ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    q4voli2                                ../starter/source/elements/solid_2d/quad4/q4voli2.F

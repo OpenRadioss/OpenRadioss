@@ -40,8 +40,10 @@
 !||    cgrtails                                 ../starter/source/elements/shell/coque/cgrtails.F
 !||    check_mat_elem_prop_compatibility        ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
 !||    cinit3                                   ../starter/source/elements/shell/coque/cinit3.F
+!||    cppm_beams                               ../engine/source/materials/mat/mat131/return_mapping/cppm_beams.F90
 !||    cppm_shells                              ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
 !||    cppm_solids                              ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_beams                      ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_beams.F90
 !||    cutting_plane_shells                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
 !||    cutting_plane_solids                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
 !||    dfunc0                                   ../engine/source/output/anim/generate/dfunc0.F
@@ -343,6 +345,7 @@
 !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
 !||    mmodul                                   ../engine/source/elements/solid/solidez/mmodul.F
 !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw_ib                                 ../engine/source/elements/beam/mulaw_ib.F
 !||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_ebcs                               ../engine/source/multifluid/multi_ebcs.F
 !||    multi_inlet_ebcs                         ../engine/source/multifluid/multi_inlet_ebcs.F
@@ -357,6 +360,7 @@
 !||    multifluid_init2t                        ../starter/source/multifluid/multifluid_init2t.F
 !||    multifluid_init3                         ../starter/source/multifluid/multifluid_init3.F
 !||    multifluid_init3t                        ../starter/source/multifluid/multifluid_init3t.F
+!||    nice_beams                               ../engine/source/materials/mat/mat131/return_mapping/nice_beams.F90
 !||    nice_shells                              ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
 !||    nice_solids                              ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||    nloc_dmg_init                            ../starter/source/materials/fail/nloc_dmg_init.F
@@ -409,6 +413,7 @@
 !||    sigeps130                                ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps131                                ../engine/source/materials/mat/mat131/sigeps131.F90
 !||    sigeps131c                               ../engine/source/materials/mat/mat131/sigeps131c.F90
+!||    sigeps131pi                              ../engine/source/materials/mat/mat131/sigeps131pi.F90
 !||    sigeps132c                               ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                                ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90

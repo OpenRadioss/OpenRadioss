@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,11 +45,22 @@
 !C
 !C   Knot vectors are stored concatenated: U knots first, then V knots
 !C=======================================================================
+!||====================================================================
+!||    setupnurbsq1np_mod   ../starter/source/elements/solid/solid_q1np/q1np_setupnurbs.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np_mod          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module setupnurbsq1np_mod
         use precision_mod, only : WP
         use constant_mod, only : ZERO, ONE
         implicit none
       contains
+!||====================================================================
+!||    setupnurbsq1np   ../starter/source/elements/solid/solid_q1np/q1np_setupnurbs.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||====================================================================
         subroutine setupnurbsq1np(nx, ny, p, q, &
      &                            q1np_ktab, ncp_u, ncp_v, &
      &                            q1np_wtab, nweight_max)

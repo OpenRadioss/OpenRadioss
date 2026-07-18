@@ -23,12 +23,9 @@
 !||====================================================================
 !||    detach_node_nloc_mod   ../engine/source/engine/node_spliting/detach_node_nloc.F90
 !||--- called by ------------------------------------------------------
+!||    apply_crack            ../engine/source/engine/node_spliting/apply_crack.F90
 !||    detach_node            ../engine/source/engine/node_spliting/detach_node.F90
-!||--- uses       -----------------------------------------------------
-!||    connectivity_mod       ../common_source/modules/connectivity.F90
-!||    extend_array_mod       ../common_source/tools/memory/extend_array.F90
-!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||    mirror_node_split      ../engine/source/engine/node_spliting/detach_node.F90
 !||====================================================================
       module detach_node_nloc_mod
         implicit none
@@ -69,15 +66,17 @@
 !!   "ghost shell" = element%ghost_shell, used for the physical failure criteria
 !!                   exchange in apply_crack.F90 Phase 1 only; unrelated to FSKY.
 !||====================================================================
-!||    detach_node_nloc          ../engine/source/engine/node_spliting/detach_node_nloc.F90
+!||    detach_node_nloc    ../engine/source/engine/node_spliting/detach_node_nloc.F90
 !||--- called by ------------------------------------------------------
-!||    detach_node               ../engine/source/engine/node_spliting/detach_node.F90
+!||    apply_crack         ../engine/source/engine/node_spliting/apply_crack.F90
+!||    detach_node         ../engine/source/engine/node_spliting/detach_node.F90
+!||    mirror_node_split   ../engine/source/engine/node_spliting/detach_node.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    connectivity_mod          ../common_source/modules/connectivity.F90
-!||    extend_array_mod          ../common_source/tools/memory/extend_array.F90
-!||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F
-!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||    connectivity_mod    ../common_source/modules/connectivity.F90
+!||    extend_array_mod    ../common_source/tools/memory/extend_array.F90
+!||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
+!||    precision_mod       ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine detach_node_nloc(nloc_dmg, old_local_id, new_local_id, &
           elements, shell_list, list_size, old_numnod, nthread, ispmd, nspmd_in, &

@@ -167,6 +167,7 @@ C=======================================================================
 !||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
 !||    intfop2                          ../engine/source/interfaces/interf/intfop2.F
 !||    inttri                           ../engine/source/interfaces/intsort/inttri.F
+!||    ists_mainf                       ../engine/source/interfaces/ists/ists_mainf.F90
 !||    lag_mult                         ../engine/source/tools/lagmul/lag_mult.F
 !||    lin_solv                         ../engine/source/implicit/lin_solv.F
 !||    mav_lt_h                         ../engine/source/implicit/produt_v.F

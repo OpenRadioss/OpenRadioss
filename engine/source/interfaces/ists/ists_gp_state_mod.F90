@@ -1,7 +1,36 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sts_gp_state_mod  ../engine/source/interfaces/ists/ists_gp_state_mod.F90
-!||--------------------------------------------------------------------
-!||  Global Gauss point state for STS contact (segment-keyed hash slots).
+!||    sts_gp_state_mod           ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                 ../engine/source/interfaces/ists/ists_mainf.F90
+!||    sts_contact_eval_pair      ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||    sts_contacts_assemble      ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||    sts_gp_update_xi_history   ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||    sts_gp_warm_start_xi       ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod             ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       MODULE sts_gp_state_mod
 
@@ -42,6 +71,12 @@
       !   STS_GP_DEALLOCATE_ALL
       !=======================================================================
       ! Deallocate all global GP state variables
+!||====================================================================
+!||    sts_gp_deallocate_all   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_gp_state_init       ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE sts_gp_deallocate_all()
       IF (ALLOCATED(GP_XI1_GLOBAL)) THEN
         CALL MY_DEALLOC(GP_XI1_GLOBAL)
@@ -69,6 +104,11 @@
       !=======================================================================
       ! Canonicalize the node IDs for the current Gauss/Lobatto point
       ! This ensures that the node IDs are in the same order for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_canonical_nodes      ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_gp_canonical_pair_key   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_canonical_nodes(NODES_IN, NODES_OUT)
       INTEGER, INTENT(IN)  :: NODES_IN(4)
       INTEGER, INTENT(INOUT) :: NODES_OUT(4)
@@ -90,6 +130,13 @@
       !=======================================================================
       ! Canonicalize the pair key for the current Gauss/Lobatto point
       ! This ensures that the pair key is in the same order for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_canonical_pair_key   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair       ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_gp_canonical_nodes      ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_canonical_pair_key(NODE_IDS, MST_KEY, SEC_KEY)
       INTEGER, INTENT(IN)  :: NODE_IDS(8)
       INTEGER, INTENT(INOUT) :: MST_KEY(4), SEC_KEY(4)
@@ -97,6 +144,11 @@
       CALL sts_gp_canonical_nodes(NODE_IDS(5:8), SEC_KEY)
       END SUBROUTINE sts_gp_canonical_pair_key
 
+!||====================================================================
+!||    sts_gp_keys_match     ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_gp_acquire_slot   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       LOGICAL FUNCTION sts_gp_keys_match(SLOT, MST_KEY, SEC_KEY, Z, Q, QUAD)
       INTEGER, INTENT(IN) :: SLOT, MST_KEY(4), SEC_KEY(4), Z, Q, QUAD
       INTEGER :: I
@@ -116,6 +168,11 @@
       !=======================================================================
       ! Store the key for the current Gauss/Lobatto point
       ! This ensures that the key is stored in the same order for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_store_key      ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_gp_acquire_slot   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_store_key(SLOT, MST_KEY, SEC_KEY, Z, Q, QUAD)
       INTEGER, INTENT(IN) :: SLOT, MST_KEY(4), SEC_KEY(4), Z, Q, QUAD
       INTEGER :: I
@@ -133,6 +190,13 @@
       !=======================================================================
       ! Clear the state for the current Gauss/Lobatto point
       ! This ensures that the state is cleared for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_clear_state    ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_gp_acquire_slot   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_cycle_end      ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_reset_slot     ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_clear_state(SLOT)
       INTEGER, INTENT(IN) :: SLOT
       IF (SLOT <= 0 .OR. SLOT > MAX_GLOBAL_GP) RETURN
@@ -153,6 +217,11 @@
       !=======================================================================
       ! Calculate the hash for the current Gauss/Lobatto point
       ! This ensures that the hash is calculated in the same way for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_slot_hash      ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_gp_acquire_slot   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       INTEGER FUNCTION sts_gp_slot_hash(MST_KEY, SEC_KEY, Z, Q, QUAD, HASH_SIZE)
       INTEGER, INTENT(IN) :: MST_KEY(4), SEC_KEY(4), Z, Q, QUAD, HASH_SIZE
       INTEGER :: I
@@ -180,6 +249,13 @@
       !=======================================================================
       ! Reset the slot for the current Gauss/Lobatto point
       ! This ensures that the slot is reset for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_reset_slot       ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_gp_clear_state      ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_reset_slot(GP_SLOT)
       INTEGER, INTENT(IN) :: GP_SLOT
       CALL sts_gp_clear_state(GP_SLOT)
@@ -190,6 +266,16 @@
       !=======================================================================
       ! Acquire the slot for the current Gauss/Lobatto point
       ! This ensures that the slot is acquired for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_acquire_slot     ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_gp_clear_state      ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_keys_match       ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_slot_hash        ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_store_key        ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_acquire_slot(MST_KEY, SEC_KEY, Z, Q, QUAD, GP_SLOT)
       INTEGER, INTENT(IN)  :: MST_KEY(4), SEC_KEY(4), Z, Q, QUAD
       INTEGER, INTENT(INOUT) :: GP_SLOT
@@ -231,6 +317,11 @@
       !=======================================================================
       ! Begin the cycle for the current Gauss/Lobatto point
       ! This ensures that the cycle is begun for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_cycle_begin   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf           ../engine/source/interfaces/ists/ists_mainf.F90
+!||====================================================================
       SUBROUTINE sts_gp_cycle_begin()
       IF (.NOT. ALLOCATED(GP_ACTIVE_CYCLE)) RETURN
       IF (MAX_GLOBAL_GP > 0) GP_ACTIVE_CYCLE = .FALSE.
@@ -241,6 +332,13 @@
       !=======================================================================
       ! End the cycle for the current Gauss/Lobatto point
       ! This ensures that the cycle is ended for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_cycle_end     ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf           ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_gp_clear_state   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_cycle_end()
       INTEGER :: SLOT
       IF (.NOT. ALLOCATED(GP_SLOT_OCCUPIED)) RETURN
@@ -257,6 +355,13 @@
       !=======================================================================
       ! Initialize the state for the current Gauss/Lobatto point
       ! This ensures that the state is initialized for all Gauss/Lobatto points
+!||====================================================================
+!||    sts_gp_state_init       ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_gp_deallocate_all   ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE sts_gp_state_init(MAX_STS_SIZE_ACTUAL, IP_MAX)
       INTEGER, INTENT(IN) :: MAX_STS_SIZE_ACTUAL, IP_MAX
       INTEGER :: NEW_MAX_GLOBAL_GP

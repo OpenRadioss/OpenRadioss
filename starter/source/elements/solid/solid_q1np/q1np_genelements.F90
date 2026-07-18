@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,6 +40,17 @@
 !C   Note: Currently uses a fixed surface ID (ISURF_ID=1) and NURBS degrees
 !C         P=Q=2. These can be generalized in future extensions.
 !C=======================================================================
+!||====================================================================
+!||    genq1np_mod               ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||    findhex8fromsurface_mod   ../starter/source/elements/solid/solid_q1np/q1np_findhex8fromsurface.F90
+!||    message_mod               ../starter/share/message_module/message_mod.F
+!||    q1np_cholesky_mod         ../starter/source/elements/solid/solid_q1np/q1np_cholesky.F90
+!||    q1np_export_csv_mod       ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||    q1np_surf_grid_mod        ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||    q1np_volume_mod           ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||    setupnurbsq1np_mod        ../starter/source/elements/solid/solid_q1np/q1np_setupnurbs.F90
+!||====================================================================
       module genq1np_mod
         use message_mod
         use groupdef_mod
@@ -60,6 +71,23 @@
 !C=======================================================================
 !C   genq1np: Generate Q1Np elements
 !C=======================================================================
+!||====================================================================
+!||    genq1np                             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                              ../starter/source/output/message/message.F
+!||    findhex8fromsurf                    ../starter/source/elements/solid/solid_q1np/q1np_findhex8fromsurface.F90
+!||    q1np_build_surf_grid                ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||    q1np_check_element_orientation      ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_compute_volume_element         ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||    q1np_export_bulk_nodes_csv          ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||    q1np_export_nurbs_csv               ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||    q1np_fit_control_points             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_rebuild_bulk_from_hex_geom     ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_report_fit_error               ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_select_global_cp_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    setupnurbsq1np                      ../starter/source/elements/solid/solid_q1np/q1np_setupnurbs.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine genq1np(igrsurf, ixs, x, iparts,&
      &      nsurf, nixs, numnod, numels, iout,&
      &      isurf_id_in, knot_set_id_in, &
@@ -707,6 +735,18 @@
 !C=======================================================================
 !C   Q1NP_FIT_CONTROL_POINTS: Fit NURBS control points to the surface (least-squares / Tikhonov)
 !C=======================================================================
+!||====================================================================
+!||    q1np_fit_control_points         ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                         ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                          ../starter/source/output/message/message.F
+!||    cholesky_solve_q1np             ../starter/source/elements/solid/solid_q1np/q1np_cholesky.F90
+!||    q1np_export_surface_nodes_csv   ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||--- uses       -----------------------------------------------------
+!||    q1np_cholesky_mod               ../starter/source/elements/solid/solid_q1np/q1np_cholesky.F90
+!||    q1np_export_csv_mod             ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||====================================================================
            SUBROUTINE Q1NP_FIT_CONTROL_POINTS( NX, NY, P, Q,           &
      &     NCP_U, NCP_V, NCP, NDATA, NKNOT_U, NKNOT_V, NUMNOD,    &
      &     GRID_NODE, X, Q1NP_KTAB, Q1NP_CPTAB,           &
@@ -1223,6 +1263,13 @@
 !C   Compute RMS / MAX geometric mismatch between fitted NURBS top surface
 !C   and original surface-grid nodes; print diagnostic summary to IOUT.
 !C=======================================================================
+!||====================================================================
+!||    q1np_report_fit_error   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                 ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE Q1NP_REPORT_FIT_ERROR(NX, NY, P, Q, NCP_U, NCP_V, NCP, NUMNOD, &
      &     GRID_NODE, X, Q1NP_KTAB, Q1NP_CPTAB, IOUT)
   !C-----------------------------------------------
@@ -1328,6 +1375,17 @@
 !C   This keeps starter-side bulk connectivity consistent for both single-
 !C   and multi-surface smoothing setups.
 !C=======================================================================
+!||====================================================================
+!||    q1np_rebuild_bulk_from_hex_geom     ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_select_global_cp_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||    iface                               ../starter/source/ale/ale3d/iface.F
+!||    q1np_cp_map_lookup                  ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_eval_top_patch_point           ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE Q1NP_REBUILD_BULK_FROM_HEX_GEOM(I_ELEM, J_ELEM, P_ELEM, Q_ELEM, NCP_U, NCP_V, &
      &     NCP, NUMNOD, NIXS, NUMELS, CP_MAP, IFLIP, U_KNOT, V_KNOT, Q1NP_CPTAB, X, IXS, &
      &     IEL_HEX8, NODES_BULK_OUT, MATCH_SCORE_OUT, IERR)
@@ -1436,6 +1494,13 @@
 !C=======================================================================
 !C   Evaluate one fitted top-surface point on the current parametric cell.
 !C=======================================================================
+!||====================================================================
+!||    q1np_eval_top_patch_point         ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_rebuild_bulk_from_hex_geom   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE Q1NP_EVAL_TOP_PATCH_POINT(P_ELEM, Q_ELEM, U_KNOT, V_KNOT, ELEM_U, ELEM_V, &
      &     TOP_CP, XI, ETA, XYZ_OUT)
   !C-----------------------------------------------
@@ -1478,6 +1543,12 @@
 !C   Q1NP_CP_MAP_LOOKUP:
 !C   Return CP index at (IU,IV) after applying global orientation flip.
 !C=======================================================================
+!||====================================================================
+!||    q1np_cp_map_lookup                  ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_rebuild_bulk_from_hex_geom     ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_select_global_cp_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||====================================================================
       INTEGER FUNCTION Q1NP_CP_MAP_LOOKUP(IU, IV, NCP_U, NCP_V, CP_MAP, IFLIP)
         IMPLICIT NONE
   !C-----------------------------------------------
@@ -1509,6 +1580,16 @@
 !C   Test the four global (U,V) flip states and select the one that gives
 !C   the best consistent top-vs-bulk orientation over all active patches.
 !C=======================================================================
+!||====================================================================
+!||    q1np_select_global_cp_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||    findhex8fromsurf                    ../starter/source/elements/solid/solid_q1np/q1np_findhex8fromsurface.F90
+!||    q1np_cp_map_lookup                  ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_rebuild_bulk_from_hex_geom     ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE Q1NP_SELECT_GLOBAL_CP_ORIENTATION(NX, NY, P, Q, NCP_U, NCP_V, NCP, NUMNOD, &
      &     CP_MAP, Q1NP_CPTAB, Q1NP_KTAB, GRID_NODE, GRID_TO_SEG, IXS, NIXS, NUMELS, X, IOUT, &
      &     MAX_CP_U,MAX_CP_V)
@@ -1682,6 +1763,12 @@
 !C   Compute top/bottom patch normals for one candidate element and return
 !C   magnitudes and signed alignment metrics used by orientation screening.
 !C=======================================================================
+!||====================================================================
+!||    q1np_check_element_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE Q1NP_CHECK_ELEMENT_ORIENTATION(I_ELEM, J_ELEM, P_ELEM, Q_ELEM, &
      &     MAX_CP_U, MAX_CP_V, NCP, NUMNOD, CP_MAP, Q1NP_CPTAB, NODES_BULK, X, &
      &     TOP_MAG, BOT_MAG, TOP_BOT_DOT, TOP_BOT_COS, IERR)

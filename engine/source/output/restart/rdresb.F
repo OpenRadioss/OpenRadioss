@@ -127,6 +127,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                  ../engine/share/message_module/message_mod.F
 !||    monvol_struct_mod            ../engine/share/modules/monvol_struct_mod.F
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod                   ../common_source/modules/outmax_mod.F
@@ -135,6 +137,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F
 !||    pload_cyl_mod                ../common_source/modules/loads/pload_cyl_mod.F
 !||    python_funct_mod             ../common_source/modules/python_mod.F90
+!||    q1np_restart_mod             ../common_source/modules/q1np_restart_mod.F90
 !||    rbe3_mod                     ../common_source/modules/constraints/rbe3_mod.F90
 !||    read_ale_grid_mod            ../engine/source/output/restart/read_ale_grid.F90
 !||    read_bcs_nrf_mod             ../engine/source/output/restart/read_bcs_nrf.F90

@@ -120,6 +120,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_sph_tensor                       ../engine/source/output/h3d/h3d_results/h3d_sph_tensor.F
 !||    h3d_update_fvmbag_centroids          ../engine/source/output/h3d/h3d_build_fortran/h3d_update_fvmbag_centroids.F
 !||    h3dlib_load                          ../engine/source/output/h3d/h3d_build_cpp/h3d_dl.c
+!||    q1np_evaluate_nurbs_shape_values     ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
 !||    scanor                               ../engine/source/output/anim/generate/scanor.F
 !||    spmd_gather_int                      ../engine/source/mpi/generic/spmd_gather_int.F
 !||    spmd_h3d_gather_i                    ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
@@ -165,6 +166,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    output_mod                           ../common_source/modules/output/output_mod.F90
 !||    pblast_mod                           ../common_source/modules/loads/pblast_mod.F90
 !||    plyxfem_mod                          ../engine/share/modules/plyxfem_mod.F
+!||    precision_mod                        ../common_source/modules/precision_mod.F90
+!||    q1np_nurbs_surface_evaluation_mod    ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||    q1np_restart_mod                     ../common_source/modules/q1np_restart_mod.F90
 !||    sensor_mod                           ../common_source/modules/sensor_mod.F90
 !||    spmd_mod                             ../engine/source/mpi/spmd_mod.F90
 !||    stack_mod                            ../engine/share/modules/stack_mod.F

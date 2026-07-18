@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25optcd_e2s                          ../engine/source/interfaces/intsort/i25optcd_e2s.F
 !||    i25trivox_edg                         ../engine/source/interfaces/intsort/i25trivox_edg.F
 !||    prepare_debug                         ../engine/share/modules/debug_mod.F
+!||    q1np_dump_hist_state                  ../engine/source/elements/solid/solid_q1np/q1np_dump_hist_state.F90
 !||    remove_neighbour_segment              ../engine/source/interfaces/interf/remove_neighbour_segment.F90
 !||    resol                                 ../engine/source/engine/resol.F
 !||    spmd_collect_multi_fvm                ../engine/source/mpi/output/spmd_collect_multi_fvm.F

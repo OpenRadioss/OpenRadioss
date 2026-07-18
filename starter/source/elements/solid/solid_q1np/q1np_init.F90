@@ -27,6 +27,14 @@
 !! \details Reconstructs the scalar element volume from per-Gauss-point Q1NP reference
 !!          volumes, then computes the lumped mass contribution of the Q1NP enriched
 !!          elements that replace standard HEX8 elements.
+!||====================================================================
+!||    q1np_init_mod            ../starter/source/elements/solid/solid_q1np/q1np_init.F90
+!||--- called by ------------------------------------------------------
+!||    initia                   ../starter/source/elements/initia/initia.F
+!||--- uses       -----------------------------------------------------
+!||    q1np_init_lbuf_vol_mod   ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_mass3_mod           ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||====================================================================
       module q1np_init_mod
         use q1np_restart_mod
         use q1np_init_lbuf_vol_mod, only : q1np_init_lbuf_gp_vol
@@ -44,6 +52,14 @@
 ! ======================================================================================================================
 
 !! \brief Compute mass and reference volume of Q1NP enriched solid elements.
+!||====================================================================
+!||    q1np_init               ../starter/source/elements/solid/solid_q1np/q1np_init.F90
+!||--- called by ------------------------------------------------------
+!||    initia                  ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    q1np_init_lbuf_gp_vol   ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_mass3              ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||====================================================================
         subroutine q1np_init(iparg, elbuf_tab, x, v, ms, mssa, partsav, pm, &
      &                       numnod, numels, npart, npropm, nummat, ngroup, nparg, &
      &                       sfill, irest_mselt)

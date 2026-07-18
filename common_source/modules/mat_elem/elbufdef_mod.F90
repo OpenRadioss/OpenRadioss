@@ -466,6 +466,10 @@
 !||    prelecflow                          ../engine/source/elements/solid/solide/prelecflow.F
 !||    prelech3d                           ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
 !||    projecig3d                          ../engine/source/elements/ige3d/projecig3d.F
+!||    q1np_forc3                          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_init_lbuf_vol_mod              ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_init_mod                       ../starter/source/elements/solid/solid_q1np/q1np_init.F90
+!||    q1np_mass3_mod                      ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
 !||    q4forc2                             ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    q4init2                             ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    q4ke2                               ../engine/source/elements/solid_2d/quad4/q4ke2.F
@@ -660,7 +664,6 @@
 !||    tensorc_crk                         ../engine/source/output/anim/generate/tensorc_crk.F
 !||    tensorc_ply                         ../engine/source/output/anim/generate/tensorc_ply.F
 !||    tensors                             ../engine/source/output/anim/generate/tensor6.F
-!||    test_jc_shell_detach                ../engine/source/engine/node_spliting/detach_node.F90
 !||    tforc3                              ../engine/source/elements/truss/tforc3.F
 !||    thcluster                           ../engine/source/output/th/thcluster.F
 !||    thcoq                               ../engine/source/output/th/thcoq.F

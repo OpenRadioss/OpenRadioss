@@ -20,17 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    ists_sts_bp_persist_mod  ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
-!||--- called by ------------------------------------------------------
-!||    sts_int7_bucket_broad_phase  ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
-!||====================================================================
 !
 !   Cache the last successful STS segment pairs for the INT7-bucket path.
 !   When I7TRC invalidates all INT7 candidates (N_VALID=0) while the
 !   surfaces are still within the STS search gap, reuse the cached pairs
 !   with refreshed node coordinates so narrow phase can continue.
 !
+!||====================================================================
+!||    ists_sts_bp_persist_mod           ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                        ../engine/source/interfaces/ists/ists_mainf.F90
+!||    sts_broad_phase_int7_bucket_mod   ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                     ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE ISTS_STS_BP_PERSIST_MOD
         USE PRECISION_MOD, ONLY : WP
         IMPLICIT NONE
@@ -69,6 +72,11 @@
         !
         ! Set the current cycle number for the cached STS segment pairs.
         !=======================================================================
+!||====================================================================
+!||    ists_sts_bp_persist_set_ncycle   ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                       ../engine/source/interfaces/ists/ists_mainf.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_BP_PERSIST_SET_NCYCLE(NCYCLE_IN)
           INTEGER, INTENT(IN) :: NCYCLE_IN
 
@@ -81,6 +89,13 @@
         !
         ! Ensure the cached STS segment pairs array is large enough to store the given number of pairs.
         !=======================================================================
+!||====================================================================
+!||    ists_sts_bp_persist_ensure_size   ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_sts_bp_persist_clear         ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||    ists_sts_bp_persist_save          ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE ISTS_STS_BP_PERSIST_ENSURE_SIZE(NIN)
           INTEGER, INTENT(IN) :: NIN
           TYPE(STS_BP_PERSIST_SLOT), ALLOCATABLE :: TMP(:)
@@ -113,6 +128,11 @@
         !
         ! Clear the cached STS segment pairs for a given index.
         !=======================================================================
+!||====================================================================
+!||    ists_sts_bp_persist_clear         ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_bp_persist_ensure_size   ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_BP_PERSIST_CLEAR(NIN)
           INTEGER, INTENT(IN) :: NIN
 
@@ -129,6 +149,11 @@
         !
         ! Refresh the contact element coordinates for the cached STS segment pairs.
         !=======================================================================
+!||====================================================================
+!||    ists_sts_bp_persist_refresh_cont   ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_sts_bp_persist_try_restore    ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_BP_PERSIST_REFRESH_CONT( &
      &    COUNT_IN, SEC_ID, MST_ID, X, NUMNOD, CONT_ELEMENT, CAPACITY)
           INTEGER, INTENT(IN) :: COUNT_IN, NUMNOD, CAPACITY
@@ -165,6 +190,16 @@
 !
 !   Store the current STS segment patch and active secondary GP mask.
 !=======================================================================
+!||====================================================================
+!||    ists_sts_bp_persist_save          ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_int7_bucket_broad_phase       ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_bp_persist_ensure_size   ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                    ../common_source/tools/memory/my_dealloc.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_BP_PERSIST_SAVE(NIN, COUNT_IN, SEC_ID, MST_ID, &
      &    SEC_GP_MASK, CAPACITY)
           USE MY_ALLOC_MOD, ONLY : MY_ALLOC
@@ -211,6 +246,13 @@
 !   Restore a cached STS segment patch within the grace window and refresh
 !   its coordinates from the current nodal positions.
 !=======================================================================
+!||====================================================================
+!||    ists_sts_bp_persist_try_restore    ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_int7_bucket_broad_phase        ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_bp_persist_refresh_cont   ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_BP_PERSIST_TRY_RESTORE(NIN, X, NUMNOD, &
      &    CAPACITY, COUNT_OUT, SEC_ID, MST_ID, SEC_GP_MASK, &
      &    CONT_ELEMENT, RESTORED)

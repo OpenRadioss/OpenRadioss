@@ -1,14 +1,47 @@
-!||====================================================================
-!||    STS_CONTACTS_ASSEMBLE  ../engine/source/interfaces/ists/ists_contacts_assemble.F90
-!||--- called by ------------------------------------------------------
-!||    i7mainf              ../engine/source/interfaces/int07/i7mainf.F
-!||--- calls ---------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR    ../engine/source/interfaces/ists/ists_CONTACT_EVAL_PAIR.F90
-!||====================================================================
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !
 !   Evaluate STS candidate pairs for one quadrature mode, accumulate
 !   pair loads, and return force/energy totals for /TH/INTER output.
 !
+!||====================================================================
+!||    sts_contacts_assemble           ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                      ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_build_lobatto_gp_weights    ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||    sts_contact_eval_pair           ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||    sts_contact_pair_aabb_skip      ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||    sts_pair_activity_should_skip   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||    sts_pair_activity_update        ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                    ../common_source/modules/constant_mod.F
+!||    ists_sts_pair_activity_mod      ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||    my_alloc_mod                    ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                  ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod                   ../common_source/modules/precision_mod.F90
+!||    sts_gp_state_mod                ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       SUBROUTINE STS_CONTACTS_ASSEMBLE(CONT_ELEMENT, COUNT, OPTION, STS_INTERFACE_ID, NCYCLE_IN, &
      & CAND_MST_SEG_ID, CAND_SEC_SEG_ID, CAND_SEC_GP_MASK, &
      & load_arr, node_id_load, L_out, IMPACT_glob, STIF, &
@@ -313,6 +346,13 @@
 !   Skip segment pairs (in the narrow phase) whose primary and secondary axis-aligned boxes are
 !   separated by more than a conservative gap-scaled padding.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_pair_aabb_skip   ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contacts_assemble        ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||====================================================================
       LOGICAL FUNCTION STS_CONTACT_PAIR_AABB_SKIP(XPAIR, GAP_IN)
       USE PRECISION_MOD, ONLY : WP
       IMPLICIT NONE
@@ -370,6 +410,15 @@
 !   Split Lobatto corner weight over duplicate secondary-segment/master-
 !   patch pairs so expanded patches do not multiply the same corner load.
 !=======================================================================
+!||====================================================================
+!||    sts_build_lobatto_gp_weights   ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contacts_assemble          ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                   ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                 ../common_source/tools/memory/my_dealloc.F90
+!||====================================================================
       SUBROUTINE STS_BUILD_LOBATTO_GP_WEIGHTS(COUNT_IN, CAPACITY, &
      & CAND_SEC_SEG_ID, CAND_MST_SEG_ID, CAND_SEC_GP_MASK, WEIGHT)
       use my_alloc_mod, only : my_alloc

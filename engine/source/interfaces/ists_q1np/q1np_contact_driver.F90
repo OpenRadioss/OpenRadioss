@@ -1,15 +1,35 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    q1np_contact_driver               ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||    q1np_contact_driver_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
 !||--- called by ------------------------------------------------------
-!||    i7mainf                           ../engine/source/interfaces/int07/i7mainf.F
-!||--- calls      -----------------------------------------------------
-!||    q1np_contact_broad_phase          ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||    q1np_contact_narrow_phase         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||    q1np_contact_force_assembly       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    ists_mainf                    ../engine/source/interfaces/ists/ists_mainf.F90
 !||--- uses       -----------------------------------------------------
-!||    q1np_restart_mod                  ../common_source/modules/q1np_restart_mod.F90
-!||    restmod                           ../engine/share/modules/restart_mod.F
-!||    q1np_contact_algorithms_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||    q1np_contact_algorithms_mod   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_export_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||    q1np_restart_mod              ../common_source/modules/q1np_restart_mod.F90
 !||====================================================================
       MODULE Q1NP_CONTACT_DRIVER_MOD
         USE PRECISION_MOD, ONLY : WP
@@ -49,6 +69,18 @@
 !   INT7 entry: runs broad phase, narrow phase, and force assembly,
 !   at most once per NCYCLE.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_driver_int7          ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                        ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_broad_phase          ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_export_begin_cycle   ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||    q1np_contact_force_assembly       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_narrow_phase         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_update_skip          ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||    q1np_contact_workspace_free       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_DRIVER_INT7(NCYCLE, NUMNOD, X, A, &
      &      STIFN, GAP, IGSTI, KMIN, KMAX, IRECTM, NSV, STFNS, NSN, &
      &      STFM, NRTM, FCONT, DO_FCONT, IMPACT_glob)
@@ -124,6 +156,11 @@
 !=======================================================================
 !   Q1NP_CONTACT_UPDATE_SKIP
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_update_skip   ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_driver_int7   ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_UPDATE_SKIP(D_MIN, GAP, HAS_CONTACT)
           REAL(KIND=WP), INTENT(IN) :: D_MIN, GAP
           LOGICAL, INTENT(IN) :: HAS_CONTACT

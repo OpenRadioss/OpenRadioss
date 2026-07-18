@@ -45,10 +45,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alesub2                                      ../engine/source/ale/subcycling/alesub2.F
 !||    alewdx                                       ../engine/source/ale/grid/alewdx.F
 !||    alloc_elbuf_imp                              ../engine/source/elements/elbuf/alloc_elbuf_imp.F
+!||    allocate_output_data                         ../common_source/modules/output/output_mod.F90
 !||    allocate_sph_work                            ../common_source/modules/mat_elem/sph_work.F90
 !||    ams_prepare_poff_assembly                    ../engine/source/mpi/ams/spmd_sms.F
 !||    ancmsg                                       ../engine/source/output/message/message.F
 !||    arret                                        ../engine/source/system/arret.F
+!||    assinit                                      ../engine/source/assembly/assadd2.F
 !||    asspar                                       ../engine/source/assembly/asspar.F
 !||    asspar3                                      ../engine/source/assembly/asspar3.F
 !||    asspar4                                      ../engine/source/assembly/asspar4.F
@@ -70,6 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    check_nodal_state                            ../engine/source/interfaces/interf/check_nodal_state.F
 !||    check_remote_surface_state                   ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||    check_surface_state                          ../engine/source/interfaces/interf/check_surface_state.F
+!||    chkinit                                      ../engine/source/interfaces/interf/chkstfn3.F
 !||    chkload                                      ../engine/source/interfaces/chkload.F
 !||    chkmsin                                      ../engine/source/output/outfile/chkmsin.F
 !||    chkstfn3n                                    ../engine/source/interfaces/interf/chkstfn3.F
@@ -111,6 +114,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    deplafakeige                                 ../engine/source/assembly/displfakeige.F
 !||    deplapinch                                   ../engine/source/assembly/displpinch.F
 !||    desacti                                      ../engine/source/elements/desacti.F
+!||    detach_node_from_rwalls                      ../engine/source/engine/node_spliting/detach_node.F90
 !||    disp_vel_saved_cload                         ../engine/source/assembly/disp_vel_saved_cload.F
 !||    dtnoda                                       ../engine/source/time_step/dtnoda.F
 !||    dtnodamp                                     ../engine/source/time_step/dtnodamp.F
@@ -224,6 +228,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lag_multp                                    ../engine/source/tools/lagmul/lag_mult.F
 !||    load_pressure                                ../engine/source/loads/general/load_pressure/load_pressure.F
 !||    manctr                                       ../engine/source/input/manctr.F
+!||    merge_boundary_with_split                    ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||    modsti                                       ../engine/source/time_step/modsti.F
 !||    monvol0                                      ../engine/source/airbag/monvol0.F
 !||    movfra1                                      ../engine/source/tools/skew/movfram.F
@@ -237,6 +242,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier                                   ../engine/source/system/machine.F
 !||    newskw                                       ../engine/source/tools/skew/newskw.F
 !||    newskw_init                                  ../engine/source/tools/skew/newskw.F
+!||    nloc_shell_detach                            ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    nlocal_acc                                   ../engine/source/assembly/nlocal_acc.F
 !||    nlocal_dtnoda                                ../engine/source/time_step/nlocal_dtnoda.F
 !||    nlocal_incr                                  ../engine/source/assembly/nlocal_incr.F
@@ -291,6 +297,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reaction_forces_check_for_requested_output   ../engine/source/output/reactions.F
 !||    reaction_forces_th                           ../engine/source/output/reaction_forces_th.F
 !||    reallocate_i_skyline                         ../engine/source/system/reallocate_skyline.F
+!||    rebuild_pon_tables                           ../engine/source/assembly/assadd2.F
 !||    renum_siz                                    ../engine/source/interfaces/interf/renum_siz.F
 !||    report_alloc                                 ../common_source/tools/memory/my_alloc_tools.F90
 !||    resol_alloc_nitsche                          ../engine/source/engine/resol_alloc.F90
@@ -414,8 +421,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_mumps_ini                               ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_nlist_sms                               ../engine/source/mpi/ams/spmd_sms.F
 !||    spmd_rbcast                                  ../engine/source/mpi/generic/spmd_rbcast.F
+!||    spmd_rebuild_boundary                        ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||    spmd_sd_xv                                   ../engine/source/mpi/nodes/spmd_sd_xv.F
 !||    spmd_sort_sms                                ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_sub_boundaries                          ../engine/source/mpi/spmd_exch_sub.F
 !||    spmd_wait                                    ../engine/source/mpi/spmd_wait.F90
 !||    spmd_wiout                                   ../engine/source/mpi/generic/spmd_wiout.F
 !||    spmd_xv_inter_type1                          ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
@@ -526,6 +535,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multimat_param_mod                           ../common_source/modules/multimat_param_mod.F90
 !||    my_alloc_mod                                 ../common_source/tools/memory/my_alloc.F90
 !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F
+!||    nloc_shell_detach_mod                        ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    nlocal_reg_mod                               ../common_source/modules/nlocal_reg_mod.F
 !||    nodal_arrays_mod                             ../common_source/modules/nodal_arrays.F90
 !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
@@ -561,6 +571,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sph_work_mod                                 ../common_source/modules/mat_elem/sph_work.F90
 !||    spmd_exch_wave_mod                           ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_rebuild_boundary_mod                    ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||    spmd_xv_inter_type1_mod                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    stack_mod                                    ../engine/share/modules/stack_mod.F
 !||    state_mod                                    ../common_source/modules/state_mod.F

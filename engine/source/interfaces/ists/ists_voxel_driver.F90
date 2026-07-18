@@ -20,13 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    sts_voxel_driver_mod   ../engine/source/interfaces/ists/ists_voxel_driver.F90
-!||--- called by ------------------------------------------------------
-!||    i7mainf                ../engine/source/interfaces/int07/i7mainf.F
-!||--- uses       -----------------------------------------------------
-!||    sts_broad_phase_voxel_mod   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
-!||====================================================================
 !
 !   STS voxel-broad-phase driver.
 !
@@ -39,6 +32,13 @@
 !   the existing CAND_*_SEG_ID and CONT_ELEMENT working arrays, then
 !   calls STS_CONTACTS_ASSEMBLE and I7ASS33 in place. 
 !
+!||====================================================================
+!||    sts_voxel_driver_mod          ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_voxel_driver_data_ready   ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
+!||====================================================================
       MODULE STS_VOXEL_DRIVER_MOD
         USE GROUPDEF_MOD, ONLY : SURF_
         IMPLICIT NONE
@@ -65,6 +65,11 @@
 !   STS_VOXEL_MST_SURF_USER_ID (200). Either output is set to 0 when
 !   the matching surface does not exist.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_driver_resolve_ids   ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_driver_data_ready    ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||====================================================================
         SUBROUTINE STS_VOXEL_DRIVER_RESOLVE_IDS(IGRSURF, NSURF, &
      &      SEC_SURF_IDX, MST_SURF_IDX)
           INTEGER, INTENT(IN) :: NSURF
@@ -93,6 +98,13 @@
 !   resolved indices (0 when missing) so the caller can continue to
 !   inspect them after a failure.
 !=======================================================================
+!||====================================================================
+!||    sts_voxel_driver_data_ready    ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||--- called by ------------------------------------------------------
+!||    sts_voxel_driver_mod           ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_voxel_driver_resolve_ids   ../engine/source/interfaces/ists/ists_voxel_driver.F90
+!||====================================================================
         LOGICAL FUNCTION STS_VOXEL_DRIVER_DATA_READY( &
      &      IGRSURF, NSURF, NOINT, MAY_PRINT, &
      &      SEC_SURF_IDX, MST_SURF_IDX) RESULT(IS_READY)

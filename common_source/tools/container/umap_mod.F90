@@ -28,7 +28,9 @@
 !||    init_ghost_shells            ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    init_global_node_id          ../common_source/modules/nodal_arrays.F90
 !||    init_global_shell_id         ../common_source/modules/connectivity.F90
+!||    nloc_shell_detach            ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    spmd_rebuild_boundary        ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||====================================================================
       module umap_mod
         use, intrinsic :: iso_c_binding
@@ -71,7 +73,9 @@
       contains
 
 !||====================================================================
-!||    add_entry        ../common_source/tools/container/umap_mod.F90
+!||    add_entry               ../common_source/tools/container/umap_mod.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_rebuild_boundary   ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine add_entry(m, key, value)
@@ -93,10 +97,12 @@
         end function get_value
 
 !||====================================================================
-!||    reserve_capacity       ../common_source/tools/container/umap_mod.F90
+!||    reserve_capacity        ../common_source/tools/container/umap_mod.F90
 !||--- called by ------------------------------------------------------
-!||    init_global_node_id    ../common_source/modules/nodal_arrays.F90
-!||    init_global_shell_id   ../common_source/modules/connectivity.F90
+!||    init_ghost_shells       ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    init_global_node_id     ../common_source/modules/nodal_arrays.F90
+!||    init_global_shell_id    ../common_source/modules/connectivity.F90
+!||    spmd_rebuild_boundary   ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine reserve_capacity(m, n)

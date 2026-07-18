@@ -55,6 +55,7 @@
 !||    inter_dcod_friction             ../starter/source/interfaces/reader/inter_dcod_friction.F
 !||    interfaces_mod                  ../common_source/modules/interfaces/interfaces_mod.F90
 !||    intfop2                         ../engine/source/interfaces/interf/intfop2.F
+!||    ists_mainf                      ../engine/source/interfaces/ists/ists_mainf.F90
 !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
 !||    lectur                          ../engine/source/input/lectur.F
 !||    resol_head                      ../engine/source/engine/resol_head.F

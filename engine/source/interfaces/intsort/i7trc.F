@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i7trc         ../engine/source/interfaces/intsort/i7trc.F
+!||    i7trc                  ../engine/source/interfaces/intsort/i7trc.F
 !||--- called by ------------------------------------------------------
-!||    i20main_tri   ../engine/source/interfaces/intsort/i20main_tri.F
-!||    i7main_tri    ../engine/source/interfaces/intsort/i7main_tri.F
-!||    inter_trc_7   ../engine/source/interfaces/int07/inter_trc_7.F
+!||    i20main_tri            ../engine/source/interfaces/intsort/i20main_tri.F
+!||    i7main_tri             ../engine/source/interfaces/intsort/i7main_tri.F
+!||    inter_trc_7            ../engine/source/interfaces/int07/inter_trc_7.F
 !||--- uses       -----------------------------------------------------
-!||    tri7box       ../engine/share/modules/tri7box.F
+!||    ists_sts_bp_algo_mod   ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||    tri7box                ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I7TRC(
      1      NSN    ,I_STOK  ,CAND_N ,CAND_E ,

@@ -767,6 +767,8 @@
 !||    printimeg                           ../engine/source/system/timer.F
 !||    printsolides                        ../engine/source/system/timer.F
 !||    printtet4                           ../engine/source/system/timer.F
+!||    q1np_forc3                          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_mass3_mod                      ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
 !||    q4init2                             ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    q4ke2                               ../engine/source/elements/solid_2d/quad4/q4ke2.F
 !||    q4rcoor2                            ../engine/source/elements/solid_2d/quad4/q4rcoor2.F

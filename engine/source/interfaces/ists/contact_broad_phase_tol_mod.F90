@@ -20,15 +20,18 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    contact_broad_phase_tol_mod   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
-!||--- called by ------------------------------------------------------
-!||    sts_broad_phase_voxel_mod      ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
-!||    q1np_contact_algorithms_mod     ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||====================================================================
 !
 !   Shared broad-phase search tolerance for STS and Q1NP voxel contact.
 !
+!||====================================================================
+!||    contact_broad_phase_tol_mod   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
+!||--- called by ------------------------------------------------------
+!||    sts_broad_phase_voxel_mod     ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE CONTACT_BROAD_PHASE_TOL_MOD
         USE PRECISION_MOD, ONLY : WP
         USE CONSTANT_MOD,  ONLY : ZERO, ONEP01
@@ -158,6 +161,13 @@
 !----------------------------------------------------------------------
 ! Axis-aligned relative-velocity estimate.
 !----------------------------------------------------------------------
+!||====================================================================
+!||    inter_bp_tol_surf_vel_extrema   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
+!||--- called by ------------------------------------------------------
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod                    ../common_source/modules/groupdef_mod.F
+!||====================================================================
         SUBROUTINE INTER_BP_TOL_SURF_VEL_EXTREMA( &
      &      IGRSURF, NSURF, SURF_IDX, V, NUMNOD, VMIN, VMAX)
           USE GROUPDEF_MOD, ONLY : SURF_
@@ -226,6 +236,9 @@
           INTER_BP_TOL_VMAXDT_SURF = REAL(ONEP01, KIND=WP) * VV * DT1
         END FUNCTION INTER_BP_TOL_VMAXDT_SURF
 
+!||====================================================================
+!||    inter_bp_tol_search   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
+!||====================================================================
         SUBROUTINE INTER_BP_TOL_SEARCH(GAP_USER, H_MESH_A, H_MESH_B, TOL_SEARCH)
           REAL(KIND=WP), INTENT(IN) :: GAP_USER, H_MESH_A, H_MESH_B
           REAL(KIND=WP), INTENT(INOUT) :: TOL_SEARCH
@@ -235,6 +248,9 @@
           TOL_SEARCH = INTER_BP_TOL_TZINF(GAP_USER, H_MESH, ZERO)
         END SUBROUTINE INTER_BP_TOL_SEARCH
 
+!||====================================================================
+!||    inter_bp_tol_pad_cell   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
+!||====================================================================
         SUBROUTINE INTER_BP_TOL_PAD_CELL(TOL_SEARCH, SEARCH_PADDING, CELL_SIZE)
           REAL(KIND=WP), INTENT(IN) :: TOL_SEARCH
           REAL(KIND=WP), INTENT(INOUT) :: SEARCH_PADDING, CELL_SIZE

@@ -15,23 +15,11 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss
+!Copyright>        Commercial Alternative: Altair Radioss Software
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    q1np_contact_algorithms           ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||--- called by ------------------------------------------------------
-!||    resol                             ../engine/source/engine/resol.F
-!||--- calls      -----------------------------------------------------
-!||    q1np_evaluate_nurbs_top_surface_point  ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
-!||--- uses       -----------------------------------------------------
-!||    precision_mod                     ../common_source/modules/precision_mod.F
-!||    constant_mod                      ../common_source/modules/constant_mod.F
-!||    q1np_restart_mod                  ../common_source/modules/q1np_restart_mod.F90
-!||    q1np_nurbs_surface_eval_mod       ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
-!||====================================================================
 !
 !   Q1NP NURBS contact: broad phase, narrow phase, and penalty forces.
 !
@@ -40,6 +28,19 @@
 !   proximity detection, Newton projection to find penetrating pairs,
 !   and scatters normal penalty forces onto NURBS control-point nodes.
 !
+!||====================================================================
+!||    q1np_contact_algorithms_mod         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_driver_mod             ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                        ../common_source/modules/constant_mod.F
+!||    my_alloc_mod                        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                      ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod                       ../common_source/modules/precision_mod.F90
+!||    q1np_contact_export_mod             ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||    q1np_nurbs_surface_evaluation_mod   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||    q1np_restart_mod                    ../common_source/modules/q1np_restart_mod.F90
+!||====================================================================
       MODULE Q1NP_CONTACT_ALGORITHMS_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -152,6 +153,14 @@
 !   detection. Returns the filled workspace (point clouds + candidates)
 !   and the minimum distance D_MIN for adaptive-skip scheduling.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_broad_phase                      ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_driver_int7                      ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_bp_build_surface_points          ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_broad_phase_voxel_min_distance   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_BROAD_PHASE( &
      &      KQ1NP_TAB, IQ1NP_TAB, Q1NP_KTAB, X_COORDS, NUMNOD, &
      &      NUMELQ1NP, GAP, WS, D_MIN)
@@ -231,6 +240,13 @@
 !   NURBS-to-NURBS projection on the point clouds from the broad phase.
 !   Returns penetrating contact pairs.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_narrow_phase           ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_driver_int7            ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_narrow_phase_project   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_NARROW_PHASE( &
      &      WS, KQ1NP_TAB, IQ1NP_TAB, Q1NP_KTAB, X_COORDS, &
      &      NUMNOD, GAP, PAIRS, N_PAIRS)
@@ -269,6 +285,13 @@
 !
 !   Penalty force computation and FCONT scatter for penetrating pairs.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_force_assembly           ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_driver_int7              ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_FORCE_ASSEMBLY( &
      &      PAIRS, N_PAIRS, &
      &      KQ1NP_TAB, IQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, Q1NP_KTAB, &
@@ -309,6 +332,12 @@
 !
 !   Deallocate all arrays in the broad-phase workspace.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_workspace_free   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_driver_int7      ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_WORKSPACE_FREE(WS)
           TYPE(Q1NP_CONTACT_WORKSPACE), INTENT(INOUT) :: WS
           IF (ALLOCATED(WS%SURF_POINTS_A)) CALL MY_DEALLOC(WS%SURF_POINTS_A)
@@ -334,6 +363,15 @@
 !   belonging to a given knot set (i.e. one of the two contact surfaces).
 !
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_bp_build_surface_points    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_broad_phase                ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_extract_elem_data          ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_max_knot_len               ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_evaluate_nurbs_top_surface_point   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_BP_BUILD_SURFACE_POINTS( &
      &      KQ1NP_TAB, IQ1NP_TAB, Q1NP_KTAB, NUMELQ1NP,         &
      &      X_COORDS, NUMNOD, KNOT_SET_ID_FILTER,                 &
@@ -433,6 +471,12 @@
 !     5. For every A-point that lies inside that grid,
 !        look up the 3x3x3 cell neighborhood and find the closest B-point.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_broad_phase_voxel_min_distance   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_broad_phase                      ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_BROAD_PHASE_VOXEL_MIN_DISTANCE( &
      &      SURF_POINTS_A, NPTS_A, SURF_POINTS_B, NPTS_B,       &
      &      TRIGGER_TOL,                                         &
@@ -661,6 +705,14 @@
 !     (or fall back to the global nearest search), keep the best valid
 !     penetrating projection, and store one contact pair per B point.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_narrow_phase_project   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_narrow_phase           ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_max_knot_len           ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_project_point_newton   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_NARROW_PHASE_PROJECT( &
      &      KQ1NP_TAB, IQ1NP_TAB, Q1NP_KTAB, X_COORDS, &
      &      NUMNOD, GAP_CONTACT, &
@@ -771,6 +823,20 @@
 !   starter NSV/STFNS and IRECTM/STFM data
 !
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_force_assembly           ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_assign_pair_stiffness    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_bilinear_weights         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_build_node_to_stfns      ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_build_primary_seg_map    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_evaluate_side            ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_export_accumulate        ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||    q1np_contact_max_knot_len             ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_node_map_size            ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_COMPUTE_PENALTY_FORCES( &
      &      CONTACT_PAIRS, N_PAIRS, &
      &      KQ1NP_TAB, IQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, Q1NP_KTAB, X_COORDS, &
@@ -973,6 +1039,15 @@
 !   point. This shared helper avoids duplicated logic while keeping the
 !   side-specific inputs explicit at the call site.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_evaluate_side            ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_extract_elem_data        ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_interpolate_point        ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_evaluate_nurbs_shape_values      ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_EVALUATE_SIDE( &
      &      ELEM_IDX, XI, ETA, &
      &      KQ1NP_TAB, IQ1NP_TAB, IQ1NP_BULK_TAB, Q1NP_KTAB, &
@@ -1022,6 +1097,11 @@
 !=======================================================================
 !   Q1NP_CONTACT_NODE_MAP_SIZE
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_node_map_size            ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         INTEGER FUNCTION Q1NP_CONTACT_NODE_MAP_SIZE( &
      &      NUMNOD, NSV, NSN_EFF, IQ1NP_BULK_TAB)
           INTEGER, INTENT(IN) :: NUMNOD, NSN_EFF
@@ -1060,6 +1140,11 @@
         ! This mapping allows fast lookup: node_id --> associated NSV index.
         !
         !-----------------------------------------------------------------------
+!||====================================================================
+!||    q1np_contact_build_node_to_stfns      ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_BUILD_NODE_TO_STFNS(NSV, NSN_EFF, NODE_TO_STFNS)
           INTEGER, INTENT(IN) :: NSV(:) ! NSV is the surface node indices
           INTEGER, INTENT(IN) :: NSN_EFF ! NSN_EFF is the number of active nodes in NSV
@@ -1088,6 +1173,16 @@
 !   The candidate surface-local segment order is checked first, then a
 !   full node-set search keeps the mapping independent of Q1NP grid order.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_build_primary_seg_map    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_bilinear_weights         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_bulk_nodes               ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_find_primary_segment     ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_knot_set_id              ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_BUILD_PRIMARY_SEG_MAP( &
      &      KQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, NRTM_EFF, ELEM_TO_STFM_SEG)
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
@@ -1262,6 +1357,13 @@
 !=======================================================================
 !   Q1NP_CONTACT_INTERPOLATE_POINT
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_interpolate_point   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_evaluate_side       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_bilinear_weights    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_INTERPOLATE_POINT( &
      &      CTRL_IDS, NVALS, NVAL, X_COORDS, NUMNOD, X_PAIR)
           INTEGER, INTENT(IN) :: CTRL_IDS(:)
@@ -1443,6 +1545,13 @@
 !   Q1NP_CONTACT_ASSIGN_PAIR_STIFFNESS
 !   Assign the pair stiffness based on the primary and secondary side stiffnesses.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_assign_pair_stiffness    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_knot_set_id              ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_ASSIGN_PAIR_STIFFNESS( &
      &      ELEM_A, K_A_PRIMARY, K_A_SECONDARY, &
      &      ELEM_B, K_B_PRIMARY, K_B_SECONDARY, &
@@ -1482,6 +1591,14 @@
 !=======================================================================
 !   Q1NP_CONTACT_FIND_PRIMARY_SEGMENT
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_find_primary_segment    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_build_primary_seg_map   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_bulk_nodes              ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_segment_matches         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         INTEGER FUNCTION Q1NP_CONTACT_FIND_PRIMARY_SEGMENT( &
      &      ELEM_IDX, KQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, NRTM_EFF, SEG_GUESS)
           INTEGER, INTENT(IN) :: ELEM_IDX, NRTM_EFF, SEG_GUESS
@@ -1517,6 +1634,11 @@
 !=======================================================================
 !   Q1NP_CONTACT_SEGMENT_MATCHES
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_segment_matches        ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_find_primary_segment   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         LOGICAL FUNCTION Q1NP_CONTACT_SEGMENT_MATCHES(NODE_IDS, IRECTM, SEG)
           INTEGER, INTENT(IN) :: NODE_IDS(4)
           INTEGER, INTENT(IN) :: IRECTM(:)
@@ -1546,6 +1668,12 @@
 !=======================================================================
 !   Q1NP_CONTACT_BULK_NODES
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_bulk_nodes              ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_build_primary_seg_map   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_find_primary_segment    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_BULK_NODES( &
      &      ELEM_IDX, KQ1NP_TAB, IQ1NP_BULK_TAB, NODE_IDS, HAS_NODES)
           INTEGER, INTENT(IN) :: ELEM_IDX
@@ -1570,6 +1698,13 @@
 !=======================================================================
 !   Q1NP_CONTACT_BILINEAR_WEIGHTS
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_bilinear_weights         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_build_primary_seg_map    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_interpolate_point        ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_BILINEAR_WEIGHTS(XI, ETA, WEIGHT)
           REAL(KIND=WP), INTENT(IN) :: XI, ETA
           REAL(KIND=WP), INTENT(INOUT) :: WEIGHT(4)
@@ -1622,6 +1757,12 @@
 !=======================================================================
 !   Q1NP_CONTACT_KNOT_SET_ID
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_knot_set_id             ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_assign_pair_stiffness   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_build_primary_seg_map   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         INTEGER FUNCTION Q1NP_CONTACT_KNOT_SET_ID(ELEM_IDX, KQ1NP_TAB)
           INTEGER, INTENT(IN) :: ELEM_IDX
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
@@ -1672,6 +1813,13 @@
 !   must be large enough (use Q1NP_CONTACT_MAX_KNOT_LEN to size).
 !   U_LEN_OUT / V_LEN_OUT return the number of entries written.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_extract_elem_data         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_bp_build_surface_points   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_evaluate_side             ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_project_point_newton      ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_EXTRACT_ELEM_DATA( &
      &      ELEM_IDX, KQ1NP_TAB, IQ1NP_TAB, Q1NP_KTAB, &
      &      P_OUT, Q_OUT, NCTRL_OUT, &
@@ -1746,6 +1894,13 @@
 !   Scan KQ1NP_TAB to find the maximum knot vector length in U and V
 !   across all elements. Used to size pre-allocated workspace arrays.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_max_knot_len              ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_bp_build_surface_points   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_compute_penalty_forces    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_narrow_phase_project      ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_MAX_KNOT_LEN( &
      &      KQ1NP_TAB, NUMELQ1NP, U_MAX_OUT, V_MAX_OUT)
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
@@ -1795,6 +1950,14 @@
 !   Returns parametric coordinates, projected point, distance,
 !   signed penetration, unit normal, residual, and validity flag.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_project_point_newton                  ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_narrow_phase_project                  ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_extract_elem_data                     ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_evaluate_nurbs_top_surface_point_and_derivs   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_PROJECT_POINT_NEWTON( &
      &      X_SRC, KQ1NP_TAB, IQ1NP_TAB, Q1NP_KTAB, &
      &      X_COORDS, NUMNOD, ELEM_IDX, &
@@ -1930,6 +2093,12 @@
 !   visible in H3D) by identifying which HEX8 face matches the 4 bulk
 !   nodes and taking the opposite face.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_init_grid_nodes   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                     ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_INIT_GRID_NODES(IXS, NIXS_IN, NUMELS_IN)
           INTEGER, INTENT(IN) :: NIXS_IN, NUMELS_IN
           INTEGER, INTENT(IN) :: IXS(NIXS_IN, NUMELS_IN)

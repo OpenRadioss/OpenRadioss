@@ -168,6 +168,7 @@
 !||    pblast_3                           ../engine/source/loads/pblast/pblast_3.F
 !||    pblast_load_computation            ../engine/source/loads/pblast/pblast.F
 !||    printime                           ../engine/source/system/printime.F
+!||    q1np_forc3                         ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    q4forc2                            ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                             ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    r2r_input_init                     ../engine/source/coupling/rad2rad/r2r_input_init.F
@@ -387,6 +388,7 @@
 !||    allocate_output_data   ../common_source/modules/output/output_mod.F90
 !||--- called by ------------------------------------------------------
 !||    iniresa                ../engine/source/output/restart/rdresa.F
+!||    resol                  ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    extend_array_mod       ../common_source/tools/memory/extend_array.F90

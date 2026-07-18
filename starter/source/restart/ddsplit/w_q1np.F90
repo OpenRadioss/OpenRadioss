@@ -1,6 +1,34 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !====================================================================
 !  W_Q1NP_INT / W_Q1NP_REAL   starter/source/restart/ddsplit/w_q1np.F
 !====================================================================
+!||====================================================================
+!||    w_q1np_mod         ../starter/source/restart/ddsplit/w_q1np.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       MODULE W_Q1NP_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -19,6 +47,14 @@
 
       CONTAINS
 
+!||====================================================================
+!||    w_q1np_int                         ../starter/source/restart/ddsplit/w_q1np.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit                            ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    w_q1np_int_append_meta             ../starter/source/restart/ddsplit/w_q1np.F90
+!||    w_q1np_int_write_main_int_blocks   ../starter/source/restart/ddsplit/w_q1np.F90
+!||====================================================================
         SUBROUTINE W_Q1NP_INT(NUMELQ1NP_IN, NKQ1NP, KQ1NP_TAB, &
           IQ1NP_TAB, IQ1NP_BULK_TAB, NODLOCAL, CEL,            &
           CEP, IPROC, NUMELS, NUMELS_L, NUMNOD, LEN_IA)
@@ -132,6 +168,12 @@
 
         CONTAINS
 
+!||====================================================================
+!||    w_q1np_int_write_main_int_blocks   ../starter/source/restart/ddsplit/w_q1np.F90
+!||--- called by ------------------------------------------------------
+!||    w_q1np_int                         ../starter/source/restart/ddsplit/w_q1np.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
           SUBROUTINE W_Q1NP_INT_WRITE_MAIN_INT_BLOCKS(LEN_IA, USE_LOC)
             INTEGER, INTENT(INOUT) :: LEN_IA
             LOGICAL, INTENT(IN)     :: USE_LOC
@@ -165,6 +207,13 @@
             END IF
           END SUBROUTINE W_Q1NP_INT_WRITE_MAIN_INT_BLOCKS
 
+!||====================================================================
+!||    w_q1np_int_append_meta   ../starter/source/restart/ddsplit/w_q1np.F90
+!||--- called by ------------------------------------------------------
+!||    w_q1np_int               ../starter/source/restart/ddsplit/w_q1np.F90
+!||--- calls      -----------------------------------------------------
+!||    w_ieloc                  ../starter/source/restart/ddsplit/w_ieloc.F
+!||====================================================================
           SUBROUTINE W_Q1NP_INT_APPEND_META(LEN_IA)
             INTEGER, INTENT(INOUT) :: LEN_IA
             INTEGER :: NSETS
@@ -191,6 +240,12 @@
 
         END SUBROUTINE W_Q1NP_INT
 
+!||====================================================================
+!||    w_q1np_real   ../starter/source/restart/ddsplit/w_q1np.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE W_Q1NP_REAL(Q1NP_WTAB, Q1NP_KTAB, Q1NP_CPTAB, LEN_AM)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Dummy arguments

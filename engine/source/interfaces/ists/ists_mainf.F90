@@ -1,39 +1,78 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    ists_mainf_mod              ../engine/source/interfaces/ists/ists_mainf.F90
+!||    ists_mainf_mod   ../engine/source/interfaces/ists/ists_mainf.F90
 !||--- called by ------------------------------------------------------
-!||    intfop2                     ../engine/source/interfaces/interf/intfop2.F
+!||    intfop2          ../engine/source/interfaces/interf/intfop2.F
 !||====================================================================
       module ists_mainf_mod
         implicit none
       contains
 
 !||====================================================================
-!||    ists_mainf                  ../engine/source/interfaces/ists/ists_mainf.F90
+!||    ists_mainf                        ../engine/source/interfaces/ists/ists_mainf.F90
 !||--- called by ------------------------------------------------------
-!||    intfop2                     ../engine/source/interfaces/interf/intfop2.F
+!||    intfop2                           ../engine/source/interfaces/interf/intfop2.F
 !||--- calls      -----------------------------------------------------
-!||    frictionparts_model_isot    ../engine/source/interfaces/int07/frictionparts_model.F
-!||    ists_ass0                   ../engine/source/interfaces/ists/ists_ass0.F90
-!||    my_barrier                  ../engine/source/system/machine.F
-!||    startime                    ../engine/source/system/timer_mod.F90
-!||    stoptime                    ../engine/source/system/timer_mod.F90
+!||    frictionparts_model_isot          ../engine/source/interfaces/int07/frictionparts_model.F
+!||    ists_sts_bp_persist_set_ncycle    ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||    ists_sts_ensure_buffers           ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||    ists_sts_init_capacity            ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||    ists_sts_skip_tick                ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||    ists_sts_skip_update              ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||    ists_sts_try_grow_capacity        ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||    ists_sts_voxel_grid_get           ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    ists_sts_voxel_grid_is_ready      ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    my_barrier                        ../engine/source/system/machine.F
+!||    q1np_contact_driver_int7          ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||    q1np_contact_init_grid_nodes      ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    startime                          ../engine/source/system/timer_mod.F90
+!||    stoptime                          ../engine/source/system/timer_mod.F90
+!||    sts_contact_stiffness             ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contacts_assemble             ../engine/source/interfaces/ists/ists_contacts_assemble.F90
+!||    sts_gp_cycle_begin                ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_cycle_end                  ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_gp_state_init                 ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    sts_int7_bucket_broad_phase       ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||    sts_voxel_broad_phase             ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
 !||--- uses       -----------------------------------------------------
-!||    groupdef_mod                ../common_source/modules/groupdef_mod.F
-!||    h3d_mod                     ../engine/share/modules/h3d_mod.F
-!||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
-!||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    ists_ass0_mod               ../engine/source/interfaces/ists/ists_ass0.F90
-!||    ists_sts_bp_algo_mod        ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
-!||    ists_sts_bp_persist_mod     ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
-!||    ists_sts_capacity_mod       ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
-!||    ists_sts_skip_mod           ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
-!||    ists_sts_voxel_grid_mod     ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
-!||    q1np_contact_driver_mod     ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
-!||    sts_broad_phase_int7_bucket_mod  ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
-!||    sts_broad_phase_voxel_mod   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
-!||    sts_contact_stiffness_mod   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
-!||    sts_gp_state_mod            ../engine/source/interfaces/ists/ists_gp_state_mod.F90
-!||    timer_mod                   ../engine/source/system/timer_mod.F90
+!||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    groupdef_mod                      ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                           ../engine/share/modules/h3d_mod.F
+!||    intbuf_fric_mod                   ../common_source/modules/interfaces/intbuf_fric_mod.F90
+!||    intbufdef_mod                     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    ists_sts_bp_algo_mod              ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
+!||    ists_sts_bp_persist_mod           ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
+!||    ists_sts_capacity_mod             ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
+!||    ists_sts_skip_mod                 ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||    ists_sts_voxel_grid_mod           ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    precision_mod                     ../common_source/modules/precision_mod.F90
+!||    q1np_contact_driver_mod           ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||    sts_broad_phase_int7_bucket_mod   ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
+!||    sts_broad_phase_voxel_mod         ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
+!||    sts_contact_stiffness_mod         ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_gp_state_mod                  ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||    timer_mod                         ../engine/source/system/timer_mod.F90
 !||====================================================================
       subroutine ists_mainf(timers, &
                        ipari          ,x              ,v              ,a              , &

@@ -22,12 +22,13 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    ghost_shells_mod       ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    ghost_shells_mod    ../engine/source/engine/node_spliting/ghost_shells.F90
 !||--- called by ------------------------------------------------------
-!||    resol                  ../engine/source/engine/resol.F
-!||    test_jc_shell_detach   ../engine/source/engine/node_spliting/detach_node.F90
+!||    apply_crack         ../engine/source/engine/node_spliting/apply_crack.F90
+!||    nloc_shell_detach   ../engine/source/engine/node_spliting/nloc_shell_detach.F90
+!||    resol               ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
-!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||    precision_mod       ../common_source/modules/precision_mod.F90
 !||====================================================================
       module ghost_shells_mod
         use precision_mod, only: wp
@@ -105,6 +106,7 @@
 !||--- called by ------------------------------------------------------
 !||    resol               ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
+!||    reserve_capacity    ../common_source/tools/container/umap_mod.F90
 !||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    connectivity_mod    ../common_source/modules/connectivity.F90
@@ -361,7 +363,8 @@
 !||====================================================================
 !||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
 !||--- called by ------------------------------------------------------
-!||    test_jc_shell_detach         ../engine/source/engine/node_spliting/detach_node.F90
+!||    apply_crack                  ../engine/source/engine/node_spliting/apply_crack.F90
+!||    nloc_shell_detach            ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||--- calls      -----------------------------------------------------
 !||    spmd_wait                    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------

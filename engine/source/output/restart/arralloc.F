@@ -60,6 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outmax_mod              ../common_source/modules/outmax_mod.F
 !||    output_mod              ../common_source/modules/output/output_mod.F90
 !||    pinchtype_mod           ../common_source/modules/pinchtype_mod.F
+!||    q1np_restart_mod        ../common_source/modules/q1np_restart_mod.F90
 !||    rbe3_mod                ../common_source/modules/constraints/rbe3_mod.F90
 !||    restmod                 ../engine/share/modules/restart_mod.F
 !||    rwall_mod               ../common_source/modules/constraints/rwall_mod.F90

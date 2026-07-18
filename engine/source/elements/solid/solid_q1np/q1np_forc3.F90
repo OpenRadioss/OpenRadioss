@@ -15,49 +15,49 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss
+!Copyright>        Commercial Alternative: Altair Radioss Software
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    q1np_forc3                       ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
-!||--- called by ------------------------------------------------------
-!||    forint                           ../engine/source/elements/forint.F
-!||--- calls      -----------------------------------------------------
-!||    ig3daverage                      ../engine/source/elements/ige3d/ig3daverage.F
-!||    ige3dbilan                       ../engine/source/elements/ige3d/ige3dbilan.F
-!||    mmain                            ../engine/source/materials/mat_share/mmain.F90
-!||    q1np_get_knot_vectors            ../common_source/modules/q1np_geom_mod.F90
-!||    q1np_build_gauss_scheme          ../common_source/modules/q1np_restart_mod.F90
-!||    q1np_jacobian                    ../common_source/modules/q1np_geom_mod.F90
-!||    q1np_shape_functions             ../common_source/modules/q1np_geom_mod.F90
-!||    smalla3                          ../engine/source/elements/solid/solide/smalla3.F
-!||    smallb3                          ../engine/source/elements/solid/solide/smallb3.F
-!||    srho3                            ../engine/source/elements/solid/solide/srho3.F
-!||    srota3                           ../engine/source/elements/solid/solide/srota3.F
-!||    sstra3                           ../engine/source/elements/solid/solide/sstra3.F
-!||--- uses       -----------------------------------------------------
-!||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
-!||    constant_mod                     ../common_source/modules/constant_mod.F
-!||    debug_mod                        ../engine/share/modules/debug_mod.F
-!||    dt_mod                           ../engine/source/modules/dt_mod.F
-!||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod                      ../common_source/modules/elements/element_mod.F90
-!||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90
-!||    mat_elem_mod                     ../common_source/modules/mat_elem/mat_elem_mod.F90
-!||    mmain_mod                        ../engine/source/materials/mat_share/mmain.F90
-!||    nlocal_reg_mod                   ../common_source/modules/nlocal_reg_mod.F
-!||    output_mod                       ../common_source/modules/output/output_mod.F90
-!||    q1np_geom_mod                    ../common_source/modules/q1np_geom_mod.F90
-!||    q1np_restart_mod                 ../common_source/modules/q1np_restart_mod.F90
-!||    restmod                          ../engine/share/modules/restart_mod.F
-!||    sensor_mod                       ../common_source/modules/sensor_mod.F90
-!||    table_mod                        ../engine/share/modules/table_mod.F
-!||    timer_mod                        ../engine/source/system/timer_mod.F90
-!||====================================================================
 ! Calculation of the internal forces for Q1NP elements
 !=======================================================================
+!||====================================================================
+!||    q1np_forc3                ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    forint                    ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    q1np_accum_nforce         ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_assemble_fint        ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_avg_sig_bilan        ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_build_gauss_scheme   ../common_source/modules/q1np_restart_mod.F90
+!||    q1np_gp_geom              ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_gp_mat               ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_init_elem_fields     ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_init_node_map        ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_reset_gp             ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    smalla3                   ../engine/source/elements/solid/solide/smalla3.F
+!||    smallb3                   ../engine/source/elements/solid/solide/smallb3.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod      ../common_source/modules/ale/ale_connectivity_mod.F
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||    dt_mod                    ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod               ../common_source/modules/elements/element_mod.F90
+!||    glob_therm_mod            ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mmain_mod                 ../engine/source/materials/mat_share/mmain.F90
+!||    mvsiz_mod                 ../engine/share/spe_inc/mvsiz_mod.F90
+!||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+!||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod                ../common_source/modules/output/output_mod.F90
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||    q1np_geom_mod             ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_restart_mod          ../common_source/modules/q1np_restart_mod.F90
+!||    sensor_mod                ../common_source/modules/sensor_mod.F90
+!||    table_mod                 ../engine/share/modules/table_mod.F
+!||    timer_mod                 ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE Q1NP_FORC3(TIMERS, OUTPUT, &
      &                      ELBUF_STR, PM, GEO, IXS, IGEO, X, A, V, W, &
      &                      FV, ALE_CONNECT, IPARG, TF, NPF, BUFMAT, PARTSAV, NPART, &
@@ -449,6 +449,14 @@
 !=======================================================================
 ! Node/group bookkeeping and gather X/V into element-local arrays
 !=======================================================================
+!||====================================================================
+!||    q1np_init_node_map       ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3               ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    find_group_node          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_get_bulk_node_ids   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_INIT_NODE_MAP()
           INTEGER :: BULK_NODE_IDS(4)
           NODE_GID = 0 ! Global node ID
@@ -549,6 +557,15 @@
 !=======================================================================
 ! Resolve the 4 bulk nodes for one Q1NP element.
 !=======================================================================
+!||====================================================================
+!||    q1np_get_bulk_node_ids          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_init_node_map              ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_rebuild_bulk_by_centroid   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_rebuild_bulk_from_hex      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_sort4_asc                  ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_GET_BULK_NODE_IDS(IEL_LOCAL, IQ1NP_LOCAL, BULK_NODE_IDS_OUT)
           INTEGER, INTENT(IN)  :: IEL_LOCAL, IQ1NP_LOCAL
           INTEGER, INTENT(INOUT) :: BULK_NODE_IDS_OUT(4)
@@ -653,6 +670,11 @@
 !=======================================================================
 ! Sort an INTEGER(4) array ascending in place (insertion sort).
 !=======================================================================
+!||====================================================================
+!||    q1np_sort4_asc           ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_get_bulk_node_ids   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_SORT4_ASC(ARR)
           INTEGER, INTENT(INOUT) :: ARR(4)
           INTEGER :: I_LOC, J_LOC, KEY_LOC
@@ -672,6 +694,13 @@
 ! Recover the opposite HEX8 face by matching the fitted Q1NP top patch to
 ! the parent brick faces.
 !=======================================================================
+!||====================================================================
+!||    q1np_rebuild_bulk_from_hex   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_get_bulk_node_ids       ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_eval_top_surf_point     ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_REBUILD_BULK_FROM_HEX(IEL_LOCAL, IQ1NP_LOCAL, BULK_NODE_IDS_OUT, MATCH_SCORE_OUT, IERR_OUT)
           INTEGER, INTENT(IN)  :: IEL_LOCAL, IQ1NP_LOCAL
           INTEGER, INTENT(INOUT) :: BULK_NODE_IDS_OUT(4)
@@ -772,6 +801,13 @@
 ! distorted bricks where one HEX corner accidentally lives near the
 ! center of the patch.
 !=======================================================================
+!||====================================================================
+!||    q1np_rebuild_bulk_by_centroid   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_get_bulk_node_ids          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_eval_top_surf_point        ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_REBUILD_BULK_BY_CENTROID(IEL_LOCAL, IQ1NP_LOCAL, &
      &                                          BULK_NODE_IDS_OUT, TOP_FACE_OUT, &
      &                                          DIST_OUT, IERR_OUT)
@@ -893,6 +929,14 @@
 !=======================================================================
 ! Evaluate one top-surface point using only the Q1NP control points.
 !=======================================================================
+!||====================================================================
+!||    q1np_eval_top_surf_point        ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_rebuild_bulk_by_centroid   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_rebuild_bulk_from_hex      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_shape_functions            ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_EVAL_TOP_SURF_POINT(IEL_LOCAL, XI_LOCAL, ETA_LOCAL, XYZ_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
           real(kind=WP), INTENT(IN) :: XI_LOCAL, ETA_LOCAL
@@ -925,6 +969,13 @@
 ! Initialize element fields (OFF, RHO0, DELTAX, buffers, etc.)
 ! Compute characteristic length per element that is later reused in material law and time-step logic.
 !=======================================================================
+!||====================================================================
+!||    q1np_init_elem_fields   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3              ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_char_len           ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_INIT_ELEM_FIELDS()
           INTEGER :: I_INIT, IEL_LOCAL
 
@@ -1035,6 +1086,11 @@
 !=======================================================================
 ! Reset Gauss point fields to zero
 !=======================================================================
+!||====================================================================
+!||    q1np_reset_gp   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_RESET_GP()
           VIS(1:NEL) = ZERO
           QVIS(1:NEL) = ZERO
@@ -1104,6 +1160,17 @@
 !=======================================================================
 ! Geometry terms (derivatives + Gauss point volume)
 !=======================================================================
+!||====================================================================
+!||    q1np_gp_geom           ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3             ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_eval_def          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_fill_matb         ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_is_active         ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_jacobian          ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_shape_functions   ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_GP_GEOM(XI, ETA, ZETA, GPW, IERR_OUT)
           real(kind=WP), INTENT(IN)  :: XI, ETA, ZETA, GPW
           INTEGER, INTENT(INOUT) :: IERR_OUT
@@ -1196,6 +1263,16 @@
 !=======================================================================
 ! Material law + strain/stress evaluation at the Gauss point
 !=======================================================================
+!||====================================================================
+!||    q1np_gp_mat   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3    ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    mmain         ../engine/source/materials/mat_share/mmain.F90
+!||    srho3         ../engine/source/elements/solid/solide/srho3.F
+!||    srota3        ../engine/source/elements/solid/solide/srota3.F
+!||    sstra3        ../engine/source/elements/solid/solide/sstra3.F
+!||====================================================================
         SUBROUTINE Q1NP_GP_MAT(IU, IV, IT)
           INTEGER, INTENT(IN) :: IU, IV, IT
           INTEGER :: JSPH_LOC, JPLASOL_LOC
@@ -1244,6 +1321,11 @@
 !=======================================================================
 ! Fill the element-local material basis matrix
 !=======================================================================
+!||====================================================================
+!||    q1np_fill_matb   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_gp_geom     ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_FILL_MATB(IEL_LOCAL, NNODE_LOCAL, DRDX_LOCAL) 
           INTEGER, INTENT(IN) :: IEL_LOCAL, NNODE_LOCAL
           real(kind=WP), INTENT(IN) :: DRDX_LOCAL(NNODE_LOCAL,3)
@@ -1262,6 +1344,13 @@
 ! computes deformation-rates (DXX, DYY, DZZ, DXY, DYX, DYZ, DZY, DZX, DXZ)
 ! applies time-step corrections (DT1D2_LOCAL)
 !=======================================================================
+!||====================================================================
+!||    q1np_eval_def    ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_gp_geom     ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_is_active   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_EVAL_DEF()
           INTEGER :: IEL_LOCAL, K_LOCAL, IAD_LOCAL
           real(kind=WP) :: DT1D2_LOCAL, AAA_LOCAL
@@ -1340,6 +1429,11 @@
 !=======================================================================
 ! Integrate nodal internal forces from stresses into element-local buffers
 !=======================================================================
+!||====================================================================
+!||    q1np_accum_fint     ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_accum_nforce   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_ACCUM_FINT(IEL_LOCAL, SIG1_IN, SIG2_IN, SIG3_IN, SIG4_IN, SIG5_IN, SIG6_IN, &
      &                                 FX_SUM_OUT, FY_SUM_OUT, FZ_SUM_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
@@ -1403,6 +1497,15 @@
 !=======================================================================
 ! Uses stress (SIG1..SIG6) to compute and accumulate internal nodal forces via Q1NP_ACCUM_FIN
 !=======================================================================
+!||====================================================================
+!||    q1np_accum_nforce   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_accum_fint     ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_build_sig      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_is_active      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_ACCUM_NFORCE(IU, IV, IT)
           INTEGER, INTENT(IN) :: IU, IV, IT
           INTEGER :: IEL_LOCAL
@@ -1426,6 +1529,13 @@
 !=======================================================================
 ! Assemble element-local internal forces into the global array A
 !=======================================================================
+!||====================================================================
+!||    q1np_assemble_fint   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3           ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_is_active       ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_ASSEMBLE_FINT()
           INTEGER :: IEL_LOCAL, K_LOCAL, LOCAL_ID_LOCAL
 
@@ -1446,6 +1556,14 @@
 ! Gauss stress average + optional bilans + small-strain housekeeping
 ! TODO: #REVIEW: Q1NP_AVG_SIG_BILAN
 !=======================================================================
+!||====================================================================
+!||    q1np_avg_sig_bilan   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3           ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    ig3daverage          ../engine/source/elements/ige3d/ig3daverage.F
+!||    ige3dbilan           ../engine/source/elements/ige3d/ige3dbilan.F
+!||====================================================================
         SUBROUTINE Q1NP_AVG_SIG_BILAN()
           INTEGER :: IU_LOCAL, IV_LOCAL, IT_LOCAL
           INTEGER :: IEL_LOCAL, K_LOCAL
@@ -1510,6 +1628,11 @@
 !=======================================================================
 ! Build the element-local stress tensor
 !=======================================================================
+!||====================================================================
+!||    q1np_build_sig      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_accum_nforce   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_BUILD_SIG(IEL_LOCAL, SIG1_OUT, SIG2_OUT, SIG3_OUT, SIG4_OUT, SIG5_OUT, SIG6_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
           real(kind=WP), INTENT(INOUT) :: SIG1_OUT, SIG2_OUT, SIG3_OUT, SIG4_OUT, SIG5_OUT, SIG6_OUT
@@ -1524,6 +1647,14 @@
 !=======================================================================
 ! Check if the element is active
 !=======================================================================
+!||====================================================================
+!||    q1np_is_active       ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_accum_nforce    ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_assemble_fint   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_eval_def        ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_gp_geom         ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         LOGICAL FUNCTION Q1NP_IS_ACTIVE(IEL_LOCAL)
           INTEGER, INTENT(IN) :: IEL_LOCAL
           Q1NP_IS_ACTIVE = .TRUE.
@@ -1535,6 +1666,13 @@
 ! Calculate the characteristic length of the element
 ! Used in MMAIN_Q1NP to update the element time-step
 !=======================================================================
+!||====================================================================
+!||    q1np_char_len           ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_init_elem_fields   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_eval_phys_point    ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_CHAR_LEN(IEL_LOCAL, DELTAX_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
           real(kind=WP), INTENT(INOUT) :: DELTAX_OUT
@@ -1581,6 +1719,13 @@
 !=======================================================================
 ! Evaluate the current physical point of the Q1NP element at parent coordinates
 !=======================================================================
+!||====================================================================
+!||    q1np_eval_phys_point   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_char_len          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_shape_functions   ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_EVAL_PHYS_POINT(IEL_LOCAL, XI_LOCAL, ETA_LOCAL, ZETA_LOCAL, XYZ_OUT)
           INTEGER, INTENT(IN) :: IEL_LOCAL
           real(kind=WP), INTENT(IN) :: XI_LOCAL, ETA_LOCAL, ZETA_LOCAL
@@ -1624,6 +1769,11 @@
         ! ----------------------------------------------------------------------
         ! Find the group node ID for a given node ID
         ! ----------------------------------------------------------------------
+!||====================================================================
+!||    find_group_node      ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_init_node_map   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         INTEGER FUNCTION FIND_GROUP_NODE(GID, GIDS, NGID)
           INTEGER, INTENT(IN) :: GID, NGID
           INTEGER, INTENT(IN) :: GIDS(:)
@@ -1640,6 +1790,9 @@
 !=======================================================================
 ! Rebuild the grid for a given number of control points
 !=======================================================================
+!||====================================================================
+!||    q1np_rebuild_grid   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_REBUILD_GRID(NX_OUT, NY_OUT, P_IN, Q_IN)
           INTEGER, INTENT(INOUT) :: NX_OUT, NY_OUT
           INTEGER, INTENT(IN)  :: P_IN, Q_IN

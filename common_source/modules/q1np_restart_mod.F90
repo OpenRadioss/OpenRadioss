@@ -1,6 +1,65 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !====================================================================
 !  Q1NP_RESTART_MOD              common_source/modules/q1np_restart_mod.F90
 !====================================================================
+!||====================================================================
+!||    q1np_restart_mod              ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit                       ../starter/source/restart/ddsplit/ddsplit.F
+!||    elbuf_ini                     ../engine/source/elements/elbuf/elbuf_ini.F
+!||    forint                        ../engine/source/elements/forint.F
+!||    genh3d                        ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    genq1np_mod                   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    get_sort_key_solid            ../starter/source/elements/solid/get_sort_key_solid.F90
+!||    initia                        ../starter/source/elements/initia/initia.F
+!||    lectur                        ../engine/source/input/lectur.F
+!||    q1np_contact_algorithms_mod   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_driver_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||    q1np_dump_hist_state          ../engine/source/elements/solid/solid_q1np/q1np_dump_hist_state.F90
+!||    q1np_forc3                    ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_init_lbuf_vol_mod        ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_init_mod                 ../starter/source/elements/solid/solid_q1np/q1np_init.F90
+!||    q1np_mass3_mod                ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||    q1np_promote_cp_mod           ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
+!||    q1np_volume_mod               ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||    rdcomi                        ../engine/source/output/restart/rdcomm.F
+!||    rdresa                        ../engine/source/output/restart/rdresa.F
+!||    rdresb                        ../engine/source/output/restart/rdresb.F
+!||    restalloc                     ../engine/source/output/restart/arralloc.F
+!||    sgrhead                       ../starter/source/elements/solid/solide/sgrhead.F
+!||    sgrtails                      ../starter/source/elements/solid/solide/sgrtails.F
+!||    smass3                        ../starter/source/elements/solid/solide/smass3.F
+!||    surfext_tagn                  ../starter/source/groups/ssurftag.F
+!||    w_q1np_mod                    ../starter/source/restart/ddsplit/w_q1np.F90
+!||    wrcomi                        ../engine/source/output/restart/wrcomm.F
+!||    wrcomip                       ../starter/source/restart/ddsplit/wrcommp.F
+!||    wrrestp                       ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE Q1NP_RESTART_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -68,6 +127,12 @@
 
       CONTAINS
 
+!||====================================================================
+!||    reset_q1np_counts   ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    reset_q1np_state    ../common_source/modules/q1np_restart_mod.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE RESET_Q1NP_COUNTS()
           NUMELQ1NP_G      = 0
           SKQ1NP_G         = 0
@@ -99,10 +164,20 @@
           IF (ALLOCATED(Q1NP_GW_T_G)) CALL MY_DEALLOC(Q1NP_GW_T_G)
         END SUBROUTINE RESET_Q1NP_COUNTS
 
+!||====================================================================
+!||    reset_q1np_state    ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    rdresa              ../engine/source/output/restart/rdresa.F
+!||--- calls      -----------------------------------------------------
+!||    reset_q1np_counts   ../common_source/modules/q1np_restart_mod.F90
+!||====================================================================
         SUBROUTINE RESET_Q1NP_STATE()
           CALL RESET_Q1NP_COUNTS()
         END SUBROUTINE RESET_Q1NP_STATE
 
+!||====================================================================
+!||    set_q1np_counts   ../common_source/modules/q1np_restart_mod.F90
+!||====================================================================
         SUBROUTINE SET_Q1NP_COUNTS(NUMELQ1NP_IN, &
           SKQ1NP,SIQ1NP,SQ1NPBULK,                &
           SQ1NPCTRL_SHARED,SQ1NPCTRL_L,          &
@@ -122,6 +197,10 @@
           SQ1NPKNOT_L_G      = SQ1NPKNOT_L
         END SUBROUTINE SET_Q1NP_COUNTS
 
+!||====================================================================
+!||    set_q1np_knot_sets   ../common_source/modules/q1np_restart_mod.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE SET_Q1NP_KNOT_SETS(NSETS_IN, NX_SET_IN, NY_SET_IN, KTAB_OFF_IN, KTAB_LEN_IN)
           INTEGER, INTENT(IN) :: NSETS_IN
           INTEGER, INTENT(IN) :: NX_SET_IN(:)
@@ -157,11 +236,26 @@
           Q1NP_NY_G = Q1NP_NY_SET_G(1)
         END SUBROUTINE SET_Q1NP_KNOT_SETS
 
+!||====================================================================
+!||    set_q1np_tabvint_len   ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    rdresa                 ../engine/source/output/restart/rdresa.F
+!||====================================================================
         SUBROUTINE SET_Q1NP_TABVINT_LEN(LEN)
           INTEGER, INTENT(IN) :: LEN
           TABVINT_LEN_G = LEN
         END SUBROUTINE SET_Q1NP_TABVINT_LEN
 
+!||====================================================================
+!||    q1np_init_gauss_scheme_starter   ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_compute_volume_element      ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||    q1np_ensure_gauss_scheme         ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_mass3                       ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_gauss_1d                    ../common_source/modules/q1np_restart_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_INIT_GAUSS_SCHEME_STARTER(NP_U, NP_V, NP_T)
           INTEGER, INTENT(IN) :: NP_U, NP_V, NP_T
 !         INTEGER :: I  ! no local variables currently needed
@@ -210,6 +304,13 @@
 !       the allocation address in a shared global tracker, which is not
 !       thread-safe and would race when this routine runs inside an
 !       OpenMP parallel region.
+!||====================================================================
+!||    q1np_build_gauss_scheme   ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_forc3                ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_gauss_1d             ../common_source/modules/q1np_restart_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_BUILD_GAUSS_SCHEME(NP_U, NP_V, NP_T, &
      &      GP_U, GW_U, GP_V, GW_V, GP_T, GW_T)
           INTEGER, INTENT(IN) :: NP_U, NP_V, NP_T
@@ -241,6 +342,12 @@
 
         END SUBROUTINE Q1NP_BUILD_GAUSS_SCHEME
 
+!||====================================================================
+!||    q1np_gauss_1d                    ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_build_gauss_scheme          ../common_source/modules/q1np_restart_mod.F90
+!||    q1np_init_gauss_scheme_starter   ../common_source/modules/q1np_restart_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_GAUSS_1D(N, GP, GW)
           INTEGER, INTENT(IN) :: N
           REAL(KIND=WP), INTENT(INOUT) :: GP(N), GW(N)

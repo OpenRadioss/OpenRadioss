@@ -23,21 +23,22 @@
 !===================================================================================================
 
 !||====================================================================
-!||    rwall_mod         ../common_source/modules/constraints/rwall_mod.F90
+!||    rwall_mod                 ../common_source/modules/constraints/rwall_mod.F90
 !||--- called by ------------------------------------------------------
-!||    radioss2          ../engine/source/engine/radioss2.F
-!||    rdcomi            ../engine/source/output/restart/rdcomm.F
-!||    rdresa            ../engine/source/output/restart/rdresa.F
-!||    rdresb            ../engine/source/output/restart/rdresb.F
-!||    read_rrwallpen    ../engine/source/output/restart/restart_rwallpen.F90
-!||    resol             ../engine/source/engine/resol.F
-!||    resol_head        ../engine/source/engine/resol_head.F
-!||    restalloc         ../engine/source/output/restart/arralloc.F
-!||    rgwal0_pen        ../engine/source/constraints/general/rwall/rgwall_pen.F90
-!||    write_rrwallpen   ../engine/source/output/restart/restart_rwallpen.F90
-!||    wrrestp           ../engine/source/output/restart/wrrestp.F
+!||    detach_node_from_rwalls   ../engine/source/engine/node_spliting/detach_node.F90
+!||    radioss2                  ../engine/source/engine/radioss2.F
+!||    rdcomi                    ../engine/source/output/restart/rdcomm.F
+!||    rdresa                    ../engine/source/output/restart/rdresa.F
+!||    rdresb                    ../engine/source/output/restart/rdresb.F
+!||    read_rrwallpen            ../engine/source/output/restart/restart_rwallpen.F90
+!||    resol                     ../engine/source/engine/resol.F
+!||    resol_head                ../engine/source/engine/resol_head.F
+!||    restalloc                 ../engine/source/output/restart/arralloc.F
+!||    rgwal0_pen                ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||    write_rrwallpen           ../engine/source/output/restart/restart_rwallpen.F90
+!||    wrrestp                   ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
-!||    precision_mod     ../common_source/modules/precision_mod.F90
+!||    precision_mod             ../common_source/modules/precision_mod.F90
 !||====================================================================
       module rwall_mod
         use precision_mod, only: WP

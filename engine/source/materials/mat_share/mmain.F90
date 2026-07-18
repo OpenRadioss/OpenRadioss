@@ -25,6 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    bforc2       ../engine/source/ale/bimat/bforc2.F
 !||    ig3duforc3   ../engine/source/elements/ige3d/ig3duforc3.F
+!||    q1np_forc3   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    q4forc2      ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2       ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
@@ -54,6 +55,7 @@
 !||--- called by ------------------------------------------------------
 !||    bforc2                  ../engine/source/ale/bimat/bforc2.F
 !||    ig3duforc3              ../engine/source/elements/ige3d/ig3duforc3.F
+!||    q1np_gp_mat             ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    q4forc2                 ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                  ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    s10forc3                ../engine/source/elements/solid/solide10/s10forc3.F

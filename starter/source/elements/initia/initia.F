@@ -78,6 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outpart                         ../starter/source/elements/initia/initia.F
 !||    outpart5                        ../starter/source/elements/initia/initia.F
 !||    pinit3                          ../starter/source/elements/beam/pinit3.F
+!||    q1np_init                       ../starter/source/elements/solid/solid_q1np/q1np_init.F90
 !||    q4init2                         ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    qinit2                          ../starter/source/elements/solid_2d/quad/qinit2.F
 !||    rbody_spring_check              ../starter/source/elements/spring/rbody_spring_check.F90
@@ -133,6 +134,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_seatbelt_rbodies_mod       ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
 !||    inivol_def_mod                  ../starter/share/modules1/inivol_mod.F
 !||    message_mod                     ../starter/share/message_module/message_mod.F
+!||    q1np_init_mod                   ../starter/source/elements/solid/solid_q1np/q1np_init.F90
 !||    rbody_spring_check_mod          ../starter/source/elements/spring/rbody_spring_check.F90
 !||    rini135_rb_mod                  ../starter/source/elements/joint/rjoint/rini135_rb.F90
 !||    s6zinit3_mod                    ../starter/source/elements/solid/solide6z/s6zinit3.F90

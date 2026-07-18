@@ -1,7 +1,33 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    STS_CONTACT_STIFFNESS  ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_stiffness_mod   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
 !||--- called by ------------------------------------------------------
-!||    i7mainf                ../engine/source/interfaces/int07/i7mainf.F
+!||    ists_mainf                  ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod               ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE STS_CONTACT_STIFFNESS_MOD
         USE PRECISION_MOD, ONLY : WP
@@ -29,6 +55,15 @@
 !   Compute one penalty stiffness per STS candidate pair from primary
 !   segment stiffness and active secondary nodal stiffness values.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_stiffness               ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                          ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_contact_build_seg_hash          ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_ensure_node_map         ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_find_primary_seg_hash   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         SUBROUTINE STS_CONTACT_STIFFNESS( &
      &      CAND_MST_SEG_ID, CAND_SEC_SEG_ID, COUNT, MAX_STS_SIZE, &
      &      CAND_SEC_GP_MASK, &
@@ -124,6 +159,12 @@
 !   Cache the NSV node-id to STFNS index map while the secondary node
 !   list is unchanged.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_ensure_node_map   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_stiffness         ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE STS_CONTACT_ENSURE_NODE_MAP(NSV, NSN_EFF, NUMNOD)
           INTEGER, INTENT(IN) :: NSV(:)
           INTEGER, INTENT(IN) :: NSN_EFF, NUMNOD
@@ -232,6 +273,15 @@
 !
 !   Build a hash from canonical master-segment node ids to segment id.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_build_seg_hash    ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_stiffness         ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_contact_canonical_nodes   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_hash_probe        ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_valid_seg_key     ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         SUBROUTINE STS_CONTACT_BUILD_SEG_HASH( &
      &      IRECTM, NRTM, HASH_KEYS, HASH_VALS, HASH_SIZE)
           INTEGER, INTENT(IN) :: IRECTM(:)
@@ -271,6 +321,17 @@
 !   Resolve a primary segment id from candidate node ids using the hash,
 !   with a linear fallback for unexpected hash misses.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_find_primary_seg_hash   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_stiffness               ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_contact_canonical_nodes         ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_find_primary_seg        ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_hash_probe              ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_same_seg_nodes          ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_valid_seg_key           ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         INTEGER FUNCTION STS_CONTACT_FIND_PRIMARY_SEG_HASH( &
      &      PRIMARY_NODES, CAND_SEG, IRECTM, NRTM, HASH_KEYS, &
      &      HASH_VALS, HASH_SIZE)
@@ -311,6 +372,14 @@
 !   STS_CONTACT_HASH_PROBE
 !   Open-addressing lookup: KEY_MATCH=.TRUE. when slot holds KEY.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_hash_probe              ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_build_seg_hash          ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_find_primary_seg_hash   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_contact_seg_hash                ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         SUBROUTINE STS_CONTACT_HASH_PROBE(KEY, HASH_SIZE, HASH_KEYS, &
      &      HASH_VALS, IH, KEY_MATCH)
           INTEGER, INTENT(IN) :: KEY(4), HASH_SIZE
@@ -340,6 +409,12 @@
 !
 !   Sort four node ids so segment-node comparison is order independent.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_canonical_nodes         ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_build_seg_hash          ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_find_primary_seg_hash   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         SUBROUTINE STS_CONTACT_CANONICAL_NODES(NODES_IN, NODES_OUT)
           INTEGER, INTENT(IN) :: NODES_IN(4)
           INTEGER, INTENT(INOUT) :: NODES_OUT(4)
@@ -362,6 +437,12 @@
 !
 !   Return true when all segment key node ids are positive.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_valid_seg_key           ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_build_seg_hash          ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_find_primary_seg_hash   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         LOGICAL FUNCTION STS_CONTACT_VALID_SEG_KEY(KEY)
           INTEGER, INTENT(IN) :: KEY(4)
 
@@ -373,6 +454,11 @@
 !
 !   Compute a 1-based open-addressing hash slot for a canonical key.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_seg_hash     ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_hash_probe   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         INTEGER FUNCTION STS_CONTACT_SEG_HASH(KEY, HASH_SIZE)
           INTEGER, INTENT(IN) :: KEY(4), HASH_SIZE
           INTEGER :: I
@@ -391,6 +477,13 @@
 !
 !   Linear fallback that searches IRECTM for a segment with the same nodes.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_find_primary_seg        ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_find_primary_seg_hash   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_contact_same_seg_nodes          ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         INTEGER FUNCTION STS_CONTACT_FIND_PRIMARY_SEG( &
      &      PRIMARY_NODES, CAND_SEG, IRECTM, NRTM)
           INTEGER, INTENT(IN) :: PRIMARY_NODES(4)
@@ -421,6 +514,12 @@
 !
 !   Return true when a master segment contains exactly the given node ids.
 !=======================================================================
+!||====================================================================
+!||    sts_contact_same_seg_nodes          ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_find_primary_seg        ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||    sts_contact_find_primary_seg_hash   ../engine/source/interfaces/ists/ists_contact_stiffness.F90
+!||====================================================================
         LOGICAL FUNCTION STS_CONTACT_SAME_SEG_NODES(PRIMARY_NODES, IRECTM, SEG)
           INTEGER, INTENT(IN) :: PRIMARY_NODES(4)
           INTEGER, INTENT(IN) :: IRECTM(:)

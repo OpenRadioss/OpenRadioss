@@ -81,6 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulawglcpinch              ../engine/source/elements/shell/coqueba/mulawglcpinch.F
 !||    press_seg3                 ../engine/source/loads/general/load_pcyl/press_seg3.F
 !||    pressure_cyl               ../engine/source/loads/general/load_pcyl/pressure_cyl.F
+!||    q1np_forc3                 ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    q4forc2                    ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                     ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    r23forc3                   ../engine/source/elements/spring/r23forc3.F

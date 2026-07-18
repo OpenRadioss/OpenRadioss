@@ -91,6 +91,9 @@
 !||    spmd_alltoall_ints              ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real              ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals             ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoallv_doubles          ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_ints             ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_reals            ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_anim_ply_velvec            ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
 !||    spmd_anim_ply_xyznor            ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
 !||    spmd_cddl                       ../engine/source/mpi/implicit/imp_spmd.F

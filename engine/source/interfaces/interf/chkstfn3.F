@@ -253,6 +253,7 @@ C
 !||====================================================================
 !||    chkinit       ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
 !||    resol_init    ../engine/source/engine/resol_init.F
 !||--- uses       -----------------------------------------------------
 !||    element_mod   ../common_source/modules/elements/element_mod.F90

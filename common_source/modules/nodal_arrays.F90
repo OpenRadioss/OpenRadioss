@@ -23,8 +23,10 @@
 !||====================================================================
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||--- called by ------------------------------------------------------
+!||    apply_crack                              ../engine/source/engine/node_spliting/apply_crack.F90
 !||    asspar4                                  ../engine/source/assembly/asspar4.F
 !||    check_nan_acc                            ../engine/source/output/outfile/check_nan_acc.F
+!||    check_pon_consistency                    ../engine/source/engine/node_spliting/check_pon_consistency.F90
 !||    chkload                                  ../engine/source/interfaces/chkload.F
 !||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
 !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
@@ -34,6 +36,7 @@
 !||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
 !||    detach_node                              ../engine/source/engine/node_spliting/detach_node.F90
 !||    detach_node_from_interfaces              ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_from_rwalls                  ../engine/source/engine/node_spliting/detach_node.F90
 !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
 !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
 !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
@@ -59,6 +62,9 @@
 !||    lag_fxvp                                 ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_mult                                 ../engine/source/tools/lagmul/lag_mult.F
 !||    lag_multp                                ../engine/source/tools/lagmul/lag_mult.F
+!||    merge_boundary_with_split                ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
+!||    mirror_node_split                        ../engine/source/engine/node_spliting/detach_node.F90
+!||    nloc_shell_detach                        ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    python_call_funct_cload_dp               ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_call_funct_cload_sp               ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_register                          ../engine/source/tools/curve/python_register.F90
@@ -74,6 +80,7 @@
 !||    resol_alloc_python                       ../engine/source/engine/resol_alloc.F90
 !||    resol_head                               ../engine/source/engine/resol_head.F
 !||    restalloc                                ../engine/source/output/restart/arralloc.F
+!||    scale_parent_on_noncreating_rank         ../engine/source/engine/node_spliting/apply_crack.F90
 !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
 !||    sfem_init                                ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
 !||    sfem_init_spmd                           ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
@@ -84,8 +91,8 @@
 !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
 !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+!||    spmd_rebuild_boundary                    ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
-!||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    user_interface_mod                       ../engine/source/modules/user_interface_mod.F90
 !||    viper_coupling_initialize                ../engine/source/coupling/viper/viper_interface_mod.F90
 !||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
@@ -441,7 +448,9 @@
 !||====================================================================
 !||    extend_nodal_arrays   ../common_source/modules/nodal_arrays.F90
 !||--- called by ------------------------------------------------------
+!||    apply_crack           ../engine/source/engine/node_spliting/apply_crack.F90
 !||    detach_node           ../engine/source/engine/node_spliting/detach_node.F90
+!||    mirror_node_split     ../engine/source/engine/node_spliting/detach_node.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
@@ -561,8 +570,6 @@
 !!          includes new_id in the non-local MPI communication tables.
 !||====================================================================
 !||    extend_boundary_for_split   ../common_source/modules/nodal_arrays.F90
-!||--- called by ------------------------------------------------------
-!||    detach_node                 ../engine/source/engine/node_spliting/detach_node.F90
 !||====================================================================
         subroutine extend_boundary_for_split(arrays, parent_id, new_id, nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------

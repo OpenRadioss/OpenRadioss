@@ -22,13 +22,22 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    q1np_geom_mod                    ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_geom_mod                       ../common_source/modules/q1np_geom_mod.F90
 !||--- called by ------------------------------------------------------
-!||    q1np_forc3                        ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
-!||    q1np_genelements                  ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
-!||    q1np_init_lbuf_vol                ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
-!||    q1np_mass3                        ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
-!||    q1np_volume                       ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||    genq1np                             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_eval_top_patch_point           ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_forc3                          ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_init_lbuf_vol_mod              ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_mass3_mod                      ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||    q1np_nurbs_surface_evaluation_mod   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||    q1np_report_fit_error               ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_select_global_cp_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_volume_mod                     ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_knot_single_span               ../common_source/modules/q1np_geom_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                        ../common_source/modules/constant_mod.F
+!||    precision_mod                       ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE Q1NP_GEOM_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,6 +67,16 @@
 !C=======================================================================
 !C   Q1NP_GET_KNOT_VECTORS: Extract U,V knot vectors from Q1NP_KTAB
 !C=======================================================================
+!||====================================================================
+!||    q1np_get_knot_vectors               ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_fill_element_gp_volumes        ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_fit_control_points             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_mass3                          ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||    q1np_report_fit_error               ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_select_global_cp_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||====================================================================
         SUBROUTINE Q1NP_GET_KNOT_VECTORS(NX, NY, P, Q, Q1NP_KTAB, U, V)
   !C-----------------------------------------------
   !C   D u m m y   A r g u m e n t s
@@ -96,6 +115,12 @@
 !C=======================================================================
 !C   Q1NP_DERS_BASIS_FUNS: Compute B-spline basis functions and their derivatives
 !C=======================================================================
+!||====================================================================
+!||    q1np_ders_basis_funs   ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_basis_row_at_uv   ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_shape_functions   ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
       SUBROUTINE Q1NP_DERS_BASIS_FUNS(SPAN, UVAL, P, U, NDERS, DERS)
   !C----------------------------------------------------------------------
   !C   D u m m y   A r g u m e n t s
@@ -240,6 +265,22 @@
 !C=======================================================================
 !C   Q1NP_SHAPE_FUNCTIONS: Compute Q1NP shape functions and their derivatives (NURBS top + bilinear bottom)
 !C=======================================================================
+!||====================================================================
+!||    q1np_shape_functions                               ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_compute_volume_element                        ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||    q1np_eval_phys_point                               ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_eval_top_patch_point                          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_eval_top_surf_point                           ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_evaluate_nurbs_shape_values                   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||    q1np_evaluate_nurbs_top_surface_point              ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||    q1np_evaluate_nurbs_top_surface_point_and_derivs   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||    q1np_fill_element_gp_volumes                       ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_gp_geom                                       ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_mass3                                         ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_ders_basis_funs                               ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_SHAPE_FUNCTIONS(XI, ETA, ZETA, P, Q, U, V, &
      &                                  ELEM_U, ELEM_V, N, DN_LOCAL)
   !C----------------------------------------------------------------------
@@ -383,6 +424,13 @@
 !C=======================================================================
 !C   Jacobian matrix and determinant computation
 !C=======================================================================
+!||====================================================================
+!||    q1np_jacobian                  ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_compute_volume_element    ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
+!||    q1np_fill_element_gp_volumes   ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_gp_geom                   ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||====================================================================
         SUBROUTINE Q1NP_JACOBIAN(DN_LOCAL, XNODE, NNODE, J, DETJ, JINV, DN_GLOBAL, IERR)
   !C----------------------------------------------------------------------
   !C   D u m m y   A r g u m e n t s
@@ -459,6 +507,11 @@
 !C=======================================================================
 !C   Q1NP_FIND_SPAN: find knot span index i such that U(i) <= UVAL < U(i+1).
 !C=======================================================================
+!||====================================================================
+!||    q1np_find_span         ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_basis_row_at_uv   ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_FIND_SPAN(U, NK, P, UVAL, SPAN)
   !C----------------------------------------------------------------------
   !C   D u m m y   A r g u m e n t s
@@ -490,6 +543,11 @@
 !C=======================================================================
 !C   Q1NP_BERNSTEIN_BASIS: Bernstein basis of degree P at T in [0,1].
 !C=======================================================================
+!||====================================================================
+!||    q1np_bernstein_basis   ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_basis_row_at_uv   ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_BERNSTEIN_BASIS(P, T, B)
           INTEGER,      INTENT(IN)  :: P
           REAL(KIND=WP),INTENT(IN)  :: T
@@ -516,6 +574,12 @@
 !C=======================================================================
 !C   Q1NP_KNOT_SINGLE_SPAN: .TRUE. if knot vector has no interior knots
 !C=======================================================================
+!||====================================================================
+!||    q1np_knot_single_span   ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_basis_row_at_uv    ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_geom_mod           ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         LOGICAL FUNCTION Q1NP_KNOT_SINGLE_SPAN(V, NK)
           INTEGER,      INTENT(IN) :: NK
           REAL(KIND=WP),INTENT(IN) :: V(NK)
@@ -535,6 +599,17 @@
 !C=======================================================================
 !C   Q1NP_BASIS_ROW_AT_UV: fill one row of design matrix for least-squares.
 !C=======================================================================
+!||====================================================================
+!||    q1np_basis_row_at_uv      ../common_source/modules/q1np_geom_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_fit_control_points   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_report_fit_error     ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_bernstein_basis      ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_ders_basis_funs      ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_find_span            ../common_source/modules/q1np_geom_mod.F90
+!||    q1np_knot_single_span     ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_BASIS_ROW_AT_UV(UU, VV, U, V, P, Q, NCP_U, NCP_V, &
      &                                  A_ROW)
           INTEGER,      INTENT(IN) :: P, Q, NCP_U, NCP_V

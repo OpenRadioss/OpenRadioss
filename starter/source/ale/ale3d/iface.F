@@ -29,9 +29,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs_cyclic_surface_matching_2d   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
 !||    ebcs_cyclic_surface_matching_3d   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
 !||    findele                           ../starter/source/boundary_conditions/ebcs/findele.F
+!||    findhex8fromsurf                  ../starter/source/elements/solid/solid_q1np/q1np_findhex8fromsurface.F90
 !||    fvbric01                          ../starter/source/airbag/fvbric01.F
 !||    i12sol3                           ../starter/source/interfaces/inter3d1/insol3.F
 !||    iniebcs                           ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    q1np_rebuild_bulk_from_hex_geom   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
 !||====================================================================
       INTEGER FUNCTION IFACE(IP,N)
 C-----------------------------------------------

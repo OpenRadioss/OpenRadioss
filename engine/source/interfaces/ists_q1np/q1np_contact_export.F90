@@ -15,19 +15,20 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss
+!Copyright>        Commercial Alternative: Altair Radioss Software
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    q1np_contact_export              ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||    q1np_contact_export_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
 !||--- called by ------------------------------------------------------
-!||    q1np_contact_driver              ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
-!||    q1np_contact_algorithms          ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||    resol                            ../engine/source/engine/resol.F
+!||    q1np_contact_algorithms_mod   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_driver_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
 !||--- uses       -----------------------------------------------------
-!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE Q1NP_CONTACT_EXPORT_MOD
         USE PRECISION_MOD, ONLY : WP
@@ -58,6 +59,13 @@
 !=======================================================================
 !   Ensure export buffers match the current number of Q1NP elements.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_export_resize        ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_export_begin_cycle   ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||    q1np_contact_export_flush         ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_EXPORT_RESIZE(NUMELQ1NP)
           INTEGER, INTENT(IN) :: NUMELQ1NP
 
@@ -86,6 +94,13 @@
 !=======================================================================
 !   Reset per-cycle accumulators once per NCYCLE.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_export_begin_cycle   ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_driver_int7          ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_export_resize        ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_EXPORT_BEGIN_CYCLE(NCYCLE, NUMELQ1NP)
           INTEGER, INTENT(IN) :: NCYCLE, NUMELQ1NP
 
@@ -110,6 +125,11 @@
 !=======================================================================
 !   Accumulate one signed element force contribution.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_export_accumulate        ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_compute_penalty_forces   ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_EXPORT_ACCUMULATE(ELEM_IDX, FORCE_VEC, PENETRATION_ABS)
           INTEGER, INTENT(IN) :: ELEM_IDX
           REAL(KIND=WP), INTENT(IN) :: FORCE_VEC(3)
@@ -129,6 +149,11 @@
 !=======================================================================
 !   Append one TH-synchronized CSV snapshot.
 !=======================================================================
+!||====================================================================
+!||    q1np_contact_export_flush    ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_export_resize   ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
+!||====================================================================
         SUBROUTINE Q1NP_CONTACT_EXPORT_FLUSH(TIME_CUR, KQ1NP_TAB)
           REAL(KIND=WP), INTENT(IN) :: TIME_CUR
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)

@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_tri7gat                     ../engine/source/mpi/interfaces/spmd_int.F
 !||    startime                         ../engine/source/system/timer_mod.F90
 !||    stoptime                         ../engine/source/system/timer_mod.F90
+!||    sts_int7_bucket_sort_decide      ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
 !||    upgrade_multimp                  ../common_source/interf/upgrade_multimp.F
 !||--- uses       -----------------------------------------------------
 !||    check_sorting_criteria_mod       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
@@ -44,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter7_collision_detection_mod   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
 !||    inter_sorting_mod                ../engine/share/modules/inter_sorting_mod.F
 !||    inter_struct_mod                 ../engine/share/modules/inter_struct_mod.F
+!||    ists_sts_bp_algo_mod             ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
 !||    message_mod                      ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
 !||    my_alloc_mod                     ../common_source/tools/memory/my_alloc.F90

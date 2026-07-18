@@ -217,6 +217,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fvverif                                ../starter/source/airbag/fvmbag1.F
 !||    fxrline                                ../starter/source/constraints/fxbody/hm_read_fxb.F
 !||    genani1                                ../starter/source/output/anim/genani1.F
+!||    genq1np_mod                            ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
 !||    get_skew                               ../starter/source/elements/joint/rjoint/rini33.F
 !||    get_skew45                             ../starter/source/elements/joint/rjoint/rini45.F
 !||    get_sort_key_shell3n                   ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
@@ -1039,6 +1040,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    printgroup                             ../starter/source/output/outfile/printgroup.F
 !||    prodmat                                ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    prodmatvect                            ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    q1np_mass3_mod                         ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
+!||    q1np_promote_cp_mod                    ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
+!||    q1np_volume_mod                        ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
 !||    q4deri2                                ../starter/source/elements/solid_2d/quad4/q4deri2.F
 !||    q4init2                                ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    q4voli2                                ../starter/source/elements/solid_2d/quad4/q4voli2.F

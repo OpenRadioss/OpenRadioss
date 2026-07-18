@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,10 +31,21 @@
 !   IERR: 0=ok, 3=corner ordering mismatch, 4=disconnected,
 !         5=non-rectangular/inconsistent, 7=bounds.
 !=======================================================================
+!||====================================================================
+!||    q1np_surf_grid_mod   ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np_mod          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module q1np_surf_grid_mod
         use groupdef_mod
         implicit none
       contains
+!||====================================================================
+!||    q1np_local_edge_from_pair     ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_grid_dir_to_local_edge   ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||====================================================================
         integer function q1np_local_edge_from_pair(corner_a, corner_b)
           implicit none
           integer, intent(in) :: corner_a, corner_b
@@ -55,6 +66,13 @@
           end if
         end function q1np_local_edge_from_pair
 
+!||====================================================================
+!||    q1np_grid_dir_to_local_edge   ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_build_surf_grid          ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_local_edge_from_pair     ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||====================================================================
         integer function q1np_grid_dir_to_local_edge(corner_order, grid_dir)
           implicit none
           integer, intent(in) :: corner_order(4), grid_dir
@@ -80,6 +98,14 @@
           q1np_grid_dir_to_local_edge = q1np_local_edge_from_pair(corner_a, corner_b)
         end function q1np_grid_dir_to_local_edge
 
+!||====================================================================
+!||    q1np_build_surf_grid          ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                       ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_grid_dir_to_local_edge   ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine q1np_build_surf_grid(surf, nseg, &
      &                                  nx, ny, seg_i, seg_j, &
      &                                  grid_node, grid_to_seg, ierr)

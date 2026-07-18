@@ -185,6 +185,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_pon                            ../starter/source/restart/ddsplit/w_pon.F
 !||    w_poro                           ../starter/source/restart/ddsplit/w_poro.F
 !||    w_pxfem                          ../starter/source/restart/ddsplit/w_pxfem.F
+!||    w_q1np_int                       ../starter/source/restart/ddsplit/w_q1np.F90
+!||    w_q1np_real                      ../starter/source/restart/ddsplit/w_q1np.F90
 !||    w_r3nloc                         ../starter/source/restart/ddsplit/w_r3nloc.F
 !||    w_rbyk                           ../starter/source/restart/ddsplit/w_rbyk.F
 !||    w_rbymk                          ../starter/source/restart/ddsplit/w_rbymk.F
@@ -241,7 +243,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod                        ../starter/share/modules1/table_mod.F
 !||    w_bcs_proc_mod                   ../starter/source/restart/ddsplit/w_bcs_proc.F90
 !||    w_inivel_str_mod                 ../starter/source/restart/ddsplit/w_inivel_str.F90
-!||    W_Q1NP_MOD                       ../starter/source/restart/ddsplit/w_q1np.F90
+!||    w_q1np_mod                       ../starter/source/restart/ddsplit/w_q1np.F90
 !||====================================================================
       SUBROUTINE DDSPLIT(
      1   P            ,CEP          ,CEL            ,IGEO         ,MAT_ELEM    ,

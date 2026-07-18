@@ -20,16 +20,18 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    ists_sts_skip_mod  ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
-!||====================================================================
 !
 !   Adaptive broad-phase skip for STS voxel contact (aligned with Q1NP).
 !   When surfaces are far apart and no contact was found, skip the
 !   expensive broad/narrow phase for several subsequent cycles.
 !
+!||====================================================================
+!||    ists_sts_skip_mod   ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf          ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE ISTS_STS_SKIP_MOD
         USE PRECISION_MOD, ONLY : WP
         IMPLICIT NONE
@@ -50,6 +52,16 @@
 
       CONTAINS
 
+!||====================================================================
+!||    ists_sts_skip_ensure_size   ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_sts_skip_tick          ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||    ists_sts_skip_update        ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_SKIP_ENSURE_SIZE(NIN)
           USE MY_ALLOC_MOD, ONLY : MY_ALLOC
           USE MY_DEALLOC_MOD, ONLY : MY_DEALLOC
@@ -78,6 +90,13 @@
 !   ISTS_STS_SKIP_TICK
 !   If skip is active for NIN, decrement counter and set DO_SKIP.
 !=======================================================================
+!||====================================================================
+!||    ists_sts_skip_tick          ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                  ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_skip_ensure_size   ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_SKIP_TICK(NIN, DO_SKIP)
           INTEGER, INTENT(IN) :: NIN
           LOGICAL, INTENT(INOUT) :: DO_SKIP
@@ -95,6 +114,13 @@
 !   ISTS_STS_SKIP_UPDATE
 !   After a full STS contact pass, set skip counter from min distance.
 !=======================================================================
+!||====================================================================
+!||    ists_sts_skip_update        ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ists_mainf                  ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    ists_sts_skip_ensure_size   ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
+!||====================================================================
         SUBROUTINE ISTS_STS_SKIP_UPDATE(NIN, D_MIN, SEARCH_PADDING, &
      &    HAS_CONTACT)
           INTEGER, INTENT(IN) :: NIN

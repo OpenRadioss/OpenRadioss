@@ -43,6 +43,9 @@
 !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoallv_doubles    ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_ints       ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_reals      ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
@@ -114,6 +117,8 @@
 #ifdef DEBUG_SPMD
 !||====================================================================
 !||    print_traceback   ../engine/source/mpi/spmd_error.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_out          ../engine/source/mpi/spmd_error.F90
 !||====================================================================
         subroutine print_traceback()
           implicit none
@@ -147,6 +152,11 @@
           write(*,*) "=== TRACEBACK END ==="
         end subroutine print_traceback
 #else
+!||====================================================================
+!||    print_traceback   ../engine/source/mpi/spmd_error.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_out          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine print_traceback()
           implicit none
           write(*,*) "Traceback not available: DEBUG_SPMD is not defined."
@@ -177,6 +187,9 @@
 !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoallv_doubles    ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_ints       ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_reals      ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
@@ -270,6 +283,9 @@
 !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoallv_doubles    ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_ints       ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_reals      ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
@@ -324,6 +340,7 @@
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
 !||--- calls      -----------------------------------------------------
+!||    print_traceback           ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================

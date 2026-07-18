@@ -15,22 +15,11 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss
+!Copyright>        Commercial Alternative: Altair Radioss Software
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    q1np_nurbs_surface_eval_mod       ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
-!||--- called by ------------------------------------------------------
-!||    q1np_contact_broad_phase          ../engine/source/elements/solid/solid_q1np/q1np_contact_broad_phase.F90
-!||--- calls      -----------------------------------------------------
-!||    q1np_shape_functions              ../common_source/modules/q1np_geom_mod.F90
-!||--- uses       -----------------------------------------------------
-!||    precision_mod                     ../common_source/modules/precision_mod.F
-!||    constant_mod                      ../common_source/modules/constant_mod.F
-!||    q1np_geom_mod                     ../common_source/modules/q1np_geom_mod.F90
-!||====================================================================
 !
 !   Standalone evaluation of a single point on the NURBS top surface of
 !   a Q1NP element.
@@ -40,6 +29,16 @@
 !   points contribute; the four bilinear bulk nodes at ZETA = -1 have
 !   zero weight and are ignored.
 !
+!||====================================================================
+!||    q1np_nurbs_surface_evaluation_mod   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||--- called by ------------------------------------------------------
+!||    genh3d                              ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    q1np_contact_algorithms_mod         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                        ../common_source/modules/constant_mod.F
+!||    precision_mod                       ../common_source/modules/precision_mod.F90
+!||    q1np_geom_mod                       ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
       MODULE Q1NP_NURBS_SURFACE_EVALUATION_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -66,6 +65,13 @@
 !   in the parent domain [-1,+1]^2.
 !
 !=======================================================================
+!||====================================================================
+!||    q1np_evaluate_nurbs_top_surface_point   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_bp_build_surface_points    ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_shape_functions                    ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_EVALUATE_NURBS_TOP_SURFACE_POINT( &
      &      XI_PARAM, ETA_PARAM,       &
      &      P_DEGREE, Q_DEGREE,        &
@@ -134,6 +140,13 @@
 !   Used by Newton projection to form the orthogonality residual
 !   [(S - x_src) . Su,  (S - x_src) . Sv] = 0.
 !=======================================================================
+!||====================================================================
+!||    q1np_evaluate_nurbs_top_surface_point_and_derivs   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_contact_project_point_newton                  ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_shape_functions                               ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_EVALUATE_NURBS_TOP_SURFACE_POINT_AND_DERIVS( &
      &      XI_PARAM, ETA_PARAM,       &
      &      P_DEGREE, Q_DEGREE,        &
@@ -184,6 +197,14 @@
 !   Q1NP_EVALUATE_NURBS_SHAPE_VALUES
 !
 !=======================================================================
+!||====================================================================
+!||    q1np_evaluate_nurbs_shape_values   ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
+!||--- called by ------------------------------------------------------
+!||    genh3d                             ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    q1np_contact_evaluate_side         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_shape_functions               ../common_source/modules/q1np_geom_mod.F90
+!||====================================================================
         SUBROUTINE Q1NP_EVALUATE_NURBS_SHAPE_VALUES( &
      &      XI_PARAM, ETA_PARAM,       &
      &      P_DEGREE, Q_DEGREE,        &

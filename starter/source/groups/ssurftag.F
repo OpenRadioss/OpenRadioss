@@ -544,14 +544,11 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    surfext_tagn   ../starter/source/groups/ssurftag.F
+!||    surfext_tagn              ../starter/source/groups/ssurftag.F
 !||--- called by ------------------------------------------------------
-!||    lectur         ../starter/source/starter/lectur.F
+!||    lectur                    ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    q1np_get_elem_nodes   ../starter/source/elements/solid/solid_q1np/q1np_get_elem_nodes_mod.F90
 !||--- uses       -----------------------------------------------------
-!||    q1np_get_elem_nodes_mod   ../starter/source/elements/solid/solid_q1np/q1np_get_elem_nodes_mod.F90
-!||    q1np_restart_mod   ../common_source/modules/q1np_restart_mod.F90
 !||====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)
       use element_mod , only : nixs

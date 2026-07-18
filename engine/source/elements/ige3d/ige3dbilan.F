@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ige3dbilan            ../engine/source/elements/ige3d/ige3dbilan.F
 !||--- called by ------------------------------------------------------
 !||    ig3duforc3            ../engine/source/elements/ige3d/ig3duforc3.F
+!||    q1np_avg_sig_bilan    ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||--- calls      -----------------------------------------------------
 !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
 !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F

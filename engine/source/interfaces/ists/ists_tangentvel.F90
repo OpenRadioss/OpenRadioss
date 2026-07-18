@@ -1,11 +1,35 @@
-!||====================================================================
-!||    sts_gp_warm_start_xi   ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||--- called by ------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||====================================================================
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !-----------------------------------------------
 !   Warm-start xi for segment projection
 !-----------------------------------------------
+!||====================================================================
+!||    sts_gp_warm_start_xi    ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- uses       -----------------------------------------------------
+!||    sts_gp_state_mod        ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       subroutine sts_gp_warm_start_xi(gp_index, xi1_guess, xi2_guess, &
      &     have_guess)
 
@@ -32,16 +56,18 @@
       return
       end
 
-!||====================================================================
-!||    sts_gp_update_xi_history ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||--- called by ------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||--- calls ---------------------------------------------------------
-!||    sts_handle_element_transition  ../engine/source/interfaces/ists/ists_elemTrans.F90
-!||====================================================================
 !-----------------------------------------------
 !   Update global xi history (warm-start / border crossing)
 !-----------------------------------------------
+!||====================================================================
+!||    sts_gp_update_xi_history        ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair           ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- calls      -----------------------------------------------------
+!||    sts_handle_element_transition   ../engine/source/interfaces/ists/ists_elemTrans.F90
+!||--- uses       -----------------------------------------------------
+!||    sts_gp_state_mod                ../engine/source/interfaces/ists/ists_gp_state_mod.F90
+!||====================================================================
       subroutine sts_gp_update_xi_history(xi1, xi2, gp_index, dxi1, dxi2)
 
       use sts_gp_state_mod
@@ -104,15 +130,15 @@
       return
       end
 
-!||====================================================================
-!||    sts_gp_covariant_slip  ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||--- called by ------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||====================================================================
 !-----------------------------------------------
 !   Covariant slip increment from tangential velocity.
 !   (slip1, slip2) = M*dxi for physical slip v_tang*dt.
 !-----------------------------------------------
+!||====================================================================
+!||    sts_gp_covariant_slip   ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||====================================================================
       subroutine sts_gp_covariant_slip(v_tang, rhoxi1, rhoxi2, dt, &
      &     slip1, slip2)
 
@@ -132,15 +158,17 @@
       return
       end
 
-!||====================================================================
-!||    sts_gp_tangential_velocity  ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||--- called by ------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||====================================================================
 !-----------------------------------------------
 !   Relative tangential velocity at a contact GP
 !   (secondary minus primary, projected onto tangent plane).
 !-----------------------------------------------
+!||====================================================================
+!||    sts_gp_tangential_velocity   ../engine/source/interfaces/ists/ists_tangentvel.F90
+!||--- called by ------------------------------------------------------
+!||    sts_contact_eval_pair        ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine sts_gp_tangential_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &     norm_contact, v_tang)
 

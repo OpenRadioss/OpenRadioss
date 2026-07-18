@@ -133,6 +133,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    pblast_mod                   ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F
 !||    python_funct_mod             ../common_source/modules/python_mod.F90
+!||    q1np_restart_mod             ../common_source/modules/q1np_restart_mod.F90
 !||    rbe3_mod                     ../common_source/modules/constraints/rbe3_mod.F90
 !||    restart_rbe3pen_mod          ../engine/source/output/restart/restart_rbe3pen.F90
 !||    restart_rwallpen_mod         ../engine/source/output/restart/restart_rwallpen.F90

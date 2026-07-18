@@ -104,6 +104,7 @@
 !||    multifluid_init3         ../starter/source/multifluid/multifluid_init3.F
 !||    pblast_write_starter     ../common_source/modules/loads/pblast_mod.F90
 !||    pinit3                   ../starter/source/elements/beam/pinit3.F
+!||    q1np_forc3               ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
 !||    q4forc2                  ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                   ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    radiarrest               ../engine/source/output/restart/rdresb.F

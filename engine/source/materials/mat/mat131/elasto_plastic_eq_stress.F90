@@ -23,10 +23,13 @@
 !||====================================================================
 !||    elasto_plastic_eq_stress_mod   ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||--- called by ------------------------------------------------------
+!||    cppm_beams                     ../engine/source/materials/mat/mat131/return_mapping/cppm_beams.F90
 !||    cppm_shells                    ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
 !||    cppm_solids                    ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_beams            ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_beams.F90
 !||    cutting_plane_shells           ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
 !||    cutting_plane_solids           ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_beams                     ../engine/source/materials/mat/mat131/return_mapping/nice_beams.F90
 !||    nice_shells                    ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
 !||    nice_solids                    ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||====================================================================
@@ -38,10 +41,13 @@
 !||====================================================================
 !||    elasto_plastic_eq_stress                    ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||--- called by ------------------------------------------------------
+!||    cppm_beams                                  ../engine/source/materials/mat/mat131/return_mapping/cppm_beams.F90
 !||    cppm_shells                                 ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
 !||    cppm_solids                                 ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_beams                         ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_beams.F90
 !||    cutting_plane_shells                        ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
 !||    cutting_plane_solids                        ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_beams                                  ../engine/source/materials/mat/mat131/return_mapping/nice_beams.F90
 !||    nice_shells                                 ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
 !||    nice_solids                                 ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||--- calls      -----------------------------------------------------

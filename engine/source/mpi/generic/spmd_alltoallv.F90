@@ -43,11 +43,11 @@
 !||====================================================================
 !||    spmd_alltoallv_reals   ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
 !||====================================================================
         subroutine spmd_alltoallv_reals(sendbuf, sendcounts, sdispls, recvbuf, recvcounts, rdispls, comm)
           use spmd_comm_world_mod, only : SPMD_COMM_WORLD
@@ -78,7 +78,7 @@
 
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_alltoallv_ints    ../engine/source/mpi/generic/spmd_alltoallv.F90
+!||    spmd_alltoallv_ints   ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||--- calls      -----------------------------------------------------
 !||    spmd_in               ../engine/source/mpi/spmd_error.F90
 !||    spmd_out              ../engine/source/mpi/spmd_error.F90
@@ -117,11 +117,11 @@
 !||====================================================================
 !||    spmd_alltoallv_doubles   ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
-!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
 !||====================================================================
         subroutine spmd_alltoallv_doubles(sendbuf, sendcounts, sdispls, recvbuf, recvcounts, rdispls, comm)
           use spmd_comm_world_mod, only : SPMD_COMM_WORLD

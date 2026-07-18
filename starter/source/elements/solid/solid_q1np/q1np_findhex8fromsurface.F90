@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,11 +43,24 @@
 !   Face 3: 1,2,6,5; Face 4: 2,3,7,6; Face 5: 3,4,8,7; Face 6: 4,1,5,8.
 !
 !=======================================================================
+!||====================================================================
+!||    findhex8fromsurface_mod   ../starter/source/elements/solid/solid_q1np/q1np_findhex8fromsurface.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np_mod               ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||====================================================================
       module findhex8fromsurface_mod
         implicit none
       contains
 !
 !=======================================================================
+!||====================================================================
+!||    findhex8fromsurf                    ../starter/source/elements/solid/solid_q1np/q1np_findhex8fromsurface.F90
+!||--- called by ------------------------------------------------------
+!||    genq1np                             ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_select_global_cp_orientation   ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||--- calls      -----------------------------------------------------
+!||    iface                               ../starter/source/ale/ale3d/iface.F
+!||====================================================================
         subroutine findhex8fromsurf(nodes_surf, ixs, iel_hex8, &
      &      nodes_bulk, nixs, numels)
 !-----------------------------------------------------------------------

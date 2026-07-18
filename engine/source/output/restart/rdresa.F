@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
 !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
 !||    read_i_c               ../common_source/tools/input_output/write_routines.c
+!||    reset_q1np_state       ../common_source/modules/q1np_restart_mod.F90
+!||    set_q1np_tabvint_len   ../common_source/modules/q1np_restart_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
@@ -42,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
+!||    q1np_restart_mod       ../common_source/modules/q1np_restart_mod.F90
 !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
 !||    rwall_mod              ../common_source/modules/constraints/rwall_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90

@@ -22,9 +22,10 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_ieloc        ../starter/source/restart/ddsplit/w_ieloc.F
+!||    w_ieloc                  ../starter/source/restart/ddsplit/w_ieloc.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit                  ../starter/source/restart/ddsplit/ddsplit.F
+!||    w_q1np_int_append_meta   ../starter/source/restart/ddsplit/w_q1np.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================

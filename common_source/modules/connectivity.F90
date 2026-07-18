@@ -23,12 +23,18 @@
 !||====================================================================
 !||    connectivity_mod              ../common_source/modules/connectivity.F90
 !||--- called by ------------------------------------------------------
+!||    apply_crack                   ../engine/source/engine/node_spliting/apply_crack.F90
 !||    asspar4                       ../engine/source/assembly/asspar4.F
+!||    build_contrib_order           ../engine/source/engine/node_spliting/apply_crack.F90
+!||    check_pon_consistency         ../engine/source/engine/node_spliting/check_pon_consistency.F90
 !||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
 !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
 !||    detach_node_from_shells       ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_nloc              ../engine/source/engine/node_spliting/detach_node_nloc.F90
 !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
 !||    init_ghost_shells             ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    mirror_node_split             ../engine/source/engine/node_spliting/detach_node.F90
+!||    nloc_shell_detach             ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    radioss2                      ../engine/source/engine/radioss2.F
 !||    rdresb                        ../engine/source/output/restart/rdresb.F
 !||    resol                         ../engine/source/engine/resol.F
@@ -38,8 +44,8 @@
 !||    resol_head                    ../engine/source/engine/resol_head.F
 !||    restalloc                     ../engine/source/output/restart/arralloc.F
 !||    set_new_node_values           ../engine/source/engine/node_spliting/detach_node.F90
+!||    split_mass_fraction           ../engine/source/engine/node_spliting/apply_crack.F90
 !||    spmd_exchange_ghost_shells    ../engine/source/engine/node_spliting/ghost_shells.F90
-!||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
 !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
 !||    viper_coupling_initialize     ../engine/source/coupling/viper/viper_interface_mod.F90
 !||    wrrestp                       ../engine/source/output/restart/wrrestp.F

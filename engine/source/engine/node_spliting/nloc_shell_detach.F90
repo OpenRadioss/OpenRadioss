@@ -32,24 +32,24 @@
 
 !! \brief Crack propagation by node splitting driven by the non-local damage field.
 !||====================================================================
-!||    nloc_shell_detach         ../engine/source/engine/node_spliting/nloc_shell_detach.F90
+!||    nloc_shell_detach            ../engine/source/engine/node_spliting/nloc_shell_detach.F90
+!||--- called by ------------------------------------------------------
+!||    resol                        ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    apply_crack               ../engine/source/engine/node_spliting/apply_crack.F90
-!||    check_pon_consistency     ../engine/source/engine/node_spliting/check_pon_consistency.F90
-!||    detach_node               ../engine/source/engine/node_spliting/detach_node.F90
-!||    spmd_exchange_ghost_shells ../engine/source/engine/node_spliting/ghost_shells.F90
-!||    stlsort_int_int            ../common_source/tools/sort/cppsort.cpp
+!||    apply_crack                  ../engine/source/engine/node_spliting/apply_crack.F90
+!||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
 !||--- uses       -----------------------------------------------------
-!||    apply_crack_mod            ../engine/source/engine/node_spliting/apply_crack.F90
-!||    check_pon_consistency_mod  ../engine/source/engine/node_spliting/check_pon_consistency.F90
-!||    connectivity_mod           ../common_source/modules/connectivity.F90
-!||    detach_node_mod            ../engine/source/engine/node_spliting/detach_node.F90
-!||    ghost_shells_mod           ../engine/source/engine/node_spliting/ghost_shells.F90
-!||    interfaces_mod             ../common_source/modules/interfaces/interfaces_mod.F90
-!||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
-!||    nodal_arrays_mod           ../common_source/modules/nodal_arrays.F90
-!||    precision_mod              ../common_source/modules/precision_mod.F90
-!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||    apply_crack_mod              ../engine/source/engine/node_spliting/apply_crack.F90
+!||    check_pon_consistency_mod    ../engine/source/engine/node_spliting/check_pon_consistency.F90
+!||    connectivity_mod             ../common_source/modules/connectivity.F90
+!||    detach_node_mod              ../engine/source/engine/node_spliting/detach_node.F90
+!||    ghost_shells_mod             ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
+!||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
+!||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
+!||    umap_mod                     ../common_source/tools/container/umap_mod.F90
 !||====================================================================
         subroutine nloc_shell_detach(nodes, element, interf, npari, ninter, ipari, numnod, &
           numnodg, numelc, ispmd, nspmd, new_crack, nloc_dmg, nthread)

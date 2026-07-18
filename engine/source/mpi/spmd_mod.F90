@@ -24,6 +24,7 @@
 !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
 !||--- called by ------------------------------------------------------
 !||    aconve                          ../engine/source/ale/aconve.F90
+!||    apply_crack                     ../engine/source/engine/node_spliting/apply_crack.F90
 !||    arezon                          ../engine/source/ale/arezon.F90
 !||    check_ale_comm                  ../engine/source/ale/check_ale_comm.F
 !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
@@ -36,6 +37,7 @@
 !||    intcrit                         ../engine/source/interfaces/intsort/intcrit.F
 !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
 !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
+!||    nloc_shell_detach               ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
 !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
 !||    radioss2                        ../engine/source/engine/radioss2.F
@@ -101,6 +103,7 @@
 !||    spmd_l11vois                    ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_l51vois                    ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_mv_ca                      ../engine/source/mpi/airbags/spmd_mv_ca.F
+!||    spmd_rebuild_boundary           ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||    spmd_sd_stfa20                  ../engine/source/mpi/interfaces/send_cand.F
 !||    spmd_sd_stfn                    ../engine/source/mpi/interfaces/send_cand.F
 !||    spmd_sd_stfn11                  ../engine/source/mpi/interfaces/send_cand.F
@@ -141,7 +144,6 @@
 !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
 !||    telesc                          ../engine/source/constraints/general/cyl_joint/telesc.F
-!||    test_jc_shell_detach            ../engine/source/engine/node_spliting/detach_node.F90
 !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
 !||    viper_mod                       ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- uses       -----------------------------------------------------
