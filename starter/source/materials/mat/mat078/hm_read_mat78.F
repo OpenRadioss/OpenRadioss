@@ -105,6 +105,15 @@ C=======================================================================
       ISRATE  = 0
       IMATVIS = 0
       ILAW    = 78
+
+      a = 0.0
+      b = 0.0
+      l_coeff = 0.0
+      m_coeff = 0.0
+      n_coeff = 0.0
+      p = 0.0
+      q = 0.0
+      r = 0.0
 C
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
