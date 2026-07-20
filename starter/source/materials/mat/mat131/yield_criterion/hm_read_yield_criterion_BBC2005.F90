@@ -101,6 +101,15 @@
           !< Yield criterion type ID (Assigned an arbitrary ID: 6, ensure it does not conflict)
           icrit = 6
 
+          a = 0.0
+          b = 0.0
+          l_coeff = 0.0
+          m_coeff = 0.0
+          n_coeff = 0.0
+          p = 0.0
+          q = 0.0
+          r = 0.0
+
           !< Cast lattice exponent K to integer (defaulting to 3 for BCC if not provided)
           if (k_val <= 0) k_val = 3 
 
