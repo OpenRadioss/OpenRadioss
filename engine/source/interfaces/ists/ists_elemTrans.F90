@@ -21,11 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    sts_handle_element_transition  ../engine/source/interfaces/ists/ists_elemTrans.F90
-!||--- called by ------------------------------------------------------
-!||    sts_gp_update_xi_history   ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||====================================================================
 !-----------------------------------------------
 !   Handle element transition for global xi tracking
 !-----------------------------------------------

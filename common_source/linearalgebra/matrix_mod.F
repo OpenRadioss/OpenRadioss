@@ -30,7 +30,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    set_matrix_cg       ../engine/share/modules/linear_solver_mod.F
 !||    set_matrix_mumps    ../engine/share/modules/linear_solver_mod.F
 !||--- calls      -----------------------------------------------------
-!||    get_dim             ../common_source/linearalgebra/matrix_mod.F
+!||    get_dim             ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
       MODULE MATRIX_MOD
         implicit none
@@ -62,7 +62,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    solve_cg     ../engine/share/modules/linear_solver_mod.F
 !||--- calls      -----------------------------------------------------
-!||    get_dim      ../common_source/linearalgebra/matrix_mod.F
+!||    get_dim      ../common_source/linearalgebra/vector_mod.F
 !||--- uses       -----------------------------------------------------
 !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
@@ -92,7 +92,7 @@ C-----------------------------------------------
 !     ********************     !
 
 !||====================================================================
-!||    get_dim      ../common_source/linearalgebra/matrix_mod.F
+!||    get_dim      ../common_source/linearalgebra/vector_mod.F
 !||--- called by ------------------------------------------------------
 !||    matrix_mod   ../common_source/linearalgebra/matrix_mod.F
 !||    prod_vec     ../common_source/linearalgebra/matrix_mod.F

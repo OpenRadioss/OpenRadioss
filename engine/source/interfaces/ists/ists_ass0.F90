@@ -21,11 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    ists_ass0_mod     ../engine/source/interfaces/ists/ists_ass0.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf        ../engine/source/interfaces/ists/ists_mainf.F
-!||====================================================================
 module ists_ass0_mod
   implicit none
 contains

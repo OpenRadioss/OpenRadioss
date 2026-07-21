@@ -21,13 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    STS_CONTACTS_ASSEMBLE  ../engine/source/interfaces/ists/ists_contacts_assemble.F90
-!||--- called by ------------------------------------------------------
-!||    i7mainf              ../engine/source/interfaces/int07/i7mainf.F
-!||--- calls ---------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR    ../engine/source/interfaces/ists/ists_CONTACT_EVAL_PAIR.F90
-!||====================================================================
 !
 !   Evaluate STS candidate pairs for one quadrature mode, accumulate
 !   pair loads, and return force/energy totals for /TH/INTER output.

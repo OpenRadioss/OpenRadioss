@@ -21,14 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    sts_broad_phase_voxel_mod   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
-!||--- uses       -----------------------------------------------------
-!||    contact_broad_phase_tol_mod   ../engine/source/interfaces/ists/contact_broad_phase_tol_mod.F90
-!||    ists_sts_voxel_grid_mod        ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
-!||====================================================================
 !
 !   STS voxel broad-phase: produce (master_seg, secondary_seg) candidate
 !   pairs from two surfaces (IGRSURF entries) without using the legacy

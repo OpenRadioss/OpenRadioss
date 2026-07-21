@@ -21,15 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    q1np_dump_hist_state           ../engine/source/elements/solid/solid_q1np/q1np_dump_hist_state.F90
-!||--- called by ------------------------------------------------------
-!||    forint                           ../engine/source/elements/forint.F
-!||--- uses       ------------------------------------------------------
-!||    debug_mod                        ../engine/share/modules/debug_mod.F
-!||    q1np_restart_mod                 ../common_source/modules/q1np_restart_mod.F90
-!||    restmod                          ../engine/share/modules/restart_mod.F
-!||====================================================================
 ! Dump Q1NP bulk and control-point node coordinates to CSV (debug / post-processing).
 !=======================================================================
 !||====================================================================

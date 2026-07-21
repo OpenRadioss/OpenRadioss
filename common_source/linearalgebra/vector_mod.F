@@ -32,7 +32,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    set_rhs_mumps       ../engine/share/modules/linear_solver_mod.F
 !||    solve_cg            ../engine/share/modules/linear_solver_mod.F
 !||--- calls      -----------------------------------------------------
-!||    get_dim             ../common_source/linearalgebra/matrix_mod.F
+!||    get_dim             ../common_source/linearalgebra/vector_mod.F
 !||    norm                ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
       MODULE VECTOR_MOD
@@ -63,7 +63,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !     ********************     !
 
 !||====================================================================
-!||    get_dim      ../common_source/linearalgebra/matrix_mod.F
+!||    get_dim      ../common_source/linearalgebra/vector_mod.F
 !||--- called by ------------------------------------------------------
 !||    matrix_mod   ../common_source/linearalgebra/matrix_mod.F
 !||    prod_vec     ../common_source/linearalgebra/matrix_mod.F

@@ -21,13 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    sts_voxel_driver_mod   ../engine/source/interfaces/ists/ists_voxel_driver.F90
-!||--- called by ------------------------------------------------------
-!||    i7mainf                ../engine/source/interfaces/int07/i7mainf.F
-!||--- uses       -----------------------------------------------------
-!||    sts_broad_phase_voxel_mod   ../engine/source/interfaces/ists/ists_broad_phase_voxel.F90
-!||====================================================================
 !
 !   STS voxel-broad-phase driver.
 !

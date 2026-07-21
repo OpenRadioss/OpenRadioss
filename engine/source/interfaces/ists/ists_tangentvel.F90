@@ -21,11 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    sts_gp_warm_start_xi   ../engine/source/interfaces/ists/ists_tangentvel.F90
-!||--- called by ------------------------------------------------------
-!||    STS_CONTACT_EVAL_PAIR   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||====================================================================
 !-----------------------------------------------
 !   Warm-start xi for segment projection
 !-----------------------------------------------

@@ -21,13 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    ists_sts_bp_algo_mod  ../engine/source/interfaces/ists/ists_sts_bp_algo_mod.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf              ../engine/source/interfaces/ists/ists_mainf.F
-!||    inter_sort_07           ../engine/source/interfaces/int07/inter_sort_07.F
-!||    i7main_tri              ../engine/source/interfaces/intsort/i7main_tri.F
-!||====================================================================
 !
 !   Hardcoded broad-phase algorithm selector for STS contact.
 !

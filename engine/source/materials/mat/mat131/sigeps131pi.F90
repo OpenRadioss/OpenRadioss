@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    sigeps131pi_mod   ../engine/source/materials/mat/mat131/sigeps131pi.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw_ib          ../engine/source/elements/beam/mulaw_ib.F
+!||====================================================================
       module sigeps131pi_mod
 ! \brief Main stress computation for /MAT/LAW131 (beams)
 ! \details Main routine for computing stresses and internal variables

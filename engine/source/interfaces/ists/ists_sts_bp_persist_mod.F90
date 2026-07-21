@@ -21,11 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    ists_sts_bp_persist_mod  ../engine/source/interfaces/ists/ists_sts_bp_persist_mod.F90
-!||--- called by ------------------------------------------------------
-!||    sts_int7_bucket_broad_phase  ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
-!||====================================================================
 !
 !   Cache the last successful STS segment pairs for the INT7-bucket path.
 !   When I7TRC invalidates all INT7 candidates (N_VALID=0) while the

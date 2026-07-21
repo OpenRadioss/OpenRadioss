@@ -21,17 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    q1np_nurbs_surface_eval_mod       ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
-!||--- called by ------------------------------------------------------
-!||    q1np_contact_broad_phase          ../engine/source/elements/solid/solid_q1np/q1np_contact_broad_phase.F90
-!||--- calls      -----------------------------------------------------
-!||    q1np_shape_functions              ../common_source/modules/q1np_geom_mod.F90
-!||--- uses       -----------------------------------------------------
-!||    precision_mod                     ../common_source/modules/precision_mod.F
-!||    constant_mod                      ../common_source/modules/constant_mod.F
-!||    q1np_geom_mod                     ../common_source/modules/q1np_geom_mod.F90
-!||====================================================================
 !
 !   Standalone evaluation of a single point on the NURBS top surface of
 !   a Q1NP element.

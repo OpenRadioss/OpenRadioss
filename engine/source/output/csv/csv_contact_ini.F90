@@ -21,15 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    csv_contact_ini_mod   ../engine/source/output/csv/csv_contact_ini.F90
-!||--- called by ------------------------------------------------------
-!||    sortie_main           ../engine/source/output/sortie_main.F
-!||--- uses       -----------------------------------------------------
-!||    groupdef_mod          ../common_source/modules/groupdef_mod.F
-!||    q1np_restart_mod      ../common_source/modules/q1np_restart_mod.F90
-!||    sts_voxel_driver_mod  ../engine/source/interfaces/ists/ists_voxel_driver.F90
-!||====================================================================
 !! \brief Delete stale contact-force CSV output files at engine startup
 !! \details Removes leftover STS/NTS/Q1NP contact-force CSV files from a
 !!          previous run so that the current run starts appending to clean

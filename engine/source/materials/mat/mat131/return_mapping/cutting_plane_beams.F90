@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    cutting_plane_beams_mod   ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_beams.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps131pi               ../engine/source/materials/mat/mat131/sigeps131pi.F90
+!||====================================================================
       module cutting_plane_beams_mod
 ! \brief Cutting plane return mapping for beams in /MAT/LAW131
 ! \details Perform the cutting plane semi-implicit return mapping algorithm

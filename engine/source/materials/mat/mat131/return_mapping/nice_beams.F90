@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    nice_beams_mod   ../engine/source/materials/mat/mat131/return_mapping/nice_beams.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps131pi      ../engine/source/materials/mat/mat131/sigeps131pi.F90
+!||====================================================================
       module nice_beams_mod
 ! \brief NICE return mapping for beams in /MAT/LAW131
 ! \details Perform the NICE (Next Increment Corrects Error) explicit return
