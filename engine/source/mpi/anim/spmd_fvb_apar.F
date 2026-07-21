@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -58,7 +58,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER FVIAD, I, PMAIN, J, K, KK, N, NN, ITAG, MSGOFF,MSGOFF2,
-     .        NPOLH_ANIM, IERR, STAT(MPI_STATUS_SIZE), IAD, IADP
+     .        NPOLH_ANIM, IAD, IADP
 C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGT, IBUF
 C-----------------------------------------------
@@ -96,15 +96,12 @@ C
                DEALLOCATE(ITAGT)
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NPOLH_ANIM, 1, MPI_INTEGER, 
-     .                       IT_SPMD(PMAIN), ITAG, SPMD_COMM_WORLD,
-     .                       STAT, IERR)
+               CALL SPMD_RECV(NPOLH_ANIM, 1, IT_SPMD(PMAIN), ITAG)
 C
                ALLOCATE(IBUF(NPOLH_ANIM))
                ITAG=MSGOFF2
-               CALL MPI_RECV(IBUF, NPOLH_ANIM, MPI_INTEGER,
-     .                       IT_SPMD(PMAIN), ITAG, SPMD_COMM_WORLD,
-     .                       STAT, IERR)
+               CALL SPMD_RECV(IBUF(1:NPOLH_ANIM), NPOLH_ANIM,
+     .                         IT_SPMD(PMAIN), ITAG)
 C
                DO J=1,NPOLH_ANIM
                   FVPBUF(IADP+J)=FVIAD+IBUF(J)
@@ -116,9 +113,8 @@ C
          ELSE
             IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
-               CALL MPI_SEND(FVDATA(I)%NPOLH_ANIM, 1, MPI_INTEGER,
-     .                       IT_SPMD(1), ITAG, SPMD_COMM_WORLD,
-     .                       IERR)
+               CALL SPMD_SEND(FVDATA(I)%NPOLH_ANIM, 1, IT_SPMD(1),
+     .                         ITAG)
 C
                ALLOCATE(IBUF(FVDATA(I)%NPOLH_ANIM), 
      .                       ITAGT(FVDATA(I)%NNTR))
@@ -144,9 +140,8 @@ C
                   IBUF(J)=IAD
                ENDDO
                ITAG=MSGOFF2
-               CALL MPI_SEND(IBUF, FVDATA(I)%NPOLH_ANIM, MPI_INTEGER,
-     .                       IT_SPMD(1), ITAG, SPMD_COMM_WORLD,
-     .                        IERR)
+               CALL SPMD_SEND(IBUF(1:FVDATA(I)%NPOLH_ANIM),
+     .                         FVDATA(I)%NPOLH_ANIM, IT_SPMD(1), ITAG)
 C
                DEALLOCATE(IBUF, ITAGT)                              
             ENDIF

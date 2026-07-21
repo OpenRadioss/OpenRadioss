@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -54,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I, PMAIN, NNS_ANIM, NNTR, J, K, KK, L, LL, N1, N2, N3,
-     .        ITAG, LEN, MSGOFF, STAT(MPI_STATUS_SIZE), IERR,MSGOFF2
+     .        ITAG, LEN, MSGOFF, MSGOFF2
       my_real
      .        VVT(3)
       REAL R4
@@ -143,14 +143,13 @@ C
                DEALLOCATE(VTR, VV, NPTR, NPN)
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
+               CALL SPMD_RECV(NNS_ANIM, 1, IT_SPMD(PMAIN), ITAG)
 C
                ALLOCATE(VV(3,NNS_ANIM))
                ITAG=MSGOFF2
                LEN=3*NNS_ANIM
-               CALL MPI_RECV(VV, LEN, REAL, IT_SPMD(PMAIN),
-     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
+               CALL SPMD_RECV(VV(1:3,1:NNS_ANIM), LEN, IT_SPMD(PMAIN),
+     .                         ITAG)
 C
                DO J=1,NNS_ANIM
                   R4 = VV(1,J)
@@ -167,8 +166,7 @@ C
             IF (ISPMD==PMAIN-1) THEN
                NNS_ANIM=FVDATA(I)%NNS_ANIM
                ITAG=MSGOFF
-               CALL MPI_SEND(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(1),
-     .                       ITAG, SPMD_COMM_WORLD, IERR)
+               CALL SPMD_SEND(NNS_ANIM, 1, IT_SPMD(1), ITAG)
 C
                NNTR=FVDATA(I)%NNTR
                ALLOCATE(VTR(3,NNTR), VV(3,NNS_ANIM), NPTR(NNTR),
@@ -237,8 +235,8 @@ C
                ENDDO
                ITAG=MSGOFF2
                LEN=3*NNS_ANIM
-               CALL MPI_SEND(VV, LEN, REAL, IT_SPMD(1),
-     .                       ITAG, SPMD_COMM_WORLD,  IERR)
+               CALL SPMD_SEND(VV(1:3,1:NNS_ANIM), LEN, IT_SPMD(1),
+     .                         ITAG)
 C
                DEALLOCATE(VTR, VV, NPTR, NPN)
             ENDIF

@@ -21,49 +21,25 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    get_mpi_operator_mod   ../engine/source/mpi/get_mpi_operator.F90
-!||--- called by ------------------------------------------------------
-!||    spmd_allreduce_mod     ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_iallreduce_mod    ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
-!||====================================================================
       module get_mpi_operator_mod
-        implicit none
-        integer, parameter :: SPMD_MAX = 1
-        integer, parameter :: SPMD_MIN = 2
-        integer, parameter :: SPMD_SUM = 3
-        integer, parameter :: SPMD_PROD = 4
-        integer, parameter :: TAG_BARRIER = -1
-        integer, parameter :: TAG_REDUCE = -5
-        integer, parameter :: TAG_ALLREDUCE = -6
-        integer, parameter :: TAG_IALLREDUCE = -7
-
-
+        use spmd_operator_mod, only: SPMD_MAX, SPMD_MIN, SPMD_SUM, SPMD_PROD
       contains
 !! \brief Get the MPI operator for a given SPMD operator
 !||====================================================================
-!||    get_mpi_operator          ../engine/source/mpi/get_mpi_operator.F90
+!||    get_mpi_operator         ../engine/source/mpi/spmd_mod.F90
 !||--- called by ------------------------------------------------------
-!||    spmd_allreduce_double     ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_int        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_real       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_iallreduce_double    ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_doubles   ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_int       ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_ints      ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_mod       ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_real      ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_reals     ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_reduce_double        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_int           ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_ints          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_real          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_reals         ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_allreduce_double    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_double       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles      ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints         ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real         ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         function get_mpi_operator(spmd_op) result(mpi_operator)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,8 +72,7 @@
             mpi_operator = MPI_OP_NULL
           end select
 #else
-          mpi_operator = spmd_op
+          mpi_operator = 0
 #endif
         end function get_mpi_operator
-      end module get_mpi_operator_mod
-
+      end module

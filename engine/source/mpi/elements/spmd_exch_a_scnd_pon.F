@@ -39,7 +39,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -84,9 +84,9 @@ C
           MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
           INDEXR(NBIRECV) = I
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+          CALL SPMD_IRECV(
+     S      RBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(NBIRECV))
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -121,16 +121,16 @@ C
         I = INDEXS(II)
         SIZ = ISIZE*FR_NBCCCDN(1,I) 
         MSGTYP = MSGOFF 
-        CALL MPI_ISEND(
-     S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S(II),IERROR)
+        CALL SPMD_ISEND(
+     S      SBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_S(II))
         L = L + SIZ
       ENDDO
 C
 C decompactage
 C
       DO II=1,NBIRECV
-        CALL MPI_WAITANY(NBIRECV,REQ_R,INDEXI,STATUS,IERROR)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEXI,STATUS)
         I = INDEXR(INDEXI)
         L = IAD_RECV(I)
            DO J=IAD_CDNM(I),IAD_CDNM(I+1)-1
@@ -149,11 +149,10 @@ C
 C   wait terminaison isend
 C
       DO L=1,NBISEND
-        CALL MPI_WAITANY(NBISEND,REQ_S,INDEXI,STATUS,IERROR)
+        CALL SPMD_WAITANY(REQ_S,NBISEND,INDEXI,STATUS)
       ENDDO
 C
 #endif
       RETURN
       END SUBROUTINE
-
 

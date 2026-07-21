@@ -34,7 +34,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -77,9 +77,9 @@ c      ISIZE = 1
           L=L+1
           INDEXI(L)=I
           MSGTYP = MSGOFF
-          CALL MPI_IRECV(
-     S      RBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(L),IERROR)
+          CALL spmd_irecv(
+     S      RBUF(IDEB:IDEB+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(L))
           IDEB = IDEB + SIZ
         ENDIF
       ENDDO
@@ -103,14 +103,14 @@ C
         LEN = IAD_CDNS(I+1)-IAD_CDNS(I)
         SIZ = LEN
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S    SBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G    SPMD_COMM_WORLD,REQ_S(L),IERROR)
+        CALL spmd_isend(
+     S    SBUF(IDEB:IDEB+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G    REQ_S(L))
         IDEB = IDEB + SIZ
       ENDDO
 C
       DO L=1,NBINDEX
-        CALL MPI_WAITANY(NBINDEX,REQ_R,INDEX,STATUS,IERROR)
+        CALL spmd_waitany(REQ_R,NBINDEX,INDEX,STATUS)
         I = INDEXI(INDEX)
         IDEB = IAD_CDNS(I)
         LEN = IAD_CDNS(I+1)-IAD_CDNS(I)
@@ -123,11 +123,10 @@ C
       ENDDO
 C
       DO L=1,NBINDEX
-        CALL MPI_WAITANY(NBINDEX,REQ_S,INDEX,STATUS,IERROR)
+        CALL spmd_waitany(REQ_S,NBINDEX,INDEX,STATUS)
       ENDDO
 C
 #endif
       RETURN
       END SUBROUTINE
 C
-

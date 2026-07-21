@@ -38,7 +38,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -59,9 +59,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF, MSGOFF2,ITAG, REQ(2), TSTAT(MPI_STATUS_SIZE,2), IERR,
-     .        I, II, REQ1(NSPMD-1), J,
-     .        STAT1(MPI_STATUS_SIZE,NSPMD-1)
+      INTEGER MSGOFF, MSGOFF2,ITAG, REQ(2), I, II, REQ1(NSPMD-1), J
       my_real
      .        LSUMC(LEN)
 C
@@ -70,14 +68,12 @@ C
 C
       IF (ISPMD/=0) THEN
          ITAG=MSGOFF
-         CALL MPI_ISEND(LSUM, LEN, REAL, IT_SPMD(1), ITAG,
-     .                  SPMD_COMM_WORLD, REQ(1), IERR)
+         CALL SPMD_ISEND(LSUM(1:LEN), LEN, IT_SPMD(1), ITAG, REQ(1))
 C
          ITAG=MSGOFF2
-         CALL MPI_IRECV(LSUMT, LEN, REAL, IT_SPMD(1), ITAG,
-     .                  SPMD_COMM_WORLD, REQ(2), IERR)
+         CALL SPMD_IRECV(LSUMT(1:LEN), LEN, IT_SPMD(1), ITAG, REQ(2))
 C
-         CALL MPI_WAITALL(2, REQ, TSTAT, IERR)
+         CALL SPMD_WAITALL(REQ, 2)
       ELSE
          DO I=1,LEN
             LSUMT(I)=LSUM(I)
@@ -86,9 +82,9 @@ C
          DO I=1,NSPMD-1
             II=I+1
             ITAG=MSGOFF
-            CALL MPI_IRECV(LSUMC, LEN, REAL, IT_SPMD(II), ITAG,
-     .                     SPMD_COMM_WORLD, REQ1(1), IERR)
-            CALL MPI_WAIT(REQ1(1), STAT1(1,1), IERR)
+            CALL SPMD_IRECV(LSUMC(1:LEN), LEN, IT_SPMD(II), ITAG,
+     .                      REQ1(1))
+            CALL SPMD_WAIT(REQ1(1))
 C
             DO J=1,LEN
                LSUMT(J)=LSUMT(J)+LSUMC(J)
@@ -98,11 +94,11 @@ C
          DO I=1,NSPMD-1
             II=I+1
             ITAG=MSGOFF2
-            CALL MPI_ISEND(LSUMT, LEN, REAL, IT_SPMD(II), ITAG,
-     .                     SPMD_COMM_WORLD, REQ1(I), IERR)
+            CALL SPMD_ISEND(LSUMT(1:LEN), LEN, IT_SPMD(II), ITAG,
+     .                      REQ1(I))
          ENDDO
 C
-         CALL MPI_WAITALL(NSPMD-1, REQ1, STAT1, IERR)
+         CALL SPMD_WAITALL(REQ1, NSPMD-1)
       ENDIF
 C
 #endif

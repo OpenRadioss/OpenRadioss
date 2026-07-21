@@ -35,7 +35,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -66,20 +66,20 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER IERROR,MSGOFF
       INTEGER I
-
-C-----------------------------------------------
-      DATA MSGOFF/7069/
+      INTEGER, DIMENSION(:), ALLOCATABLE :: RINDEX_PROC_FLAT
 C-----------------------------------------------
         
         IF(MODE==0) THEN
         !       collect the local index arrays on the main processor
-                CALL MPI_GATHER(SINDEX,3*(NSECT+1),MPI_INTEGER,
-     .                   RINDEX_PROC,3*(NSECT+1),MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)  
+                ALLOCATE(RINDEX_PROC_FLAT(3*(NSECT+1)*NSPMD))
+                CALL spmd_gather(SINDEX(1:NSECT+1,1:3),
+     .                           RINDEX_PROC_FLAT(1:3*(NSECT+1)*NSPMD),
+     .                           3*(NSECT+1),3*(NSECT+1),0)
         !       sum all the size of local sended arrays in order to get the size 
         !       of the global array on proc 0                  
                 IF(ISPMD==0) THEN
+                        RINDEX_PROC = RESHAPE(RINDEX_PROC_FLAT,SHAPE(RINDEX_PROC))
                         NB_ELEM_R(1:NSPMD) = RINDEX_PROC(NSECT+1,1,1:NSPMD)
                         SIZE_BUFFER_R = 0
                         DO I=1,NSPMD
@@ -93,11 +93,12 @@ C-----------------------------------------------
                 ELSE
                         SIZE_BUFFER_R = 0
                 ENDIF
+                DEALLOCATE(RINDEX_PROC_FLAT)
         ELSEIF(MODE==1) THEN
 
-                CALL MPI_GATHERV(BUFFER_S,SIZE_BUFFER_S,MPI_INTEGER,
-     .                           BUFFER_R,NB_ELEM_R,SHIFT_R,MPI_INTEGER,
-     .                           0,SPMD_COMM_WORLD,ierror)   
+                CALL spmd_gatherv(BUFFER_S(1:SIZE_BUFFER_S),SIZE_BUFFER_S,
+     .                            BUFFER_R(1:SIZE_BUFFER_R),NB_ELEM_R,
+     .                            SHIFT_R,0)
         ENDIF
 #endif
        RETURN

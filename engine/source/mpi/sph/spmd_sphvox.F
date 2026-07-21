@@ -28,9 +28,9 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                ../engine/source/output/message/message.F
 !||    arret                 ../engine/source/system/arret.F
-!||    spmd_iallgather       ../engine/source/mpi/generic/spmd_iallgather.F
-!||    spmd_iallgather_int   ../engine/source/mpi/generic/spmd_iallgather_int.F
-!||    spmd_ialltoall_int    ../engine/source/mpi/generic/spmd_ialltoall_int.F
+!||    spmd_iallgather_old       ../engine/source/mpi/generic/spmd_iallgather_old.F
+!||    spmd_iallgather_int_old   ../engine/source/mpi/generic/spmd_iallgather_int_old.F
+!||    spmd_ialltoall        ../engine/source/mpi/generic/spmd_ialltoall.F90
 !||    spmd_ialltoallv       ../engine/source/mpi/generic/spmd_ialltoallv.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY: spmd_ialltoall, SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -145,7 +145,7 @@ C
 !   -------------------------
 !   allgather communication with uniform size
 !   for real array : send : BMINMAL --> rcv : BMINMAL
-      CALL SPMD_IALLGATHER(BMINMAL,BMINMA,SEND_SIZE_BMINMA,
+      CALL SPMD_IALLGATHER_OLD(BMINMAL,BMINMA,SEND_SIZE_BMINMA,
      .                     TOTAL_RCV_SIZE_BMINMA,RCV_SIZE_BMINMA, 
      .                     REQUEST_BMINMA,SPMD_COMM_WORLD)
 !   -------------------------
@@ -159,7 +159,7 @@ C
 !   -------------------------
 !   allgather communication with uniform size
 !   for integer array : send : CRVOXEL_LOC --> rcv : CRVOXEL
-      CALL SPMD_IALLGATHER_INT(CRVOXEL_LOC(0,0),CRVOXEL(0,0,1),SEND_SIZE_CRVOX,
+      CALL SPMD_IALLGATHER_INT_OLD(CRVOXEL_LOC(0,0),CRVOXEL(0,0,1),SEND_SIZE_CRVOX,
      .                         TOTAL_RCV_SIZE_CRVOX,RCV_SIZE_CRVOX, 
      .                         REQUEST_CRVOX,SPMD_COMM_WORLD)
 !   -------------------------
@@ -246,8 +246,8 @@ C
 !   -------------------------
 !   alltoall communication with uniform size
 !   for integer array : send : NBO --> rcv : PSPHR  
-      CALL SPMD_IALLTOALL_INT(NBO,PSPHR,NSPMD,1, 
-     .                        NSPMD,1,REQUEST_NBO,SPMD_COMM_WORLD)
+      CALL SPMD_IALLTOALL(NBO,PSPHR,1,1,
+     .                        REQUEST_NBO,SPMD_COMM_WORLD)
 !   -------------------------
 
 C

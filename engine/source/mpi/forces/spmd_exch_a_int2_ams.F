@@ -44,7 +44,7 @@ C realizes the accumulation of accelerations and masses at the main int2 nodes
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
         use my_alloc_mod
 
 #include      "implicit_f.inc"
@@ -77,7 +77,6 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,P,
      .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,ISIZE2,LENSAV,
-     .        STATUS(MPI_STATUS_SIZE),
      .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
       DATA MSGOFF/118/
       my_real,
@@ -109,9 +108,8 @@ C
           L=L+1
           INDEXI(L)=I
           MSGTYP = MSGOFF
-          CALL MPI_IRECV(
-     S      RBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(L),IERROR)
+          CALL SPMD_IRECV(
+     S      RBUF(IDEB:IDEB+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_R(L))
           IDEB = IDEB + SIZ
         ENDIF
       ENDDO
@@ -252,9 +250,8 @@ C
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         SIZ = LEN*ISIZE2
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S    SBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G    SPMD_COMM_WORLD,REQ_S(L),IERROR)
+        CALL SPMD_ISEND(
+     S    SBUF(IDEB:IDEB+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_S(L))
         IDEB = IDEB + SIZ
       ENDDO
 C
@@ -453,7 +450,7 @@ C
           L=L+1
           IDEB = 1+(IAD_I2M(P)-1)*ISIZE2
           IAD = IAD_I2M(P)-1
-          CALL MPI_WAIT(REQ_R(L),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(L))
           IF (INTTH2 == 1) THEN
            IF(IDT_THERM == 1) THEN      
             IF(IRODDL==0)THEN
@@ -694,7 +691,7 @@ C
       ENDDO
 C
       DO L=1,NBINDEX
-        CALL MPI_WAITANY(NBINDEX,REQ_S,INDEX,STATUS,IERROR)
+        CALL SPMD_WAITANY(REQ_S,NBINDEX,INDEX)
       ENDDO
       call my_dealloc(SAV_ACC)
       call my_dealloc(RBUF)

@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -125,29 +125,29 @@ C        BUFFER(I)%NEW_MAIN_UID(J) = ITAB(MSR(ILOC(N)))
         TAB_BUFPOS(K1) = BUFPOS
         TAG = MSGOFF
 
-        CALL MPI_ISEND(BUFS_ID(BUFPOS),N,
-     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(K),IERR)
-        CALL MPI_IRECV(BUFR_ID(BUFPOS),N,
-     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR1(K1),IERR)
+        CALL spmd_isend(BUFS_ID(BUFPOS:BUFPOS+N-1),N,
+     .    I-1,TAG,RQS(K))
+        CALL spmd_irecv(BUFR_ID(BUFPOS:BUFPOS+N-1),N,
+     .    I-1,TAG,RQR1(K1))
 
         TAG = MSGOFF2
         K = K + 1
         K2=K2 + 1
-        CALL MPI_ISEND(BUFS_DIST(BUFPOS),N,
-     .    REAL,I-1,TAG,SPMD_COMM_WORLD,RQS(K),IERR)
-        CALL MPI_IRECV(BUFR_DIST(BUFPOS),N,
-     .    REAL,I-1,TAG,SPMD_COMM_WORLD,RQR2(K2),IERR)
+        CALL spmd_isend(BUFS_DIST(BUFPOS:BUFPOS+N-1),N,
+     .    I-1,TAG,RQS(K))
+        CALL spmd_irecv(BUFR_DIST(BUFPOS:BUFPOS+N-1),N,
+     .    I-1,TAG,RQR2(K2))
             BUFPOS = BUFPOS + N
         ENDIF
        ENDIF
       ENDDO
 
       IERR=-999
-      IF(K > 0)  CALL MPI_WAITALL(K, RQS,STAT,IERR)
+      IF(K > 0)  CALL spmd_waitall(RQS(1:K), K, STAT(:,1:K))
       BUFPOS = 0
       DO P = 1,K1
-         CALL MPI_WAITANY(K2,RQR2,I,STAT,IERR) 
-         CALL MPI_WAIT(RQR1(I),STAT2,IERR)
+         CALL spmd_waitany(RQR2(1:K2), K2, I, STAT2)
+         CALL spmd_wait(RQR1(I), STAT2)
          BUFPOS = TAB_BUFPOS(I) - 1
          I = TAB_RANK(I)
          IF(ISPMD /= I-1) THEN
@@ -217,7 +217,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -262,7 +262,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -359,14 +359,14 @@ C-----------------------------------------------
 C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
         IF(ISPMD /= I-1 .AND.BUFFER(I)%NBMAIN >0 ) THEN
         K = K +1
-        CALL MPI_ISEND(NB_SECND_SENT(I),1,
-     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(K),IERR)
-        CALL MPI_IRECV(NB_SECND_RECV(I),1,
-     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR(K),IERR)
+        CALL spmd_isend(NB_SECND_SENT(I),1,
+     .    I-1,TAG,RQS(K))
+        CALL spmd_irecv(NB_SECND_RECV(I),1,
+     .    I-1,TAG,RQR(K))
         ENDIF
       ENDDO
  
-      IF( K > 0 ) CALL MPI_WAITALL(K,RQR,STAT,IERR)
+      IF( K > 0 ) CALL spmd_waitall(RQR(1:K), K, STAT(:,1:K))
 
 
       ! size of reception buffer
@@ -379,7 +379,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       !write(6,*) __file__,__line__,"nbsr(:)=",nb_secnd_recv(1:nspmd)
       ALLOCATE(BUFR_IDR(BUFLEN*2))
 
-      IF( K > 0 ) CALL MPI_WAITALL(K, RQS,STAT,IERR)
+      IF( K > 0 ) CALL spmd_waitall(RQS(1:K), K, STAT(:,1:K))
 
      
       TAG = MSGOFF2 
@@ -393,22 +393,24 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
           J = NB_SECND_SENT(I)*2
           IF(J > 0) THEN
             KSENT = KSENT + 1
-            CALL MPI_ISEND(BUFR_ID(N),J,
-     .      MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(KSENT),IERR)
+            CALL spmd_isend(BUFR_ID(N:N+J-1),J,
+     .      I-1,TAG,RQS(KSENT))
             N = N + J                
           ENDIF
           J = NB_SECND_RECV(I)*2
           IF(J > 0) THEN
             KRECV = KRECV + 1
-            CALL MPI_IRECV(BUFR_IDR(L),J,
-     .      MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR(KRECV),IERR)
+            CALL spmd_irecv(BUFR_IDR(L:L+J-1),J,
+     .      I-1,TAG,RQR(KRECV))
             L = L + J       
           ENDIF
         ENDIF
       ENDDO
 
-      IF(KSENT > 0 ) CALL MPI_WAITALL(KSENT, RQS,STAT,IERR)
-      IF(KRECV > 0 ) CALL MPI_WAITALL(KRECV, RQR,STAT,IERR)
+      IF(KSENT > 0 ) CALL spmd_waitall(RQS(1:KSENT), KSENT,
+     .                                    STAT(:,1:KSENT))
+      IF(KRECV > 0 ) CALL spmd_waitall(RQR(1:KRECV), KRECV,
+     .                                    STAT(:,1:KRECV))
 
 !                                                    
       K = 1
@@ -467,7 +469,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -587,7 +589,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -671,20 +673,24 @@ C
         IF(N > 0) THEN
           TAG = MSGOFF
           NBRQ = NBRQ + 1
-          CALL MPI_ISEND(BUFS_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(NBRQ),IERR)
-          CALL MPI_IRECV(BUFR_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR(NBRQ),IERR)
+          CALL spmd_isend(BUFS_ID(BUFPOS1:BUFPOS1+5*N-1),N*5,
+     .      I-1,TAG,RQS(NBRQ))
+          CALL spmd_irecv(BUFR_ID(BUFPOS1:BUFPOS1+5*N-1),N*5,
+     .      I-1,TAG,RQR(NBRQ))
           BUFPOS1 = BUFPOS1 + 5*N
           TAG = MSGOFF2 
           NBRQ = NBRQ + 1
-          CALL MPI_ISEND(BUFS(BUFPOS2),N,REAL,I-1,TAG,SPMD_COMM_WORLD,RQS(NBRQ),IERR)
-          CALL MPI_IRECV(BUFR(BUFPOS2),N,REAL,I-1,TAG,SPMD_COMM_WORLD,RQR(NBRQ),IERR)
+          CALL spmd_isend(BUFS(BUFPOS2:BUFPOS2+N-1),N,
+     .      I-1,TAG,RQS(NBRQ))
+          CALL spmd_irecv(BUFR(BUFPOS2:BUFPOS2+N-1),N,
+     .      I-1,TAG,RQR(NBRQ))
           BUFPOS2 = BUFPOS2 + N
         ENDIF
        ENDIF
       ENDDO !ISPMD
       IF(NBRQ > 0) THEN 
-        CALL MPI_WAITALL(NBRQ, RQS,STAT,IERR)
-        CALL MPI_WAITALL(NBRQ, RQR,STAT,IERR)
+        CALL spmd_waitall(RQS(1:NBRQ), NBRQ, STAT(:,1:NBRQ))
+        CALL spmd_waitall(RQR(1:NBRQ), NBRQ, STAT(:,1:NBRQ))
       ENDIF
 
       BUFPOS1 = 0
@@ -758,7 +764,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -809,8 +815,7 @@ c       DEALLOCATE(BUF)
 c     ELSEIF(FLAG == 3) THEN
         ALLOCATE(BUF(N),STAT=IERR)
         BUF(1:N) = TAB(1:N)
-        CALL MPI_ALLREDUCE(BUF,TAB,N,REAL,MPI_SUM,
-     .  SPMD_COMM_WORLD,IERR)
+        CALL spmd_allreduce(BUF(1:N), TAB(1:N), N, SPMD_SUM)
         DEALLOCATE(BUF)
        
 

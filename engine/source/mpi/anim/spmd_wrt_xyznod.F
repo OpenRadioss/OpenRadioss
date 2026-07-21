@@ -29,13 +29,13 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
        SUBROUTINE SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+      INTEGER STATUS(MPI_STATUS_SIZE),MSGOFF
       INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,MSGTYP2
 
       REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
@@ -88,13 +88,11 @@ C   In the floating buffer because there are only 2 24 bits available ~ 16 milli
 C   maximum number of nodes
 
          MSGTYP = MSGOFF2 
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(IBUF(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
 C  
          MSGTYP = MSGOFF
-         CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL4,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(BUFSR(1:3,1:SIZ),3*SIZ,IT_SPMD(1),MSGTYP)
 
 
        ELSE
@@ -114,19 +112,16 @@ C
 C   reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF2
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL SPMD_PROBE(IT_SPMD(I),MSGTYP,STATUS)
+              CALL SPMD_GET_COUNT_INT(STATUS,SIZ)
 
-            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(IBUF(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
 
 C   reception of the floating buffer of NODGLOB addresses
 
             MSGTYP2 = MSGOFF 
 
-            CALL MPI_RECV(BUFSR,SIZ*3,MPI_REAL4,IT_SPMD(I),MSGTYP2,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(BUFSR(1:3,1:SIZ),SIZ*3,IT_SPMD(I),MSGTYP2)
          
             NREC = SIZ 
 

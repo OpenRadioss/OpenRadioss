@@ -33,7 +33,7 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief 
+!! \brief
 !! \details
 !||====================================================================
 !||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F90
@@ -47,9 +47,9 @@
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
-        subroutine spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,            & 
-                                     s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            &
-                                     min_value,max_value,s_buffer,r_buffer)
+        subroutine spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,            &
+          s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            &
+          min_value,max_value,s_buffer,r_buffer)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@
           real(kind=WP), dimension(numnod,trimat), intent(inout) :: min_value !< minimum values to exchange
           real(kind=WP), dimension(numnod,trimat), intent(inout) :: max_value !< maximum values to exchange
           real(kind=WP), dimension(2*lencom*trimat), intent(inout) :: s_buffer !< send buffer
-          real(kind=WP), dimension(2*lencom*trimat), intent(inout) :: r_buffer !< receive buffer        
+          real(kind=WP), dimension(2*lencom*trimat), intent(inout) :: r_buffer !< receive buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@
           integer :: s_size,r_size
           integer :: node_id,proc_id
           integer :: msgtyp
-          integer, parameter :: msgoff = 400       
+          integer, parameter :: msgoff = 400
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -128,12 +128,12 @@
                   do ijk=1,trimat
                     s_buffer(s_address_2) = min_value(node_id,ijk)
                     s_buffer(s_address_2+1) = max_value(node_id,ijk)
-                    s_address_2 = s_address_2 + 2                  
+                    s_address_2 = s_address_2 + 2
                   end do
                 end do
                 ! send the data
                 s_proc_nb = s_proc_nb + 1
-                s_index(s_proc_nb) = p                
+                s_index(s_proc_nb) = p
                 call spmd_isend(s_buffer(s_address),2*s_size*trimat,p-1,msgtyp,s_req(s_proc_nb))
                 s_address = s_address + 2*s_size*trimat
               end if
@@ -142,14 +142,14 @@
             ! -------------
             ! wait for the receive comms and update min/max values
             do p=1,r_proc_nb
-              call spmd_waitany(r_proc_nb,r_req,ijk)
+              call spmd_waitany(r_req,r_proc_nb,ijk)
               proc_id = r_index(ijk) ! get the R processor id
               r_address = 1 + 2*(iad_elem(1,proc_id) - iad_elem(1,1))*trimat
               do j=iad_elem(1,proc_id),iad_elem(1,proc_id+1)-1
                 node_id = fr_elem(j)
                 do ijk=1,trimat
                   min_value(node_id,ijk) = min(min_value(node_id,ijk), r_buffer(r_address))
-                  max_value(node_id,ijk) = max(max_value(node_id,ijk), r_buffer(r_address+1))                
+                  max_value(node_id,ijk) = max(max_value(node_id,ijk), r_buffer(r_address+1))
                   r_address = r_address + 2
                 enddo
               end do
@@ -158,7 +158,7 @@
 
             ! -------------
             ! wait for the send comms
-            call spmd_waitall(s_proc_nb,s_req)
+            call spmd_waitall(s_req,s_proc_nb)
             ! -------------
           endif
 ! ----------------------------------------------------------------------------------------------------------------------

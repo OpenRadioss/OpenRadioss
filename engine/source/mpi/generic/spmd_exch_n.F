@@ -39,7 +39,7 @@ C performs the summation of normals at boundary points
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -59,9 +59,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
+      INTEGER MSGTYP,I,NOD,LOC_PROC,
      .        SIZ,J,L,NB_NOD,
-     .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),MSGOFF
 
@@ -83,9 +82,8 @@ C   Setting up reception buffers
          SIZ = 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
          IF(SIZ/=0) THEN
            MSGTYP = MSGOFF
-           CALL MPI_IRECV(
-     S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+           CALL SPMD_IRECV(RBUF(L:L+SIZ-1), SIZ, IT_SPMD(I), MSGTYP,
+     .                     REQ_R(I))
            L = L+SIZ
          END IF
          IAD_RECV(I+1) = L
@@ -112,9 +110,8 @@ C   Filling of send buffers and sending of data
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
-          CALL MPI_ISEND(
-     S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
+          CALL SPMD_ISEND(SBUF(L:L+SIZ-1), SIZ, IT_SPMD(I), MSGTYP,
+     .                    REQ_S(I))
        ENDIF                
       END DO
 
@@ -123,7 +120,7 @@ C   Reception and processing
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I))
           L = IAD_RECV(I)
 
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -139,7 +136,7 @@ C
 
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I))
         ENDIF
       ENDDO
 

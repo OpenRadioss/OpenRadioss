@@ -37,7 +37,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -70,7 +70,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGTYP,P,SIZ,NIN,I,J,L,LOC_PROC,
-     .        IERROR,I_LEN,NBIRECV,KK,
+     .        I_LEN,NBIRECV,KK,
      .        INDEXI,
      .        IRINDEXI(NSPMD),IADR(NSPMD),REQ_R(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
@@ -138,14 +138,10 @@ C T25 main gap changes with thickness change
             END IF
           END DO
           MSGTYP =  MSGOFF
-          CALL MPI_SEND(
-     S      SBUF,L,REAL,IT_SPMD(IRING),MSGTYP,
-     G      SPMD_COMM_WORLD,IERROR)
+          CALL SPMD_SEND(SBUF(1:L),L,IT_SPMD(IRING),MSGTYP)
           MSGTYP =  MSGOFF
           L = I_LEN*NINTC
-          CALL MPI_RECV(
-     S      SBUF,L,REAL,IT_SPMD(IRING),MSGTYP,
-     G      SPMD_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(SBUF(1:L),L,IT_SPMD(IRING),MSGTYP,STATUS)
           L = 0
           DO KK=1,NINTC
             NIN = INTLIST(KK)
@@ -197,9 +193,8 @@ C Proc IRING
               MSGTYP =  MSGOFF
               SIZ = I_LEN*NINTC
               IADR(P)=L
-              CALL MPI_IRECV(
-     S          SBUF(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G          SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+              CALL SPMD_IRECV(SBUF(L:L+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .                        REQ_R(NBIRECV))
               L = L + SIZ
             END IF
           END IF
@@ -208,7 +203,7 @@ C
 C Attente reception
 C
         DO I = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_R,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEXI,STATUS)
           P=IRINDEXI(INDEXI)
           L = IADR(P)
           DO KK=1,NINTC
@@ -328,13 +323,12 @@ C T25 main gap changes with thickness change
           END DO
 C
           MSGTYP =  MSGOFF
-          CALL MPI_ISEND(
-     S      SBUF(IADR(P)),L-IADR(P)+1,REAL,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+          CALL SPMD_ISEND(SBUF(IADR(P):L),L-IADR(P)+1,IT_SPMD(P),MSGTYP,
+     .                    REQ_R(I))
         ENDDO
 C
         DO I = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_R,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEXI,STATUS)
 C          P=IRINDEXI(I)
         END DO
 C

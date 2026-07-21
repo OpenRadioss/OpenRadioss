@@ -29,7 +29,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    ancmsg                ../engine/source/output/message/message.F
 !||    arret                 ../engine/source/system/arret.F
 !||    spmd_ialltoall        ../engine/source/mpi/generic/spmd_ialltoall.F
-!||    spmd_ialltoallv_int   ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+!||    spmd_ialltoallv_int_old   ../engine/source/mpi/generic/spmd_ialltoallv_int_old.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
@@ -307,7 +307,7 @@ C reallocation of active cell tags to send
 !   -------------------------
 !   alltoall communication with non-uniform size
 !   for integer array : send : INDEX --> rcv : LSPHS
-      CALL SPMD_IALLTOALLV_INT(INDEX,LSPHS,
+      CALL SPMD_IALLTOALLV_INT_OLD(INDEX,LSPHS,
      .          SEND_SIZE_INDEX,TOTAL_SEND_SIZE_INDEX,DISPLS_INDEX,
      .          TOTAL_RCV_SIZE_LSPHS,RCV_SIZE_LSPHS,DISPLS_LSPHS,
      .          REQUEST_INDEX,SPMD_COMM_WORLD,NSPMD)

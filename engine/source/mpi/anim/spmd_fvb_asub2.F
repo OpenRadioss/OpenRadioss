@@ -38,7 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -52,8 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, PMAIN, ITAG, TAB(2), STAT(MPI_STATUS_SIZE), IERR,
-     .          MSGOFF
+      INTEGER I, PMAIN, ITAG, TAB(2), MSGOFF
 C-----------------------------------------------
       DATA MSGOFF /7052/
 C-----------------------------------------------
@@ -63,8 +62,7 @@ C
          IF (ISPMD==0) THEN
             IF (ISPMD/=PMAIN-1) THEN
                ITAG=MSGOFF
-               CALL MPI_RECV(TAB, 2, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
+               CALL SPMD_RECV(TAB(1:2), 2, IT_SPMD(PMAIN), ITAG)
 C
                FVDATA(I)%ID=TAB(1)
                FVDATA(I)%NPOLH_ANIM=TAB(2)
@@ -75,8 +73,7 @@ C
                TAB(2)=FVDATA(I)%NPOLH_ANIM
 C
                ITAG=MSGOFF
-               CALL MPI_SEND(TAB, 2, MPI_INTEGER, IT_SPMD(1),
-     .                       ITAG, SPMD_COMM_WORLD,  IERR)
+               CALL SPMD_SEND(TAB(1:2), 2, IT_SPMD(1), ITAG)
             ENDIF
          ENDIF
       ENDDO  

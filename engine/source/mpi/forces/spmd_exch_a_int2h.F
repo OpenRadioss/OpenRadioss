@@ -44,7 +44,7 @@ C case where there is a hierarchy of interfaces in the model
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
         use my_alloc_mod
 
 #include      "implicit_f.inc"
@@ -77,7 +77,6 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,
      .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,ISIZE2,
-     .        STATUS(MPI_STATUS_SIZE),
      .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
       DATA MSGOFF/119/
       my_real,
@@ -106,9 +105,9 @@ C
           L=L+1
           INDEXI(L)=I
           MSGTYP = MSGOFF
-          CALL MPI_IRECV(
-     S      RBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(L),IERROR)
+          CALL SPMD_IRECV(
+     S      RBUF(IDEB:IDEB+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(L))
           IDEB = IDEB + SIZ
         ENDIF
       ENDDO
@@ -248,14 +247,14 @@ C
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         SIZ = LEN*ISIZE2
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S    SBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G    SPMD_COMM_WORLD,REQ_S(L),IERROR)
+        CALL SPMD_ISEND(
+     S    SBUF(IDEB:IDEB+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G    REQ_S(L))
         IDEB = IDEB + SIZ
       ENDDO
 C
       DO L=1,NBINDEX
-        CALL MPI_WAITANY(NBINDEX,REQ_R,INDEX,STATUS,IERROR)
+        CALL SPMD_WAITANY(REQ_R,NBINDEX,INDEX)
         I = INDEXI(INDEX)
         IDEB = 1+(IAD_I2M(I)-1)*ISIZE2
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
@@ -384,7 +383,7 @@ C
       ENDDO
 C
       DO L=1,NBINDEX
-        CALL MPI_WAITANY(NBINDEX,REQ_S,INDEX,STATUS,IERROR)
+        CALL SPMD_WAITANY(REQ_S,NBINDEX,INDEX)
       ENDDO
 C
       call my_dealloc(RBUF)

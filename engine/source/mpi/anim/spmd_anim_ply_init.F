@@ -57,7 +57,7 @@ C-----------------------------------------------
  
       INTEGER RECSZ
       INTEGER I, P, ITAG
-      INTEGER MSGOFF, STAT(MPI_STATUS_SIZE, NSPMD-1), IERR
+      INTEGER MSGOFF
 C-----------------------------------------------
       DATA MSGOFF/7054/
 C-----------------------------------------------
@@ -81,14 +81,12 @@ C a conversion array from Global Node ID to Internal PLYNOD ID
 C PROC 0, RECEIVE NODES NUM for each ply
            DO P=2,NSPMD
               ITAG=MSGOFF
-              CALL MPI_RECV(RECSZ,1, MPI_INTEGER, IT_SPMD(P),
-     .                      ITAG, SPMD_COMM_WORLD, STAT, IERR)
+              CALL SPMD_RECV(RECSZ,1,IT_SPMD(P),ITAG)
               PLYIADNOD(I,P) = RECSZ
            ENDDO
         ELSE
            ITAG=MSGOFF
-           CALL MPI_SEND(PLYNOD(I)%PLYNUMNODS,1,MPI_INTEGER,IT_SPMD(1),
-     .                   ITAG,SPMD_COMM_WORLD,IERR)
+           CALL SPMD_SEND(PLYNOD(I)%PLYNUMNODS,1,IT_SPMD(1),ITAG)
         ENDIF
       ENDDO
 

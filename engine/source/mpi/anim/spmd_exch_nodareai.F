@@ -39,7 +39,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -59,9 +59,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,L,NB_NOD,
-     .        STATUS(MPI_STATUS_SIZE),
+      INTEGER MSGTYP,I,NOD,SIZ,J,L,NB_NOD,
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),MSGOFF
 
@@ -73,7 +71,6 @@ C-----------------------------------------------
       ALLOCATE(SBUF(LENR))
       ALLOCATE(RBUF(LENR))
 C-----------------------------------------------
-      LOC_PROC = ISPMD+1
       L = 1
       IAD_RECV(1)=1
 
@@ -82,9 +79,8 @@ C   setting up reception buffers
          SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
          IF(SIZ/=0) THEN
            MSGTYP = MSGOFF
-           CALL MPI_IRECV(
-     S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+           CALL SPMD_IRECV(
+     S      RBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_R(I))
            L = L+SIZ
          END IF
          IAD_RECV(I+1) = L
@@ -112,9 +108,8 @@ C   setting up reception buffers
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
 
-          CALL MPI_ISEND(
-     S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
+          CALL SPMD_ISEND(
+     S      SBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_S(I))
        ENDIF                
       END DO
 ! reception and processing
@@ -122,7 +117,7 @@ C   setting up reception buffers
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I))
           L = IAD_RECV(I)
 
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -136,7 +131,7 @@ C
 
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I))
         ENDIF
       ENDDO
 C-----------------------------------------------

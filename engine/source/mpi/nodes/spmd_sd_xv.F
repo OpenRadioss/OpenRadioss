@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -373,17 +373,15 @@ C----------------------------------------------------------------------------
          IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I)>0)THEN
            MSGTYP = MSGOFF
            SIZ = E_LEN*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
-           CALL MPI_ISEND(
-     S       SRBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G       SPMD_COMM_WORLD,REQ_S(I),IERROR)
+           CALL SPMD_ISEND(
+     S       SRBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_S(I))
            L = L + SIZ
              
              IF(IRESP==1)THEN
                MSGTYP = MSGOFF2
              SIZDP = LEN_DP*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
-             CALL MPI_ISEND(
-     S         SRBUFDP(L2),SIZDP,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G         SPMD_COMM_WORLD,REQ_S_DP(I),IERROR)
+             CALL SPMD_ISEND(
+     S         SRBUFDP(L2:L2+SIZDP-1),SIZDP,IT_SPMD(I),MSGTYP,REQ_S_DP(I))
              L2 = L2 + SIZDP
              ENDIF
          ENDIF
@@ -392,9 +390,9 @@ C----------------------------------------------------------------------------
 C   wait terminaison isend
        DO I = 1, NSPMD
          IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I)>0)THEN
-           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+           CALL SPMD_WAIT(REQ_S(I),STATUS)
              IF(IRESP==1)THEN
-               CALL MPI_WAIT(REQ_S_DP(I),STATUS,IERROR)
+               CALL SPMD_WAIT(REQ_S_DP(I),STATUS)
              ENDIF
          END IF
        END DO
@@ -410,15 +408,13 @@ C
           IF(IRESP==1)SIZDP = LEN_DP*(IAD_ELEM(1,2)-IAD_ELEM(2,1))
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(
-     S      SRBUF(L),SIZ,REAL,IT_SPMD(1),MSGTYP,
-     G      SPMD_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(
+     S      SRBUF(L:L+SIZ-1),SIZ,IT_SPMD(1),MSGTYP,STATUS)
      
           IF(IRESP==1)THEN
             MSGTYP = MSGOFF2
-            CALL MPI_RECV(
-     S        SRBUFDP(L2),SIZDP,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
-     G        SPMD_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(
+     S        SRBUFDP(L2:L2+SIZDP-1),SIZDP,IT_SPMD(1),MSGTYP,STATUS)
           ENDIF
             
           IF(NEW_D==0) THEN

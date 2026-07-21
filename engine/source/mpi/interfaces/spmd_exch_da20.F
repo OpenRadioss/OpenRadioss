@@ -32,7 +32,7 @@ C
 !||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_DA20(
      1   INTBUF_TAB,IPARI,IAD_ELEM,FR_ELEM,
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, N, MSGOFF,
+      INTEGER MSGTYP,I,NOD,LOC_PROC, N, MSGOFF,
      .        SIZ,J,L,NB_NOD,NBIRECV, II, NI,INC,
      .        NIN, NLN, LL,IL,IG,
      .        IAD_RECV(NSPMD+1),DEBUT(NSPMD),
@@ -98,9 +98,8 @@ C
           MSGTYP = MSGOFF 
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+          CALL SPMD_IRECV(
+     S      RBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_R(NBIRECV))
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -157,14 +156,13 @@ C
         L = IAD_RECV(I)
         SIZ = DEBUT(I)-L
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S    SBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G    SPMD_COMM_WORLD,REQ_S(I),IERROR)
+        CALL SPMD_ISEND(
+     S    SBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_S(I))
       ENDDO
 C
 C decompactage
 C
-        CALL MPI_WAITALL(NBIRECV,REQ_R,RSTATUS,IERROR)
+        CALL SPMD_WAITALL(REQ_R,NBIRECV,RSTATUS)
         DO NI = 1, NBINTC
           NIN = INTLIST(NI)
           IF(IPARI(7,NIN)==20)THEN
@@ -218,7 +216,7 @@ C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)
-     .    CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+     .    CALL SPMD_WAIT(REQ_S(I),STATUS)
       ENDDO
 C
 #endif

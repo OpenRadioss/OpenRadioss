@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF2,STAT(MPI_STATUS_SIZE,NSPMD-1), IERR
+      INTEGER MSGOFF,MSGOFF2
 C-----------------------------------------------
       DATA MSGOFF/7055/
       DATA MSGOFF2/7056/
@@ -112,11 +112,11 @@ C The plynods of other procs
               ALLOCATE(IRECBUF(PLYIADNOD(IPLY,P)))
               ALLOCATE(FRECBUF(3,PLYIADNOD(IPLY,P)))
               ITAG=MSGOFF
-              CALL MPI_RECV(IRECBUF,PLYIADNOD(IPLY,P), MPI_INTEGER,
-     .                      IT_SPMD(P),ITAG, SPMD_COMM_WORLD, STAT, IERR)
+              CALL SPMD_RECV(IRECBUF(1:PLYIADNOD(IPLY,P)),
+     .                       PLYIADNOD(IPLY,P),IT_SPMD(P),ITAG)
               ITAG=MSGOFF2
-              CALL MPI_RECV(FRECBUF,PLYIADNOD(IPLY,P)*3, REAL,
-     .                      IT_SPMD(P),ITAG, SPMD_COMM_WORLD, STAT, IERR)
+              CALL SPMD_RECV(FRECBUF(1:3,1:PLYIADNOD(IPLY,P)),
+     .                       PLYIADNOD(IPLY,P)*3,IT_SPMD(P),ITAG)
               DO I=1,PLYIADNOD(IPLY,P)
                  EMPL = IRECBUF(I)-EMPSIZPL
                  WRTBUF(1,EMPL)=FRECBUF(1,I)
@@ -149,12 +149,10 @@ C The plynods of other procs
            ISENDBUF(ND) = PLYNOD(IPLY)%PLYNODID(ND)
          END DO
          ITAG=MSGOFF
-         CALL MPI_SEND(ISENDBUF,PLYSIZ,MPI_INTEGER,IT_SPMD(1),
-     .                   ITAG,SPMD_COMM_WORLD,IERR)
+         CALL SPMD_SEND(ISENDBUF(1:PLYSIZ),PLYSIZ,IT_SPMD(1),ITAG)
 
          ITAG=MSGOFF2
-         CALL MPI_SEND(FSENDBUF,PLYSIZ*3,REAL,IT_SPMD(1),
-     .                   ITAG,SPMD_COMM_WORLD,IERR)
+         CALL SPMD_SEND(FSENDBUF(1:3,1:PLYSIZ),PLYSIZ*3,IT_SPMD(1),ITAG)
 C
          DEALLOCATE(ISENDBUF,FSENDBUF)
         ENDIF

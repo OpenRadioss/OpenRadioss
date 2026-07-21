@@ -35,6 +35,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_PROFILER_MOD, ONLY : SPMD_PROFILING_ENABLED,
+     .                                SPMD_PROFILER_FLUSH
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -53,6 +55,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       call MPI_BARRIER(SPMD_COMM_WORLD,ierror)
+      IF (SPMD_PROFILING_ENABLED) CALL SPMD_PROFILER_FLUSH()
       CALL MPI_FINALIZE(ierror)
       IF(ISPMD/=0)THEN
         CALL MY_EXIT(0)

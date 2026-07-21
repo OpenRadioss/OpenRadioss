@@ -38,7 +38,7 @@ C gather table V of size LEN of type integer
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -56,15 +56,13 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,IERROR,
+      INTEGER I,
      .        VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_REDUCE(V,VTMP,LEN,
-     .                  MPI_INTEGER,MPI_MAX,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR)
+        CALL spmd_reduce(V,VTMP,LEN,SPMD_MAX,IT_SPMD(1))
       ENDIF
       IF (ISPMD==0) THEN
         DO I=1,LEN

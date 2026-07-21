@@ -22,34 +22,28 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_gatherv_int      ../engine/source/mpi/generic/spmd_gatherv_int.F
+!||    spmd_iallgather_int_old   ../engine/source/mpi/generic/spmd_iallgather_int_old.F
 !||--- called by ------------------------------------------------------
-!||    init_th               ../engine/source/output/th/init_th.F
-!||    read_dynain           ../engine/source/output/dynain/read_dynain.F
+!||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
 !||--- calls      -----------------------------------------------------
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-        SUBROUTINE SPMD_GATHERV_INT(SENDBUF,RECVBUF,PROC,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE,DIPLS)
+        SUBROUTINE SPMD_IALLGATHER_INT_OLD(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 
+     .                              REQUEST,COMM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
 #include "spmd.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(inout) :: SEND_SIZE,TOTAL_RCV_SIZE
-        INTEGER, INTENT(inout) :: PROC
-        INTEGER, DIMENSION(NSPMD) :: RCV_SIZE,DIPLS
+        INTEGER, INTENT(inout) :: COMM
+        INTEGER, INTENT(inout) :: REQUEST
+        INTEGER, INTENT(inout) :: RCV_SIZE
         INTEGER, DIMENSION(SEND_SIZE), INTENT(inout) :: SENDBUF
         INTEGER, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
 
@@ -60,16 +54,38 @@ C-----------------------------------------------
         INTEGER :: error
 !       ----------------------------------------
 
-!       ------------------
-!       mpi comm gahterv on processor PROC
-        CALL MPI_GATHERV(SENDBUF,SEND_SIZE,MPI_INTEGER,
-     .                   RECVBUF,RCV_SIZE,DIPLS,MPI_INTEGER,
-     .                   PROC,SPMD_COMM_WORLD,error)
-!       ------------------
+!       ------------------------------------------
+!       processor P(1-->n) :
+!       send buffer 
+!                   |  s(m)   |
+!       size =           N      
+!
+!       For all processor :
+!       rcv buffer
+!       from proc :   P(1)        P(2)              P(n)
+!                   |  s(1)   |   s(2)   |  ...  |  s(n)    |
+!       size =          N       N                    N
+!       ------------------------------------------
 
+!   PLMPI uses MPI-2.x version : MPI_IALLGATHER was introduced in MPI-3.0 version
+#if _PLMPI
+!       ------------------
+        CALL MPI_ALLGATHER(SENDBUF,SEND_SIZE,MPI_INTEGER,
+     .                   RECVBUF,RCV_SIZE,MPI_INTEGER,
+     .                   COMM,error)
+!       ------------------
+#else
+!       ------------------
+        CALL MPI_IALLGATHER(SENDBUF,SEND_SIZE,MPI_INTEGER,
+     .                   RECVBUF,RCV_SIZE,MPI_INTEGER,
+     .                   COMM,REQUEST,error)
+!       ------------------
+#endif
 #else
         RECVBUF = 0
 #endif
         RETURN
-        END SUBROUTINE SPMD_GATHERV_INT
+        END SUBROUTINE SPMD_IALLGATHER_INT_OLD
+
+
 !       ----------------------------------------

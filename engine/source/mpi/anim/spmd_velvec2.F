@@ -34,7 +34,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+      INTEGER STATUS(MPI_STATUS_SIZE),MSGOFF
       INTEGER SIZ, MSGTYP, I, J, K, MSGOFF2
       INTEGER, DIMENSION(:), ALLOCATABLE ::  NGLOBI
       my_real,
@@ -75,12 +75,10 @@ C-----------------------------------------------
 C   sending the nodglob
          MSGTYP = MSGOFF
 
-         CALL MPI_SEND(NODGLOB,NUMNOD,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(NODGLOB(1:NUMNOD),NUMNOD,IT_SPMD(1),MSGTYP)
 
          MSGTYP = MSGOFF2
-         CALL MPI_SEND(V,3*NUMNOD,REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(V(:,1:NUMNOD),3*NUMNOD,IT_SPMD(1),MSGTYP)
 
        ELSE
           DO I=1,NUMNODG
@@ -100,16 +98,13 @@ C   sending the nodglob
 C   reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF 
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL spmd_probe(IT_SPMD(I),MSGTYP,STATUS)
+              CALL spmd_get_count_int(STATUS,SIZ)
 
-            CALL MPI_RECV(NGLOBI,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(NGLOBI(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
          
             MSGTYP = MSGOFF2
-            CALL MPI_RECV(VRECV,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(VRECV(:,1:SIZ),3*SIZ,IT_SPMD(I),MSGTYP)
  
             DO J = 1, SIZ
               K = NGLOBI(J)

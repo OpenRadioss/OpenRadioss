@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -102,9 +102,8 @@ C
             IF(SIZ>0)THEN
               NSNSITOT(P) = SIZ
               MSGTYP = MSGOFF
-              CALL MPI_IRECV(
-     .          ISIZRCV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_R(P),IERROR   )
+              CALL SPMD_IRECV(
+     .          ISIZRCV(1:2,P),2,IT_SPMD(P),MSGTYP,REQ_R(P))
             ENDIF
           ENDIF
         ENDDO
@@ -124,9 +123,8 @@ C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC.AND.NSNFITOT(P)>0) THEN
             MSGTYP = MSGOFF
-            CALL MPI_ISEND(
-     .        ISIZENV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .        SPMD_COMM_WORLD,REQ_S(P),IERROR    )
+            CALL SPMD_ISEND(
+     .        ISIZENV(1:2,P),2,IT_SPMD(P),MSGTYP,REQ_S(P))
             IALLOCS = IALLOCS + ISIZENV(1,P)
           ENDIF
         END DO
@@ -180,9 +178,8 @@ C Facet element generating a force
             END IF
             SIZ = L+1-ADD
             MSGTYP = MSGOFF2 
-            CALL MPI_ISEND(
-     .        BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .        SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+            CALL SPMD_ISEND(
+     .        BBUFS(ADD:ADD+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,REQ_SI(P))
           ELSEIF(P/=LOC_PROC)THEN
             IDEB = IDEB + NSNFI(NIN)%P(P)
           END IF
@@ -193,7 +190,7 @@ C
         IALLOCR = 0
         DO P = 1, NSPMD
           IF(NSNSITOT(P)>0)THEN
-            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_R(P),STATUS)
             IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! for blocking comm
           END IF
         END DO
@@ -212,9 +209,9 @@ C
           IF(ISIZRCV(1,P)>0) THEN
             MSGTYP = MSGOFF2
             L = 1
-            CALL MPI_RECV(
-     .        BBUFR(L),ISIZRCV(1,P)+1,REAL  ,IT_SPMD(P),MSGTYP,
-     .        SPMD_COMM_WORLD       ,STATUS,IERROR    )
+            CALL SPMD_RECV(
+     .        BBUFR(L:L+ISIZRCV(1,P)),ISIZRCV(1,P)+1,IT_SPMD(P),
+     .        MSGTYP,STATUS)
 C
             IF(NSNSI(NIN)%P(P)>0)THEN
               NB = NINT(BBUFR(L))
@@ -246,10 +243,10 @@ C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC)THEN
             IF(NSNFITOT(P)>0) THEN
-              CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_S(P),STATUS)
             END IF
             IF(ISIZENV(1,P)>0)THEN
-              CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SI(P),STATUS)
             END IF
           END IF
         END DO

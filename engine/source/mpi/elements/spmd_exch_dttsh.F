@@ -38,7 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -71,9 +71,8 @@ C-----------------------------------------------
         IF(SIZ>0)THEN
           MSGTYP = MSGOFF
           L = IAD_ELEM(1,I)
-          CALL MPI_IRECV(
-     +      IRECV(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     +      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+          CALL SPMD_IRECV(
+     +      IRECV(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_R(I))
         ENDIF
       END DO
 C
@@ -84,22 +83,21 @@ C
        IF(SIZ>0)THEN
           MSGTYP = MSGOFF
           L = IAD_ELEM(1,I)
-          CALL MPI_ISEND(
-     +      ISEND(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     +      SPMD_COMM_WORLD,REQ_S(I),IERROR)
+          CALL SPMD_ISEND(
+     +      ISEND(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_S(I))
        ENDIF
       ENDDO
 C
       DO I = 1, NSPMD
        SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(SIZ>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I),STATUS)
         ENDIF
       ENDDO
       DO I = 1, NSPMD
        SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(SIZ>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I),STATUS)
         ENDIF
       ENDDO
 #endif
@@ -124,7 +122,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -178,9 +176,8 @@ C ----------
        DO P=1,NSPMD 
           SIZ = IAD_RTSH(P+1)-IAD_RTSH(P)
           IF(SIZ > 0) THEN 
-           CALL MPI_IRECV(
-     S      REC_BUF(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(P),IERROR)
+           CALL SPMD_IRECV(
+     S      REC_BUF(L:L+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,REQ_R(P))
             L=L+SIZ
           ENDIF
        ENDDO
@@ -199,9 +196,8 @@ C -----------------
               L=L+1
            ENDDO         
          
-           CALL MPI_ISEND(
-     S       SEND_BUF(IAD),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G       SPMD_COMM_WORLD,REQ_S(P),IERROR)
+           CALL SPMD_ISEND(
+     S       SEND_BUF(IAD:IAD+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,REQ_S(P))
      
          ENDIF
        ENDDO
@@ -213,7 +209,7 @@ C ------------
        DO P=1,NSPMD 
          SIZ = IAD_RTSH(P+1)-IAD_RTSH(P)
          IF(SIZ > 0)THEN
-           CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+           CALL SPMD_WAIT(REQ_R(P),STATUS)
             
            DO J=IAD_RTSH(P),IAD_RTSH(P+1)-1
              NOD = FR_RTSH(J)
@@ -228,7 +224,7 @@ C END SEND
 C ------------
       DO P = 1, NSPMD
         IF(IAD_STSH(P+1)-IAD_STSH(P)>0)THEN
-          CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(P),STATUS)
         ENDIF
       ENDDO
       IF (ALLOCATED(SEND_BUF)) DEALLOCATE(SEND_BUF)
@@ -256,7 +252,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -309,9 +305,8 @@ C ----------
        DO P=1,NSPMD 
           SIZ = 3*(IAD_RTSH(P+1)-IAD_RTSH(P))
           IF(SIZ > 0) THEN 
-           CALL MPI_IRECV(
-     S      REC_BUF(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(P),IERROR)
+           CALL SPMD_IRECV(
+     S      REC_BUF(L:L+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,REQ_R(P))
             L=L+SIZ
           ENDIF
        ENDDO
@@ -332,9 +327,8 @@ C -----------------
               L=L+3
            ENDDO         
          
-           CALL MPI_ISEND(
-     S       SEND_BUF(IAD),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G       SPMD_COMM_WORLD,REQ_S(P),IERROR)
+           CALL SPMD_ISEND(
+     S       SEND_BUF(IAD:IAD+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,REQ_S(P))
      
          ENDIF
        ENDDO
@@ -346,7 +340,7 @@ C ------------
        DO P=1,NSPMD 
          SIZ = 3*(IAD_RTSH(P+1)-IAD_RTSH(P))
          IF(SIZ > 0)THEN
-           CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+           CALL SPMD_WAIT(REQ_R(P),STATUS)
             
            DO J=IAD_RTSH(P),IAD_RTSH(P+1)-1
              NOD = FR_RTSH(J)
@@ -363,7 +357,7 @@ C END SEND
 C ------------
       DO P = 1, NSPMD
         IF(IAD_STSH(P+1)-IAD_STSH(P)>0)THEN
-          CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(P),STATUS)
         ENDIF
       ENDDO
       IF (ALLOCATED(SEND_BUF)) DEALLOCATE(SEND_BUF)

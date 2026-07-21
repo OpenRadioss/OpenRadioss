@@ -49,10 +49,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use spmd_comm_world_mod, only : spmd_comm_world
+        use spmd_mod, only : spmd_send, spmd_recv, spmd_probe, spmd_get_count_int
         use precision_mod , only : WP
-        use spmd_send_mod, only: spmd_send
-        use spmd_recv_mod, only: spmd_recv
         use constant_mod , only : zero
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -99,9 +97,9 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
          END DO 
 
          MSGTYP = MSGOFF2
-         CALL spmd_send(IBUF,SIZ,IT_SPMD(1),MSGTYP)
+         CALL spmd_send(IBUF(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
          MSGTYP = MSGOFF 
-         CALL spmd_SEND(BUFSR,SIZ,IT_SPMD(1),MSGTYP)
+         CALL spmd_SEND(BUFSR(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
        ELSE
 
@@ -117,12 +115,12 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
           DO I=2,NSPMD
             !--- Receiving the full buffer of NODGLOB addresses
             MSGTYP = MSGOFF2
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
-            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
-            CALL spmd_RECV(IBUF,SIZ,IT_SPMD(I),MSGTYP)
+            CALL spmd_probe(IT_SPMD(I),MSGTYP,STATUS)
+            CALL spmd_get_count_int(STATUS,SIZ)
+            CALL spmd_RECV(IBUF(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
             !--- Receiving the floating buffer of NODGLOB addresses
             MSGTYP = MSGOFF 
-            CALL spmd_RECV(BUFSR,SIZ,IT_SPMD(I),MSGTYP)
+            CALL spmd_RECV(BUFSR(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
             NREC = SIZ
             DO K = 1, NREC
               NG = IBUF(K)

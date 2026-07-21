@@ -59,7 +59,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -109,7 +109,7 @@ C-----------------------------------------------
 
         INTEGER, DIMENSION(MPI_STATUS_SIZE) :: STATUS_MPI
         INTEGER, DIMENSION(MPI_STATUS_SIZE,NSPMD) :: ARRAY_STATUSES
-        INTEGER :: IERROR,FRONTIER_ELM,NB_SURFACE,ADDRESS,NB_EDGE
+        INTEGER :: FRONTIER_ELM,NB_SURFACE,ADDRESS,NB_EDGE
 
         INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER_R
         TYPE(array_type), DIMENSION(NSPMD) :: BUFFER_S
@@ -172,8 +172,8 @@ C-----------------------------------------------
                 RECV_NB = RECV_NB + 1
                 INDEX_R_PROC(RECV_NB) = I
                 MSGTYP = MSGOFF1
-                CALL MPI_IRECV( REMOTE_SURF_PER_PROC(1,RECV_NB),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          SPMD_COMM_WORLD,REQUEST_SIZE_R(RECV_NB),IERROR )
+                CALL SPMD_IRECV( REMOTE_SURF_PER_PROC(1:2,RECV_NB),2,IT_SPMD(I),MSGTYP,
+     .                           REQUEST_SIZE_R(RECV_NB) )
             ENDIF
         ENDDO
         ! ----------------
@@ -184,15 +184,15 @@ C-----------------------------------------------
             FRONTIER_ELM = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
             IF(FRONTIER_ELM>0) THEN
                 MSGTYP = MSGOFF1
-                CALL MPI_ISEND( SURF_PER_PROC(1,I),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          SPMD_COMM_WORLD,REQUEST_SIZE_S(I),IERROR )
+                CALL SPMD_ISEND( SURF_PER_PROC(1:2,I),2,IT_SPMD(I),MSGTYP,
+     .                           REQUEST_SIZE_S(I) )
             ENDIF
         ENDDO
         ! ----------------
 
         ! ----------------
         ! wait the R comm "number of 4 nodes defining a surface + number of 2 nodes def. an edge"
-        IF(RECV_NB>0) CALL MPI_WAITALL(RECV_NB,REQUEST_SIZE_R,ARRAY_STATUSES,IERROR)
+        IF(RECV_NB>0) CALL SPMD_WAITALL(REQUEST_SIZE_R,RECV_NB,ARRAY_STATUSES)
         ! allocation of R buffer "list of 4 nodes defining a surface"
         SIZE_BUFFER_R = 0
         INDEX_BUFFER_R(1:NSPMD) = 0
@@ -219,9 +219,10 @@ C-----------------------------------------------
                 INDEX_R_PROC_2(RECV_SURF_NB) = INDEX_R_PROC(I)
                 INDEX_BUFFER_R_2(RECV_SURF_NB) = INDEX_BUFFER_R(I)
                 REMOTE_SURF_PER_PROC_2(1:2,RECV_SURF_NB) = REMOTE_SURF_PER_PROC(1:2,I)
-                CALL MPI_IRECV( BUFFER_R(INDEX_BUFFER_R(I)),4*REMOTE_SURF_PER_PROC(1,I)+2*REMOTE_SURF_PER_PROC(2,I),
-     .          MPI_INTEGER,IT_SPMD(PROC_ID),MSGTYP,
-     .          SPMD_COMM_WORLD,REQUEST_SURF_R(RECV_SURF_NB),IERROR )
+                CALL SPMD_IRECV( BUFFER_R(INDEX_BUFFER_R(I):INDEX_BUFFER_R(I)+
+     .                            4*REMOTE_SURF_PER_PROC(1,I)+2*REMOTE_SURF_PER_PROC(2,I)-1),
+     .                            4*REMOTE_SURF_PER_PROC(1,I)+2*REMOTE_SURF_PER_PROC(2,I),
+     .                            IT_SPMD(PROC_ID),MSGTYP,REQUEST_SURF_R(RECV_SURF_NB) )
             ENDIF
         ENDDO
         ! ----------------              
@@ -232,15 +233,15 @@ C-----------------------------------------------
         DO I=1,NSPMD
             IF(SURF_PER_PROC(1,I)+SURF_PER_PROC(2,I)>0) THEN
                 MSGTYP = MSGOFF2
-                CALL MPI_ISEND( BUFFER_S(I)%INT_ARRAY_1D,INDEX_PROC(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          SPMD_COMM_WORLD,REQUEST_SURF_S(I),IERROR )
+                CALL SPMD_ISEND( BUFFER_S(I)%INT_ARRAY_1D(1:INDEX_PROC(I)),INDEX_PROC(I),
+     .                           IT_SPMD(I),MSGTYP,REQUEST_SURF_S(I) )
             ENDIF
         ENDDO 
         ! ----------------
 
         ! ----------------
         DO I=1,RECV_SURF_NB
-            CALL MPI_WAITANY(RECV_SURF_NB,REQUEST_SURF_R,K,STATUS_MPI,IERROR)
+            CALL SPMD_WAITANY(REQUEST_SURF_R,RECV_SURF_NB,K,STATUS_MPI)
             PROC_ID = INDEX_R_PROC_2(K)
             NB_SURFACE = REMOTE_SURF_PER_PROC_2(1,K)
             ADDRESS = INDEX_BUFFER_R_2(K)
@@ -262,13 +263,13 @@ C-----------------------------------------------
         DO I=1,NSPMD
             FRONTIER_ELM = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
             IF(FRONTIER_ELM>0) THEN
-                CALL MPI_WAIT(REQUEST_SIZE_S(I),STATUS_MPI,IERROR)
+                CALL SPMD_WAIT(REQUEST_SIZE_S(I),STATUS_MPI)
             ENDIF
         ENDDO
 
         DO I=1,NSPMD
             IF(SURF_PER_PROC(1,I)+SURF_PER_PROC(2,I)>0) THEN
-                CALL MPI_WAIT(REQUEST_SURF_S(I),STATUS_MPI,IERROR)
+                CALL SPMD_WAIT(REQUEST_SURF_S(I),STATUS_MPI)
             ENDIF
         ENDDO
         ! ----------------

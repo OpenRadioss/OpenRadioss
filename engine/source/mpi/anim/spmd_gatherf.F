@@ -34,7 +34,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+      INTEGER STATUS(MPI_STATUS_SIZE),MSGOFF
       INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
       DATA MSGOFF/7014/
@@ -85,12 +85,10 @@ C   In the floating buffer because there are only 2 24 bits available ~ 16 milli
 C   maximum number of nodes
 
          MSGTYP = MSGOFF2
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(IBUF(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
          MSGTYP = MSGOFF 
-         CALL MPI_SEND(BUFSR,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(BUFSR(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
        ELSE
           siz = 0
@@ -107,18 +105,15 @@ C   maximum number of nodes
 C   reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF2 
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL spmd_probe(IT_SPMD(I),MSGTYP,STATUS)
+              CALL spmd_get_count_int(STATUS,SIZ)
 
-            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(IBUF(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
 
 C   reception of the floating buffer of NODGLOB addresses
 
             MSGTYP = MSGOFF 
-            CALL MPI_RECV(BUFSR,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(BUFSR(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
          
             NREC = SIZ
  
