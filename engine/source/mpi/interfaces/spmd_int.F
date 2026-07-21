@@ -435,7 +435,7 @@ C-----for   NBINFLG
       
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
+          CALL SPMD_WAITANY(REQ_RB,NBIRECV,INDEXI)
           P=IRINDEXI(INDEXI)
           CALL SPMD_WAIT(REQ_RC(INDEXI))
 C Special treatment on d.d. keep only internal nodes
@@ -826,8 +826,8 @@ C
             IDEB = IDEB + NSNFI(NIN)%P(P)           
           ENDDO
           DO L = 1, NBIRECV
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD,NBIRECV,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD2,NBIRECV,INDEXI)
           ENDDO
 
           !set specifics IREM and XREM indexes for INT24 sorting
@@ -1091,7 +1091,7 @@ C -- IDTMINS_INT /= 0
       
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
+          CALL SPMD_WAITANY(REQ_RB,NBIRECV,INDEXI)
           P=IRINDEXI(INDEXI)
           CALL SPMD_WAIT(REQ_RC(INDEXI))
 
@@ -1333,8 +1333,8 @@ C
             IDEB = IDEB + NSNFI(NIN)%P(P)           
           ENDDO
           DO L = 1, NBIRECV
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD,NBIRECV,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD2,NBIRECV,INDEXI)
           ENDDO
 
           !set specifics IREM and XREM indexes for INT24 sorting
@@ -1624,7 +1624,7 @@ C--- Carea output
       
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
+          CALL SPMD_WAITANY(REQ_RB,NBIRECV,INDEXI)
           P=IRINDEXI(INDEXI)
           CALL SPMD_WAIT(REQ_RC(INDEXI))
 C Special treatment on d.d. keep only internal nodes
@@ -2156,8 +2156,8 @@ C
             IDEB = IDEB + NSNFI(NIN)%P(P)           
           ENDDO
           DO L = 1, NBIRECV
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD,NBIRECV,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD2,NBIRECV,INDEXI)
           ENDDO
 
           !set specifics IREM and XREM indexes for INT24 sorting
@@ -3705,7 +3705,7 @@ c IDTMINS_INT /= 0
       IDEB = 1
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
+          CALL SPMD_WAITANY(REQ_RB,NBIRECV,INDEXI)
           P=IRINDEXI(INDEXI)
 C special treatment on d.d. to keep only internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
@@ -3898,8 +3898,8 @@ C
               
           ENDDO
           DO L = 1, NBIRECV
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
-              CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD,NBIRECV,INDEXI)
+              CALL SPMD_WAITANY(REQ_RD2,NBIRECV,INDEXI)
           ENDDO
 
         ENDIF
@@ -4611,7 +4611,7 @@ C
     
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
+          CALL SPMD_WAITANY(REQ_RB,NBIRECV,INDEXI)
           P=IRINDEXI(INDEXI) 
 
 
@@ -4902,8 +4902,8 @@ C
             IDEB = IDEB + NSNFI(NIN)%P(P)
           ENDDO
           DO L = 1, NBIRECV
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
-            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)      
+            CALL SPMD_WAITANY(REQ_RD,NBIRECV,INDEXI)
+            CALL SPMD_WAITANY(REQ_RD2,NBIRECV,INDEXI)      
           ENDDO
         ENDIF
       ENDIF

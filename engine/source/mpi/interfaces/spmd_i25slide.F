@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -112,11 +112,11 @@ C-----------------------------------------------
             MSGTYP = MSGOFF1 
             COMM_SIZ%SIZ(P,NIN) = 1
             COMM_SIZ%TAG(P,NIN) = MSGTYP 
-            CALL MPI_ISEND(
-     1        NB(P,NIN),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        SPMD_COMM_WORLD,COMM_SIZ%SEND_RQ(P,NIN),ierror)
+            CALL spmd_isend(
+     1        NB(P,NIN),1,IT_SPMD(P),MSGTYP,
+     2        COMM_SIZ%SEND_RQ(P,NIN))
           ELSE
-             COMM_SIZ%SEND_RQ(P,NIN) = MPI_REQUEST_NULL
+             COMM_SIZ%SEND_RQ(P,NIN) = SPMD_REQUEST_NULL
           ENDIF
         ENDDO
       ELSE IF(MODE == 1) THEN        
@@ -129,20 +129,20 @@ C-----------------------------------------------
                COMM_REAL%SIZ(P,NIN) = LENGTH
                COMM_REAL%TAG(P,NIN) = MSGTYP 
                
-               CALL MPI_ISEND(
-     1           RBUF(P,NIN)%P(1),LENGTH,REAL,IT_SPMD(P),MSGTYP,
-     2           SPMD_COMM_WORLD,COMM_REAL%SEND_RQ(P,NIN),ierror)
+               CALL spmd_isend(
+     1           RBUF(P,NIN)%P(1:LENGTH),LENGTH,IT_SPMD(P),MSGTYP,
+     2           COMM_REAL%SEND_RQ(P,NIN))
                
                MSGTYP = MSGOFF3 
                LENGTH = NB(P,NIN) * ISIZ
                COMM_INT%SIZ(P,NIN) = LENGTH
                COMM_INT%TAG(P,NIN) = MSGTYP 
-               CALL MPI_ISEND(
-     1           IBUF(P,NIN)%P(1),LENGTH,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2           SPMD_COMM_WORLD,COMM_INT%SEND_RQ(P,NIN),ierror)
+               CALL spmd_isend(
+     1           IBUF(P,NIN)%P(1:LENGTH),LENGTH,IT_SPMD(P),MSGTYP,
+     2           COMM_INT%SEND_RQ(P,NIN))
              ELSE
-                 COMM_INT%SEND_RQ(P,NIN) = MPI_REQUEST_NULL
-                 COMM_REAL%SEND_RQ(P,NIN) = MPI_REQUEST_NULL
+                 COMM_INT%SEND_RQ(P,NIN) = SPMD_REQUEST_NULL
+                 COMM_REAL%SEND_RQ(P,NIN) = SPMD_REQUEST_NULL
              ENDIF
            ENDIF
          ENDDO
@@ -153,11 +153,11 @@ C-----------------------------------------------
              MSGTYP = MSGOFF1 
              COMM_REAL%SIZ(P,NIN) = 1
 
-             CALL MPI_IRECV(
-     1         NB(P,NIN),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2         SPMD_COMM_WORLD,COMM_SIZ%RECV_RQ(P,NIN),ierror)
+             CALL spmd_irecv(
+     1         NB(P,NIN),1,IT_SPMD(P),MSGTYP,
+     2         COMM_SIZ%RECV_RQ(P,NIN))
              ELSE
-               COMM_SIZ%RECV_RQ(P,NIN) = MPI_REQUEST_NULL
+               COMM_SIZ%RECV_RQ(P,NIN) = SPMD_REQUEST_NULL
              ENDIF 
          ENDDO
 
@@ -173,7 +173,7 @@ C-----------------------------------------------
          DO PP = 1,NBCOM
 C          IF(P/= LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
 C            CALL MPI_WAIT(COMM_SIZ%RECV_RQ(P,NIN),STATUS,IERROR)
-             CALL MPI_WAITANY(NSPMD,COMM_SIZ%RECV_RQ(1:NSPMD,NIN),P,STATUS,IERROR)
+             CALL spmd_waitany(COMM_SIZ%RECV_RQ(1:NSPMD,NIN),NSPMD,P,STATUS)
 
              IF(NB(P,NIN) > 0) THEN
                LENGTH = NB(P,NIN)*RSIZ
@@ -182,9 +182,9 @@ C            CALL MPI_WAIT(COMM_SIZ%RECV_RQ(P,NIN),STATUS,IERROR)
                ALLOCATE(RBUF(P,NIN)%P(LENGTH))
                RBUF(P,NIN)%P(1:LENGTH) = 0
                
-               CALL MPI_RECV(
-     1           RBUF(P,NIN)%P(1),LENGTH,REAL,IT_SPMD(P),MSGTYP,
-     2           SPMD_COMM_WORLD,STATUS,ierror)
+               CALL spmd_recv(
+     1           RBUF(P,NIN)%P(1:LENGTH),LENGTH,IT_SPMD(P),MSGTYP,
+     2           STATUS)
                
                LENGTH = NB(P,NIN)*ISIZ
                MSGTYP = MSGOFF3 
@@ -193,9 +193,9 @@ C            CALL MPI_WAIT(COMM_SIZ%RECV_RQ(P,NIN),STATUS,IERROR)
                ALLOCATE(IBUF(P,NIN)%P(LENGTH))
                IBUF(P,NIN)%P(1:LENGTH) = 0
              
-               CALL MPI_RECV(
-     1           IBUF(P,NIN)%P(1),LENGTH,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2           SPMD_COMM_WORLD,STATUS,ierror)
+               CALL spmd_recv(
+     1           IBUF(P,NIN)%P(1:LENGTH),LENGTH,IT_SPMD(P),MSGTYP,
+     2           STATUS)
              ENDIF
 C          ENDIF
          ENDDO
@@ -212,12 +212,12 @@ C          ENDIF
          !CLEAN
          DO P = 1, NSPMD
             IF(P /= LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
-             CALL MPI_WAIT(COMM_SIZ%SEND_RQ(P,NIN),STATUS,IERROR)
+             CALL spmd_wait(COMM_SIZ%SEND_RQ(P,NIN),STATUS)
             ENDIF
             IF(NB(P,NIN) > 0 .AND. COMM_PATTERN(P,NIN) == 1) THEN
-              CALL MPI_WAIT(COMM_INT%SEND_RQ(P,NIN),STATUS,IERROR)
+              CALL spmd_wait(COMM_INT%SEND_RQ(P,NIN),STATUS)
               call my_dealloc(IBUF(P,NIN)%P)
-              CALL MPI_WAIT(COMM_REAL%SEND_RQ(P,NIN),STATUS,IERROR)
+              CALL spmd_wait(COMM_REAL%SEND_RQ(P,NIN),STATUS)
               call my_dealloc(RBUF(P,NIN)%P)
             ENDIF
          ENDDO
@@ -353,7 +353,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1162,7 +1162,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include      "assert.inc"
 C-----------------------------------------------
@@ -1346,7 +1346,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1458,7 +1458,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
         use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -1685,7 +1685,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

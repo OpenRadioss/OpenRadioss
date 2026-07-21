@@ -22,31 +22,29 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_iallgather   ../engine/source/mpi/generic/spmd_iallgather.F
+!||    spmd_iallgatherv_int_old     ../engine/source/mpi/generic/spmd_iallgatherv_int_old.F
 !||--- called by ------------------------------------------------------
-!||    spmd_sphvox       ../engine/source/mpi/sph/spmd_sphvox.F
+!||    spmd_tri7vox_optimized   ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
-        SUBROUTINE SPMD_IALLGATHER(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 
-     .                              REQUEST,COMM)
+        SUBROUTINE SPMD_IALLGATHERV_INT_OLD(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 
+     .                              DISPLS,REQUEST,COMM,size_)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "r4r8_p.inc"
+C-----------------------------------------------------------------
+C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "task_c.inc"
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(inout) :: SEND_SIZE,TOTAL_RCV_SIZE
-        INTEGER, INTENT(inout) :: REQUEST
-        INTEGER, INTENT(inout) :: COMM
-        INTEGER, INTENT(inout) :: RCV_SIZE
-        my_real, DIMENSION(SEND_SIZE), INTENT(inout) :: SENDBUF
-        my_real, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
+        INTEGER, INTENT(inout) :: REQUEST,COMM,size_
+        INTEGER, DIMENSION(size_) :: RCV_SIZE,DISPLS
+        INTEGER, DIMENSION(SEND_SIZE), INTENT(inout) :: SENDBUF
+        INTEGER, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
 
 #ifdef MPI
 C-----------------------------------------------
@@ -59,34 +57,35 @@ C-----------------------------------------------
 !       processor P(1-->n) :
 !       send buffer 
 !                   |  s(m)   |
-!       size =           N      
+!       size =         N(m)      
 !
 !       For all processor :
 !       rcv buffer
 !       from proc :   P(1)        P(2)              P(n)
 !                   |  s(1)   |   s(2)   |  ...  |  s(n)    |
-!       size =          N       N                    N
+!       size =          N(1)     N(2)                 N(n)
 !       ------------------------------------------
 
-!   PLMPI uses MPI-2.x version : MPI_IALLGATHER was introduced in MPI-3.0 version
+!   PLMPI uses MPI-2.x version : MPI_IALLGATHERV was introduced in MPI-3.0 version
 #if _PLMPI
 !       ------------------
-        CALL MPI_ALLGATHER(SENDBUF,SEND_SIZE,REAL,
-     .                   RECVBUF,RCV_SIZE,REAL,
+        CALL MPI_ALLGATHERV(SENDBUF,SEND_SIZE,MPI_INTEGER,
+     .                   RECVBUF,RCV_SIZE,DISPLS,MPI_INTEGER,
      .                   COMM,error)
 !       ------------------
 #else
 !       ------------------
-        CALL MPI_IALLGATHER(SENDBUF,SEND_SIZE,REAL,
-     .                   RECVBUF,RCV_SIZE,REAL,
+        CALL MPI_IALLGATHERV(SENDBUF,SEND_SIZE,MPI_INTEGER,
+     .                   RECVBUF,RCV_SIZE,DISPLS,MPI_INTEGER,
      .                   COMM,REQUEST,error)
 !       ------------------
 #endif
 #else
         RECVBUF = 0
+
 #endif
         RETURN
-        END SUBROUTINE SPMD_IALLGATHER
+        END SUBROUTINE SPMD_IALLGATHERV_INT_OLD
 
 
 !       ----------------------------------------

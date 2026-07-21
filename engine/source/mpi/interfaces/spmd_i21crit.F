@@ -29,13 +29,13 @@ C
 !||--- calls      -----------------------------------------------------
 !||    spmd_rbcast           ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I21CRIT(GAPINF,VX,VY,VZ,DIST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+       USE SPMD_MOD, ONLY : spmd_gather
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -56,10 +56,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, N, IERROR, LOC_PROC,
+      INTEGER I, N, LOC_PROC,
      .        SIZE
       my_real
-     .        RBUF(5,NINTSTAMP,NSPMD),RRBUF(5,NINTSTAMP)
+     .        RBUF(5*NINTSTAMP*NSPMD),RRBUF(5,NINTSTAMP)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -75,27 +75,25 @@ C
         RRBUF(5,N) = DIST(N)
       END DO
 C
-      CALL MPI_GATHER(
-     S    RRBUF         ,SIZE  ,REAL,
-     R    RBUF          ,SIZE  ,REAL,IT_SPMD(1),
-     G    SPMD_COMM_WORLD,IERROR)
+      CALL SPMD_GATHER(RRBUF,RBUF(1:SIZE*NSPMD),SIZE,SIZE,
+     G                 IT_SPMD(1))
       IF(ISPMD==0) THEN
         DO N=1,NINTSTAMP
          DO I = 2, NSPMD
-          IF(RBUF(1,N,I)<RBUF(1,N,1))THEN
-            RBUF(1,N,1) = RBUF(1,N,I)
+          IF(RBUF(1+5*(N-1)+SIZE*(I-1))<RBUF(1+5*(N-1)))THEN
+            RBUF(1+5*(N-1)) = RBUF(1+5*(N-1)+SIZE*(I-1))
           END IF
-          IF(RBUF(2,N,I)>RBUF(2,N,1))THEN
-            RBUF(2,N,1) = RBUF(2,N,I)
+          IF(RBUF(2+5*(N-1)+SIZE*(I-1))>RBUF(2+5*(N-1)))THEN
+            RBUF(2+5*(N-1)) = RBUF(2+5*(N-1)+SIZE*(I-1))
           END IF
-          IF(RBUF(3,N,I)>RBUF(3,N,1))THEN
-            RBUF(3,N,1) = RBUF(3,N,I)
+          IF(RBUF(3+5*(N-1)+SIZE*(I-1))>RBUF(3+5*(N-1)))THEN
+            RBUF(3+5*(N-1)) = RBUF(3+5*(N-1)+SIZE*(I-1))
           END IF
-          IF(RBUF(4,N,I)>RBUF(4,N,1))THEN
-            RBUF(4,N,1) = RBUF(4,N,I)
+          IF(RBUF(4+5*(N-1)+SIZE*(I-1))>RBUF(4+5*(N-1)))THEN
+            RBUF(4+5*(N-1)) = RBUF(4+5*(N-1)+SIZE*(I-1))
           END IF
-          IF(RBUF(5,N,I)<RBUF(5,N,1))THEN
-            RBUF(5,N,1) = RBUF(5,N,I)
+          IF(RBUF(5+5*(N-1)+SIZE*(I-1))<RBUF(5+5*(N-1)))THEN
+            RBUF(5+5*(N-1)) = RBUF(5+5*(N-1)+SIZE*(I-1))
           END IF
          END DO
         END DO
@@ -103,11 +101,11 @@ C
       CALL SPMD_RBCAST(RBUF,RBUF,SIZE,1,0,2)
 C
       DO N=1,NINTSTAMP
-        GAPINF(N)=RBUF(1,N,1)
-        VX(N)    =RBUF(2,N,1)
-        VY(N)    =RBUF(3,N,1)
-        VZ(N)    =RBUF(4,N,1)
-        DIST(N)  =RBUF(5,N,1)
+        GAPINF(N)=RBUF(1+5*(N-1))
+        VX(N)    =RBUF(2+5*(N-1))
+        VY(N)    =RBUF(3+5*(N-1))
+        VZ(N)    =RBUF(4+5*(N-1))
+        DIST(N)  =RBUF(5+5*(N-1))
       END DO
 C
 #endif

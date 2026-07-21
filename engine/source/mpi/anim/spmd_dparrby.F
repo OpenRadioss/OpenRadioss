@@ -40,7 +40,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -77,7 +77,7 @@ C
 C   MPI variables
       INTEGER LOC_PROC
       INTEGER MSGOFF,MSGOFF2,MSGTYP
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ISD(NSPMD)
+      INTEGER STATUS(MPI_STATUS_SIZE),ISD(NSPMD)
 C-----------------------------------------------
       DATA MSGOFF/7018/
       DATA MSGOFF2/7019/
@@ -143,8 +143,8 @@ C
           MSGTYP = MSGOFF
           B = BUFSEND(I)
           SIZ = BUFSEND(I+1)-BUFSEND(I)
-          CALL MPI_ISEND(BUFSPM(B),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .       SPMD_COMM_WORLD,ISD(I),ierror)
+          CALL spmd_isend(BUFSPM(B:B+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     .       ISD(I))
 
         ENDIF
       ENDDO
@@ -155,12 +155,10 @@ C
         IF (IAD_RBY2(2,I)>0) THEN
 
           MSGTYP = MSGOFF
-          CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
-          CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+          CALL spmd_probe(IT_SPMD(I),MSGTYP,STATUS)
+          CALL spmd_get_count_int(STATUS,SIZ)
 
-          CALL MPI_RECV(BUFRECVM(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                SPMD_COMM_WORLD,STATUS,ierror)
+          CALL spmd_recv(BUFRECVM(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP)
 
           L = L + SIZ
           BUFRECVM(L)=0
@@ -170,7 +168,7 @@ C
       DO I=1,NSPMD
 
         IF (IAD_RBY2(1,I)>0) THEN
-          CALL MPI_WAIT(ISD(I),STATUS,IERROR)
+          CALL spmd_wait(ISD(I))
         ENDIF
       ENDDO
       BUFRECP(NSPMD+1)=L
@@ -225,8 +223,7 @@ C
       ENDDO
       IF (ISPMD/=0 .AND .L>0) THEN
         MSGTYP = MSGOFF2
-        CALL MPI_SEND(BUFSPO,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .       SPMD_COMM_WORLD,ierror)
+        CALL spmd_send(BUFSPO(1:L),L,IT_SPMD(1),MSGTYP)
       ENDIF
 
       IF (ISPMD==0) THEN
@@ -249,12 +246,10 @@ C
           IF (RECOISDE(I)==1) THEN
             MSGTYP = MSGOFF2
             PTRPO(I) = LPO
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                   SPMD_COMM_WORLD,STATUS,ierror)
-            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL spmd_probe(IT_SPMD(I),MSGTYP,STATUS)
+            CALL spmd_get_count_int(STATUS,SIZ)
 
-            CALL MPI_RECV(PORBY(LPO),SIZ,MPI_INTEGER,IT_SPMD(I),
-     .                MSGTYP, SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(PORBY(LPO:LPO+SIZ-1),SIZ,IT_SPMD(I),MSGTYP)
             LPO=LPO+SIZ
           ELSE
             PTRPO(I) = LPO

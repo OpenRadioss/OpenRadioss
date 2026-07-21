@@ -165,25 +165,68 @@
 !||    spmd_wait_mod                   ../engine/source/mpi/spmd_wait.F90
 !||====================================================================
       module spmd_mod
-        use spmd_comm_world_mod
-        use spmd_allgather_mod , only : spmd_allgather
-        use spmd_send_mod, only: spmd_send
-        use spmd_recv_mod, only: spmd_recv
-        use spmd_isend_mod, only: spmd_isend
-        use spmd_irecv_mod, only: spmd_irecv
-        use spmd_wait_mod, only: spmd_wait, spmd_waitall, spmd_waitany
-        use spmd_allgatherv_mod, only: spmd_allgatherv
-        use spmd_alltoall_mod, only: spmd_alltoall
-        use spmd_alltoallv_mod, only: spmd_alltoallv
+
+        ! Core environment
+        use spmd_comm_world_mod, only: SPMD_COMM_WORLD, SPMD_REQUEST_NULL
+        use spmd_operator_mod,   only: SPMD_MAX, SPMD_MIN, SPMD_SUM, SPMD_PROD
+        use get_mpi_operator_mod, only: get_mpi_operator
+        use spmd_profiler_mod,   only: spmd_profiler_init, spmd_profiler_flush, &
+          spmd_profile_begin, spmd_profile_end, spmd_profiling_enabled
+        use spmd_error_mod,      only: spmd_in, spmd_out
+
+        ! Point-to-point
+        use spmd_send_mod,       only: spmd_send
+        use spmd_recv_mod,       only: spmd_recv
+        use spmd_isend_mod,      only: spmd_isend
+        use spmd_irecv_mod,      only: spmd_irecv
+        use spmd_sendrecv_mod,   only: spmd_sendrecv
+        use spmd_sendrecv_replace_mod, only: spmd_sendrecv_replace
+
+        ! Collectives
+        use spmd_bcast_mod,      only: spmd_bcast
+        ! Note: spmd_ibcast NOT re-exported here to avoid collision with legacy
+        ! SPMD_IBCAST subroutine in spmd_ibcast.F (different calling convention).
+        ! Use "use spmd_ibcast_mod, only: spmd_ibcast" explicitly for the MPI_Ibcast wrapper.
+        use spmd_barrier_mod,    only: spmd_barrier
+        use spmd_gather_mod,     only: spmd_gather
+        use spmd_igather_mod,    only: spmd_igather
+        use spmd_gatherv_mod,    only: spmd_gatherv
+        use spmd_allgather_mod,  only: spmd_allgather
+        use spmd_iallgather_mod, only: spmd_iallgather
+        use spmd_allgatherv_mod,  only: spmd_allgatherv
+        use spmd_iallgatherv_mod, only: spmd_iallgatherv
+        use spmd_scatter_mod,    only: spmd_scatter
+        use spmd_iscatter_mod,   only: spmd_iscatter
+        use spmd_scatterv_mod,   only: spmd_scatterv
+        use spmd_alltoall_mod,   only: spmd_alltoall
+        use spmd_ialltoall_mod,  only: spmd_ialltoall
+        use spmd_alltoallv_mod,  only: spmd_alltoallv
+        use spmd_ialltoallv_mod, only: spmd_ialltoallv
+        use spmd_reduce_mod,     only: spmd_reduce
+        use spmd_ireduce_mod,    only: spmd_ireduce
+        use spmd_allreduce_mod,  only: spmd_allreduce
+        use spmd_iallreduce_mod, only: spmd_iallreduce
+
+        ! Status / counting / probing
+        use spmd_get_count_mod,  only: spmd_get_count_real, spmd_get_count_int, spmd_get_count_double
+        use spmd_probe_mod,      only: spmd_probe
+        use spmd_iprobe_mod,     only: spmd_iprobe
+
+        ! Request/test/wait helpers
+        use spmd_wait_mod,       only: spmd_wait
+        use spmd_waitall_mod,    only: spmd_waitall
+        use spmd_waitany_mod,    only: spmd_waitany
+        use spmd_waitsome_mod,   only: spmd_waitsome
+        use spmd_test_mod,       only: spmd_test
+        use spmd_testall_mod,    only: spmd_testall
+        use spmd_testany_mod,    only: spmd_testany
+        use spmd_testsome_mod,   only: spmd_testsome
+
+        ! Legacy OpenRadioss modules (pack/unpack, kept for compatibility)
         use spmd_pack_mod, only: spmd_pack
         use spmd_unpack_mod, only: spmd_unpack
-        use spmd_allreduce_mod
-        use spmd_iallreduce_mod, only: spmd_iallreduce
-        use get_mpi_operator_mod
-        implicit none
-        ! Define the interface for spmd_send
-! dummy tags for MPI calls that do not have a tag
 
+        implicit none
         private
 
 #ifdef REAL8
@@ -205,213 +248,92 @@
         public :: SPMD_REQUEST_NULL
 #endif
 
-
-!      ! \brief Interface for spmd_reduce, a wrapper for MPI_REDUCE
-!       interface spmd_reduce
-!         module procedure spmd_reduce_reals    !< Reduces real numbers across all processes
-!         module procedure spmd_reduce_ints     !< Reduces integers across all processes
-!         module procedure spmd_reduce_doubles  !< Reduces double precision numbers across all processes
-!         module procedure spmd_reduce_real     !< Reduces a single real number across all processes
-!         module procedure spmd_reduce_int      !< Reduces a single integer across all processes
-!         module procedure spmd_reduce_double   !< Reduces a single double precision number across all processes
-!       end interface spmd_reduce
-
-!       ! \brief Interface for spmd_allreduce, a wrapper for MPI_ALLREDUCE
-!       interface spmd_allreduce
-!         module procedure spmd_allreduce_reals   !< Reduces real numbers across all processes and distributes result
-!         module procedure spmd_allreduce_ints    !< Reduces integers across all processes and distributes result
-!         module procedure spmd_allreduce_doubles !< Reduces double precision numbers across all processes and distributes result
-!         module procedure spmd_allreduce_real    !< Reduces a single real number across all processes and distributes result
-!         module procedure spmd_allreduce_int     !< Reduces a single integer across all processes and distributes result
-!         module procedure spmd_allreduce_double  !< Reduces a single double precision number across all processes and distributes result
-!       end interface spmd_allreduce
-
-        public :: spmd_send
-        public :: spmd_recv
-        public :: spmd_isend
-        public :: spmd_irecv
-        public :: spmd_reduce
-        public :: spmd_allreduce
-        public :: spmd_comm_size
-        public :: spmd_comm_rank
-        public :: spmd_waitall
-        public :: spmd_wait
-        public :: spmd_waitany
-        public :: spmd_probe
-        public :: spmd_barrier
-        public :: spmd_allgather
+        ! Core environment
         public :: SPMD_COMM_WORLD
-        public :: spmd_allgatherv
-        public :: spmd_alltoall
-        public :: spmd_alltoallv
-        public :: spmd_pack
-        public :: spmd_unpack
-        public :: spmd_max
-        public :: spmd_min
-        public :: spmd_sum
-        public :: spmd_prod
-        public :: spmd_iallreduce
+        public :: SPMD_MAX, SPMD_MIN, SPMD_SUM, SPMD_PROD, get_mpi_operator
+        public :: spmd_profiler_init, spmd_profiler_flush, spmd_profiling_enabled
+        public :: spmd_profile_begin, spmd_profile_end
+        public :: spmd_in, spmd_out
+
+        ! Point-to-point
+        public :: spmd_send, spmd_recv, spmd_isend, spmd_irecv
+        public :: spmd_sendrecv, spmd_sendrecv_replace
+
+        ! Collectives
+        public :: spmd_bcast, spmd_barrier
+        public :: spmd_gather, spmd_igather, spmd_gatherv
+        public :: spmd_allgather, spmd_iallgather, spmd_allgatherv, spmd_iallgatherv
+        public :: spmd_scatter, spmd_iscatter, spmd_scatterv
+        public :: spmd_alltoall, spmd_ialltoall, spmd_alltoallv, spmd_ialltoallv
+        public :: spmd_reduce, spmd_ireduce, spmd_allreduce, spmd_iallreduce
+
+        ! Status / counting / probing
+        public :: spmd_get_count_real, spmd_get_count_int, spmd_get_count_double
+        public :: spmd_probe, spmd_iprobe
+
+        ! Request/test/wait helpers
+        public :: spmd_wait, spmd_waitall, spmd_waitany, spmd_waitsome
+        public :: spmd_test, spmd_testall, spmd_testany, spmd_testsome
+
+        ! Legacy OpenRadioss (pack/unpack)
+        public :: spmd_pack, spmd_unpack
+
+        ! Convenience wrappers
+        public :: spmd_comm_size, spmd_comm_rank
 
       contains
+
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_comm_rank        ../engine/source/mpi/spmd_mod.F90
-!||--- called by ------------------------------------------------------
-!||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_comm_rank(rank, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-          implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "spmd.inc"
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent(out) :: rank !< Rank of the process
-          integer, intent(in), optional :: comm !< Communicator
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local variables
-! ----------------------------------------------------------------------------------------------------------------------
-          integer :: ierr
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
-          call spmd_in(0)
-          ierr = 0
-#ifdef MPI
-          if(present(comm)) then
-            call MPI_Comm_rank(comm, rank, ierr)
-          else
-            call MPI_Comm_rank(SPMD_COMM_WORLD, rank, ierr)
-          end if
-#else
-          rank = 0
-#endif
-          call spmd_out(0,ierr)
-        end subroutine spmd_comm_rank
 
-!!\brief get MPI size
-!||====================================================================
-!||    spmd_comm_size        ../engine/source/mpi/spmd_mod.F90
-!||--- called by ------------------------------------------------------
-!||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_comm_size(rank, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Implicit none
-! ----------------------------------------------------------------------------------------------------------------------
+!! \brief Query the size of a communicator (defaults to SPMD_COMM_WORLD)
+        subroutine spmd_comm_size(size, comm)
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
 #include "spmd.inc"
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent(out) :: rank !< Rank of the process
-          integer, intent(in), optional :: comm !< Communicator
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local variables
-! ----------------------------------------------------------------------------------------------------------------------
-          integer :: ierr
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
-          call spmd_in(0)
+          integer, intent(out) :: size
+          integer, intent(in), optional :: comm
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          tag_local = -1012
 #ifdef MPI
-          if(present(comm)) then
-            call MPI_Comm_size(comm, rank, ierr)
+          call spmd_in(tag_local, "MPI_Comm_size")
+          if (present(comm)) then
+            used_comm = comm
           else
-            call MPI_Comm_size(SPMD_COMM_WORLD, rank, ierr)
+            used_comm = SPMD_COMM_WORLD
           end if
+          call MPI_Comm_size(used_comm, size, ierr)
+          call spmd_out(tag_local, ierr)
 #else
-          rank = 0
+          size = 1
 #endif
-          call spmd_out(0,ierr)
         end subroutine spmd_comm_size
 
-
 ! ======================================================================================================================
-!                                                  WRAPPER
-! ======================================================================================================================
-!   The remaining subroutines are wrappers for the MPI subroutines.
-!   They are not meant to be called directly, but through the interfaces defined above.
-!   See MPI documentation for the meaning of the arguments.
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_barrier     ../engine/source/mpi/spmd_mod.F90
-!||--- called by ------------------------------------------------------
-!||    check_nan_acc    ../engine/source/output/outfile/check_nan_acc.F
-!||    inttri           ../engine/source/interfaces/intsort/inttri.F
-!||    resol            ../engine/source/engine/resol.F
-!||    sphprep          ../engine/source/elements/sph/sphprep.F
-!||    sphtri0          ../engine/source/elements/sph/sphtri0.F
-!||    thermbilan       ../engine/source/constraints/thermic/thermbilan.F
-!||--- calls      -----------------------------------------------------
-!||    spmd_in          ../engine/source/mpi/spmd_error.F90
-!||    spmd_out         ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod   ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_barrier(comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
+!! \brief Query the rank in a communicator (defaults to SPMD_COMM_WORLD)
+        subroutine spmd_comm_rank(rank, comm)
           implicit none
 #include "spmd.inc"
-          integer, optional, intent(in) :: comm
-          integer :: ierr
-#ifdef MPI
-          call spmd_in(TAG_BARRIER)
-          if(present(comm)) then
-            call MPI_Barrier(comm, ierr)
-          else
-            call MPI_Barrier(SPMD_COMM_WORLD, ierr)
-          end if
-          call spmd_out(TAG_BARRIER,ierr)
-#endif
-        end subroutine spmd_barrier
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_probe       ../engine/source/mpi/spmd_mod.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in          ../engine/source/mpi/spmd_error.F90
-!||    spmd_out         ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod   ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_probe(source, tag, comm, status)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          integer, intent(in) :: source, tag
+          integer, intent(out) :: rank
           integer, intent(in), optional :: comm
-          integer, dimension(MPI_STATUS_SIZE), intent(inout) :: status
-          integer :: ierr
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          tag_local = -1011
 #ifdef MPI
-          call spmd_in(tag)
+          call spmd_in(tag_local, "MPI_Comm_rank")
           if (present(comm)) then
-            call MPI_Probe(source, tag, comm, status, ierr)
+            used_comm = comm
           else
-            call MPI_Probe(source, tag, SPMD_COMM_WORLD, status, ierr)
+            used_comm = SPMD_COMM_WORLD
           end if
-          call spmd_out(tag,ierr)
+          call MPI_Comm_rank(used_comm, rank, ierr)
+          call spmd_out(tag_local, ierr)
+#else
+          rank = 0
 #endif
-        end subroutine spmd_probe
+        end subroutine spmd_comm_rank
+
       end module spmd_mod

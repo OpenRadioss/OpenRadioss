@@ -33,7 +33,7 @@ C result in VTMP of size LEN
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -53,15 +53,14 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR
+      INTEGER I
       my_real
      .        VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_ALLREDUCE(V,VTMP,LEN,REAL,MPI_MIN,
-     .                     SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_ALLREDUCE(V,VTMP,LEN,SPMD_MIN)
         IF(ISPMD==0)THEN
           DO I = 1, LEN
             V(I) = VTMP(I)
@@ -89,7 +88,7 @@ C gather table V of size LEN of type my_real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -139,7 +138,7 @@ C gather table V of size LEN of type my_dp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 
 C-----------------------------------------------------------------
@@ -190,7 +189,7 @@ C gather tableau V de taille LEN de type REAL*4
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -243,7 +242,7 @@ C ie on main : ICOMV(P) = "TAG on p"
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -264,22 +263,20 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGTYP,K,LOC_PROC
       DATA MSGOFF/8001/
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER STATUS(MPI_STATUS_SIZE)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
       IF (LOC_PROC/=MAIN) THEN
         MSGTYP=MSGOFF
-            CALL MPI_SEND(TAG,1,MPI_INTEGER,IT_SPMD(MAIN),
-     .                    MSGTYP,SPMD_COMM_WORLD,IERROR)
+            CALL SPMD_SEND(TAG,1,IT_SPMD(MAIN),MSGTYP)
       ELSE
         ICOMV(MAIN) = TAG
         DO K=1,NSPMD
           IF(K/=MAIN) THEN
             MSGTYP=MSGOFF
-            CALL MPI_RECV(TAG,1,MPI_INTEGER,IT_SPMD(K),
-     .                    MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(TAG,1,IT_SPMD(K),MSGTYP,STATUS)
             ICOMV(K) = TAG
           END IF
         END DO
@@ -305,7 +302,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -325,16 +322,14 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR
+      INTEGER I
       REAL, DIMENSION(:),ALLOCATABLE :: VTMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       CALL MY_ALLOC(VTMP,LEN)
       IF (LEN > 0) THEN
-        CALL MPI_REDUCE(V,VTMP,LEN,
-     .                  MPI_REAL,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_REDUCE(V,VTMP,LEN,SPMD_SUM,IT_SPMD(1))
       ENDIF
       IF (ISPMD==0) THEN
         DO I=1,LEN
@@ -381,7 +376,7 @@ C gather table V of size LEN of type my_real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -401,16 +396,14 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR
+      INTEGER I
       my_real
      .        VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_REDUCE(V,VTMP,LEN,
-     .                  REAL,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_REDUCE(V,VTMP,LEN,SPMD_SUM,IT_SPMD(1))
       ENDIF
       IF (ISPMD==0) THEN
         DO I=1,LEN
@@ -437,7 +430,7 @@ C Gather Table V of Double precision type size
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -457,16 +450,14 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR
+      INTEGER I
       DOUBLE PRECISION
      .        VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_REDUCE(V,VTMP,LEN,
-     .                  MPI_DOUBLE_PRECISION,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_REDUCE(V,VTMP,LEN,SPMD_SUM,IT_SPMD(1))
       ENDIF
       IF (ISPMD==0) THEN
         DO I=1,LEN
@@ -522,7 +513,7 @@ C gather table V of size LEN of type integer
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -540,15 +531,13 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR, 
+      INTEGER I,
      . VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_REDUCE(V,VTMP,LEN,
-     .                  MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_REDUCE(V,VTMP,LEN,SPMD_SUM,IT_SPMD(1))
       ENDIF
       IF (ISPMD==0) THEN
         DO I=1,LEN
@@ -571,7 +560,7 @@ C gather table V of size LEN of type reel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -591,14 +580,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR
+      INTEGER I
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_REDUCE(V,VTMP,LEN,
-     .                  REAL,MPI_MIN,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_REDUCE(V,VTMP,LEN,SPMD_MIN,IT_SPMD(1))
       ENDIF
       IF (ISPMD==0) THEN
         DO I=1,LEN
@@ -620,7 +607,7 @@ C gather table V of size LEN of type reel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -641,14 +628,12 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
 
-      INTEGER I, IERROR
+      INTEGER I
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_REDUCE(V,VTMP,LEN,
-     .                  REAL,MPI_MAX,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_REDUCE(V,VTMP,LEN,SPMD_MAX,IT_SPMD(1))
       ENDIF
       IF (ISPMD==0) THEN
         DO I=1,LEN

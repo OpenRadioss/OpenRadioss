@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : SPMD_IRECV, SPMD_SEND, SPMD_WAIT
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -73,9 +73,9 @@ C
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(SIZ>0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_IRECV(
-     S      IBUFR(IAD),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+          CALL SPMD_IRECV(
+     S      IBUFR(IAD:IAD+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(I))
             IAD = IAD + SIZ
         ENDIF
       END DO
@@ -106,9 +106,8 @@ C
             IAD = IAD + 1
           END DO
           MSGTYP = MSGOFF
-          CALL MPI_SEND(
-     S      IBUFS,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,IERROR)
+          CALL SPMD_SEND(
+     S      IBUFS(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
         END IF
       END DO
 C
@@ -118,7 +117,7 @@ C
       DO I = 1, NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(SIZ>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I),STATUS)
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             N1 = FR_ELEM(J)
             IAD = IAD + 1

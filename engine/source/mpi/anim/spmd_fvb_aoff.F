@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -58,7 +58,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER ELOFF, I, PMAIN, J, K, KK, N, NN, N1, N2, N3, NND,
-     .        ITAG, NNTR, IERR, STAT(MPI_STATUS_SIZE), JJ, IAD,
+     .        ITAG, NNTR, JJ, IAD,
      .        LEN, MSGOFF,MSGOFF2
       INTEGER, DIMENSION(:), ALLOCATABLE :: OFFTR, IBUF, ITAGT
 C-----------------------------------------------
@@ -100,14 +100,12 @@ C
                DEALLOCATE(OFFTR)
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NNTR, 1, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
+               CALL SPMD_RECV(NNTR, 1, IT_SPMD(PMAIN), ITAG)
 C
                LEN=2*NNTR
                ALLOCATE(IBUF(LEN), OFFTR(NNTR))
                ITAG=MSGOFF2
-               CALL MPI_RECV(IBUF, LEN, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
+               CALL SPMD_RECV(IBUF(1:LEN), LEN, IT_SPMD(PMAIN), ITAG)
 C
                DO J=1,NNTR
                   OFFTR(J)=0
@@ -128,9 +126,7 @@ C
          ELSE
             IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
-               CALL MPI_SEND(FVDATA(I)%NNTR, 1, MPI_INTEGER,
-     .                       IT_SPMD(1), ITAG, SPMD_COMM_WORLD,
-     .                       IERR)
+               CALL SPMD_SEND(FVDATA(I)%NNTR, 1, IT_SPMD(1), ITAG)
 C
                LEN=2*FVDATA(I)%NNTR
                ALLOCATE(IBUF(LEN), ITAGT(FVDATA(I)%NNTR))
@@ -164,8 +160,7 @@ C
                   ENDDO
                ENDDO
                ITAG=MSGOFF2
-               CALL MPI_SEND(IBUF, LEN, MPI_INTEGER, IT_SPMD(1),
-     .                       ITAG, SPMD_COMM_WORLD,  IERR)
+               CALL SPMD_SEND(IBUF(1:LEN), LEN, IT_SPMD(1), ITAG)
 C
                DEALLOCATE(IBUF, ITAGT)              
             ENDIF

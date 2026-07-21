@@ -85,16 +85,12 @@
 !||    spmd_allgatherv_real            ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_reals           ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allglob_isum9              ../engine/source/mpi/generic/spmd_allglob_isum9.F
-!||    spmd_allreduce_mod              ../engine/source/mpi/spmd_allreduce.F90
 !||    spmd_alltoall_double            ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_doubles           ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_int               ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_ints              ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real              ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals             ../engine/source/mpi/generic/spmd_alltoall.F90
-!||    spmd_alltoallv_doubles          ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_ints             ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_reals            ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_anim_ply_velvec            ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
 !||    spmd_anim_ply_xyznor            ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
 !||    spmd_cddl                       ../engine/source/mpi/implicit/imp_spmd.F
@@ -201,6 +197,7 @@
 !||    spmd_exch_v                     ../engine/source/mpi/generic/spmd_exch_v.F
 !||    spmd_exch_vmax                  ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||    spmd_exch_vol                   ../engine/source/mpi/nodes/spmd_exch_vol.F
+!||    spmd_exch_wave                  ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_exch_work                  ../engine/source/mpi/r2r/spmd_r2r.F
 !||    spmd_exchange_grad              ../engine/source/mpi/fluid/spmd_exchange_grad.F
 !||    spmd_exchi_a_pon                ../engine/source/mpi/forces/spmd_exchi_a_pon.F
@@ -234,7 +231,6 @@
 !||    spmd_fxb_for_pon                ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
 !||    spmd_gath_collective            ../engine/source/mpi/generic/spmd_gath_collective.F
 !||    spmd_gather_dtnoda              ../engine/source/mpi/generic/spmd_gather_dtnoda.F
-!||    spmd_gather_int                 ../engine/source/mpi/generic/spmd_gather_int.F
 !||    spmd_gather_nodal_scalar        ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_gather_sph                 ../engine/source/mpi/anim/spmd_gather_sph.F
 !||    spmd_gather_wa                  ../engine/source/mpi/anim/spmd_gather_wa.F
@@ -243,7 +239,6 @@
 !||    spmd_gatheritab                 ../engine/source/mpi/anim/spmd_gatheritab.F
 !||    spmd_gatheritab_crk             ../engine/source/mpi/anim/spmd_gatheritab_crk.F
 !||    spmd_gatherv                    ../engine/source/mpi/generic/spmd_gatherv.F
-!||    spmd_gatherv_int                ../engine/source/mpi/generic/spmd_gatherv_int.F
 !||    spmd_get_mult                   ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||    spmd_gg_mult                    ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||    spmd_glob_dpsum                 ../engine/source/mpi/interfaces/spmd_th.F
@@ -304,7 +299,6 @@
 !||    spmd_i8_irtl                    ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||    spmd_i8_reduce                  ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||    spmd_i8_updbuf                  ../engine/source/mpi/interfaces/spmd_i8tool.F
-!||    spmd_iallreduce_mod             ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_ibcast                     ../engine/source/mpi/generic/spmd_ibcast.F
 !||    spmd_icol                       ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_ifc1                       ../engine/source/mpi/implicit/imp_spmd.F

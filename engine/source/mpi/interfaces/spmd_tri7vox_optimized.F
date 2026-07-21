@@ -29,7 +29,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    ancmsg                   ../engine/source/output/message/message.F
 !||    arret                    ../engine/source/system/arret.F
 !||    spmd_iallgatherv         ../engine/source/mpi/generic/spmd_iallgatherv.F
-!||    spmd_iallgatherv_int     ../engine/source/mpi/generic/spmd_iallgatherv_int.F
+!||    spmd_iallgatherv_int_old ../engine/source/mpi/generic/spmd_iallgatherv_int_old.F
 !||--- uses       -----------------------------------------------------
 !||    comm_tri7vox_mod         ../engine/share/modules/comm_tri7vox_mod.F
 !||    message_mod              ../engine/share/message_module/message_mod.F
@@ -53,10 +53,12 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE COMM_TRI7VOX_MOD
+      USE SPMD_MOD, ONLY: spmd_isend, spmd_irecv, spmd_recv,
+     .                     spmd_wait, spmd_waitany,
+     .                     SPMD_REQUEST_NULL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
        use my_alloc_mod
 
 #include      "implicit_f.inc"
@@ -214,7 +216,7 @@ C
 
 !       send/rcv voxel
       CRVOXEL_LOC(0:LRVOXEL,0:LRVOXEL) = CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)
-      CALL SPMD_IALLGATHERV_INT(CRVOXEL_LOC(0,0),CRVOXEL(0,0,1),SEND_SIZE_CRVOX,
+      CALL SPMD_IALLGATHERV_INT_OLD(CRVOXEL_LOC(0,0),CRVOXEL(0,0,1),SEND_SIZE_CRVOX,
      .     (LRVOXEL+1)*(LRVOXEL+1)*NSPMD,RCV_SIZE_CRVOX,DISPLS_CRVOX,REQUEST_CRVOX,
      .     COMM_TRI7VOX(NIN)%COMM,COMM_TRI7VOX(NIN)%PROC_NUMBER)
 
@@ -308,8 +310,8 @@ C-----for   NBINFLG
 #else
 !   -------------------------
 !   wait the previous comm
-      CALL MPI_WAIT(REQUEST_BMINMA,STATUS,IERROR)
-      CALL MPI_WAIT(REQUEST_CRVOX,STATUS,IERROR)
+      CALL SPMD_WAIT(REQUEST_BMINMA,STATUS)
+      CALL SPMD_WAIT(REQUEST_CRVOX,STATUS)
 !   -------------------------
 #endif
 
@@ -397,8 +399,7 @@ C
 C Envoi taille msg
 C
           MSGTYP = MSGOFF3 
-          CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 SPMD_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(P),1,IT_SPMD(P),MSGTYP,REQ_SD(P))
 C
 C Alloc buffer
 C
@@ -675,8 +676,8 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
-              CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NSNFI(NIN)%P(P),1,IT_SPMD(P),
+     .                       MSGTYP,STATUS)
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
@@ -706,15 +707,15 @@ C
             LEN = NSNFI(NIN)%P(P)*RSIZ
             MSGTYP = MSGOFF4 
             
-            CALL MPI_IRECV(
-     1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,SPMD_COMM_WORLD,REQ_RD(L),IERROR)
+            CALL SPMD_IRECV(
+     1        XREM(1,IDEB),LEN,IT_SPMD(P),
+     2        MSGTYP,REQ_RD(L))
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF5 
-            CALL MPI_IRECV(
-     1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,SPMD_COMM_WORLD,REQ_RD2(L),IERROR)
+            CALL SPMD_IRECV(
+     1        IREM(1,IDEB),LEN2,IT_SPMD(P),
+     2        MSGTYP,REQ_RD2(L))
             IDEB = IDEB + NSNFI(NIN)%P(P)                       
           ENDDO
         ENDIF
@@ -723,21 +724,21 @@ C
       DO P=1,NSPMD
         IF(TAB_NB(P) /= 0 ) THEN
             MSGTYP = MSGOFF4
-            CALL MPI_ISEND(
-     1        RBUF(P)%P(1),TAB_NB(P)*RSIZ,REAL,IT_SPMD(P),MSGTYP,
-     2        SPMD_COMM_WORLD,REQ_SD2(P),ierror)
+            CALL SPMD_ISEND(
+     1        RBUF(P)%P(1),TAB_NB(P)*RSIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD2(P))
             MSGTYP = MSGOFF5
-            CALL MPI_ISEND(
-     1        IBUF(P)%P(1),TAB_NB(P)*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        SPMD_COMM_WORLD,REQ_SD3(P),ierror)
+            CALL SPMD_ISEND(
+     1        IBUF(P)%P(1),TAB_NB(P)*ISIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD3(P))
         ENDIF
       ENDDO
 
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
        IF(NSNR>0) THEN
           DO L = 1, NBIRECV
-            CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
-            CALL MPI_WAITANY(NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)
+            CALL SPMD_WAITANY(REQ_RD,NBIRECV,INDEXI,STATUS)
+            CALL SPMD_WAITANY(REQ_RD2,NBIRECV,INDEXI,STATUS)
           ENDDO
           !set specifics IREM and XREM indexes for INT24 sorting
           IGAPXREMP = IREM(4,1)
@@ -750,11 +751,11 @@ C
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P),STATUS)
               IF(NBOX(P)/=0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P),STATUS)
                 call my_dealloc(RBUF(P)%p)
-                CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD3(P),STATUS)
                 call my_dealloc(IBUF(P)%p)
               END IF
             ENDIF

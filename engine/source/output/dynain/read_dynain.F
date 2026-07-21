@@ -29,8 +29,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    ancmsg             ../engine/source/output/message/message.F
 !||    arret              ../engine/source/system/arret.F
 !||    my_orders          ../common_source/tools/sort/my_orders.c
-!||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
-!||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
+!||    spmd_gather        ../engine/source/mpi/generic/spmd_gather.F90
+!||    spmd_gatherv       ../engine/source/mpi/generic/spmd_gatherv.F90
 !||--- uses       -----------------------------------------------------
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
@@ -44,6 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_MOD
+      USE SPMD_MOD
       use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -160,14 +161,14 @@ C-------------------------------------------------------------------------------
       !   send the local size of index to PROC0
           MY_SIZEC = NELC
 
-          CALL SPMD_GATHER_INT(MY_SIZEC,SIZEC_P0,0,1,NSPMD)
+          CALL SPMD_GATHER(MY_SIZEC,SIZEC_P0,1,1,0)
 
           SIZETG_P0(1:NSPMD) = 0
           ADRTG(1:NSPMD) = 0
 
           MY_SIZETG = NELTG
 
-          CALL SPMD_GATHER_INT(MY_SIZETG,SIZETG_P0,0,1,NSPMD)
+          CALL SPMD_GATHER(MY_SIZETG,SIZETG_P0,1,1,0)
 
           NELCG = 0
           IF(ISPMD==0) THEN
@@ -194,11 +195,11 @@ C-------------------------------------------------------------------------------
 
           !   send the local NUMELC to PROC0
 
-          CALL SPMD_GATHERV_INT(NELIDC,NELIDCG,0,MY_SIZEC,NELCG,
-     .                          SIZEC_P0,ADRC)
+          CALL SPMD_GATHERV(NELIDC,MY_SIZEC,NELIDCG,
+     .                          SIZEC_P0,ADRC,0)
           !   send the local NUMELTG to PROC0
-          CALL SPMD_GATHERV_INT(NELIDTG,NELIDTGG,0,MY_SIZETG,NELTGG,
-     .                          SIZETG_P0,ADRTG)
+          CALL SPMD_GATHERV(NELIDTG,MY_SIZETG,NELIDTGG,
+     .                          SIZETG_P0,ADRTG,0)
 
         ELSE
           NELCG = NELC

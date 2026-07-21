@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF1 ,MSGOFF2, MSGTYP, LOC_PROC,IERROR,REQ_S1(NSPMD),REQ_S2(NSPMD),
+      INTEGER MSGOFF1 ,MSGOFF2, MSGTYP, LOC_PROC,REQ_S1(NSPMD),REQ_S2(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
       INTEGER RSEGLO(NINTER+1)
 C
@@ -80,16 +80,16 @@ C-----------------------------------------------
          DO I = 1, NSPMD
            IF(I/=LOC_PROC) THEN
              MSGTYP = MSGOFF1
-             CALL MPI_ISEND(
-     C         INDSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G         SPMD_COMM_WORLD,REQ_S1(I),IERROR) 
+             CALL SPMD_ISEND(
+     C         INDSEGLO(1:NINTER+1),NINTER+1,IT_SPMD(I),MSGTYP,
+     G         REQ_S1(I))
 
              SIZ = INDSEGLO(NINTER+1)-INDSEGLO(1)
              IF(SIZ>0)THEN
                MSGTYP = MSGOFF2
-               CALL MPI_ISEND(
-     C           IBUFSEGLO,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G           SPMD_COMM_WORLD,REQ_S2(I),IERROR) 
+               CALL SPMD_ISEND(
+     C           IBUFSEGLO(1:SIZ),SIZ,IT_SPMD(I),MSGTYP,
+     G           REQ_S2(I))
              ENDIF
            ENDIF
          ENDDO
@@ -97,17 +97,17 @@ C-----------------------------------------------
          DO I = 1, NSPMD
            IF(I/=LOC_PROC) THEN
              MSGTYP = MSGOFF1
-             CALL MPI_RECV(
-     .         RSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .         SPMD_COMM_WORLD,STATUS,IERROR)
+             CALL SPMD_RECV(
+     .         RSEGLO(1:NINTER+1),NINTER+1,IT_SPMD(I),MSGTYP,
+     .         STATUS)
              
                SIZ = RSEGLO(NINTER+1)-RSEGLO(1)
                IF(SIZ>0)THEN
                  call my_alloc(RBUF, SIZ, "RBUF")
                  MSGTYP = MSGOFF2
-                 CALL MPI_RECV(
-     .             RBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .             SPMD_COMM_WORLD,STATUS,IERROR)
+                 CALL SPMD_RECV(
+     .             RBUF(1:SIZ),SIZ,IT_SPMD(I),MSGTYP,
+     .             STATUS)
                  
                    DO NG=1,NINTER
                       IND_SEG=RSEGLO(NG+1)-RSEGLO(NG)
@@ -133,10 +133,10 @@ C Test Reception Bufr
 C
       DO I = 1, NSPMD
         IF(I/=LOC_PROC) THEN
-          CALL MPI_WAIT(REQ_S1(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S1(I),STATUS)
           SIZ = INDSEGLO(NINTER+1)-INDSEGLO(1)
           IF(SIZ>0)THEN
-              CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_S2(I),STATUS)
           ENDIF
         ENDIF
       ENDDO

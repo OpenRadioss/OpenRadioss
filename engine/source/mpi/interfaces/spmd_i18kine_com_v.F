@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : SPMD_ISEND, SPMD_RECV, SPMD_WAIT
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -157,9 +157,9 @@ c                 BBUFS(L+5)=MTF(6,NOD)
          IF(SIZ>0)THEN
               MSGTYP = MSGOFF 
 C Send
-              CALL MPI_ISEND(
-     .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+              CALL SPMD_ISEND(
+     .          BBUFS(IADS(P):IADS(P)+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_SI(P))
          ENDIF
        ENDIF
       ENDDO
@@ -172,8 +172,9 @@ C Recieve
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
             MSGTYP = MSGOFF 
-            CALL MPI_RECV( BBUFR(IADR(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     *                     SPMD_COMM_WORLD,STATUS,IERROR )
+            CALL SPMD_RECV(
+     *                    BBUFR(IADR(P):IADR(P)+SIZ-1),SIZ,IT_SPMD(P),
+     *                    MSGTYP,STATUS)
            DO NIN=1,NINTER
              NTY   =IPARI(7,NIN)
              INACTI =IPARI(22,NIN)
@@ -203,7 +204,7 @@ C end of send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN
-            CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_SI(P),STATUS)
           ENDIF
       ENDDO
 

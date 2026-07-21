@@ -171,7 +171,7 @@ C----------------------------------------------------
         enddo
 
         do i=1,sfem%r_request_nb
-          call spmd_waitany(sfem%r_request_nb,sfem%r_request,my_index,status_mpi)
+          call spmd_waitany(sfem%r_request,sfem%r_request_nb,my_index,status_mpi)
           proc_id  = sfem%r_index(my_index)
           do j=1,sfem%tetra_fsky_dim2
             do k=1,sfem%spmd(proc_id)%r_size ! loop over the S nodes
@@ -207,7 +207,7 @@ C----------------------------------------------------
 
         sfem%tetra_fsky(1:sfem%tetra_fsky_dim1,1:sfem%tetra_fsky_dim2) = zero ! reset the Fsky array for the next step
 
-        call spmd_waitall(sfem%s_request_nb,sfem%s_request)
+        call spmd_waitall(sfem%s_request,sfem%s_request_nb)
 
         do i=1,nspmd
           if(allocated(sfem%spmd(i)%s_buffer)) call my_dealloc(sfem%spmd(i)%s_buffer)

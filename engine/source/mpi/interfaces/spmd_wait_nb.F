@@ -45,6 +45,7 @@ C-----------------------------------------------
         USE INTBUFDEF_MOD  
         USE MESSAGE_MOD
         USE INTER_SORTING_MOD
+        USE SPMD_MOD, ONLY : spmd_waitall
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,9 +69,7 @@ C-----------------------------------------------
 
 #ifdef MPI        
         INTEGER :: L,IJK
-        INTEGER :: P,P_LOC
-
-        INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+        INTEGER :: P
 
         INTEGER :: LOC_PROC
 !   ----------------------------------------
@@ -82,10 +81,10 @@ C-----------------------------------------------
         SORT_COMM(NIN)%NSNR = 0
         IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN !CYCLE
         IF(ISENDTO(NIN,LOC_PROC)/=0) THEN   !   local nsn >0
-            DO L=1,SORT_COMM(NIN)%NBSEND_NB
-                CALL MPI_WAITANY(SORT_COMM(NIN)%NBSEND_NB,
-     .                           SORT_COMM(NIN)%REQUEST_NB_S,P_LOC,STATUS,IERROR)
-            ENDDO
+            IF(SORT_COMM(NIN)%NBSEND_NB > 0) THEN
+                CALL spmd_waitall(SORT_COMM(NIN)%REQUEST_NB_S(1:SORT_COMM(NIN)%NBSEND_NB),
+     .                            SORT_COMM(NIN)%NBSEND_NB)
+            ENDIF
         ENDIF   
         ! ----------------------------
 
@@ -94,7 +93,10 @@ C-----------------------------------------------
         IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   local nmn>0
             IJK = 0
 
-            CALL MPI_WAITALL(SORT_COMM(NIN)%NBRECV_NB,SORT_COMM(NIN)%REQUEST_NB_R,MPI_STATUSES_IGNORE,IERROR)
+            IF(SORT_COMM(NIN)%NBRECV_NB > 0) THEN
+                CALL spmd_waitall(SORT_COMM(NIN)%REQUEST_NB_R(1:SORT_COMM(NIN)%NBRECV_NB),
+     .                            SORT_COMM(NIN)%NBRECV_NB)
+            ENDIF
 
             L = 0
             SORT_COMM(NIN)%NSNR = 0

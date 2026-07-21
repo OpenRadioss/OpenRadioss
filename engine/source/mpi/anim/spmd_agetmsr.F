@@ -56,7 +56,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
        INTEGER P
-       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,MSGTYP
+       INTEGER MSGOFF,MSGTYP
        my_real
      .         XYZWL(3) 
        DATA MSGOFF/7032/
@@ -87,13 +87,11 @@ C-----------------------------------------------
            END IF
 
            MSGTYP = MSGOFF 
-           CALL MPI_SEND(XYZWL,3,REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+           CALL SPMD_SEND(XYZWL(1:3),3,IT_SPMD(1),MSGTYP)
          END IF
          IF (ISPMD==0) THEN
             MSGTYP = MSGOFF 
-            CALL MPI_RECV(XYZWL,3,REAL,IT_SPMD(P),MSGTYP,
-     .              SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(XYZWL(1:3),3,IT_SPMD(P),MSGTYP)
             XWL = XYZWL(1)
             YWL = XYZWL(2) 
             ZWL = XYZWL(3) 

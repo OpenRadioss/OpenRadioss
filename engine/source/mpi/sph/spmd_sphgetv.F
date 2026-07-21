@@ -27,7 +27,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sphprep               ../engine/source/elements/sph/sphprep.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_ialltoallv       ../engine/source/mpi/generic/spmd_ialltoallv.F
-!||    spmd_ialltoallv_int   ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+!||    spmd_ialltoallv_int_old   ../engine/source/mpi/generic/spmd_ialltoallv_int_old.F
 !||--- uses       -----------------------------------------------------
 !||    sphbox                ../engine/share/modules/sphbox.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
@@ -115,7 +115,7 @@ C
 !   -------------------------
 !   alltoall communication with non-uniform size
 !   for integer array : send : ISPHR --> rcv : ISPHS
-      CALL SPMD_IALLTOALLV_INT(ISPHR,ISPHS,
+      CALL SPMD_IALLTOALLV_INT_OLD(ISPHR,ISPHS,
      .          SEND_SIZE_ISPHR,TOTAL_SEND_SIZE_ISPHR,DISPLS_ISPHR,
      .          TOTAL_RCV_SIZE_ISPHS,RCV_SIZE_ISPHS,DISPLS_ISPHS,
      .          REQUEST_ISPHR,SPMD_COMM_WORLD,NSPMD)

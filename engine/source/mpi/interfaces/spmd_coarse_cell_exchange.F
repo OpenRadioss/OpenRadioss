@@ -25,7 +25,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
 !||--- calls      -----------------------------------------------------
 !||    check_coarse_grid           ../engine/source/interfaces/generic/check_coarse_grid.F
-!||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+!||    spmd_ialltoallv_int_old     ../engine/source/mpi/generic/spmd_ialltoallv_int_old.F
 !||--- uses       -----------------------------------------------------
 !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
 !||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
@@ -45,6 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE INTER_SORTING_MOD
+        USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +93,7 @@ C-----------------------------------------------
           NB_REQUEST_COARSE_CELL = 0
           DO KK=1,NB_INTER_SORTED
             NIN = LIST_INTER_SORTED(KK)
-            ARRAY_REQUEST_COARSE_CELL(KK) = MPI_REQUEST_NULL
+            ARRAY_REQUEST_COARSE_CELL(KK) = SPMD_REQUEST_NULL
             IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
                 IF(IRECVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) CYCLE
 
@@ -147,7 +148,7 @@ C-----------------------------------------------
                 NB_REQUEST_COARSE_CELL = NB_REQUEST_COARSE_CELL + 1
                 LIST_INTER_COARSE_CELL(NB_REQUEST_COARSE_CELL) = NIN
 
-                CALL SPMD_IALLTOALLV_INT(SORT_COMM(NIN)%COARSE_GRID,
+                CALL SPMD_IALLTOALLV_INT_OLD(SORT_COMM(NIN)%COARSE_GRID,
      .            SORT_COMM(NIN)%GLOBAL_COARSE_CELL,SORT_COMM(NIN)%SEND_SIZE_COARSE_CELL,TOTAL_SEND_SIZE,
      .            SORT_COMM(NIN)%SEND_DISPLS_COARSE_CELL,
      .            TOTAL_RCV_SIZE,SORT_COMM(NIN)%RCV_SIZE_COARSE_CELL,
@@ -161,7 +162,7 @@ C-----------------------------------------------
         !            - check if current proc and remote proc need to communicate
         IF(MODE==2) THEN
             DO KK=1,NB_REQUEST_COARSE_CELL
-                CALL MPI_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS,IERROR)  
+                CALL SPMD_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS)  
                 NIN = LIST_INTER_COARSE_CELL(KK)
                 ITIED = IPARI(85,NIN)
                 CALL CHECK_COARSE_GRID(NIN,SORT_COMM(NIN)%MAIN_COARSE_GRID,SORT_COMM,ITIED)

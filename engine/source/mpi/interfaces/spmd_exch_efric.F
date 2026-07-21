@@ -34,7 +34,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    output_mod            ../common_source/modules/output/output_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
@@ -51,7 +51,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE OUTPUT_MOD
       USE H3D_MOD
-      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -157,9 +157,9 @@ C
                SIZ = L+1-ADD
                IF(SIZ>0)THEN
                  MSGTYP = MSGOFF
-                 CALL MPI_IRECV(
-     .             BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .             SPMD_COMM_WORLD,REQ_RI(P),IERROR    )
+                 CALL spmd_irecv(
+     .             BBUFR(ADD:ADD+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .             REQ_RI(P))
                ENDIF
              ENDIF
            ENDDO
@@ -206,9 +206,9 @@ C
               SIZ = L+1-ADD
               IF(SIZ>0)THEN
                 MSGTYP = MSGOFF 
-                CALL MPI_ISEND(
-     .            BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .            SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+                CALL spmd_isend(
+     .            BBUFS(ADD:ADD+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .            REQ_SI(P))
               ENDIF
             ENDIF
           ENDDO
@@ -219,7 +219,7 @@ C Waiting reception
 C
           DO P = 1, NSPMD
             IF(ADDR(P+1)-ADDR(P)>0) THEN
-              CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
+              CALL spmd_wait(REQ_RI(P),STATUS)
               L = ADDR(P)
               DO II = 1, NBINTC
                 NIN = INTLIST(II)
@@ -251,7 +251,7 @@ C Attente ISEND
 C
           DO P = 1, NSPMD
             IF(ADDS(P+1)-ADDS(P)>0) THEN
-              CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+              CALL spmd_wait(REQ_SI(P),STATUS)
             ENDIF
           ENDDO
 C Deallocation S
@@ -264,7 +264,6 @@ C
 #endif
       RETURN
       END
-
 
 
 

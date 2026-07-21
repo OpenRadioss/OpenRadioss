@@ -217,7 +217,7 @@
             end if
           end do
 !          call MPI_Alltoall(buffer_size_out,1,MPI_INTEGER,buffer_size_in,1,MPI_INTEGER,SPMD_COMM_WORLD,ierr)
-          call spmd_alltoall(buffer_size_out,1,buffer_size_in,1)
+          call spmd_alltoall(buffer_size_out,buffer_size_in,1,1)
 
           do p = 1, nspmd
             if(ispmd+1 == p) cycle ! skip the current process

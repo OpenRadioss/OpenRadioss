@@ -51,6 +51,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI25EBOX
       USE TRI7BOX
+      USE SPMD_MOD, ONLY : SPMD_ALLREDUCE, SPMD_ALLGATHERV, SPMD_SUM
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,6 +85,7 @@ C-----------------------------------------------
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER_SEND,BUFFER_RECV
       INTEGER :: LOCAL_SIZE(COMSIZE,2), TOTAL_SIZE
+      INTEGER :: LOCAL_SIZE_SUM(COMSIZE,2)
       INTEGER :: DISPL(COMSIZE)
       INTEGER :: I,J, UID
       INTEGER :: COMSIZE2,LS
@@ -91,7 +93,6 @@ C-----------------------------------------------
       INTEGER :: ID_LEFT,ID_RIGHT
 #ifdef MPI
       INTEGER DATA MSGOFF/1001/
-      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -107,15 +108,13 @@ C
              LOCAL_SIZE(RANK+1,2) = LOCAL_SIZE(RANK+1,2) + 1 
            ENDIF
         ENDDO
-       
         COMSIZE2 = COMSIZE * 2 
-        CALL MPI_ALLREDUCE(MPI_IN_PLACE,
-     .                   LOCAL_SIZE,
-     .                   COMSIZE2,
-     .                   MPI_INTEGER,
-     .                   MPI_SUM,
-     .                   COMM,
-     .                   IERROR)
+        CALL SPMD_ALLREDUCE(LOCAL_SIZE(1:COMSIZE,1:2),
+     .                      LOCAL_SIZE_SUM(1:COMSIZE,1:2),
+     .                      COMSIZE2,
+     .                      SPMD_SUM,
+     .                      COMM)
+        LOCAL_SIZE(1:COMSIZE,1:2) = LOCAL_SIZE_SUM(1:COMSIZE,1:2)
 
 
 C
@@ -142,15 +141,12 @@ Cfill with global ID
           DO I=2,COMSIZE
             DISPL(I)=LOCAL_SIZE(I-1,1)+DISPL(I-1)
           ENDDO
-          CALL MPI_ALLGATHERV(BUFFER_SEND,
-     .                      LOCAL_SIZE(RANK+1,1),
-     .                      MPI_INTEGER,
-     .                      BUFFER_RECV,
-     .                      LOCAL_SIZE(:,1),
-     .                      DISPL,
-     .                      MPI_INTEGER,
-     .                      COMM,
-     .                      IERROR)
+          CALL SPMD_ALLGATHERV(BUFFER_SEND,
+     .                        LOCAL_SIZE(RANK+1,1),
+     .                        BUFFER_RECV,
+     .                        LOCAL_SIZE(:,1),
+     .                        DISPL,
+     .                        COMM)
 
           call my_dealloc(BUFFER_SEND)
 C hash table would be better here (UID -> index in LEDEG_FIE)
@@ -199,15 +195,12 @@ Cfill with global ID
             DISPL(I)=LOCAL_SIZE(I-1,2)+DISPL(I-1)
           ENDDO
           LS = LOCAL_SIZE(RANK+1,2)
-          CALL MPI_ALLGATHERV(BUFFER_SEND,
-     .                      LS,
-     .                      MPI_INTEGER,
-     .                      BUFFER_RECV,
-     .                      LOCAL_SIZE(:,2),
-     .                      DISPL,
-     .                      MPI_INTEGER,
-     .                      COMM,
-     .                      IERROR)
+          CALL SPMD_ALLGATHERV(BUFFER_SEND,
+     .                        LS,
+     .                        BUFFER_RECV,
+     .                        LOCAL_SIZE(:,2),
+     .                        DISPL,
+     .                        COMM)
 
           call my_dealloc(BUFFER_SEND)
 C hash table would be better here (UID -> index in LEDEG_FIE)

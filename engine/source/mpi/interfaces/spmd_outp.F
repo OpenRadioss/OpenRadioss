@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
       use element_mod , only : nixs
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -77,9 +77,8 @@ C-----------------------------------------------
      . .OR.OUTP_SS(21) == 1.OR.OUTP_SS(22) == 1.OR.OUTP_SS(23) == 1
      . .OR.OUTP_SS(24) == 1.OR.OUTP_SS(26) == 1 ) THEN
 
-        CALL MPI_REDUCE(SZP0,RSZP0,2*NSPGROUP+2,
-     .                  MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,2*NSPGROUP+2,
+     .                   SPMD_SUM,IT_SPMD(1))
 
 
         IF (ISPMD == 0) THEN
@@ -118,7 +117,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
       use element_mod , only : nixc,nixtg
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -166,9 +165,8 @@ C-----------------------------------------------
      . .OR.IUSER_FULL == 1) THEN
 
 
-        CALL MPI_REDUCE(SZP0,RSZP0,2*NSPGROUP+2,
-     .                  MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,2*NSPGROUP+2,
+     .                   SPMD_SUM,IT_SPMD(1))
 
         IF (ISPMD == 0) THEN
           P0ARS(1:2) = RSZP0(2*NSPGROUP+1:2*NSPGROUP+2)
@@ -206,7 +204,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -238,9 +236,8 @@ c------------------------------
       IF (OUTP_ST(1)==1.OR.OUTP_ST(2)==1.OR.OUTP_ST(3)==1) THEN
         CALL COUNT_ARSZ_ST(IPARG,DD_IAD,WASZ,SZP0)
 
-        CALL MPI_REDUCE(SZP0,RSZP0,3*NSPGROUP+3,
-     .                  MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,3*NSPGROUP+3,
+     .                   SPMD_SUM,IT_SPMD(1))
       
         IF (ISPMD == 0) THEN
           P0ARS(1:3) = RSZP0(3*NSPGROUP+1:3*NSPGROUP+3)+8
@@ -278,7 +275,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -322,9 +319,8 @@ C-----------------------------------------------
      . .OR.COUNT>0.OR.OUTP_CT(95)==1.OR.OUTP_CT(96)==1)   THEN
 
 
-        CALL MPI_REDUCE(SZP0,RSZP0,3*NSPGROUP+3,
-     .                  MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                  SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,3*NSPGROUP+3,
+     .                   SPMD_SUM,IT_SPMD(1))
 
 ! ------
         IF ( OUTP_CT(95) == 1)   THEN
@@ -389,7 +385,7 @@ c-----------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -421,9 +417,8 @@ C-----------------------------------------------
       CALL COUNT_ARSZ_RS(IPARG,DD_IAD,WASZ,SZP0)
 
       IF (OUTP_RS(1) == 1) THEN
-        CALL MPI_REDUCE(SZP0,RSZP0,NSPGROUP+1,
-     .                MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,NSPGROUP+1,
+     .                 SPMD_SUM,IT_SPMD(1))
 
         IF (ISPMD == 0) THEN
          WASZP=RSZP0(NSPGROUP+1)
@@ -456,7 +451,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
       use element_mod , only : nixr
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -491,9 +486,8 @@ C-----------------------------------------------
       CALL COUNT_ARSZ_RT(IPARG,IGEO,GEO,IXR,DD_IAD,WASZ,SZP0)
 
       IF (OUTP_RS(2) == 1) THEN          
-        CALL MPI_REDUCE(SZP0,RSZP0,NSPGROUP+1,
-     .                MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,NSPGROUP+1,
+     .                 SPMD_SUM,IT_SPMD(1))
 
         IF (ISPMD == 0) THEN
          WASZP=RSZP0(NSPGROUP+1)
@@ -523,7 +517,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -562,9 +556,8 @@ C-----------------------------------------------
      .    OUTP_SPS(24) == 1 ) THEN
 
 
-        CALL MPI_REDUCE(SZP0,RSZP0,NSPGROUP+1,
-     .                MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,NSPGROUP+1,
+     .                 SPMD_SUM,IT_SPMD(1))
 
         IF (ISPMD == 0) THEN
          WASZP=RSZP0(NSPGROUP+1)
@@ -594,7 +587,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -625,9 +618,8 @@ C-----------------------------------------------
       CALL COUNT_ARSZ_SPT(IPARG,DD_IAD,WASZ,SZP0)
 
       IF (OUTP_SPT( 1) == 1 ) THEN
-        CALL MPI_REDUCE(SZP0,RSZP0,NSPGROUP+1,
-     .                MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,NSPGROUP+1,
+     .                 SPMD_SUM,IT_SPMD(1))
 
         IF (ISPMD == 0) THEN
          WASZP=RSZP0(NSPGROUP+1)
@@ -657,7 +649,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M P I   I n c l u d e s
@@ -689,9 +681,8 @@ C-----------------------------------------------
 
       IF (OUTP_SPT( 1) == 1 ) THEN
 
-        CALL MPI_REDUCE(SZP0,RSZP0,NSPGROUP+1,
-     .                MPI_INTEGER,MPI_SUM,IT_SPMD(1),
-     .                SPMD_COMM_WORLD,IERROR )
+        CALL SPMD_REDUCE(SZP0,RSZP0,NSPGROUP+1,
+     .                 SPMD_SUM,IT_SPMD(1))
 
         IF (ISPMD /= 0) THEN
          WASZP = 1
@@ -719,7 +710,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -767,12 +758,10 @@ C   In the floating buffer because there are only 2 24 bits available ~ 16 milli
 C   of nodes at most
 
          MSGTYP = MSGOFF2
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(IBUF(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
          MSGTYP = MSGOFF
-         CALL MPI_SEND(BUFSR,3*SIZ,REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(BUFSR(1:3,1:SIZ),3*SIZ,IT_SPMD(1),MSGTYP)
 
           
        ELSE
@@ -792,18 +781,17 @@ C   of nodes at most
 C   Reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF2
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL SPMD_PROBE(IT_SPMD(I),MSGTYP,STATUS)
+            CALL SPMD_GET_COUNT_INT(STATUS,SIZ)
 
-            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(IBUF(1:SIZ),SIZ,IT_SPMD(I),MSGTYP,
+     .                     STATUS)
 
 C   Reception of the double floating buffer of NODGLOB addresses
 
             MSGTYP = MSGOFF
-            CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(BUFSR(1:3,1:SIZ),3*SIZ,IT_SPMD(I),MSGTYP,
+     .                     STATUS)
          
            NREC = SIZ
            DO K = 1, NREC
@@ -833,7 +821,7 @@ C   Reception of the double floating buffer of NODGLOB addresses
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -879,12 +867,10 @@ C   In the floating buffer because there are only 2 24 bits available ~ 16 milli
 C   of nodes at most
 
          MSGTYP = MSGOFF2 
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(IBUF(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
          MSGTYP = MSGOFF 
-         CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(BUFSR(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
   
        ELSE
 
@@ -900,18 +886,17 @@ C   of nodes at most
 C   Reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF2
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL SPMD_PROBE(IT_SPMD(I),MSGTYP,STATUS)
+            CALL SPMD_GET_COUNT_INT(STATUS,SIZ)
 
-            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(IBUF(1:SIZ),SIZ,IT_SPMD(I),MSGTYP,
+     .                     STATUS)
 
 C   Reception of the double floating buffer of NODGLOB addresses
 
             MSGTYP = MSGOFF
-            CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(BUFSR(1:SIZ),SIZ,IT_SPMD(I),MSGTYP,
+     .                     STATUS)
       
            NREC = SIZ
            DO K = 1, NREC
@@ -938,7 +923,7 @@ C   Reception of the double floating buffer of NODGLOB addresses
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -961,10 +946,7 @@ C-----------------------------------------------
      . I,LENP(NSPMD),DISP(NSPMD)
 
 C=======================================================================
-        CALL MPI_GATHER(
-     S    LEN           ,1     ,MPI_INTEGER,
-     R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
-     G    SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_GATHER(LEN,LENP,1,1,IT_SPMD(1))
 C
         IAD=0
         IF(ISPMD == 0)THEN
@@ -974,10 +956,7 @@ C
           END DO
         END IF
 C
-        CALL MPI_GATHERV(
-     S    V             ,LEN   ,REAL,
-     R    VP0           ,LENP  ,DISP,REAL  ,IT_SPMD(1),
-     G    SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_GATHERV(V,LEN,VP0,LENP,DISP,IT_SPMD(1))
 c------------
 #endif
        RETURN
@@ -1020,7 +999,7 @@ c------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -1045,10 +1024,7 @@ C-----------------------------------------------
 
 
          
-        CALL MPI_GATHER(
-     S    LEN           ,1     ,MPI_INTEGER,
-     R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
-     G    SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_GATHER(LEN,LENP,1,1,IT_SPMD(1))
 C
         IAD=0
         IF(ISPMD == 0)THEN
@@ -1058,10 +1034,7 @@ C
           END DO
         END IF
 C
-        CALL MPI_GATHERV(
-     S    V             ,LEN   ,MPI_DOUBLE_PRECISION,
-     R    VP0           ,LENP  ,DISP,MPI_DOUBLE_PRECISION,IT_SPMD(1),
-     G    SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_GATHERV(V,LEN,VP0,LENP,DISP,IT_SPMD(1))
 #endif
        RETURN
        END
@@ -1082,7 +1055,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -1123,8 +1096,7 @@ C-----------------------------------------------
 
 
          MSGTYP = MSGOFF
-         CALL MPI_SEND(BUFSR,2*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(BUFSR(1:2,1:SIZ),2*SIZ,IT_SPMD(1),MSGTYP)
 
        ELSE
           DO I=1,NUMNOD
@@ -1139,13 +1111,12 @@ C-----------------------------------------------
 C   Reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL SPMD_PROBE(IT_SPMD(I),MSGTYP,STATUS)
+              CALL SPMD_GET_COUNT_INT(STATUS,SIZ)
 
 
-            CALL MPI_RECV(BUFSR,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_RECV(BUFSR(1:2,1:SIZ/2),SIZ,IT_SPMD(I),MSGTYP,
+     .                     STATUS)
          
             NREC = SIZ/2
  
@@ -1182,7 +1153,7 @@ C   Reception of the entire buffer of NODGLOB addresses
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -1206,10 +1177,7 @@ C-----------------------------------------------
      .        LENP(NSPMD*NSPGROUP),LENP_LOC(NSPMD)
       INTEGER IAD, J
 C=======================================================================
-        CALL MPI_GATHER(
-     S    LEN           ,NSPGROUP ,MPI_INTEGER,
-     R    LENP          ,NSPGROUP ,MPI_INTEGER,IT_SPMD(1),
-     G    SPMD_COMM_WORLD,IERROR)
+        CALL SPMD_GATHER(LEN,LENP,NSPGROUP,NSPGROUP,IT_SPMD(1))
 C
 C
         IF(ISPMD == 0)THEN

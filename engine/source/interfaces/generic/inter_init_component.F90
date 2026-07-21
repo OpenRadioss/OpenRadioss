@@ -177,7 +177,7 @@
           enddo
 
           my_size = ninter*2
-          call spmd_allgather(s_buffer, r_buffer, my_size, SPMD_COMM_WORLD)
+          call spmd_allgather(s_buffer, r_buffer, my_size, my_size, comm=SPMD_COMM_WORLD)
 
           do k=1,nspmd
             if(k-1/=ispmd) then

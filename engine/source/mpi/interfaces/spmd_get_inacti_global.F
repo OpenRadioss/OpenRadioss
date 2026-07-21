@@ -35,6 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
+        USE SPMD_MOD, ONLY : spmd_wait
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,6 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NB_INTER_7_INACTI) :: S_BUFFER
         INTEGER, DIMENSION(NB_INTER_7_INACTI) :: R_BUFFER
         CHARACTER(len=4) :: MY_OPERATION
-        INTEGER :: CODE
         INTEGER :: STATUT(MPI_STATUS_SIZE)
 C-----------------------------------------------
         IF(NB_INTER_7_INACTI>0) THEN
@@ -84,7 +84,7 @@ C-----------------------------------------------
         CALL SPMD_IALLREDUCE_INT_COMM(S_BUFFER,R_BUFFER,NB_INTER_7_INACTI,
      .                                MY_OPERATION,COMM_INACTI,REQUEST_INACTI)
 
-        CALL MPI_WAIT(REQUEST_INACTI,STATUT,CODE)
+        CALL spmd_wait(REQUEST_INACTI,STATUT)
 
         IF(NB_INTER_SORTED>0) THEN
             DO I=1,NB_INTER_SORTED

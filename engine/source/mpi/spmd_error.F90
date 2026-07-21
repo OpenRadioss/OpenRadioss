@@ -21,7 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!#define DEBUG_SPMD
 !||====================================================================
 !||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
 !||--- called by ------------------------------------------------------
@@ -31,26 +30,21 @@
 !||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
-!||    spmd_allreduce_double     ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_int        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_mod        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_real       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
 !||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
-!||    spmd_alltoallv_doubles    ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_ints       ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_reals      ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
-!||    spmd_iallreduce_mod       ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
@@ -75,12 +69,12 @@
 !||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
-!||    spmd_reduce_double        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_int           ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_ints          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_real          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_reals         ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
 !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles2d       ../engine/source/mpi/spmd_send.F90
@@ -113,13 +107,51 @@
           end function c_system
         end interface
 
+        !> Profiler hooks — implemented in spmd_profiler.cpp
+        interface
+          subroutine spmd_profiler_record_in_c(tag, name, name_len, peer_rank, msg_tag) &
+            bind(c, name="spmd_profiler_record_in")
+            import :: c_int, c_char
+            integer(c_int), intent(in) :: tag
+            character(kind=c_char), dimension(*), intent(in) :: name
+            integer(c_int), intent(in) :: name_len
+            integer(c_int), intent(in) :: peer_rank
+            integer(c_int), intent(in) :: msg_tag
+          end subroutine spmd_profiler_record_in_c
+
+          subroutine spmd_profiler_record_out_c(tag) &
+            bind(c, name="spmd_profiler_record_out")
+            import :: c_int
+            integer(c_int), intent(in) :: tag
+          end subroutine spmd_profiler_record_out_c
+
+          subroutine spmd_profiler_register_request_c(request, peer_rank, msg_tag, is_recv) &
+            bind(c, name="spmd_profiler_register_request")
+            import :: c_int
+            integer(c_int), intent(in) :: request, peer_rank, msg_tag, is_recv
+          end subroutine spmd_profiler_register_request_c
+
+          subroutine spmd_profiler_complete_request_c(request, t_end) &
+            bind(c, name="spmd_profiler_complete_request")
+            import :: c_int, c_double
+            integer(c_int), intent(in) :: request
+            real(c_double), intent(in) :: t_end
+          end subroutine spmd_profiler_complete_request_c
+
+          subroutine spmd_profiler_complete_requests_c(requests, count, t_end) &
+            bind(c, name="spmd_profiler_complete_requests")
+            import :: c_int, c_double
+            integer(c_int), intent(in) :: requests(*)
+            integer(c_int), intent(in) :: count
+            real(c_double), intent(in) :: t_end
+          end subroutine spmd_profiler_complete_requests_c
+        end interface
+
       contains
 
 #ifdef DEBUG_SPMD
 !||====================================================================
 !||    print_traceback   ../engine/source/mpi/spmd_error.F90
-!||--- called by ------------------------------------------------------
-!||    spmd_out          ../engine/source/mpi/spmd_error.F90
 !||====================================================================
         subroutine print_traceback()
           implicit none
@@ -152,16 +184,6 @@
 
           write(*,*) "=== TRACEBACK END ==="
         end subroutine print_traceback
-#else
-!||====================================================================
-!||    print_traceback   ../engine/source/mpi/spmd_error.F90
-!||--- called by ------------------------------------------------------
-!||    spmd_out          ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine print_traceback()
-          implicit none
-          write(*,*) "Traceback not available: DEBUG_SPMD is not defined."
-        end subroutine print_traceback
 #endif
 
 
@@ -176,30 +198,21 @@
 !||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
-!||    spmd_allreduce_double     ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_int        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_real       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
 !||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
-!||    spmd_alltoallv_doubles    ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_ints       ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_reals      ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
-!||    spmd_iallreduce_double    ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_doubles   ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_int       ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_ints      ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_real      ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_reals     ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
@@ -224,12 +237,12 @@
 !||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
-!||    spmd_reduce_double        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_int           ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_ints          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_real          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_reals         ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
 !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles2d       ../engine/source/mpi/spmd_send.F90
@@ -245,7 +258,17 @@
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
 !||====================================================================
-        subroutine spmd_in(tag)
+!>  \brief Trace entry for an MPI (or user) call.
+!>  \param tag   Integer tag identifying the call (negative = SPMD collective,
+!>               positive = MPI message tag, arbitrary = user-defined region).
+!>  \param name  Optional human-readable name, e.g. "MPI_Send" or "my_routine".
+!>               When present, the profiler uses this string instead of the
+!>               generic tag-to-name lookup, allowing Send vs Isend (etc.) to
+!>               be distinguished even when they share the same message tag.
+!>  \param peer  Optional peer rank: destination for sends, source for recvs.
+!>               When provided, enables arrow drawing in the trace visualizer.
+        subroutine spmd_in(tag, name, peer)
+          use spmd_profiler_mod, only: spmd_profiling_enabled
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -253,13 +276,50 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: tag
+          integer, intent(in) :: tag
+          character(len=*), intent(in), optional :: name
+          integer, intent(in), optional :: peer
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer(c_int) :: tag_c, name_len_c, peer_c, msgtag_c
+          character(kind=c_char), dimension(65) :: name_c
+          integer :: i, n
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (spmd_profiling_enabled) then
+            tag_c = int(tag, c_int)
+            if (present(name)) then
+              n = min(len_trim(name), 64)
+              do i = 1, n
+                name_c(i) = name(i:i)
+              end do
+              name_c(n+1) = c_null_char
+              name_len_c = int(n, c_int)
+            else
+              name_c(1) = c_null_char
+              name_len_c = 0_c_int
+            end if
+            if (present(peer)) then
+              peer_c = int(peer, c_int)
+            else
+              peer_c = -2_c_int
+            end if
+            if (tag >= 0) then
+              msgtag_c = int(tag, c_int)
+            else
+              msgtag_c = -2_c_int
+            end if
+            call spmd_profiler_record_in_c(tag_c, name_c, name_len_c, peer_c, msgtag_c)
+          end if
 #ifdef DEBUG_SPMD
-        ! call print_traceback()
-        !write(6,*) "Entering MPI call: ", tag
+          ! call print_traceback()
+          if (present(name)) then
+            write(6,*) "Entering MPI call: ", trim(name), " (tag=", tag, ")"
+          else
+            write(6,*) "Entering MPI call: ", tag
+          end if
 #endif
         end subroutine spmd_in
 
@@ -272,30 +332,21 @@
 !||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
-!||    spmd_allreduce_double     ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_int        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_real       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
 !||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
-!||    spmd_alltoallv_doubles    ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_ints       ../engine/source/mpi/generic/spmd_alltoallv.F90
-!||    spmd_alltoallv_reals      ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
 !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
-!||    spmd_iallreduce_double    ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_doubles   ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_int       ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_ints      ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_real      ../engine/source/mpi/spmd_iallreduce.F90
-!||    spmd_iallreduce_reals     ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
@@ -320,12 +371,12 @@
 !||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
-!||    spmd_reduce_double        ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_int           ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_ints          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_real          ../engine/source/mpi/spmd_allreduce.F90
-!||    spmd_reduce_reals         ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
 !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles2d       ../engine/source/mpi/spmd_send.F90
@@ -341,12 +392,12 @@
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
 !||--- calls      -----------------------------------------------------
-!||    print_traceback           ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
         subroutine spmd_out(tag, ierr)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+          use spmd_profiler_mod, only: spmd_profiling_enabled
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -358,21 +409,25 @@
           integer, intent(in) :: tag !< Tag of the the MPI call
           integer, intent(in) :: ierr !< error of the MPI call
 ! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ierror
+          integer(c_int) :: tag_c
+! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (spmd_profiling_enabled) then
+            tag_c = int(tag, c_int)
+            call spmd_profiler_record_out_c(tag_c)
+          end if
 #ifdef MPI
           if(ierr /= MPI_SUCCESS) then
             write(6,*) "MPI error: ", ierr," at ",tag
-            call print_traceback()
             call MPI_Abort(SPMD_COMM_WORLD, ierr,ierror)
           end if
-!#ifdef DEBUG_SPMD
-!!         write(6,*) "Exiting MPI call: ", tag
-!#endif
+#ifdef DEBUG_SPMD
+          write(6,*) "Exiting MPI call: ", tag
+#endif
 #endif
         end subroutine spmd_out
 

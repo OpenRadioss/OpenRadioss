@@ -22,33 +22,31 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_gather_int       ../engine/source/mpi/generic/spmd_gather_int.F
+!||    spmd_iallgather_old   ../engine/source/mpi/generic/spmd_iallgather_old.F
 !||--- called by ------------------------------------------------------
-!||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
-!||    init_th               ../engine/source/output/th/init_th.F
-!||    read_dynain           ../engine/source/output/dynain/read_dynain.F
+!||    spmd_sphvox       ../engine/source/mpi/sph/spmd_sphvox.F
 !||--- calls      -----------------------------------------------------
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-        SUBROUTINE SPMD_GATHER_INT(SENDBUF,RECVBUF,PROC,SEND_SIZE,RCV_SIZE)
+        SUBROUTINE SPMD_IALLGATHER_OLD(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 
+     .                              REQUEST,COMM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
-C-----------------------------------------------------------------
-C   M e s s a g e   P a s s i n g
+#include      "r4r8_p.inc"
 C-----------------------------------------------
-#include "spmd.inc"
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(inout) :: SEND_SIZE
-        INTEGER, INTENT(inout) :: PROC
+        INTEGER, INTENT(inout) :: SEND_SIZE,TOTAL_RCV_SIZE
+        INTEGER, INTENT(inout) :: REQUEST
+        INTEGER, INTENT(inout) :: COMM
         INTEGER, INTENT(inout) :: RCV_SIZE
-        INTEGER, DIMENSION(SEND_SIZE), INTENT(inout) :: SENDBUF
-        INTEGER, DIMENSION(RCV_SIZE), INTENT(inout) :: RECVBUF
+        my_real, DIMENSION(SEND_SIZE), INTENT(inout) :: SENDBUF
+        my_real, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
 
 #ifdef MPI
 C-----------------------------------------------
@@ -57,16 +55,38 @@ C-----------------------------------------------
         INTEGER :: error
 !       ----------------------------------------
 
-!       ------------------
-!       mpi comm gahter on processor PROC
-        CALL MPI_GATHER(SENDBUF,SEND_SIZE,MPI_INTEGER,
-     .                  RECVBUF,SEND_SIZE,MPI_INTEGER,
-     .                  PROC,SPMD_COMM_WORLD,error)
-!       ------------------
+!       ------------------------------------------
+!       processor P(1-->n) :
+!       send buffer 
+!                   |  s(m)   |
+!       size =           N      
+!
+!       For all processor :
+!       rcv buffer
+!       from proc :   P(1)        P(2)              P(n)
+!                   |  s(1)   |   s(2)   |  ...  |  s(n)    |
+!       size =          N       N                    N
+!       ------------------------------------------
 
+!   PLMPI uses MPI-2.x version : MPI_IALLGATHER was introduced in MPI-3.0 version
+#if _PLMPI
+!       ------------------
+        CALL MPI_ALLGATHER(SENDBUF,SEND_SIZE,REAL,
+     .                   RECVBUF,RCV_SIZE,REAL,
+     .                   COMM,error)
+!       ------------------
+#else
+!       ------------------
+        CALL MPI_IALLGATHER(SENDBUF,SEND_SIZE,REAL,
+     .                   RECVBUF,RCV_SIZE,REAL,
+     .                   COMM,REQUEST,error)
+!       ------------------
+#endif
 #else
         RECVBUF = 0
 #endif
         RETURN
-        END SUBROUTINE SPMD_GATHER_INT
+        END SUBROUTINE SPMD_IALLGATHER_OLD
+
+
 !       ----------------------------------------
