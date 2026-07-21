@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : spmd_irecv, spmd_isend, spmd_wait
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -120,7 +120,6 @@ C-----------------------------------------------
      .        IBC, ISECIN, IBAG, NOINT, NTY, LEN11, N1, N2,LENI,INACTI,
      . IADM,IALLOCS, IALLOCR, LEN17, IGN, IGE, NMES, NME,
      .        LEN7T,LEN20,LEN20T, LEN20E, INC, MSGOFF,LEN11T,
-     . STATUS(MPI_STATUS_SIZE),
      .        DEBUT(NINTER), DEBUTE(NINTER),LL0,
 c parasiz car variable en save
      .        ADDS(PARASIZ+1), ADDR(PARASIZ+1),
@@ -241,9 +240,9 @@ C Partie Edge
             SIZ = L+1-ADD
             IF(SIZ>0)THEN
               MSGTYP = MSGOFF
-              CALL MPI_IRECV(
-     .          BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_RI(P),IERROR    )
+              CALL spmd_irecv(
+     .          BBUFR(ADD),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_RI(P))
             ENDIF
           ENDIF
         ENDDO
@@ -1109,9 +1108,9 @@ C fin edge
             SIZ = L+1-ADD
             IF(SIZ>0)THEN
               MSGTYP = MSGOFF
-              CALL MPI_ISEND(
-     .          BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+              CALL spmd_isend(
+     .          BBUFS(ADD),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_SI(P))
             ENDIF
           ENDIF
         ENDDO
@@ -1125,7 +1124,7 @@ C Attente IRECV
 C
         DO P = 1, NSPMD
           IF(ADDR(P+1)-ADDR(P)>0) THEN
-            CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_RI(P))
             L = ADDR(P)
             DO II = 1, NBINTC
               NIN = INTLIST(II)
@@ -1278,7 +1277,7 @@ C Attente ISEND
 C
         DO P = 1, NSPMD
           IF(ADDS(P+1)-ADDS(P)>0) THEN
-            CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_SI(P))
           ENDIF
         ENDDO
 C Deallocation S

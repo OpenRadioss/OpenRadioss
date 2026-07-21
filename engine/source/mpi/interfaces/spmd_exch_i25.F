@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : spmd_irecv, spmd_isend, spmd_wait
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -192,8 +192,8 @@ C preparation of receive
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
             MSGTYP = MSGOFF2
-            CALL MPI_IRECV( BBUFR(IADR(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     *                     SPMD_COMM_WORLD,REQ_R(P),IERROR )
+            CALL spmd_irecv(BBUFR(IADR(P):IADR(P)+SIZ-1),SIZ,
+     *                      IT_SPMD(P),MSGTYP,REQ_R(P))
           ENDIF
       ENDDO
 
@@ -224,9 +224,9 @@ C Send
          SIZ = L-IADS(P)
          IF(SIZ>0)THEN
               MSGTYP = MSGOFF2
-              CALL MPI_ISEND(
-     .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+              CALL spmd_isend(
+     .          BBUFS(IADS(P):IADS(P)+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_SI(P))
          ENDIF
        ENDIF ! ENDIF P/= LOC_PROC
       ENDDO  ! DO P=1, NSPMD
@@ -253,7 +253,7 @@ C Recieve
             MSGTYP = MSGOFF2
 
 C WAIT
-           CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+           CALL spmd_wait(REQ_R(P),STATUS)
 
            DO NI=1,NBINTC
              NIN = INTLIST(NI)
@@ -389,7 +389,7 @@ C end of send
              SIZ=IADS(P+1)-IADS(P)
           ENDIF
           IF(SIZ>0) THEN
-            CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_SI(P),STATUS)
           ENDIF
       ENDDO
 
@@ -427,16 +427,16 @@ C implementation of the IRECIEVE
           MSGTYP = MSGOFF3
           LEN = SIZ*ILEN
 c           print *,'recept attend entier',ispmd+1,p,len
-          CALL MPI_IRECV(
-     S      IRECBUF(LI),LEN,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(P),IERROR)
+          CALL spmd_irecv(
+     S      IRECBUF(LI:LI+LEN-1),LEN,IT_SPMD(P),MSGTYP,
+     G      REQ_R(P))
 
           MSGTYP = MSGOFF4 
           LEN = SIZ*RLEN
 c           print *,'recept attend reel',ispmd+1,p,len
-          CALL MPI_IRECV(
-     S      RRECBUF(LR),LEN,REAL,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R2(P),IERROR)
+          CALL spmd_irecv(
+     S      RRECBUF(LR:LR+LEN-1),LEN,IT_SPMD(P),MSGTYP,
+     G      REQ_R2(P))
 
         ENDIF
        ENDDO
@@ -477,15 +477,15 @@ C
          IF (SIZ >0)THEN
            MSGTYP = MSGOFF3
            L = IADS(P)
-           CALL MPI_ISEND(
-     S        ISENDBUF(1,L),SIZ*ILEN,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        SPMD_COMM_WORLD,REQ_S(P),IERROR)
+           CALL spmd_isend(
+     S        ISENDBUF(1:ILEN,L:L+SIZ-1),SIZ*ILEN,IT_SPMD(P),MSGTYP,
+     G        REQ_S(P))
 c           print *,'envoi entier',ispmd+1,p,siz*2
      
            MSGTYP = MSGOFF4
-           CALL MPI_ISEND(
-     S        RSENDBUF(1,L),SIZ*RLEN,REAL,IT_SPMD(P),MSGTYP,
-     G        SPMD_COMM_WORLD,REQ_S2(P),IERROR)
+           CALL spmd_isend(
+     S        RSENDBUF(1:RLEN,L:L+SIZ-1),SIZ*RLEN,IT_SPMD(P),MSGTYP,
+     G        REQ_S2(P))
 c           print *,'envoi reel',ispmd+1,p,siz*8
          ENDIF   ! IF (SIZ >0)
       ENDDO      ! DO P=1,NSPMD
@@ -506,10 +506,10 @@ C Reception
         SIZ = IADS(P+1)-IADS(P)
         IF(SIZ/=0)THEN
           IDB = IADS(P)
-          CALL MPI_WAIT(REQ_R (P),STATUS,IERROR)
+          CALL spmd_wait(REQ_R (P),STATUS)
 c           print *,'recept recu entiers',ispmd+1,p
 
-          CALL MPI_WAIT(REQ_R2(P),STATUS,IERROR)
+          CALL spmd_wait(REQ_R2(P),STATUS)
 c           print *,'recept recu reels',ispmd+1,p
 
 C Treatments
@@ -645,8 +645,8 @@ C Fin send
       DO P=1,NSPMD
         SIZ = IADS(P+1)-IADS(P)
         IF(SIZ/=0)THEN
-          CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
-          CALL MPI_WAIT(REQ_S2(P),STATUS,IERROR)
+          CALL spmd_wait(REQ_S(P),STATUS)
+          CALL spmd_wait(REQ_S2(P),STATUS)
         ENDIF
       ENDDO
 
@@ -701,8 +701,8 @@ C preparation of receive
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
             MSGTYP = MSGOFF5
-            CALL MPI_IRECV( BBUFR(IADR(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     *                     SPMD_COMM_WORLD,REQ_R(P),IERROR )
+            CALL spmd_irecv(BBUFR(IADR(P):IADR(P)+SIZ-1),SIZ,
+     *                      IT_SPMD(P),MSGTYP,REQ_R(P))
          ENDIF
       ENDDO
       
@@ -738,9 +738,9 @@ c        if(itab(sn)==29376)print *,'broadcast nsnsi',loc_proc,p,INTBUF_TAB(NIN)
          IF(SIZ>0)THEN
               MSGTYP = MSGOFF5
 C Send
-              CALL MPI_ISEND(
-     .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+              CALL spmd_isend(
+     .          BBUFS(IADS(P):IADS(P)+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_SI(P))
          ENDIF
        ENDIF
       ENDDO
@@ -764,7 +764,7 @@ C Recieve
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
            
-           CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+           CALL spmd_wait(REQ_R(P),STATUS)
            DO NI=1,NBINTC
              NIN=INTLIST(NI)
              NTY   =IPARI(7,NIN)
@@ -799,7 +799,7 @@ C end of send
              SIZ=IADS(P+1)-IADS(P)
           ENDIF
           IF(SIZ>0) THEN
-            CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_SI(P),STATUS)
           ENDIF
       ENDDO
 

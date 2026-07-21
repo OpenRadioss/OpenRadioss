@@ -21,234 +21,361 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    spmd_allgatherv_mod   ../engine/source/mpi/spmd_allgatherv.F90
-!||--- called by ------------------------------------------------------
-!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
-!||====================================================================
       module spmd_allgatherv_mod
+        use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
 
-        ! \brief Interface for spmd_allgatherv, a wrapper for MPI_ALLGATHERV
+        integer, parameter, public :: TAG_ALLGATHERV = -23
+
+        !> \\brief Interface for spmd_allgatherv, a wrapper for MPI_ALLGATHERV
         interface spmd_allgatherv
-          module procedure spmd_allgatherv_reals     !< Allgatherv of real numbers
-          module procedure spmd_allgatherv_ints      !< Allgatherv of integers
-          module procedure spmd_allgatherv_doubles   !< Allgatherv of double precision numbers
-          module procedure spmd_allgatherv_real      !< Allgatherv of a single real number (for legacy A(1,1) calls)
-          module procedure spmd_allgatherv_int       !< Allgatherv of a single integer (for legacy A(1,1) calls)
-          module procedure spmd_allgatherv_double    !< Allgatherv of a single double precision number (for legacy A(1,1) calls)
+          module procedure spmd_allgatherv_reals
+          module procedure spmd_allgatherv_ints
+          module procedure spmd_allgatherv_doubles
+          module procedure spmd_allgatherv_reals2d
+          module procedure spmd_allgatherv_ints2d
+          module procedure spmd_allgatherv_doubles2d
+          module procedure spmd_allgatherv_real
+          module procedure spmd_allgatherv_int
+          module procedure spmd_allgatherv_double
         end interface spmd_allgatherv
 
       contains
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_allgatherv_reals   ../engine/source/mpi/spmd_allgatherv.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
-!||    spmd_out                ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allgatherv_reals(sendbuf, sendcount, recvbuf, recvcounts, displs, comm)
-          use spmd_comm_world_mod, only : spmd_comm_world
+!>  \\brief Allgatherv of real       array
+        subroutine spmd_allgatherv_reals(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount
-          real, dimension(*), intent(in) :: sendbuf
-          integer, dimension(*), intent(in) :: recvcounts, displs
-          real, dimension(*), intent(inout) :: recvbuf
+          real, dimension(:), intent(in) :: sendbuf
+          real, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0  ! Allgatherv doesn't use tags, but keeping for consistency with spmd_in/out
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, comm, ierr)
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLGATHERV
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
 #endif
         end subroutine spmd_allgatherv_reals
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_allgatherv_ints   ../engine/source/mpi/spmd_allgatherv.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in                ../engine/source/mpi/spmd_error.F90
-!||    spmd_out               ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allgatherv_ints(sendbuf, sendcount, recvbuf, recvcounts, displs, comm)
-          use spmd_comm_world_mod, only : spmd_comm_world
+!>  \\brief Allgatherv of integer       array
+        subroutine spmd_allgatherv_ints(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount
-          integer, dimension(*), intent(in) :: sendbuf
-          integer, dimension(*), intent(in) :: recvcounts, displs
-          integer, dimension(*), intent(inout) :: recvbuf
+          integer, dimension(:), intent(in) :: sendbuf
+          integer, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
           integer, intent(in), optional :: comm
-#ifdef MPI
-          integer :: ierr, tag
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcounts, displs, MPI_INTEGER, comm, ierr)
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcounts, displs, MPI_INTEGER, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLGATHERV
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcounts, displs, MPI_INTEGER, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
 #endif
         end subroutine spmd_allgatherv_ints
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_allgatherv_doubles   ../engine/source/mpi/spmd_allgatherv.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
-!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allgatherv_doubles(sendbuf, sendcount, recvbuf, recvcounts, displs, comm)
-          use spmd_comm_world_mod, only : spmd_comm_world
+!>  \\brief Allgatherv of double precision       array
+        subroutine spmd_allgatherv_doubles(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount
-          double precision, dimension(*), intent(in) :: sendbuf
-          integer, dimension(*), intent(in) :: recvcounts, displs
-          double precision, dimension(*), intent(inout) :: recvbuf
+          double precision, dimension(:), intent(in) :: sendbuf
+          double precision, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
           integer, intent(in), optional :: comm
-#ifdef MPI
-          integer :: ierr, tag
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, &
-              recvbuf, recvcounts, displs,              &
-              MPI_DOUBLE_PRECISION, comm, ierr)
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, &
-              recvbuf, recvcounts, displs,              &
-              MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLGATHERV
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcounts, displs, MPI_DOUBLE_PRECISION,&
+          & used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
 #endif
         end subroutine spmd_allgatherv_doubles
-!||====================================================================
-!||    spmd_allgatherv_double   ../engine/source/mpi/spmd_allgatherv.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
-!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allgatherv_double(sendbuf, sendcount, recvbuf, recvcounts, displs, comm)
-          use spmd_comm_world_mod, only : spmd_comm_world
+
+! ======================================================================================================================
+!>  \\brief Allgatherv of real       array
+        subroutine spmd_allgatherv_reals2d(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
-          double precision, intent(in) :: sendbuf
           integer, intent(in) :: sendcount
-          integer, dimension(*), intent(in) :: recvcounts, displs
-          double precision, dimension(*), intent(inout) :: recvbuf
+          real, dimension(:,:), intent(in) :: sendbuf
+          real, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcounts, displs,&
-              MPI_DOUBLE_PRECISION, comm, ierr)
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, &
-              recvcounts, displs, MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLGATHERV
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1) = sendbuf
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
 #endif
-        end subroutine spmd_allgatherv_double
-!||====================================================================
-!||    spmd_allgatherv_int   ../engine/source/mpi/spmd_allgatherv.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allgatherv_int(sendbuf, sendcount, recvbuf, recvcounts, displs, comm)
-          use spmd_comm_world_mod, only : spmd_comm_world
+        end subroutine spmd_allgatherv_reals2d
+
+! ======================================================================================================================
+!>  \\brief Allgatherv of integer       array
+        subroutine spmd_allgatherv_ints2d(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
-          integer, intent(in) :: sendbuf
           integer, intent(in) :: sendcount
-          integer, dimension(*), intent(in) :: recvcounts, displs
-          integer, dimension(*), intent(inout) :: recvbuf
+          integer, dimension(:,:), intent(in) :: sendbuf
+          integer, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcounts, displs, MPI_INTEGER, comm, ierr)
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcounts, &
-              displs, MPI_INTEGER, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLGATHERV
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcounts, displs, MPI_INTEGER, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1) = sendbuf
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
 #endif
-        end subroutine spmd_allgatherv_int
-!||====================================================================
-!||    spmd_allgatherv_real   ../engine/source/mpi/spmd_allgatherv.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in                ../engine/source/mpi/spmd_error.F90
-!||    spmd_out               ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allgatherv_real(sendbuf, sendcount, recvbuf, recvcounts, displs, comm)
+        end subroutine spmd_allgatherv_ints2d
+
+! ======================================================================================================================
+!>  \\brief Allgatherv of double precision       array
+        subroutine spmd_allgatherv_doubles2d(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
-          use spmd_comm_world_mod, only : spmd_comm_world
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount
-          real,    intent(in) :: sendbuf
-          integer, dimension(*), intent(in) :: recvcounts, displs
-          real, dimension(*), intent(inout) :: recvbuf
+          double precision, dimension(:,:), intent(in) :: sendbuf
+          double precision, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, comm, ierr)
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLGATHERV
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcounts, displs, MPI_DOUBLE_PRECISION,&
+          & used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1) = sendbuf
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+#endif
+        end subroutine spmd_allgatherv_doubles2d
+
+! ======================================================================================================================
+!>  \\brief Allgatherv of real       scalar
+        subroutine spmd_allgatherv_real(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: sendcount
+          real,  intent(in) :: sendbuf
+          real, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLGATHERV
+          end if
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
+#else
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
 #endif
         end subroutine spmd_allgatherv_real
 
+! ======================================================================================================================
+!>  \\brief Allgatherv of integer       scalar
+        subroutine spmd_allgatherv_int(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: sendcount
+          integer,  intent(in) :: sendbuf
+          integer, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
 
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLGATHERV
+          end if
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcounts, displs, MPI_INTEGER, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
+#else
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+#endif
+        end subroutine spmd_allgatherv_int
+
+! ======================================================================================================================
+!>  \\brief Allgatherv of double precision       scalar
+        subroutine spmd_allgatherv_double(sendbuf, sendcount, recvbuf, recvcounts, displs, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: sendcount
+          double precision,  intent(in) :: sendbuf
+          double precision, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in) :: recvcounts(:), displs(:)
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLGATHERV
+          end if
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allgatherv")
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcounts, displs, MPI_DOUBLE_PRECISION,&
+          & used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
+#else
+          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+#endif
+        end subroutine spmd_allgatherv_double
 
       end module spmd_allgatherv_mod

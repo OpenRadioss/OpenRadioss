@@ -69,7 +69,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -274,7 +273,7 @@ C-----------------------------------------------
             ENDIF
             TOTAL_RCV_SIZE = 0
             do ijk=1,sort_comm(nin)%request_r_nb
-              call spmd_waitany(sort_comm(nin)%request_r_nb,sort_comm(nin)%request_r,index_r,status)         
+              call spmd_waitany(sort_comm(nin)%request_r,sort_comm(nin)%request_r_nb,index_r,status)         
               i = sort_comm(nin)%index_r(index_r)
             enddo
             do i=1,sort_comm(nin)%proc_number
@@ -293,7 +292,7 @@ C-----------------------------------------------
             ENDDO
 
             do ijk=1,sort_comm(nin)%request_s_nb
-              call spmd_waitany(sort_comm(nin)%request_s_nb,sort_comm(nin)%request_s,index_r,status)
+              call spmd_waitany(sort_comm(nin)%request_s,sort_comm(nin)%request_s_nb,index_r,status)
             enddo
 
             TOTAL_SEND_SIZE = SORT_COMM(NIN)%SIZE_CELL_LIST(1)
@@ -314,9 +313,10 @@ C-----------------------------------------------
                     MSGTYP = MSGOFF    
                     SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = SORT_COMM(NIN)%NB_REQUEST_CELL_RCV + 1  
                     SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV) = I  
-                    CALL MPI_IRECV(SORT_COMM(NIN)%CELL(SORT_COMM(NIN)%RCV_DISPLS_CELL(I) + 1), 
-     .              SORT_COMM(NIN)%RCV_SIZE_CELL(I),MPI_INTEGER,IT_SPMD(ID_PROC),
-     .              MSGTYP,SPMD_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV),IERROR)
+                    CALL SPMD_IRECV(SORT_COMM(NIN)%CELL(SORT_COMM(NIN)%RCV_DISPLS_CELL(I) + 1:
+     .              SORT_COMM(NIN)%RCV_DISPLS_CELL(I) + SORT_COMM(NIN)%RCV_SIZE_CELL(I)),
+     .              SORT_COMM(NIN)%RCV_SIZE_CELL(I),IT_SPMD(ID_PROC),MSGTYP,
+     .              SORT_COMM(NIN)%REQUEST_CELL_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV),SPMD_COMM_WORLD)
                 ENDIF
             ENDDO
             !   ----------------------
@@ -332,9 +332,9 @@ C-----------------------------------------------
                     MSGTYP = MSGOFF   
                     SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 
      .                  SORT_COMM(NIN)%NB_REQUEST_CELL_SEND + 1  
-                    CALL MPI_ISEND(SORT_COMM(NIN)%CELL_LIST, 
-     .              SORT_COMM(NIN)%SEND_SIZE_CELL(I),MPI_INTEGER,IT_SPMD(ID_PROC),
-     .              MSGTYP,SPMD_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%NB_REQUEST_CELL_SEND),IERROR)
+                    CALL SPMD_ISEND(SORT_COMM(NIN)%CELL_LIST(1:SORT_COMM(NIN)%SEND_SIZE_CELL(I)),
+     .              SORT_COMM(NIN)%SEND_SIZE_CELL(I),IT_SPMD(ID_PROC),MSGTYP,
+     .              SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%NB_REQUEST_CELL_SEND),SPMD_COMM_WORLD)
                 ENDIF
             ENDDO
             !   ----------------------
@@ -362,7 +362,7 @@ C-----------------------------------------------
             call my_alloc(INDEX_ALREADY_SEND, NB_CELL_X*NB_CELL_Y*NB_CELL_Z, "INDEX_ALREADY_SEND")
             !   -------------------------
             if(GOT_PREVIEW == 1) THEN
-            CALL MPI_WAITALL( SORT_COMM(NIN)%NB_REQUEST_CELL_RCV, SORT_COMM(NIN)%REQUEST_CELL_RCV,MPI_STATUSES_IGNORE,IERROR )
+            CALL SPMD_WAITALL(SORT_COMM(NIN)%REQUEST_CELL_RCV, SORT_COMM(NIN)%NB_REQUEST_CELL_RCV)
             ENDIF
 
             DO KK=1,SORT_COMM(NIN)%NB_REQUEST_CELL_RCV
@@ -370,8 +370,8 @@ C-----------------------------------------------
                 !   wait the first message
 
                if(GOT_PREVIEW == 0 ) then
-               CALL MPI_WAITANY( SORT_COMM(NIN)%NB_REQUEST_CELL_RCV,
-     .                            SORT_COMM(NIN)%REQUEST_CELL_RCV,INDEX_R,STATUS,IERROR )
+               CALL SPMD_WAITANY(SORT_COMM(NIN)%REQUEST_CELL_RCV,
+     .                            SORT_COMM(NIN)%NB_REQUEST_CELL_RCV,INDEX_R,STATUS)
                endif
 
                 REMOTE_PROC = SORT_COMM(NIN)%INDEX_RCV(INDEX_R)
@@ -402,8 +402,8 @@ C-----------------------------------------------
         !   and deallocation
         IF(MODE==4) THEN
             IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
-                CALL MPI_WAITALL( SORT_COMM(NIN)%NB_REQUEST_CELL_SEND,
-     .                            SORT_COMM(NIN)%REQUEST_CELL_SEND,MPI_STATUSES_IGNORE,IERROR )
+                CALL SPMD_WAITALL(SORT_COMM(NIN)%REQUEST_CELL_SEND,
+     .                            SORT_COMM(NIN)%NB_REQUEST_CELL_SEND)
       
             IF(ALLOCATED(SORT_COMM(NIN)%SEND_SIZE_CELL)) call my_dealloc(SORT_COMM(NIN)%SEND_SIZE_CELL)
             IF(ALLOCATED(SORT_COMM(NIN)%SEND_DISPLS_CELL)) call my_dealloc(SORT_COMM(NIN)%SEND_DISPLS_CELL)

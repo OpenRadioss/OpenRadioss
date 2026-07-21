@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : SPMD_IRECV, SPMD_ISEND, SPMD_WAIT
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -185,8 +185,9 @@ C-----------------------------------------------
                         SIZ=IADR(P+1)-IADR(P)
                         IF (SIZ > 0) THEN
                                 MSGTYP = MSGOFF
-                                CALL MPI_IRECV( BBUFR(IADR(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                                          SPMD_COMM_WORLD,REQ_R(P),IERROR )
+                                CALL SPMD_IRECV(
+     .                                BBUFR(IADR(P):IADR(P)+SIZ-1),SIZ,
+     .                                IT_SPMD(P),MSGTYP,REQ_R(P))
 
                         ENDIF
                 ENDDO
@@ -233,8 +234,9 @@ C-----------------------------------------------
                                 IF(SIZ>0)THEN
                                         MSGTYP = MSGOFF
 
-                                        CALL MPI_ISEND(BBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                                                 SPMD_COMM_WORLD,REQ_S(P),IERROR)
+                                        CALL SPMD_ISEND(
+     .                                  BBUFS(IADS(P):IADS(P)+SIZ-1),SIZ,
+     .                                  IT_SPMD(P),MSGTYP,REQ_S(P))
                                 ENDIF
                         ENDIF ! ENDIF P/= LOC_PROC
                 ENDDO  ! DO P=1, NSPMD
@@ -263,7 +265,7 @@ C-----------------------------------------------
                         SIZ=IADR(P+1)-IADR(P)
                         IF (SIZ > 0) THEN
                                 MSGTYP = MSGOFF
-                                CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+                                CALL SPMD_WAIT(REQ_R(P),STATUS)
                                 DO NI=1,NBINTC
                                         NIN = INTLIST(NI)
                                         NTY   =IPARI(7,NIN)
@@ -299,7 +301,7 @@ C-----------------------------------------------
                                 SIZ=IADS(P+1)-IADS(P)
                         ENDIF
                         IF(SIZ>0) THEN
-                                CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+                                CALL SPMD_WAIT(REQ_S(P),STATUS)
                         ENDIF
                 ENDDO
                 

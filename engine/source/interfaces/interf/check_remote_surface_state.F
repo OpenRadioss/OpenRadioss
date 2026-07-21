@@ -51,7 +51,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -96,17 +96,12 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NSPMD) :: NUMBER_REMOTE_SURF,NUMBER_REMOTE_SURF_R ! number of remote surface per proc
         LOGICAL, DIMENSION(NSPMD) :: ALREADY_DONE ! boolean to avoid to send 2 times the same surface
         
-        INTEGER :: IERROR ! error for mpi commm
         INTEGER :: MSGTYP,MSGOFF1,MSGOFF2 ! mpi message id
         INTEGER :: RECV_NB,RECV_NB_2 ! number of received message
         INTEGER :: SIZE_R,SIZE_S ! size of mpi message
         INTEGER, DIMENSION(NSPMD) :: INDEX_R_PROC,INDEX_R_PROC_2 ! index of processor for rcv comm
         INTEGER, DIMENSION(NSPMD) :: REQUEST_SIZE_R,REQUEST_SIZE_R_2 ! array of request : rcv
         INTEGER, DIMENSION(NSPMD) :: REQUEST_SIZE_S,REQUEST_SIZE_S_2 ! array of request : send
-#ifdef MPI
-        INTEGER, DIMENSION(MPI_STATUS_SIZE) :: STATUS_MPI
-        INTEGER, DIMENSION(MPI_STATUS_SIZE,NSPMD) :: ARRAY_STATUSES
-#endif
         DATA MSGOFF1/13014/
         DATA MSGOFF2/13015/
 C-----------------------------------------------
@@ -199,8 +194,8 @@ C-----------------------------------------------
                 RECV_NB = RECV_NB + 1
                 INDEX_R_PROC(RECV_NB) = I
                 MSGTYP = MSGOFF1
-                CALL MPI_IRECV( NUMBER_REMOTE_SURF_R(I),1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          SPMD_COMM_WORLD,REQUEST_SIZE_R(RECV_NB),IERROR )
+                CALL SPMD_IRECV( NUMBER_REMOTE_SURF_R(I:I),1,IT_SPMD(I),MSGTYP,
+     .                           REQUEST_SIZE_R(RECV_NB) )
             ENDIF
         ENDDO
         ! ----------------
@@ -211,15 +206,15 @@ C-----------------------------------------------
             FRONTIER_ELM = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
             IF(FRONTIER_ELM>0) THEN
                 MSGTYP = MSGOFF1
-                CALL MPI_ISEND( NUMBER_REMOTE_SURF(I),1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          SPMD_COMM_WORLD,REQUEST_SIZE_S(I),IERROR )
+                CALL SPMD_ISEND( NUMBER_REMOTE_SURF(I:I),1,IT_SPMD(I),MSGTYP,
+     .                           REQUEST_SIZE_S(I) )
             ENDIF
         ENDDO
         ! ----------------
 
         ! ----------------
         ! wait the R comm "number of deleted surface of interface type 24 or 25"
-        IF(RECV_NB>0) CALL MPI_WAITALL(RECV_NB,REQUEST_SIZE_R,ARRAY_STATUSES,IERROR)
+        IF(RECV_NB>0) CALL SPMD_WAITALL(REQUEST_SIZE_R,RECV_NB)
 
         ! ----------------
         ! receive the data : "list of deleted surface of interface type 24 or 25"
@@ -234,9 +229,8 @@ C-----------------------------------------------
                 CALL ALLOC_2D_ARRAY(R_BUFFER(PROC_ID)) 
                 SIZE_R = R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(1) * R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(2)
                 MSGTYP = MSGOFF2
-                CALL MPI_IRECV(R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,1),SIZE_R,
-     .                  MPI_INTEGER,IT_SPMD(PROC_ID),MSGTYP,
-     .                  SPMD_COMM_WORLD,REQUEST_SIZE_R_2(RECV_NB_2),IERROR )
+                CALL SPMD_IRECV(R_BUFFER(PROC_ID)%INT_ARRAY_2D(1:2,1:NUMBER_REMOTE_SURF_R(PROC_ID)),
+     .                  SIZE_R,IT_SPMD(PROC_ID),MSGTYP,REQUEST_SIZE_R_2(RECV_NB_2) )
             ENDIF
         ENDDO
         ! ----------------
@@ -247,15 +241,15 @@ C-----------------------------------------------
             IF(NUMBER_REMOTE_SURF(I)>0) THEN
                 MSGTYP = MSGOFF2
                 SIZE_S = NUMBER_REMOTE_SURF(I) * S_BUFFER(I)%SIZE_INT_ARRAY_2D(1)
-                CALL MPI_ISEND( S_BUFFER(I)%INT_ARRAY_2D(1,1),SIZE_S,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          SPMD_COMM_WORLD,REQUEST_SIZE_S_2(I),IERROR )
+                CALL SPMD_ISEND( S_BUFFER(I)%INT_ARRAY_2D(1:2,1:NUMBER_REMOTE_SURF(I)),SIZE_S,IT_SPMD(I),MSGTYP,
+     .                           REQUEST_SIZE_S_2(I) )
             ENDIF
         ENDDO
         ! ----------------
 
         ! ----------------
         DO I=1,RECV_NB_2
-            CALL MPI_WAITANY(RECV_NB_2,REQUEST_SIZE_R_2,K,STATUS_MPI,IERROR)
+            CALL SPMD_WAITANY(REQUEST_SIZE_R_2,RECV_NB_2,K)
             PROC_ID = INDEX_R_PROC_2(K)
             ! --------------
             DO J=1,NUMBER_REMOTE_SURF_R(PROC_ID)
@@ -284,7 +278,7 @@ C-----------------------------------------------
         DO I=1,NSPMD
             FRONTIER_ELM = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
             IF(FRONTIER_ELM>0) THEN
-                CALL MPI_WAIT(REQUEST_SIZE_S(I),STATUS_MPI,IERROR)
+                CALL SPMD_WAIT(REQUEST_SIZE_S(I))
             ENDIF
         ENDDO
         ! ----------------
@@ -293,7 +287,7 @@ C-----------------------------------------------
         ! wait the S comm : "list of deleted surface of interface type 24 or 25"
         DO I=1,NSPMD
             IF(NUMBER_REMOTE_SURF(I)>0) THEN
-                CALL MPI_WAIT(REQUEST_SIZE_S_2(I),STATUS_MPI,IERROR)
+                CALL SPMD_WAIT(REQUEST_SIZE_S_2(I))
                 CALL DEALLOC_2D_ARRAY(S_BUFFER(I)) 
             ENDIF
         ENDDO

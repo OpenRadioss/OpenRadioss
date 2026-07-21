@@ -33,7 +33,7 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief Initiliation of the SFEM data structure, including the initialization of the SPMD communication data structure for SFEM
-!! \details 
+!! \details
 !||====================================================================
 !||    sfem_init_spmd         ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||--- called by ------------------------------------------------------
@@ -54,8 +54,8 @@
 !||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine sfem_init_spmd(lag_ale,numels,numnod,ngroup, &
-                             nparg,ispmd,nspmd,tetra_fsky_dim,fsky_dim2, &
-                             iparg,ixs,sfem,nodes,itag_nsfem,local_elm_nb,local_elm_list)
+          nparg,ispmd,nspmd,tetra_fsky_dim,fsky_dim2, &
+          iparg,ixs,sfem,nodes,itag_nsfem,local_elm_nb,local_elm_list)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -120,7 +120,7 @@
 
 
           integer, parameter :: tag_1 = 10001
-          integer, parameter :: tag_2 = 10002          
+          integer, parameter :: tag_2 = 10002
           type(array_type_int_1d), dimension(:), allocatable :: s_buffer, r_buffer, s_buffer_2, r_buffer_2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
@@ -131,7 +131,7 @@
 
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(s_buffer(nspmd))
-          allocate(r_buffer(nspmd))  
+          allocate(r_buffer(nspmd))
           allocate(s_buffer_2(nspmd))
           allocate(r_buffer_2(nspmd))
           allocate(global_elm_nb(2*numnod+1))
@@ -161,8 +161,8 @@
           enddo
           ! -----------
 
-          call spmd_waitall(next,s_request)
-          call spmd_waitall(next,r_request)
+          call spmd_waitall(s_request,next)
+          call spmd_waitall(r_request,next)
 
           next = 0
           ! -----------
@@ -179,11 +179,11 @@
               call alloc_int_1d_array(s_buffer_2(i))
               s_size = 0
               do j=nodes%boundary_add(1,i),nodes%boundary_add(1,i+1)-1
-                node_id = nodes%boundary(j)    
+                node_id = nodes%boundary(j)
                 do k=1,local_elm_nb(node_id)
                   my_address = k + local_elm_nb(numnod+node_id)
                   s_size = s_size + 1
-                  s_buffer_2(i)%int_array_1d(s_size) = -local_elm_list(my_address,1)              
+                  s_buffer_2(i)%int_array_1d(s_size) = -local_elm_list(my_address,1)
                 enddo
               enddo
 
@@ -191,20 +191,20 @@
               do j=nodes%boundary_add(1,i),nodes%boundary_add(1,i+1)-1
                 r_size = r_size + r_buffer(i)%int_array_1d(j-nodes%boundary_add(1,i)+1)
                 global_elm_nb(nodes%boundary(j)) = global_elm_nb(nodes%boundary(j)) + &
-                                                      r_buffer(i)%int_array_1d(j-nodes%boundary_add(1,i)+1) ! get the total number of elements connected to the current node by summing the number of elements received from other mpi tasks
+                  r_buffer(i)%int_array_1d(j-nodes%boundary_add(1,i)+1) ! get the total number of elements connected to the current node by summing the number of elements received from other mpi tasks
               enddo
 
               r_buffer_2(i)%size_int_array_1d = r_size
               call alloc_int_1d_array(r_buffer_2(i))
               next = next + 1
               call spmd_isend(s_buffer_2(i)%int_array_1d,s_size,i-1,tag_2,s_request(next))
-              call spmd_irecv(r_buffer_2(i)%int_array_1d,r_size,i-1,tag_2,r_request(next))               
+              call spmd_irecv(r_buffer_2(i)%int_array_1d,r_size,i-1,tag_2,r_request(next))
             endif
           enddo
           ! -----------
-          
-          call spmd_waitall(next,s_request)
-          call spmd_waitall(next,r_request)
+
+          call spmd_waitall(s_request,next)
+          call spmd_waitall(r_request,next)
 
           ! -----------
           ! get the total number of contributions
@@ -220,13 +220,13 @@
           ! -----------
 
           allocate(sfem%tetra_fsky(sfem%tetra_fsky_dim1,sfem%tetra_fsky_dim2))
-          sfem%tetra_fsky(1:sfem%tetra_fsky_dim1,1:sfem%tetra_fsky_dim2) = 0.0_WP 
+          sfem%tetra_fsky(1:sfem%tetra_fsky_dim1,1:sfem%tetra_fsky_dim2) = 0.0_WP
 
           allocate(global_elm_list(sfem%tetra_fsky_dim1,4))
           global_elm_list(1:sfem%tetra_fsky_dim1,1:4) = -1000000
 
           ! -----------
-          ! save the local data         
+          ! save the local data
           do i=1,numnod
             do k=1,local_elm_nb(i)
               my_address = k + global_elm_nb(numnod+i) - 1
@@ -237,24 +237,24 @@
             enddo
           enddo
           ! -----------
-                  
+
           ! -----------
           ! exchange of data : element id, processor id
           do i=1,nspmd
             if(i-1/=ispmd) then
-              next = 0 
+              next = 0
               do j=nodes%boundary_add(1,i),nodes%boundary_add(1,i+1)-1
                 node_id = nodes%boundary(j)
                 remote_elm_nb = r_buffer(i)%int_array_1d(j-nodes%boundary_add(1,i)+1)
                 low_bound = 1
-                up_bound = remote_elm_nb                           
+                up_bound = remote_elm_nb
                 do k=low_bound,up_bound
                   my_address = k + local_elm_nb(node_id) + global_elm_nb(numnod+node_id) - 1
-                  next = next + 1                                
+                  next = next + 1
                   global_elm_list(my_address,1) = r_buffer_2(i)%int_array_1d(next) ! internal global element id (remote element)
                   global_elm_list(my_address,2) = -1 ! for remote elements, we don't need the local element id
                   global_elm_list(my_address,3) = -1 ! for remote elements, we don't need the local node number in the element
-                  global_elm_list(my_address,4) = i-1 ! processor id                  
+                  global_elm_list(my_address,4) = i-1 ! processor id
                 enddo
                 local_elm_nb(node_id) = local_elm_nb(node_id) + remote_elm_nb ! update the number of elements connected to the current node by adding the number of elements received from other mpi tasks
               enddo
@@ -275,7 +275,7 @@
           deallocate(s_buffer_2)
           deallocate(r_buffer_2)
 
-          ! -----------  
+          ! -----------
           ! sort the element list for each node based on the global element id
           entity_size_max = 0
           do i=1,numnod
@@ -283,7 +283,7 @@
             up_bound = global_elm_nb(numnod+i+1)-1  ! address of the last element connected to the current node
             entity_size = up_bound - low_bound + 1 ! number of elements connected to the current node
             entity_size_max = max(entity_size_max,entity_size)
-          enddo          
+          enddo
           allocate(entity_list(entity_size_max))
           allocate(entity_list_2(entity_size_max,4))
           allocate(perm(entity_size_max))
@@ -293,27 +293,27 @@
             up_bound = global_elm_nb(numnod+i+1)-1  ! address of the last element connected to the current node
             entity_size = up_bound - low_bound + 1 ! number of elements connected to the current node
             do j=1,entity_size ! loop over the elements connected to the current node
-              entity_list(j) = abs(global_elm_list(low_bound+j-1,1)) ! key : sort the elements based on their global id (the absolute value of the global element id is used as key since for remote elements, the global element id is stored as negative value)          
+              entity_list(j) = abs(global_elm_list(low_bound+j-1,1)) ! key : sort the elements based on their global id (the absolute value of the global element id is used as key since for remote elements, the global element id is stored as negative value)
               entity_list_2(j,1) = global_elm_list(low_bound+j-1,1) ! save the element data
               entity_list_2(j,2) = global_elm_list(low_bound+j-1,2)
-              entity_list_2(j,3) = global_elm_list(low_bound+j-1,3)     
-              entity_list_2(j,4) = global_elm_list(low_bound+j-1,4)                            
+              entity_list_2(j,3) = global_elm_list(low_bound+j-1,3)
+              entity_list_2(j,4) = global_elm_list(low_bound+j-1,4)
             enddo
             ierror = 0
-            call myqsort_int(entity_size,entity_list,perm,ierror) ! sort the element keys       
-            do j=1,entity_size ! loop over the sorted elements                  
+            call myqsort_int(entity_size,entity_list,perm,ierror) ! sort the element keys
+            do j=1,entity_size ! loop over the sorted elements
               global_elm_list(low_bound+j-1,1) = entity_list_2(perm(j),1) ! reorder the element data based on the sorted order
               global_elm_list(low_bound+j-1,2) = entity_list_2(perm(j),2)
               global_elm_list(low_bound+j-1,3) = entity_list_2(perm(j),3)
-              global_elm_list(low_bound+j-1,4) = entity_list_2(perm(j),4)              
+              global_elm_list(low_bound+j-1,4) = entity_list_2(perm(j),4)
             enddo
-          enddo          
+          enddo
 
           deallocate(entity_list)
           deallocate(entity_list_2)
           deallocate(perm)
           ! -----------
-          
+
           ! -----------
           ! get the adress of the contribution of each element connected to the current node
           allocate(sfem%tetra4_iad(8,numels))
@@ -329,12 +329,12 @@
               if (nnod /= 4) cycle ! only tetrahedral elements are supported
             endif
             call initbuf(iparg,i, &
-                         mtn,llt,nft,iad,ity, &
-                         npt,jale,ismstr,jeul,jtur, &
-                         jthe,jlag,jmult,jhbe,jivf, &
-                         nvaux,jpor,jcvt,jclose,jplasol, &
-                         irep,iint,igtyp,israt,isrot, &
-                         icsen,isorth,isorthg,ifailure,jsms)
+              mtn,llt,nft,iad,ity, &
+              npt,jale,ismstr,jeul,jtur, &
+              jthe,jlag,jmult,jhbe,jivf, &
+              nvaux,jpor,jcvt,jclose,jplasol, &
+              irep,iint,igtyp,israt,isrot, &
+              icsen,isorth,isorthg,ifailure,jsms)
             if(lag_ale==0) then
               condition = (nnod==4.and.isrot==3).or.(icpre/=0.and.(nnod==10.or.(nnod==4.and.isrot==1)))
               if(jeul==1) condition = .false.
@@ -342,9 +342,9 @@
             else
               condition = (nnod==4.and.isrot==3)
               if(jeul==1) condition = .false.
-              if(jlag==1) condition = .false.           
+              if(jlag==1) condition = .false.
             endif
-            if(.not.condition) cycle ! for 4-node elements, only ISROT=3 is supported, and for both 4-node and 10-node elements, only ICPRE=1 is supported                         
+            if(.not.condition) cycle ! for 4-node elements, only ISROT=3 is supported, and for both 4-node and 10-node elements, only ICPRE=1 is supported
 
             do j=1,llt
               element_id = ixs(11,j+nft)
@@ -387,7 +387,7 @@
                       low_bound = global_elm_nb(numnod+node_id) ! address of the first element connected to the current node
                       up_bound = global_elm_nb(numnod+node_id+1) - 1 ! address of the last element connected to the current node
                       entity_size = up_bound - low_bound + 1 ! number of elements connected to the current node
-                                      condition = .true.
+                      condition = .true.
                       do k=1,entity_size ! loop over the elements connected to the current node
                         if(element_id==global_elm_list(low_bound+k-1,1).and.global_elm_list(low_bound+k-1,3)<0) then ! find the current element in the list of elements connected to the current node
                           sfem%tetra4_iad(4+abs(global_elm_list(low_bound+k-1,3)),global_elm_list(low_bound+k-1,2)) = low_bound+k-1 ! store the fsky address
@@ -395,8 +395,8 @@
                           exit
                         endif
                       enddo
-                    enddo                   
-                  enddo                
+                    enddo
+                  enddo
                 endif
               endif
             endif
@@ -404,7 +404,7 @@
           ! -----------
 
           ! -----------
-          ! get the mpi communication data structure for SFEM          
+          ! get the mpi communication data structure for SFEM
           allocate(sfem%spmd(nspmd))
           do i=1,nspmd
             if(i-1/=ispmd) then
@@ -421,7 +421,7 @@
                   elseif(global_elm_list(low_bound+k-1,4)==i-1) then
                     r_size = r_size + 1
                   endif
-                enddo                
+                enddo
               enddo
               sfem%spmd(i)%s_size = s_size
               sfem%spmd(i)%r_size = r_size
@@ -444,14 +444,14 @@
                     r_size = r_size + 1
                     sfem%spmd(i)%rcv_iad(r_size) = low_bound+k-1 ! store the fsky address to receive
                   endif
-                enddo                
-              enddo              
+                enddo
+              enddo
             endif
           enddo
-          ! -----------          
-          
           ! -----------
-          ! get the list of nodes connected to tetra element with SFEM option and 
+
+          ! -----------
+          ! get the list of nodes connected to tetra element with SFEM option and
           ! the number of elements connected to each of these nodes
           next = 0
           do i=1,numnod
@@ -474,8 +474,8 @@
             endif
           enddo
           next = next + 1
-          sfem%node_iad(next) = global_elm_nb(2*numnod+1) ! save the adress of the first contribution of a node         
-          ! ----------- 
+          sfem%node_iad(next) = global_elm_nb(2*numnod+1) ! save the adress of the first contribution of a node
+          ! -----------
 
         end subroutine sfem_init_spmd
       end module sfem_init_spmd_mod

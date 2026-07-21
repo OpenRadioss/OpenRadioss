@@ -137,7 +137,7 @@
             enddo
           else
             do i=1,component%request_r_nb
-              call spmd_waitany(component%request_r_nb,component%request_r,my_index,status_mpi)
+              call spmd_waitany(component%request_r,component%request_r_nb,my_index,status_mpi)
               proc_id = component%index_r(my_index)
               component%proc_comp(proc_id)%need_comm_s = .false.
               component%proc_comp(proc_id)%need_comm_r = .false.
@@ -200,7 +200,7 @@
             enddo
 
             do i=1,component%request_s_nb
-              call spmd_waitany(component%request_s_nb,component%request_s,my_index,status_mpi)
+              call spmd_waitany(component%request_s,component%request_s_nb,my_index,status_mpi)
             enddo
             call my_dealloc(component%s_buffer_comp)
           endif

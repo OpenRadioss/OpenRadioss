@@ -267,10 +267,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           if (iverbose) print*, "Radioss2Viper: ReceiveSendInitialTimes: entering"
-          call SPMD_RECV(dt_min_viper, 1, 1, 9931, MPI_COMM_WORLD)
-          call SPMD_RECV(t_max,        1, 1, 9932, MPI_COMM_WORLD)
-          call SPMD_RECV(dt_out,       1, 1, 9933, MPI_COMM_WORLD)
-          call SPMD_RECV(t_now,        1, 1, 9934, MPI_COMM_WORLD)
+          call SPMD_RECV(dt_min_viper, 1, 1, 9931, comm=MPI_COMM_WORLD)
+          call SPMD_RECV(t_max,        1, 1, 9932, comm=MPI_COMM_WORLD)
+          call SPMD_RECV(dt_out,       1, 1, 9933, comm=MPI_COMM_WORLD)
+          call SPMD_RECV(t_now,        1, 1, 9934, comm=MPI_COMM_WORLD)
           dt_min = max(dt_min,dt_min_viper)                            ! note: prior to this line, dt_min == dt_min_radioss
           dt_min_viper = dt_min                                        ! synchronise both dt_min's
           call SPMD_SEND(dt_min,       1, 1, 9935, MPI_COMM_WORLD)
@@ -308,7 +308,7 @@
           call SPMD_SEND(numsolids,  1,1, 9941, MPI_COMM_WORLD)
           call SPMD_SEND(num4shells, 1,1, 9942, MPI_COMM_WORLD)
           call SPMD_SEND(num3shells, 1,1, 9943, MPI_COMM_WORLD)
-          call SPMD_RECV(ikill,      1,1, 9944, MPI_COMM_WORLD)
+          call SPMD_RECV(ikill,      1,1, 9944, comm=MPI_COMM_WORLD)
           if (ikill == 1) then
             print*, "Radioss2Viper: ReceiveSendInitialNumbers: ABORTING due to number mismatch"
             t_max = 0.
@@ -542,7 +542,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           call my_alloc(Aviper, 3*numnod, "Aviper")
           if (iverbose) print*, "Radioss2Viper: ReceiveAccelerations: ", numnod
-          call SPMD_RECV(Aviper, 3*numnod, 1, 9910, MPI_COMM_WORLD)
+          call SPMD_RECV(Aviper, 3*numnod, 1, 9910, comm=MPI_COMM_WORLD)
           do i = 1,numnod
             A(1,itabm1(i)) = A(1,itabm1(i)) + Aviper(3*i-2)
             A(2,itabm1(i)) = A(2,itabm1(i)) + Aviper(3*i-1)
@@ -581,7 +581,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           dt_rad_in = dt_rad
-          call SPMD_RECV(dt_viper, 1,  1, 9925, MPI_COMM_WORLD)
+          call SPMD_RECV(dt_viper, 1,  1, 9925, comm=MPI_COMM_WORLD)
           dt_rad = min(dt_rad,dt_viper)
           if (dt_rad < dt_min) then
             mstop = 1

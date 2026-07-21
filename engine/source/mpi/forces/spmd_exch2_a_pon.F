@@ -60,7 +60,8 @@ C--------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : spmd_irecv, spmd_isend, spmd_waitany,
+     .                       spmd_wait
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -105,10 +106,9 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-        INTEGER MSGTYP, I, NOD, LOC_PROC, IERROR, INDEX, NISKYF, N, 
+        INTEGER MSGTYP, I, NOD, LOC_PROC, INDEX, NISKYF, N, 
      . SIZ,J,K,L,NB_NOD,CC,NBIRECV, II, NN, IPT, MSGOFF,
      .          IAD_RECV(NSPMD+1),
-     .          STATUS(MPI_STATUS_SIZE),
      .          REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),
      .          nbi,nbirct,nbisdt,l0,nbircp(NSPMD),nbisdp(NSPMD)
 
@@ -177,9 +177,8 @@ C
             MSGTYP = MSGOFF
             NBIRECV = NBIRECV + 1
             IRINDEX(NBIRECV) = I
-            CALL MPI_IRECV(
-     S        RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G        SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+            CALL spmd_irecv(
+     S        RBUF(L),SIZ,IT_SPMD(I),MSGTYP,REQ_R(NBIRECV))
             L = L + SIZ
           ENDIF
           IAD_RECV(I+1) = L
@@ -1154,9 +1153,8 @@ C
      .             SIZ = SIZ + 6*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
 C
             MSGTYP = MSGOFF
-            CALL MPI_ISEND(
-     S        SBUF(L0),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G        SPMD_COMM_WORLD,REQ_S(I),IERROR)
+            CALL spmd_isend(
+     S        SBUF(L0),SIZ,IT_SPMD(I),MSGTYP,REQ_S(I))
           ENDIF
         ENDDO
 C
@@ -1164,7 +1162,7 @@ C decompactage
 C
         NBIRCT = 0
         DO II=1,NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_R,INDEX,STATUS,IERROR)
+          CALL spmd_waitany(REQ_R,NBIRECV,INDEX)
           I = IRINDEX(INDEX)
           NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
 C
@@ -1771,7 +1769,7 @@ C   wait terminaison isend
 C
         DO I = 1, NSPMD
           IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)
-     .      CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+     .      CALL spmd_wait(REQ_S(I))
         ENDDO
 
         call my_dealloc(RBUF)

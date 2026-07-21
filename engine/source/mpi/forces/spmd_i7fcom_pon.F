@@ -87,7 +87,8 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE GLOB_THERM_MOD
       use output_mod
-      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+      USE SPMD_MOD, ONLY : spmd_irecv, spmd_isend, spmd_recv,
+     .                     spmd_wait
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -142,7 +143,6 @@ C-----------------------------------------------
      . IALLOCS, IALLOCR, LEN17, JJ, IGN, IGE, NMES, NME,
      .        IADM, IES,INTTH,LEN7T,LEN20, LEN20E, INC,LEN11T,
      .        MSGOFF, MSGOFF2,J,K,INTCAREA,
-     . STATUS(MPI_STATUS_SIZE),
      .        DEBUT(NINTER), DEBUTI(NINTER),
      .        DEBUTE(NINTER), DEBUTIE(NINTER),
 C parasiz car variable en save
@@ -221,9 +221,9 @@ C Add Part EGDE for type 20
             IF(SIZ>0)THEN
               NSNSITOT(P) = SIZ
               MSGTYP = MSGOFF 
-              CALL MPI_IRECV(
-     .          ISIZRCV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_R(P),IERROR   )
+              CALL spmd_irecv(
+     .          ISIZRCV(1,P),2,IT_SPMD(P),MSGTYP,
+     .          REQ_R(P))
             ENDIF
           ENDIF
         ENDDO
@@ -405,9 +405,9 @@ C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC.AND.NSNFITOT(P)>0) THEN
             MSGTYP = MSGOFF
-             CALL MPI_ISEND(
-     .        ISIZENV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .        SPMD_COMM_WORLD,REQ_S(P),IERROR    )
+             CALL spmd_isend(
+     .        ISIZENV(1,P),2,IT_SPMD(P),MSGTYP,
+     .        REQ_S(P))
             IALLOCS = IALLOCS + ISIZENV(1,P)
           ENDIF
         END DO
@@ -1103,9 +1103,9 @@ C Node generating the force
             END DO
             SIZ = L+1-ADD
             MSGTYP = MSGOFF2
-            CALL MPI_ISEND(
-     .        BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .        SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+            CALL spmd_isend(
+     .        BBUFS(ADD),SIZ,IT_SPMD(P),MSGTYP,
+     .        REQ_SI(P))
           ELSEIF(P/=LOC_PROC)THEN
             DO II = 1, NBINTC
               NIN = INTLIST(II)
@@ -1143,7 +1143,7 @@ C
         IALLOCR = 0
         DO P = 1, NSPMD
           IF(NSNSITOT(P)>0)THEN
-            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_R(P))
             IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! for blocking communications
 C           Iallocr = Iallocr + Isizrcv (P)!For non -blocking comm
           END IF
@@ -1178,9 +1178,8 @@ C        The = 1!To be reactivated if not blocking
           IF(ISIZRCV(1,P)>0) THEN
             MSGTYP = MSGOFF2
             L = 1           ! blocking send + memory allocation optimization on max communications
-            CALL MPI_RECV(
-     .        BBUFR(L),ISIZRCV(1,P)+NBINTC*2,REAL  ,IT_SPMD(P),MSGTYP,
-     .        SPMD_COMM_WORLD            ,STATUS,IERROR    )
+            CALL spmd_recv(
+     .        BBUFR(L),ISIZRCV(1,P)+NBINTC*2,IT_SPMD(P),MSGTYP)
              
 C
             DO II = 1, NBINTC
@@ -1360,10 +1359,10 @@ C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC)THEN
             IF(NSNFITOT(P)>0) THEN
-              CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+              CALL spmd_wait(REQ_S(P))
             END IF
             IF(ISIZENV(1,P)>0)THEN
-              CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+              CALL spmd_wait(REQ_SI(P))
             END IF
           END IF
         END DO

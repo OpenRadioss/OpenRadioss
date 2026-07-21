@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -103,8 +103,8 @@ C-----------------------------------------------
                             MSGTYP = MSGOFF3 
                             SORT_COMM(NIN)%NBRECV_NB=SORT_COMM(NIN)%NBRECV_NB+1
                             SORT_COMM(NIN)%RECV_NB(SORT_COMM(NIN)%NBRECV_NB)=P   !   proc with nmn>0
-                            CALL MPI_IRECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                              MSGTYP,SPMD_COMM_WORLD,SORT_COMM(NIN)%REQUEST_NB_R(SORT_COMM(NIN)%NBRECV_NB),IERROR)
+                            CALL SPMD_IRECV(NSNFI(NIN)%P(P:P),1,IT_SPMD(P),
+     .                              MSGTYP,SORT_COMM(NIN)%REQUEST_NB_R(SORT_COMM(NIN)%NBRECV_NB))
                         ENDIF
                     ENDIF
                 ENDIF

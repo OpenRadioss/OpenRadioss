@@ -175,7 +175,7 @@
             allocate(ghost_counts(nspmd))
             allocate(ghost_displs(nspmd + 1))
 
-            call spmd_allgather(n_ghost_local, ghost_counts, 1)
+            call spmd_allgather(n_ghost_local, ghost_counts, 1, 1)
 
             ghost_displs(1) = 0
             do j = 1, nspmd
@@ -272,7 +272,7 @@
             allocate(recv_cnt(nspmd), recv_dsp(nspmd + 1))
 
             ! Negotiate sizes first (Alltoall of counts, size-1 messages)
-            call spmd_alltoall(send_cnt, 1, recv_cnt, 1)
+            call spmd_alltoall(send_cnt, recv_cnt, 1, 1)
 
             recv_dsp(1) = 0
             do j = 1, nspmd

@@ -29,7 +29,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    write_s_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
-!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_ANIM_PLY_XYZNOR( NODGLOB,IPLY,XNORM,EMPSIZPL)
 C-----------------------------------------------
@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF2,STAT(MPI_STATUS_SIZE,NSPMD-1), IERR
+      INTEGER MSGOFF,MSGOFF2
       INTEGER I, ND, EMPL, P, ITAG, INORM(3), IXNN
 
       INTEGER PLYSIZ
@@ -113,12 +113,12 @@ C The plynods of other procs
 
               ITAG=MSGOFF
 
-              CALL MPI_RECV(IRECBUF,PLYIADNOD(IPLY,P), MPI_INTEGER,
-     .                      IT_SPMD(P),ITAG, SPMD_COMM_WORLD, STAT, IERR)
+              CALL SPMD_RECV(IRECBUF(1:PLYIADNOD(IPLY,P)),
+     .                       PLYIADNOD(IPLY,P),IT_SPMD(P),ITAG)
 
               ITAG=MSGOFF2
-              CALL MPI_RECV(FRECBUF,PLYIADNOD(IPLY,P)*3, MPI_INTEGER,
-     .                      IT_SPMD(P),ITAG, SPMD_COMM_WORLD, STAT, IERR)
+              CALL SPMD_RECV(FRECBUF(1:3,1:PLYIADNOD(IPLY,P)),
+     .                       PLYIADNOD(IPLY,P)*3,IT_SPMD(P),ITAG)
 
               DO I=1,PLYIADNOD(IPLY,P)
                  EMPL = IRECBUF(I)-EMPSIZPL
@@ -161,12 +161,10 @@ C The plynods of other procs
         END DO
 
         ITAG=MSGOFF
-        CALL MPI_SEND(ISENDBUF,PLYSIZ,MPI_INTEGER,IT_SPMD(1),
-     .                   ITAG,SPMD_COMM_WORLD,IERR)
+        CALL SPMD_SEND(ISENDBUF(1:PLYSIZ),PLYSIZ,IT_SPMD(1),ITAG)
 
         ITAG=MSGOFF2
-        CALL MPI_SEND(FSENDBUF,PLYSIZ*3,MPI_INTEGER,IT_SPMD(1),
-     .                   ITAG,SPMD_COMM_WORLD,IERR)
+        CALL SPMD_SEND(FSENDBUF(1:3,1:PLYSIZ),PLYSIZ*3,IT_SPMD(1),ITAG)
 C
         DEALLOCATE(ISENDBUF,FSENDBUF)
       ENDIF

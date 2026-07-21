@@ -586,6 +586,7 @@
           secs = secs/clockrate
 #endif
           t%realtime(event)=t%realtime(event)+secs
+
           return
         end subroutine stoptime
 

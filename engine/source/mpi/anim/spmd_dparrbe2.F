@@ -37,7 +37,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -71,8 +71,6 @@ C-----------------------------------------------
 
 C MPI variables 
       INTEGER MSGOFF,MSGOFF2,MSGTYP
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-
       DATA MSGOFF/7020/
       DATA MSGOFF2/7021/
 C-----------------------------------------------
@@ -113,15 +111,13 @@ C Procement reception of sizes
 
         DO P=2,NSPMD
            MSGTYP = MSGOFF
-           CALL MPI_RECV(P0RECRBE2(1,P),NRBE2G,MPI_INTEGER,IT_SPMD(P),
-     *                   MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
+           CALL spmd_recv(P0RECRBE2(1:NRBE2G,P),NRBE2G,IT_SPMD(P),MSGTYP)
         ENDDO
 
       ELSE
 C Procs Other shipments
         MSGTYP = MSGOFF
-        CALL MPI_SEND(SZLOCRBE2,NRBE2G,MPI_INTEGER,IT_SPMD(1),
-     .                MSGTYP,SPMD_COMM_WORLD,IERROR)
+        CALL spmd_send(SZLOCRBE2(1:NRBE2G),NRBE2G,IT_SPMD(1),MSGTYP)
 
       ENDIF
 
@@ -147,8 +143,7 @@ C ------------------------
          ENDDO
          IF (SNRBE2 > 0)THEN
            MSGTYP = MSGOFF2
-           CALL  MPI_SEND(SENDBUF,SNRBE2,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     *                  SPMD_COMM_WORLD,IERROR)
+           CALL spmd_send(SENDBUF(1:SNRBE2),SNRBE2,IT_SPMD(1),MSGTYP)
          ENDIF
          DEALLOCATE(SENDBUF)
 
@@ -217,8 +212,7 @@ C Size of the reception buffer
            IF (SIZRBE2 > 0) THEN
              ALLOCATE(RECBUF(SIZRBE2))
              MSGTYP = MSGOFF2 
-             CALL MPI_RECV(RECBUF,SIZRBE2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     *                   SPMD_COMM_WORLD,STATUS,IERROR)
+             CALL spmd_recv(RECBUF(1:SIZRBE2),SIZRBE2,IT_SPMD(P),MSGTYP)
 
              PSNRBE2=0
              DO I=1,NRBE2G

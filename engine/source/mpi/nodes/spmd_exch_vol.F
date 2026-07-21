@@ -34,7 +34,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
         use my_alloc_mod
 
 #include      "implicit_f.inc"
@@ -84,10 +84,9 @@ C-----------------------------------------------
         SIZ = SIZ6 * 2 * LEN
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_IRECV(
-     S      RBUF(1,L),SIZ,MPI_DOUBLE_PRECISION,
-     G      IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,
-     H      REQ_R(I),IERROR)
+          CALL spmd_irecv(
+     S      RBUF(1:SIZ6,L:L+2*LEN-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(I))
           L = L  + 2*LEN
         ENDIF
         IAD_RECV(I+1)  = L
@@ -135,10 +134,9 @@ C envoi a N+I mod P
 
           SIZ = LEN * 2 * SIZ6       
           L = IAD_SEND(I)
-          CALL MPI_ISEND(
-     S      SBUF(1,L),SIZ,MPI_DOUBLE_PRECISION,
-     G      IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,
-     H      REQ_S(I),IERROR)
+          CALL spmd_isend(
+     S      SBUF(1:SIZ6,L:L+2*LEN-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_S(I))
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -148,7 +146,7 @@ C
       DO I = 1, NSPMD
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL spmd_wait(REQ_R(I),STATUS)
           L  = IAD_RECV(I)
 
 #include        "vectorize.inc"
@@ -177,7 +175,7 @@ C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL spmd_wait(REQ_S(I),STATUS)
         ENDIF
       ENDDO
 C

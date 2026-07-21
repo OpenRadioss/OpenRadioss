@@ -26,7 +26,7 @@ C
 !||    spmd_sumax            ../engine/source/mpi/generic/spmd_sumax.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_SUMAX(V,LEN1,LEN)
 C gather table V of size LEN of type my_real
@@ -35,7 +35,7 @@ C sum of values over LEN2 = LEN - LEN1
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -58,7 +58,6 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGTYP,I,K
       DATA MSGOFF/107/
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       my_real
      .        VTMP(LEN)
 C-----------------------------------------------
@@ -66,13 +65,11 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
-        CALL MPI_SEND(V,LEN,REAL,IT_SPMD(1),MSGTYP,
-     .                SPMD_COMM_WORLD,IERROR)
+        CALL spmd_send(V(1:LEN),LEN,IT_SPMD(1),MSGTYP)
       ELSE
         DO K=2,NSPMD
           MSGTYP=MSGOFF
-          CALL MPI_RECV(VTMP,LEN,REAL,IT_SPMD(K),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,IERROR)
+          CALL spmd_recv(VTMP(1:LEN),LEN,IT_SPMD(K),MSGTYP)
           DO I=1,LEN1
             IF(ABS(V(I))<ABS(VTMP(I))) THEN
               V(I) = VTMP(I)
