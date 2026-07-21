@@ -66,8 +66,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IMAT,MLN,IMAT_SUB,NIX,NELS
       INTEGER :: TAGMAT(NUMMAT+1),II, NBMAT, KK
-      my_real :: TCP_REF,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax,SSP0,SSP0MAX,LC,LC0MAX
-      INTEGER, DIMENSION(:, :), POINTER  :: IX      
+      my_real :: TCP_REF,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax,SSP0,SSP0MAX,LC,LC0MAX,USED_TCARP
+      INTEGER, DIMENSION(:, :), POINTER  :: IX
+      LOGICAL :: TO_BE_DISPLAYED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -155,23 +156,29 @@ C-----------------------------------------------
        DO KK=1,EBCS_TAB%NEBCS
           select type (twf => EBCS_TAB%tab(KK)%poly)
             type is (t_ebcs_nrf)
-             CALL EBCS_SET_TCARP(twf,TCP_REF)
+             TO_BE_DISPLAYED = .FALSE.
+             CALL EBCS_SET_TCARP(twf,TCP_REF, TO_BE_DISPLAYED, USED_TCARP)
          end select
        ENDDO
 
        !-----------------------------!
        ! OUTPUT                      !
        !-----------------------------!          
-        WRITE (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF
+        IF(TO_BE_DISPLAYED) THEN
+          WRITE (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF,USED_TCARP
+        ELSE
+
+        ENDIF
 
  1001 FORMAT(
      .//
      .'     NON REFLECTING FRONTIERS (EBCS)    '/
      .'     -------------------------------    '/
-     & 5X,'INITIALIZATION OF GLOBAL PARAMETERS      ',/    
+     & 5X,'INITIALIZATION OF GLOBAL PARAMETERS      ',/
      & 5X,'CHARACTERISTIC LENGTH. . . . . . . . . .=',E12.4/
-     & 5X,'REFERENCE SOUND SPEED. . . . . . . . .  =',E12.4/
-     & 5X,'CHARACTERISTIC TIME (TCP). . . . . . . .=',E12.4//)
+     & 5X,'REFERENCE SOUND SPEED. . . . . . . . . .=',E12.4/
+     & 5X,'COMPUTED DEFAULT TCP PARAMETER . . . . .=',E12.4/
+     & 5X,'TCP PARAMETER ACTUALLY USED. . . . . . .=',E12.4//)
                            
                                                                
       END SUBROUTINE INIEBCS_NRF_TCAR
@@ -186,13 +193,19 @@ C-----------------------------------------------
 !||    iniebcs_nrf_tcar   ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-      SUBROUTINE EBCS_SET_TCARP(EBCS,TCAR_P)
+      SUBROUTINE EBCS_SET_TCARP(EBCS,TCAR_P,TO_BE_DISPLAYED,USED_TCARP)
       USE EBCS_MOD
 #include      "implicit_f.inc"
       
       TYPE(t_ebcs_nrf) :: EBCS
-      my_real :: TCAR_P
-      
-           IF(EBCS%TCAR_P == ZERO) EBCS%TCAR_P = TCAR_P
+      my_real :: TCAR_P,USED_TCARP
+      LOGICAL :: TO_BE_DISPLAYED
+
+           USED_TCARP = EBCS%TCAR_P
+           IF(EBCS%TCAR_P == ZERO) THEN
+             EBCS%TCAR_P = TCAR_P
+             TO_BE_DISPLAYED = .TRUE.
+             USED_TCARP = TCAR_P
+           ENDIF
       
       END SUBROUTINE
