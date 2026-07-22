@@ -209,9 +209,26 @@
             s23(1:nel) = - nu / young(1:nel)
             s43(1:nel) = zero
             !< Sound speed
-            aii(1:nel) = max(aii(1:nel),matparam%young/                          &
+            aii(1:nel) = max(aii(1:nel),matparam%young/                        &
                                                 (one - matparam%nu*matparam%nu))
             soundsp(1:nel) = sqrt(aii(1:nel)/rho(1:nel))
+          !< Beams
+          elseif (eltype == 3) then
+            !< Elastic strain at previous time step
+            epsxxe(1:nel) = sigoxx(1:nel)/young0(1:nel)
+            epsyye(1:nel) = zero
+            epszze(1:nel) = zero
+            epsyze(1:nel) = zero
+            epsxye(1:nel) = sigoxy(1:nel)*two*(one + nu)/                      &
+                            max((young0(1:nel)*shf(1:nel)),em20)
+            epszxe(1:nel) = sigozx(1:nel)*two*(one + nu)/                      &
+                            max((young0(1:nel)*shf(1:nel)),em20)
+            !< Shear modulus update
+            shear(1:nel) = young(1:nel)/(two*(one + nu))
+            !< Elastic stiffness matrix
+            cstf(1:nel,1,1) = young(1:nel)
+            cstf(1:nel,4,4) = shear(1:nel)*shf(1:nel)
+            cstf(1:nel,6,6) = shear(1:nel)*shf(1:nel)
           endif
 !
           !< Save elastic constants

@@ -256,6 +256,9 @@
                             max((young0(1:nel)*shf(1:nel)),em20)
             epszxe(1:nel) = sigozx(1:nel)*two*(one + nu0(1:nel))/                &
                             max((young0(1:nel)*shf(1:nel)),em20)
+            epsyye(1:nel) = zero
+            epszze(1:nel) = zero
+            epsyze(1:nel) = zero
             cstf(1:nel,1,1) = young(1:nel)
             cstf(1:nel,4,4) = shear(1:nel)*shf(1:nel)
             cstf(1:nel,6,6) = shear(1:nel)*shf(1:nel)   
