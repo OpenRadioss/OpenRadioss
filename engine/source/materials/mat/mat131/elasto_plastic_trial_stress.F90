@@ -123,7 +123,7 @@
           real(kind=WP), dimension(nel), intent(inout) :: signxy   !< Current stress xy
           real(kind=WP), dimension(nel), intent(inout) :: signyz   !< Current stress yz
           real(kind=WP), dimension(nel), intent(inout) :: signzx   !< Current stress zx
-          integer,                       intent(in)    :: eltype   !< Element type (1 - Solids, 2 - Shells)
+          integer,                       intent(in)    :: eltype   !< Element type (1 - Solids, 2 - Shells, 3 - Beams)
           real(kind=WP), dimension(nel), intent(in)    :: shf      !< Shear factor for shells
           real(kind=WP), dimension(nel), intent(inout) :: s13      !< Compliance matrix component 13
           real(kind=WP), dimension(nel), intent(inout) :: s23      !< Compliance matrix component 23
