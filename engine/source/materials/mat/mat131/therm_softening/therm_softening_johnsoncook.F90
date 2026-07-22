@@ -81,7 +81,11 @@
           temp(1:nel) = min(temp(1:nel),tmelt)
           !< Compute thermal softening factor and its derivative
           temp_minus_tref_over_tmelt_minus_tref(1:nel) = (max(temp(1:nel)-tref, zero))/(tmelt-tref)
-          dthermfac(1:nel) = (-m/(tmelt-tref)) * temp_minus_tref_over_tmelt_minus_tref(1:nel)**(m-one)
+          where (temp_minus_tref_over_tmelt_minus_tref(1:nel) > zero)
+            dthermfac(1:nel) = (-m/(tmelt-tref)) * temp_minus_tref_over_tmelt_minus_tref(1:nel)**(m-one)
+          elsewhere
+            dthermfac(1:nel) = zero
+          end where
           thermfac(1:nel) = one - temp_minus_tref_over_tmelt_minus_tref(1:nel)*    &
             dthermfac(1:nel)*(-(tmelt-tref)/m)
           !< Apply thermal softening to sigy and dsigy_dpla using chain rule
