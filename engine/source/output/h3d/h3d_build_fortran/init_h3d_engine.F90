@@ -194,12 +194,12 @@
 !                                                   LOCAL VARIABLES
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, k, n, iok, ni, ns, nn, stext1, ninefricg                ! Loop counters and temporary variables
-          character(len=10) :: char1, char2
+          character(len=10) :: char1, char2, s_comp_level
           ! Character strings for output formatting
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-
+          s_comp_level = ''
           ! Call PRELECH3D to prepare H3D data
           call prelech3d(numgeo, npropgi, npropmi, nummat, numply, &
             igeo, ipm, h3d_data, multi_fvm, mds_output_table, &
@@ -213,10 +213,18 @@
 
           ! Print H3D output information
           if (h3d_data%n_outp_h3d /= 0 .and. ispmd == 0) then
-            write(iout, 5000) h3d_data%th3d, h3d_data%dth3d
-5000        format(/ &
-              '     H3D OUTPUT TIME  . . . . . . . . . . . . . . .=', 1pg12.5/ &
-              '     H3D TIME INTERVAL. . . . . . . . . . . . . . .=', 1pg12.5/)
+            if (h3d_data%comp_level == -1) then
+              s_comp_level = 'NONE'
+              write(iout, 5000) h3d_data%th3d, h3d_data%dth3d, s_comp_level
+            elseif (h3d_data%comp_level == 1) then
+              s_comp_level = 'STANDARD'
+              write(iout, 5000) h3d_data%th3d, h3d_data%dth3d, s_comp_level
+            elseif (h3d_data%comp_level == 7) then
+              s_comp_level = 'FULL'
+              write(iout, 5000) h3d_data%th3d, h3d_data%dth3d, s_comp_level
+            else
+              write(iout, 6000) h3d_data%th3d, h3d_data%dth3d, h3d_data%comp_level
+            endif
 
             write(iout, *)'       |'
             do i = 1, h3d_data%n_outp_h3d
@@ -381,6 +389,15 @@
             call my_alloc(output%data%efric, 0, 0, "output%data%efric")
             call my_alloc(output%data%efric_stamp, 0, 0, "output%data%efric_stamp")
           endif
+
+5000        format(/ &
+              '     H3D OUTPUT TIME  . . . . . . . . . . . . . . .=', 1pg12.5/ &
+              '     H3D TIME INTERVAL. . . . . . . . . . . . . . .=', 1pg12.5/ &
+              '     H3D COMPRESSION LEVEL. . . . . . . . . . . . .= ', a/)
+6000        format(/ &
+              '     H3D OUTPUT TIME  . . . . . . . . . . . . . . .=', 1pg12.5/ &
+              '     H3D TIME INTERVAL. . . . . . . . . . . . . . .=', 1pg12.5/ &
+              '     H3D COMPRESSION LEVEL. . . . . . . . . . . . .=', i3/)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine init_h3d_engine
       end module init_h3d_engine_mod

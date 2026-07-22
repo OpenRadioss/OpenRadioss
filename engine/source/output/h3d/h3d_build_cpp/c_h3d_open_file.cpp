@@ -234,8 +234,12 @@ void c_h3d_open_file_(char *name, int *size, my_real *percentage_error, int *com
 //  open h3d file
 //
     int mode(H3D_SINGLEFILE);
-    //mode |= H3D_NOZLIB;
-    //mode |= H3D_NOSORT;
+    if(*comp_level == -1 )
+    {
+        *comp_level = 0;
+        mode |= H3D_NOZLIB;
+        mode |= H3D_NOSORT;
+    }
     h3d_file = Hyper3DExportOpen(cname, mode, NULL, ReportErrorMsg);
     
     Hyper3DCompressionLevel(h3d_file, *comp_level);
