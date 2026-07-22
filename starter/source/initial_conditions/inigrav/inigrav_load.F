@@ -121,6 +121,7 @@ C-----------------------------------------------
       my_real :: LAMBDA,DIAG1(3),DIAG2(3),DIST,B(3),VOLFRAC,DEPT
       my_real,ALLOCATABLE,DIMENSION(:,:) :: MIN_COOR, MAX_COOR, N_SURF, ZF
       my_real :: TOLSEG
+      my_real :: R0
       INTEGER :: GRAV_ID
       INTEGER :: K,KK,IGRP,ISURF,NPART_IN_GROUP,MLW,NG,NEL,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
       INTEGER :: USERID
@@ -155,6 +156,7 @@ C-----------------------------------------------
         NGY     = LINIGRAV(09,K)
         NGZ     = LINIGRAV(10,K) 
         PSURF   = LINIGRAV(11,K)
+        R0      = LINIGRAV(12,K)
         IF (GRAV0==ZERO)CYCLE          !nothing to do if g=0 at time=0 => Delta_P=0 => P=P(t=0)=P0
 
         ! Gravity direction is defined in a user skew (see /GRAV).       !
@@ -438,7 +440,8 @@ C-----------------------------------------------
           !     3,4,6,49 (ANY EOS)                !
           !=======================================! 
            CASE (3, 4, 6, 10, 49)      !Material law defined with Equations Of States 
-              RHO0 = PM(1,MATID)                  
+              RHO0 = PM(1,MATID)
+              IF(R0 > ZERO) RHO0 = R0
               CALL INIGRAV_EOS(NEL,NEL2, NG, MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT(IADBUF), 
      .                         ELBUF_TAB, PSURF, LIST , PGRAV, 0 ,MLW, NPF, TF ,NUMMAT,MAT_PARAM)
           !=======================================!
@@ -464,10 +467,10 @@ C-----------------------------------------------
               IF (IFORM == 12) THEN
                   CALL INIGRAV_M51_ANY_EOS(NEL  , NEL2,     NG, MATID,  IPM, GRAV0, DEPTH, PM,    BUFMAT(IADBUF), ELBUF_TAB,
      .                            PSURF, LIST,  ALE_CONNECTIVITY,   IX , NIX  , NFT  , BUFMAT, IPARG,
-     .                            MAT_PARAM, NUMMAT, NPF, TF,NPROPMI, NPROPM,NGROUP, NPARG, SNPC,STF)
+     .                            MAT_PARAM, NUMMAT, NPF, TF,NPROPMI, NPROPM,NGROUP, NPARG, SNPC,STF,R0)
               ELSEIF (IFORM /= 3) THEN
                 CALL INIGRAV_M51(NEL  , NEL2,     NG, MATID,  IPM, GRAV0, DEPTH, PM,    BUFMAT(IADBUF), ELBUF_TAB,
-     .                           PSURF, LIST,  ALE_CONNECTIVITY,   NV46, IX , NIX  , NFT  , BUFMAT, IPARG)
+     .                           PSURF, LIST,  ALE_CONNECTIVITY,   NV46, IX , NIX  , NFT  , BUFMAT, IPARG,R0)
               ELSE
                 CALL ANCMSG(MSGID   = 84,
      .                      ANMODE  = ANINFO,
@@ -494,7 +497,8 @@ C-----------------------------------------------
                 VOLFRAC=  MAT_PARAM(IX(1, 1))%MULTIMAT%VFRAC(IMAT)
                 MATLAW = IPM(2, MATID)
                 RHO0   = RHO0+PM(1,MATID)*VOLFRAC 
-              ENDDO           
+              ENDDO
+              IF(R0 > ZERO) RHO0 = R0
 
               DO IMAT=1,NBMAT
                 MATID  = MAT_PARAM(IX(1, 1))%MULTIMAT%MID(IMAT)

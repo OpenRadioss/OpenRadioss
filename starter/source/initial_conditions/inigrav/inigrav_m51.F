@@ -30,7 +30,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INIGRAV_M51(NELG, NEL , NG   , MATID, IPM, GRAV0, DEPTH, PM,     BUFMAT, ELBUF_TAB,
-     .                       PSURF,LIST, ALE_CONNECTIVITY, NV46 , IX , NIX  , NFT  , BUFMATG, IPARG)
+     .                       PSURF,LIST, ALE_CONNECTIVITY, NV46 , IX , NIX  , NFT  , BUFMATG, IPARG, R0)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: GRAV0, DEPTH(*), PM(NPROPM, *), BUFMAT(*),PSURF,BUFMATG(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET, INTENT(IN) :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      my_real,INTENT(IN) :: R0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -218,7 +219,8 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
          ENDIF
 
       !Mean initial density
-         RHO0 = ALPHA1 * RHO10 + ALPHA2 * RHO20 + ALPHA3 * RHO30 + ALPHA4 * RHO40        
+         RHO0 = ALPHA1 * RHO10 + ALPHA2 * RHO20 + ALPHA3 * RHO30 + ALPHA4 * RHO40
+         IF(R0 > ZERO) RHO0=R0
       !Hydrostatic pressure
          PGRAV = PSURF + RHO0  * ABS_GRAV0 * DEPTH(K)
       !Solve for partial densities

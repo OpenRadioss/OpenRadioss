@@ -31,7 +31,7 @@
 !||====================================================================
       SUBROUTINE inigrav_m51_any_eos(NELG, NEL , NG   , MATID, IPM, GRAV0, DEPTH, PM,     BUFMAT, ELBUF_TAB,&
                              PSURF,LIST, ALE_CONNECTIVITY,  IX , NIX  , NFT  , BUFMATG, IPARG,&
-                             MAT_PARAM, NUMMAT, NPF, TF,NPROPMI, NPROPM,NGROUP, NPARG, SNPC,STF)
+                             MAT_PARAM, NUMMAT, NPF, TF,NPROPMI, NPROPM,NGROUP, NPARG, SNPC,STF,R0)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,6 +61,7 @@
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
       INTEGER, INTENT(IN) :: NPF(SNPC)
       real(kind=WP), INTENT(IN) :: TF(STF)
+      real(kind=WP), INTENT(IN) :: R0
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -183,6 +184,7 @@
 
       !Mean initial density
          RHO0 = ALPHA1 * RHO10 + ALPHA2 * RHO20 + ALPHA3 * RHO30 + ALPHA4 * RHO40
+         IF(R0 > ZERO) RHO0=R0
       !Hydrostatic pressure
          PGRAV = PSURF + RHO0  * ABS_GRAV0 * DEPTH(K)
       !Solve for partial densities
