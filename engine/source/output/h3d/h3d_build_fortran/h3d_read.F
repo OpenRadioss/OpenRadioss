@@ -74,8 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NBC, L, KCUR, J, 
-     .        NH3D,IREC,NBSENS
+      INTEGER I, NBC, L, KCUR, J, NH3D, IREC, NBSENS, IOST
       CHARACTER LINE*120
       CHARACTER(LEN=NCHARKEY)::KEY2
       CHARACTER(LEN=NCHARKEY)::KEY3
@@ -97,7 +96,7 @@ c
       H3D_DATA%DTH3D0 = ZERO
       H3D_DATA%TH3D_STOP0 = EP30
       H3D_DATA%PERCENTAGE_ERROR = ZERO
-      H3D_DATA%COMP_LEVEL = 7
+      H3D_DATA%COMP_LEVEL = 1
       H3D_DATA%N_SENS_H3D = 0
       H3D_DATA%LIGHT = 0
       H3D_DATA%NB_H3D_FRAME = 0
@@ -168,9 +167,29 @@ c           ENDDO
         ELSEIF(KEY2=='LIGHT') THEN 
           H3D_DATA%LIGHT = 1
 !
-        ELSEIF(KEY2=='COMP_LEVEL')THEN
-          CALL WRIUSC2(IREC,1,KEY0(KCUR))
-          READ(IUSC2,*,ERR=9990)H3D_DATA%COMP_LEVEL
+        ELSEIF(KEY2=='COMP_LEVEL') THEN
+          IF(KEY3(1:1)/=' ') THEN
+            READ(KEY3,*,IOSTAT=IOST)H3D_DATA%COMP_LEVEL
+            IF(IOST == 0) THEN
+              IF(H3D_DATA%COMP_LEVEL < 0 .OR. H3D_DATA%COMP_LEVEL > 9) THEN
+                CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
+     .                      C1=KEY0(KCUR),C2=LINE(1:35))
+                CALL ARRET(0)
+              ENDIF
+            ELSE
+              IF(KEY3=='NONE') THEN
+                H3D_DATA%COMP_LEVEL = -1
+              ELSEIF(KEY3=='STANDARD') THEN
+                H3D_DATA%COMP_LEVEL = 1
+              ELSEIF(KEY3=='FULL') THEN
+                H3D_DATA%COMP_LEVEL = 7
+              ELSE
+                CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
+     .                      C1=KEY0(KCUR),C2=LINE(1:35))
+                CALL ARRET(0)
+              ENDIF
+            ENDIF
+          ENDIF
           
         ELSEIF(KEY2=='TITLE')THEN
           H3D_DATA%N_TITLE = NBC
