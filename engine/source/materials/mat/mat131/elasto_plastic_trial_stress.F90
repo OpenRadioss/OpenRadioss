@@ -56,6 +56,7 @@
 !||    elasticity_bimod_isotropic         ../engine/source/materials/mat/mat131/elasticity/elasticity_bimod_isotropic.F90
 !||    elasticity_isotropic               ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
 !||    elasticity_orthotropic             ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
+!||    elasticity_plas_isotropic          ../engine/source/materials/mat/mat131/elasticity/elasticity_plas_isotropic.F90
 !||    elasticity_temp_isotropic          ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
 !||    elasticity_viscous_isotropic       ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
 !||--- uses       -----------------------------------------------------
@@ -64,6 +65,7 @@
 !||    elasticity_bimod_isotropic_mod     ../engine/source/materials/mat/mat131/elasticity/elasticity_bimod_isotropic.F90
 !||    elasticity_isotropic_mod           ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
 !||    elasticity_orthotropic_mod         ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
+!||    elasticity_plas_isotropic_mod      ../engine/source/materials/mat/mat131/elasticity/elasticity_plas_isotropic.F90
 !||    elasticity_temp_isotropic_mod      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
 !||    elasticity_viscous_isotropic_mod   ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
 !||    matparam_def_mod                   ../common_source/modules/mat_elem/matparam_def_mod.F90

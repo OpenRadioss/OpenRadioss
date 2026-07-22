@@ -33,21 +33,24 @@
 !          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
-!||    hm_read_work_hardening                  ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening.F90
+!||    hm_read_work_hardening                         ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_elasto_plastic                  ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||    hm_read_elasto_plastic                         ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||--- calls      -----------------------------------------------------
-!||    hm_read_work_hardening_linearvoce       ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_linearvoce.F90
-!||    hm_read_work_hardening_powerlaw         ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_powerlaw.F90
-!||    hm_read_work_hardening_tabulated        ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_tabulated.F90
-!||    hm_read_work_hardening_voce             ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_voce.F90
+!||    hm_read_work_hardening_linearvoce              ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_linearvoce.F90
+!||    hm_read_work_hardening_powerlaw                ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_powerlaw.F90
+!||    hm_read_work_hardening_tabulated               ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_tabulated.F90
+!||    hm_read_work_hardening_voce                    ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_voce.F90
+!||    hm_read_work_hardening_zerilli_armstrong       ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_zerilli_armstrong.F90
 !||--- uses       -----------------------------------------------------
-!||    hm_option_read_mod                      ../starter/share/modules1/hm_option_read_mod.F
-!||    hm_read_work_hardening_linearvoce_mod   ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_linearvoce.F90
-!||    hm_read_work_hardening_powerlaw_mod     ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_powerlaw.F90
-!||    hm_read_work_hardening_tabulated_mod    ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_tabulated.F90
-!||    hm_read_work_hardening_voce_mod         ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_voce.F90
-!||    submodel_mod                            ../starter/share/modules1/submodel_mod.F
+!||    elbuftag_mod                                   ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod                             ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_work_hardening_linearvoce_mod          ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_linearvoce.F90
+!||    hm_read_work_hardening_powerlaw_mod            ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_powerlaw.F90
+!||    hm_read_work_hardening_tabulated_mod           ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_tabulated.F90
+!||    hm_read_work_hardening_voce_mod                ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_voce.F90
+!||    hm_read_work_hardening_zerilli_armstrong_mod   ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_zerilli_armstrong.F90
+!||    submodel_mod                                   ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_work_hardening(                                     &
           ikey     ,type     ,ihard    ,nupar_hard,upar_hard,ntab_hard,        &

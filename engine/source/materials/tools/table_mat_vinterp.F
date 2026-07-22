@@ -30,6 +30,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    compaction_tab_init            ../common_source/eos/compaction_tab.F90
 !||    condamage                      ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion                     ../engine/source/materials/mat/mat190/conversion.F
+!||    elasticity_plas_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_plas_isotropic.F90
 !||    elasticity_temp_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
 !||    elasticity_viscous_isotropic   ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
 !||    fail_biquad_c                  ../engine/source/materials/fail/biquad/fail_biquad_c.F
@@ -89,6 +90,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    compaction_tab_init            ../common_source/eos/compaction_tab.F90
 !||    condamage                      ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion                     ../engine/source/materials/mat/mat190/conversion.F
+!||    elasticity_plas_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_plas_isotropic.F90
 !||    elasticity_temp_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
 !||    elasticity_viscous_isotropic   ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
 !||    fail_biquad_c                  ../engine/source/materials/fail/biquad/fail_biquad_c.F

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>        Copyright (C) 2026 Siemens
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -15,15 +15,30 @@
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
 !Copyright>
 !Copyright>
-!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>        Commercial Alternative: Simcenter Radioss Software
 !Copyright>
-!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
+!Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
+!Copyright>        commercial version may interest you: 
+!Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    work_hardening_zerilli_armstrong_mod   ../engine/source/materials/mat/mat131/work_hardening/work_hardening_zerilli_armstrong.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_yield_stress            ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||====================================================================
       module work_hardening_zerilli_armstrong_mod
 ! \brief Compute Zerilli work hardening for /MAT/LAW131
 ! \details Compute the isotropic work hardening stress using the Zerilli-Armstrong model for /MAT/LAW131.
       contains
+!||====================================================================
+!||    work_hardening_zerilli_armstrong   ../engine/source/materials/mat/mat131/work_hardening/work_hardening_zerilli_armstrong.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_yield_stress        ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                       ../common_source/modules/constant_mod.F
+!||    matparam_def_mod                   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                      ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine work_hardening_zerilli_armstrong(                           &
           matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   ,epsd   ,&
           temp     ,dtemp_dpla)
