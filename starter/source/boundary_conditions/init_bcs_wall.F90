@@ -345,9 +345,10 @@
             end if
 
             call my_dealloc(adjacent_elem)
-            call my_dealloc(bcs%iworking_array)
 
           end do !next ii
+
+          call my_dealloc(bcs%iworking_array)
 
 
 
