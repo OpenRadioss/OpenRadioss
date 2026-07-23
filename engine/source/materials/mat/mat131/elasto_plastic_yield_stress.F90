@@ -106,6 +106,7 @@
         use therm_softening_tabulated_mod
         use self_heating_taylor_mod
         use self_heating_tabulated_mod
+        use constant_mod, only: em20,zero
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -254,6 +255,12 @@
                 temp     ,pla     ,offset  )
           end select
         endif
+!
+        !< Safeguard against negative yield stress and set derivative to zero
+        where (sigy(1:nel) <= zero)
+          sigy(1:nel) = em20
+          dsigy_dpla(1:nel) = zero
+        end where
 !
       end subroutine elasto_plastic_yield_stress
       end module elasto_plastic_yield_stress_mod
