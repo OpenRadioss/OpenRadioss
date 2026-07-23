@@ -100,6 +100,7 @@
 
           !dummy
           VOL = ONE
+          IF(RHO(1) == ZERO) VOL = ZERO ! '/ebcs/inlet'
 
           !Initialization
           TEMP = ZERO
