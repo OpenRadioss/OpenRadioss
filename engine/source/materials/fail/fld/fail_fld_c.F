@@ -27,29 +27,28 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
 !||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    finter           ../engine/source/tools/curve/finter.F
-!||    finterfld        ../engine/source/materials/fail/fld/fail_fld_c.F
 !||    vinter2          ../engine/source/tools/curve/vinter.F
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
 !||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
-      SUBROUTINE FAIL_FLD_C(
-     1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TF       ,TIME     ,UPARAM   ,
-     3     NGL      ,IPG      ,ILAY     ,IPTT     ,
+      SUBROUTINE FAIL_F   LD_C(FAIL     ,
+     1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
+     2     TIME     ,NGL      ,IPG      ,ILAY     ,IPTT     ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,LF_DAMMX ,
      5     DEPSXX   ,DEPSYY   ,DEPSXY   ,PLA      ,
      6     ZT       ,OFF      ,FOFF     ,TDEL     ,
-     7     FLD_IDX  ,DAM      ,DFMAX    ,DT1      ,
-     8     NIPARAM  ,IPARAM   ,NUVAR    ,UVAR     )
+     7     FLD_IDX  ,DAM      ,DFMAX    ,DT1      )
 C-----------------------------------------------
 c    FLD failure model
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
       use my_alloc_mod
       use my_dealloc_mod, only : my_dealloc
+
 #include  "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -60,11 +59,8 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
-C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C---------+---------+---+---+--------------------------------------------
 C EPSXX   | NEL     | F | R | STRAIN XX
 C EPSYY   | NEL     | F | R | STRAIN YY
@@ -82,15 +78,12 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NFUNC,IPG,ILAY,IPTT,NIPARAM,NUVAR,
-     .   LF_DAMMX
+      INTEGER, INTENT(IN) :: NEL,IPG,ILAY,IPTT,NUVAR,NVARTMP,LF_DAMMX
       INTEGER, DIMENSION(NEL)   :: NGL
-      INTEGER, DIMENSION(NFUNC) :: IFUNC
-      INTEGER, DIMENSION(NIPARAM) :: IPARAM
       my_real, INTENT(IN) :: TIME,ZT,DT1
       my_real, DIMENSION(NEL), INTENT(IN) :: OFF,
      .   EPSXX,EPSYY,EPSXY,DEPSXX,DEPSYY,DEPSXY,PLA
-      my_real, DIMENSION(NUPARAM) :: UPARAM
+      type (fail_param_) ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -98,30 +91,17 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DAM,TDEL
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER , FINTERFLD ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,J,IENG,LENF,NINDX,NINDXF,IFAIL_SH,ISTRESS,IMARGIN
+      INTEGER :: I,J,IENG,LENF,NINDX,NINDXF,IFAIL_SH,ISTRESS,IMARGIN
       INTEGER ,DIMENSION(NEL) :: INDX,INDXF
       my_real :: RANI,R1,R2,S1,S2,SS,Q,E12,FACT_MARGIN,FACT_LOOSEMETAL,
      .    FCUT,ALPHA
-      my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
+      my_real ,ALLOCATABLE, DIMENSION(:) :: XF,YF 
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM,DEMAJ,DEMIN,BETA
-      INTEGER, DIMENSION(NEL) :: IPOS,ILENP,IADP
-      my_real, DIMENSION(NEL) :: TAB_LOC,Y_LOC,DYDX_LOC
+      my_real, DIMENSION(NEL) :: TAB_LOC,Y_LOC,DYDX
 C=======================================================================
 c
       !=================================================================
@@ -129,19 +109,19 @@ c
       !=================================================================
       ! Recovering failure criterion parameters
       ! -> Real parameters
-      FACT_MARGIN     = UPARAM(1)
-      RANI            = UPARAM(3)
-      FACT_LOOSEMETAL = UPARAM(4)
-      FCUT            = UPARAM(5)
-      IF (UPARAM(6) > ZERO) THEN 
-        ALPHA = UPARAM(6) 
+      FACT_MARGIN     = FAIL%UPARAM(1)
+      RANI            = FAIL%UPARAM(3)
+      FACT_LOOSEMETAL = FAIL%UPARAM(4)
+      FCUT            = FAIL%UPARAM(5)
+      IF (FAIL%UPARAM(6) > ZERO) THEN 
+        ALPHA = FAIL%UPARAM(6) 
       ELSE 
         ALPHA = TWO*PI*FCUT*DT1/(ONE + TWO*PI*FCUT*DT1)
       ENDIF
       ! -> Integer parameters
-      IFAIL_SH = IPARAM(1)
-      IMARGIN  = IPARAM(2)
-      IENG     = IPARAM(3)
+      IFAIL_SH = FAIL%IPARAM(1)
+      IMARGIN  = FAIL%IPARAM(2)
+      IENG     = FAIL%IPARAM(3)
 c
       ! Shell element deletion
       ISTRESS = 0
@@ -206,39 +186,38 @@ c
       !=================================================================
       ! -> Engineering strains input
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
-        II   = NPF(IFUNC(1))
-        LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
+        LENF = size(fail%table4d(1)%x(1)%values)
         call my_alloc(XF, LENF, "XF")
+        call my_alloc(YF, LENF, "YF")
         DO I = 1,LENF
-          XF(I) = LOG(TF(II + I-1) + ONE)
+          XF(I) = LOG(fail%table4d(1)%x(1)%values(i) + ONE)
+          YF(I) = fail%table4d(1)%y1d(i)
         ENDDO
+        call vinter_1d(nindx,nel,lenf,vartmp,xf,yf,emin,y_loc)
 c
 #include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
-          EM(I)      = FINTERFLD(EMIN(I),LENF,XF)
+          EM(I) = Y_LOC(J)
           DAM(I)     = EMAJ(I) / EM(I)
           DFMAX(I,2) = MAX(DAM(I),ZERO)
           DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
         call my_dealloc(XF)
-      ! -> True strains input
-      ELSE
-        ! -> Classical formulation
+        call my_dealloc(YF)
+      
+      ELSE     ! -> True strains input
         IF (IENG == 0) THEN
 #include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
-            IPOS(J) = 1
-            IADP(J) = NPF(IFUNC(1)) / 2 + 1
-            ILENP(J) = NPF(IFUNC(1)+1) / 2 -IADP(J) - IPOS(J)
             TAB_LOC(J) = EMIN(I)
           ENDDO
-          CALL VINTER2(TF,IADP,IPOS,ILENP,NINDX,TAB_LOC,DYDX_LOC,Y_LOC)
+          call table_mat_vinterp(fail%table4d(1),nindx,nel,vartmp,tab_loc,y_loc,dydx)
 #include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
-            EM(I) = Y_LOC(J)
+            EM(I)  = Y_LOC(J)
             DAM(I) = EMAJ(I) / EM(I)
             DFMAX(I,2) = MAX(DAM(I),ZERO)
             DFMAX(I,1) = MIN(ONE,DAM(I))
@@ -248,12 +227,9 @@ c
 #include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
-            IPOS(J) = 1
-            IADP(J) = NPF(IFUNC(1)) / 2 + 1
-            ILENP(J) = NPF(IFUNC(1)+1) / 2 -IADP(J) - IPOS(J)
             TAB_LOC(J) = BETA(I)
           ENDDO
-          CALL VINTER2(TF,IADP,IPOS,ILENP,NINDX,TAB_LOC,DYDX_LOC,Y_LOC)
+          call table_mat_vinterp(fail%table4d(1),nindx,nel,vartmp,tab_loc,y_loc,dydx)
 #include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
@@ -396,6 +372,62 @@ c------------------------
  2100 FORMAT(1X,'FAILURE (FLD) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',I2,1X,',LAYER',I3,
      .       1X,',INTEGRATION PT',I3,1X,'AT TIME :',1PE12.4)
 c------------------------
+      END
+c      
+
+      subroutine VINTER_1D(NPOS,NEL,LENF,IPOS,XF,YF,XX,YY)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NPOS,NEL
+      INTEGER LENF
+      INTEGER, dimension(NEL),  INTENT(INOUT) :: IPOS
+      my_real, dimension(LENF), INTENT(IN)  :: XF
+      my_real, dimension(LENF), INTENT(IN)  :: YF
+      my_real, dimension(NEL),  INTENT(IN)  :: XX
+      my_real, dimension(NEL),  INTENT(OUT) :: YY
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: I,J,J1,J2
+      INTEGER :: ICONT
+      my_real :: DYDX
+      LOGICAL :: COND1, COND2
+C=======================================================================
+      J = 0
+      ICONT = 1
+      DO WHILE(ICONT==1)
+       J = J+1
+       ICONT = 0
+       DO I=1,NPOS
+         J1 = IPOS(I)+1
+         COND1 = J<=LENF-1
+         IF(COND1) COND1 = XX(I) > XF(J1)
+         COND2 = IPOS(I) >= 1
+         IF(COND2) COND2 = XX(I) < XF(J1-1)
+         IF(COND1)THEN
+           IPOS(I)=IPOS(I)+1
+           ICONT = 1
+         ELSEIF(COND2)THEN
+           IPOS(I)=IPOS(I)-1
+           ICONT = 1
+         ENDIF
+       ENDDO
+C
+      ENDDO
+C
+      DO I=1,NEL
+        J1   = IPOS(I)
+        J2   = J1+1
+        DYDX  = (YF(J2)-YF(J1)) / (XF(J2)-XF(J1))
+        YY(I) = YF(J1) + DYDX * (XX(I)- XF(J1))
+      ENDDO
+c-----------
+      RETURN
       END
 c      
 !||====================================================================

@@ -109,7 +109,6 @@ C-----------------------------------------------
       USE HM_READ_FRACTAL_DMG_MOD
       USE HM_READ_FAIL_LEMAITRE_MOD
       USE HM_READ_FAIL_COMPOSITE_MOD
-      USE ELBUFTAG_MOD
       USE HM_READ_FAIL_PUCK_MOD
       USE HM_READ_FAIL_HASHIN_MOD
       USE HM_READ_FAIL_CHANG_MOD
@@ -349,8 +348,9 @@ c
             ELSEIF (KEY(1:3) == 'FLD') THEN
               IRUPT = 7    
               CALL HM_READ_FAIL_FLD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IMAT,IFL))
+     .             TITLE    ,MAT_ID  ,FAIL_ID  ,IRUPT  ,
+     .             IXFEM    ,NTABLE  ,TABLE    ,LSUBMODEL,UNITAB ,
+     .             FAIL_TAG(IMAT,IFL))
 c     
             ELSEIF (KEY(1:5) == 'SPALL') THEN
               IRUPT = 8    
