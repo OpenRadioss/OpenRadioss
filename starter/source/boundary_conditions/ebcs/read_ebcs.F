@@ -55,7 +55,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
 !||    table_mod                     ../starter/share/modules1/table_mod.F
 !||====================================================================
-      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB,N2D)
+      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB,N2D,INVERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,6 +92,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
       INTEGER,INTENT(IN) :: N2D
+      INTEGER,INTENT(IN) :: INVERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -216,7 +217,7 @@ C-----------------------------------------------
             allocate (t_ebcs_nrf :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_nrf)
-              CALL HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, INVERS, twf)
             end select
 
          CASE ('PROPELLANT')
