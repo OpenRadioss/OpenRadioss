@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE M33_P1_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C     REAL
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
      .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,STF,FACT,
-     .   FX(4),FY(4),FZ(4)
+     .   FX(4),FY(4),FZ(4),MR1
 C=======================================================================
 C
 C------------------------------
@@ -236,7 +237,9 @@ C
          MRX = (B1+C3+C2)
          MRY = (B2+C1+C3)
          MRZ = (B3+C2+C1)
-         MR=DET*INX*MAX(MRX,MRY,MRZ)
+         CALL M33_P1(B1,B2,B3,C1,C2,C3,MR1)
+!         MR=DET*INX*MAX(MRX,MRY,MRZ)
+          MR=DET*INX*MR1
 C
 C------------------------------------------------------
 C     MASSES & FORCES TRANSMISES AUX NODES MAINS
@@ -253,9 +256,9 @@ C
          XMSI=FOURTH*XMSI+MR*FACT
 C
          IF (IRODDL == 1) THEN
-           STF = FOURTH*STIFN(I)+ DET*MAX(MRX,MRY,MRZ)*(STIFR(I)+STIFN(I)*(XS*XS+YS*YS+ZS*ZS))
+           STF = FOURTH*STIFN(I)+ DET*MR1*(STIFR(I)+STIFN(I)*(XS*XS+YS*YS+ZS*ZS))
          ELSE
-           STF = FOURTH*STIFN(I)+ DET*MAX(MRX,MRY,MRZ)*(STIFN(I)*(XS*XS+YS*YS+ZS*ZS))
+           STF = FOURTH*STIFN(I)+ DET*MR1*(STIFN(I)*(XS*XS+YS*YS+ZS*ZS))
          ENDIF
 C
          I0 = I0BASE + IADX(K)
