@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, EBCS)
+      SUBROUTINE HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, INVERS, EBCS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -76,6 +76,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       TYPE(t_ebcs_nrf), INTENT(INOUT) :: EBCS
+      INTEGER,INTENT(IN) :: INVERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -104,7 +105,28 @@ C-----------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('tcar_p',  TCAR_P  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
-      CALL HM_GET_FLOATV('tcar_vf',  TCAR_VF ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('tcar_vf',  TCAR_VF ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+
+      IF(INVERS < 2612)THEN
+        IF(TCAR_P == ZERO)THEN
+          TCAR_P = EP20
+        ELSEIF(TCAR_P <= EM20)THEN
+          TCAR_P = EP20
+          CALL ANCMSG(MSGID=3077,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
+     .             C2 = "/EBCS/NRF : TCAR_P PARAMETER HAS BEEN AUTOMATICALLY UPDATED",
+     .             C3 = "  FOR PURE NON-REFLECTIVE BOUNDARY TCAR_P IS SET TO 1E20")
+        ENDIF
+
+        IF(TCAR_VF == ZERO)THEN
+          TCAR_VF = EP20
+        ELSEIF(TCAR_VF <= EM20)THEN
+          TCAR_VF = EP20
+          CALL ANCMSG(MSGID=3077,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
+     .             C2 = "/EBCS/NRF : TCAR_VF PARAMETER HAS BEEN AUTOMATICALLY UPDATED",
+     .             C3 = "  FOR PURE NON-REFLECTIVE BOUNDARY TCAR_VF IS SET TO 1E20")
+        ENDIF
+      ENDIF
+
 
       IF(TCAR_P < ZERO)THEN
         CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
@@ -128,6 +150,7 @@ C-----------------------------------------------
       ENDIF
 
       IF(TCAR_VF == ZERO)TCAR_VF = INFINITY
+
 
       EBCS%TITLE = TITR
       EBCS%tcar_p = TCAR_P  
