@@ -72,6 +72,7 @@
 !||    elasto_plastic_trial_stress                ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||    elasto_plastic_yield_stress                ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||    eosmain                                    ../common_source/eos/eosmain.F
+!||    eossolve                                   ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    fail_init                                  ../starter/source/materials/fail/fail_init.F
 !||    fail_lemaitre_c                            ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
 !||    fail_lemaitre_s                            ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
@@ -294,6 +295,7 @@
 !||    iniebcsp0                                  ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
 !||    inigrav_eos                                ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    inigrav_load                               ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||    inigrav_m51_any_eos                        ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    init_bcs_nrf                               ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_h3d_engine                            ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_inivol                                ../starter/source/initial_conditions/inivol/init_inivol.F90

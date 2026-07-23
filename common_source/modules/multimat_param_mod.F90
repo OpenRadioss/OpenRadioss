@@ -59,6 +59,7 @@
 !||    i22err3                          ../starter/source/interfaces/inter3d1/i22err3.F
 !||    ini_inimap1d                     ../starter/source/initial_conditions/inimap/ini_inimap1d.F
 !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||    inigrav_m51_any_eos              ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    initia                           ../starter/source/elements/initia/initia.F
 !||    inivol_set                       ../starter/source/initial_conditions/inivol/inivol_set.F
 !||    m51init                          ../starter/source/materials/mat/mat051/m51init.F

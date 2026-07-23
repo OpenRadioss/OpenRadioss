@@ -137,6 +137,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    iniebcs                          ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||    inigrav_load                     ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||    inigrav_m51_any_eos              ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
 !||    init_ale                         ../engine/source/ale/init_ale.F90

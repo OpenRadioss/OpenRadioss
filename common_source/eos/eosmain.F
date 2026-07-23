@@ -22,16 +22,18 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    eosmain_mod        ../common_source/eos/eosmain.F
+!||    eosmain_mod           ../common_source/eos/eosmain.F
 !||--- called by ------------------------------------------------------
-!||    ebcs8_inlet        ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
-!||    inigrav_eos        ../starter/source/initial_conditions/inigrav/inigrav_eos.F
-!||    m12law             ../engine/source/materials/mat/mat012/m12law.F
-!||    m51init            ../starter/source/materials/mat/mat051/m51init.F
-!||    mmain              ../engine/source/materials/mat_share/mmain.F90
-!||    multi_solve_eint   ../engine/source/multifluid/multi_solve_eint.F90
-!||    multi_submatlaw    ../engine/source/multifluid/multi_submatlaw.F
-!||    sigeps75           ../engine/source/materials/mat/mat075/sigeps75.F
+!||    ebcs8_inlet           ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||    eossolve              ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
+!||    inigrav_eos           ../starter/source/initial_conditions/inigrav/inigrav_eos.F
+!||    inigrav_m51_any_eos   ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
+!||    m12law                ../engine/source/materials/mat/mat012/m12law.F
+!||    m51init               ../starter/source/materials/mat/mat051/m51init.F
+!||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+!||    multi_solve_eint      ../engine/source/multifluid/multi_solve_eint.F90
+!||    multi_submatlaw       ../engine/source/multifluid/multi_submatlaw.F
+!||    sigeps75              ../engine/source/materials/mat/mat075/sigeps75.F
 !||====================================================================
       MODULE EOSMAIN_MOD
       contains
@@ -39,6 +41,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    eosmain              ../common_source/eos/eosmain.F
 !||--- called by ------------------------------------------------------
 !||    ebcs8_inlet          ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||    eossolve             ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    inigrav_eos          ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    m12law               ../engine/source/materials/mat/mat012/m12law.F
 !||    m51init              ../starter/source/materials/mat/mat051/m51init.F

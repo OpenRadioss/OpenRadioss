@@ -334,6 +334,7 @@
 !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    inigrav_m37                         ../starter/source/initial_conditions/inigrav/inigrav_m37.F
 !||    inigrav_m51                         ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||    inigrav_m51_any_eos                 ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    inintr_thkvar                       ../starter/source/interfaces/interf1/inintr_thkvar.F
 !||    iniphase                            ../starter/source/initial_conditions/inivol/iniphase.F
 !||    inirig_mat                          ../starter/source/elements/initia/inirig_mat.F

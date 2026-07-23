@@ -31,6 +31,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    inigrav_eos            ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    inigrav_m37            ../starter/source/initial_conditions/inigrav/inigrav_m37.F
 !||    inigrav_m51            ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||    inigrav_m51_any_eos    ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    inigrav_part_list      ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
 !||--- uses       -----------------------------------------------------
 !||    inigrav                ../starter/share/modules1/inigrav_mod.F

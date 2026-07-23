@@ -149,6 +149,7 @@
 !||    eos_table_copy                             ../starter/source/materials/tools/eos_table_copy.F90
 !||    eosexponential                             ../common_source/eos/eosexponential.F90
 !||    eosmain51                                  ../engine/source/materials/mat/mat051/eosmain51.F90
+!||    eossolve                                   ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    fail_changchang_c                          ../engine/source/materials/fail/changchang/fail_changchang_c.F90
 !||    fail_changchang_s                          ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_composite_c                           ../engine/source/materials/fail/composite/fail_composite_c.F90
@@ -315,6 +316,7 @@
 !||    ini_guided_cable                           ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    iniebcs_propellant                         ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcs_propellant_get_cp                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    inigrav_m51_any_eos                        ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    init_bcs_nrf                               ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_global_frontier_monvol                ../engine/source/airbag/init_global_monvol_frontier.F90
 !||    init_inivol                                ../starter/source/initial_conditions/inivol/init_inivol.F90

@@ -128,6 +128,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    eoslinear                                  ../common_source/eos/eoslinear.F
 !||    eosmain51                                  ../engine/source/materials/mat/mat051/eosmain51.F90
 !||    eospolyno                                  ../common_source/eos/eospolyno.F
+!||    eossolve                                   ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    fail_changchang_c                          ../engine/source/materials/fail/changchang/fail_changchang_c.F90
 !||    fail_changchang_s                          ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_composite_c                           ../engine/source/materials/fail/composite/fail_composite_c.F90
@@ -275,6 +276,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    idealgas_vt                                ../common_source/eos/idealgas_vt.F
 !||    ini_guided_cable                           ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    iniebcs_propellant_get_cp                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    inigrav_m51_any_eos                        ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
 !||    iniphase                                   ../starter/source/initial_conditions/inivol/iniphase.F
 !||    init                                       ../common_source/modules/ale/ale_mod.F
 !||    init_bcs_nrf                               ../starter/source/boundary_conditions/init_bcs_nrf.F90
