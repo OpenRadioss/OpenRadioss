@@ -83,6 +83,8 @@
 ! LIST IS SUBGROUP TO TREAT : ONLY ELEM WITH RELEVANT PARTS ARE KEPT
 ! NEL IS ISEZ OF LIST
 ! NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VAR
+      IADBUF = -1
+      IV = -1
 
       ABS_GRAV0 = ABS(GRAV0)
       !Global buffer
