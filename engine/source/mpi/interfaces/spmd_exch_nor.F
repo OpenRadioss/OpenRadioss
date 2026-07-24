@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,INDEX, M, E, IS,
+      INTEGER MSGTYP,I,NOD,LOC_PROC,INDEX, M, E, IS,
      .        SIZ,J,L0,L,CC,II, MSGOFF,
      .        STATUS(MPI_STATUS_SIZE)
       REAL*4 RZERO
@@ -116,9 +116,9 @@ c                  print *,'recoit siz',ispmd+1,i,ni25,siz
               MSGTYP = MSGOFF
               NBIRECV = NBIRECV + 1
               IRINDEX(NBIRECV) = I
-              CALL MPI_IRECV(
-     S          RBUF(L0),SIZ,MPI_REAL4,IT_SPMD(I),MSGTYP,
-     G          SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     S          RBUF(L0:L0+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G          REQ_R(NBIRECV))
             ENDIF
           ENDIF
           IAD_RECV(I+1) = L
@@ -187,9 +187,9 @@ c                  print *,'envoi siz',ispmd+1,i,ni25,siz
               MSGTYP = MSGOFF
               NBISEND = NBISEND + 1
               ISINDEX(NBISEND)=I
-              CALL MPI_ISEND(
-     S        SBUF(L0),SIZ,MPI_REAL4,IT_SPMD(I),MSGTYP,
-     G        SPMD_COMM_WORLD,REQ_S(I),IERROR)
+              CALL SPMD_ISEND(
+     S        SBUF(L0:L0+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G        REQ_S(I))
             ENDIF
           END IF
         ENDDO
@@ -199,7 +199,7 @@ C
 C decompactage
 C
         DO II=1,NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_R,INDEX,STATUS,IERROR)
+          CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX,STATUS)
           I = IRINDEX(INDEX)
           L = IAD_RECV(I)
 
@@ -287,7 +287,7 @@ c                print *,'recoit',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvoi
 C
         DO II=1,NBISEND
           I = ISINDEX(II)
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I),STATUS)
         ENDDO
 C
       END IF
@@ -295,4 +295,3 @@ C
 #endif
       RETURN
       END
-

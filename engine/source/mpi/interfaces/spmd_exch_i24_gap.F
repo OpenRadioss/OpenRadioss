@@ -28,14 +28,14 @@ C
 !||    i24pxfem              ../engine/source/interfaces/int24/i24pxfem.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_I24_GAP(
      1           WA,IAD_ELEM ,FR_ELEM,SIZE  ,LENR  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : SPMD_IRECV, SPMD_ISEND, SPMD_WAIT
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, MSGOFF,
+      INTEGER MSGTYP,I,NOD,LOC_PROC, MSGOFF,
      .        SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
@@ -76,9 +76,8 @@ C-----------------------------------------------
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+          CALL SPMD_IRECV(
+     S      RBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_R(I))
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -109,9 +108,8 @@ C   test if msg requires to send to complete by test interface
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
-          CALL MPI_ISEND(
-     .      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .      SPMD_COMM_WORLD,REQ_S(I),IERROR)
+          CALL SPMD_ISEND(
+     S      SBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_S(I))
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -122,7 +120,7 @@ C
 C   test if msg requires to send to complete by test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I),STATUS)
           L = IAD_RECV(I)
 C
 #include    "vectorize.inc"
@@ -140,7 +138,7 @@ C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I),STATUS)
         ENDIF
       ENDDO
 C

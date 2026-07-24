@@ -45,6 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE INTER_SORTING_MOD
+        USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +93,7 @@ C-----------------------------------------------
           NB_REQUEST_COARSE_CELL = 0
           DO KK=1,NB_INTER_SORTED
             NIN = LIST_INTER_SORTED(KK)
-            ARRAY_REQUEST_COARSE_CELL(KK) = MPI_REQUEST_NULL
+            ARRAY_REQUEST_COARSE_CELL(KK) = SPMD_REQUEST_NULL
             IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
                 IF(IRECVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) CYCLE
 
@@ -161,7 +162,7 @@ C-----------------------------------------------
         !            - check if current proc and remote proc need to communicate
         IF(MODE==2) THEN
             DO KK=1,NB_REQUEST_COARSE_CELL
-                CALL MPI_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS,IERROR)  
+                CALL SPMD_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS)  
                 NIN = LIST_INTER_COARSE_CELL(KK)
                 ITIED = IPARI(85,NIN)
                 CALL CHECK_COARSE_GRID(NIN,SORT_COMM(NIN)%MAIN_COARSE_GRID,SORT_COMM,ITIED)

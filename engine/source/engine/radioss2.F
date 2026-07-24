@@ -667,6 +667,12 @@ C     Standard input reading
 C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .            SENSORS,DT,OUTPUT,GLOB_THERM)
+C
+C     Initialize SPMD profiler if /PROFI keyword was found
+C
+      IF (SPMD_PROFILING_ENABLED) THEN
+        CALL SPMD_PROFILER_INIT(ISPMD)
+      ENDIF
 
        NFSKYI=5
 
@@ -2238,7 +2244,8 @@ C New MADYMO coupling
       ENDIF
 #endif
 C----------------------------------------------------------------------X
-C End tasks
+C End tasks - flush profiler before MPI_Finalize
+      IF (SPMD_PROFILING_ENABLED) CALL SPMD_PROFILER_FLUSH()
       CALL INIPAR(coupling,ITID,2,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
 C---------------------------------------------------------------------
       IF(MSTOP==1) THEN

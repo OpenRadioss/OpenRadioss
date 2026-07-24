@@ -106,7 +106,7 @@ C
 C
       IDEB = 0
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB2 = IAD_RECV(I)
         IDEB = (IDEB2-1)/3
@@ -215,7 +215,7 @@ C
 C
       IDEB = 0
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB2 = IAD_RECV(I)
         IDEB = (IDEB2-1)/9
@@ -329,7 +329,7 @@ C
 C
       IDEB = 0
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB2 = IAD_RECV(I)
         IDEB = (IDEB2-1)/2
@@ -435,7 +435,7 @@ C
       ENDDO
 C
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB = IAD_RECV(I)-1
         DO N = 1, NERCVOIS(I)
@@ -540,7 +540,7 @@ C
       ENDDO
 C
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB = IAD_RECV(I)-1
         DO N = 1, NERCVOIS(I)
@@ -648,7 +648,7 @@ C
       ENDDO
 C
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB = IAD_RECV(I)-1
         DO N = 1, NERCVOIS(I)
@@ -755,7 +755,7 @@ C
       ENDDO
 C
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB = IAD_RECV(I)-1
         DO N = 1, NERCVOIS(I)
@@ -869,7 +869,7 @@ C
 C
       IDEB = 0
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB = IAD_RECV(I)-1
         DO N = 1, NERCVOIS(I)
@@ -984,7 +984,7 @@ C
 C
       IDEB = 0
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB = IAD_RECV(I)-1
         DO N = 1, NERCVOIS(I)
@@ -1166,7 +1166,7 @@ C
 
       IDEB = 0
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         IDEB2 = IAD_RECV(I)
         IDEB = (IDEB2-1)/6
@@ -1433,7 +1433,7 @@ C
 C decompaction
 C
       DO II=1,NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         L = IAD_RECV(I)
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -1752,7 +1752,7 @@ C
 C
           IDEB = 0
           DO II = 1, NBIRECV
-            CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+            CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
             I = IRINDEX(INDEX)
             IDEB2 = IAD_RECV(I)-1
             IDEB = IDEB2 / ALE%GLOBAL%NVCONV
@@ -2194,7 +2194,7 @@ C-----------------------------------------------
       ENDDO
       IDEB = 0
       DO II = 1, NBIRECV
-        CALL SPMD_WAITANY(NBIRECV,REQ_R,INDEX)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEX)
         I                 = IRINDEX(INDEX)
         IDEB2             = IAD_RECV(I)
         IDEB              = (IDEB2-1)/M51_IFLG6_SIZE

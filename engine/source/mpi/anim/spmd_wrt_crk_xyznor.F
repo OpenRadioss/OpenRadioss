@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,EMPL
+      INTEGER STATUS(MPI_STATUS_SIZE),MSGOFF,EMPL
       INTEGER SIZ,MSGTYP,I,K,NREC,MSGOFF2,SIZ0
 C
       INTEGER,DIMENSION(:,:),ALLOCATABLE ::  RNGLOB,IBUF
@@ -99,8 +99,7 @@ C   In the floating buffer because there are only 2 24 bits available ~ 16 milli
 C   maximum number of nodes
 
          MSGTYP = MSGOFF2
-         CALL MPI_SEND(IBUF,4*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL SPMD_SEND(IBUF(1:4,1:SIZ),4*SIZ,IT_SPMD(1),MSGTYP)
 
        ELSE
 
@@ -128,14 +127,13 @@ c          RNGLOB(3,NG) = XN3
 
             MSGTYP = MSGOFF2
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
-
-            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL SPMD_PROBE(IT_SPMD(I),MSGTYP,STATUS)
+             CALL SPMD_GET_COUNT_INT(STATUS,SIZ)
 
             NREC = SIZ / 4
+
+            CALL SPMD_RECV(IBUF(1:4,1:NREC),SIZ,IT_SPMD(I),MSGTYP,
+     .                     STATUS)
 
 
             DO K = 1, NREC

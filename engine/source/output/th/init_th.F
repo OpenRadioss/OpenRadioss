@@ -26,8 +26,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    init_th0           ../engine/source/output/th/init_th0.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
-!||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
+!||    spmd_gather        ../engine/source/mpi/generic/spmd_gather.F90
+!||    spmd_gatherv       ../engine/source/mpi/generic/spmd_gatherv.F90
 !||    thcoq_count        ../engine/source/output/th/thcoq_count.F
 !||    thnod_count        ../engine/source/output/th/thnod_count.F
 !||    thnst_count        ../engine/source/output/th/thnst_count.F
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE TH_MOD
+      USE SPMD_MOD
       use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -276,7 +277,7 @@ C-------------------------------------------------------
             !   send the local size of index to PROC0
             MY_SIZE = INDEX_WA_ELTYPE(2*NTHGRP2+1)
             IF(NSPMD>1) THEN
-                CALL SPMD_GATHER_INT(MY_SIZE,INDEX_WA_SIZE_P0,0,1,NSPMD)
+                CALL SPMD_GATHER(MY_SIZE,INDEX_WA_SIZE_P0,1,1,0)
             ELSE
                 INDEX_WA_SIZE_P0 = MY_SIZE
             ENDIF
@@ -298,11 +299,11 @@ C-------------------------------------------------------
     
             IF(NSPMD>1) THEN
                 !   send the local index to PROC0
-                CALL SPMD_GATHERV_INT(INDEX_WA_ELTYPE,INDEX_WA_ELTYPE_P0,0,MY_SIZE,TOTAL_INDEX_WA_SIZE,
-     .                          INDEX_WA_SIZE_P0,WA_INDEX_DIPLS)
+                CALL SPMD_GATHERV(INDEX_WA_ELTYPE,MY_SIZE,INDEX_WA_ELTYPE_P0,
+     .                          INDEX_WA_SIZE_P0,WA_INDEX_DIPLS,0)
 
                 !   send the local size of WA_SPRING to PROC0
-                CALL SPMD_GATHER_INT(WA_SIZE(ID),WA_COMM(ID)%TH_SIZE,0,1,NSPMD)
+                CALL SPMD_GATHER(WA_SIZE(ID),WA_COMM(ID)%TH_SIZE,1,1,0)
             ELSE
                 INDEX_WA_ELTYPE_P0 = INDEX_WA_ELTYPE
                 WA_COMM(ID)%TH_SIZE(1) = WA_SIZE(ID)

@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+      USE SPMD_MOD
 #include      "implicit_f.inc"
 #include      "r4r8_p.inc"
 C-----------------------------------------------
@@ -132,15 +132,13 @@ C=======================================================================
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF
-              CALL MPI_ISEND(
-     .          CRVOXEL(0,0,LOC_PROC),
+              CALL SPMD_ISEND(
+     .          CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC),
      .          (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,SPMD_COMM_WORLD,REQ_SC(P),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_SC(P))
               MSGTYP = MSGOFF2 
-              CALL MPI_ISEND(
-     .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD    ,REQ_SB(P),IERROR)
+              CALL SPMD_ISEND(
+     .          BMINMA(1:6,LOC_PROC),6,IT_SPMD(P),MSGTYP,REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -157,15 +155,13 @@ C=======================================================================
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF + NSPMD*ISPMD + P +NIN
-              CALL MPI_IRECV(
-     .          CRVOXEL(0,0,P),
+              CALL SPMD_IRECV(
+     .          CRVOXEL(0:LRVOXEL,0:LRVOXEL,P),
      .         (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,SPMD_COMM_WORLD,REQ_RC(NBIRECV),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_RC(NBIRECV))
               MSGTYP = MSGOFF2
-              CALL MPI_IRECV(
-     .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     .          BMINMA(1:6,P),6,IT_SPMD(P),MSGTYP,REQ_RB(NBIRECV))
             ENDIF
           ENDIF
         ENDDO
@@ -177,9 +173,9 @@ C=======================================================================
       IDEB = 1   
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(REQ_RB,NBIRECV,INDEXI,STATUS)
           P=IRINDEXI(INDEXI)
-          CALL MPI_WAIT(REQ_RC(INDEXI),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_RC(INDEXI),STATUS)
           L = IDEB
           NBOX(P) = 0
           NB_ = 0
@@ -233,8 +229,7 @@ C=======================================================================
          !     Message Length for Sending            !
          !-------------------------------------------!
           MSGTYP = MSGOFF3 
-          CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 SPMD_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(P),1,IT_SPMD(P),MSGTYP,REQ_SD(P))
          !-------------------------------------------!
          !     Buffer Allocation                     !
          !-------------------------------------------!
@@ -263,9 +258,8 @@ C=======================================================================
               L = L + SIZ_XREM ! Attention siz_xrem to update in tri22_mod if modification
             END DO
             MSGTYP = MSGOFF4
-            CALL MPI_ISEND(
-     1        BUF(P)%P(1),L,MPI_DOUBLE_PRECISION,IT_SPMD(P),MSGTYP,
-     2        SPMD_COMM_WORLD,REQ_SD2(P),ierror)
+            CALL SPMD_ISEND(
+     1        BUF(P)%P(1:L),L,IT_SPMD(P),MSGTYP,REQ_SD2(P))
           ENDIF
         ENDDO
       ENDIF
@@ -280,8 +274,8 @@ C=======================================================================
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
-              CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NSNFI(NIN)%P(P),1,IT_SPMD(P),
+     .                        MSGTYP,STATUS)
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
@@ -314,13 +308,13 @@ C=======================================================================
             IAD = IDEB
             ! Correction Address for Passage REM SP Table used in DP DS the commout routine
             IF(IR4R8 == 1) IAD = 2*IDEB-1
-            CALL MPI_IRECV(
-     1        XREM(1,IAD),LEN,MPI_DOUBLE_PRECISION,IT_SPMD(P),
-     2        MSGTYP,SPMD_COMM_WORLD,REQ_RD(L),IERROR)
+            CALL SPMD_IRECV(
+     1        XREM(1:SIZ_XREM,IAD:IAD+NSNFI(NIN)%P(P)-1),LEN,
+     2        IT_SPMD(P),MSGTYP,REQ_RD(L))
             IDEB = IDEB + NSNFI(NIN)%P(P)
           ENDDO
           DO L = 1, NBIRECV
-            CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
+            CALL SPMD_WAITANY(REQ_RD,NBIRECV,INDEXI,STATUS)
           ENDDO
           IF(IR4R8 == 1)THEN
             CALL CONVERSION11(XREM,XREM,IREM,SIZ_XREM,IDEB-1)
@@ -332,8 +326,8 @@ C=======================================================================
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
-              CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SC(P),STATUS)
+              CALL SPMD_WAIT(REQ_SB(P),STATUS)
               ENDIF
           ENDIF
         ENDDO
@@ -343,9 +337,9 @@ C=======================================================================
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P),STATUS)
               IF(NBOX(P)/=0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P),STATUS)
                 DEALLOCATE(BUF(P)%p)
               END IF
             ENDIF

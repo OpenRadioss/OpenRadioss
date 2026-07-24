@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -59,14 +59,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER IERR,PMAIN
+      INTEGER PMAIN
 C-----------------------------------------------
 
       PMAIN=FVSPMD(IFV)%PMAIN
-      CALL MPI_BCAST(VECTOR, LEN, REAL, PMAIN-1,
-     .               SPMD_COMM_WORLD, IERR)
+      CALL SPMD_BCAST(VECTOR(1:LEN), LEN, PMAIN-1)
 
 #endif
       RETURN
       END
-

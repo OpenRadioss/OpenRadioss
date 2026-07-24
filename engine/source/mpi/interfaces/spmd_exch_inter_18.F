@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -158,8 +158,8 @@ C-----------------------------------------------
           RCV_SIZE = ADRESS_RCV(P+1)-ADRESS_RCV(P)
           IF(P/=LOC_PROC.AND.RCV_SIZE>0) THEN
             MSGTYP = MSGOFF           
-            CALL MPI_IRECV( BUFFER_RCV(ADRESS_RCV(P)),RCV_SIZE,REAL,
-     .                      IT_SPMD(P),MSGTYP,SPMD_COMM_WORLD,REQUEST_RCV(P),ERROR_MPI )
+            CALL SPMD_IRECV( BUFFER_RCV(ADRESS_RCV(P):ADRESS_RCV(P)+RCV_SIZE-1),
+     .                       RCV_SIZE,IT_SPMD(P),MSGTYP,REQUEST_RCV(P) )
           ENDIF
         ENDDO
         ! ---------------------------
@@ -201,8 +201,8 @@ C-----------------------------------------------
           SEND_SIZE = ADRESS_SEND(P+1)-ADRESS_SEND(P)
           IF(P/=LOC_PROC.AND.SEND_SIZE>0) THEN
             MSGTYP = MSGOFF           
-            CALL MPI_ISEND( BUFFER_SEND(ADRESS_SEND(P)),SEND_SIZE,REAL,
-     .                      IT_SPMD(P),MSGTYP,SPMD_COMM_WORLD,REQUEST_SEND(P),ERROR_MPI )
+            CALL SPMD_ISEND( BUFFER_SEND(ADRESS_SEND(P):ADRESS_SEND(P)+SEND_SIZE-1),
+     .                       SEND_SIZE,IT_SPMD(P),MSGTYP,REQUEST_SEND(P) )
           ENDIF
         ENDDO
         ! ---------------------------
@@ -216,7 +216,7 @@ C-----------------------------------------------
           IF(P/=LOC_PROC.AND.RCV_SIZE>0) THEN
             LOCAL_ADRESS = 0
             MSGTYP = MSGOFF 
-            CALL MPI_WAIT(REQUEST_RCV(P),STATUS_MPI,ERROR_MPI)
+            CALL SPMD_WAIT(REQUEST_RCV(P),STATUS_MPI)
             DO I=1,NUMBER_INTER18
               NIN = INTER18_LIST(I)
               NUMBER_REMOTE_NODE = NSNFI(NIN)%P(P)
@@ -237,7 +237,7 @@ C-----------------------------------------------
         DO P=1,NSPMD
           SEND_SIZE = ADRESS_SEND(P+1)-ADRESS_SEND(P)
           IF(P/=LOC_PROC.AND.SEND_SIZE>0) THEN
-            CALL MPI_WAIT(REQUEST_SEND(P),STATUS_MPI,ERROR_MPI)
+            CALL SPMD_WAIT(REQUEST_SEND(P),STATUS_MPI)
           ENDIF
         ENDDO
         ! ---------------------------

@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : spmd_irecv, spmd_isend, spmd_wait
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -120,7 +120,6 @@ C-----------------------------------------------
      . LEN17, IGN, IGE, NMES, NME, NN, IES, LEN7T,
      .        LEN20, LEN20T, NLN, LEN20E, INC,LEN11T,
      . IL, IL1, IL2, MSGOFF,INTNITSCHE,NISUB,
-     .        STATUS(MPI_STATUS_SIZE),
 C parasiz car variable en save
      .        DEBUT(NINTER),  DEBUTE(NINTER),
      .        ADDS(PARASIZ+1), ADDR(PARASIZ+1),
@@ -315,9 +314,9 @@ C Add part of Edge for Type 25
             IF(SIZ>0)THEN
               MSGTYP = MSGOFF
 C BUFS: Shipping Part Force and Reception Speed Party
-              CALL MPI_IRECV(
-     .          BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_RI(P),IERROR    )
+              CALL spmd_irecv(
+     .          BBUFR(ADD),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_RI(P))
             ENDIF
           ENDIF
         ENDDO
@@ -2093,9 +2092,9 @@ C                     BBUFS(L+27) = 1 ! main of the edge
             IF(SIZ>0)THEN
               MSGTYP = MSGOFF
 C Bufr: Reception Part Force and Shipping Party Speed
-              CALL MPI_ISEND(
-     .          BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+              CALL spmd_isend(
+     .          BBUFS(ADD),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_SI(P))
             ENDIF
           ENDIF
         ENDDO
@@ -2116,7 +2115,7 @@ C Attente IRECV
 C
         DO P = 1, NSPMD
           IF(ADDR(P+1)-ADDR(P)>0) THEN
-            CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_RI(P))
             L = ADDR(P)-1
 C            DO NIN = 1, NINTER
             DO II = 1, NBINTC
@@ -3495,7 +3494,7 @@ C flag 3 useful for restart during run
        IF(IFLAG/=3) THEN
          DO P = 1, NSPMD
            IF(ADDS(P+1)-ADDS(P)>0) THEN
-             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+             CALL spmd_wait(REQ_SI(P))
            ENDIF
          ENDDO
          IF(IALLOCS>0)THEN

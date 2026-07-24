@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
      .       , DIMENSION(:), ALLOCATABLE :: V, MAXV, MAXV_1, MAXV_2, MAXV_RES0,
      .                                      MAXV_RES1, MAXV_RES2
 
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,FLAG,ITABG(LENG)
+      INTEGER STATUS(MPI_STATUS_SIZE),MSGOFF,FLAG,ITABG(LENG)
       INTEGER SIZ,MSGTYP,I,J,K,MSGOFF2,
      .        L,ISMASSCHANGE,MSGOFF3,MSGOFF4
       INTEGER, DIMENSION(:) , ALLOCATABLE :: IDNOD0, IDNOD, IDNOD_RES
@@ -134,20 +134,16 @@ C   In the floating buffer because there are only 2 24 bits available ~ 16 milli
 C   of nodes at most
 
          MSGTYP = MSGOFF
-         CALL MPI_SEND(IDNOD0,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(IDNOD0(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
          MSGTYP = MSGOFF2
-         CALL MPI_SEND(MAXV0,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(MAXV0(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
          MSGTYP = MSGOFF3
-         CALL MPI_SEND(MAXV1,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(MAXV1(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
          MSGTYP = MSGOFF4 
-         CALL MPI_SEND(MAXV2,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(MAXV2(1:SIZ),SIZ,IT_SPMD(1),MSGTYP)
 
        ELSE ! ISPMD == 0
           DO I=1,NUMNOD
@@ -177,26 +173,21 @@ C   of nodes at most
 C   Reception 
             MSGTYP = MSGOFF
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL spmd_probe(IT_SPMD(I),MSGTYP,STATUS)
+              CALL spmd_get_count_int(STATUS,SIZ)
 
-            CALL MPI_RECV(IDNOD0,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(IDNOD0(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
 
 C   Reception
 
             MSGTYP = MSGOFF2 
-            CALL MPI_RECV(MAXV0,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(MAXV0(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
 
             MSGTYP = MSGOFF3
-            CALL MPI_RECV(MAXV1,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(MAXV1(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
 
             MSGTYP = MSGOFF4 
-            CALL MPI_RECV(MAXV2,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(MAXV2(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
 
 
             J = 1

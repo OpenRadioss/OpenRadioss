@@ -123,7 +123,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    h3dlib_load                          ../engine/source/output/h3d/h3d_build_cpp/h3d_dl.c
 !||    q1np_evaluate_nurbs_shape_values     ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
 !||    scanor                               ../engine/source/output/anim/generate/scanor.F
-!||    spmd_gather_int                      ../engine/source/mpi/generic/spmd_gather_int.F
+!||    spmd_gather                          ../engine/source/mpi/generic/spmd_gather.F90
 !||    spmd_h3d_gather_i                    ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
 !||    spmd_h3d_gather_i_node               ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node.F
 !||    spmd_h3d_gather_i_node_part          ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F
@@ -2464,7 +2464,7 @@ c
 
           ! Gather number of Shell & Triangle elements per processor
           ! Permits to compute an Offset for H3D Scalar values
-          CALL SPMD_GATHER_INT(NUMELC+NUMELTG,TMP_OFFSETS,IT_SPMD(1),1,NSPMD)
+          CALL SPMD_GATHER(NUMELC+NUMELTG,TMP_OFFSETS,1,1,IT_SPMD(1))
           IF (ISPMD == 0) THEN
              SH_TRIA_SPMD_OFFSETS(1) = 0
              DO I=2,NSPMD+1
@@ -3126,7 +3126,7 @@ c
                CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)
 
                ! First Gather the size of the shell+triangle stack
-               CALL SPMD_GATHER_INT(SHELL_STACKSIZE,GATHER_SIZE,IT_SPMD(1),1,NSPMD)
+               CALL SPMD_GATHER(SHELL_STACKSIZE,GATHER_SIZE,1,1,IT_SPMD(1))
 
                ! Then gather the shell+triangle stack to P0 & apply elemen offset
                ! to fit with P0 order

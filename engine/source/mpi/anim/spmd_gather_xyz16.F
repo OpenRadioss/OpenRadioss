@@ -36,7 +36,7 @@ C            XYZ16                  /anim/genani.F
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 #include "spmd.inc"
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+      INTEGER STATUS(MPI_STATUS_SIZE),MSGOFF
       INTEGER SIZ,MSGTYP,I
 
       DATA MSGOFF/7033/
@@ -66,8 +66,8 @@ C   Table used by Pro 0
          
        IF (ISPMD/=0) THEN
          MSGTYP = MSGOFF 
-         CALL MPI_SEND(V,6*NUMELS16,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     SPMD_COMM_WORLD,ierror)
+         CALL spmd_send(V(1:3,1:2*NUMELS16),6*NUMELS16,
+     .                  IT_SPMD(1),MSGTYP)
 
        ELSE
 
@@ -78,12 +78,10 @@ C   Table used by Pro 0
 C   Reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF 
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    SPMD_COMM_WORLD,STATUS,ierror)
-              CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL spmd_probe(IT_SPMD(I),MSGTYP,STATUS)
+              CALL spmd_get_count_real(STATUS,SIZ)
 
-            CALL MPI_RECV(XGLOB,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            CALL spmd_recv(XGLOB(1:3,1:NUM),SIZ,IT_SPMD(I),MSGTYP)
 
             CALL WRITE_R_C(XGLOB,SIZ)
           ENDDO

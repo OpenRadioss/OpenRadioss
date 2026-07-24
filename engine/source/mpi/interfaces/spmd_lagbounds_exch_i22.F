@@ -40,7 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -106,9 +106,8 @@ C=======================================================================
       DO P = 1, NSPMD
         IF(P/=LOC_PROC) THEN
           MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     .      BMINMA(1,LOC_PROC),6  ,REAL  ,IT_SPMD(P),MSGTYP,
-     .      SPMD_COMM_WORLD    ,REQ_SB(P),IERROR)
+          CALL SPMD_ISEND(
+     .      BMINMA(1:6,LOC_PROC),6,IT_SPMD(P),MSGTYP,REQ_SB(P))
         ENDIF
       ENDDO
       !-------------------------------------------!
@@ -120,9 +119,8 @@ C=======================================================================
           NBIRECV=NBIRECV+1
           IRINDEXI(NBIRECV)=P
           MSGTYP = MSGOFF
-          CALL MPI_RECV(
-     .      BMINMA(1,P)   ,6      ,REAL  ,IT_SPMD(P),MSGTYP,
-     .      SPMD_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(
+     .      BMINMA(1:6,P),6,IT_SPMD(P),MSGTYP,STATUS)
         ENDIF
       ENDDO
       !-------------------------------------------!
@@ -130,7 +128,7 @@ C=======================================================================
       !-------------------------------------------!
       DO P = 1, NSPMD
         IF(P/=LOC_PROC) THEN
-          CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SB(P),STATUS)
         ENDIF
       ENDDO
       !-------------------------------------------!

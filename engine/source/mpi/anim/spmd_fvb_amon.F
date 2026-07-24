@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -63,8 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER K1, KK1, KIBALE, KRBALE, IFV, N, ITYP, PMAIN, NN, NTG,
-     .         MSGOFF, LEN, IERR, STAT(MPI_STATUS_SIZE), IAD,
-     .        I,MSGTAG
+     .         MSGOFF, LEN, IAD, I, MSGTAG
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: RBUF
       DATA MSGOFF/7036/
@@ -88,8 +87,7 @@ C
             ALLOCATE(RBUF(LEN))
             IF (ISPMD==0) THEN
 C Proc 0 recoit
-               CALL MPI_RECV(RBUF, LEN, REAL, IT_SPMD(PMAIN),
-     .                       MSGTAG, SPMD_COMM_WORLD, STAT, IERR)
+               CALL SPMD_RECV(RBUF(1:LEN), LEN, IT_SPMD(PMAIN), MSGTAG)
 C
                IAD=KRBALE+MONVOL(K1-1+34)
                DO I=1,6*NN
@@ -110,8 +108,7 @@ C main price sends
                   RBUF(6*NN+I)=VOLMON(IAD+I-1)
                ENDDO
 C
-               CALL MPI_SEND(RBUF, LEN, REAL, IT_SPMD(1),
-     .                       MSGTAG, SPMD_COMM_WORLD,  IERR)
+               CALL SPMD_SEND(RBUF(1:LEN), LEN, IT_SPMD(1), MSGTAG)
             ENDIF
             DEALLOCATE(RBUF)             
            ENDIF

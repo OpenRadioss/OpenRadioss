@@ -35,6 +35,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -59,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER LOC_PROC, IERROR, I_LEN, 
+      INTEGER LOC_PROC, I_LEN, 
      . KK, L, J, NIN
       PARAMETER (I_LEN = 46)
       my_real
@@ -148,16 +149,16 @@ C T25 main gap changes with thickness change
         L = L + 1
        END DO
        MESSAGE_LEN = NINTC * I_LEN
-       call MPI_AllReduce(SBUF, RBUF, MESSAGE_LEN, REAL , MPI_MAX,
-     &                   COMM_CONT, ierror)
+       call SPMD_ALLREDUCE(SBUF(1:MESSAGE_LEN),RBUF(1:MESSAGE_LEN),
+     &                     MESSAGE_LEN,SPMD_MAX,COMM_CONT)
 C       MESSAGE_LEN = NINTC
 C        call MPI_AllReduce(SBUF2, RBUF2, MESSAGE_LEN, MPI_INTEGER , MPI_SUM,
 C    &                   COMM_CONT, ierror)
 
        IF(I17 > 0) THEN
          MESSAGE_LEN = NINTC
-         call MPI_AllReduce(SBUF3, RBUF3, MESSAGE_LEN, REAL , MPI_SUM,
-     &                   COMM_CONT, ierror)
+         call SPMD_ALLREDUCE(SBUF3(1:MESSAGE_LEN),RBUF3(1:MESSAGE_LEN),
+     &                        MESSAGE_LEN,SPMD_SUM,COMM_CONT)
        ENDIF
 
        L = 0

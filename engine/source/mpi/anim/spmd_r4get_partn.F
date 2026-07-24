@@ -49,7 +49,7 @@ C gather on p0 of the wa table according to the parts (IADG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -72,7 +72,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGTYP,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD)
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER STATUS(MPI_STATUS_SIZE)
       DATA MSGOFF/7002/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -81,8 +81,7 @@ C-----------------------------------------------
 
       IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
-        CALL MPI_SEND(WAL,NBF_L,MPI_REAL4,IT_SPMD(1),MSGTYP,
-     .                SPMD_COMM_WORLD,ierror)
+        CALL SPMD_SEND(WAL(1:NBF_L),NBF_L,IT_SPMD(1),MSGTYP)
 
       ELSE
 C  
@@ -97,11 +96,10 @@ C
           IADP(K) = IDEB
           MSGTYP=MSGOFF
 
-          CALL MPI_PROBE(IT_SPMD(K),MSGTYP,
-     .                   SPMD_COMM_WORLD,STATUS,ierror)
-          CALL MPI_GET_COUNT(STATUS,MPI_REAL4,NB_TMP,ierror)
-          CALL MPI_RECV(WAR(IDEB),NB_TMP,MPI_REAL4,IT_SPMD(K),MSGTYP,
-     .                  SPMD_COMM_WORLD,STATUS,ierror)
+          CALL SPMD_PROBE(IT_SPMD(K),MSGTYP,STATUS)
+          CALL SPMD_GET_COUNT_REAL(STATUS,NB_TMP)
+          CALL SPMD_RECV(WAR(IDEB:IDEB+NB_TMP-1),NB_TMP,IT_SPMD(K),
+     .                   MSGTYP,STATUS)
 
           IDEB = IDEB + NB_TMP
         END DO

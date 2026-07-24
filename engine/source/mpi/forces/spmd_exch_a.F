@@ -44,7 +44,7 @@ C--------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -85,7 +85,6 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,MSGOFF,
      .        SIZ,J,L,NB_NOD,IADMSPH,
-     .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
       DATA MSGOFF/120/
@@ -109,9 +108,9 @@ C-----------------------------------------------
         SIZ = (SIZE+NFACNIT+LENC)*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+          CALL SPMD_IRECV(
+     S      RBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(I))
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -476,9 +475,9 @@ C   test if msg requires to send to complete by test interface
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
-          CALL MPI_ISEND(
-     S      SBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
+          CALL SPMD_ISEND(
+     S      SBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_S(I))
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -492,7 +491,7 @@ C
        DO I = 1, NSPMD
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I))
           L = IAD_RECV(I)
 #include        "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -508,7 +507,7 @@ C
 C   test if msg requires to send to complete by test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I))
           L = IAD_RECV(I)
 C cas 3D
           IF (GLOB_THERM%ITHERM_FE == 0 .AND. GLOB_THERM%INTHEAT == 0 ) THEN
@@ -862,7 +861,7 @@ C
 
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I))
         ENDIF
       ENDDO
 C

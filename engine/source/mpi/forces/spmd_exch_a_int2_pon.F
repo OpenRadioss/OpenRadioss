@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -76,10 +76,8 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, INDEXI,
      .        SIZ, J, L, CC, NBIRECV, NBISEND, II, MSGOFF,ISIZOUT,LEN,
-     .        
      .        IAD_RECV(NSPMD+1), INDEXR(NSPMD),INDEXS(NSPMD),
-     .        REQ_R(NSPMD),REQ_S(NSPMD),
-     .        STATUS(MPI_STATUS_SIZE)
+     .        REQ_R(NSPMD),REQ_S(NSPMD)
       my_real,
      .  DIMENSION (:),ALLOCATABLE :: SBUF,RBUF
       DATA MSGOFF/171/
@@ -110,9 +108,9 @@ C
           MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
           INDEXR(NBIRECV) = I
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+          CALL SPMD_IRECV(
+     .      RBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     .      REQ_R(NBIRECV))
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -276,16 +274,16 @@ C
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         SIZ = I2SIZE*FR_NBCCI2(1,I) +ISIZOUT*LEN                        
         MSGTYP = MSGOFF 
-        CALL MPI_ISEND(
-     S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S(II),IERROR)
+        CALL SPMD_ISEND(
+     .      SBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     .      REQ_S(II))
         L = L + SIZ
       ENDDO
 C
 C decompactage
 C
       DO II=1,NBIRECV
-        CALL MPI_WAITANY(NBIRECV,REQ_R,INDEXI,STATUS,IERROR)
+        CALL SPMD_WAITANY(REQ_R,NBIRECV,INDEXI)
         I = INDEXR(INDEXI)
         L = IAD_RECV(I)
         IF (INTTH2 == 1) THEN
@@ -433,7 +431,7 @@ C
 C   wait terminaison isend
 C
       DO L=1,NBISEND
-        CALL MPI_WAITANY(NBISEND,REQ_S,INDEXI,STATUS,IERROR)
+        CALL SPMD_WAITANY(REQ_S,NBISEND,INDEXI)
       ENDDO
 C
       call my_dealloc(RBUF)

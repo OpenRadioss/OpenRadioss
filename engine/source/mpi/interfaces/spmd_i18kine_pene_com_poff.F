@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -204,9 +204,9 @@ c                 BBUFS(L+5)=MTFI_V(NIN)%P(6,NN+IDEB(NIN))
          IF(SIZ>0)THEN
               MSGTYP = MSGOFF 
 C Send
-              CALL MPI_ISEND(
-     .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+              CALL SPMD_ISEND(
+     .          BBUFS(IADS(P):IADS(P)+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .          REQ_SI(P))
          ENDIF
        ENDIF
       ENDDO
@@ -220,8 +220,8 @@ C Recieve
             MSGTYP = MSGOFF
 
 C Send
-            CALL MPI_RECV( BBUFR(IADR(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     *                     SPMD_COMM_WORLD,STATUS,IERROR )
+            CALL SPMD_RECV(BBUFR(IADR(P):IADR(P)+SIZ-1),SIZ,
+     *                     IT_SPMD(P),MSGTYP,STATUS)
            DO NIN=1,NINTER
              NTY   =IPARI(7,NIN)
              INACTI =IPARI(22,NIN)
@@ -301,7 +301,7 @@ C End of the send
              SIZ=IADS(P+1)-IADS(P)
           ENDIF
           IF(SIZ>0) THEN
-            CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_SI(P),STATUS)
           ENDIF
       ENDDO
 
@@ -331,9 +331,8 @@ C--------------------------------------------------
         SIZ = (IAD_ELEM(1,P+1)-IAD_ELEM(1,P))*LEN
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF2
-          CALL MPI_IRECV(
-     S      BBUFR(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_RI(P),IERROR)
+          CALL SPMD_IRECV(
+     S      BBUFR(L:L+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,REQ_RI(P))
             L = L + SIZ
         ENDIF
         IADR(P+1) = L
@@ -383,9 +382,8 @@ C
           MSGTYP = MSGOFF2
           SIZ = IADS(1+P)-IADS(P)
           L = IADS(P)
-          CALL MPI_ISEND(
-     S      BBUFS(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_SI(P),IERROR)
+          CALL SPMD_ISEND(
+     S      BBUFS(L:L+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,REQ_SI(P))
        ENDIF
       ENDDO
 C--------------------------------------------------------------------
@@ -393,7 +391,7 @@ C Reception
       DO P = 1, NSPMD
         NB = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
         IF(NB>0)THEN
-          CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_RI(P),STATUS)
           L = IADR(P)
           DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
              NOD = FR_ELEM(J)
@@ -438,7 +436,7 @@ C End of the send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN
-            CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_SI(P),STATUS)
           ENDIF
       ENDDO
 

@@ -51,7 +51,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE OUTPUT_MOD
       USE H3D_MOD
-      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -166,9 +166,9 @@ C
                SIZ = L+1-ADD
                IF(SIZ>0)THEN
                  MSGTYP = MSGOFF
-                 CALL MPI_IRECV(
-     .             BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .             SPMD_COMM_WORLD,REQ_RI(P),IERROR    )
+                 CALL SPMD_IRECV(
+     .             BBUFR(ADD:ADD+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .             REQ_RI(P),SPMD_COMM_WORLD)
                ENDIF
              ENDIF
            ENDDO
@@ -217,9 +217,9 @@ c                     ENDIF
               SIZ = L+1-ADD
               IF(SIZ>0)THEN
                 MSGTYP = MSGOFF 
-                CALL MPI_ISEND(
-     .            BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .            SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
+                CALL SPMD_ISEND(
+     .            BBUFS(ADD:ADD+SIZ-1),SIZ,IT_SPMD(P),MSGTYP,
+     .            REQ_SI(P),SPMD_COMM_WORLD)
               ENDIF
             ENDIF
           ENDDO
@@ -229,7 +229,7 @@ C Waiting reception
 C
           DO P = 1, NSPMD
             IF(ADDR(P+1)-ADDR(P)>0) THEN
-              CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_RI(P),STATUS)
               L = ADDR(P)
               DO II = 1, NBINTC
                 NIN = INTLIST(II)
@@ -262,7 +262,7 @@ C Attente ISEND
 C
           DO P = 1, NSPMD
             IF(ADDS(P+1)-ADDS(P)>0) THEN
-              CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SI(P),STATUS)
             ENDIF
           ENDDO
 C Deallocation S

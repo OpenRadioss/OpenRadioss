@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -170,8 +170,8 @@ c       MSGBUF_R_LEN(1:NSPMD) = 0
       ENDIF
 
       !Initialization
-      REQ_RECV_SIZ(1:NSPMD) = MPI_REQUEST_NULL 
-      REQ_RECV_MSG(1:NSPMD) = MPI_REQUEST_NULL 
+      REQ_RECV_SIZ(1:NSPMD) = SPMD_REQUEST_NULL 
+      REQ_RECV_MSG(1:NSPMD) = SPMD_REQUEST_NULL 
       PROC_LIST(1:NSPMD) = 0
       ISCOM(1:NSPMD) = 0
       ISCOMS(1:NSPMD) = 0
@@ -292,9 +292,9 @@ C
         IF (ICOMM2_SEND(P)==1)THEN
           MSGTYP = MSGOFF
           L  = 2*NBINTC
-          CALL MPI_ISEND(
-     S      SIZBUF_S(P)%P(1),L,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_SEND_SIZ(P),IERROR)
+          CALL spmd_isend(
+     S      SIZBUF_S(P)%P(1:L),L,IT_SPMD(P),MSGTYP,
+     G      REQ_SEND_SIZ(P))
         ENDIF
       ENDDO
 
@@ -307,9 +307,9 @@ C
           NB_TO_RECV = NB_TO_RECV + 1
           PROC_LIST(NB_TO_RECV) = P
           L = 2 * NBINTC
-          CALL MPI_IRECV(SIZBUF_R(P)%P(1),L,
-     .                  MPI_INTEGER,IT_SPMD(P),
-     .                  MSGTYP,SPMD_COMM_WORLD,REQ_RECV_SIZ(NB_TO_RECV),IERROR)
+          CALL spmd_irecv(SIZBUF_R(P)%P(1:L),L,
+     .                  IT_SPMD(P),
+     .                  MSGTYP,REQ_RECV_SIZ(NB_TO_RECV))
 
         ENDIF
       ENDDO
@@ -356,9 +356,9 @@ C                 WRITE(6,*) __FILE__,ISPMD,"RECV",P-1,LEN
             ENDIF
           ENDDO
           MSGTYP = MSGOFF2
-          CALL MPI_ISEND(
-     S        MSGBUF_S(P)%P(1),IDEB,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        SPMD_COMM_WORLD,REQ_SEND_MSG(P),IERROR)
+          CALL spmd_isend(
+     S        MSGBUF_S(P)%P(1:IDEB),IDEB,IT_SPMD(P),MSGTYP,
+     G        REQ_SEND_MSG(P))
         ENDIF   
       ENDDO  
       ENDIF ! ICOMM /= 0)
@@ -380,7 +380,7 @@ C RECEPTION OF sizes
 !      CALL MPI_WAITALL(NB_TO_RECV,REQ_RECV_SIZ(1:NB_TO_RECV),MPI_STATUSES_IGNORE,IERROR)
 
       DO I = 1, NB_TO_RECV
-        CALL MPI_WAITANY(NB_TO_RECV,REQ_RECV_SIZ,INDEX_PROC,STATUS,IERROR)
+        CALL spmd_waitany(REQ_RECV_SIZ,NB_TO_RECV,INDEX_PROC,STATUS)
         P = PROC_LIST(INDEX_PROC)
 !        P = PROC_LIST(I)
 
@@ -406,8 +406,8 @@ C RECEPTION OF sizes
         IF(LEN>0) THEN
           ALLOCATE(MSGBUF_R(P)%P(LEN))
           MSGTYP = MSGOFF2
-          CALL MPI_IRECV(MSGBUF_R(P)%P(1),LEN,MPI_INTEGER,IT_SPMD(P),
-     .                MSGTYP,SPMD_COMM_WORLD,REQ_RECV_MSG(I),IERROR)
+           CALL spmd_irecv(MSGBUF_R(P)%P(1:LEN),LEN,IT_SPMD(P),
+     .                MSGTYP,REQ_RECV_MSG(I))
 
         ENDIF
       ENDDO
@@ -419,11 +419,11 @@ C RECEPTION OF sizes
 
 C RECEPTION of messages
       DO P = 1, NB_TO_RECV
-        CALL MPI_WAIT(REQ_RECV_MSG(P),STATUS,IERROR)
+        CALL spmd_wait(REQ_RECV_MSG(P),STATUS)
       ENDDO
       DO P = 1, NSPMD
         IF (ICOMM2_SEND(P)==1) THEN
-          CALL MPI_WAIT(REQ_SEND_SIZ(P),STATUS,IERROR)
+          CALL spmd_wait(REQ_SEND_SIZ(P))
         ENDIF
       ENDDO
 
@@ -490,7 +490,7 @@ C Waiting for message reception
           call my_dealloc(MSGBUF_R(P)%P)
         ENDIF
         IF(ISCOM(P)>0) THEN
-          CALL MPI_WAIT(REQ_SEND_MSG(P),STATUS,IERROR)
+          CALL spmd_wait(REQ_SEND_MSG(P))
           call my_dealloc(MSGBUF_S(P)%P)
         ENDIF   
       ENDDO
@@ -578,9 +578,9 @@ C allocate communication structure
               ALLOCATE(MSGBUF_S(P)%P(LENOUT))
               MSGTYP = MSGOFF3
               SIZ = NINTER * 2
-              CALL MPI_ISEND(
-     S          ISUBTMP(1,1,P),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G          SPMD_COMM_WORLD,REQ_S(P),IERROR)
+              CALL spmd_isend(
+     S          ISUBTMP(:,:,P),SIZ,IT_SPMD(P),MSGTYP,
+     G          REQ_S(P))
             END IF
           END IF
         END DO
@@ -593,8 +593,8 @@ C
             LENOUT = 0
             SIZ = NINTER * 2
 C received in the unused part of the isubtmp buffer
-            CALL MPI_RECV(ISUBTMP2(1,1,P),SIZ,MPI_INTEGER,IT_SPMD(P),
-     .                    MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
+            CALL spmd_recv(ISUBTMP2(:,:,P),SIZ,IT_SPMD(P),
+     .                    MSGTYP,STATUS)
             DO II = 1, NBINTC
               NIN = INTLIST(II)
 C interface stripped with sub-interfaces ?
@@ -629,7 +629,7 @@ C Comm Save length in Iscom
 C
         DO P = 1, NSPMD
           IF(IRCOM(P)>0) THEN
-            CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_S(P))
           END IF
         END DO
 C
@@ -714,9 +714,9 @@ C Comm Save length in IRCOM
           IF(IRCOM(P)>0) THEN
             MSGTYP = MSGOFF4        
 C           WRITE(6,*) "SEND",IRCOM(P) ,"TO",P-1
-            CALL MPI_ISEND(
-     S         MSGBUF_S(P)%P(1),IRCOM(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G         SPMD_COMM_WORLD,REQ_S(P),IERROR)
+            CALL spmd_isend(
+     S         MSGBUF_S(P)%P(1:IRCOM(P)),IRCOM(P),IT_SPMD(P),MSGTYP,
+     G         REQ_S(P))
           END IF
         END DO  
 C
@@ -728,8 +728,8 @@ C Comm Save length in Iscom
             MSGTYP = MSGOFF4
 C           WRITE(6,*) "RECV",ISCOM(P) ,"FROM",P-1
 
-            CALL MPI_RECV(MSGBUF_R(P)%P(1),ISCOM(P),MPI_INTEGER,IT_SPMD(P),
-     .                    MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
+            CALL spmd_recv(MSGBUF_R(P)%P(1:ISCOM(P)),ISCOM(P),IT_SPMD(P),
+     .                    MSGTYP,STATUS)
 C            DO II = 1,ISCOM(P)
 C               WRITE(6,*) "MSGBUF_R(",P-1,")%P(",II,")=",MSGBUF_R(P)%P(II)
 C            ENDDO
@@ -853,7 +853,7 @@ C                     WRITE(6,*) P-1,"INFLG --- MSGBUF_R(",IDEB2+J,")=", MSGBUF_
 C
         DO P = 1, NSPMD
           IF(IRCOM(P)>0) THEN
-            CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+            CALL spmd_wait(REQ_S(P))
             call my_dealloc(MSGBUF_S(P)%P)
           END IF
           IF(ISCOM(P)>0) THEN

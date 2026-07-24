@@ -35,7 +35,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -65,9 +65,8 @@ C-----------------------------------------------
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(I.NE.LOC_PROC.AND.SIZ>0) THEN
           MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     C      NINDEX,1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
+          CALL SPMD_ISEND(
+     C      NINDEX,1,IT_SPMD(I),MSGTYP,REQ_S(I))
         ENDIF
       ENDDO
       IRSIZE = 0
@@ -75,9 +74,8 @@ C-----------------------------------------------
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(I.NE.LOC_PROC.AND.SIZ>0) THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(
-     .     IRECV(I),1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .     SPMD_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(
+     .     IRECV(I),1,IT_SPMD(I),MSGTYP,STATUS)
           IRSIZE = IRSIZE + IRECV(I)
         ELSE
           IRECV(I) = 0
@@ -89,7 +87,7 @@ C
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(I.NE.LOC_PROC.AND.SIZ>0) THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I),STATUS)
         ENDIF
       ENDDO
 C

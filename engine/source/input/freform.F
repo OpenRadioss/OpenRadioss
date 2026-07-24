@@ -110,6 +110,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
       use glob_therm_mod
       USE VIPER_MOD
+      USE SPMD_MOD, ONLY: SPMD_PROFILING_ENABLED
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -159,7 +160,7 @@ C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
       INTEGER NKEY, NUM_ALE_KEY2
-      PARAMETER (NKEY = 93)
+      PARAMETER (NKEY = 94)
       PARAMETER (NUM_ALE_KEY2 = 25)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -176,7 +177,7 @@ C-----------------------------------------------
      .   NFVMESH,KSTATF,KSHVER,KABF,KDTSDE,
      .   KAABF,KBABF,KCABF,KDABF,KEABF,KFABF,KGABF,KHABF,KIABF,NFVMODI,
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
-     .   KDYNAIN,KDTTSH,KMASS,KSENSOR,KVIPER
+     .   KDYNAIN,KDTTSH,KMASS,KSENSOR,KVIPER,KPROFI
       INTEGER
      .   IKEY,I,II,I1,J,J1,J2,K,KK,M,N, NCT, IKOLD, NBC, K3, K4,
      .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,IREC,
@@ -232,7 +233,7 @@ C-----------------------------------------------
      .     'EABF '   ,'FABF'    ,'GABF'    ,'HABF'    ,'IABF'    ,
      .     'UPWIN'   ,'THERM'   ,'H3D'     ,'REPOR'   ,'NEGVO'  ,
      .     'ADYRE'   ,'DT1TE'   ,'PERF'    ,'DYNAI'   ,'DTTSH'   ,
-     .     'MASS '   ,'SENS '   ,'VIPER' /
+     .     'MASS '   ,'SENS '   ,'VIPER'   ,'PROFI' /
 
       DATA KRUN/1/    ,KTITLE/2/    ,KDT/3/       ,KTFILE/4/   ,KPRINT/5/  ,
      .     KRFILE/6/  ,KVERS/7/     ,                           KALE/10/   ,
@@ -252,7 +253,7 @@ C-----------------------------------------------
      .     KEABF/76/  ,KFABF/77/    ,KGABF/78/    ,KHABF/79/   ,KIABF/80/  ,
      .     KUPWIND/81/,KTHERMAL/82/ ,KH3D/83/     ,KREPORT/84/ ,KNEGVOL/85/,
      .     KADYREL/86/,KDT1TET10/87/,KPERF/88/    ,KDYNAIN/89/ ,KDTTSH/90/ ,
-     .     KMASS/91/  ,KSENSOR/92/  ,KVIPER/93/
+     .     KMASS/91/  ,KSENSOR/92/  ,KVIPER/93/  ,KPROFI/94/
 
       DATA KEYALE/
      .     'BCS  '   ,'CLOSE'   ,'GRID '   ,'LINK '   ,'MAT  '   ,
@@ -2271,6 +2272,14 @@ C-------------------------------------------------
         IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 700
       ENDIF
       
+C--------------------------------------------------
+C     /PROFI (SPMD PROFILING)
+C-------------------------------------------------
+      IKEY=KPROFI
+      IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
+        SPMD_PROFILING_ENABLED = .TRUE.
+      ENDIF
+
 C--------------------
 C     /SPMD
 C--------------------

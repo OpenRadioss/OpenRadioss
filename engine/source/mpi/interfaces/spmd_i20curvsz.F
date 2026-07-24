@@ -36,7 +36,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD, ONLY : spmd_irecv, spmd_send, spmd_wait
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -57,10 +57,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I ,J ,N1, N2, N3, N4, IERROR, IAD, SIZ, NB,
+      INTEGER I ,J ,N1, N2, N3, N4, IAD, SIZ, NB,
      .        MSGTYP, LOC_PROC, MSGOFF,
-     .        IBUFS(LENR), IBUFR(LENR),
-     .        STATUS(MPI_STATUS_SIZE),REQ_R(NSPMD)
+     .        IBUFS(LENR), IBUFR(LENR), REQ_R(NSPMD)
       DATA MSGOFF/194/
 
 C-----------------------------------------------
@@ -73,9 +72,9 @@ C
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(SIZ>0)THEN
           MSGTYP = MSGOFF 
-          CALL MPI_IRECV(
-     S      IBUFR(IAD),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
+          CALL spmd_irecv(
+     S      IBUFR(IAD:IAD+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(I))
             IAD = IAD + SIZ
         ENDIF
       END DO
@@ -110,9 +109,8 @@ C
             IAD = IAD + 1
           END DO
           MSGTYP = MSGOFF
-          CALL MPI_SEND(
-     S      IBUFS,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,IERROR)
+          CALL spmd_send(
+     S      IBUFS(1:SIZ),SIZ,IT_SPMD(I),MSGTYP)
         END IF
       END DO
 C
@@ -122,7 +120,7 @@ C
       DO I = 1, NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(SIZ>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL spmd_wait(REQ_R(I))
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             N1 = FR_ELEM(J)
             IAD = IAD + 1

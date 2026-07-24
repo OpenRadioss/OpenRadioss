@@ -21,480 +21,357 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    spmd_allreduce_mod     ../engine/source/mpi/spmd_allreduce.F90
-!||--- called by ------------------------------------------------------
-!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
-!||--- uses       -----------------------------------------------------
-!||    get_mpi_operator_mod   ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
-!||====================================================================
       module spmd_allreduce_mod
-        use get_mpi_operator_mod
+        use get_mpi_operator_mod, only: get_mpi_operator
+        use spmd_operator_mod,  only: SPMD_MAX, SPMD_MIN, SPMD_SUM, SPMD_PROD
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
-        use spmd_error_mod, only: spmd_in, spmd_out
         implicit none
+
+        integer, parameter, public :: TAG_ALLREDUCE = -6
+
+        ! SPMD operators provided by spmd_operator_mod
+
+        !> \brief Interface for spmd_allreduce, a wrapper for MPI_ALLREDUCE
         interface spmd_allreduce
-          module procedure spmd_allreduce_reals   !< Reduces real numbers across all processes and distributes result
-          module procedure spmd_allreduce_ints    !< Reduces integers across all processes and distributes result
-          module procedure spmd_allreduce_doubles !< Reduces double precision numbers across all processes and distributes result
-          module procedure spmd_allreduce_real    !< Reduces a single real number across all processes and distributes result
-          module procedure spmd_allreduce_int     !< Reduces a single integer across all processes and distributes result
-          module procedure spmd_allreduce_double  !< Reduces a single double precision number across all processes and distributes result
+          module procedure spmd_allreduce_reals
+          module procedure spmd_allreduce_ints
+          module procedure spmd_allreduce_doubles
+          module procedure spmd_allreduce_reals2d
+          module procedure spmd_allreduce_ints2d
+          module procedure spmd_allreduce_doubles2d
+          module procedure spmd_allreduce_real
+          module procedure spmd_allreduce_int
+          module procedure spmd_allreduce_double
         end interface spmd_allreduce
-        interface spmd_reduce
-          module procedure spmd_reduce_reals    !< Reduces real numbers across all processes
-          module procedure spmd_reduce_ints     !< Reduces integers across all processes
-          module procedure spmd_reduce_doubles  !< Reduces double precision numbers across all processes
-          module procedure spmd_reduce_real     !< Reduces a single real number across all processes
-          module procedure spmd_reduce_int      !< Reduces a single integer across all processes
-          module procedure spmd_reduce_double   !< Reduces a single double precision number across all processes
-        end interface spmd_reduce
+
       contains
-!||====================================================================
-!||    spmd_reduce_reals   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator    ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in             ../engine/source/mpi/spmd_error.F90
-!||    spmd_out            ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_reduce_reals(sendbuf, recvbuf, buf_count, operation, root, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          real, intent(in) :: sendbuf(*)
-          real, intent(inout) :: recvbuf(*)
-          integer, intent(in) :: buf_count, operation, root
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-#ifdef MPI
-          call spmd_in(TAG_REDUCE)
-          mpi_op = get_mpi_operator(operation)
 
-          ! Determine the communicator to use
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
 
-          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
-          call spmd_out(TAG_REDUCE,ierr)
-#endif
-        end subroutine spmd_reduce_reals
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_reduce_ints   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator   ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in            ../engine/source/mpi/spmd_error.F90
-!||    spmd_out           ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_reduce_ints(sendbuf, recvbuf, buf_count, operation, root, comm)
+!>  \brief Allreduce of real       array
+        subroutine spmd_allreduce_reals(sendbuf, recvbuf, buf_count, operation, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
-          integer, intent(in) :: sendbuf(*)
-          integer, intent(inout) :: recvbuf(*)
-          integer, intent(in) :: buf_count, operation, root
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-#ifdef MPI
-          call spmd_in(TAG_REDUCE)
-          mpi_op = get_mpi_operator(operation)
-
-          ! Determine the communicator to use
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
-
-          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, root, used_comm, ierr)
-          call spmd_out(TAG_REDUCE,ierr)
-#else
-          recvbuf(1:buf_count) = sendbuf(1:buf_count)
-#endif
-        end subroutine spmd_reduce_ints
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_reduce_doubles   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator      ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_reduce_doubles(sendbuf, recvbuf, buf_count, operation, root, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          double precision, intent(in) :: sendbuf(*)
-          double precision, intent(inout) :: recvbuf(*)
-          integer, intent(in) :: buf_count, operation, root
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-#ifdef MPI
-          call spmd_in(TAG_REDUCE)
-          mpi_op = get_mpi_operator(operation)
-
-          ! Determine the communicator to use
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
-
-          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, root, used_comm, ierr)
-          call spmd_out(TAG_REDUCE,ierr)
-#else
-          recvbuf(1:buf_count) = sendbuf(1:buf_count)
-#endif
-        end subroutine spmd_reduce_doubles
-
-!||====================================================================
-!||    spmd_allreduce_ints   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator      ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allreduce_ints(sendbuf, recvbuf, buf_count, operation, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          integer, intent(in) :: sendbuf(*)
-          integer, intent(inout) :: recvbuf(*)
+          real, dimension(:), intent(in) :: sendbuf
+          real, dimension(:), intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
           integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
 #ifdef MPI
-          call spmd_in(TAG_ALLREDUCE)
+          call spmd_in(tag_local, "MPI_Allreduce")
           mpi_op = get_mpi_operator(operation)
 
-          ! Determine the communicator to use
           if (present(comm)) then
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
           end if
-
-          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
-          call spmd_out(TAG_ALLREDUCE,ierr)
-#else
-          recvbuf(1:buf_count) = sendbuf(1:buf_count)
-#endif
-        end subroutine spmd_allreduce_ints
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator         ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
-!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allreduce_doubles(sendbuf, recvbuf, buf_count, operation, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          double precision, intent(in) :: sendbuf(*)
-          double precision, intent(inout) :: recvbuf(*)
-          integer, intent(in) :: buf_count, operation
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-#ifdef MPI
-          call spmd_in(TAG_ALLREDUCE)
-          mpi_op = get_mpi_operator(operation)
-
-          ! Determine the communicator to use
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
-
-          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
-          call spmd_out(TAG_ALLREDUCE,ierr)
-#else
-          recvbuf(1:buf_count) = sendbuf(1:buf_count)
-#endif
-        end subroutine spmd_allreduce_doubles
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_allreduce_reals   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator       ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in                ../engine/source/mpi/spmd_error.F90
-!||    spmd_out               ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allreduce_reals(sendbuf, recvbuf, buf_count, operation, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          real, intent(in) :: sendbuf(*)
-          real, intent(inout) :: recvbuf(*)
-          integer, intent(in) :: buf_count, operation
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-#ifdef MPI
-          call spmd_in(TAG_ALLREDUCE)
-          mpi_op = get_mpi_operator(operation)
-
-          ! Determine the communicator to use
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
-
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
-          call spmd_out(TAG_ALLREDUCE,ierr)
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:buf_count) = sendbuf(1:buf_count)
+          recvbuf = sendbuf
 #endif
         end subroutine spmd_allreduce_reals
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_reduce_real   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator   ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in            ../engine/source/mpi/spmd_error.F90
-!||    spmd_out           ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_reduce_real(sendbuf, recvbuf, buf_count, operation, root, comm)
+!>  \brief Allreduce of integer       array
+        subroutine spmd_allreduce_ints(sendbuf, recvbuf, buf_count, operation, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
-          real, intent(in) :: sendbuf
-          real, intent(inout) :: recvbuf
-          integer, intent(in) :: buf_count, operation, root
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-
-          mpi_op = get_mpi_operator(operation)
-
-          ! Determine the communicator to use
-#ifdef MPI
-          call spmd_in(TAG_REDUCE)
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
-          if(buf_count /= 1) then
-            ierr = -1
-          else
-            call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
-          end if
-          call spmd_out(TAG_REDUCE,ierr)
-#endif
-        end subroutine spmd_reduce_real
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_reduce_int    ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator   ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in            ../engine/source/mpi/spmd_error.F90
-!||    spmd_out           ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_reduce_int(sendbuf, recvbuf, buf_count, operation, root, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          integer, intent(in) :: sendbuf
-          integer, intent(inout) :: recvbuf
-          integer, intent(in) :: buf_count, operation, root
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-#ifdef MPI
-          call spmd_in(TAG_REDUCE)
-          mpi_op = get_mpi_operator(operation)
-
-          ! Determine the communicator to use
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
-          if(buf_count /= 1) then
-            ierr = -1
-          else
-            call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, root, used_comm, ierr)
-          endif
-          call spmd_out(TAG_REDUCE,ierr)
-#else
-          recvbuf = sendbuf  ! In case MPI is not defined, just copy the value
-#endif
-        end subroutine spmd_reduce_int
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_reduce_double   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator     ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in              ../engine/source/mpi/spmd_error.F90
-!||    spmd_out             ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_reduce_double(sendbuf, recvbuf, buf_count, operation, root, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          double precision, intent(in) :: sendbuf
-          double precision, intent(inout) :: recvbuf
-          integer, intent(in) :: buf_count, operation, root
-          integer, intent(in), optional :: comm
-          integer :: ierr, mpi_op, used_comm
-#ifdef MPI
-          call spmd_in(TAG_REDUCE)
-          mpi_op = get_mpi_operator(operation)
-
-          ! Determine the communicator to use
-          if (present(comm)) then
-            used_comm = comm
-          else
-            used_comm = SPMD_COMM_WORLD
-          end if
-
-          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, root, used_comm, ierr)
-          call spmd_out(TAG_REDUCE,ierr)
-#else
-          recvbuf = sendbuf  ! In case MPI is not defined, just copy the value
-#endif
-        end subroutine spmd_reduce_double
-! ======================================================================================================================
-!||====================================================================
-!||    spmd_allreduce_int   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator     ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in              ../engine/source/mpi/spmd_error.F90
-!||    spmd_out             ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allreduce_int(sendbuf, recvbuf, buf_count, operation, comm)
-          use spmd_error_mod, only: spmd_in, spmd_out
-          implicit none
-#include "spmd.inc"
-          integer, intent(in) :: sendbuf
-          integer, intent(inout) :: recvbuf
+          integer, dimension(:), intent(in) :: sendbuf
+          integer, dimension(:), intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
           integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
 #ifdef MPI
-          call spmd_in(TAG_ALLREDUCE)
+          call spmd_in(tag_local, "MPI_Allreduce")
           mpi_op = get_mpi_operator(operation)
 
-          ! Determine the communicator to use
           if (present(comm)) then
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
           end if
-          if(buf_count /= 1) then
-            ierr = -1
-          else
-            call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
-          end if
-          call spmd_out(TAG_ALLREDUCE,ierr)
+          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf = sendbuf  ! In case MPI is not defined, just copy the value
+          recvbuf = sendbuf
 #endif
-        end subroutine spmd_allreduce_int
+        end subroutine spmd_allreduce_ints
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_allreduce_double   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator        ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
-!||    spmd_out                ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allreduce_double(sendbuf, recvbuf, buf_count, operation, comm)
+!>  \brief Allreduce of double precision       array
+        subroutine spmd_allreduce_doubles(sendbuf, recvbuf, buf_count, operation, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
-          double precision, intent(in) :: sendbuf
-          double precision, intent(inout) :: recvbuf
+          double precision, dimension(:), intent(in) :: sendbuf
+          double precision, dimension(:), intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
           integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
 #ifdef MPI
-          call spmd_in(TAG_ALLREDUCE)
+          call spmd_in(tag_local, "MPI_Allreduce")
           mpi_op = get_mpi_operator(operation)
 
-          ! Determine the communicator to use
           if (present(comm)) then
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
           end if
-
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
-          call spmd_out(TAG_ALLREDUCE,ierr)
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf = sendbuf  ! In case MPI is not defined, just copy the value
+          recvbuf = sendbuf
 #endif
-        end subroutine spmd_allreduce_double
+        end subroutine spmd_allreduce_doubles
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_allreduce_real   ../engine/source/mpi/spmd_allreduce.F90
-!||--- calls      -----------------------------------------------------
-!||    get_mpi_operator      ../engine/source/mpi/get_mpi_operator.F90
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_allreduce_real(sendbuf, recvbuf, buf_count, operation, comm)
+!>  \brief Allreduce of real       array
+        subroutine spmd_allreduce_reals2d(sendbuf, recvbuf, buf_count, operation, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
-          real, intent(in) :: sendbuf
-          real, intent(inout) :: recvbuf
+          real, dimension(:,:), intent(in) :: sendbuf
+          real, dimension(:,:), intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
           integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
 #ifdef MPI
-          call spmd_in(TAG_ALLREDUCE)
+          call spmd_in(tag_local, "MPI_Allreduce")
           mpi_op = get_mpi_operator(operation)
 
-          ! Determine the communicator to use
           if (present(comm)) then
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
           end if
-          if(buf_count /= 1) then
+          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
+          call spmd_out(tag_local, ierr)
+#else
+          recvbuf = sendbuf
+#endif
+        end subroutine spmd_allreduce_reals2d
+
+! ======================================================================================================================
+!>  \brief Allreduce of integer       array
+        subroutine spmd_allreduce_ints2d(sendbuf, recvbuf, buf_count, operation, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer, dimension(:,:), intent(in) :: sendbuf
+          integer, dimension(:,:), intent(inout) :: recvbuf
+          integer, intent(in) :: buf_count, operation
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
+          integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allreduce")
+          mpi_op = get_mpi_operator(operation)
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
+          call spmd_out(tag_local, ierr)
+#else
+          recvbuf = sendbuf
+#endif
+        end subroutine spmd_allreduce_ints2d
+
+! ======================================================================================================================
+!>  \brief Allreduce of double precision       array
+        subroutine spmd_allreduce_doubles2d(sendbuf, recvbuf, buf_count, operation, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          double precision, dimension(:,:), intent(in) :: sendbuf
+          double precision, dimension(:,:), intent(inout) :: recvbuf
+          integer, intent(in) :: buf_count, operation
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
+          integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allreduce")
+          mpi_op = get_mpi_operator(operation)
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
+          call spmd_out(tag_local, ierr)
+#else
+          recvbuf = sendbuf
+#endif
+        end subroutine spmd_allreduce_doubles2d
+
+! ======================================================================================================================
+!>  \brief Allreduce of real       scalar
+        subroutine spmd_allreduce_real(sendbuf, recvbuf, buf_count, operation, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          real,  intent(in) :: sendbuf
+          real,  intent(inout) :: recvbuf
+          integer, intent(in) :: buf_count, operation
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
+          integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allreduce")
+          mpi_op = get_mpi_operator(operation)
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+          if (buf_count .ne. 1) then
             ierr = -1
           else
             call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
           end if
-          call spmd_out(TAG_ALLREDUCE,ierr)
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf = sendbuf  ! In case MPI is not defined, just copy the value
+          recvbuf = sendbuf
 #endif
         end subroutine spmd_allreduce_real
 
+! ======================================================================================================================
+!>  \brief Allreduce of integer       scalar
+        subroutine spmd_allreduce_int(sendbuf, recvbuf, buf_count, operation, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer,  intent(in) :: sendbuf
+          integer,  intent(inout) :: recvbuf
+          integer, intent(in) :: buf_count, operation
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
+          integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
 
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allreduce")
+          mpi_op = get_mpi_operator(operation)
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+          if (buf_count .ne. 1) then
+            ierr = -1
+          else
+            call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
+          end if
+          call spmd_out(tag_local, ierr)
+#else
+          recvbuf = sendbuf
+#endif
+        end subroutine spmd_allreduce_int
+
+! ======================================================================================================================
+!>  \brief Allreduce of double precision       scalar
+        subroutine spmd_allreduce_double(sendbuf, recvbuf, buf_count, operation, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          double precision,  intent(in) :: sendbuf
+          double precision,  intent(inout) :: recvbuf
+          integer, intent(in) :: buf_count, operation
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag !added even if not used in MPI, to pass to spmd_in/out
+          integer :: ierr, mpi_op, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLREDUCE
+          end if
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Allreduce")
+          mpi_op = get_mpi_operator(operation)
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+          if (buf_count .ne. 1) then
+            ierr = -1
+          else
+            call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
+          end if
+          call spmd_out(tag_local, ierr)
+#else
+          recvbuf = sendbuf
+#endif
+        end subroutine spmd_allreduce_double
 
       end module spmd_allreduce_mod
-
-

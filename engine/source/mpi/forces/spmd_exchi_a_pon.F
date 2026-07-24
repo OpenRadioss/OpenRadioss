@@ -44,7 +44,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE SPMD_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -73,11 +73,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,J,NOD,LOC_PROC,IERROR,INDEX,IDEB,
+      INTEGER MSGTYP,I,J,NOD,LOC_PROC,INDEX,IDEB,
      .        SIZ,L,NB_NOD,CC,NBIRECV, II, JJ, L0,MSGOFF,
      .        IAD_RECV(NSPMD+1),
-     .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),
-     .        STATUS(MPI_STATUS_SIZE),LSAV
+     .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),LSAV
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF,SBUF
       DATA MSGOFF/170/
 C-----------------------------------------------
@@ -96,9 +95,8 @@ C
           MSGTYP = MSGOFF 
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+          CALL spmd_irecv(
+     S      RBUF(L:L+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_R(NBIRECV))
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -363,9 +361,8 @@ C
 C
          SIZ = NBISDP(I)*(SIZI)
          MSGTYP = MSGOFF
-         CALL MPI_ISEND(
-     S      SBUF(L0),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
+         CALL spmd_isend(
+     S      SBUF(L0:L0+SIZ-1),SIZ,IT_SPMD(I),MSGTYP,REQ_S(I))
        END IF
       END DO
 C
@@ -373,7 +370,7 @@ C COMPACTING PART INTERFACE
 C
       NBIRCT = 0
       DO II=1,NBIRECV
-        CALL MPI_WAITANY(NBIRECV,REQ_R,INDEX,STATUS,IERROR)
+        CALL spmd_waitany(REQ_R,NBIRECV,INDEX)
         I = IRINDEX(INDEX)
         L = IAD_RECV(I)
         NB_NOD = NBIRCP(I)
@@ -610,7 +607,7 @@ C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(NBISDP(I)>0)
-     .    CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+     .    CALL spmd_wait(REQ_S(I))
       ENDDO
       call my_dealloc(RBUF)
       call my_dealloc(SBUF)

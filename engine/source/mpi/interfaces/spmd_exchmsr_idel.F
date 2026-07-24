@@ -41,7 +41,7 @@ C
      5    LINDEX,IXP   ,IXR    ,IXT    ,GEO    ,
      6    TAGEL ,IAD_ELEM)
        USE nodal_arrays_mod
-       USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+       USE SPMD_MOD
        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
        use my_alloc_mod
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF2 ,MSGOFF3, MSGTYP, LOC_PROC,
-     .        IERROR,I, IDEB, LEN, N1, N2, N3, N4,
+     .        I, IDEB, LEN, N1, N2, N3, N4,
      .        K, IX, II, NN, J, IOFF,
      .           IDEL, ITYP, NBEL,
      .            
@@ -95,13 +95,13 @@ C-----------------------------------------------
       IDEB = 1
       IOFF = 0
       LEN = 0
-      REQ_R1(1:NSPMD) = MPI_REQUEST_NULL
+      REQ_R1(1:NSPMD) = SPMD_REQUEST_NULL
       DO I = 1, NSPMD
         IF(IRECV(I)>0) THEN
           MSGTYP = MSGOFF2 
-          CALL MPI_IRECV(
-     .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .      SPMD_COMM_WORLD,REQ_R1(I),IERROR)
+          CALL SPMD_IRECV(
+     .      BUFR(IDEB:IDEB+IRECV(I)-1),IRECV(I),IT_SPMD(I),MSGTYP,
+     .      REQ_R1(I),SPMD_COMM_WORLD)
           LEN = LEN+IRECV(I)
           IDEB = LEN + 1 
          ENDIF
@@ -112,9 +112,9 @@ C Proc sends the same BUFS to everybody
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(I.NE.LOC_PROC.AND.LBUFS.GT.0.AND.SIZ>0) THEN
            MSGTYP = MSGOFF2
-           CALL MPI_ISEND(
-     C      BUFS,LBUFS,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S2(I),IERROR)
+           CALL SPMD_ISEND(
+     C      BUFS(1:LBUFS),LBUFS,IT_SPMD(I),MSGTYP,
+     G      REQ_S2(I),SPMD_COMM_WORLD)
         ENDIF
       ENDDO
       IDEB = 1
@@ -124,7 +124,7 @@ C Proc receive only if IRECV(I) > 0
       DO I = 1, NSPMD
         IF(IRECV(I)>0) THEN
           MSGTYP = MSGOFF2 
-          CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R1(I),STATUS)
 c         CALL MPI_RECV(
 c    .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
 c    .      SPMD_COMM_WORLD,STATUS,IERROR)
@@ -381,9 +381,9 @@ C
         IF(IRECV(I)>0) THEN
           LEN = IRECV(I)
           MSGTYP = MSGOFF3
-          CALL MPI_ISEND(
-     C      BUFR(IDEB),LEN,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      SPMD_COMM_WORLD,REQ_S3(I),IERROR)
+          CALL SPMD_ISEND(
+     C      BUFR(IDEB:IDEB+LEN-1),LEN,IT_SPMD(I),MSGTYP,
+     G      REQ_S3(I),SPMD_COMM_WORLD)
           IDEB = IDEB + LEN
         ENDIF
       ENDDO
@@ -393,7 +393,7 @@ C
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(I.NE.LOC_PROC.AND.LBUFS.GT.0.AND.SIZ>0) THEN
-          CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S2(I),STATUS)
         ENDIF
       ENDDO
 C
@@ -408,9 +408,9 @@ C
           SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
           IF(I.NE.LOC_PROC.AND.LINDEX.GT.0.AND.SIZ>0) THEN
             MSGTYP = MSGOFF3
-            CALL MPI_RECV(
-     .        BUFS2,LINDEX,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .        SPMD_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(
+     .        BUFS2(1:LINDEX),LINDEX,IT_SPMD(I),MSGTYP,STATUS,
+     .        SPMD_COMM_WORLD)
               DO J = 1, LINDEX
                 BUFS(J) = MAX(BUFS(J),BUFS2(J))
               ENDDO
@@ -424,7 +424,7 @@ C Test Reception Bufr
 C
       DO I = 1, NSPMD
         IF(IRECV(I)>0) THEN
-          CALL MPI_WAIT(REQ_S3(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S3(I),STATUS)
         ENDIF
       ENDDO
 C

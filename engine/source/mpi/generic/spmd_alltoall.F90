@@ -21,221 +21,370 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    spmd_alltoall_mod   ../engine/source/mpi/generic/spmd_alltoall.F90
-!||--- called by ------------------------------------------------------
-!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
-!||====================================================================
       module spmd_alltoall_mod
+        use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
 
-        ! \brief Interface for spmd_alltoall, a wrapper for MPI_ALLTOALL
+        integer, parameter, public :: TAG_ALLTOALL = -14
+
+        !> \brief Interface for spmd_alltoall, a wrapper for MPI_ALLTOALL
         interface spmd_alltoall
-          module procedure spmd_alltoall_reals     !< Alltoall of real numbers
-          module procedure spmd_alltoall_ints      !< Alltoall of integers
-          module procedure spmd_alltoall_doubles   !< Alltoall of double precision numbers
-          module procedure spmd_alltoall_real      !< Alltoall of a single real number (for legacy A(1,1) calls)
-          module procedure spmd_alltoall_int       !< Alltoall of a single integer (for legacy A(1,1) calls)
-          module procedure spmd_alltoall_double    !< Alltoall of a single double precision number (for legacy A(1,1) calls)
+          module procedure spmd_alltoall_reals
+          module procedure spmd_alltoall_ints
+          module procedure spmd_alltoall_doubles
+          module procedure spmd_alltoall_reals2d
+          module procedure spmd_alltoall_ints2d
+          module procedure spmd_alltoall_doubles2d
+          module procedure spmd_alltoall_real
+          module procedure spmd_alltoall_int
+          module procedure spmd_alltoall_double
         end interface spmd_alltoall
 
       contains
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_alltoall_reals   ../engine/source/mpi/generic/spmd_alltoall.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_alltoall_reals(sendbuf, sendcount, recvbuf, recvcount, comm)
-          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+!>  \brief Alltoall of real       array
+        subroutine spmd_alltoall_reals(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount, recvcount
-          real, dimension(*), intent(in) :: sendbuf
-          real, dimension(*), intent(inout) :: recvbuf
+          real, dimension(:), intent(in) :: sendbuf
+          real, dimension(:), intent(inout) :: recvbuf
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0  ! Alltoall doesn't use tags, but keeping for consistency with spmd_in/out
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, comm, ierr)
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLTOALL
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          continue
 #endif
         end subroutine spmd_alltoall_reals
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_alltoall_ints    ../engine/source/mpi/generic/spmd_alltoall.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_alltoall_ints(sendbuf, sendcount, recvbuf, recvcount, comm)
+!>  \brief Alltoall of integer       array
+        subroutine spmd_alltoall_ints(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
-          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount, recvcount
-          integer, dimension(*), intent(in) :: sendbuf
-          integer, dimension(*), intent(inout) :: recvbuf
+          integer, dimension(:), intent(in) :: sendbuf
+          integer, dimension(:), intent(inout) :: recvbuf
           integer, intent(in), optional :: comm
-#ifdef MPI
-          integer :: ierr, tag
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Alltoall(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcount, MPI_INTEGER, comm, ierr)
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Alltoall(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcount, MPI_INTEGER, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLTOALL
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Alltoall(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcount, MPI_INTEGER, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          continue
 #endif
         end subroutine spmd_alltoall_ints
+
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_alltoall_doubles   ../engine/source/mpi/generic/spmd_alltoall.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
-!||    spmd_out                ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_alltoall_doubles(sendbuf, sendcount, recvbuf, recvcount, comm)
+!>  \brief Alltoall of double precision       array
+        subroutine spmd_alltoall_doubles(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
-          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount, recvcount
-          double precision, dimension(*), intent(in) :: sendbuf
-          double precision, dimension(*), intent(inout) :: recvbuf
+          double precision, dimension(:), intent(in) :: sendbuf
+          double precision, dimension(:), intent(inout) :: recvbuf
           integer, intent(in), optional :: comm
-#ifdef MPI
-          integer :: ierr, tag
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount,&
-              MPI_DOUBLE_PRECISION, comm, ierr)
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount,&
-              MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLTOALL
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount, MPI_DOUBLE_PRECISION, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          continue
 #endif
         end subroutine spmd_alltoall_doubles
-!||====================================================================
-!||    spmd_alltoall_double   ../engine/source/mpi/generic/spmd_alltoall.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in                ../engine/source/mpi/spmd_error.F90
-!||    spmd_out               ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_alltoall_double(sendbuf, sendcount, recvbuf, recvcount, comm)
+
+! ======================================================================================================================
+!>  \brief Alltoall of real       array
+        subroutine spmd_alltoall_reals2d(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
-          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           implicit none
 #include "spmd.inc"
-          double precision, intent(in) :: sendbuf
           integer, intent(in) :: sendcount, recvcount
-          double precision, dimension(*), intent(inout) :: recvbuf
+          real, dimension(:,:), intent(in) :: sendbuf
+          real, dimension(:), intent(inout) :: recvbuf
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf,&
-              recvcount, MPI_DOUBLE_PRECISION, comm, ierr)
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf,&
-              recvcount, MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLTOALL
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
+#else
+          continue
 #endif
-        end subroutine spmd_alltoall_double
-!||====================================================================
-!||    spmd_alltoall_int     ../engine/source/mpi/generic/spmd_alltoall.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_alltoall_int(sendbuf, sendcount, recvbuf, recvcount, comm)
+        end subroutine spmd_alltoall_reals2d
+
+! ======================================================================================================================
+!>  \brief Alltoall of integer       array
+        subroutine spmd_alltoall_ints2d(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
-          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           implicit none
 #include "spmd.inc"
-          integer, intent(in) :: sendbuf
           integer, intent(in) :: sendcount, recvcount
-          integer, dimension(*), intent(inout) :: recvbuf
+          integer, dimension(:,:), intent(in) :: sendbuf
+          integer, dimension(:), intent(inout) :: recvbuf
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Alltoall(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcount, MPI_INTEGER, comm, ierr)
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Alltoall(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcount,&
-              MPI_INTEGER, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLTOALL
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Alltoall(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcount, MPI_INTEGER, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
+#else
+          continue
 #endif
-        end subroutine spmd_alltoall_int
-!||====================================================================
-!||    spmd_alltoall_real    ../engine/source/mpi/generic/spmd_alltoall.F90
-!||--- calls      -----------------------------------------------------
-!||    spmd_in               ../engine/source/mpi/spmd_error.F90
-!||    spmd_out              ../engine/source/mpi/spmd_error.F90
-!||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-!||====================================================================
-        subroutine spmd_alltoall_real(sendbuf, sendcount, recvbuf, recvcount, comm)
-          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+        end subroutine spmd_alltoall_ints2d
+
+! ======================================================================================================================
+!>  \brief Alltoall of double precision       array
+        subroutine spmd_alltoall_doubles2d(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: sendcount, recvcount
-          real,    intent(in) :: sendbuf
-          real, dimension(*), intent(inout) :: recvbuf
+          double precision, dimension(:,:), intent(in) :: sendbuf
+          double precision, dimension(:), intent(inout) :: recvbuf
           integer, intent(in), optional :: comm
-          integer :: ierr, tag
-#ifdef MPI
-          tag = 0
-          call spmd_in(tag)
-          if (present(comm)) then
-            call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, comm, ierr)
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
           else
-            call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount,&
-              MPI_REAL, SPMD_COMM_WORLD, ierr)
+            tag_local = TAG_ALLTOALL
           end if
-          call spmd_out(tag,ierr)
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount, MPI_DOUBLE_PRECISION, used_comm, ierr)
+
+          call spmd_out(tag_local, ierr)
+#else
+          continue
+#endif
+        end subroutine spmd_alltoall_doubles2d
+
+! ======================================================================================================================
+!>  \brief Alltoall of real       scalar
+        subroutine spmd_alltoall_real(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: sendcount, recvcount
+          real,  intent(in) :: sendbuf
+          real, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLTOALL
+          end if
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          if (sendcount .ne. 1) then
+            ierr = -1
+          else
+            call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, used_comm, ierr)
+          end if
+
+          call spmd_out(tag_local, ierr)
+#else
+          continue
 #endif
         end subroutine spmd_alltoall_real
 
+! ======================================================================================================================
+!>  \brief Alltoall of integer       scalar
+        subroutine spmd_alltoall_int(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: sendcount, recvcount
+          integer,  intent(in) :: sendbuf
+          integer, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
 
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLTOALL
+          end if
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          if (sendcount .ne. 1) then
+            ierr = -1
+          else
+            call MPI_Alltoall(sendbuf, sendcount, MPI_INTEGER, recvbuf, recvcount, MPI_INTEGER, used_comm, ierr)
+          end if
+
+          call spmd_out(tag_local, ierr)
+#else
+          continue
+#endif
+        end subroutine spmd_alltoall_int
+
+! ======================================================================================================================
+!>  \brief Alltoall of double precision       scalar
+        subroutine spmd_alltoall_double(sendbuf, recvbuf, sendcount, recvcount, comm, tag)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: sendcount, recvcount
+          double precision,  intent(in) :: sendbuf
+          double precision, dimension(:), intent(inout) :: recvbuf
+          integer, intent(in), optional :: comm
+          integer, intent(in), optional :: tag ! for spmd_in/out
+          integer :: ierr, used_comm
+          integer :: tag_local
+
+          if (present(tag)) then
+            tag_local = tag
+          else
+            tag_local = TAG_ALLTOALL
+          end if
+
+#ifdef MPI
+          call spmd_in(tag_local, "MPI_Alltoall")
+
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+
+          if (sendcount .ne. 1) then
+            ierr = -1
+          else
+            call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount, MPI_DOUBLE_PRECISION, used_comm, ierr)
+          end if
+
+          call spmd_out(tag_local, ierr)
+#else
+          continue
+#endif
+        end subroutine spmd_alltoall_double
 
       end module spmd_alltoall_mod
