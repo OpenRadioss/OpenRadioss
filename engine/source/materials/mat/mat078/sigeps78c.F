@@ -179,9 +179,9 @@ c
       ELSEIF(IPLAS == 2) THEN
         NORM_SP = EP03 / EINI
       ELSEIF(IPLAS == 3) THEN  
-        NORM_SP = ONE !A VERIFIER POUR BBC2005
+        NORM_SP = ONE 
       ENDIF
-      !//TODO: NORM_SP TO BE ADJUSTED FOR BBC2005
+  
 
       ! Initial value
       IF (ISIGI == 0 .and. TIME == ZERO) THEN
@@ -286,20 +286,20 @@ c
           ASTA(I)  = P1*ABS(KA1(I)+KA2(I))**N3 + P1*ABS(KA1(I)-KA2(I))**N3 + P2*ABS(TWO*KA2(I))**N3
           ASTA(I)  = (HALF*MAX(EM20,ASTA(I)))**(ONE/N3)
         ELSEIF (IPLAS == 3) THEN
-          gamma(I)   = l_bbc * axx(i) + m_bbc * ayy(i) !OK
-          term_NP(I) = n_bbc * axx(i) - p_bbc * ayy(i)
-          term_QR(I) = q_bbc * axx(i) - r_bbc * ayy(i)
-          lambda(I) = sqrt(term_NP(I) * term_NP(I) + axy(i) * axy(i)) !OK
-          psi(I)    = sqrt(term_QR(I) * term_QR(I) + axy(i) * axy(i)) !OK
+          gamma(I)   = l_bbc * axx(I) + m_bbc * ayy(I)  
+          term_NP(I) = n_bbc * axx(I) - p_bbc * ayy(I)
+          term_QR(I) = q_bbc * axx(I) - r_bbc * ayy(I)
+          lambda(I) = sqrt(term_NP(I) * term_NP(I) + axy(I) * axy(I))  
+          psi(I)    = sqrt(term_QR(I) * term_QR(I) + axy(I) * axy(I))  
           lam_p_gam(I) = lambda(I) + gamma(I)
           lam_m_gam(I) = lambda(I) - gamma(I)
           lam_p_psi(I) = lambda(I) + psi(I)
           lam_m_psi(I) = lambda(I) - psi(I)
           !< 2. Compute Yield Function W and Equivalent Stress
           w(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
-     .            b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
+     .            b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k)  
           if (w(I)>0) then
-             seff(I) = w(I)**(one / real(int_2k)) !OK 
+             seff(I) = w(I)**(one / real(int_2k))   
           else
              seff(I) = zero
           end if
@@ -414,9 +414,9 @@ C
             NORMYY     = DF_DK1*DK1_DSIGYY+ DF_DK2*DK2_DSIGYY
             NORMXY     = DF_DK2*DK2_DSIGXY
           ELSEIF (IPLAS == 3) THEN 
-                        !< Pre-factor for derivatives: seq(i)^(1 - 2k)
+            !< Pre-factor for derivatives: seq(I)^(1 - 2k)
             !< This eliminates the (1/2k) * (2k) constants from chain rule
-            seq_inv(I) = seff(I)**(one - real(int_2k)) !OK
+            seq_inv(I) = seff(I)**(one - real(int_2k))  
 
             !< 3. Derivatives of W wrt Gamma, Lambda, Psi
             dW_dgamma  = a_bbc * (lam_p_gam(I)**int_2km1 - lam_m_gam(I)**int_2km1)
@@ -425,9 +425,9 @@ C
             dW_dpsi    = b_bbc * (lam_p_psi(I)**int_2km1 - lam_m_psi(I)**int_2km1)
 
             !< Scale by seq_inv
-            dW_dgamma  = dW_dgamma * seq_inv(I) !ok
-            dW_dlambda = dW_dlambda * seq_inv(I) !ok
-            dW_dpsi    = dW_dpsi * seq_inv(I) !ok
+            dW_dgamma  = dW_dgamma * seq_inv(I)  
+            dW_dlambda = dW_dlambda * seq_inv(I)  
+            dW_dpsi    = dW_dpsi * seq_inv(I)  
 
             !< 4. Derivatives of Lambda and Psi wrt stress tensor components
             !< Denominator protection (em20) prevents NaN at zero shear
@@ -532,11 +532,11 @@ c
             SEFF(I) = P1*(ABS(K1(I)+K2(I))*NORM_SP)**N3 + P1*(ABS(K1(I)-K2(I))*NORM_SP)**N3 + P2*(ABS(TWO*K2(I))*NORM_SP)**N3
             SEFF(I) = (HALF*SEFF(I))**(ONE/N3)            
           ELSEIF (IPLAS == 3) THEN  
-            gamma(I)   = l_bbc * axx(i) + m_bbc * ayy(i) !OK
-            term_NP(I) = n_bbc * axx(i) - p_bbc * ayy(i)
-            term_QR(I) = q_bbc * axx(i) - r_bbc * ayy(i)
-            lambda(I) = sqrt(term_NP(I) * term_NP(I) + axy(i) * axy(i)) !OK
-            psi(I)    = sqrt(term_QR(I) * term_QR(I) + axy(i) * axy(i)) !OK
+            gamma(I)   = l_bbc * axx(I) + m_bbc * ayy(I) 
+            term_NP(I) = n_bbc * axx(I) - p_bbc * ayy(I)
+            term_QR(I) = q_bbc * axx(I) - r_bbc * ayy(I)
+            lambda(I) = sqrt(term_NP(I) * term_NP(I) + axy(I) * axy(I)) 
+            psi(I)    = sqrt(term_QR(I) * term_QR(I) + axy(I) * axy(I)) 
             lam_p_gam(I) = lambda(I) + gamma(I)
             lam_m_gam(I) = lambda(I) - gamma(I)
             lam_p_psi(I) = lambda(I) + psi(I)
@@ -544,9 +544,9 @@ c
 
           !< 2. Compute Yield Function W and Equivalent Stress
             w(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
-     .          b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
+     .          b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k)  
 
-               seff(I) = w(I)**(one / real(int_2k)) !OK 
+               seff(I) = w(I)**(one / real(int_2k))   
 
           ENDIF             
 c
@@ -576,11 +576,11 @@ c
             ASTA(I)  = (HALF*MAX(EM20,ASTA(I)))**(ONE/N3)
             ASTA(I)  = ASTA(I)
         ELSEIF (IPLAS == 3) THEN 
-          gamma_a(I)   = l_bbc * SIGA(I,1) + m_bbc * SIGA(I,2) !OK
+          gamma_a(I)   = l_bbc * SIGA(I,1) + m_bbc * SIGA(I,2)  
           term_NP_a(I) = n_bbc * SIGA(I,1) - p_bbc * SIGA(I,2)
           term_QR_a(I) = q_bbc * SIGA(I,1) - r_bbc * SIGA(I,2)
-          lambda_a(I) = sqrt(term_NP_a(I) * term_NP_a(I) + SIGA(I,3) * SIGA(I,3)) !OK
-          psi_a(I)    = sqrt(term_QR_a(I) * term_QR_a(I) + SIGA(I,3) * SIGA(I,3)) !OK
+          lambda_a(I) = sqrt(term_NP_a(I) * term_NP_a(I) + SIGA(I,3) * SIGA(I,3))  
+          psi_a(I)    = sqrt(term_QR_a(I) * term_QR_a(I) + SIGA(I,3) * SIGA(I,3))  
           lam_p_gam_a(I) = lambda_a(I) + gamma_a(I)
           lam_m_gam_a(I) = lambda_a(I) - gamma_a(I)
           lam_p_psi_a(I) = lambda_a(I) + psi_a(I)
@@ -588,8 +588,8 @@ c
 
           !< 2. Compute Yield Function W and Equivalent Stress
           w_a(I) = a_bbc * (lam_p_gam_a(I)**int_2k + lam_m_gam_a(I)**int_2k) +                    
-     .          b_bbc * (lam_p_psi_a(I)**int_2k + lam_m_psi_a(I)**int_2k) !OK
-          ASTA(I) = w_a(I)**(one / real(int_2k)) !OK 
+     .          b_bbc * (lam_p_psi_a(I)**int_2k + lam_m_psi_a(I)**int_2k)  
+          ASTA(I) = w_a(I)**(one / real(int_2k))   
 
         ENDIF
         ASTA(I)   = MAX(ASTA(I),EM20)
@@ -690,18 +690,18 @@ C
         IF (IPLAS == 1) THEN   
           YLD(I) = SQRT(SIGNXX(I)**2 - TWO*P2*SIGNXX(I)*SIGNYY(I) + P1*SIGNYY(I)**2 + P3*SIGNXY(I)**2)
         !   -> Barlat 1989
-        ELSEIF (IPLAS == 2) THEN  !//TODO:TO ADD INFORMATION 
+        ELSEIF (IPLAS == 2) THEN  
           K1(I)  = (SIGNXX(I) + P3*SIGNYY(I))/TWO
           K2(I)  = SQRT(((SIGNXX(I) - P3*SIGNYY(I))/TWO)**TWO + (P4*SIGNXY(I))**TWO)            
           YLD(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3    
           YLD(I) = (HALF*MAX(YLD(I),EM20))**(ONE/N3) 
           YLD(I) = YLD(I)
         ELSEIF (IPLAS == 3) THEN 
-          gamma(I)   = l_bbc * SIGNXX(I) + m_bbc * SIGNYY(I) !OK
+          gamma(I)   = l_bbc * SIGNXX(I) + m_bbc * SIGNYY(I)  
           term_NP(I) = n_bbc * SIGNXX(I) - p_bbc * SIGNYY(I)
           term_QR(I) = q_bbc * SIGNXX(I) - r_bbc * SIGNYY(I)
-          lambda(I) = sqrt(term_NP(I) * term_NP(I) + SIGNXY(I) * SIGNXY(I)) !OK
-          psi(I)    = sqrt(term_QR(I) * term_QR(I) + SIGNXY(I) * SIGNXY(I)) !OK
+          lambda(I) = sqrt(term_NP(I) * term_NP(I) + SIGNXY(I) * SIGNXY(I))  
+          psi(I)    = sqrt(term_QR(I) * term_QR(I) + SIGNXY(I) * SIGNXY(I))  
           lam_p_gam(I) = lambda(I) + gamma(I)
           lam_m_gam(I) = lambda(I) - gamma(I)
           lam_p_psi(I) = lambda(I) + psi(I)
@@ -709,8 +709,8 @@ C
 
           !< 2. Compute Yield Function W and Equivalent Stress
           w(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
-     .        b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
-          YLD(I) = W(I)**(one / real(int_2k)) !OK
+     .        b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k)  
+          YLD(I) = W(I)**(one / real(int_2k))  
         ENDIF
         ! Hardening rate
         IF (DEP_DP(I) > ZERO) THEN
@@ -735,17 +735,17 @@ C
         IF (IPLAS == 1) THEN 
           SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
         !   -> Barlat 1989
-        ELSEIF (IPLAS == 2) THEN !//TODO:TO ADD INFORMATION 
+        ELSEIF (IPLAS == 2) THEN 
           K1(I)   = (AXX(I) + P3*AYY(I))/TWO
           K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)
           SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
           SEFF(I) = (HALF*SEFF(I))**(ONE/N3)         
         ELSEIF (IPLAS == 3) THEN 
-          gamma(I)   = l_bbc * AXX(I) + m_bbc * AYY(I) !OK
+          gamma(I)   = l_bbc * AXX(I) + m_bbc * AYY(I)  
           term_NP(I) = n_bbc * AXX(I) - p_bbc * AYY(I)
           term_QR(I) = q_bbc * AXX(I) - r_bbc * AYY(I)
-          lambda(I) = sqrt(term_NP(I) * term_NP(I) + AXY(I) * AXY(I)) !OK
-          psi(I)    = sqrt(term_QR(I) * term_QR(I) + AXY(I) * AXY(I)) !OK
+          lambda(I) = sqrt(term_NP(I) * term_NP(I) + AXY(I) * AXY(I))  
+          psi(I)    = sqrt(term_QR(I) * term_QR(I) + AXY(I) * AXY(I))  
           lam_p_gam(I) = lambda(I) + gamma(I)
           lam_m_gam(I) = lambda(I) - gamma(I)
           lam_p_psi(I) = lambda(I) + psi(I)
@@ -753,8 +753,8 @@ C
 
           !< 2. Compute Yield Function W and Equivalent Stress
           W(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
-     .            b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
-          SEFF(I) = W(I)**(one / real(int_2k)) !OK
+     .            b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k)  
+          SEFF(I) = W(I)**(one / real(int_2k))  
         ENDIF   
         SEQ(I)    = SEFF(I)
         DEELZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
@@ -770,7 +770,7 @@ C
             NORMYY  = (P1*AYY(I)-P2*AXX(I))/(MAX(SEFF(I),EM20))
             NORMXY  = (P3*AXY(I))/(MAX(SEFF(I),EM20))
           !   -> Barlat 1989
-          ELSEIF (IPLAS == 2) THEN !//TODO:TO ADD INFORMATION 
+          ELSEIF (IPLAS == 2) THEN 
             K1(I)   = (AXX(I) + P3*AYY(I))/TWO
             K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO))
             SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
@@ -791,9 +791,9 @@ C
             NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
             NORMXY     = DF_DK2*DK2_DSIGXY
           ELSEIF (IPLAS == 3) THEN 
-                        !< Pre-factor for derivatives: seq(i)^(1 - 2k)
+                        !< Pre-factor for derivatives: seq(I)^(1 - 2k)
             !< This eliminates the (1/2k) * (2k) constants from chain rule
-            seq_inv(I) = seq(I)**(one - real(int_2k)) !OK
+            seq_inv(I) = seq(I)**(one - real(int_2k))  
 
             !< 3. Derivatives of W wrt Gamma, Lambda, Psi
             dW_dgamma  = a_bbc * (lam_p_gam(I)**int_2km1 - lam_m_gam(I)**int_2km1)
@@ -802,25 +802,25 @@ C
             dW_dpsi    = b_bbc * (lam_p_psi(I)**int_2km1 - lam_m_psi(I)**int_2km1)
 
             !< Scale by seq_inv
-            dW_dgamma  = dW_dgamma * seq_inv(I) !ok
-            dW_dlambda = dW_dlambda * seq_inv(I) !ok
-            dW_dpsi    = dW_dpsi * seq_inv(I) !ok
+            dW_dgamma  = dW_dgamma * seq_inv(I)  
+            dW_dlambda = dW_dlambda * seq_inv(I)  
+            dW_dpsi    = dW_dpsi * seq_inv(I)  
 
             !< 4. Derivatives of Lambda and Psi wrt stress tensor components
             !< Denominator protection (em20) prevents NaN at zero shear
-            dlam_dxx = n_bbc * term_NP(I) / max(lambda(I), em20) !OK
-            dlam_dyy = -p_bbc * term_NP(I) / max(lambda(I), em20) !OK
-            dlam_dxy = axy(I) / max(lambda(I), em20) !OK
+            dlam_dxx = n_bbc * term_NP(I) / max(lambda(I), em20)  
+            dlam_dyy = -p_bbc * term_NP(I) / max(lambda(I), em20)  
+            dlam_dxy = axy(I) / max(lambda(I), em20)  
 
-            dpsi_dxx = q_bbc * term_QR(I) / max(psi(I), em20) !OK
-            dpsi_dyy = -r_bbc * term_QR(I) / max(psi(I), em20) !OK
-            dpsi_dxy = axy(I) / max(psi(I), em20) !OK
+            dpsi_dxx = q_bbc * term_QR(I) / max(psi(I), em20)  
+            dpsi_dyy = -r_bbc * term_QR(I) / max(psi(I), em20)  
+            dpsi_dxy = axy(I) / max(psi(I), em20)  
 
             !< 5. Assembling the derivative of the eq. stress w.r.t stress tensor
             normxx = dW_dgamma * l_bbc + dW_dlambda * dlam_dxx +          
-     .                        dW_dpsi * dpsi_dxx !OK
+     .                        dW_dpsi * dpsi_dxx  
             normyy = dW_dgamma * m_bbc + dW_dlambda * dlam_dyy +          
-     .                        dW_dpsi * dpsi_dyy !OK
+     .                        dW_dpsi * dpsi_dyy  
             !< Plastic incompressibility assumption for shell thickness change
             normxy = dW_dlambda * dlam_dxy + dW_dpsi * dpsi_dxy
  
