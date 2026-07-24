@@ -74,7 +74,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
       USE TABLE_MOD
-      USE MAT_ELEM_MOD            
+      USE MAT_ELEM_MOD  
+      USE SIGEPS117_MOD          
       USE SIGEPS169_CONNECT_MOD
       USE ELBUFDEF_MOD
       use MVSIZ_MOD,only : MVSIZ
@@ -436,14 +437,13 @@ c
 c
           CASE (117)
 c
-c
             CALL SIGEPS117(
-     1        NEL      ,NPAR     ,NUVAR    ,JSMS     ,TIME     ,TIMESTEP ,
-     2        UPARAM   ,UVAR     ,AREA     ,GBUF%OFF ,LBUF%OFF ,   
+     1        NEL      ,MAT_PARAM(IMAT),NUVAR,UVAR   ,JSMS     ,TIME     ,
+     2        AREA     ,GBUF%OFF ,LBUF%OFF ,IPG      ,ISOLIDF  ,NGL      ,
      3        EPSZZ    ,EPSYZ    ,EPSZX    ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,
      4        SIGNZZ   ,SIGNYZ   ,SIGNZX   ,STIFM    ,DMELS    ,LBUF%DMG ,
-     5        IPG      ,ISOLIDF  ,NGL      ,NFUNC    ,IFUNC    ,NPF    ,TF)
-
+     5        IDTMINS  ,DTFACS   ,DTMINS   ,NVARTMP  ,VARTMP   )
+c
           CASE (120) ! TAPO model
             CALL SIGEPS120_CONNECT_MAIN(
      1         NEL      ,NGL      ,TIME     ,TIMESTEP ,UPARAM   ,GBUF%OFF     ,  
