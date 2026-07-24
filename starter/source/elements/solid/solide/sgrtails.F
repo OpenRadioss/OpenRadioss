@@ -723,7 +723,7 @@ c
             ELSE
               IF (JHBE/=1 .AND. JHBE/=2 .OR. JCVT>0 ) THEN ! warning out
                 CALL ANCMSG(MSGID=3150,
-     .                      MSGTYPE=MSGERROR,
+     .                      MSGTYPE=MSGWARNING,
      .                      ANMODE=ANINFO_BLIND_1,
      .                      I1=ID,
      .                      C1=TITR,     
@@ -1288,7 +1288,7 @@ C
      .         MLN /= 42 .AND. MLN /= 44 .AND. MLN /= 45 .AND.
      .         MLN /= 48 .AND. MLN /= 50 .AND. MLN /= 52 .AND.  
      .         MLN /= 53 .AND. MLN /= 56 .AND. MLN /= 60 .AND.
-     .         MLN /= 62 )THEN
+     .         MLN /= 62 .AND. MLN /= 68)THEN
                JHBE = 17  
                ICPRE = 1
                IGEO(10, PID) = 17  
