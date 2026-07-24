@@ -89,6 +89,10 @@
       GBUF => ELBUF_TAB(NG)%GBUF
       !Material buffer
       MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
+      EINT10 = ZERO ! compiler cannot assume that these variables are initialized in the IF statement below
+      EINT20 = ZERO
+      EINT30 = ZERO
+      EINT40 = ZERO
 
       IFORM = NINT(BUFMAT(31))
       K1 = M51_N0PHAS + (1 - 1) * M51_NVPHAS
