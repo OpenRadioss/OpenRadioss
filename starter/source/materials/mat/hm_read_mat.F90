@@ -239,6 +239,7 @@
           use hm_read_mat105_mod , only : hm_read_mat105
           use hm_read_mat88_mod
           use hm_read_mat106_mod
+          use hm_read_mat117_mod
           use hm_read_mat123_mod
           use hm_read_mat125_mod
           use hm_read_mat126_mod
@@ -1158,9 +1159,9 @@
              case ('LAW117')
               ilaw  = 117
               call hm_read_mat117(&
-              &mtag     ,uparam   ,maxuparam,nuparam  ,pm(1,i)  ,&
-              &parmat   ,nuvar    ,maxfunc  ,nfunc    ,ifunc    ,&
-              &unitab   ,mat_id   ,titr     ,lsubmodel,matparam )
+              &mtag     ,matparam ,parmat   ,nuvar    ,unitab   ,&
+              &mat_id   ,titr     ,lsubmodel,iout     ,ntable   ,&
+              &table    ,nvartmp  )
 !-------
              case ('LAW119','SH_SEATBELT')
               ilaw = 119
