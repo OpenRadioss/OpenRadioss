@@ -2170,7 +2170,7 @@ C
         ELSEIF (ALEMUSCL_PAram%I_LAW == 37) THEN   
            NBMAT = 1                  
         ELSE                          
-           NBMAT = 0                  
+           NBMAT = TRIMAT
         ENDIF                         
         CALL SEGVAR%create(NBMAT)
 
