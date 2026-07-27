@@ -387,6 +387,7 @@ c
               ELSEIF (ILAY == -1 .AND. IPLY > 0 .AND. IPT > 0) THEN 
 c               /TENS/STRESS/PLY=.../NPT=...
                 DO J=1,NLAY                          ! shells type 17,19,51 and 52 only
+                  ID_PLY = 0
                   IF (IGTYP == 17 .OR. IGTYP == 19 .OR. IGTYP == 51) THEN
                     ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                   ELSE IF (IGTYP == 52) THEN
@@ -533,6 +534,7 @@ c
               IF (ILAY == -1 .AND. IPLY > 0 .AND. IPT > 0) THEN 
 c               /TENS/MSTRESS/PLY=.../NPT=...
                 DO J=1,NLAY                          ! shells type 17,19,51 and 52 only
+                  ID_PLY = 0
                   IF (IGTYP == 17 .OR. IGTYP == 19 .OR. IGTYP == 51) THEN
                     ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                   ELSE IF (IGTYP == 52) THEN
@@ -708,6 +710,7 @@ c               PLY=IPLY NPT=IPT
                   DO J=1,NLAY
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
+                    ID_PLY = 0
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
                       ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                     ELSEIF (IGTYP == 52) THEN
@@ -849,6 +852,7 @@ c
                   DO J=1,NLAY
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
+                    ID_PLY = 0
                     IF (IGTYP == 17 .OR. IGTYP == 19 .OR. IGTYP == 51) THEN
                       ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                     ELSEIF (IGTYP == 52) THEN
@@ -1039,8 +1043,9 @@ c                 PLY=IPLY NPT=IPT
                   IPTHK  = IPANG + NLAY
                   IPPOS  = IPTHK + NLAY
                   DO J=1,NLAY
+                    ID_PLY = 0
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-                        ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                      ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                     ELSEIF (IGTYP == 52) THEN
                       ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                     ENDIF
