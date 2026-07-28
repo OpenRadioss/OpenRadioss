@@ -729,8 +729,8 @@ C*******************************************************************************
               CALL ARRET(2)
             ENDIF
 
-            REQUESTED_H3D_VERSION_MAJOR = 26
-            REQUESTED_H3D_VERSION_MINOR = 1
+            REQUESTED_H3D_VERSION_MAJOR = 2612
+            REQUESTED_H3D_VERSION_MINOR = 0
 
             CALL C_H3D_EXPORT_LIBRARY_VERSION(H3D_VERSION_MAJOR, H3D_VERSION_MINOR)
             IF(H3D_VERSION_MAJOR < REQUESTED_H3D_VERSION_MAJOR .AND. 
@@ -743,7 +743,7 @@ C*******************************************************************************
 C PRINT H3D LIB VERSION 
 C**********************************************************************************************
         IF (ISPMD==0) THEN
-          WRITE (IOUT,*) 
+          WRITE (IOUT,*)
           WRITE (IOUT,2000) H3D_VERSION_MAJOR,H3D_VERSION_MINOR
           WRITE (IOUT,*) 
         ENDIF
@@ -3966,7 +3966,7 @@ c-----------
 
  2000   FORMAT (4X,/,
      .        4X,'------------------------------------------------------------',/,
-     .        4X,'  H3D LIBRARY VERSION:',1X,I2.2,'.',I2.2,/,
+     .        4X,'  H3D LIBRARY VERSION:',1X,I4,'.',I1,/,
      .        4X,'------------------------------------------------------------',
      .        4X)
       END SUBROUTINE GENH3D
