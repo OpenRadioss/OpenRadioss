@@ -546,9 +546,10 @@ C-----------------------------------------------
      .       DMELRT(*), RES_SMS(*), VSPHIO(*), SPHVELN(*), ALPH(*),
      .       MS_PLY(*),ZI_PLY(*),CFIELD(*),MSZ2(*),
      .       DIAG_SMS(*),LOADP(*),GAUGE(*),DFLOW(*),VFLOW(*),WFLOW(*),
-     .       RTHBUF(*),KNOT(*),WIGE(*),TAB_UMP(7,TAILLE),
+     .       RTHBUF(*),KNOT(*),WIGE(*),
      .       KNOTLOCPC(*),KNOTLOCEL(*)
       my_real, INTENT(IN) :: DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
+      integer :: TAB_UMP(7,TAILLE)
       TYPE (INTSTAMP_DATA) INTSTAMP(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)

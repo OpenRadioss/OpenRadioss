@@ -111,7 +111,7 @@ C     REAL
       INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT+NRT_SH)
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
       INTEGER, INTENT(IN) :: NIN25
-      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
+      INTEGER, INTENT(INOUT) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
       my_real, INTENT(IN) :: THK_S,THK_M   ,THK_S_SCALE,THK_M_SCALE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

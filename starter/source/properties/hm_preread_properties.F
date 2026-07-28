@@ -74,8 +74,7 @@ C-----------------------------------------------
      .   NSPHDIR, NN, NS, NIS, NUMS,
      .   NLAM, NINTS, CPT, IS
       DATA NSHELL /0/, NSHSUP /0/, NSHINF /0/
-      my_real
-     .    CVIS
+      integer ::    CVIS
       CHARACTER(LEN=NCHARTITLE) :: IDTITL
       CHARACTER(LEN=NCHARLINE) :: KEY, SOLVERKEYWORD
       INTEGER ISH3N,ITET4,NP,LAMIN,NSUB_STACK,NISUB_STACK,NPLY_STACK,NPLY_SUB,ITET4_D
