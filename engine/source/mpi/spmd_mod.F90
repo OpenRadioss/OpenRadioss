@@ -167,7 +167,11 @@
       module spmd_mod
 
         ! Core environment
+#ifndef MPI
+        use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+#else
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD, SPMD_REQUEST_NULL
+#endif
         use spmd_operator_mod,   only: SPMD_MAX, SPMD_MIN, SPMD_SUM, SPMD_PROD
         use get_mpi_operator_mod, only: get_mpi_operator
         use spmd_profiler_mod,   only: spmd_profiler_init, spmd_profiler_flush, &
@@ -237,13 +241,13 @@
 #define MY_MPI_REAL MPI_REAL
 #endif
 #ifndef MPI
-        public :: MPI_STATUS_IGNORE
-        public :: MPI_STATUS_SIZE
-        public :: MPI_REQUEST_NULL
-        public :: MPI_COMM_WORLD
-        public :: SPMD_STATUS_IGNORE
-        public :: SPMD_STATUS_SIZE
-        public :: SPMD_REQUEST_NULL
+        integer, parameter, public :: MPI_STATUS_SIZE   = 1
+        integer, parameter, public :: MPI_STATUS_IGNORE = 0
+        integer, parameter, public :: MPI_REQUEST_NULL  = 0
+        integer, parameter, public :: MPI_COMM_WORLD    = 0
+        integer, parameter, public :: SPMD_STATUS_SIZE   = 1
+        integer, parameter, public :: SPMD_STATUS_IGNORE = 0
+        integer, parameter, public :: SPMD_REQUEST_NULL  = 0
 #else
         public :: SPMD_REQUEST_NULL
 #endif

@@ -48,11 +48,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           real, dimension(:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -84,11 +90,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           integer, dimension(:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -120,11 +132,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           double precision, dimension(:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -156,11 +174,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           real, dimension(:,:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -192,11 +216,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           integer, dimension(:,:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -228,11 +258,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           double precision, dimension(:,:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -264,11 +300,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           real,  intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -300,11 +342,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           integer,  intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)
@@ -336,11 +384,17 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           double precision,  intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer :: ierr
           integer :: used_comm
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
 #ifdef MPI
           call spmd_in(tag, "MPI_Recv", source)

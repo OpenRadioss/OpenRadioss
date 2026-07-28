@@ -37,7 +37,11 @@
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
+#ifdef MPI
           integer, intent(in) :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(in) :: status(1)
+#endif
           integer, intent(out) :: count
           integer, intent(in), optional :: tag
           integer :: ierr
@@ -64,7 +68,11 @@
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
+#ifdef MPI
           integer, intent(in) :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(in) :: status(1)
+#endif
           integer, intent(out) :: count
           integer, intent(in), optional :: tag
           integer :: ierr
@@ -91,7 +99,11 @@
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
 #include "spmd.inc"
+#ifdef MPI
           integer, intent(in) :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(in) :: status(1)
+#endif
           integer, intent(out) :: count
           integer, intent(in), optional :: tag
           integer :: ierr

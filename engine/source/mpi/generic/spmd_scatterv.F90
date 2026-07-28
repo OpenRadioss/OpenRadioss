@@ -191,7 +191,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (recvcount > 0) recvbuf(1:recvcount) = sendbuf(1:recvcount)
+          if (recvcount > 0) recvbuf(1:recvcount) = reshape(sendbuf, [recvcount])
 #endif
         end subroutine spmd_scatterv_reals2d
 
@@ -229,7 +229,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (recvcount > 0) recvbuf(1:recvcount) = sendbuf(1:recvcount)
+          if (recvcount > 0) recvbuf(1:recvcount) = reshape(sendbuf, [recvcount])
 #endif
         end subroutine spmd_scatterv_ints2d
 
@@ -268,7 +268,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (recvcount > 0) recvbuf(1:recvcount) = sendbuf(1:recvcount)
+          if (recvcount > 0) recvbuf(1:recvcount) = reshape(sendbuf, [recvcount])
 #endif
         end subroutine spmd_scatterv_doubles2d
 
@@ -306,7 +306,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (recvcount > 0) recvbuf(1:recvcount) = sendbuf(1:recvcount)
+          if (recvcount > 0) recvbuf(1) = sendbuf
 #endif
         end subroutine spmd_scatterv_real
 
@@ -344,7 +344,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (recvcount > 0) recvbuf(1:recvcount) = sendbuf(1:recvcount)
+          if (recvcount > 0) recvbuf(1) = sendbuf
 #endif
         end subroutine spmd_scatterv_int
 
@@ -383,7 +383,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (recvcount > 0) recvbuf(1:recvcount) = sendbuf(1:recvcount)
+          if (recvcount > 0) recvbuf(1) = sendbuf
 #endif
         end subroutine spmd_scatterv_double
 

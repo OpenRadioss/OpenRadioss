@@ -43,11 +43,17 @@
           integer, intent(inout) :: requests(req_count)
           integer, intent(out) :: outcount
           integer, intent(out) :: indices(req_count)
+#ifdef MPI
           integer, intent(inout), optional :: statuses(MPI_STATUS_SIZE, req_count)
+#else
+          integer, intent(inout), optional :: statuses(1, req_count)
+#endif
           integer, intent(in), optional :: tag
           integer :: ierr
           integer :: tag_local
+#ifdef MPI
           integer :: local_statuses(MPI_STATUS_SIZE, req_count)
+#endif
 
           if (present(tag)) then
             tag_local = tag

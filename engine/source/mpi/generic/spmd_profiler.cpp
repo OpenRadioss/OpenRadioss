@@ -60,9 +60,11 @@
 
 #include "spmd_profiler.h"
 
+#ifdef MPI
 #define OMPI_SKIP_MPICXX  1
 #define MPICH_SKIP_MPICXX 1
 #include <mpi.h>
+#endif /* MPI */
 #ifdef WITH_ZLIB
 #include <zlib.h>
 #endif
@@ -75,6 +77,8 @@
 #include <cstring>
 #include <cstdlib>  /* getenv */
 #include <algorithm> /* std::min */
+
+#ifdef MPI
 
 /* ---------------------------------------------------------------------- */
 /* Binary file structures (packed, little-endian on x86/x64)              */
@@ -578,3 +582,24 @@ void spmd_profiler_flush(void)
 }
 
 } /* extern "C" */
+
+#else  /* !MPI — profiler is a no-op when built without MPI */
+
+extern "C" {
+
+void spmd_profiler_init(const int* /*rank*/) {}
+void spmd_profiler_record_in(const int* /*tag*/, const char* /*name*/, const int* /*name_len*/,
+                              const int* /*peer_rank*/, const int* /*msg_tag*/) {}
+void spmd_profiler_record_out(const int* /*tag*/) {}
+void spmd_profiler_section_begin(const int* /*tag*/, const char* /*name*/, const int* /*name_len*/) {}
+void spmd_profiler_section_end(const int* /*tag*/) {}
+void spmd_profiler_register_request(const int* /*request*/, const int* /*peer_rank*/,
+                                    const int* /*msg_tag*/,  const int* /*is_recv*/) {}
+void spmd_profiler_complete_request(const int* /*request*/, const double* /*t_end*/) {}
+void spmd_profiler_complete_requests(const int* /*requests*/, const int* /*count*/,
+                                     const double* /*t_end*/) {}
+void spmd_profiler_flush(void) {}
+
+} /* extern "C" */
+
+#endif /* MPI */

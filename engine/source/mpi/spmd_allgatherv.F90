@@ -187,7 +187,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1:sendcount) = reshape(sendbuf, [sendcount])
 #endif
         end subroutine spmd_allgatherv_reals2d
 
@@ -224,7 +224,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1:sendcount) = reshape(sendbuf, [sendcount])
 #endif
         end subroutine spmd_allgatherv_ints2d
 
@@ -262,7 +262,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1:sendcount) = reshape(sendbuf, [sendcount])
 #endif
         end subroutine spmd_allgatherv_doubles2d
 
@@ -299,7 +299,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1) = sendbuf
 #endif
         end subroutine spmd_allgatherv_real
 
@@ -336,7 +336,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1) = sendbuf
 #endif
         end subroutine spmd_allgatherv_int
 
@@ -374,7 +374,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          if (sendcount > 0) recvbuf(1:sendcount) = sendbuf(1:sendcount)
+          if (sendcount > 0) recvbuf(1) = sendbuf
 #endif
         end subroutine spmd_allgatherv_double
 

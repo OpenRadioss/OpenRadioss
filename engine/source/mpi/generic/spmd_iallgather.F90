@@ -194,7 +194,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf
+          recvbuf(1:sendcount) = reshape(sendbuf, [sendcount])
           request = 0
 #endif
         end subroutine spmd_iallgather_reals2d
@@ -233,7 +233,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf
+          recvbuf(1:sendcount) = reshape(sendbuf, [sendcount])
           request = 0
 #endif
         end subroutine spmd_iallgather_ints2d
@@ -273,7 +273,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf
+          recvbuf(1:sendcount) = reshape(sendbuf, [sendcount])
           request = 0
 #endif
         end subroutine spmd_iallgather_doubles2d
@@ -316,7 +316,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf
+          recvbuf(1) = sendbuf
           request = 0
 #endif
         end subroutine spmd_iallgather_real
@@ -359,7 +359,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf
+          recvbuf(1) = sendbuf
           request = 0
 #endif
         end subroutine spmd_iallgather_int
@@ -403,7 +403,7 @@
 
           call spmd_out(tag_local, ierr)
 #else
-          recvbuf(1:sendcount) = sendbuf
+          recvbuf(1) = sendbuf
           request = 0
 #endif
         end subroutine spmd_iallgather_double

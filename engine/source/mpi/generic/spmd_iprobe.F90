@@ -42,12 +42,18 @@
 #include "spmd.inc"
           integer, intent(in) :: source, tag
           logical, intent(out) :: flag
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: trace_tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(trace_tag)) then
             tag_local = trace_tag

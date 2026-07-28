@@ -52,12 +52,18 @@
           real, dimension(:), intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           real, dimension(:), intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -98,12 +104,18 @@
           integer, dimension(:), intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           integer, dimension(:), intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -144,12 +156,18 @@
           double precision, dimension(:), intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           double precision, dimension(:), intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -190,12 +208,18 @@
           real, dimension(:,:), intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           real, dimension(:,:), intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -236,12 +260,18 @@
           integer, dimension(:,:), intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           integer, dimension(:,:), intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -283,12 +313,18 @@
           double precision, dimension(:,:), intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           double precision, dimension(:,:), intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -329,12 +365,18 @@
           real,  intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           real,  intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -379,12 +421,18 @@
           integer,  intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           integer,  intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -429,12 +477,18 @@
           double precision,  intent(in) :: sendbuf
           integer, intent(in) :: recvcount, source, recvtag
           double precision,  intent(inout) :: recvbuf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag

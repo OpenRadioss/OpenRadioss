@@ -41,11 +41,17 @@
 #include "spmd.inc"
           integer, intent(inout) :: request
           logical, intent(out) :: flag
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: tag
           integer :: ierr
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
