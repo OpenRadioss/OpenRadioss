@@ -53,11 +53,17 @@
           integer, intent(in) :: req_count
           integer, intent(inout) :: requests(req_count)
           integer, intent(out) :: index
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: tag
           integer :: ierr
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
           integer(c_int) :: saved_requests(req_count)
 
           if (present(tag)) then

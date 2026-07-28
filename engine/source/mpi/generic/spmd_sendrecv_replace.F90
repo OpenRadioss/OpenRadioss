@@ -50,12 +50,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           real, dimension(:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -91,12 +97,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           integer, dimension(:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -132,12 +144,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           double precision, dimension(:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -174,12 +192,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           real, dimension(:,:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -215,12 +239,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           integer, dimension(:,:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -256,12 +286,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           double precision, dimension(:,:), intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -298,12 +334,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           real,  intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -343,12 +385,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           integer,  intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag
@@ -388,12 +436,18 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, sendtag, source, recvtag
           double precision,  intent(inout) :: buf
+#ifdef MPI
           integer, intent(inout), optional :: status(MPI_STATUS_SIZE)
+#else
+          integer, intent(inout), optional :: status(1)
+#endif
           integer, intent(in), optional :: comm
           integer, intent(in), optional :: tag
           integer :: ierr, used_comm
           integer :: tag_local
+#ifdef MPI
           integer :: local_status(MPI_STATUS_SIZE)
+#endif
 
           if (present(tag)) then
             tag_local = tag

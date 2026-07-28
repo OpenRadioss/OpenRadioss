@@ -42,11 +42,17 @@
           integer, intent(in) :: req_count
           integer, intent(inout) :: requests(req_count)
           logical, intent(out) :: flag
+#ifdef MPI
           integer, intent(inout), optional :: statuses(MPI_STATUS_SIZE, req_count)
+#else
+          integer, intent(inout), optional :: statuses(1, req_count)
+#endif
           integer, intent(in), optional :: tag
           integer :: ierr
           integer :: tag_local
+#ifdef MPI
           integer :: local_statuses(MPI_STATUS_SIZE, req_count)
+#endif
 
           if (present(tag)) then
             tag_local = tag

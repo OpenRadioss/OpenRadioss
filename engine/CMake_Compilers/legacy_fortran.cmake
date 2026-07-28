@@ -67,6 +67,7 @@ set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_iprobe.
 set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_ireduce.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_iscatter.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_operator.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/mpi/get_mpi_operator.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_probe.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_profiler_mod.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_reduce.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
