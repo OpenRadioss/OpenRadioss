@@ -1179,10 +1179,10 @@ C-----------------------
          NTSHEGG = NTSHEG
          CALL SPMD_MAX_I(NTSHEGG)
        END IF
-       IF (NTSHEG > 0) THEN
+       IF (NTSHEGG > 0) THEN
          call my_alloc(IENUNL, 2*NTSHEG, "IENUNL")
          call my_alloc(ALPHA_DC, NUMNOD, "ALPHA_DC")
-         IENUNL=0
+         IF (NTSHEG > 0) IENUNL=0
          ALPHA_DC=ONE
          CALL IND_TSHEDG(ELBUF_TAB  ,IENUNL, IXS ,IPARG )
          IF(NSPMD>1) THEN
