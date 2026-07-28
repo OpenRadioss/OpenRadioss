@@ -98,6 +98,7 @@ C
       JAC_48_57 = JAC4 * JAC8 - JAC5 * JAC7 
 C
       VOL =  ZEP015625 * (JAC1 * JAC_59_68 + JAC2 * JAC_67_49 + JAC3 * JAC_48_57)
+      VOL =  ABS(VOL)
 
       RETURN
       END
