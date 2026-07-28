@@ -126,14 +126,14 @@ C
       DO I = 1,nsn !NSNF,NSNL 
         IF(IRTLM(1,I)/=0) ICONT_I(I)=0
       ENDDO
-!$omp end do no wait
+!$omp end do nowait
       NSNRF = 1 + ITASK*NSNR / NTHREAD
       NSNRL = (ITASK+1)*NSNR / NTHREAD
 !$omp do schedule(guided)      
       DO I=1,nsnr!NSNRF,NSNRL
         IF(IRTLM_FI(NIN)%P(1,I)/=0) ICONT_I_FI(NIN)%P(I)=0
       ENDDO      
- !$omp end do no wait
+ !$omp end do nowait
 
 
 

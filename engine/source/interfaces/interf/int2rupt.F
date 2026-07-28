@@ -135,13 +135,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,NUVAR,PID,IGTYP,ISYM
       INTEGER IRECT(4,*),MSR(*),NSV(*),IRTL(*),IRUPT(*),IPARI(*),
-     .   WEIGHT(*),NPF(*),ITAB(*),PDAMA2(*),INORM(*)
+     .   WEIGHT(*),NPF(*),ITAB(*),INORM(*)
 C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),XSM0(3,*),DSM(3,*),FSM(3,*),PROP(*),
      .   AREA(*),STIFN(*),SINER(*),SMASS(*),FNCONT(3,*),
      .   MS(*),IN(*),MMASS(*),MINER(*),CRST(2,*),FSAV(*),TF(*),
-     .   FNCONTP(3,*)  ,FTCONTP(3,* ) 
+     .   FNCONTP(3,*)  ,FTCONTP(3,* ), PDAMA2(*) 
       my_real, DIMENSION(NUVAR,NSN) ::
      .   UVAR
       TYPE (H3D_DATABASE) :: H3D_DATA

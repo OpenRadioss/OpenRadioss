@@ -120,7 +120,7 @@ C
             VSLV(6)=MIN(VSLV(6),V(3,J))
           ENDIF
         END DO
-!$omp end do no wait
+!$omp end do nowait
 
 !$omp do schedule(guided)
         DO I=1,nmn
@@ -143,7 +143,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         END DO
-!$omp end do no wait        
+!$omp end do nowait        
 
 !$omp do schedule(guided)
         DO I=1,NMN_1D
@@ -166,7 +166,7 @@ C
             VSLV(6)=MIN(VSLV(6),V(3,J))
           ENDIF
         END DO
-!$omp end do no wait        
+!$omp end do nowait        
 
 !$omp do schedule(guided)
         DO I=1,NMN_1D
@@ -189,7 +189,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         END DO
-!$omp end do no wait        
+!$omp end do nowait        
       ELSE
 C
 !$omp do schedule(guided)
@@ -214,7 +214,7 @@ C
            
           ENDIF
         END DO
-!$omp end do no wait
+!$omp end do nowait
 
 !$omp do schedule(guided)
         DO I=1,nmn
@@ -236,7 +236,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         ENDDO
-!$omp end do no wait        
+!$omp end do nowait        
 
 !$omp do schedule(guided)
         DO I=1,NMN_1D
@@ -260,7 +260,7 @@ C
            
           ENDIF
         END DO
-!$omp end do no wait        
+!$omp end do nowait        
 
 !$omp do schedule(guided)
         DO I=1,NMN_1D
@@ -282,7 +282,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         ENDDO
-!$omp end do no wait        
+!$omp end do nowait        
 
       ENDIF       
 
