@@ -155,7 +155,7 @@ C test EOF-------------------------------------------------------------------
                   IFILNAM(I)=ICHAR(TMP_NAME(I:I))
                 ENDDO
 
-                CALL OPEN_C(IFILNAM,TMP_NAME,1)
+                CALL OPEN_C(IFILNAM,LEN_TMP_NAME,1)
                 CALL READ_R_C(R4,1)
                 CALL CLOSE_C()
                 TT3=R4

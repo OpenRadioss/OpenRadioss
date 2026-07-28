@@ -224,7 +224,7 @@ c         jump to the last node of the cell
           next_nod(i)     = 0 ! last one
         endif
       enddo
-!$omp end single no wait      
+!$omp end single nowait      
 
 !$omp do schedule(guided)
       do i=1,nsnr
