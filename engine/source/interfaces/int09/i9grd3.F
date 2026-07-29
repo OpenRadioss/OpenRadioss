@@ -74,7 +74,7 @@ C-----------------------------------------------
 C---------------------------------
 C         search for the element in the buffer
 C---------------------------------
-          DO 200 NG=II/NVSIZ+1,NGROUP
+          DO 200 NG=(II-1)/NVSIZ+1,NGROUP
           CALL INITBUF(IPARG    ,NG      ,                    
      2          MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
@@ -83,6 +83,7 @@ C---------------------------------
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             IF(ITY/=1)          GO TO 200
+            IF(II<=NFT)        GO TO 200
             IF(II>NFT+LLT)     GO TO 200
             IF(IPARG(8,NG)==1.OR.JTHE/=1)THEN
               IERR = 1
