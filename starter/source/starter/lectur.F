@@ -10100,7 +10100,7 @@ C--------------------------------------------
        CALL BCSMODIF_ND(ICODE, ITAGND,ICNDS10,ITAB,
      .                  NNPBY,SLRBODY,NRBE2L ,SLRBE2,
      .                  NPBY ,LPBY   ,IRBE2  ,LRBE2 )
-       CALL FIXMODIF_ND(IBFV , ITAGND,ICNDS10,ITAB)
+       CALL FIXMODIF_ND(IBFV , ITAGND,ICNDS10,ITAB,D )
        CALL BCSCYCMODIF_ND(IBCSCYC,LBCSCYC,ITAGND,ITAB)
       END IF
 C--------------------------------------------
