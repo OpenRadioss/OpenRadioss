@@ -132,11 +132,11 @@ C-----------------------------------------------
         CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
      .             C2 = "/EBCS/NRF PARAMETER TCAR_P CANNOT BE NEGATIVE ")
         TCAR_P = ZERO
-      ELSEIF(TCAR_P <= EM20 .AND. TCAR_P /= ZERO)THEN
+      ELSEIF(TCAR_P <=  EM20 .AND. TCAR_P /= ZERO)THEN
         CALL ANCMSG(MSGID=3077,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
-     .             C2 = "/EBCS/NRF : TCAR_P = 1E-20 IS NOT RECOMMENDED",
-     .             C3 = "  FOR PURE NON-REFLECTIVE BOUNDARY TCAR_P IS SET TO 1E20")
-        TCAR_P = EP20
+     .             C2 = "/EBCS/NRF : TCAR_P < 1E-20 IS MODELING A CONSTANT PRESSURE",
+     .             C3 = "  FOR PURE NON-REFLECTIVE BOUNDARY TCAR_P SHOULD BE SET TO 1E20")
+        TCAR_P = EM20
       ENDIF
 
       IF(TCAR_VF < ZERO)THEN
