@@ -201,8 +201,6 @@ C This routine cannot be used for type25 anymore
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../engine/source/output/message/message.F
 !||    arret            ../engine/source/system/arret.F
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
@@ -877,8 +875,6 @@ c END TRI7VOX
 !||--- calls      -----------------------------------------------------
 !||    ancmsg              ../engine/source/output/message/message.F
 !||    arret               ../engine/source/system/arret.F
-!||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany        ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    message_mod         ../engine/share/message_module/message_mod.F
@@ -1382,8 +1378,6 @@ C
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../engine/source/output/message/message.F
 !||    arret            ../engine/source/system/arret.F
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
@@ -3560,8 +3554,6 @@ C END TRI7GAT
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../engine/source/output/message/message.F
 !||    arret            ../engine/source/system/arret.F
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
@@ -4411,8 +4403,6 @@ C END TRI11VOX0
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../engine/source/output/message/message.F
 !||    arret            ../engine/source/system/arret.F
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90

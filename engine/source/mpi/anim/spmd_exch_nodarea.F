@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    spmd_exch_output_noda_pext   ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA(
      .           NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)

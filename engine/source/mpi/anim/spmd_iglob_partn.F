@@ -24,17 +24,18 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 
 
 !||====================================================================
-!||    spmd_iglob_partn      ../engine/source/mpi/anim/spmd_iglob_partn.F
+!||    spmd_iglob_partn     ../engine/source/mpi/anim/spmd_iglob_partn.F
 !||--- called by ------------------------------------------------------
-!||    parsor0               ../engine/source/output/anim/generate/parsor0.F
-!||    parsor_crk            ../engine/source/output/anim/generate/parsor_crk.F
-!||    parsor_ply            ../engine/source/output/anim/generate/parsor_ply.F
-!||    parsorc               ../engine/source/output/anim/generate/parsorc.F
-!||    parsorf               ../engine/source/output/anim/generate/parsorf.F
-!||    parsors               ../engine/source/output/anim/generate/parsors.F
+!||    parsor0              ../engine/source/output/anim/generate/parsor0.F
+!||    parsor_crk           ../engine/source/output/anim/generate/parsor_crk.F
+!||    parsor_ply           ../engine/source/output/anim/generate/parsor_ply.F
+!||    parsorc              ../engine/source/output/anim/generate/parsorc.F
+!||    parsorf              ../engine/source/output/anim/generate/parsorf.F
+!||    parsors              ../engine/source/output/anim/generate/parsors.F
 !||--- calls      -----------------------------------------------------
+!||    spmd_get_count_int   ../engine/source/mpi/generic/spmd_get_count.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_IGLOB_PARTN(IAD,NBPART,IADG,SBUF)
 C iglob_part reconstructs on p0 a global array of part

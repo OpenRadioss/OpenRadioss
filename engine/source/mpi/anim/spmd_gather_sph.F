@@ -28,9 +28,10 @@ C            dxyzsph                  /anim/dxyzsph.F
 !||--- called by ------------------------------------------------------
 !||    dxyzsph               ../engine/source/output/anim/generate/dxyzsph.F
 !||--- calls      -----------------------------------------------------
+!||    spmd_get_count_real   ../engine/source/mpi/generic/spmd_get_count.F90
 !||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_GATHER_SPH(V,TV,NUM)
 C-----------------------------------------------

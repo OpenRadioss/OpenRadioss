@@ -22,9 +22,9 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_iallgatherv_int_old     ../engine/source/mpi/generic/spmd_iallgatherv_int_old.F
+!||    spmd_iallgatherv_int_old   ../engine/source/mpi/generic/spmd_iallgatherv_int_old.F
 !||--- called by ------------------------------------------------------
-!||    spmd_tri7vox_optimized   ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
+!||    spmd_tri7vox_optimized     ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         SUBROUTINE SPMD_IALLGATHERV_INT_OLD(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 

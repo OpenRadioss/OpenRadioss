@@ -22,13 +22,14 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_vgath_err        ../engine/source/mpi/anim/spmd_vgath_err.F
+!||    spmd_vgath_err       ../engine/source/mpi/anim/spmd_vgath_err.F
 !||--- called by ------------------------------------------------------
-!||    sortie_error          ../engine/source/output/sortie_error.F
+!||    sortie_error         ../engine/source/output/sortie_error.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_outpitab         ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_get_count_int   ../engine/source/mpi/generic/spmd_get_count.F90
+!||    spmd_outpitab        ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
        SUBROUTINE SPMD_VGATH_ERR(X,MS,MSINI,NODGLOB,WEIGHT,NUM,IFLAG,
      .                           ITAB,LENG)

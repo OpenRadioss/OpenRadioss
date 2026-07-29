@@ -1588,7 +1588,6 @@ C
 !||--- calls      -----------------------------------------------------
 !||    ancmsg              ../engine/source/output/message/message.F
 !||    arret               ../engine/source/system/arret.F
-!||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
@@ -1983,7 +1982,6 @@ C
 !||--- calls      -----------------------------------------------------
 !||    ancmsg              ../engine/source/output/message/message.F
 !||    arret               ../engine/source/system/arret.F
-!||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
@@ -2185,7 +2183,6 @@ C
 !||    arret               ../engine/source/system/arret.F
 !||    intcontp            ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    sortint             ../engine/source/mpi/interfaces/spmd_i7tool.F
-!||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
@@ -2661,7 +2658,6 @@ C
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../engine/source/output/message/message.F
 !||    arret            ../engine/source/system/arret.F
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
@@ -2840,7 +2836,6 @@ C
 !||--- calls      -----------------------------------------------------
 !||    ancmsg             ../engine/source/output/message/message.F
 !||    arret              ../engine/source/system/arret.F
-!||    spmd_wait          ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90

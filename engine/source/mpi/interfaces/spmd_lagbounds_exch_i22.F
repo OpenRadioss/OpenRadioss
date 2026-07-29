@@ -29,7 +29,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod               ../engine/share/message_module/message_mod.F
-!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_LAGBOUNDS_EXCH_I22(
      1   BMINMAL_SPMD, BMINMAL   ,ISENDTO, IRCVFROM , NIN    )  

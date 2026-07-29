@@ -38,12 +38,11 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    spmd_exch_output_noda_pext   ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
 !||--- calls      -----------------------------------------------------
+!||    spmd_get_count_int           ../engine/source/mpi/generic/spmd_get_count.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                 ../common_source/modules/constant_mod.F
 !||    precision_mod                ../common_source/modules/precision_mod.F90
-!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
-!||    spmd_recv_mod                ../engine/source/mpi/spmd_recv.F90
-!||    spmd_send_mod                ../engine/source/mpi/spmd_send.F90
+!||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
        subroutine spmd_gather_nodal_scalar(v_glob,num,v,numnod,weight,nodglob)
 ! ----------------------------------------------------------------------------------------------------------------------

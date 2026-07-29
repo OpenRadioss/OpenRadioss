@@ -22,20 +22,20 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_ifront           ../engine/source/mpi/interfaces/spmd_ifront.F
+!||    spmd_ifront     ../engine/source/mpi/interfaces/spmd_ifront.F
 !||--- called by ------------------------------------------------------
-!||    imp_tripi             ../engine/source/implicit/imp_int_k.F
-!||    inttri                ../engine/source/interfaces/intsort/inttri.F
+!||    imp_tripi       ../engine/source/implicit/imp_int_k.F
+!||    inttri          ../engine/source/interfaces/intsort/inttri.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    ifront_mod            ../engine/share/modules/ifront_mod.F
-!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-!||    sensor_mod            ../common_source/modules/sensor_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    tri25ebox             ../engine/share/modules/tri25ebox.F
-!||    tri7box               ../engine/share/modules/tri7box.F
+!||    ifront_mod      ../engine/share/modules/ifront_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+!||    sensor_mod      ../common_source/modules/sensor_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri25ebox       ../engine/share/modules/tri25ebox.F
+!||    tri7box         ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_IFRONT(
      1   IPARI   ,NEWFRONT,ISENDTO   ,IRCVFROM,

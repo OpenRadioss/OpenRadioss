@@ -22,13 +22,14 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_wrt_xyznor       ../engine/source/mpi/anim/spmd_wrt_xyznor.F
+!||    spmd_wrt_xyznor      ../engine/source/mpi/anim/spmd_wrt_xyznor.F
 !||--- called by ------------------------------------------------------
-!||    xyznor                ../engine/source/output/anim/generate/xyznor.F
+!||    xyznor               ../engine/source/output/anim/generate/xyznor.F
 !||--- calls      -----------------------------------------------------
-!||    write_s_c             ../common_source/tools/input_output/write_routines.c
+!||    spmd_get_count_int   ../engine/source/mpi/generic/spmd_get_count.F90
+!||    write_s_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_WRT_XYZNOR(XNORM,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------

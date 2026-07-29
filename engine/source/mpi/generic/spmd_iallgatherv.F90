@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_iallgatherv_mod   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_iallgatherv_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
@@ -44,6 +51,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of real       array
+!||====================================================================
+!||    spmd_iallgatherv_reals   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_reals(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -84,6 +99,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of integer       array
+!||====================================================================
+!||    spmd_iallgatherv_ints   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_ints(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -124,6 +147,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of double precision       array
+!||====================================================================
+!||    spmd_iallgatherv_doubles   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                    ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                   ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod             ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_doubles(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -165,6 +196,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of real       array
+!||====================================================================
+!||    spmd_iallgatherv_reals2d   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                    ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                   ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod             ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_reals2d(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -205,6 +244,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of integer       array
+!||====================================================================
+!||    spmd_iallgatherv_ints2d   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_ints2d(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -245,6 +292,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of double precision       array
+!||====================================================================
+!||    spmd_iallgatherv_doubles2d   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                      ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                     ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod               ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_doubles2d(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -286,6 +341,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of real       scalar
+!||====================================================================
+!||    spmd_iallgatherv_real   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_real(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -326,6 +389,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of integer       scalar
+!||====================================================================
+!||    spmd_iallgatherv_int   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_int(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -366,6 +437,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allgatherv of double precision       scalar
+!||====================================================================
+!||    spmd_iallgatherv_double   ../engine/source/mpi/generic/spmd_iallgatherv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallgatherv_double(sendbuf, sendcount, recvbuf, recvcounts, displs, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

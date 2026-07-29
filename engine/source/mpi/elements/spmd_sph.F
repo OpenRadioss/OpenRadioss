@@ -26,7 +26,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    splissv               ../engine/source/elements/sph/splissv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait             ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -196,7 +195,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    sptrivox        ../engine/source/elements/sph/sptrivox.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod     ../engine/share/message_module/message_mod.F
 !||    sphbox          ../engine/share/modules/sphbox.F
@@ -294,7 +292,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    sphprep           ../engine/source/elements/sph/sphprep.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait         ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox            ../engine/share/modules/sphbox.F
 !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
@@ -371,7 +368,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    sphprep        ../engine/source/elements/sph/sphprep.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -479,7 +475,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    forintp        ../engine/source/elements/forintp.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -711,7 +706,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    forintp          ../engine/source/elements/forintp.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox           ../engine/share/modules/sphbox.F
 !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
@@ -814,7 +808,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    sponfv         ../engine/source/elements/sph/sponfv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -927,7 +920,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    splissv        ../engine/source/elements/sph/splissv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -1043,7 +1035,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    spclasv        ../engine/source/elements/sph/spclasv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -1190,7 +1181,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    forintp        ../engine/source/elements/forintp.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -1293,7 +1283,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    forintp        ../engine/source/elements/forintp.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -1491,7 +1480,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    forintp         ../engine/source/elements/forintp.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox          ../engine/share/modules/sphbox.F
 !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
@@ -1618,7 +1606,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    sponof2               ../engine/source/elements/sph/sponof2.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait             ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox                ../engine/share/modules/sphbox.F
 !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
@@ -1824,7 +1811,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    sponof2          ../engine/source/elements/sph/sponof2.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    sphbox           ../engine/share/modules/sphbox.F
 !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
@@ -1918,7 +1904,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    sponfv           ../engine/source/elements/sph/sponfv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
 !||    weight0          ../engine/source/elements/sph/weight.F
 !||    weight1          ../engine/source/elements/sph/weight.F
 !||--- uses       -----------------------------------------------------

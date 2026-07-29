@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_waitall_mod    ../engine/source/mpi/generic/spmd_waitall.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_profiler_mod   ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||====================================================================
       module spmd_waitall_mod
         use, intrinsic :: iso_c_binding
         use spmd_profiler_mod, only: spmd_profiling_enabled
@@ -47,6 +54,14 @@
 
 ! ======================================================================================================================
 !>  \brief Wait on an array of MPI requests
+!||====================================================================
+!||    spmd_waitall_req                    ../engine/source/mpi/generic/spmd_waitall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                             ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                            ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod                      ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_waitall_req(requests, req_count, statuses, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

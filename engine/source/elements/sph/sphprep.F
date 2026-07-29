@@ -39,7 +39,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sphtri               ../engine/source/elements/sph/sphtri.F
 !||    sphtri0              ../engine/source/elements/sph/sphtri0.F
 !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
-!||    spmd_barrier         ../engine/source/mpi/spmd_mod.F90
 !||    spmd_spamaj          ../engine/source/mpi/sph/spmd_spamaj.F
 !||    spmd_sphgat          ../engine/source/mpi/sph/spmd_sphgat.F
 !||    spmd_sphgetisph      ../engine/source/mpi/elements/spmd_sph.F

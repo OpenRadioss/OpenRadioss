@@ -370,7 +370,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    splissv                                      ../engine/source/elements/sph/splissv.F
 !||    split_asspar4                                ../engine/source/assembly/split_asspar4.F
 !||    spmd_allglob_isum9                           ../engine/source/mpi/generic/spmd_allglob_isum9.F
-!||    spmd_barrier                                 ../engine/source/mpi/spmd_mod.F90
 !||    spmd_chkw                                    ../engine/source/mpi/generic/spmd_chkw.F
 !||    spmd_collect                                 ../engine/source/mpi/output/spmd_collect.F
 !||    spmd_collect_multi_fvm                       ../engine/source/mpi/output/spmd_collect_multi_fvm.F
@@ -421,12 +420,13 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    spmd_max_xfe_i                               ../engine/source/mpi/elements/spmd_xfem.F
 !||    spmd_mumps_ini                               ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_nlist_sms                               ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_profile_begin                           ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||    spmd_profile_end                             ../engine/source/mpi/generic/spmd_profiler_mod.F90
 !||    spmd_rbcast                                  ../engine/source/mpi/generic/spmd_rbcast.F
 !||    spmd_rebuild_boundary                        ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||    spmd_sd_xv                                   ../engine/source/mpi/nodes/spmd_sd_xv.F
 !||    spmd_sort_sms                                ../engine/source/mpi/ams/spmd_sms.F
 !||    spmd_sub_boundaries                          ../engine/source/mpi/spmd_exch_sub.F
-!||    spmd_wait                                    ../engine/source/mpi/spmd_wait.F90
 !||    spmd_wiout                                   ../engine/source/mpi/generic/spmd_wiout.F
 !||    spmd_xv_inter_type1                          ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    sponfv                                       ../engine/source/elements/sph/sponfv.F
@@ -572,6 +572,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sph_work_mod                                 ../common_source/modules/mat_elem/sph_work.F90
 !||    spmd_exch_wave_mod                           ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_profiler_mod                            ../engine/source/mpi/generic/spmd_profiler_mod.F90
 !||    spmd_rebuild_boundary_mod                    ../engine/source/engine/node_spliting/spmd_rebuild_boundary.F90
 !||    spmd_xv_inter_type1_mod                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    stack_mod                                    ../engine/share/modules/stack_mod.F

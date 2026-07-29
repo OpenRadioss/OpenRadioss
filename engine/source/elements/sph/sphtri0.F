@@ -28,7 +28,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    my_barrier      ../engine/source/system/machine.F
 !||    spmd_all_dmax   ../engine/source/mpi/elements/spmd_sph.F
-!||    spmd_barrier    ../engine/source/mpi/spmd_mod.F90
 !||    spmd_sphvox     ../engine/source/mpi/sph/spmd_sphvox.F
 !||    spmd_sphvox0    ../engine/source/mpi/elements/spmd_sph.F
 !||    startime        ../engine/source/system/timer_mod.F90

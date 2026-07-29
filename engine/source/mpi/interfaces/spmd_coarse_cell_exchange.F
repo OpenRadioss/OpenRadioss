@@ -29,6 +29,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- uses       -----------------------------------------------------
 !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
 !||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
+!||    spmd_mod                    ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         SUBROUTINE SPMD_COARSE_CELL_EXCHANGE(NB_INTER_SORTED,LIST_INTER_SORTED,IRECVFROM,ISENDTO,MODE,
      .              IPARI,SORT_COMM,NB_REQUEST_COARSE_CELL,ARRAY_REQUEST_COARSE_CELL,LIST_INTER_COARSE_CELL)

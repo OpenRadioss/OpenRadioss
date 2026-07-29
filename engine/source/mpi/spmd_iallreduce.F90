@@ -21,6 +21,17 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_iallreduce_mod    ../engine/source/mpi/spmd_iallreduce.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator       ../engine/source/mpi/get_mpi_operator.F90
+!||--- uses       -----------------------------------------------------
+!||    get_mpi_operator_mod   ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_operator_mod      ../engine/source/mpi/generic/spmd_operator.F90
+!||====================================================================
       module spmd_iallreduce_mod
         use get_mpi_operator_mod, only: get_mpi_operator
         use spmd_operator_mod,  only: SPMD_MAX, SPMD_MIN, SPMD_SUM, SPMD_PROD
@@ -48,6 +59,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of real       array
+!||====================================================================
+!||    spmd_iallreduce_reals   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator        ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_reals(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -88,6 +108,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of integer       array
+!||====================================================================
+!||    spmd_iallreduce_ints   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator       ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_ints(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -128,6 +157,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of double precision       array
+!||====================================================================
+!||    spmd_iallreduce_doubles   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator          ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_doubles(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -168,6 +206,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of real       array
+!||====================================================================
+!||    spmd_iallreduce_reals2d   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator          ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_reals2d(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -208,6 +255,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of integer       array
+!||====================================================================
+!||    spmd_iallreduce_ints2d   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator         ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_ints2d(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -248,6 +304,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of double precision       array
+!||====================================================================
+!||    spmd_iallreduce_doubles2d   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator            ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                     ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                    ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod              ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_doubles2d(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -288,6 +353,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of real       scalar
+!||====================================================================
+!||    spmd_iallreduce_real   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator       ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_real(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -332,6 +406,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of integer       scalar
+!||====================================================================
+!||    spmd_iallreduce_int   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator      ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_int(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -376,6 +459,15 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking allreduce of double precision       scalar
+!||====================================================================
+!||    spmd_iallreduce_double   ../engine/source/mpi/spmd_iallreduce.F90
+!||--- calls      -----------------------------------------------------
+!||    get_mpi_operator         ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_iallreduce_double(sendbuf, recvbuf, buf_count, operation, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

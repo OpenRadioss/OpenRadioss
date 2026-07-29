@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_i21crit          ../engine/source/mpi/interfaces/spmd_i21crit.F
+!||    spmd_i21crit   ../engine/source/mpi/interfaces/spmd_i21crit.F
 !||--- called by ------------------------------------------------------
-!||    i21_icrit             ../engine/source/interfaces/intsort/i21_icrit.F
+!||    i21_icrit      ../engine/source/interfaces/intsort/i21_icrit.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_rbcast           ../engine/source/mpi/generic/spmd_rbcast.F
+!||    spmd_rbcast    ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I21CRIT(GAPINF,VX,VY,VZ,DIST)
 C-----------------------------------------------

@@ -23,16 +23,16 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_exch_n           ../engine/source/mpi/generic/spmd_exch_n.F
+!||    spmd_exch_n    ../engine/source/mpi/generic/spmd_exch_n.F
 !||--- called by ------------------------------------------------------
-!||    genani                ../engine/source/output/anim/generate/genani.F
-!||    gpstra_solid          ../engine/source/output/outmaxsubr.F
-!||    i20mainf              ../engine/source/interfaces/int20/i20mainf.F
-!||    i7mainf               ../engine/source/interfaces/int07/i7mainf.F
-!||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
+!||    genani         ../engine/source/output/anim/generate/genani.F
+!||    gpstra_solid   ../engine/source/output/outmaxsubr.F
+!||    i20mainf       ../engine/source/interfaces/int20/i20mainf.F
+!||    i7mainf        ../engine/source/interfaces/int07/i7mainf.F
+!||    offset_nproj   ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_N(XNORM,IAD_ELEM,FR_ELEM,LENR)
 C performs the summation of normals at boundary points

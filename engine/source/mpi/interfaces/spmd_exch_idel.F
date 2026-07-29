@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_exch_idel        ../engine/source/mpi/interfaces/spmd_exch_idel.F
+!||    spmd_exch_idel   ../engine/source/mpi/interfaces/spmd_exch_idel.F
 !||--- called by ------------------------------------------------------
-!||    tagoff3n              ../engine/source/interfaces/interf/chkstfn3.F
+!||    tagoff3n         ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_IDEL(ITAG,IAD_ELEM,FR_ELEM,SIZE,LENR)
 C-----------------------------------------------

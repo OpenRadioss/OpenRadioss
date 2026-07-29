@@ -30,8 +30,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    alew1          ../engine/source/ale/grid/alew1.F
 !||    alew5          ../engine/source/ale/grid/alew5.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -132,8 +130,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    alew           ../engine/source/ale/grid/alew.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -251,8 +247,6 @@ C
 !||    akturb         ../engine/source/ale/turbulence/akturb.F
 !||    atherm         ../engine/source/ale/atherm.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -361,8 +355,6 @@ C
 !||    prelecflow                       ../engine/source/elements/solid/solide/prelecflow.F
 !||    schlieren_buffer_gathering       ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait                        ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany                     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -458,8 +450,6 @@ C
 !||====================================================================
 !||    spmd_e6vois    ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -568,8 +558,6 @@ C
 !||====================================================================
 !||    spmd_e4vois    ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -677,8 +665,6 @@ C
 !||    alew6                 ../engine/source/ale/grid/alew6.F
 !||    multi_timeevolution   ../engine/source/multifluid/multi_timeevolution.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait             ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany          ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -781,8 +767,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -901,8 +885,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -1011,8 +993,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    alemain        ../engine/source/ale/alemain.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod    ../common_source/modules/elements/element_mod.F90
@@ -1197,7 +1177,6 @@ C
 !||    alew2         ../engine/source/ale/grid/alew2.F
 !||    alew4         ../engine/source/ale/grid/alew4.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod      ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -1326,8 +1305,6 @@ C
 !||    alew2             ../engine/source/ale/grid/alew2.F
 !||    alew4             ../engine/source/ale/grid/alew4.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait         ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany      ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -1532,7 +1509,6 @@ C
 !||    rgwat2       ../engine/source/interfaces/int09/rgwat2.F
 !||    rgwat3       ../engine/source/interfaces/int09/rgwat3.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_mod     ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -1649,7 +1625,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    alemain        ../engine/source/ale/alemain.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_mod        ../common_source/modules/ale/ale_mod.F
 !||    segvar_mod     ../engine/share/modules/segvar_mod.F
@@ -1996,8 +1971,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    alemain              ../engine/source/ale/alemain.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait            ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany         ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod          ../common_source/modules/elements/element_mod.F90

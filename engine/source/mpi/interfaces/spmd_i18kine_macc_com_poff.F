@@ -28,7 +28,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    i18main_kine_1               ../engine/source/interfaces/int18/i18main_kine.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE  SPMD_I18KINE_MACC_COM_POFF(MTF,A,

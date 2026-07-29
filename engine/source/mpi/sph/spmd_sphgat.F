@@ -22,19 +22,19 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_sphgat           ../engine/source/mpi/sph/spmd_sphgat.F
+!||    spmd_sphgat               ../engine/source/mpi/sph/spmd_sphgat.F
 !||--- called by ------------------------------------------------------
-!||    sphprep               ../engine/source/elements/sph/sphprep.F
+!||    sphprep                   ../engine/source/elements/sph/sphprep.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
-!||    spmd_ialltoall        ../engine/source/mpi/generic/spmd_ialltoall.F
+!||    ancmsg                    ../engine/source/output/message/message.F
+!||    arret                     ../engine/source/system/arret.F
+!||    spmd_ialltoall            ../engine/source/mpi/generic/spmd_ialltoall.F
 !||    spmd_ialltoallv_int_old   ../engine/source/mpi/generic/spmd_ialltoallv_int_old.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-!||    sphbox                ../engine/share/modules/sphbox.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    message_mod               ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+!||    sphbox                    ../engine/share/modules/sphbox.F
+!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_SPHGAT(KXSP ,IXSP, WSP2SORT, IREDUCE, LGAUGE)
 C-----------------------------------------------

@@ -34,7 +34,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    message_mod               ../engine/share/message_module/message_mod.F
 !||    my_dealloc_mod            ../common_source/tools/memory/my_dealloc.F90
 !||    output_mod                ../common_source/modules/output/output_mod.F90
-!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
 !||    tri25ebox                 ../engine/share/modules/tri25ebox.F
 !||    tri7box                   ../engine/share/modules/tri7box.F
 !||====================================================================

@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_init_idel        ../engine/source/mpi/interfaces/spmd_init_idel.F
+!||    spmd_init_idel   ../engine/source/mpi/interfaces/spmd_init_idel.F
 !||--- called by ------------------------------------------------------
-!||    chkload               ../engine/source/interfaces/chkload.F
-!||    chkstfn3n             ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkload          ../engine/source/interfaces/chkload.F
+!||    chkstfn3n        ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_INIT_IDEL(NINDEX,IRSIZE, IRECV,IAD_ELEM)
 C-----------------------------------------------

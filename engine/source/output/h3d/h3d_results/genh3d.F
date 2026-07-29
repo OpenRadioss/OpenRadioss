@@ -123,7 +123,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    h3dlib_load                          ../engine/source/output/h3d/h3d_build_cpp/h3d_dl.c
 !||    q1np_evaluate_nurbs_shape_values     ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
 !||    scanor                               ../engine/source/output/anim/generate/scanor.F
-!||    spmd_gather                          ../engine/source/mpi/generic/spmd_gather.F90
 !||    spmd_h3d_gather_i                    ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
 !||    spmd_h3d_gather_i_node               ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node.F
 !||    spmd_h3d_gather_i_node_part          ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F

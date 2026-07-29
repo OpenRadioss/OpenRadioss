@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_igath            ../engine/source/mpi/anim/spmd_igath.F
+!||    spmd_igath   ../engine/source/mpi/anim/spmd_igath.F
 !||--- called by ------------------------------------------------------
-!||    aniskew               ../engine/source/output/anim/generate/aniskew.F
-!||    aniskewf              ../engine/source/output/anim/generate/aniskewf.F
-!||    dsphnor               ../engine/source/output/anim/generate/dsphnor.F
+!||    aniskew      ../engine/source/output/anim/generate/aniskew.F
+!||    aniskewf     ../engine/source/output/anim/generate/aniskewf.F
+!||    dsphnor      ../engine/source/output/anim/generate/dsphnor.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod     ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_IGATH(SRBUF,LEN,LRECV)
 C-----------------------------------------------

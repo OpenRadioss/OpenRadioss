@@ -69,6 +69,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    restalloc                    ../engine/source/output/restart/arralloc.F
 !||    setignorecore                ../engine/source/system/traceback_handler.c
 !||    solver_stacksize             ../common_source/comm/stacksize.cpp
+!||    spmd_profiler_flush          ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||    spmd_profiler_init           ../engine/source/mpi/generic/spmd_profiler_mod.F90
 !||    spmd_reduce_db               ../engine/source/mpi/generic/spmd_reduce_db.F
 !||    spmd_rst_check               ../engine/source/mpi/init/spmd_rst_check.F
 !||    stack_ply_alloc              ../engine/share/modules/stack_mod.F

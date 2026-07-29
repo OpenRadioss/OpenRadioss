@@ -24,7 +24,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
 !||    spmd_iallgather_int_old   ../engine/source/mpi/generic/spmd_iallgather_int_old.F
 !||--- called by ------------------------------------------------------
-!||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
+!||    spmd_sphvox               ../engine/source/mpi/sph/spmd_sphvox.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         SUBROUTINE SPMD_IALLGATHER_INT_OLD(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 

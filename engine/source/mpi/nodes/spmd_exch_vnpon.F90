@@ -39,7 +39,6 @@
 !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait             ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90

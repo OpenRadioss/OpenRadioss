@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_i20exch_n        ../engine/source/mpi/interfaces/spmd_i20exch_n.F
+!||    spmd_i20exch_n   ../engine/source/mpi/interfaces/spmd_i20exch_n.F
 !||--- called by ------------------------------------------------------
-!||    i20mainf              ../engine/source/interfaces/int20/i20mainf.F
+!||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I20EXCH_N(XNORM,IAD_ELEM,FR_ELEM,LENR)
 C performs the summation of normals at boundary points

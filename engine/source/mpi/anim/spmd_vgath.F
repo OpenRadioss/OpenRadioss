@@ -23,14 +23,15 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 
 !||====================================================================
-!||    spmd_vgath            ../engine/source/mpi/anim/spmd_vgath.F
+!||    spmd_vgath           ../engine/source/mpi/anim/spmd_vgath.F
 !||--- called by ------------------------------------------------------
-!||    velvec                ../engine/source/output/anim/generate/velvec.F
-!||    velvec3               ../engine/source/output/anim/generate/velvec.F
+!||    velvec               ../engine/source/output/anim/generate/velvec.F
+!||    velvec3              ../engine/source/output/anim/generate/velvec.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c             ../common_source/tools/input_output/write_routines.c
+!||    spmd_get_count_int   ../engine/source/mpi/generic/spmd_get_count.F90
+!||    write_r_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
        SUBROUTINE SPMD_VGATH(X,NODGLOB,WEIGHT,NUM)
 C-----------------------------------------------

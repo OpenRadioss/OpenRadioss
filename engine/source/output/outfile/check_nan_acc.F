@@ -28,7 +28,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    resol              ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||    my_isnan           ../engine/source/system/my_isnan.F
-!||    spmd_barrier       ../engine/source/mpi/spmd_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
 !||    spmd_mod           ../engine/source/mpi/spmd_mod.F90

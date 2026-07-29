@@ -43,7 +43,6 @@
 !||--- called by ------------------------------------------------------
 !||    alew7                           ../engine/source/ale/grid/alew7.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait                       ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                         ../common_source/modules/ale/ale_mod.F
 !||    constant_mod                    ../common_source/modules/constant_mod.F

@@ -22,22 +22,18 @@
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_profiler_mod           spmd_profiler_mod.F90
-!||
-!||    Fortran interface to the C++ SPMD profiler (spmd_profiler.cpp).
-!||
-!||    Profiling is controlled at runtime via spmd_profiling_enabled.
-!||    Call spmd_profiler_init(rank) to enable, or set
-!||    spmd_profiling_enabled = .true. directly.
-!||    All subroutines are no-ops when profiling is disabled (~1 ns overhead).
-!||
-!||    Typical use (before MPI_Finalize):
-!||
-!||      use spmd_mod
-!||      call spmd_profiler_init(rank)  ! enables profiling
-!||      ...
-!||      call spmd_profiler_flush()     ! writes spmd_timeline_rank_NNNNN.spmd
-!||      call MPI_Finalize(ierr)
+!||    spmd_profiler_mod   ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||    spmd_in             ../engine/source/mpi/spmd_error.F90
+!||    spmd_irecv_mod      ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_isend_mod      ../engine/source/mpi/spmd_isend.F90
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mstop          ../engine/source/mpi/init/spmd_mstop.F
+!||    spmd_out            ../engine/source/mpi/spmd_error.F90
+!||    spmd_wait_mod       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitall_mod    ../engine/source/mpi/generic/spmd_waitall.F90
+!||    spmd_waitany_mod    ../engine/source/mpi/generic/spmd_waitany.F90
 !||====================================================================
       module spmd_profiler_mod
         use, intrinsic :: iso_c_binding
@@ -157,6 +153,12 @@
 
 ! ======================================================================================================================
 !! \brief Initialise the profiler, set the rank, and enable profiling.
+!||====================================================================
+!||    spmd_profiler_init     ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||--- called by ------------------------------------------------------
+!||    radioss2               ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine spmd_profiler_init(rank)
           implicit none
           integer, intent(in) :: rank
@@ -170,6 +172,13 @@
 ! ======================================================================================================================
 !! \brief Write the collected timeline and clear the in-memory buffer.
 !!        Must be called BEFORE MPI_Finalize.
+!||====================================================================
+!||    spmd_profiler_flush     ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||--- called by ------------------------------------------------------
+!||    radioss2                ../engine/source/engine/radioss2.F
+!||    spmd_mstop              ../engine/source/mpi/init/spmd_mstop.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine spmd_profiler_flush()
           implicit none
 
@@ -184,6 +193,12 @@
 !!          automatically resumed after the MPI call completes.
 !!          Use tags <= -3000 to avoid collision with MPI tags.
 
+!||====================================================================
+!||    spmd_profile_begin              ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine spmd_profile_begin(tag, name)
           implicit none
           integer, intent(in) :: tag
@@ -293,6 +308,12 @@
 ! ======================================================================================================================
 !! \brief End the active user section.
 !! \details Emits the final segment. No-op if no section is active.
+!||====================================================================
+!||    spmd_profile_end              ../engine/source/mpi/generic/spmd_profiler_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine spmd_profile_end(tag)
           implicit none
           integer, intent(in) :: tag

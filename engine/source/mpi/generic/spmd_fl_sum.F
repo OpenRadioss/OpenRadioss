@@ -24,15 +24,15 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C
 C
 !||====================================================================
-!||    spmd_fl_sum           ../engine/source/mpi/generic/spmd_fl_sum.F
+!||    spmd_fl_sum    ../engine/source/mpi/generic/spmd_fl_sum.F
 !||--- called by ------------------------------------------------------
-!||    bemsolvp              ../engine/source/fluid/bemsolvp.F
-!||    daaacc                ../engine/source/fluid/daaacc.F
-!||    daasolvp              ../engine/source/fluid/daasolvp.F
-!||    incpflow              ../engine/source/fluid/incpflow.F
+!||    bemsolvp       ../engine/source/fluid/bemsolvp.F
+!||    daaacc         ../engine/source/fluid/daaacc.F
+!||    daasolvp       ../engine/source/fluid/daasolvp.F
+!||    incpflow       ../engine/source/fluid/incpflow.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_FL_SUM(LSUM, LEN, LSUMT)
 C-----------------------------------------------

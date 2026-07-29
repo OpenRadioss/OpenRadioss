@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 
 !||====================================================================
-!||    spmd_sync_mmx         ../engine/source/mpi/interfaces/spmd_sync_mmx.F
+!||    spmd_sync_mmx   ../engine/source/mpi/interfaces/spmd_sync_mmx.F
 !||--- called by ------------------------------------------------------
-!||    imp_icomcrit          ../engine/source/implicit/imp_int_k.F
+!||    imp_icomcrit    ../engine/source/implicit/imp_int_k.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_SYNC_MMX(
      1    ISENDTO,IRCVFROM,NEWFRONT,XSLV_L,XMSR_L,

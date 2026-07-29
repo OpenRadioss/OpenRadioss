@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_exch_thknod      ../engine/source/mpi/nodes/spmd_exch_thknod.F
+!||    spmd_exch_thknod   ../engine/source/mpi/nodes/spmd_exch_thknod.F
 !||--- called by ------------------------------------------------------
-!||    resol                 ../engine/source/engine/resol.F
+!||    resol              ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod           ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_THKNOD(THKNOD,IAD_ELEM,FR_ELEM,SIZE,LENR)
 C-----------------------------------------------

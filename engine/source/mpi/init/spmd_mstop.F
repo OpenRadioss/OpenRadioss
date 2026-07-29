@@ -27,8 +27,10 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    imp_sol_init          ../engine/source/implicit/imp_sol_init.F
 !||--- calls      -----------------------------------------------------
 !||    my_exit               ../engine/source/system/my_exit.c
+!||    spmd_profiler_flush   ../engine/source/mpi/generic/spmd_profiler_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_profiler_mod     ../engine/source/mpi/generic/spmd_profiler_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_MSTOP()
 C-----------------------------------------------

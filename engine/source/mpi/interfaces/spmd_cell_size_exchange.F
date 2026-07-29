@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
 !||    message_mod               ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
-!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
 !||    tri7box                   ../engine/share/modules/tri7box.F
 !||====================================================================
         SUBROUTINE SPMD_CELL_SIZE_EXCHANGE(IRCVFROM,ISENDTO,WEIGHT,

@@ -23,15 +23,15 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_exchmsr_idel     ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+!||    spmd_exchmsr_idel   ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
 !||--- called by ------------------------------------------------------
-!||    chkstfn3n             ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkstfn3n           ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    element_mod           ../common_source/modules/elements/element_mod.F90
-!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-!||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCHMSR_IDEL(
      1    BUFS  ,LBUFS,IXS    ,IXC    ,IXTG   ,

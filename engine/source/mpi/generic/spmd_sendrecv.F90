@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_sendrecv_mod     ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_sendrecv_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
@@ -44,6 +51,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of real       array
+!||====================================================================
+!||    spmd_sendrecv_reals   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_reals(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -96,6 +111,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of integer       array
+!||====================================================================
+!||    spmd_sendrecv_ints   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in              ../engine/source/mpi/spmd_error.F90
+!||    spmd_out             ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_ints(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -148,6 +171,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of double precision       array
+!||====================================================================
+!||    spmd_sendrecv_doubles   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_doubles(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -200,6 +231,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of real       array
+!||====================================================================
+!||    spmd_sendrecv_reals2d   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_reals2d(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -252,6 +291,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of integer       array
+!||====================================================================
+!||    spmd_sendrecv_ints2d   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_ints2d(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -304,6 +351,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of double precision       array
+!||====================================================================
+!||    spmd_sendrecv_doubles2d   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_doubles2d(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm,&
         & tag)
           use spmd_error_mod, only: spmd_in, spmd_out
@@ -357,6 +412,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of real       scalar
+!||====================================================================
+!||    spmd_sendrecv_real   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in              ../engine/source/mpi/spmd_error.F90
+!||    spmd_out             ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_real(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -413,6 +476,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of integer       scalar
+!||====================================================================
+!||    spmd_sendrecv_int   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in             ../engine/source/mpi/spmd_error.F90
+!||    spmd_out            ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_int(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -469,6 +540,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv of double precision       scalar
+!||====================================================================
+!||    spmd_sendrecv_double   ../engine/source/mpi/generic/spmd_sendrecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_double(sendbuf, sendcount, dest, sendtag, recvbuf, recvcount, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

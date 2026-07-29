@@ -23,13 +23,14 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 
 !||====================================================================
-!||    spmd_wrt_xyznod       ../engine/source/mpi/anim/spmd_wrt_xyznod.F
+!||    spmd_wrt_xyznod      ../engine/source/mpi/anim/spmd_wrt_xyznod.F
 !||--- called by ------------------------------------------------------
-!||    xyznod                ../engine/source/output/anim/generate/xyznod.F
+!||    xyznod               ../engine/source/output/anim/generate/xyznod.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c             ../common_source/tools/input_output/write_routines.c
+!||    spmd_get_count_int   ../engine/source/mpi/generic/spmd_get_count.F90
+!||    write_r_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
        SUBROUTINE SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------

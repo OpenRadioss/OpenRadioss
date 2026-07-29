@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_sendrecv_replace_mod   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod                    ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod         ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_sendrecv_replace_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
@@ -44,6 +51,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of real       array
+!||====================================================================
+!||    spmd_sendrecv_replace_reals   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                       ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                      ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod                ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_reals(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -91,6 +106,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of integer       array
+!||====================================================================
+!||    spmd_sendrecv_replace_ints   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                      ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                     ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod               ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_ints(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -138,6 +161,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of double precision       array
+!||====================================================================
+!||    spmd_sendrecv_replace_doubles   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                         ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                        ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod                  ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_doubles(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -186,6 +217,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of real       array
+!||====================================================================
+!||    spmd_sendrecv_replace_reals2d   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                         ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                        ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod                  ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_reals2d(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -233,6 +272,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of integer       array
+!||====================================================================
+!||    spmd_sendrecv_replace_ints2d   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                        ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                       ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod                 ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_ints2d(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -280,6 +327,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of double precision       array
+!||====================================================================
+!||    spmd_sendrecv_replace_doubles2d   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                           ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                          ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod                    ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_doubles2d(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -328,6 +383,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of real       scalar
+!||====================================================================
+!||    spmd_sendrecv_replace_real   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                      ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                     ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod               ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_real(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -379,6 +442,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of integer       scalar
+!||====================================================================
+!||    spmd_sendrecv_replace_int   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                     ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                    ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod              ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_int(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -430,6 +501,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Sendrecv_replace of double precision       scalar
+!||====================================================================
+!||    spmd_sendrecv_replace_double   ../engine/source/mpi/generic/spmd_sendrecv_replace.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                        ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                       ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod                 ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_sendrecv_replace_double(buf, buf_count, dest, sendtag, source, recvtag, status, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

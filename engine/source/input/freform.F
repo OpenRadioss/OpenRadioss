@@ -81,6 +81,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
 !||    output_mod               ../common_source/modules/output/output_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
+!||    spmd_mod                 ../engine/source/mpi/spmd_mod.F90
 !||    state_mod                ../common_source/modules/state_mod.F
 !||    th_mod                   ../engine/share/modules/th_mod.F
 !||    viper_mod                ../engine/source/coupling/viper/viper_interface_mod.F90

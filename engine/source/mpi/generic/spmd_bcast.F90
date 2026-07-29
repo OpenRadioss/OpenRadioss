@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_bcast_mod        ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_bcast_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
@@ -44,6 +51,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of real       array
+!||====================================================================
+!||    spmd_bcast_reals   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in            ../engine/source/mpi/spmd_error.F90
+!||    spmd_out           ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_reals(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -80,6 +95,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of integer       array
+!||====================================================================
+!||    spmd_bcast_ints   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in           ../engine/source/mpi/spmd_error.F90
+!||    spmd_out          ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod    ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_ints(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -116,6 +139,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of double precision       array
+!||====================================================================
+!||    spmd_bcast_doubles   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in              ../engine/source/mpi/spmd_error.F90
+!||    spmd_out             ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_doubles(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -152,6 +183,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of real       array
+!||====================================================================
+!||    spmd_bcast_reals2d   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in              ../engine/source/mpi/spmd_error.F90
+!||    spmd_out             ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_reals2d(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -188,6 +227,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of integer       array
+!||====================================================================
+!||    spmd_bcast_ints2d   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in             ../engine/source/mpi/spmd_error.F90
+!||    spmd_out            ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_ints2d(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -224,6 +271,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of double precision       array
+!||====================================================================
+!||    spmd_bcast_doubles2d   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_doubles2d(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -260,6 +315,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of real       scalar
+!||====================================================================
+!||    spmd_bcast_real   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in           ../engine/source/mpi/spmd_error.F90
+!||    spmd_out          ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod    ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_real(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -300,6 +363,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of integer       scalar
+!||====================================================================
+!||    spmd_bcast_int   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in          ../engine/source/mpi/spmd_error.F90
+!||    spmd_out         ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod   ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_int(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -340,6 +411,14 @@
 
 ! ======================================================================================================================
 !>  \brief Broadcast of double precision       scalar
+!||====================================================================
+!||    spmd_bcast_double   ../engine/source/mpi/generic/spmd_bcast.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in             ../engine/source/mpi/spmd_error.F90
+!||    spmd_out            ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_bcast_double(buf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

@@ -43,7 +43,6 @@
 !||    dealloc_int_1d_array   ../common_source/modules/array_mod.F
 !||    initbuf                ../engine/share/resol/initbuf.F
 !||    myqsort_int            ../common_source/tools/sort/myqsort_int.F
-!||    spmd_waitall           ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    array_mod              ../common_source/modules/array_mod.F
 !||    element_mod            ../common_source/modules/elements/element_mod.F90

@@ -31,7 +31,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    s10cnistat             ../engine/source/elements/solid/solide10/s10cndf.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_A_SCND_PON(
      1   FR_CDNM,IAD_CDNM,ADDCNCDN,PROCNCDN,FR_NBCCCDN,

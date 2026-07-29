@@ -30,6 +30,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- uses       -----------------------------------------------------
 !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
 !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         SUBROUTINE SPMD_GET_INACTI_GLOBAL(IPARI,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
 

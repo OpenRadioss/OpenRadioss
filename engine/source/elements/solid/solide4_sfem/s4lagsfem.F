@@ -31,8 +31,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    s10volnodt3      ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
 !||    s4volnod3        ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
 !||    s4volnod_sm      ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
-!||    spmd_waitall     ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod      ../common_source/modules/elements/element_mod.F90

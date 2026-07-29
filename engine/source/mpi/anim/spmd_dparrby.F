@@ -22,14 +22,15 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_dparrby          ../engine/source/mpi/anim/spmd_dparrby.F
+!||    spmd_dparrby         ../engine/source/mpi/anim/spmd_dparrby.F
 !||--- called by ------------------------------------------------------
-!||    genani                ../engine/source/output/anim/generate/genani.F
+!||    genani               ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_glob_isum9       ../engine/source/mpi/interfaces/spmd_th.F
-!||    write_i_c             ../common_source/tools/input_output/write_routines.c
+!||    spmd_get_count_int   ../engine/source/mpi/generic/spmd_get_count.F90
+!||    spmd_glob_isum9      ../engine/source/mpi/interfaces/spmd_th.F
+!||    write_i_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_DPARRBY(NPBY,LPBY,FR_RBY2,IAD_RBY2,
      .                        SBUFSPM,SBUFRECVM,

@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    my_alloc_mod                    ../common_source/tools/memory/my_alloc.F90
 !||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
 !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F90
-!||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
      .                                          IPARI,GEO,

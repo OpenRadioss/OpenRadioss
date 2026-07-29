@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_scatter_mod      ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_scatter_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
@@ -44,6 +51,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of real       array
+!||====================================================================
+!||    spmd_scatter_reals   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in              ../engine/source/mpi/spmd_error.F90
+!||    spmd_out             ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_reals(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -80,6 +95,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of integer       array
+!||====================================================================
+!||    spmd_scatter_ints   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in             ../engine/source/mpi/spmd_error.F90
+!||    spmd_out            ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_ints(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -116,6 +139,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of double precision       array
+!||====================================================================
+!||    spmd_scatter_doubles   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_doubles(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -153,6 +184,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of real       array
+!||====================================================================
+!||    spmd_scatter_reals2d   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_reals2d(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -189,6 +228,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of integer       array
+!||====================================================================
+!||    spmd_scatter_ints2d   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_ints2d(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -225,6 +272,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of double precision       array
+!||====================================================================
+!||    spmd_scatter_doubles2d   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_doubles2d(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -262,6 +317,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of real       scalar
+!||====================================================================
+!||    spmd_scatter_real   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in             ../engine/source/mpi/spmd_error.F90
+!||    spmd_out            ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_real(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -302,6 +365,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of integer       scalar
+!||====================================================================
+!||    spmd_scatter_int   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in            ../engine/source/mpi/spmd_error.F90
+!||    spmd_out           ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_int(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -342,6 +413,14 @@
 
 ! ======================================================================================================================
 !>  \\brief Scatter of double precision       scalar
+!||====================================================================
+!||    spmd_scatter_double   ../engine/source/mpi/generic/spmd_scatter.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_scatter_double(sendbuf, recvbuf, buf_count, root, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_fvb_atr          ../engine/source/mpi/anim/spmd_fvb_atr.F
+!||    spmd_fvb_atr   ../engine/source/mpi/anim/spmd_fvb_atr.F
 !||--- called by ------------------------------------------------------
-!||    genani                ../engine/source/output/anim/generate/genani.F
+!||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c             ../common_source/tools/input_output/write_routines.c
+!||    write_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    fvbag_mod             ../engine/share/modules/fvbag_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    fvbag_mod      ../engine/share/modules/fvbag_mod.F
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_FVB_ATR(NBID1, NBID2, NBID3, FVEL2FA, FVINUM,
      .                        FVOFF)

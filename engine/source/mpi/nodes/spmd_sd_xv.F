@@ -23,19 +23,19 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_sd_xv            ../engine/source/mpi/nodes/spmd_sd_xv.F
+!||    spmd_sd_xv     ../engine/source/mpi/nodes/spmd_sd_xv.F
 !||--- called by ------------------------------------------------------
-!||    imp_tripi             ../engine/source/implicit/imp_int_k.F
-!||    resol                 ../engine/source/engine/resol.F
+!||    imp_tripi      ../engine/source/implicit/imp_int_k.F
+!||    resol          ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    ale_mod               ../common_source/modules/ale/ale_mod.F
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-!||    output_mod            ../common_source/modules/output/output_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    ale_mod        ../common_source/modules/ale/ale_mod.F
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+!||    output_mod     ../common_source/modules/output/output_mod.F90
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_SD_XV(OUTPUT,
      1  X     ,D       ,V      ,VR    ,MS   ,

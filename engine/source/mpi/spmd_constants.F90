@@ -22,9 +22,7 @@
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_constants_mod    ../engine/source/mpi/spmd_constants.F90
-!||--- called by ------------------------------------------------------
-!||    spmd_iallreduce_mod   ../engine/source/mpi/spmd_iallreduce.F90
+!||    spmd_constants_mod   ../engine/source/mpi/spmd_constants.F90
 !||====================================================================
       module spmd_constants_mod
         implicit none

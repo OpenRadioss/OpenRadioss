@@ -23,11 +23,11 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_exch_vol         ../engine/source/mpi/nodes/spmd_exch_vol.F
+!||    spmd_exch_vol   ../engine/source/mpi/nodes/spmd_exch_vol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_VOL(VOLNOD6,VARNOD6,IAD_ELEM, 
      .                         FR_ELEM,LENR )

@@ -72,7 +72,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    intmass_update               ../engine/source/interfaces/interf/intmass_update.F
 !||    my_barrier                   ../engine/source/system/machine.F
 !||    spmd_allglob_isum9           ../engine/source/mpi/generic/spmd_allglob_isum9.F
-!||    spmd_barrier                 ../engine/source/mpi/spmd_mod.F90
 !||    spmd_exch_sorting_efric      ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
 !||    spmd_get_inacti_global       ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
 !||    spmd_get_stif25_edg          ../engine/source/mpi/interfaces/spmd_getstif25_edg.F

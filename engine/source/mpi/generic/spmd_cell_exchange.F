@@ -38,7 +38,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
 !||    message_mod                ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
-!||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
 !||    timer_mod                  ../engine/source/system/timer_mod.F90
 !||    tri7box                    ../engine/share/modules/tri7box.F
 !||====================================================================

@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_exch_tag_tsh     ../engine/source/mpi/elements/spmd_exch_dttsh.F
+!||    spmd_exch_tag_tsh   ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||--- called by ------------------------------------------------------
-!||    tshcdcom_dim          ../engine/source/elements/thickshell/solidec/tshcdcom_dim.F
+!||    tshcdcom_dim        ../engine/source/elements/thickshell/solidec/tshcdcom_dim.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    message_mod         ../engine/share/message_module/message_mod.F
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_TAG_TSH(IAD_ELEM ,FR_ELEM ,ISEND,IRECV ,LEN)
 C-----------------------------------------------
@@ -104,15 +104,15 @@ C
        
        END SUBROUTINE SPMD_EXCH_TAG_TSH
 !||====================================================================
-!||    spmd_exch_vmax        ../engine/source/mpi/elements/spmd_exch_dttsh.F
+!||    spmd_exch_vmax   ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||--- called by ------------------------------------------------------
-!||    resol                 ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_VMAX(IAD_STSH ,FR_STSH ,IAD_RTSH ,FR_RTSH ,V_MAX )
 C-----------------------------------------------
@@ -234,15 +234,15 @@ C ------------
        
        END SUBROUTINE SPMD_EXCH_VMAX
 !||====================================================================
-!||    spmd_exch_fa          ../engine/source/mpi/elements/spmd_exch_dttsh.F
+!||    spmd_exch_fa   ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||--- called by ------------------------------------------------------
-!||    resol                 ../engine/source/engine/resol.F
+!||    resol          ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_FA(IAD_STSH ,FR_STSH ,IAD_RTSH ,FR_RTSH ,A  )
 C-----------------------------------------------

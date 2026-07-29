@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_ialltoall_mod    ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_ialltoall_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
@@ -44,6 +51,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of real       array
+!||====================================================================
+!||    spmd_ialltoall_reals   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                ../engine/source/mpi/spmd_error.F90
+!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_reals(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -82,6 +97,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of integer       array
+!||====================================================================
+!||    spmd_ialltoall_ints   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_ints(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -120,6 +143,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of double precision       array
+!||====================================================================
+!||    spmd_ialltoall_doubles   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_doubles(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -159,6 +190,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of real       array
+!||====================================================================
+!||    spmd_ialltoall_reals2d   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                 ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_reals2d(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -197,6 +236,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of integer       array
+!||====================================================================
+!||    spmd_ialltoall_ints2d   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_ints2d(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -235,6 +282,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of double precision       array
+!||====================================================================
+!||    spmd_ialltoall_doubles2d   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                    ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                   ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod             ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_doubles2d(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -274,6 +329,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of real       scalar
+!||====================================================================
+!||    spmd_ialltoall_real   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_real(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -316,6 +379,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of integer       scalar
+!||====================================================================
+!||    spmd_ialltoall_int   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in              ../engine/source/mpi/spmd_error.F90
+!||    spmd_out             ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_int(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -358,6 +429,14 @@
 
 ! ======================================================================================================================
 !>  \brief Non-blocking alltoall of double precision       scalar
+!||====================================================================
+!||    spmd_ialltoall_double   ../engine/source/mpi/generic/spmd_ialltoall.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_ialltoall_double(sendbuf, recvbuf, sendcount, recvcount, request, comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

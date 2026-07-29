@@ -40,9 +40,10 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    tensors               ../engine/source/output/anim/generate/tensor6.F
 !||    torseur               ../engine/source/output/anim/generate/torseur.F
 !||--- calls      -----------------------------------------------------
+!||    spmd_get_count_real   ../engine/source/mpi/generic/spmd_get_count.F90
 !||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_R4GET_PARTN(SIZE,NBF_L,NBPART,IADG,WAL,BUF)
 C gather on p0 of the wa table according to the parts (IADG)

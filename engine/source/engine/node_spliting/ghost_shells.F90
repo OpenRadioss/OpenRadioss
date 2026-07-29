@@ -108,7 +108,6 @@
 !||    resol               ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||    reserve_capacity    ../common_source/tools/container/umap_mod.F90
-!||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    connectivity_mod    ../common_source/modules/connectivity.F90
 !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
@@ -367,7 +366,6 @@
 !||    apply_crack                  ../engine/source/engine/node_spliting/apply_crack.F90
 !||    nloc_shell_detach            ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait                    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    connectivity_mod             ../common_source/modules/connectivity.F90
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90

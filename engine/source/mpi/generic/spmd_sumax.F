@@ -23,10 +23,10 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_sumax            ../engine/source/mpi/generic/spmd_sumax.F
+!||    spmd_sumax   ../engine/source/mpi/generic/spmd_sumax.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod     ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_SUMAX(V,LEN1,LEN)
 C gather table V of size LEN of type my_real

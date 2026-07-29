@@ -22,21 +22,21 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    read_dynain        ../engine/source/output/dynain/read_dynain.F
+!||    read_dynain      ../engine/source/output/dynain/read_dynain.F
 !||--- called by ------------------------------------------------------
-!||    lectur             ../engine/source/input/lectur.F
+!||    lectur           ../engine/source/input/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg             ../engine/source/output/message/message.F
-!||    arret              ../engine/source/system/arret.F
-!||    my_orders          ../common_source/tools/sort/my_orders.c
-!||    spmd_gather        ../engine/source/mpi/generic/spmd_gather.F90
-!||    spmd_gatherv       ../engine/source/mpi/generic/spmd_gatherv.F90
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
+!||    my_orders        ../common_source/tools/sort/my_orders.c
+!||    spmd_gatherv     ../engine/source/mpi/generic/spmd_gatherv.F
 !||--- uses       -----------------------------------------------------
-!||    element_mod        ../common_source/modules/elements/element_mod.F90
-!||    message_mod        ../engine/share/message_module/message_mod.F
-!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
-!||    state_mod          ../common_source/modules/state_mod.F
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||    state_mod        ../common_source/modules/state_mod.F
 !||====================================================================
       SUBROUTINE READ_DYNAIN(IPART,DYNAIN_DATA,IPARTC,IPARTTG,IXC,IXTG)
 C-----------------------------------------------

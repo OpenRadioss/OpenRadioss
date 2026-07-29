@@ -25,6 +25,11 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    spmd_gatherv          ../engine/source/mpi/generic/spmd_gatherv.F
 !||--- called by ------------------------------------------------------
 !||    hist2                 ../engine/source/output/th/hist2.F
+!||    init_th               ../engine/source/output/th/init_th.F
+!||    read_dynain           ../engine/source/output/dynain/read_dynain.F
+!||    spmd_gather_wa        ../engine/source/mpi/anim/spmd_gather_wa.F
+!||    spmd_rgather9         ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_rgather9_dp      ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90

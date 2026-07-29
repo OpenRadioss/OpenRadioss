@@ -28,11 +28,12 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    parsor_ply            ../engine/source/output/anim/generate/parsor_ply.F
 !||--- calls      -----------------------------------------------------
 !||    get_ply_nod           ../engine/source/output/anim/generate/anin_ply_init.F
+!||    spmd_get_count_int    ../engine/source/mpi/generic/spmd_get_count.F90
 !||    write_c_c             ../common_source/tools/input_output/write_routines.c
 !||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_IGET_PARTN_PLY(SIZE,NBF_L,NP,NBPART,IADG,
      *           SRBUF,IFLAG,IDPLY)

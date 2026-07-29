@@ -26,7 +26,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_barrier          ../engine/source/mpi/spmd_mod.F90
 !||    spmd_glob_rsum_poff   ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90

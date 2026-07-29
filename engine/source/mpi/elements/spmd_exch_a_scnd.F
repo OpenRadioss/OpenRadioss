@@ -22,16 +22,16 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_exch_a_scnd      ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+!||    spmd_exch_a_scnd   ../engine/source/mpi/elements/spmd_exch_a_scnd.F
 !||--- called by ------------------------------------------------------
-!||    s10cndamp             ../engine/source/elements/solid/solide10/s10cndf.F
-!||    s10cndf1              ../engine/source/elements/solid/solide10/s10cndf.F
-!||    s10cndf2              ../engine/source/elements/solid/solide10/s10cndf.F
-!||    s10cnidamp            ../engine/source/elements/solid/solide10/s10cndf.F
-!||    s10cnistat            ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cndamp          ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cndf1           ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cndf2           ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cnidamp         ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cnistat         ../engine/source/elements/solid/solide10/s10cndf.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod           ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_A_SCND(
      1            A    ,STIFN ,FR_CDNM,IAD_CDNM, LCOMM,ISIZE)

@@ -85,7 +85,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod     ../common_source/modules/constant_mod.F
 !||    precision_mod    ../common_source/modules/precision_mod.F90

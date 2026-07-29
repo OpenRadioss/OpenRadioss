@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    intbufdef_mod                  ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    remove_neighbour_segment_mod   ../engine/source/interfaces/interf/remove_neighbour_segment.F90
 !||    shooting_node_mod              ../engine/share/modules/shooting_node_mod.F90
-!||    spmd_comm_world_mod            ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,IAD_ELEM,SHOOT_STRUCT )

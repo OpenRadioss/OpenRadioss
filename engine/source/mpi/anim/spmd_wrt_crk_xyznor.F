@@ -26,10 +26,11 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    xyznor_crk            ../engine/source/output/anim/generate/xyznor_crk.F
 !||--- calls      -----------------------------------------------------
+!||    spmd_get_count_int    ../engine/source/mpi/generic/spmd_get_count.F90
 !||    write_s_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
        SUBROUTINE SPMD_WRT_CRK_XYZNOR(ICRK,XNORM,NUM)
 C-----------------------------------------------

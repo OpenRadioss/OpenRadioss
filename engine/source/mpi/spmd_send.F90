@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_send_mod   ../engine/source/mpi/spmd_send.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       module spmd_send_mod
         implicit none
 
@@ -41,6 +46,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of real       array
+!||====================================================================
+!||    spmd_send_reals       ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_reals(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -66,6 +80,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of integer       array
+!||====================================================================
+!||    spmd_send_ints        ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_ints(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -91,6 +114,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of double precision       array
+!||====================================================================
+!||    spmd_send_doubles     ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_doubles(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -116,6 +148,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of real       array
+!||====================================================================
+!||    spmd_send_reals2d     ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_reals2d(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -141,6 +182,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of integer       array
+!||====================================================================
+!||    spmd_send_ints2d      ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_ints2d(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -166,6 +216,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of double precision       array
+!||====================================================================
+!||    spmd_send_doubles2d   ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_doubles2d(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -191,6 +250,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of real       scalar
+!||====================================================================
+!||    spmd_send_real        ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_real(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -216,6 +284,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of integer       scalar
+!||====================================================================
+!||    spmd_send_int         ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_int(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -241,6 +318,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking send of double precision       scalar
+!||====================================================================
+!||    spmd_send_double      ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_send_double(buf, buf_count, dest, tag, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD

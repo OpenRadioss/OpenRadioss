@@ -31,7 +31,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sms_ini_kin_2                     ../engine/source/ams/sms_init.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                          ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_IMAX9(V,LEN)
 C gather table V of size LEN of type integer

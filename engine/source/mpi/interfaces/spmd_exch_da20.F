@@ -23,16 +23,16 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_exch_da20        ../engine/source/mpi/interfaces/spmd_exch_da20.F
+!||    spmd_exch_da20   ../engine/source/mpi/interfaces/spmd_exch_da20.F
 !||--- called by ------------------------------------------------------
-!||    resol                 ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    adddp                 ../engine/source/mpi/interfaces/spmd_i7tool.F
-!||    getdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
-!||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    adddp            ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    getdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    putdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_DA20(
      1   INTBUF_TAB,IPARI,IAD_ELEM,FR_ELEM,

@@ -33,7 +33,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA2(
      .           NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT,JJ)

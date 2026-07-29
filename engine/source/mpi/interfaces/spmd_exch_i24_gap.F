@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 C
 !||====================================================================
-!||    spmd_exch_i24_gap     ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
+!||    spmd_exch_i24_gap   ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
 !||--- called by ------------------------------------------------------
-!||    i24pxfem              ../engine/source/interfaces/int24/i24pxfem.F
+!||    i24pxfem            ../engine/source/interfaces/int24/i24pxfem.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_I24_GAP(
      1           WA,IAD_ELEM ,FR_ELEM,SIZE  ,LENR  )

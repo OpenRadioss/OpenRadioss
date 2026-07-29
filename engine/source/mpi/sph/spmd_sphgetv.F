@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
+!||    spmd_sphgetv              ../engine/source/mpi/sph/spmd_sphgetv.F
 !||--- called by ------------------------------------------------------
-!||    sphprep               ../engine/source/elements/sph/sphprep.F
+!||    sphprep                   ../engine/source/elements/sph/sphprep.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_ialltoallv       ../engine/source/mpi/generic/spmd_ialltoallv.F
+!||    spmd_ialltoallv           ../engine/source/mpi/generic/spmd_ialltoallv.F
 !||    spmd_ialltoallv_int_old   ../engine/source/mpi/generic/spmd_ialltoallv_int_old.F
 !||--- uses       -----------------------------------------------------
-!||    sphbox                ../engine/share/modules/sphbox.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    sphbox                    ../engine/share/modules/sphbox.F
+!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP, IPARTSP)
 C-----------------------------------------------

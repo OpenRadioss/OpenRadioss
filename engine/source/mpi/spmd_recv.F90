@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_recv_mod   ../engine/source/mpi/spmd_recv.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       module spmd_recv_mod
         implicit none
 
@@ -41,6 +46,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of real       array
+!||====================================================================
+!||    spmd_recv_reals       ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_reals(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -83,6 +97,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of integer       array
+!||====================================================================
+!||    spmd_recv_ints        ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_ints(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -125,6 +148,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of double precision       array
+!||====================================================================
+!||    spmd_recv_doubles     ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_doubles(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -167,6 +199,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of real       array
+!||====================================================================
+!||    spmd_recv_reals2d     ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_reals2d(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -209,6 +250,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of integer       array
+!||====================================================================
+!||    spmd_recv_ints2d      ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_ints2d(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -251,6 +301,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of double precision       array
+!||====================================================================
+!||    spmd_recv_doubles2d   ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_doubles2d(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -293,6 +352,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of real       scalar
+!||====================================================================
+!||    spmd_recv_real        ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_real(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -335,6 +403,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of integer       scalar
+!||====================================================================
+!||    spmd_recv_int         ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_int(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -377,6 +454,15 @@
 
 ! ======================================================================================================================
 !>  \brief Blocking receive of double precision       scalar
+!||====================================================================
+!||    spmd_recv_double      ../engine/source/mpi/spmd_recv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_recv_double(buf, buf_count, source, tag, status, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD

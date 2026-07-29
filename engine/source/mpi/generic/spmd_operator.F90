@@ -22,6 +22,16 @@
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 ! Simple module centralizing SPMD operator identifiers
+!||====================================================================
+!||    spmd_operator_mod      ../engine/source/mpi/generic/spmd_operator.F90
+!||--- called by ------------------------------------------------------
+!||    get_mpi_operator_mod   ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_allreduce_mod     ../engine/source/mpi/spmd_allreduce.F90
+!||    spmd_iallreduce_mod    ../engine/source/mpi/spmd_iallreduce.F90
+!||    spmd_ireduce_mod       ../engine/source/mpi/generic/spmd_ireduce.F90
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_mod        ../engine/source/mpi/generic/spmd_reduce.F90
+!||====================================================================
       module spmd_operator_mod
         implicit none
         integer, parameter, public :: SPMD_MAX  = 1

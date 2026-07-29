@@ -32,7 +32,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREAI(
      .           NODAREAI,IAD_ELEM,FR_ELEM,LENR,WEIGHT)

@@ -23,14 +23,14 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
       
 !||====================================================================
-!||    spmd_exch_a_int2      ../engine/source/mpi/forces/spmd_exch_a_int2.F
+!||    spmd_exch_a_int2   ../engine/source/mpi/forces/spmd_exch_a_int2.F
 !||--- called by ------------------------------------------------------
-!||    intti1                ../engine/source/interfaces/interf/intti1.F
+!||    intti1             ../engine/source/interfaces/interf/intti1.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod               ../engine/share/modules/h3d_mod.F
-!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    spmd_mod           ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_A_INT2(
      1   A    ,AR     ,MS    ,IN     ,STIFN,

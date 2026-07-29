@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_i8_iloc          ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_iloc   ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||--- called by ------------------------------------------------------
-!||    intvo8                ../engine/source/interfaces/inter3d/intvo8.F
+!||    intvo8         ../engine/source/interfaces/inter3d/intvo8.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    int8_mod              ../common_source/modules/interfaces/int8_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    int8_mod       ../common_source/modules/interfaces/int8_mod.F90
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8_ILOC(ILOC    ,MSR,ITAB,BUFFER,
      .                        DISTANCE)
@@ -191,12 +191,12 @@ C           DIST1 = DISTANCE(K)
 #endif
       END SUBROUTINE
 !||====================================================================
-!||    spmd_i8_index         ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_index   ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||--- called by ------------------------------------------------------
-!||    intvo8                ../engine/source/interfaces/inter3d/intvo8.F
+!||    intvo8          ../engine/source/interfaces/inter3d/intvo8.F
 !||--- uses       -----------------------------------------------------
-!||    int8_mod              ../common_source/modules/interfaces/int8_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    int8_mod        ../common_source/modules/interfaces/int8_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8_INDEX(NMN,FRONTIER,INDEX_IN_COMM,S_COMM)
 C-----------------------------------------------
@@ -239,13 +239,13 @@ C-----------------------------------------------
 
       END SUBROUTINE
 !||====================================================================
-!||    spmd_i8_commslv       ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_commslv   ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||--- called by ------------------------------------------------------
-!||    intvo8                ../engine/source/interfaces/inter3d/intvo8.F
+!||    intvo8            ../engine/source/interfaces/inter3d/intvo8.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    int8_mod              ../common_source/modules/interfaces/int8_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    int8_mod          ../common_source/modules/interfaces/int8_mod.F90
+!||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8_COMMSLV(NBSECNDS,ILOC,NSV,
      .            ITAB,BUFFER,FRONTIER,INDEX_IN_COMM)
@@ -447,12 +447,12 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       END SUBROUTINE
 
 !||====================================================================
-!||    spmd_i8_updbuf        ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_updbuf   ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||--- called by ------------------------------------------------------
-!||    intvo8                ../engine/source/interfaces/inter3d/intvo8.F
+!||    intvo8           ../engine/source/interfaces/inter3d/intvo8.F
 !||--- uses       -----------------------------------------------------
-!||    int8_mod              ../common_source/modules/interfaces/int8_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    int8_mod         ../common_source/modules/interfaces/int8_mod.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8_UPDBUF(NBSECNDS,ILOC,NSV,
      .            ITAB,BUFFER,FRONTIER,INDEX_IN_COMM)
@@ -561,14 +561,14 @@ C           BUFFER(I)%BUFI(1:BUFFER(I)%NBSECND_TOT)=0
 
 
 !||====================================================================
-!||    spmd_i8_irtl          ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_irtl     ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||--- called by ------------------------------------------------------
-!||    intvo8                ../engine/source/interfaces/inter3d/intvo8.F
+!||    intvo8           ../engine/source/interfaces/inter3d/intvo8.F
 !||--- calls      -----------------------------------------------------
-!||    is_sup_face_id        ../engine/source/interfaces/inter3d/is_sup_face_id.F
+!||    is_sup_face_id   ../engine/source/interfaces/inter3d/is_sup_face_id.F
 !||--- uses       -----------------------------------------------------
-!||    int8_mod              ../common_source/modules/interfaces/int8_mod.F90
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    int8_mod         ../common_source/modules/interfaces/int8_mod.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8_IRTL(
      .            IRTL,     HAS_MOVED,
@@ -742,12 +742,12 @@ C
 
 
 !||====================================================================
-!||    spmd_i8_reduce        ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_reduce   ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||--- called by ------------------------------------------------------
-!||    intfop8               ../engine/source/interfaces/interf/intfop8.F
+!||    intfop8          ../engine/source/interfaces/interf/intfop8.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8_REDUCE(TAB,N,NUM)
 C-----------------------------------------------

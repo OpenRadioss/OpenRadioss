@@ -22,17 +22,17 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_i18kine_com_v    ../engine/source/mpi/interfaces/spmd_i18kine_com_v.F
+!||    spmd_i18kine_com_v   ../engine/source/mpi/interfaces/spmd_i18kine_com_v.F
 !||--- called by ------------------------------------------------------
-!||    i18main_kine_2        ../engine/source/interfaces/int18/i18main_kine.F
+!||    i18main_kine_2       ../engine/source/interfaces/int18/i18main_kine.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
+!||    ancmsg               ../engine/source/output/message/message.F
+!||    arret                ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    tri7box               ../engine/share/modules/tri7box.F
+!||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod          ../engine/share/message_module/message_mod.F
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
+!||    tri7box              ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_I18KINE_COM_V(IPARI,INTBUF_TAB,
      *                MTF,A,ITAB)

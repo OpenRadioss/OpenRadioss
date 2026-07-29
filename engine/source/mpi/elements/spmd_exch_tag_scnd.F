@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_exch_tag_scnd    ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
+!||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
 !||--- called by ------------------------------------------------------
-!||    cndmasi2_dim          ../engine/source/elements/solid/solide10/s10cndf.F
-!||    s10cndi2_ini          ../engine/source/elements/solid/solide10/s10cndf.F
+!||    cndmasi2_dim         ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cndi2_ini         ../engine/source/elements/solid/solide10/s10cndf.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_TAG_SCND(
      1            ITAGND   ,FR_CNDS,IAD_CNDS, LCOMM)

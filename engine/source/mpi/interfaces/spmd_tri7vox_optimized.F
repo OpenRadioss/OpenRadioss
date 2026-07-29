@@ -22,20 +22,20 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_tri7vox_optimized   ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
+!||    spmd_tri7vox_optimized     ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
 !||--- called by ------------------------------------------------------
-!||    i7main_tri               ../engine/source/interfaces/intsort/i7main_tri.F
+!||    i7main_tri                 ../engine/source/interfaces/intsort/i7main_tri.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                   ../engine/source/output/message/message.F
-!||    arret                    ../engine/source/system/arret.F
-!||    spmd_iallgatherv         ../engine/source/mpi/generic/spmd_iallgatherv.F
-!||    spmd_iallgatherv_int_old ../engine/source/mpi/generic/spmd_iallgatherv_int_old.F
+!||    ancmsg                     ../engine/source/output/message/message.F
+!||    arret                      ../engine/source/system/arret.F
+!||    spmd_iallgatherv           ../engine/source/mpi/generic/spmd_iallgatherv.F
+!||    spmd_iallgatherv_int_old   ../engine/source/mpi/generic/spmd_iallgatherv_int_old.F
 !||--- uses       -----------------------------------------------------
-!||    comm_tri7vox_mod         ../engine/share/modules/comm_tri7vox_mod.F
-!||    message_mod              ../engine/share/message_module/message_mod.F
-!||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
-!||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
-!||    tri7box                  ../engine/share/modules/tri7box.F
+!||    comm_tri7vox_mod           ../engine/share/modules/comm_tri7vox_mod.F
+!||    message_mod                ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||    tri7box                    ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_TRI7VOX_OPTIMIZED(
      1   NSV     ,NSN      ,X      ,V     ,MS     ,

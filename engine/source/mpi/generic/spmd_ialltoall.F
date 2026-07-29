@@ -26,6 +26,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    spmd_ialltoall   ../engine/source/mpi/generic/spmd_ialltoall.F
 !||--- called by ------------------------------------------------------
 !||    spmd_sphgat      ../engine/source/mpi/sph/spmd_sphgat.F
+!||    spmd_sphvox      ../engine/source/mpi/sph/spmd_sphvox.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         SUBROUTINE SPMD_IALLTOALL(SENDBUF,RECVBUF,TOTAL_SEND_SIZE,SEND_SIZE,

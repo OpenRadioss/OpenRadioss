@@ -28,9 +28,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../engine/source/output/message/message.F
 !||    arret            ../engine/source/system/arret.F
-!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitall     ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90

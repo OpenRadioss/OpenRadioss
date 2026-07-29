@@ -27,7 +27,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    s10stfe_poff          ../engine/source/elements/solid/solide10/s10cndf.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_STIF_SCND(
      1            STIFND,FR_CDNS,IAD_CDNS, LCOMM)

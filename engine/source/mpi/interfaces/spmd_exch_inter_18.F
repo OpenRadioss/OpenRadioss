@@ -34,7 +34,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
 !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
-!||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
 !||    tri7box                    ../engine/share/modules/tri7box.F
 !||====================================================================
         SUBROUTINE SPMD_EXCH_INTER_18(NINTER,NSPMD,NUMBER_INTER18,SXCELL,INTER18_LIST,

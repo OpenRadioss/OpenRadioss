@@ -21,6 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    spmd_barrier_mod      ../engine/source/mpi/generic/spmd_barrier.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_barrier_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
@@ -36,6 +43,14 @@
 
 ! ======================================================================================================================
 !>  \brief Barrier on communicator
+!||====================================================================
+!||    spmd_barrier_comm   ../engine/source/mpi/generic/spmd_barrier.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in             ../engine/source/mpi/spmd_error.F90
+!||    spmd_out            ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_barrier_comm(comm, tag)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

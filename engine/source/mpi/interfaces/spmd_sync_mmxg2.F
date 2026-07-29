@@ -27,6 +27,8 @@ C
 !||--- called by ------------------------------------------------------
 !||    intcrit           ../engine/source/interfaces/intsort/intcrit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_SYNC_MMXG2(
      1    ISENDTO,IRCVFROM,NEWFRONT,XSLV_L,XMSR_L,

@@ -22,16 +22,16 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_i20normf         ../engine/source/mpi/interfaces/spmd_i20normf.F
+!||    spmd_i20normf   ../engine/source/mpi/interfaces/spmd_i20normf.F
 !||--- called by ------------------------------------------------------
-!||    i20mainf              ../engine/source/interfaces/int20/i20mainf.F
+!||    i20mainf        ../engine/source/interfaces/int20/i20mainf.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-!||    tri7box               ../engine/share/modules/tri7box.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_I20NORMF(
      1 SOLIDN_NORMAL,SOLIDN_NORMAL_F,SOLIDN_NORMAL_FE,NIN     ,IRLEN20 ,

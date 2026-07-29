@@ -41,8 +41,6 @@
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_waitall                     ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany                     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
