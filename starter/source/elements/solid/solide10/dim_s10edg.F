@@ -689,7 +689,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,ND,N1,N2,ID,IPR
+      INTEGER N,ND,N1,N2,ID,IPR,IPR1
       INTEGER IS1,IS2,ISMIN,NSL,M,K,KK
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ICODEM
 C     REAL
@@ -719,8 +719,9 @@ C------treatment for /BCS ----------------------------
         ENDDO
       ENDDO
       IPR = 0
+      IPR1 = 0
       DO N=1,NUMNOD
-       IF (ICODEM(N)>0 .AND. ITAGND(N) /=0 ) THEN
+       IF (ITAGND(N) /=0 ) THEN
          ID = IABS(ITAGND(N))
          ND = ICNDS10(1,ID)
          N1 = ICNDS10(2,ID)
@@ -728,7 +729,8 @@ C------treatment for /BCS ----------------------------
          IS1 = ICODEM(N1)
          IS2 = ICODEM(N2)
          ISMIN = MIN(IS1,IS2)
-         IF (IS1/=ICODEM(N).AND.IS2/=ICODEM(N).AND.ISMIN<ICODEM(N)) THEN
+         IF (ICODEM(N)>0) THEN
+           IF (IS1/=ICODEM(N).AND.IS2/=ICODEM(N).AND.ISMIN<ICODEM(N)) THEN
 C----error out  ND has more /BCS than edge node
             CALL ANCMSG(MSGID=1208,
      .                MSGTYPE=MSGERROR,
@@ -736,26 +738,41 @@ C----error out  ND has more /BCS than edge node
      .                I1=ITAB(ND),
      .                C1='Boundary conditions ',
      .                C2='Boundary conditions')
-         ELSE
+           ELSE
 C----remove Nd from /BCS +degenerating
-           ICODE(N) = 0
-           IPR = 1
-           IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N) 
-           IF (IPRI>=5)
-     .     CALL ANCMSG(MSGID=1207,
+             ICODE(N) = 0
+             IPR = 1
+             IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N) 
+             IF (IPRI>=5)
+     .       CALL ANCMSG(MSGID=1207,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ITAB(ND),
      .                PRMOD=MSG_CUMU)
-         END IF
+           END IF
+         ELSEIF (ISMIN>0) THEN   ! case w/ Itetra4=10
+             IPR1 = 1
+             IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N) 
+             IF (IPRI>=5)
+     .       CALL ANCMSG(MSGID=3162,
+     .                MSGTYPE=MSGINFO,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ITAB(ND),
+     .                PRMOD=MSG_CUMU)
+         END IF !(ICODEM(N)>0) THEN
        END IF
       ENDDO 
-      IF (IPR >0.AND.IPRI>=5) THEN
-          CALL ANCMSG(MSGID=1207,
+      IF (IPRI>=5) THEN
+        IF (IPR>0)  CALL ANCMSG(MSGID=1207,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,
      .                C1='Boundary conditions ',
      .                C2='Boundary conditions',
+     .                PRMOD=MSG_PRINT)
+        IF (IPR1>0)  CALL ANCMSG(MSGID=3162,
+     .                MSGTYPE=MSGINFO,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                C1='Boundary conditions ',
      .                PRMOD=MSG_PRINT)
       END IF 
       CALL MY_DEALLOC(ICODEM)
@@ -772,7 +789,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE FIXMODIF_ND(IBFV, ITAGND,ICNDS10,ITAB)
+      SUBROUTINE FIXMODIF_ND(IBFV, ITAGND,ICNDS10,ITAB,IKINE)
 C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -789,11 +806,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*), ITAGND(*),ICNDS10(3,*),ITAB(*)
+      INTEGER, DIMENSION(NUMNOD)      ,INTENT (IN) :: IKINE
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,ND,N1,N2,K,ID,IPR
+      INTEGER I,N,ND,N1,N2,K,ID,IPR,IPR1
       LOGICAL IS1,IS2
 C-----------------------------------------------
 C   External function
@@ -846,6 +864,30 @@ C
      .                ANMODE=ANINFO_BLIND_1,
      .                C1='Imposed VEL/DISP/ACC',
      .                C2='Imposed VEL/DISP/ACC',
+     .                PRMOD=MSG_PRINT)
+       END IF 
+! add degenerating nd for special case of kinematic two edge nodes including Itetra4=10
+      IPR1 = 0
+       DO I = 1,NS10E
+         N = IABS(ICNDS10(1,I))
+         N1 = ICNDS10(2,I)
+         N2 = ICNDS10(3,I)
+         IF (IKINE(N1)/=0.AND.IKINE(N2)/=0.AND.ITAGND(N)>0) THEN 
+            ITAGND(N) = -ITAGND(N)
+            IPR1 = 1
+            IF (IPRI>=5)
+     .       CALL ANCMSG(MSGID=3162,
+     .                   MSGTYPE=MSGINFO,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ITAB(N),
+     .                   PRMOD=MSG_CUMU)
+         END IF  !(IS1/=0.AND.IS2/=0.AND.ITAGND(N)>0) THEN 
+       END DO 
+       IF (IPR1 >0.AND.IPRI>=5) THEN
+          CALL ANCMSG(MSGID=3162,
+     .                MSGTYPE=MSGINFO,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                C1='Kinematic conditions',
      .                PRMOD=MSG_PRINT)
        END IF 
 C

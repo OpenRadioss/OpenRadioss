@@ -16214,6 +16214,14 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    %i1="/MAT"
  BBC2005 failed to converge for obtaining BBC2005 yield criterion coefficient, Please check material input parameters
 
+/MESSAGE/3162/TITLE
+** INFO: KINEMATIC CONDITIONS TREATMENT FOR TETRA10 and ITETRA10=2
+/MESSAGE/3162/DESCRIPTION
+   Middle node of TETRA10 will be degenerated from TETRA10 edge which had the %s
+   
+/MESSAGE/3162/DATA
+   Middle node: %d 
+
 /MESSAGE/9998/TITLE
 ** MESSAGE WITH NO CATEGORY
 /MESSAGE/9999/TITLE
