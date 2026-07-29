@@ -201,10 +201,12 @@ C-----------------------------------------------
       my_real :: TCAR_P,USED_TCARP
       LOGICAL :: TO_BE_DISPLAYED
 
+      TO_BE_DISPLAYED = .TRUE.  !unconditional display
+
            USED_TCARP = EBCS%TCAR_P
            IF(EBCS%TCAR_P == ZERO) THEN
              EBCS%TCAR_P = TCAR_P
-             TO_BE_DISPLAYED = .TRUE.
+             !TO_BE_DISPLAYED = .TRUE.
              USED_TCARP = TCAR_P
            ENDIF
       
