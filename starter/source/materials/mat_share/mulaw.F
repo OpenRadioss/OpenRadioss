@@ -279,7 +279,7 @@ C ====================================================================
 
       ELSEIF(MTN==70)THEN
         CALL SIGEPS70(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
+     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
      3                  RHO0,RHO ,VOLN,EINT,NVARTMP ,VARTMP  ,
      4                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
      5                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
