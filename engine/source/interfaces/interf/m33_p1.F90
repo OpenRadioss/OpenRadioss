@@ -22,6 +22,11 @@
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
+!||    m33_p1_mod     ../engine/source/interfaces/interf/m33_p1.F90
+!||--- called by ------------------------------------------------------
+!||    i2for28_cin    ../engine/source/interfaces/interf/i2for28_cin.F
+!||    i2for28p_cin   ../engine/source/interfaces/interf/i2for28p_cin.F
+!||====================================================================
       module m33_p1_mod
       implicit none
       contains
@@ -30,6 +35,15 @@
 ! ======================================================================================================================
 !! \brief This routine compute the first eiginvalue of a symmetry matrix 3x3
 ! ======================================================================================================================
+!||====================================================================
+!||    m33_p1          ../engine/source/interfaces/interf/m33_p1.F90
+!||--- called by ------------------------------------------------------
+!||    i2for28_cin     ../engine/source/interfaces/interf/i2for28_cin.F
+!||    i2for28p_cin    ../engine/source/interfaces/interf/i2for28p_cin.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine m33_p1(m11,m22,m33,m23,m13,m12,pin1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

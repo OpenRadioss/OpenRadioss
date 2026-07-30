@@ -27,8 +27,10 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    i2for28       ../engine/source/interfaces/interf/i2for28.F
 !||--- calls      -----------------------------------------------------
 !||    i2forces      ../engine/source/interfaces/interf/i2forces.F
+!||    m33_p1        ../engine/source/interfaces/interf/m33_p1.F90
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod       ../engine/share/modules/h3d_mod.F
+!||    m33_p1_mod    ../engine/source/interfaces/interf/m33_p1.F90
 !||====================================================================
       SUBROUTINE I2FOR28_CIN(NSN     ,NMN     ,A      ,IRECT  ,DPARA   ,
      2                       MSR     ,NSV     ,IRTL   ,MS     ,WEIGHT  ,
