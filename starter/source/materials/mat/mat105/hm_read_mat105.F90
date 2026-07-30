@@ -125,6 +125,7 @@
           mtag%l_tb     = 1
           mtag%l_temp   = 1
           mtag%l_bfrac  = 1
+          mtag%l_pla    = 1
 
           !======== ELEMENTARY BUFFER ALLOCATION SIZES
 !----------------------------------------------------------------
