@@ -303,7 +303,11 @@ C-----------------------------------------------
           DELTA_BF = ZERO
         ELSEIF(F /= ONE)THEN
             ! F < 1  flamme has already reached the current element, but grain are still burning
-            BRATE       = Fscale_burnrate*FINTER(func_burnrate,POLD(I)/Xscale_burnrate,NPF,TF,DIFF)
+            if(func_burnrate > 0)then
+              BRATE = Fscale_burnrate*FINTER(func_burnrate,POLD(I)/Xscale_burnrate,NPF,TF,DIFF)
+            else
+              BRATE = Fscale_burnrate
+            endif
             DELTA_BF    = Gr*EXP(C*LOG((ONE-ALPHA*F)))*BRATE*TIMESTEP  !F_dot * DT
             DELTA_BF = MIN(DELTA_BF, ONE-F)
             F           = F + DELTA_BF
@@ -506,8 +510,13 @@ C-----------------------------------------------
 
       ! --- YIELD FUNCTION Y=Y(P) ---!
       do i=1,nel
-        sigy(i) = FSCALE_Yield*FINTER(func_yield,PNEW(I)/Xscale_yield,NPF,TF,DIFF)
-        g0 = sigy(i)
+        if(func_yield > 0)then
+          sigy(i) = FSCALE_Yield*FINTER(func_yield,PNEW(I)/Xscale_yield,NPF,TF,DIFF)
+          g0 = sigy(i)
+        else
+          sigy(i) = FSCALE_Yield
+          g0 = sigy(i)
+        endif
         if(g0 < ep20)then
           g0 = max(zero,g0)
           if( pnew(i) <= pmin ) g0 = zero
