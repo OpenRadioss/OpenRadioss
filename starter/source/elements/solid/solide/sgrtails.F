@@ -730,6 +730,8 @@ c
      .                      I2=IGEO(1,PID))
                 JHBE = 1
                 JCVT = 0 
+                NPT = 1
+                IGEO(4,PID) =NPT
               END IF
             END IF
           END IF
