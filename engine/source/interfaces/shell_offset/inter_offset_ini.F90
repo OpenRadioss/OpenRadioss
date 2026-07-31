@@ -66,6 +66,7 @@
           use constant_mod,             only: zero,half
           use inter_sh_offset_mod ,     only: sh_offset_
           use inter_sh_offset_dim_mod , only: inter_sh_offset_dim
+          use spmd_mod,                 only: spmd_allreduce, SPMD_MAX
           use spmd_exch_vnpon_mod ,     only: spmd_exch_vnpon
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,7 +104,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,n,nel,nft,nn,ie,ii,igtyp,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
-          integer :: ibid(1),ndim1,ndim2,nfr
+          integer :: ibid(1),ndim1,ndim2,nfr,has_offset_local
           real(kind=WP) :: shelloff
           real(kind=WP), dimension(:)  ,  allocatable :: thkoset,thkoset_n
           double precision, dimension(:,:),  allocatable :: thkoset6,thkoset_n6
@@ -282,6 +283,12 @@
             if (sh_offset_tab%intag(n)>0) nnoset = nnoset + 1
           end do
           sh_offset_tab%nnsh_oset = nnoset
+          has_offset_local = 0
+          if (nnoset > 0) has_offset_local = 1
+          sh_offset_tab%has_offset_global = has_offset_local
+          if (nspmd > 1) then
+            call spmd_allreduce(has_offset_local, sh_offset_tab%has_offset_global, 1, SPMD_MAX)
+          end if
           call my_alloc(sh_offset_tab%indexg, nnoset, "sh_offset_tab%indexg", stat=stat)
           call my_alloc(sh_offset_tab%offset_n, nnoset, "sh_offset_tab%offset_n", stat=stat)
           call my_alloc(sh_offset_tab%norm_n, 3, nnoset, "sh_offset_tab%norm_n", stat=stat)
