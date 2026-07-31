@@ -383,6 +383,13 @@
                 is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
                 mtag     ,chard  )
               chard = min(max(chard,zero),one)
+            case default
+              call ancmsg(msgid=3163,                                        &
+                msgtype=msgerror,                                  &
+                anmode=aninfo,                                     &
+                i1=mat_id,                                         &
+                c1=titr,                                           &
+                c2=key)
             end select
           enddo
           !=====================================================================
