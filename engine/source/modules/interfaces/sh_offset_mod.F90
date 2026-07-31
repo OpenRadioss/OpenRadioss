@@ -42,6 +42,7 @@
           integer, dimension(:,:) , allocatable :: ix_offset   ! (4,nsh_oset)
           integer, dimension(:)  ,  allocatable :: intag       ! (numnod) global node to local offset
           integer, dimension(:)  ,  allocatable :: indexg      ! (nnsh_oset) to global node number
+          integer ::  has_offset_global                        ! shell offsets on any MPI rank
           integer, dimension(:,:),  allocatable :: iad_offset  ! (2,nspmd+1) comm work array
           integer, dimension(:)  ,  allocatable :: fr_offset   ! comm work array
           real(kind=WP), dimension(:)  ,  allocatable :: offset_n    ! (nnsh_oset) nodal offset
