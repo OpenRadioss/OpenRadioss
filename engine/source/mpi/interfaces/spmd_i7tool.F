@@ -3285,8 +3285,8 @@ C type 7 or 10
            ENDIF
 
           IF(ITYP == 25 .AND. IPARI(58,NIN) >0) THEN
-            ISLEN25E= SUM(NSNSIE(NIN)%P(1:NSPMD))
-            IRLEN25E= SUM(NSNFIE(NIN)%P(1:NSPMD))
+            ISLEN25E= ISLEN25E + SUM(NSNSIE(NIN)%P(1:NSPMD))
+            IRLEN25E= IRLEN25E + SUM(NSNFIE(NIN)%P(1:NSPMD))
           ENDIF
 
           ELSEIF(ITYP==11) THEN
