@@ -16213,7 +16213,7 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    -- MATERIAL TITLE: %s
    %i1="/MAT"
  BBC2005 failed to converge for obtaining BBC2005 yield criterion coefficient, Please check material input parameters
-
+ 
 /MESSAGE/3162/TITLE
 ** INFO: KINEMATIC CONDITIONS TREATMENT FOR TETRA10 and ITETRA10=2
 /MESSAGE/3162/DESCRIPTION
@@ -16221,6 +16221,15 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    
 /MESSAGE/3162/DATA
    Middle node: %d 
+
+/MESSAGE/3163/TITLE
+** ERROR IN ELASTO-PLASTIC MATERIAL DEFINITION (LAW131)
+
+/MESSAGE/3163/DESCRIPTION
+   -- MATERIAL ID: %d
+   -- MATERIAL TITLE: %s
+   %i1="/MAT"
+   NOT SUPPORTED %s KEY_TYPE HAS BEEN DEFINED. 
 
 /MESSAGE/9998/TITLE
 ** MESSAGE WITH NO CATEGORY
