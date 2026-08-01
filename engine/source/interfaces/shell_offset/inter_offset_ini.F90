@@ -51,6 +51,7 @@
 !||    my_dealloc_mod            ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod             ../common_source/modules/precision_mod.F90
 !||    spmd_exch_vnpon_mod       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+!||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine inter_sh_offset_ini(                                        &
           ngroup,    nparg,      iparg,        npropg,            &

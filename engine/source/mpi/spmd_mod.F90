@@ -43,6 +43,7 @@
 !||    init_th                         ../engine/source/output/th/init_th.F
 !||    intcrit                         ../engine/source/interfaces/intsort/intcrit.F
 !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
+!||    inter_sh_offset_ini             ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
 !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
 !||    nloc_shell_detach               ../engine/source/engine/node_spliting/nloc_shell_detach.F90
 !||    outp_arsz_cs                    ../engine/source/mpi/interfaces/spmd_outp.F
