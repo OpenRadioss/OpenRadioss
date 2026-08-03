@@ -4302,7 +4302,7 @@ C-----
               IF(NUMSPHG/=0)THEN
                 call spmd_profile_begin(PROF_SPH)
                 IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-                IF (IMONM > 0) CALL STARTIME(TIMERS,87)
+                IF (IMON>0) CALL STARTIME(TIMERS,87)
                 CALL TRACE_IN(13,0,ZERO)
 C-----------------------------------------------
 C     SPH SORT, SYMMETRIZATION AND CSPH PREPARATION & SPH INLETS/OUTLETS (After forint)
@@ -4337,11 +4337,11 @@ C Init var parallel SMP
 !$OMP END PARALLEL
               CALL PYTHON_END_OPENMP(PYTHON)
 
-                IF (IMONM > 0) CALL STOPTIME(TIMERS,87)
+                IF (IMON>0) CALL STOPTIME(TIMERS,87)
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-                IF (IMONM > 0) CALL STARTIME(TIMERS,88)
+                IF (IMON>0) CALL STARTIME(TIMERS,88)
 
                 CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
@@ -4406,7 +4406,7 @@ C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
                 CALL TRACE_OUT(13)
-                IF (IMONM > 0) CALL STOPTIME(TIMERS,88)
+                IF (IMON>0) CALL STOPTIME(TIMERS,88)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
               ENDIF
 
@@ -4625,7 +4625,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
               IF(NUMSPH /= 0 .AND. NSPHSOL /= 0 )THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-                IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+                IF (IMON>0) CALL STARTIME(TIMERS,89)
                 CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK)
@@ -4643,7 +4643,7 @@ C===============================================================================
 !$OMP END PARALLEL
                 CALL PYTHON_END_OPENMP(PYTHON)
 
-                IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
+                IF (IMON>0) CALL STOPTIME(TIMERS,89)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
               ENDIF
 
@@ -6806,7 +6806,7 @@ C------------------------
 C           Conservative smoothing of velocities
 C------------------------
                   IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-                  IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+                  IF (IMON>0) CALL STARTIME(TIMERS,89)
 
                   ALLOCATE(WASPSYM(3*NSPHSYM+1))
 C========================================================================================
@@ -6838,13 +6838,15 @@ C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
 
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
-                  IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
+                  IF (IMON>0) CALL STOPTIME(TIMERS,89)
 C------------------------
 C           Second Part of artificial forces work.
 C--- //0 ----------------
                   IF (IMON>0) CALL STARTIME(TIMERS,6)
                   IF (IMONM > 0) CALL STARTIME(TIMERS,48)
+                  IF (IMON>0) CALL STARTIME(TIMERS,89)
                   CALL SPWFVIS(SPBUF,IPART(K10),PARTSAV,IPARG,ELBUF_TAB, KXSP ,WASPH(KSPACTIV))
+                  IF (IMON>0) CALL STOPTIME(TIMERS,89)
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
                   IF (IMON>0) CALL STOPTIME(TIMERS,6)
 C========================================================================================
@@ -7025,14 +7027,14 @@ C globalize NSPHACT in NSPHACTG
 C--- //0 ----------------
                     IF (IMON>0) CALL STARTIME(TIMERS,6)
                     IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-                    IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+                    IF (IMON>0) CALL STARTIME(TIMERS,89)
 
                     CALL SPONFV (NODES%X   ,NODES%V     ,NODES%A       ,NODES%D       ,NODES%MS      ,
      2                     SPBUF   ,NODES%ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3                     NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
      4                    IPART(K10),WASPH(KSPACTIV) ,WA,WASPH(KSPH22) ,SPH_WORK, OUTPUT%TH%WFEXT)
 
-                    IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
+                    IF (IMON>0) CALL STOPTIME(TIMERS,89)
                     IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
                     IF (IMON>0) CALL STOPTIME(TIMERS,6)
                     call spmd_profile_end(PROF_SPONFV)
@@ -7043,14 +7045,14 @@ C--- //0 ----------------
 C--- //0 ----------------
                   IF (IMON>0) CALL STARTIME(TIMERS,6)
                   IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-                  IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+                  IF (IMON>0) CALL STARTIME(TIMERS,89)
 
                   CALL SPONFV (NODES%X   ,NODES%V     ,NODES%A       ,NODES%D       ,NODES%MS      ,
      2                   SPBUF   ,NODES%ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3                   NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
      4                   IPART(K10),WASPH(KSPACTIV),WA,WASPH(KSPH22) ,SPH_WORK, OUTPUT%TH%WFEXT)
 
-                  IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
+                  IF (IMON>0) CALL STOPTIME(TIMERS,89)
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
                   IF (IMON>0) CALL STOPTIME(TIMERS,6)
                   call spmd_profile_end(PROF_SPONFV)
@@ -7103,7 +7105,7 @@ C------------------------------
                 IF(NGRAV/=0.AND.IDTMINS==0.AND.IDTMINS_INT==0) THEN
                   call spmd_profile_begin(PROF_GRAVIT)
                   IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-                  IF (IMONM > 0) CALL STARTIME(TIMERS,46)
+                  IF (IMON>0) CALL STARTIME(TIMERS,46)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -7139,7 +7141,7 @@ C----------------------
      .                            FXBGRW, NODES%BOUNDARY_ADD, NODES%BOUNDARY, OUTPUT%TH%WFEXT, PYTHON)
                   END IF
                   IF (IMON>0) CALL STOPTIME(TIMERS,46)
-                  IF (IMONM > 0) CALL STOPTIME(TIMERS,TIMER_KIN)
+                  IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                   call spmd_profile_end(PROF_GRAVIT)
                 ENDIF
 C----------------------
@@ -7456,7 +7458,7 @@ C-----------------------------------------------
 
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
 C-----------------------------------------------
-              IF (IMONM > 0) CALL STARTIME(TIMERS,52)
+              IF (IMON>0) CALL STARTIME(TIMERS,52)
 
               CALL PYTHON_BEGIN_OPENMP(PYTHON)
               if(IDAMP /=0) call spmd_profile_begin(PROF_DAMPING)
@@ -7990,7 +7992,7 @@ C------------------------
 C         Solids impose velocity to SPH
 C--- // ----------------
                 IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-                IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+                IF (IMON>0) CALL STARTIME(TIMERS,89)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -8009,7 +8011,7 @@ C===============================================================================
 !$OMP END PARALLEL
                 CALL PYTHON_END_OPENMP(PYTHON)
 
-                IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
+                IF (IMON>0) CALL STOPTIME(TIMERS,89)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
               ENDIF
 
