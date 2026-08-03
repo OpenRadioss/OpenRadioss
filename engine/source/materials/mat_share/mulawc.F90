@@ -404,7 +404,7 @@
             igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
             ply_id,iseq,progressive_crack,&
             orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr, &
-            islice
+            islice,nvarftmp
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer :: l_sigb
@@ -726,6 +726,7 @@
               uvar  => bufly%mat(ir,is,it)%var
               uvarv => bufly%visc(ir,is,it)%var
               vartmp=> bufly%mat(ir,is,it)%vartmp
+              nvartmp = bufly%nvartmp  ! refresh material nvartmp: the failure loop below reuses this variable
               dirdmg => lbuf%dmg(1:l_dmg*nel)
               offl => lbuf%off
               if(idrape > 0) jdir = 1 + (ipt - 1)*jlt*2
@@ -2106,7 +2107,7 @@
                   fail_param => mat_elem%mat_param(imat)%fail(ifl)
                   nupar      =  mat_elem%mat_param(imat)%fail(ifl)%nuparam
                   nipar      =  mat_elem%mat_param(imat)%fail(ifl)%niparam
-                  nvartmp    =  mat_elem%mat_param(imat)%fail(ifl)%nvartmp
+                  nvarftmp   =  mat_elem%mat_param(imat)%fail(ifl)%nvartmp
                   nfunc_fail =  mat_elem%mat_param(imat)%fail(ifl)%nfunc
                   ntabl_fail =  mat_elem%mat_param(imat)%fail(ifl)%ntable
                   uparamf    => mat_elem%mat_param(imat)%fail(ifl)%uparam(1:nupar)
@@ -2297,7 +2298,7 @@
 !
                    case (11)     !    energy failure model
                     call fail_energy_c(fail_param    ,                      &
-                      nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,&
+                      nel       ,nvarf     ,nvarftmp  ,uvarf    ,vartmp     ,&
                       ngl       ,ipg       ,ilayer    ,it       ,epsd       ,&
                       area      ,thkn      ,dmg_flag  ,tt       ,            &
                       dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,&
@@ -2353,7 +2354,7 @@
 !
                    case (24)     !    orthotropic strain failure model
                     call fail_orthstrain_c(fail_param,                            &
-                      nel       ,nvarf     ,uvarf     ,nvartmp   ,vartmp    ,      &
+                      nel       ,nvarf     ,uvarf     ,nvarftmp  ,vartmp    ,      &
                       tt        ,dt1       ,ipg       ,ilayer    ,it        ,      &
                       epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale,   &
                       epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,      &
@@ -2494,7 +2495,7 @@
                    case (39)     !    gene1
 !
                     call fail_gene1_c(mat_elem%mat_param(imat)%fail(ifl),          &
-                      jlt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,            &
+                      jlt      ,nvarf    ,nvarftmp ,uvarf    ,vartmp   ,            &
                       tt       ,dt1c     ,ipg      ,                                &
                       ngl      ,gbuf%dt  ,epsd     ,off      ,                      &
                       epsxx    ,epsyy    ,epsxy    ,area     ,thkn     ,            &
@@ -2517,7 +2518,7 @@
                     &jlt      ,nupar    ,nvarf    ,nfunc_fail   ,ifunc_fail   ,&
                     &npf      ,table    ,tf       ,tt       ,uparamf  ,&
                     &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
-                    &signxx   ,signyy   ,signxy   ,nvartmp  ,vartmp   ,&
+                    &signxx   ,signyy   ,signxy   ,nvarftmp ,vartmp   ,&
                     &el_temp  ,foff     ,dfmax    ,tdel     ,ipt      ,&
                     &ipg      ,dmg_flag ,dmg_loc_scale,ntabl_fail,itabl_fail,&
                     &nipar    ,iparamf  ,gbuf%noff,off      ,nptt     ,&
@@ -2526,7 +2527,7 @@
                    case (42)     !    inievo
 !
                     call fail_inievo_c(&
-                    &jlt      ,nupar    ,nvarf    ,nvartmp  ,vartmp   ,&
+                    &jlt      ,nupar    ,nvarf    ,nvarftmp ,vartmp   ,&
                     &table    ,ntabl_fail,itabl_fail   ,tt       ,uparamf  ,&
                     &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
                     &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
