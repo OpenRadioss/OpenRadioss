@@ -585,7 +585,7 @@ C new composite shell pid max nbs 200
       NIBVEL = 0
       NBVELP = 6
       NRCNX  = 12
-      NTHVKI = 40
+      NTHVKI = 40 + 1
       NRBE2L = 12
       NRBE3L = 10
 C     Parameters

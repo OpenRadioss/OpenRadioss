@@ -2486,7 +2486,33 @@
             "Z-INTERFACE IMPULSE",&
             "X-INTERFACE MOMENT IMPULSE",&
             "Y-INTERFACE MOMENT IMPULSE",&
-            "Z-INTERFACE MOMENT IMPULSE"/)
+            "Z-INTERFACE MOMENT IMPULSE",&
+            "X-COORDINATE OF MAIN NODE",&
+            "Y-COORDINATE OF MAIN NODE",&
+            "Z-COORDINATE OF MAIN NODE",&
+            "X-DISPLACEMENT OF MAIN NODE",&
+            "Y-DISPLACEMENT OF MAIN NODE",&
+            "Z-DISPLACEMENT OF MAIN NODE",&
+            "X-VELOCITY OF MAIN NODE",&
+            "Y-VELOCITY OF MAIN NODE",&
+            "Z-VELOCITY OF MAIN NODE",&
+            "X-ACCELERATION OF MAIN NODE",&
+            "Y-ACCELERATION OF MAIN NODE",&
+            "Z-ACCELERATION OF MAIN NODE",&
+            "X-ROTATIONAL VELOCITY OF MAIN NODE",&
+            "Y-ROTATIONAL VELOCITY OF MAIN NODE",&
+            "Z-ROTATIONAL VELOCITY OF MAIN NODE",&
+            "X-ROTATIONAL ACCELERATION OF MAIN NODE",&
+            "Y-ROTATIONAL ACCELERATION OF MAIN NODE",&
+            "Z-ROTATIONAL ACCELERATION OF MAIN NODE",&
+            "MASS OF RIGID BODY",&
+            "Inertia Ixx of Rigid Body",&
+            "Inertia Iyy of Rigid Body",&
+            "Inertia Izz of Rigid Body",&
+            "Inertia Ixy of Rigid Body",&
+            "Inertia Iyz of Rigid Body",&
+            "Inertia Izx of Rigid Body",&
+            "Rigid Body Status"/)
 !   flexible body
           varfx_title = (/&
             character(len=100) ::&

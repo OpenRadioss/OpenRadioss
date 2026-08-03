@@ -6697,7 +6697,7 @@ C===============================================================================
      1                 RBY ,NODES%X   ,NODES%V    ,NODES%VR     ,SKEWS%SKEW    ,FSAV     ,
      2                 LPBY,NPBY,NODES%ISKEW,NODES%ITAB   ,NODES%WEIGHT  ,NODES%A        ,
      3                 NODES%AR  ,NODES%MS  ,NODES%IN   ,KINDRBY,IRBKIN_L,NRBYKIN_L ,
-     4                 NODES%WEIGHT_MD,MS_2D)
+     4                 NODES%WEIGHT_MD,MS_2D,NODES%D )
 !$OMP END PARALLEL
                 call spmd_profile_end(PROF_RBYCOR)
                 CALL PYTHON_END_OPENMP(PYTHON)
@@ -8088,7 +8088,7 @@ C implicit barrier on end do
      1            RBY ,NODES%X   ,NODES%V    ,NODES%VR     ,SKEWS%SKEW    ,FSAV     ,
      2            LPBY,NPBY,NODES%ISKEW,NODES%ITAB   ,NODES%WEIGHT  ,NODES%A        ,
      3            NODES%AR  ,NODES%MS  ,NODES%IN   ,KINDRBY,IRBKIN_L,NRBYKIN_L,
-     4            NODES%WEIGHT_MD,MS_2D)
+     4            NODES%WEIGHT_MD,MS_2D, NODES%D)
                 call spmd_profile_end(PROF_RBY)
               ENDIF
 C---------RBE2
