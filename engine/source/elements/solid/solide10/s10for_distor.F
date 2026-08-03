@@ -42,6 +42,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+          use tetra_for_trac_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,8 +80,9 @@ C-----------------------------------------------
      .   FORC_N1(MVSIZ,3),FORC_N2(MVSIZ,3),FORC_N3(MVSIZ,3),
      .   PENMIN(MVSIZ),PENREF(MVSIZ),MARGE(MVSIZ),
      .   VCX(MVSIZ,4),VCY(MVSIZ,4),VCZ(MVSIZ,4),
+     .   XC0(MVSIZ),YC0(MVSIZ),ZC0(MVSIZ),
      .   FORC_N4(MVSIZ,3),FCX,FCY,FCZ,GAP_MAX,GAP_MIN,
-     .   TOL_C, TOL_V, TOL_E    
+     .   TOL_C, TOL_V, TOL_E,TOL_T    
       INTEGER I,J,NCTL,IFCTL,IFC1(MVSIZ),IFC2(MVSIZ)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -132,17 +134,26 @@ C---- Element center
         XC = ZERO
         YC = ZERO
         ZC = ZERO
+        XC0 = ZERO
+        YC0 = ZERO
+        ZC0 = ZERO
         DO J =1,10
          DO I=1,NEL
            XC(I,5) = XC(I,5)+XX(I,J)
            YC(I,5) = YC(I,5)+YY(I,J)
            ZC(I,5) = ZC(I,5)+ZZ(I,J)
+           XC0(I) = XC0(I)+XX0(I,J)
+           YC0(I) = YC0(I)+YY0(I,J)
+           ZC0(I) = ZC0(I)+ZZ0(I,J)
          ENDDO
         END DO 
         DO I=1,NEL
            XC(I,5) = XC(I,5)*EM01
            YC(I,5) = YC(I,5)*EM01
            ZC(I,5) = ZC(I,5)*EM01
+           XC0(I) = XC0(I)*EM01
+           YC0(I) = YC0(I)*EM01
+           ZC0(I) = ZC0(I)*EM01
         ENDDO
 C---- middle node treatment first
         TOL_E = EM01 ! %
@@ -157,6 +168,19 @@ C---- middle node treatment first
      .          FOR_T10,   TOL_E,   IFC2 ,     
      .           IFCTL ,   NEL  ,E_DISTOR,
      .             DT1 )
+        NCTL = NCTL + IFCTL
+!---- edge extra-tension treatment
+        TOL_T = FOURTH  !25% engineering strain
+        CALL TETRA_FOR_TRAC(
+     .           NEL   ,     STI,   STI_C,
+     .           XX(1:MVSIZ,1:4),YY(1:MVSIZ,1:4) ,ZZ(1:MVSIZ,1:4) ,
+     .           XX0(1:MVSIZ,1:4),YY0(1:MVSIZ,1:4),ZZ0(1:MVSIZ,1:4),
+     .           VX(1:MVSIZ,1:4), VY(1:MVSIZ,1:4) ,VZ(1:MVSIZ,1:4) ,
+     .           XC(1:NEL,5),     YC(1:NEL,5),     ZC(1:NEL,5),
+     .           XC0,     YC0,     ZC0,   
+     .           FOR_T1,  FOR_T2,  FOR_T3,
+     .           FOR_T4,   TOL_T,   IFC1 ,
+     .           IFCTL ,E_DISTOR,      VC,DT1)
         NCTL = NCTL + IFCTL
 c-- contact by sub-segs       
 c-- sorting for each 4 big seg; IFC1 is used for contact only       
@@ -323,9 +347,9 @@ C---- force assemblage and STI update (dt)
 !        IF (NCTL >0) THEN : potential P/ON issue
           DO I=1,NEL
             IF (STI_C(I) ==ZERO) CYCLE
-            IF (STIF(I)>STI_C(I)) STI(I) = MAX(STI(I),STIF(I))
+            IF (STIF(I)>STI_C(I)) STI(I) = STI(I)+STIF(I)
             IF (FORC_N(I,1)==ZERO.AND.FORC_N(I,2)==ZERO
-     .            .AND.FORC_N(I,3)==ZERO) CYCLE
+     .            .AND.FORC_N(I,3)==ZERO.AND.IFC1(I)==0.AND.IFC2(I)==0) CYCLE
              FCX = EM01*FORC_N(I,1)
              FCY = EM01*FORC_N(I,2)
              FCZ = EM01*FORC_N(I,3)
