@@ -872,7 +872,7 @@ C
          N = IABS(ICNDS10(1,I))
          N1 = ICNDS10(2,I)
          N2 = ICNDS10(3,I)
-         IF (IKINE(N1)/=0.AND.IKINE(N2)/=0.AND.ITAGND(N)>0) THEN 
+         IF (IKINE(N1)/=0.AND.IKINE(N2)==IKINE(N1).AND.ITAGND(N)>0) THEN 
             ITAGND(N) = -ITAGND(N)
             IPR1 = 1
             IF (IPRI>=5)
