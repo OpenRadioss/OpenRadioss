@@ -128,7 +128,7 @@ C-----------------------------------------------
      .   NGR1, MLN, NG, ISSN, ISSN_, N, MID, PID, II,ILOC,IL,NEL, NE1,IREP,IINT,
      .   P, NEL_PREC, IGT, JHBE, I, IKSNOD0,NB,IEOS,NLAY,
      .   MODE, WORK(70000), NN, J, NPTR,NPTS,NPTT,NPG,
-     .   IPLAST,NUVARP, INEG, JIVF,ICPRE,ICSTR,
+     .   IPLAST,NUVARP, INEG, JIVF,ICPRE,ICSTR,ISCTL,
      .   IFAIL,IMATVIS,NLY,NL,ILAW,IM,IPMAT,ITET4,ITET10,
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
@@ -536,6 +536,7 @@ C         GROUP PARAMETER
             ISTRAIN= IGEO(12,PID)
             ITET4  = IGEO(20,PID)
             ITET10  = IGEO(50,PID)
+            ISCTL  = IGEO(97,PID)
 c
             ISVIS  = IGEO(33,PID)                       
             IPARTSPH=IGEO(38,PID)          
@@ -927,7 +928,7 @@ C-------compressible
 C------       
               CASE(2)                                             
                ICPRE = 1
-               IF (MLN == 1.OR.MLN == 92) ICPRE = 3
+               IF (MLN == 1.OR.MLN == 92.OR.ISCTL>0) ICPRE = 3
 C--------elasto-plastic       
               CASE(3)                                             
                ICPRE = 2

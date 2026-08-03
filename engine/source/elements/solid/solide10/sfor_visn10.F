@@ -67,13 +67,21 @@ C-----------------------------------------------
 C                                                                     12
       my_real
      .   FAC,VNJ,VL,TOL_V2,
-     .   V2MAX(MVSIZ),VC2
+     .   V2MAX(MVSIZ),VC2,V2J(MVSIZ,4),VREF(MVSIZ,3),VR2
 C----------------------------
         TOL_V2 = TOL_V*TOL_V
         IFCTL = 0
         V2MAX(1:NEL) = ZERO
         FAC = ONE + TWO*MU
-         DO J =1,10
+         DO J =1,4
+           DO I=1,NEL
+             IF (STIF(I)==ZERO) CYCLE
+             VNJ = VX(I,J)*VX(I,J) + VY(I,J)*VY(I,J) + VZ(I,J)*VZ(I,J) 
+             V2MAX(I) = MAX(V2MAX(I),VNJ)
+             V2J(I,J) = VNJ
+           ENDDO
+         END DO 
+         DO J =5,10
            DO I=1,NEL
              IF (STIF(I)==ZERO) CYCLE
              VNJ = VX(I,J)*VX(I,J) + VY(I,J)*VY(I,J) + VZ(I,J)*VZ(I,J) 
@@ -83,7 +91,26 @@ C----------------------------
          DO I=1,NEL
            VC2 = VC(I,1)*VC(I,1)+VC(I,2)*VC(I,2)+VC(I,3)*VC(I,3)
            IF (STIF(I)==ZERO.OR.VC2 <EM20) CYCLE
-           VL = TOL_V2*VC2
+!           VL = TOL_V2*VC2
+           VR2 = MIN(V2J(I,1),V2J(I,2),V2J(I,3),V2J(I,4))
+           VL = TOL_V2*VR2
+           IF (VR2 == V2J(I,1)) THEN 
+              VREF(I,1) = VX(I,1)
+              VREF(I,2) = VY(I,1)
+              VREF(I,3) = VZ(I,1) 
+            ELSE IF (VR2 == V2J(I,2)) THEN
+              VREF(I,1) = VX(I,2)
+              VREF(I,2) = VY(I,2)
+              VREF(I,3) = VZ(I,2) 
+            ELSE IF (VR2 == V2J(I,3)) THEN
+              VREF(I,1) = VX(I,3)
+              VREF(I,2) = VY(I,3)
+              VREF(I,3) = VZ(I,3) 
+            ELSE 
+              VREF(I,1) = VX(I,4)
+              VREF(I,2) = VY(I,4)
+              VREF(I,3) = VZ(I,4)
+            END IF
            IF (V2MAX(I) > VL) IFC1(I) = 1
            IF (IFC1(I) > 0)   IFCTL=1
          END DO
@@ -91,67 +118,67 @@ C
        IF (IFCTL==1) THEN
          DO I=1,NEL
            IF (IFC1(I)==0) CYCLE
-           FOR_T1(I,1) = FOR_T1(I,1) - FLD(I)*(VX(I,1)-VC(I,1))
-           FOR_T1(I,2) = FOR_T1(I,2) - FLD(I)*(VY(I,1)-VC(I,2))
-           FOR_T1(I,3) = FOR_T1(I,3) - FLD(I)*(VZ(I,1)-VC(I,3))
-           FOR_T2(I,1) = FOR_T2(I,1) - FLD(I)*(VX(I,2)-VC(I,1))
-           FOR_T2(I,2) = FOR_T2(I,2) - FLD(I)*(VY(I,2)-VC(I,2))
-           FOR_T2(I,3) = FOR_T2(I,3) - FLD(I)*(VZ(I,2)-VC(I,3))
-           FOR_T3(I,1) = FOR_T3(I,1) - FLD(I)*(VX(I,3)-VC(I,1))
-           FOR_T3(I,2) = FOR_T3(I,2) - FLD(I)*(VY(I,3)-VC(I,2))
-           FOR_T3(I,3) = FOR_T3(I,3) - FLD(I)*(VZ(I,3)-VC(I,3))
-           FOR_T4(I,1) = FOR_T4(I,1) - FLD(I)*(VX(I,4)-VC(I,1))
-           FOR_T4(I,2) = FOR_T4(I,2) - FLD(I)*(VY(I,4)-VC(I,2))
-           FOR_T4(I,3) = FOR_T4(I,3) - FLD(I)*(VZ(I,4)-VC(I,3))
-           FOR_T5(I,1) = FOR_T5(I,1) - FLD(I)*(VX(I,5)-VC(I,1))
-           FOR_T5(I,2) = FOR_T5(I,2) - FLD(I)*(VY(I,5)-VC(I,2))
-           FOR_T5(I,3) = FOR_T5(I,3) - FLD(I)*(VZ(I,5)-VC(I,3))
-           FOR_T6(I,1) = FOR_T6(I,1) - FLD(I)*(VX(I,6)-VC(I,1))
-           FOR_T6(I,2) = FOR_T6(I,2) - FLD(I)*(VY(I,6)-VC(I,2))
-           FOR_T6(I,3) = FOR_T6(I,3) - FLD(I)*(VZ(I,6)-VC(I,3))
-           FOR_T7(I,1) = FOR_T7(I,1) - FLD(I)*(VX(I,7)-VC(I,1))
-           FOR_T7(I,2) = FOR_T7(I,2) - FLD(I)*(VY(I,7)-VC(I,2))
-           FOR_T7(I,3) = FOR_T7(I,3) - FLD(I)*(VZ(I,7)-VC(I,3))
-           FOR_T8(I,1) = FOR_T8(I,1) - FLD(I)*(VX(I,8)-VC(I,1))
-           FOR_T8(I,2) = FOR_T8(I,2) - FLD(I)*(VY(I,8)-VC(I,2))
-           FOR_T8(I,3) = FOR_T8(I,3) - FLD(I)*(VZ(I,8)-VC(I,3))
-           FOR_T9(I,1) = FOR_T9(I,1) - FLD(I)*(VX(I,9)-VC(I,1))
-           FOR_T9(I,2) = FOR_T9(I,2) - FLD(I)*(VY(I,9)-VC(I,2))
-           FOR_T9(I,3) = FOR_T9(I,3) - FLD(I)*(VZ(I,9)-VC(I,3))
-           FOR_T10(I,1) = FOR_T10(I,1) - FLD(I)*(VX(I,10)-VC(I,1))
-           FOR_T10(I,2) = FOR_T10(I,2) - FLD(I)*(VY(I,10)-VC(I,2))
-           FOR_T10(I,3) = FOR_T10(I,3) - FLD(I)*(VZ(I,10)-VC(I,3))
+           FOR_T1(I,1) = FOR_T1(I,1) - FLD(I)*(VX(I,1)-VREF(I,1))
+           FOR_T1(I,2) = FOR_T1(I,2) - FLD(I)*(VY(I,1)-VREF(I,2))
+           FOR_T1(I,3) = FOR_T1(I,3) - FLD(I)*(VZ(I,1)-VREF(I,3))
+           FOR_T2(I,1) = FOR_T2(I,1) - FLD(I)*(VX(I,2)-VREF(I,1))
+           FOR_T2(I,2) = FOR_T2(I,2) - FLD(I)*(VY(I,2)-VREF(I,2))
+           FOR_T2(I,3) = FOR_T2(I,3) - FLD(I)*(VZ(I,2)-VREF(I,3))
+           FOR_T3(I,1) = FOR_T3(I,1) - FLD(I)*(VX(I,3)-VREF(I,1))
+           FOR_T3(I,2) = FOR_T3(I,2) - FLD(I)*(VY(I,3)-VREF(I,2))
+           FOR_T3(I,3) = FOR_T3(I,3) - FLD(I)*(VZ(I,3)-VREF(I,3))
+           FOR_T4(I,1) = FOR_T4(I,1) - FLD(I)*(VX(I,4)-VREF(I,1))
+           FOR_T4(I,2) = FOR_T4(I,2) - FLD(I)*(VY(I,4)-VREF(I,2))
+           FOR_T4(I,3) = FOR_T4(I,3) - FLD(I)*(VZ(I,4)-VREF(I,3))
+           FOR_T5(I,1) = FOR_T5(I,1) - FLD(I)*(VX(I,5)-VREF(I,1))
+           FOR_T5(I,2) = FOR_T5(I,2) - FLD(I)*(VY(I,5)-VREF(I,2))
+           FOR_T5(I,3) = FOR_T5(I,3) - FLD(I)*(VZ(I,5)-VREF(I,3))
+           FOR_T6(I,1) = FOR_T6(I,1) - FLD(I)*(VX(I,6)-VREF(I,1))
+           FOR_T6(I,2) = FOR_T6(I,2) - FLD(I)*(VY(I,6)-VREF(I,2))
+           FOR_T6(I,3) = FOR_T6(I,3) - FLD(I)*(VZ(I,6)-VREF(I,3))
+           FOR_T7(I,1) = FOR_T7(I,1) - FLD(I)*(VX(I,7)-VREF(I,1))
+           FOR_T7(I,2) = FOR_T7(I,2) - FLD(I)*(VY(I,7)-VREF(I,2))
+           FOR_T7(I,3) = FOR_T7(I,3) - FLD(I)*(VZ(I,7)-VREF(I,3))
+           FOR_T8(I,1) = FOR_T8(I,1) - FLD(I)*(VX(I,8)-VREF(I,1))
+           FOR_T8(I,2) = FOR_T8(I,2) - FLD(I)*(VY(I,8)-VREF(I,2))
+           FOR_T8(I,3) = FOR_T8(I,3) - FLD(I)*(VZ(I,8)-VREF(I,3))
+           FOR_T9(I,1) = FOR_T9(I,1) - FLD(I)*(VX(I,9)-VREF(I,1))
+           FOR_T9(I,2) = FOR_T9(I,2) - FLD(I)*(VY(I,9)-VREF(I,2))
+           FOR_T9(I,3) = FOR_T9(I,3) - FLD(I)*(VZ(I,9)-VREF(I,3))
+           FOR_T10(I,1) = FOR_T10(I,1) - FLD(I)*(VX(I,10)-VREF(I,1))
+           FOR_T10(I,2) = FOR_T10(I,2) - FLD(I)*(VY(I,10)-VREF(I,2))
+           FOR_T10(I,3) = FOR_T10(I,3) - FLD(I)*(VZ(I,10)-VREF(I,3))
            STIF(I)      = FAC*STIF(I)
-           E_DISTOR(I)=E_DISTOR(I)- DT1*(FOR_T1(I,1)*(VX(I,1)-VC(I,1))+
-     .                                   FOR_T1(I,2)*(VY(I,1)-VC(I,2))+
-     .                                   FOR_T1(I,3)*(VZ(I,1)-VC(I,3))+
-     .                                   FOR_T2(I,1)*(VX(I,2)-VC(I,1))+
-     .                                   FOR_T2(I,2)*(VY(I,2)-VC(I,2))+
-     .                                   FOR_T2(I,3)*(VZ(I,2)-VC(I,3))+
-     .                                   FOR_T3(I,1)*(VX(I,3)-VC(I,1))+
-     .                                   FOR_T3(I,2)*(VY(I,3)-VC(I,2))+
-     .                                   FOR_T3(I,3)*(VZ(I,3)-VC(I,3))+
-     .                                   FOR_T4(I,1)*(VX(I,4)-VC(I,1))+
-     .                                   FOR_T4(I,2)*(VY(I,4)-VC(I,2))+
-     .                                   FOR_T4(I,3)*(VZ(I,4)-VC(I,3))+
-     .                                   FOR_T5(I,1)*(VX(I,5)-VC(I,1))+
-     .                                   FOR_T5(I,2)*(VY(I,5)-VC(I,2))+
-     .                                   FOR_T5(I,3)*(VZ(I,5)-VC(I,3))+
-     .                                   FOR_T6(I,1)*(VX(I,6)-VC(I,1))+
-     .                                   FOR_T6(I,2)*(VY(I,6)-VC(I,2))+
-     .                                   FOR_T6(I,3)*(VZ(I,6)-VC(I,3))+
-     .                                   FOR_T7(I,1)*(VX(I,7)-VC(I,1))+
-     .                                   FOR_T7(I,2)*(VY(I,7)-VC(I,2))+
-     .                                   FOR_T7(I,3)*(VZ(I,7)-VC(I,3))+
-     .                                   FOR_T8(I,1)*(VX(I,8)-VC(I,1))+
-     .                                   FOR_T8(I,2)*(VY(I,8)-VC(I,2))+
-     .                                   FOR_T8(I,3)*(VZ(I,8)-VC(I,3))+
-     .                                   FOR_T9(I,1)*(VX(I,9)-VC(I,1))+
-     .                                   FOR_T9(I,2)*(VY(I,9)-VC(I,2))+
-     .                                   FOR_T9(I,3)*(VZ(I,9)-VC(I,3))+
-     .                                 FOR_T10(I,1)*(VX(I,10)-VC(I,1))+
-     .                                 FOR_T10(I,2)*(VY(I,10)-VC(I,2))+
-     .                                 FOR_T10(I,3)*(VZ(I,10)-VC(I,3)))
+           E_DISTOR(I)=E_DISTOR(I)- DT1*(FOR_T1(I,1)*(VX(I,1)-VREF(I,1))+
+     .                                   FOR_T1(I,2)*(VY(I,1)-VREF(I,2))+
+     .                                   FOR_T1(I,3)*(VZ(I,1)-VREF(I,3))+
+     .                                   FOR_T2(I,1)*(VX(I,2)-VREF(I,1))+
+     .                                   FOR_T2(I,2)*(VY(I,2)-VREF(I,2))+
+     .                                   FOR_T2(I,3)*(VZ(I,2)-VREF(I,3))+
+     .                                   FOR_T3(I,1)*(VX(I,3)-VREF(I,1))+
+     .                                   FOR_T3(I,2)*(VY(I,3)-VREF(I,2))+
+     .                                   FOR_T3(I,3)*(VZ(I,3)-VREF(I,3))+
+     .                                   FOR_T4(I,1)*(VX(I,4)-VREF(I,1))+
+     .                                   FOR_T4(I,2)*(VY(I,4)-VREF(I,2))+
+     .                                   FOR_T4(I,3)*(VZ(I,4)-VREF(I,3))+
+     .                                   FOR_T5(I,1)*(VX(I,5)-VREF(I,1))+
+     .                                   FOR_T5(I,2)*(VY(I,5)-VREF(I,2))+
+     .                                   FOR_T5(I,3)*(VZ(I,5)-VREF(I,3))+
+     .                                   FOR_T6(I,1)*(VX(I,6)-VREF(I,1))+
+     .                                   FOR_T6(I,2)*(VY(I,6)-VREF(I,2))+
+     .                                   FOR_T6(I,3)*(VZ(I,6)-VREF(I,3))+
+     .                                   FOR_T7(I,1)*(VX(I,7)-VREF(I,1))+
+     .                                   FOR_T7(I,2)*(VY(I,7)-VREF(I,2))+
+     .                                   FOR_T7(I,3)*(VZ(I,7)-VREF(I,3))+
+     .                                   FOR_T8(I,1)*(VX(I,8)-VREF(I,1))+
+     .                                   FOR_T8(I,2)*(VY(I,8)-VREF(I,2))+
+     .                                   FOR_T8(I,3)*(VZ(I,8)-VREF(I,3))+
+     .                                   FOR_T9(I,1)*(VX(I,9)-VREF(I,1))+
+     .                                   FOR_T9(I,2)*(VY(I,9)-VREF(I,2))+
+     .                                   FOR_T9(I,3)*(VZ(I,9)-VREF(I,3))+
+     .                                 FOR_T10(I,1)*(VX(I,10)-VREF(I,1))+
+     .                                 FOR_T10(I,2)*(VY(I,10)-VREF(I,2))+
+     .                                 FOR_T10(I,3)*(VZ(I,10)-VREF(I,3)))
          ENDDO
        END IF 
 C

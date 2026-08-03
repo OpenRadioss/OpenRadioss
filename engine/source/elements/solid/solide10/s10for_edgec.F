@@ -223,12 +223,12 @@ C----
               FN(I,J) = KTS*(LAM-LAM0)*LENG
               FACT = F_T*(THREE*FAC+ONE)
               STIF(I) = MAX(STIF(I),FACT*STI_C(I)) ! will be added to STI not max()
-!			  
+!  
               DDX = VX(I,JJ) - VXM(I,J)
               DDY = VY(I,JJ) - VYM(I,J)
               DDZ = VZ(I,JJ) - VZM(I,J)
               DDN = DT1*(DDX*NJX(I,J)+DDY*NJY(I,J)+DDZ*NJZ(I,J))
-              E_DISTOR(I) = E_DISTOR(I) - FN(I,J)*DDN
+              E_DISTOR(I) = E_DISTOR(I) + FN(I,J)*DDN
             END IF 
           ENDDO
          ENDDO
@@ -368,7 +368,7 @@ C----10(3,4)
          ENDDO
          DO I=1,NEL
            IF (STI_C(I)==ZERO) CYCLE
-           STI(I) = MAX(STI(I),STIF(I))
+           IF (STIF(I)>STI_C(I)) STI(I) = STI(I)+STIF(I)
          ENDDO
         END IF !(IFF >0) THEN
        
