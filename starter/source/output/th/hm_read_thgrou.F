@@ -180,7 +180,7 @@ C-----------------------------------------------
       PARAMETER (NVARS =239555 ,NVARC = 37856,NVART = 6)
       PARAMETER (NVARP = 337,NVARR = 66,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
-      PARAMETER (NVARIN = 29,NVARRW = 6,NVARRB =15,NVARFX =4)
+      PARAMETER (NVARIN = 29,NVARRW = 6,NVARRB =41,NVARFX =4)
       PARAMETER (NVARFXM = 3)
       PARAMETER (NVARAC = 6,NVARSE =39,NVARJO = 6)
       PARAMETER (NVARAB = 7,NVARMV4= 9,NVARMV = 19,NVARMVENT = 150)
@@ -220,7 +220,7 @@ C-----------------------------------------------
       PARAMETER (NVARNG = 8,NVARSG = 39767,NVARCG = 675,NVARTG = 1)
       PARAMETER (NVARPG = 1,NVARRG = 1,NVARURG = 1)
       PARAMETER (NVARNSG = 1,NVARSPG = 2)
-      PARAMETER (NVARING = 6,NVARRWG = 3,NVARRBG = 6,NVARFXG = 1)
+      PARAMETER (NVARING = 6,NVARRWG = 3,NVARRBG = 10,NVARFXG = 1)
       PARAMETER (NVARFXMG =1)
       PARAMETER (NVARACG = 2,NVARSEG = 7,NVARJOG = 3)
       PARAMETER (NVARABG = 1,NVARMG4 = 1,NVARMVG = 62,NVARMVENTG=62)
@@ -1169,9 +1169,14 @@ C   rigid wall
 C   rigid body
       DATA VARRB/
      . 'FX      ','FY      ','FZ      ','MX      ','MY      ',
-     . 'MZ      ','RX      ','RY      ','RZ      ',
-     . 'FXI     ','FYI     ','FZI     ',
-     . 'MXI     ','MYI     ','MZI     '/
+     . 'MZ      ','RX      ','RY      ','RZ      ','FXI     ',
+     . 'FYI     ','FZI     ','MXI     ','MYI     ','MZI     ',
+     . 'X       ','Y       ','Z       ','DX      ','DY      ',
+     . 'DZ      ','VX      ','VY      ','VZ      ','AX      ',
+     . 'AY      ','AZ      ','VRX     ','VRY     ','VRZ     ',
+     . 'ARX     ','ARY     ','ARZ     ','MASS    ','IXX     ',
+     . 'IYY     ','IZZ     ','IXY     ','IYZ     ','IZX     ',
+     . 'STATUS  '/
 C   flexible body
       DATA VARFX/
      . 'IE      ','KE      ','EFW     ','DE      '/
@@ -1572,15 +1577,19 @@ C
      .         / 1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      .           1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      .           4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
-      DATA VARRBG/'DEF     ','F       ','M       ','R       ',
-     .            'FI      ','MI      '/
+      DATA VARRBG/'DEF     ','F       ','M       ','R       ','FI      ',
+     .            'MI      ','D       ','V       ','A       ','XYZ     '/
       DATA IVARRBG
      .         / 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      .           1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      .           4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      .           7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      .          10,11,12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-     .          13,14,15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
+     .          13,14,15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     .          19,20,21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     .          22,23,24,28,29,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     .          25,26,27,31,32,33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     .          16,17,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
       DATA VARFXG/'DEF     '/
       DATA IVARFXG
      .         / 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/

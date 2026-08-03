@@ -33,7 +33,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
       SUBROUTINE RBYCOR(RBY ,X   ,V    ,VR  ,SKEW    ,FSAV     ,
      2                  LPBY,NPBY,ISKEW,ITAB,WEIGHT  ,A        ,
      3                  AR  ,MS  ,IN   ,KIND,IRBKIN_L,NRBYKIN_L,
-     3                  WEIGHT_MD,MS_2D)
+     3                  WEIGHT_MD,MS_2D,D )
 C-----------------------------------------------
       USE IMP_DYNA
 C----6---------------------------------------------------------------7---------8
@@ -57,10 +57,11 @@ C     REAL
       my_real
      .   RBY(NRBY,*) ,X(3,*) ,V(3,*) ,VR(3,*),SKEW(*),
      .   FSAV(NTHVKI,*) ,A(3,*),AR(3,*),IN(*),MS(*) ,MS_2D(*)
+      my_real, dimension(3,NUMNOD), intent(in) :: D
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  J,K,N,KK
+      INTEGER  J,K,N,KK,M,IACTI
 C     REAL
       my_real
      .   ENROT_T,ENCIN_T,XMASS_T,
@@ -142,6 +143,28 @@ C
       ENCIN2=ENCIN2 + ENCIN2_T
       ENROT2=ENROT2 + ENROT2_T              
 #include "lockoff.inc"
+!-------------------------------------
+! /TH/RBODY 16:41
+!-------------------------------------
+!$OMP DO SCHEDULE(DYNAMIC,1)
+      DO KK=1,NRBYKIN_L
+        N = IRBKIN_L(KK)
+        K  = KIND(N)
+        M = NPBY(1,N) 
+        IF (M <= 0) CYCLE
+        J = NINTER+NRWALL+N
+        FSAV(16:18,J) = X(1:3,M)
+        FSAV(19:21,J) = D(1:3,M)
+        FSAV(22:24,J) = V(1:3,M)
+        FSAV(25:27,J) = A(1:3,M)
+        FSAV(28:30,J) = VR(1:3,M)
+        FSAV(31:33,J) = AR(1:3,M)
+        FSAV(34,J) = MS(M)
+        FSAV(35:40,J) = RBY(2:7,N)
+        IACTI = MIN(1,NPBY(7,N))
+        FSAV(41,J) = IACTI
+      ENDDO
+!$OMP END DO NOWAIT
 C
       RETURN
       END
