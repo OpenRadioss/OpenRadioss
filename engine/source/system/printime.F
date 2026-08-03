@@ -69,6 +69,7 @@ C-----------------------------------------------
 #include        "com04_c.inc"
 #include        "scr05_c.inc"
 #include        "sms_c.inc"
+#include        "sphcom.inc"
 #include        "task_c.inc"
 #include        "timerc_c.inc"
 #include        "timeri_c.inc"
@@ -90,8 +91,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NPROC, MSGTAG, IRSIZE, J, IH, IM, IS
-      DOUBLE PRECISION  SECS, TOTAL, CUMUL(MAX_NB_TIMER),
-     .        CUMUL_MAT,CUMUL_ELEM,CUMUL_FAIL
+      DOUBLE PRECISION SECS, TOTAL, CUMUL(MAX_NB_TIMER), CUMUL_MAT, CUMUL_ELEM, CUMUL_FAIL, CUMUL_SPH
       INTEGER MEMUSE(NSPMD),MEM_L,MMIN,MMAX,MTOT,MAVR,
      .        OUTSIZE,RFILESIZE
       INTEGER VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK,MEMSTAT(5,NSPMD),
@@ -348,12 +348,13 @@ C---------------------------
          CUMUL(J) = CUMUL(J) + CPUTIME(J,I)
         ENDDO
       ENDDO
+      CUMUL_SPH = CUMUL(87) + CUMUL(88) + CUMUL(89)
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
         TOTAL = CUMUL(1)-CUMUL(2)-CUMUL(8)-CUMUL(3)-CUMUL(4)-CUMUL(5)
-     -                  -CUMUL(9)-CUMUL(MACRO_TIMER_ALEMAIN)
+     -       -CUMUL(9)-CUMUL(MACRO_TIMER_ALEMAIN)-CUMUL_SPH
       ELSE
         TOTAL = CUMUL(1)-CUMUL(2)-CUMUL(8)-CUMUL(3)-CUMUL(4)-CUMUL(5)
-     -                  -CUMUL(9)-CUMUL(39)-CUMUL(MACRO_TIMER_ALEMAIN) 
+     -       -CUMUL(9)-CUMUL(39)-CUMUL(MACRO_TIMER_ALEMAIN)-CUMUL_SPH
       END IF
       IF(CUMUL(1)<=ZERO)CUMUL(1)=EM10
 
@@ -387,7 +388,9 @@ C---------------------------
      + CUMUL(MACRO_TIMER_ALEMAIN),
      + 100*CUMUL(MACRO_TIMER_ALEMAIN)/CUMUL(1),' % '
       ENDIF
-
+      IF(NUMSPH>0) THEN
+      WRITE(ISTDO,'(A,E9.4,3x,F6.2,A)')' SPH..........................: ',CUMUL_SPH,100*CUMUL_SPH/CUMUL(1),' % '
+      ENDIF
       WRITE(ISTDO,'(A,E9.4,3x,F6.2,A)')' OTHERS (including I/O)......: ',
      +  TOTAL,100*TOTAL/CUMUL(1),' % '
       WRITE(ISTDO,'(A,E9.4,3x,F6.2,A)')' TOTAL.......................: ',
@@ -430,6 +433,10 @@ c     ENDIF
      +  CUMUL(MACRO_TIMER_ALEMAIN)
      +  ,100*CUMUL(MACRO_TIMER_ALEMAIN)/CUMUL(1),' % '
         ENDIF
+      IF(NUMSPH>0) THEN
+      WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' SPH..........................: ',
+     + CUMUL_SPH,100*CUMUL_SPH/CUMUL(1),' % '
+      ENDIF
       WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' OTHERS (including I/O)......: ',
      +  TOTAL,100*TOTAL/CUMUL(1),' % '
       WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' TOTAL.......................: ',
