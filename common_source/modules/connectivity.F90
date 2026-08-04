@@ -82,7 +82,7 @@
           real, dimension(:), allocatable :: dist_to_center !< maximum distance of a node to the center of the element
           integer, dimension(:), allocatable :: permutation !< permutation of the shell element in order to have the shells sorted by user_id
           integer :: offset
-          type(C_PTR) :: loc2glob
+          type(C_PTR) :: loc2glob = C_NULL_PTR
         end type shell_
 
         type list_of_shells_
@@ -96,7 +96,7 @@
           integer, dimension(:), allocatable :: addcnel !< address for the node to elemenent (shell) connectivity
           integer, dimension(:), allocatable :: cnel ! element index in nodes arrays
           integer, dimension(:), allocatable :: uid !< user id of the shell element
-          type(C_PTR) :: glob2loc !< map global id to local id
+          type(C_PTR) :: glob2loc = C_NULL_PTR !< map global id to local id
         end type ghost_shell_
 
 
@@ -111,7 +111,7 @@
           integer, dimension(:), allocatable :: pid !< pid(i) :  PID of the i-th solid element
           integer, dimension(:), allocatable :: matid !< matid(i) :  Material ID of the i-th solid element
           integer, dimension(:), allocatable :: user_id !< user_id(i) :  user id of the solid element
-          type(C_PTR) :: loc2glob
+          type(C_PTR) :: loc2glob = C_NULL_PTR
         end type solid_
 
         type connectivity_
