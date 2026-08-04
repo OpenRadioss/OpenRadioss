@@ -22,13 +22,16 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    s10for_distor   ../engine/source/elements/solid/solide10/s10for_distor.F
+!||    s10for_distor        ../engine/source/elements/solid/solide10/s10for_distor.F
 !||--- called by ------------------------------------------------------
-!||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s10forc3             ../engine/source/elements/solid/solide10/s10forc3.F
 !||--- calls      -----------------------------------------------------
-!||    s10for_edgec    ../engine/source/elements/solid/solide10/s10for_edgec.F
-!||    sfor_n2stria2   ../engine/source/elements/solid/solide10/sfor_n2stria2.F
-!||    sfor_visn10     ../engine/source/elements/solid/solide10/sfor_visn10.F
+!||    s10for_edgec         ../engine/source/elements/solid/solide10/s10for_edgec.F
+!||    sfor_n2stria2        ../engine/source/elements/solid/solide10/sfor_n2stria2.F
+!||    sfor_visn10          ../engine/source/elements/solid/solide10/sfor_visn10.F
+!||    tetra_for_trac       ../engine/source/elements/solid/solide10/tetra_for_trac.F90
+!||--- uses       -----------------------------------------------------
+!||    tetra_for_trac_mod   ../engine/source/elements/solid/solide10/tetra_for_trac.F90
 !||====================================================================
       SUBROUTINE S10FOR_DISTOR(
      1              STI,   FLD  ,   STI_C,   

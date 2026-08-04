@@ -67,6 +67,7 @@
 !||    work_hardening_voce                    ../engine/source/materials/mat/mat131/work_hardening/work_hardening_voce.F90
 !||    work_hardening_zerilli_armstrong       ../engine/source/materials/mat/mat131/work_hardening/work_hardening_zerilli_armstrong.F90
 !||--- uses       -----------------------------------------------------
+!||    constant_mod                           ../common_source/modules/constant_mod.F
 !||    matparam_def_mod                       ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    precision_mod                          ../common_source/modules/precision_mod.F90
 !||    self_heating_tabulated_mod             ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90

@@ -22,9 +22,9 @@
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    s10get_x0_mod   ../engine/source/elements/solid/solide10/s10get_x0.F90
+!||    tetra_for_trac_mod   ../engine/source/elements/solid/solide10/tetra_for_trac.F90
 !||--- called by ------------------------------------------------------
-!||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s10for_distor        ../engine/source/elements/solid/solide10/s10for_distor.F
 !||====================================================================
       module tetra_for_trac_mod
       implicit none
@@ -32,6 +32,15 @@
 ! ======================================================================================================================
 ! \brief distortion control on extra-traction of tet elements
 ! ======================================================================================================================
+!||====================================================================
+!||    tetra_for_trac   ../engine/source/elements/solid/solide10/tetra_for_trac.F90
+!||--- called by ------------------------------------------------------
+!||    s10for_distor    ../engine/source/elements/solid/solide10/s10for_distor.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    mvsiz_mod        ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine tetra_for_trac(                                 &
                    nel,    sti,    sti_c,                          &
                    xx ,    yy ,     zz ,                           &

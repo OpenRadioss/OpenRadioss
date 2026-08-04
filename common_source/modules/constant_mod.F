@@ -123,6 +123,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    elasto_plastic_eq_stress                   ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||    elasto_plastic_second_order_numerical      ../engine/source/materials/mat/mat131/elasto_plastic_second_order_numerical.F90
 !||    elasto_plastic_trial_stress                ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||    elasto_plastic_yield_stress                ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||    eos_table_copy                             ../starter/source/materials/tools/eos_table_copy.F90
 !||    eosexponential                             ../common_source/eos/eosexponential.F90
 !||    eoslinear                                  ../common_source/eos/eoslinear.F
@@ -539,6 +540,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    table_mat_vinterp_c1                       ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||    table_mat_vinterp_inv                      ../engine/source/materials/tools/table_mat_vinterp_inv.F90
 !||    tabulated                                  ../common_source/eos/tabulated.F
+!||    tetra_for_trac                             ../engine/source/elements/solid/solide10/tetra_for_trac.F90
 !||    therm_softening_johnsoncook                ../engine/source/materials/mat/mat131/therm_softening/therm_softening_johnsoncook.F90
 !||    therm_softening_tabulated                  ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
 !||    therm_softening_zhao                       ../engine/source/materials/mat/mat131/therm_softening/therm_softening_zhao.F90

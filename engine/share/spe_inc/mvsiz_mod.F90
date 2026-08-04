@@ -70,6 +70,7 @@
 !||    sigeps88c                       ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    suser43                         ../engine/source/elements/solid/sconnect/suser43.F
 !||    sz_dt1                          ../engine/source/elements/solid/solidez/sz_dt1.F90
+!||    tetra_for_trac                  ../engine/source/elements/solid/solide10/tetra_for_trac.F90
 !||    usermat_shell                   ../engine/source/materials/mat_share/usermat_shell.F
 !||    usermat_solid                   ../engine/source/materials/mat_share/usermat_solid.F
 !||    yield_criterion_barlat1989      ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat1989.F90

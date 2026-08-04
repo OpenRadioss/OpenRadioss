@@ -630,6 +630,7 @@
 !||    table2d_deintersection                     ../starter/source/materials/tools/table2d_deintersection.F90
 !||    table_mat_vinterp_c1                       ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||    table_mat_vinterp_inv                      ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||    tetra_for_trac                             ../engine/source/elements/solid/solide10/tetra_for_trac.F90
 !||    therm_param_mod                            ../common_source/modules/mat_elem/therm_param_mod.F90
 !||    therm_softening_johnsoncook                ../engine/source/materials/mat/mat131/therm_softening/therm_softening_johnsoncook.F90
 !||    therm_softening_tabulated                  ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
