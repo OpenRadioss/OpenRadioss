@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,DIMENSION(NIXS,NUMELS),INTENT(IN) :: IXS
       INTEGER,DIMENSION(NPARG,NGROUP),INTENT(IN) :: IPARG
-      INTEGER,DIMENSION(NUMNOD*3),INTENT(IN) :: IKINE
+      INTEGER,DIMENSION(NUMNOD*5),INTENT(IN) :: IKINE
       TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP), TARGET :: ELBUF_STR
 C     REAL
 C-----------------------------------------------
