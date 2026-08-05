@@ -348,24 +348,24 @@ C-----------------------------------------------
      & 7X,'-------------------',//)
  1001 FORMAT(//
      & 5X,A,/,
-     & 5X,40HMATERIAL NUMBER . . . . . . . . . . . .=,I10/,
+     & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'GAS',/)
  1100 FORMAT(
      & 5X,42HGAS TYPE. . . . . . . . . . . . . . . .=  ,A/,
-     & 5X,40HSPECIFIC HEAT AT CONSTANT PRESSURE CP .=,E12.4/,
-     & 5X,40HSPECIFIC HEAT AT CONSTANT VOLUME CV. . =,E12.4/,
-     & 5X,40HMOLECULAR WEIGHT  . . . . . . . . . . .=,E12.4/,
-     & 5X,40HUNIVERSAL GAS CONSTANT. . . . . . . . .=,E12.4//)
+     & 5X,'SPECIFIC HEAT AT CONSTANT PRESSURE CP .=',E12.4/,
+     & 5X,'SPECIFIC HEAT AT CONSTANT VOLUME CV. . =',E12.4/,
+     & 5X,'MOLECULAR WEIGHT  . . . . . . . . . . .=',E12.4/,
+     & 5X,'UNIVERSAL GAS CONSTANT. . . . . . . . .=',E12.4//)
  1200 FORMAT(
      & 5X,42HGAS TYPE. . . . . . . . . . . . . . . .=  ,A/,
-     & 5X,40HMOLECULAR WEIGHT  . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCOEFFICIENT CPA . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCOEFFICIENT CPB . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCOEFFICIENT CPC . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCOEFFICIENT CPD . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCOEFFICIENT CPE . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCOEFFICIENT CPF . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HUNIVERSAL GAS CONSTANT. . . . . . . . .=,E12.4//)
+     & 5X,'MOLECULAR WEIGHT  . . . . . . . . . . .=',E12.4/,
+     & 5X,'COEFFICIENT CPA . . . . . . . . . . . .=',E12.4/,
+     & 5X,'COEFFICIENT CPB . . . . . . . . . . . .=',E12.4/,
+     & 5X,'COEFFICIENT CPC . . . . . . . . . . . .=',E12.4/,
+     & 5X,'COEFFICIENT CPD . . . . . . . . . . . .=',E12.4/,
+     & 5X,'COEFFICIENT CPE . . . . . . . . . . . .=',E12.4/,
+     & 5X,'COEFFICIENT CPF . . . . . . . . . . . .=',E12.4/,
+     & 5X,'UNIVERSAL GAS CONSTANT. . . . . . . . .=',E12.4//)
 C-----------
       RETURN
       END

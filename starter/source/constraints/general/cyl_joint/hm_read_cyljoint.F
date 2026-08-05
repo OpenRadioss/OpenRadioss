@@ -167,7 +167,7 @@ C
 
  1000 FORMAT(/' CYLINDRICAL JOINT ',I10,       /
      +          ,' -------------------'/
-     + '        ',I8,' NODES:')
+     + '        ',I10,' NODES:')
 
  1100 FORMAT(7X,10I10)
       RETURN

@@ -430,19 +430,19 @@ C--------------------------------------------------------------C
      .   //'      MULTIDOMAINS SPECIAL TREATMENTS '/
      .   '      --------------------------------- '/)
  1300   FORMAT(
-     &   5X,40HVOID MATERIAL CREATED                   ,/,
-     &   5X,40H  -----------                           ,/,
-     &   5X,40HMATERIAL ID . . . .  . . . . . . . .  .=,I10/,
-     &   5X,40HDENSITY . . . .  . . . . . . . .  . . .=,E12.4/,
-     &   5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,E12.4/,
-     &   5X,40HAPPLIED ON PART . . . .  . . . . . . . =,I10//)
+     &   5X,'VOID MATERIAL CREATED                   ',/,
+     &   5X,'  -----------                           ',/,
+     &   5X,'MATERIAL ID . . . .  . . . . . . . .  .=',I10/,
+     &   5X,'DENSITY . . . .  . . . . . . . .  . . .=',E12.4/,
+     &   5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',E12.4/,
+     &   5X,'POISSON''S RATIO . . . . . . . . . . . .=',E12.4/,
+     &   5X,'APPLIED ON PART . . . .  . . . . . . . =',I10//)
  1400   FORMAT(
-     &   5X,40HVOID PROPERTY CREATED                   ,/,
-     &   5X,40H  -----------                           ,/,
-     &   5X,40HPROPERTY ID . . . .  . . . . . . . .  .=,I10/,
-     &   5X,40HTHICKNESS. . . . . . . . . . . . . .  .=,E12.4/,
-     &   5X,40HAPPLIED ON PART . . . .  . . . . . . . =,I10//)
+     &   5X,'VOID PROPERTY CREATED                   ',/,
+     &   5X,'  -----------                           ',/,
+     &   5X,'PROPERTY ID . . . .  . . . . . . . .  .=',I10/,
+     &   5X,'THICKNESS. . . . . . . . . . . . . .  .=',E12.4/,
+     &   5X,'APPLIED ON PART . . . .  . . . . . . . =',I10//)
 C-----------
         RETURN
       END SUBROUTINE R2R_VOID

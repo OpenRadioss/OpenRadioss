@@ -310,29 +310,29 @@ C-----------------
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1200 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
- 1300 FORMAT
-     &(5X,'EQUIVALENT POISSON RATIO . . . .  . . .=',E12.4/
-     &,5X,'INITIAL SHEAR MODULUS . . . . . . . . .=',E12.4/
-     & 5X,'MAXIMUM VISCOSITY. . . . .. . . . . . .=',E12.4// 
-     &,5X,'ORDER OF STRAIN ENERGY. . . . . . . . .=',I8)
+ 1300 FORMAT(
+     & 5X,'EQUIVALENT POISSON RATIO . . . .  . . .=',1PG20.13/
+     &,5X,'INITIAL SHEAR MODULUS . . . . . . . . .=',1PG20.13/
+     & 5X,'MAXIMUM VISCOSITY. . . . .. . . . . . .=',1PG20.13//
+     &,5X,'ORDER OF STRAIN ENERGY. . . . . . . . .=',I10)
  1400 FORMAT(
-     & 7X,'MATERIAL PARAMETER (MU). . . . . . . . =',E12.4/
-     & 7X,'MATERIAL PARAMETER (ALPHA) . . . . . . =',E12.4/
-     & 7X,'MATERIAL PARAMETER (NU) . . . . . . .  =',E12.4/)    
+     & 7X,'MATERIAL PARAMETER (MU). . . . . . . . =',1PG20.13/
+     & 7X,'MATERIAL PARAMETER (ALPHA) . . . . . . =',1PG20.13/
+     & 7X,'MATERIAL PARAMETER (NU) . . . . . . .  =',1PG20.13/)
  1500 FORMAT(//
-     & 5X,'ORDER OF MAXWELL MODEL . . . . . . . . =',I8 )
+     & 5X,'ORDER OF MAXWELL MODEL . . . . . . . . =',I10 )
  1600 FORMAT(
-     & 7X,'STIFFNESS RATIO. . . . . . . . . . .. .=',E12.4/
-     & 7X,'RELAXATION TIME . . . . . . . . . . .  =',E12.4)     
+     & 7X,'STIFFNESS RATIO. . . . . . . . . . .. .=',1PG20.13/
+     & 7X,'RELAXATION TIME . . . . . . . . . . .  =',1PG20.13)
  1700 FORMAT(/
-     & 5X,'VISCOUS STRESS FORMULATION . . . . . . =',I8 /
+     & 5X,'VISCOUS STRESS FORMULATION . . . . . . =',I10 /
      &10X,' 0 : VISCOUS STRESS IS DEVIATORIC ' , /
      &10X,' 1 : VISCOUS STRESS IS SPHERICAL AND DEVIATORIC' )
  1010 FORMAT(/
-     & 5X,'LONG-TERM RIGIDITY FLAG . . . . . =',I8 /
+     & 5X,'LONG-TERM RIGIDITY FLAG . . . . . =',I10 /
      & 5X,'INITIAL ELASTIC MODULUS IS THE INSTANTANEOUS RIGIDITY ' , / )
  1020 FORMAT(/
-     & 5X,'LONG-TERM RIGIDITY FLAG . . . . . =',I8 /
+     & 5X,'LONG-TERM RIGIDITY FLAG . . . . . =',I10 /
      & 5X,' INITIAL ELASTIC MODULUS IS THE LONG-TERM RIGIDITY. ',/
      & 5X,' THE MU VALUE ARE UPDATED ' , / )      
 C-----------------

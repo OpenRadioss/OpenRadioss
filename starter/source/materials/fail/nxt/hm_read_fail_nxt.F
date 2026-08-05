@@ -132,17 +132,17 @@ c-----------------------------------------------------
       ENDIF       
 C-----------
  1000 FORMAT(
-     & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,
-     & 5X,40H    -----------------------------             /)
+     & 5X,'    CRYPTED DATA IN FAILURE MODEL       '      /,
+     & 5X,'    -----------------------------       '      /)
  1001 FORMAT(
-     & 5X,40H     NXT FAILURE  CRITERIA                     /,
-     & 5X,40H    ------------------------                  /,
+     & 5X,'     NXT FAILURE  CRITERIA              '       /,
+     & 5X,'    ----------------------              '      /,
      & 5X,'  NO SHELL ELEMENT DELETION AFTER FAILURE' /,
      & 5X,'S-R CURVE FORMING LIMIT DIAGRAM . . . . . . . =',I10/,
      & 5X,'3D  CURVE FORMING LIMIT DIAGRAM . . . . . . . =',I10//)
  1100 FORMAT(
-     & 5X,40H     NXT FAILURE  CRITERIA                     /,
-     & 5X,40H    ------------------------                  /,
+     & 5X,'     NXT FAILURE  CRITERIA              '       /,
+     & 5X,'    ----------------------              '      /,
      & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE' /,
      & 5X,'S-R CURVE FORMING LIMIT DIAGRAM . . . . . . . =',I10/,
      & 5X,'3D  CURVE FORMING LIMIT DIAGRAM . . . . . . . =',I10//)
