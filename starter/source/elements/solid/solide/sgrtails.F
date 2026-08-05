@@ -522,6 +522,7 @@ C moreover ISOLNOD reset to 0 real in lectur
           IT10 = 0
           ITET4 = 0
           ITET10 = 0
+          ISCTL = 0
 C-------------------------
 C         GROUP PARAMETER
           IF (PID/=0) THEN
