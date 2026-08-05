@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE EBCS_MOD , only : t_ebcs_tab
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+      USE SPMD_MOD , only : SPMD_REDUCE, SPMD_SUM
       use glob_therm_mod
       USE OUTPUT_MOD , ONLY : OUTPUT_
       use thsechecksum_mod
@@ -675,20 +676,29 @@ C---------------------------------------------------------
        ENDIF !NSURF > 0
 
 C---------------------------------------------------------
-C      /TH/SURF : SPMD EXCHANGE
+C      /TH/SURF : OUTPUT SNAPSHOT
 C---------------------------------------------------------
-       IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVSURF,5*NSURF)
+       IF(NSURF > 0)THEN
+         IF(NSPMD > 1)THEN
+           CALL SPMD_REDUCE(FSAVSURF,
+     .                      OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT,
+     .                      TH_SURF_NUM_CHANNEL*NSURF,SPMD_SUM,IT_SPMD(1))
+         ELSE
+           OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT = FSAVSURF
+         ENDIF
+       ENDIF
 
 C---------------------------------------------------------
-C      /TH/SURF (PRESSURE mean velues)
+C      /TH/SURF (PRESSURE mean values)
 C---------------------------------------------------------
        IF(ISPMD ==0 ) THEN
          DO I=1,NSURF
            IF(IGRSURF(I)%TH_SURF == 1) THEN
-             IF( FSAVSURF(5,I) > ZERO )THEN
-               FSAVSURF(4,I) = FSAVSURF(4,I) / FSAVSURF(5,I) ! The pressure in an average pressure
+             IF( OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(5,I) > ZERO )THEN
+               OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(4,I) =
+     .           OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(4,I) / OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(5,I)
              ELSE
-               FSAVSURF(4,I) = ZERO
+               OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(4,I) = ZERO
              ENDIF
            ENDIF
          ENDDO
@@ -696,19 +706,23 @@ C---------------------------------------------------------
 
 C---------------------------------------------------------
 C      /TH/SURF (EBCS mean values)
-C        total surface FSAVSURF(1,:) are here gathered and
+C        total surface output channels are gathered and
 C        they can be used here to divide
 C---------------------------------------------------------
-       IF (EBCS_TAB%nebcs > 0)THEN
+       IF (ISPMD == 0 .AND. EBCS_TAB%nebcs > 0)THEN
          DO K=1,EBCS_TAB%nebcs
            IF(.NOT.EBCS_TAB%need_to_compute(K)) CYCLE
            HAS_TH = EBCS_TAB%TAB(K)%poly%has_th
            IF(has_th) THEN
              SURF_ID = EBCS_TAB%TAB(K)%poly%surf_id
              NN = IGRSURF(SURF_ID)%NSEG
-             IF(FSAVSURF(1,SURF_ID) > ZERO)THEN
-               FSAVSURF(3,SURF_ID) =  FSAVSURF(3,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean velocity
-               FSAVSURF(4,SURF_ID) =  FSAVSURF(4,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean pressure
+             IF(OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(1,SURF_ID) > ZERO)THEN
+               OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(3,SURF_ID) =
+     .           OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(3,SURF_ID) /
+     .           OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(1,SURF_ID)
+               OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(4,SURF_ID) =
+     .           OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(4,SURF_ID) /
+     .           OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT(1,SURF_ID)
              ENDIF
            ENDIF
          ENDDO!next K
@@ -1330,7 +1344,8 @@ C-----------------------------
 C-----------------------------
 C           /TH/SURF
 C-----------------------------
-            CALL THSURF(IAD,IAD+NN-1,IADV,IADV+NVAR-1,ITHBUF,WA ,FSAVSURF,ITTYP,NSURF)
+            CALL THSURF(IAD,IAD+NN-1,IADV,IADV+NVAR-1,ITHBUF,WA,
+     .                  OUTPUT%TH%TH_SURF%CHANNELS_OUTPUT,ITTYP,NSURF)
 C
           ELSEIF (ITYP==118) THEN
 C-----------------------------
@@ -1539,4 +1554,3 @@ C             Aout, Aout1, Uout, Mout, Hout
       END DO
       RETURN
       END SUBROUTINE BUFMONV
-
