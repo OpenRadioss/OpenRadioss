@@ -847,7 +847,8 @@ C-----------------------------------------------
       LOGICAL MARQUEUR3
 
       INTEGER, DIMENSION(:),ALLOCATABLE ::
-     *        IWCONT, IWCIN2      , IKINE1LAG ,DSDOF, TAGXREF,
+     *        IWCONT, IWCIN2      , IKINE1LAG ,IKINE, IKINETMP,
+     *        DSDOF, TAGXREF,
      *        ADDCNE, ADDCNE_PXFEM, FXBTAG    ,ADDCNE_CRKXFEM,
      *        TAGREFSTA,CSRECT
 
@@ -1387,6 +1388,9 @@ C INTEGER
 C
       CALL MY_ALLOC(IKINE1LAG,3*NUMNOD,"IKINE1LAG")
         IKINE1LAG(1:3*NUMNOD)=0
+
+      CALL MY_ALLOC(IKINE,5*NUMNOD,"IKINE")
+        IKINE(1:5*NUMNOD)=0
 
       CALL MY_ALLOC(DSDOF,NUMNOD,"DSDOF")
       DSDOF(1:NUMNOD)=0
@@ -2012,7 +2016,7 @@ c      ALLOCATE(XFRAME(SXFRAME) ,STAT=stat)
 C--------------------------------------------
       ERR_MSG='KINEMATIC INITIALIZATION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      CALL KININI(D      )
+      CALL KININI(IKINE  )
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     READING MATERIALS
@@ -3324,7 +3328,7 @@ C     Elements generated internally from surface definition.
 C     Prototype mode: generate Q1NP for external /SURF IDs 100 and 200.
 C--------------------------------------------
 
-      CALL Q1NP_GENERATE_MAIN(IWCONT, IWCIN2, IKINE1LAG, DSDOF, ADDCNE,
+      CALL Q1NP_GENERATE_MAIN(IWCONT, IWCIN2, IKINE1LAG, IKINE, DSDOF, ADDCNE,
      .                        ADDCNE_PXFEM, FXBTAG, ITAG, FLAGKIN, XYZREF,
      .                        SX, SV, SD, SMS, SIN,
      .                        SVR, SDR, S_NOD2ELS, IPARTS, IRODDL,
@@ -4040,21 +4044,21 @@ C--------------------------------------------
       IF(NUMBCS /= 0 .OR. NALEBCS /= 0 .OR. NUMBCSN /= 0) THEN
         WRITE(ISTDO,'(A)')TITRE(13)
 C READ /BCS & /BCS/LAGMUL
-        CALL HM_READ_BCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
+        CALL HM_READ_BCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1),
      .              UNITAB   ,LSUBMODEL,IBCSCYC,LBCSCYC)
 C READ /ALE/BCS
-        CALL HM_READ_ALEBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
+        CALL HM_READ_ALEBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1),
      .              LSUBMODEL)
 C READ /NBCS
-        CALL HM_READ_NBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
+        CALL HM_READ_NBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
      .                    IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .                    IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1),LSUBMODEL)
 C PRINT /BCS
-        CALL PRINTBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
+        CALL PRINTBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1), NBCSLAG)
       ENDIF
@@ -4170,7 +4174,7 @@ C--------------------------------------------
       IF(NGJOINT/=0) CALL HM_READ_GJOINT(
      1           GJBUFI  ,GJBUFR  ,ITAB    ,ITABM1  ,X       ,
      2           MS      ,IN      ,LAG_NCF ,LAG_NKF ,LAG_NHF ,
-     3           D       ,UNITAB  ,IKINE1LAG,NOM_OPT(LNOPT1*INOM_OPT(18)+1),LSUBMODEL)
+     3           IKINE   ,UNITAB  ,IKINE1LAG,NOM_OPT(LNOPT1*INOM_OPT(18)+1),LSUBMODEL)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     READER FOR DETONATOR OPTIONS (/DFS/DET*)
@@ -4201,7 +4205,7 @@ C--------------------------------------------
           WRITE(IOUT,*) ' ** ERROR IN MEMORY ALLOCATION'
           WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
         ENDIF
-        CALL HM_READ_ALE_LINK(ICODE, ISKEW, ITAB, ITABM1, D,
+        CALL HM_READ_ALE_LINK(ICODE, ISKEW, ITAB, ITABM1, IKINE,
      .       IGRNOD, IBCSLAG, LAG_NCF, LAG_NKF, LAG_NHF,
      .       IKINE1LAG, LINALE, LSUBMODEL, UNITAB,NSUBDOM)
       ELSE
@@ -4286,7 +4290,7 @@ C---------------------------------------------
         ISPSYM  = 0
         ISPCOND = 0
          WRITE(ISTDO,'(A)')' .. SPH SYMMETRY CONDITIONS'
-        CALL HM_READ_SPCND(ISPCOND ,ISKEW   ,ITAB    ,ITABM1  ,D       ,
+        CALL HM_READ_SPCND(ISPCOND ,ISKEW   ,ITAB    ,ITABM1  ,IKINE   ,
      .               IGRNOD  ,NOD2SP ,IFRAME ,NOM_OPT(LNOPT1*INOM_OPT(23)+1),
      .               LSUBMODEL)
       ENDIF
@@ -4515,7 +4519,7 @@ c
         WRITE(ISTDO,'(A)')TITRE(44)
 c
         CALL HM_READ_IMPVEL(
-     .       VEL      ,IBFV     ,D        ,IKINE1LAG,
+     .       VEL      ,IBFV     ,IKINE    ,IKINE1LAG,
      .       ITAB     ,ITABM1   ,IGRNOD   ,X        ,IXR      ,
      .       IPART    ,IPARTR   ,ISKWN    ,NOM_OPT(LNOPT1*INOM_OPT(15)+1),
      .       NIMPDISP ,NIMPVEL  ,UNITAB   ,LSUBMODEL)
@@ -4527,7 +4531,7 @@ c------------------------------------------------------
       IF(NIMPACC > 0) THEN
         CALL HM_READ_IMPACC(
      .             VEL      ,IBFV     ,NFXVEL0  ,ITAB     ,ITABM1   ,
-     .             D        ,IGRNOD   ,ISKWN    ,UNITAB   ,LSUBMODEL,
+     .             IKINE    ,IGRNOD   ,ISKWN    ,UNITAB   ,LSUBMODEL,
      .             NFXVEL   ,NIMPACC  )
       ENDIF
 c
@@ -4897,7 +4901,7 @@ C--------------------------------------------
       IF(SLNLINK > 0) LNLINK = 0
       IF(NLINK > 0) THEN
       CALL HM_READ_LINK(
-     1        NNLINK  ,LNLINK ,ITAB    ,ITABM1  ,D       ,
+     1        NNLINK  ,LNLINK ,ITAB    ,ITABM1  ,IKINE   ,
      2        IGRNOD  ,ISKWN  ,IFRAME  ,NOM_OPT(LNOPT1*INOM_OPT(9)+1),LSUBMODEL)
       ENDIF
 C
@@ -5394,7 +5398,7 @@ C
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
           CALL MY_ALLOC(KINWORK,NUMNOD,"KINWORK")
-          CALL KINREM(D       ,KINWORK ,RWBUF   ,ITAB   ,NPRW   ,
+          CALL KINREM(IKINE   ,KINWORK ,RWBUF   ,ITAB   ,NPRW   ,
      .                LPRW    ,NPBY    ,LPBY    )
 C
           call my_alloc(TAGREL_SMS, NGROUP, "TAGREL_SMS", stat=STAT)
@@ -5632,7 +5636,7 @@ C Average allowance normally sufficient if average group size> NVSIZ/2
      5     INTER_CAND,PM ,X        ,KXX     ,IXX      ,
      6     ADDCNE    ,IGEO     ,EANI     ,IWCIN2  ,DSDOF    ,
      7     ISOLOFF   ,ISHEOFF  ,ITRIOFF  ,ITRUOFF ,IPOUOFF  ,
-     8     IRESOFF   ,IELEM21  ,IPM      ,IXS10   ,D        ,
+     8     IRESOFF   ,IELEM21  ,IPM      ,IXS10   ,IKINE    ,
      9     CLUSTERS  ,KXIG3D   ,IXIG3D   ,COST_R2R,BUFMAT,
      1     TAILLE   ,POIN_UMP,TAB_UMP  ,
      2     POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
@@ -6737,7 +6741,7 @@ C--------------------------------------------
         LRBE2 = 0
         CALL HM_READ_RBE2(
      .        IRBE2   ,LRBE2 ,ITAB      ,ITABM1    ,IGRNOD,
-     .        ISKWN   ,D     ,IDDLEVEL  ,NOM_OPT(LNOPT1*INOM_OPT(13)+1),ITAGND,
+     .        ISKWN   ,IKINE ,IDDLEVEL  ,NOM_OPT(LNOPT1*INOM_OPT(13)+1),ITAGND,
      .        ICNDS10 ,LSUBMODEL)
        ENDIF
 
@@ -6771,7 +6775,7 @@ C--------------------------------------------
         LRBE3 = 0
         FRBE3 = ZERO
           CALL HM_READ_RBE3(IRBE3  ,LRBE3  ,FRBE3  ,ITAB   ,ITABM1  ,
-     .                      IGRNOD ,ISKWN  ,LXINTD ,D    ,IDDLEVEL,
+     .                      IGRNOD ,ISKWN  ,LXINTD ,IKINE,IDDLEVEL,
      .                      NOM_OPT(LNOPT1*INOM_OPT(14)+1),ITAGND ,
      .                      GRNOD_UID,UNITAB,LSUBMODEL)
        ENDIF
@@ -6881,7 +6885,7 @@ C--------------------------------------------
       IF(NUMMPC > 0) CALL HM_READ_MPC (
      1           RBMPC   ,IBMPC  ,IBMPC2  ,IBMPC3  ,IBMPC4  ,
      2           ISKWN   ,ITAB   ,ITABM1  ,LAG_NCF ,LAG_NKF ,
-     3           LAG_NHF ,D      ,IKINE1LAG,
+     3           LAG_NHF ,IKINE  ,IKINE1LAG,
      4           NOM_OPT(LNOPT1*INOM_OPT(17)+1),ITAGND,
      5           LSUBMODEL,UNITAB)
       CALL TRACE_OUT1()
@@ -7322,8 +7326,8 @@ C-----
        IF(IDDLEVEL==0)THEN
          IF( ALLOCATED(INTER_CAND%IXINT) ) CALL MY_DEALLOC(INTER_CAND%IXINT)
          CALL MY_ALLOC(INTER_CAND%IXINT,INTER_CAND%S_IXINT_1,INTER_CAND%S_IXINT_2,"INTER_CAND%IXINT")
-         CALL MY_ALLOC(XTMP,3*NUMNOD,"XTMP")
-         XTMP = D(1:3*NUMNOD)
+         CALL MY_ALLOC(IKINETMP,5*NUMNOD,"IKINETMP")
+         IKINETMP(1:5*NUMNOD) = IKINE(1:5*NUMNOD)
        ENDIF
        IFIXIN = IFIP
        IFIEND = IFIXIN
@@ -7354,7 +7358,7 @@ c in I20NLG (other interface types still done in SET_INTERCEP)
 C
         CALL ININTR(IPARI      ,INSCR      ,X_C                          ,V                ,IXS         ,IXQ      ,
      2               IXC       ,PM         ,GEO                          ,ITAB             ,MS          ,
-     3               IWORK     ,RWORK      ,IXTG                         ,D                ,IXT         ,
+     3               IWORK     ,RWORK      ,IXTG                         ,IKINE            ,IXT         ,
      4               IXP       ,IXR        ,ALE_CONNECTIVITY             ,NELEMINT         ,IDDLEVEL    ,
      5               LIXINT    ,IGRBRIC    ,IWCONT                       ,IWCIN2           ,KNOD2ELS    ,
      7               KNOD2ELC  ,KNOD2ELTG  ,NOD2ELS                      ,NOD2ELC          ,NOD2ELTG    ,
@@ -7405,8 +7409,8 @@ C------------ RBE3 uses IXINT-POUR opt.
         CALL TRACE_OUT1()
 C-----
         IF(IDDLEVEL==0)THEN
-          D(1:3*NUMNOD) = XTMP(1:3*NUMNOD)
-          CALL MY_DEALLOC(XTMP)
+          IKINE(1:5*NUMNOD) = IKINETMP(1:5*NUMNOD)
+          CALL MY_DEALLOC(IKINETMP)
         END IF
 C
       ELSEIF(IDDLEVEL == 0) THEN !NINTER = 0
@@ -7458,7 +7462,7 @@ c
           CALL READ_RWALL(
      1         RWORK    ,NPRW     ,IWORK    ,SLPRW    ,MS       ,
      2         V        ,ITAB     ,ITABM1   ,X        ,IXS      ,
-     3         IXQ      ,NPC1     ,D        ,IGRNOD   ,
+     3         IXQ      ,NPC1     ,IKINE    ,IGRNOD   ,
      4         SRWBUF   ,IMERGE   ,UNITAB   ,
      5         IKINE1LAG,IDDLEVEL ,LSUBMODEL ,RTRANS  ,
      6         NOM_OPT(LNOPT1*INOM_OPT(5)+1),ITAGND   ,SLN_PEN )
@@ -7602,7 +7606,7 @@ C--------------------------------------------
       IF(NRBYKIN > 0) THEN
         CALL CHECKRBY(
      1       RBY    ,NPBY    ,LPBY   ,ITAB   ,
-     2       D      ,IDDLEVEL,NOM_OPT,SLRBODY,
+     2       IKINE  ,IDDLEVEL,NOM_OPT,SLRBODY,
      3       ROOTNAM,ROOTLEN )
       ENDIF
 C--------------------------------------------
@@ -7627,7 +7631,7 @@ C     READING RB LAGRANGE
 C--------------------------------------------
       IF(NRBYLAG > 0) THEN
          CALL HM_READ_RBODY_LAGMUL(RBYL    ,NPBYL   ,LPBYL   ,IGRNOD   ,LSUBMODEL ,
-     .                             ITAB    ,ITABM1  ,D       ,IKINE1LAG,NOM_OPT)
+     .                             ITAB    ,ITABM1  ,IKINE   ,IKINE1LAG,NOM_OPT)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -8111,7 +8115,7 @@ C--------------------------------------------
 C     CHECK COMPATIBILITY /DTTSH
 C--------------------------------------------
       IF(NUMELS>0) THEN
-       CALL CHK_DTTSH(ELBUF_TAB,IXS ,IPARG ,D   )
+       CALL CHK_DTTSH(ELBUF_TAB,IXS ,IPARG ,IKINE)
       END IF
 !-------ini of shell offset treatment      
       IF (DEFAULTS%SHELL%IOFFSET>0) THEN
@@ -8471,7 +8475,7 @@ C
      &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
      &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  ,
-     &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,D         ,
+     &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,IKINE     ,
      &            LSIGI      ,LSIGSP          , SRNOISE2         ,NPRW               ,LPRW       ,
      &            RWSTIF_PEN ,SLN_PEN         ,ROOTLEN           ,ROOTNAM          ,NGUIDED_CABLE,
      &            TOTMAS1    ,S_NOD2EL1D      ,SPRING_CON_RBODY)
@@ -8955,7 +8959,7 @@ C-----
         CALL ININTR_THKVAR(ELBUF_TAB,
      1               IPARI   ,INTBUF_TAB       ,INSCR    ,X       ,
      2               IXS     ,IXC     ,PM      ,GEO      ,ITAB    ,
-     3               IWORK   ,RWORK   ,IXTG    ,D        ,
+     3               IWORK   ,RWORK   ,IXTG    ,IKINE    ,
      4               IPARG   ,KNOD2ELS ,
      5               KNOD2ELC,KNOD2ELTG,NOD2ELS,NOD2ELC  ,NOD2ELTG,
      6               INTSTAMP,SKEW     ,MS     ,IN       ,V       ,
@@ -9042,7 +9046,7 @@ C
       IF(NRIVET/=0)THEN
         WRITE(ISTDO,'(A)') ' .. RIVETS '
         CALL HM_READ_RIVET(LRIVET ,V      ,VR     ,MS     ,IN     ,
-     2                     RIVET  ,GEO    ,ITAB   ,ITABM1 ,D      ,
+     2                     RIVET  ,GEO    ,ITAB   ,ITABM1 ,IKINE  ,
      3                     IPART  ,IGEO   ,LSUBMODEL)
       ENDIF
 c      CALL ANCHECK(81)
@@ -9142,7 +9146,7 @@ C----------------------------------
       IF(NJOINT/=0)THEN
         WRITE(ISTDO,'(A)') ' .. CYLINDRICAL JOINTS'
         CALL INIT_JOINT(NJOINT)
-        CALL HM_READ_CYLJOINT(LJOINT ,ITABM1 ,D      ,ITAB   ,IGRNOD ,
+        CALL HM_READ_CYLJOINT(LJOINT ,ITABM1 ,IKINE  ,ITAB   ,IGRNOD ,
      .                        NOM_OPT(LNOPT1*INOM_OPT(7)+1),LSUBMODEL)
       ENDIF
 c      CALL ANCHECK(83)
@@ -10028,7 +10032,7 @@ C
        CALL ININTR2(IPARI   ,INSCR   ,X       ,
      .               IXS     ,IXQ     ,IXC     ,PM      ,GEO     ,
      .               INSCR   ,ITAB    ,MS      ,NPBY    ,LPBY    ,
-     .               MWA     ,D       ,I2NSNT  ,IN      ,
+     .               MWA     ,IKINE   ,I2NSNT  ,IN      ,
      .               STIFFN,STIFINT ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),INOD_PXFEM ,MS_PLY,
      .               INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,NSTRF,ITAGCYC,
      .               IRBE2   ,IRBE3  ,LRBE3    ,
@@ -10046,7 +10050,7 @@ C--------------------------------------------
 C     sorting and printing of element dt
 C--------------------------------------------
       CALL OUTRI(DTELEM,IXS,IXQ,IXC,IXT,IXP,IXR,IXTG,
-     .           KXX,KXSP,KXIG3D,IGEO,NUMEL,D,
+     .           KXX,KXSP,KXIG3D,IGEO,NUMEL,IKINE,
      .           SPRING_CON_RBODY)
 C--------------------------------------------
 C     sorting and printing of nodal dt
@@ -10100,26 +10104,26 @@ C--------------------------------------------
        CALL BCSMODIF_ND(ICODE, ITAGND,ICNDS10,ITAB,
      .                  NNPBY,SLRBODY,NRBE2L ,SLRBE2,
      .                  NPBY ,LPBY   ,IRBE2  ,LRBE2 )
-       CALL FIXMODIF_ND(IBFV , ITAGND,ICNDS10,ITAB,D )
+       CALL FIXMODIF_ND(IBFV , ITAGND,ICNDS10,ITAB,IKINE )
        CALL BCSCYCMODIF_ND(IBCSCYC,LBCSCYC,ITAGND,ITAB)
       END IF
 C--------------------------------------------
 C     checking kinematic conditions
 C--------------------------------------------
-C d(3,numnod) used in the starter as a flag
-C DE CONDITION CINEMATIQUE IKINE(NUMNOD)
+C IKINE carries starter kinematic flags/state (separate from D)
+C first slot: active conditions, extra slots: compatibility/conflict tracking
 C--------------------------------------------
-      CALL KINCHK(D       ,RWBUF   ,ITAB   ,NPRW   ,LPRW    ,KINET  ,
+      CALL KINCHK(IKINE   ,RWBUF   ,ITAB   ,NPRW   ,LPRW    ,KINET  ,
      .            NPBY    , LPBY   ,IRBE2  ,LRBE2  ,IRBE3   ,LRBE3  ,
      .            NOM_OPT ,INOM_OPT(5),INOM_OPT(13),INOM_OPT(14)    ,
      .            ITAGCYC )
       IF(NINVEL/=0)
-     . CALL INIVCHK(D  ,RWBUF,ITAB,NPRW,LPRW,KINET,
+     . CALL INIVCHK(IKINE,RWBUF,ITAB,NPRW,LPRW,KINET,
      1              NPBY, LPBY,IRBE2,LRBE2,IRBE3,LRBE3,
      2              FRBE3,X   ,SKEW ,V   ,VR   )
 #ifdef DNC
       IF(NEXMAD/=0)
-     .  CALL MADCHK(D      ,ITAB   ,ICONX(7*NCONX+1))
+     .  CALL MADCHK(IKINE  ,ITAB   ,ICONX(7*NCONX+1))
 #endif
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -10531,6 +10535,7 @@ C    The memory peak is in ddsplit: we need to deallocate everything that is not
 C    needed anmyre before ddsplit.
 
        CALL MY_DEALLOC(IKINE1LAG)
+       CALL MY_DEALLOC(IKINE)
        CALL MY_DEALLOC(IWCONT)
        CALL MY_DEALLOC(IWCIN2)
        CALL MY_DEALLOC(DSDOF)
