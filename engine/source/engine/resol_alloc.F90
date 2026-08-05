@@ -346,8 +346,12 @@
           if(nsurf > 0) then
             call my_alloc(output%th%th_surf%channels, th_surf_num_channel, nsurf, "output%th%th_surf%channels")
             output%th%th_surf%channels(1:th_surf_num_channel,1:nsurf)=zero
+            call my_alloc(output%th%th_surf%channels_output, th_surf_num_channel, nsurf, &
+              "output%th%th_surf%channels_output")
+            output%th%th_surf%channels_output(1:th_surf_num_channel,1:nsurf)=zero
           else
             call my_alloc(output%th%th_surf%channels, 0, 0, "output%th%th_surf%channels")
+            call my_alloc(output%th%th_surf%channels_output, 0, 0, "output%th%th_surf%channels_output")
           endif
           if(output%th%th_surf%iok > 0 ) then
             if(output%th%th_surf%loadp_flag > 0 ) then
@@ -1436,4 +1440,3 @@
 
         end subroutine resol_alloc_python
       end module resol_alloc_mod
-
