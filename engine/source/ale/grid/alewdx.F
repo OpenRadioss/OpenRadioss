@@ -149,7 +149,8 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+C     ALEWDX_GRID_BCS declares NALE as INTENT(INOUT).
+      TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
       DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------

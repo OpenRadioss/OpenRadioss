@@ -100,7 +100,8 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)  ,INTENT(OUT)   :: EPSD
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
       TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
-      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
+C     FAIL_BEAM3 declares FAIL as INTENT(INOUT).
+      TYPE (MATPARAM_STRUCT_) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

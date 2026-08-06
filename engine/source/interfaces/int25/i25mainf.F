@@ -162,7 +162,8 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(INTBUF_FRIC_STRUCT_), TARGET, DIMENSION(NINTERFRIC) ::  INTBUF_FRIC_TAB
-      TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES
+C     I25COR3_3 declares PARAMETERS as INTENT(INOUT).
+      TYPE (INTERFACES_) ,INTENT(INOUT):: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

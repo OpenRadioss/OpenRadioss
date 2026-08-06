@@ -104,7 +104,8 @@ C-----------------------------------------------
 C                                                         
       TYPE (ELBUF_STRUCT_)    ,INTENT(INOUT) :: ELBUF_STR
       TYPE (MATPARAM_STRUCT_) ,INTENT(IN)    :: MAT_PARAM
-      TYPE (FAIL_PARAM_)      ,INTENT(IN)    :: FAIL
+C     FAIL_ENERGY_B declares FAIL as INTENT(INOUT).
+      TYPE (FAIL_PARAM_)      ,INTENT(INOUT) :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 

@@ -134,7 +134,8 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (H3D_DATABASE) :: H3D_DATA
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+C     MAIN_BEAM3 declares MAT_PARAM as INTENT(INOUT).
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE (DT_), INTENT(IN) :: DT
       type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------

@@ -101,7 +101,8 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL,NPT)        ,INTENT(IN)    :: SIGY    
 C
       TYPE (ELBUF_STRUCT_)    ,INTENT(INOUT) :: ELBUF_STR
-      TYPE (FAIL_PARAM_)      ,INTENT(IN)    :: FAIL
+C     FAIL_ENERGY_IB declares FAIL as INTENT(INOUT).
+      TYPE (FAIL_PARAM_)      ,INTENT(INOUT) :: FAIL
       TYPE (MATPARAM_STRUCT_) ,INTENT(IN)    :: MAT_PARAM
       TARGET :: ELBUF_STR
 C-----------------------------------------------

@@ -103,7 +103,8 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       my_real, TARGET :: BUFMAT(*)
-      INTEGER, INTENT(in) :: NERCVOIS(*),NESDVOIS(*), LERCVOIS(*),LESDVOIS(*)
+C     SCHLIEREN_BUFFER_GATHERING declares these arrays as INTENT(INOUT).
+      INTEGER, INTENT(INOUT) :: NERCVOIS(*),NESDVOIS(*), LERCVOIS(*),LESDVOIS(*)
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -144,4 +145,3 @@ C-----------
 C-----------------------------------------------
       RETURN
       END
-
