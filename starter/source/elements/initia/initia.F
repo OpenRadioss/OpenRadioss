@@ -3430,7 +3430,7 @@ C-----
          ITY = IPARG(5,NG)
          ISOLNOD = IPARG(28,NG)
          IHBE=IPARG(23,NG)
-         NPT =MAX(NPT,IPARG(6,NG))
+         NPT = IPARG(6,NG)
         ELSE
          ITY =0
         END IF

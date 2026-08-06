@@ -286,7 +286,7 @@
         !< Number of temporary variables
         nvartmp = 2
         !< Number of integer material parameters
-        matparam%niparam = 5
+        matparam%niparam = 6
         !< Number of real material parameters
         matparam%nuparam = 14
         !< Number of user variables
@@ -304,7 +304,8 @@
         matparam%iparam(2) = idel          ! idel (dft = 1 int)
         matparam%iparam(3) = icrittyp      ! 1=displacement-based, 2=energy-based
         matparam%iparam(4) = ievoshap      ! 1=linear, 2=exponential
-        matparam%iparam(5) = isym          ! 0=asymmetric (tension only), 1=symmetric tension/compression      
+        matparam%iparam(5) = isym          ! 0=asymmetric (tension only), 1=symmetric tension/compression     
+        matparam%iparam(6) = imass         ! 1=density and area, 2=density and volume 
 !
         !-----------------------------------------------------------------------
         ! Real material parameters

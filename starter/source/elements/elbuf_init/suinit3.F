@@ -325,7 +325,7 @@ c
      4       MAS(1,6) ,MAS(1,7) ,MAS(1,8) ,INN(1,1) ,INN(1,2) ,
      5       INN(1,3) ,INN(1,4) ,INN(1,5) ,INN(1,6) ,INN(1,7) ,
      6       INN(1,8) ,PM       ,MAT      ,GBUF%OFF ,GBUF%EINT,
-     7       PTSOL    ,SIGSP    ,NSIGI    ,NUVAR    )
+     7       PTSOL    ,SIGSP    ,NSIGI    ,NUVAR    ,MAT_PARAM(IMAT(1)))
       ENDIF
 C
       DO J=1,8

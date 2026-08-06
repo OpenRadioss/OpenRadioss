@@ -34,11 +34,12 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      4           MAS6  ,MAS7  ,MAS8  ,INN1  ,INN2  ,
      5           INN3  ,INN4  ,INN5  ,INN6  ,INN7  ,
      6           INN8  ,PM    ,MAT   ,OFFG  ,EINTG ,
-     7           PTSOL ,SIGSP ,NSIGI ,NUVAR )
+     7           PTSOL ,SIGSP ,NSIGI ,NUVAR ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD           
+      USE MATPARAM_DEF_MOD
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +61,7 @@ C----------------------------------------------------------
      . INN1(*),INN2(*),INN3(*),INN4(*),INN5(*),INN6(*),INN7(*),INN8(*),
      . UPARAM(*),OFFG(*),EINTG(*),PM(NPROPM,*),SIGSP(NSIGI,NEL)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,7 +81,7 @@ C=======================================================================
       ELSEIF (MLW == 116) THEN
         MFLAG = NINT(UPARAM(3))
       ELSEIF (MLW == 117) THEN
-        MFLAG = NINT(UPARAM(12))
+        MFLAG = MAT_PARAM%IPARAM(6)
       ELSE
         MFLAG = 0
       ENDIF
