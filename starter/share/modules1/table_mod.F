@@ -50,6 +50,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_funct_python         ../starter/source/tools/curve/hm_read_funct_python.F90
 !||    hm_read_mat                  ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat106               ../starter/source/materials/mat/mat106/hm_read_mat106.F90
+!||    hm_read_mat117               ../starter/source/materials/mat/mat117/hm_read_mat117.F90
 !||    hm_read_mat123               ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat128               ../starter/source/materials/mat/mat128/hm_read_mat128.F90
 !||    hm_read_mat129               ../starter/source/materials/mat/mat129/hm_read_mat129.F90

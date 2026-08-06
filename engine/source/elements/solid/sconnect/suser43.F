@@ -34,7 +34,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sdef43                    ../engine/source/elements/solid/sconnect/sdef43.F
 !||    sfint43                   ../engine/source/elements/solid/sconnect/sfint43.F
 !||    sigeps116                 ../engine/source/materials/mat/mat116/sigeps116.F
-!||    sigeps117                 ../engine/source/materials/mat/mat117/sigeps117.F
+!||    sigeps117                 ../engine/source/materials/mat/mat117/sigeps117.F90
 !||    sigeps120_connect_main    ../engine/source/materials/mat/mat120/sigeps120_connect_main.F
 !||    sigeps169_connect         ../engine/source/materials/mat/mat169/sigeps169_connect.F90
 !||    sigeps59                  ../engine/source/materials/mat/mat059/sigeps59.F
@@ -47,6 +47,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mvsiz_mod                 ../engine/share/spe_inc/mvsiz_mod.F90
+!||    sigeps117_mod             ../engine/source/materials/mat/mat117/sigeps117.F90
 !||    sigeps169_connect_mod     ../engine/source/materials/mat/mat169/sigeps169_connect.F90
 !||    table_mod                 ../engine/share/modules/table_mod.F
 !||    timer_mod                 ../engine/source/system/timer_mod.F90

@@ -437,6 +437,7 @@
 !||    hm_read_mat02_zerilli                    ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat106                           ../starter/source/materials/mat/mat106/hm_read_mat106.F90
 !||    hm_read_mat110                           ../starter/source/materials/mat/mat110/hm_read_mat110.F
+!||    hm_read_mat117                           ../starter/source/materials/mat/mat117/hm_read_mat117.F90
 !||    hm_read_mat123                           ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90

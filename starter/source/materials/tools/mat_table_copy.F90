@@ -28,6 +28,7 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_elasto_plastic   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||    hm_read_mat106           ../starter/source/materials/mat/mat106/hm_read_mat106.F90
+!||    hm_read_mat117           ../starter/source/materials/mat/mat117/hm_read_mat117.F90
 !||    hm_read_mat123           ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat128           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
@@ -53,6 +54,7 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_elasto_plastic   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||    hm_read_mat106           ../starter/source/materials/mat/mat106/hm_read_mat106.F90
+!||    hm_read_mat117           ../starter/source/materials/mat/mat117/hm_read_mat117.F90
 !||    hm_read_mat128           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
 !||    hm_read_mat130           ../starter/source/materials/mat/mat130/hm_read_mat130.F90
 !||    hm_read_mat133           ../starter/source/materials/mat/mat133/hm_read_mat133.F90

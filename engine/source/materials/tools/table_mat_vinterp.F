@@ -56,6 +56,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    self_heating_tabulated         ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
 !||    sigeps106                      ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                     ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps117                      ../engine/source/materials/mat/mat117/sigeps117.F90
 !||    sigeps123                      ../engine/source/materials/mat/mat123/sigeps123.F90
 !||    sigeps123c                     ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps128c                     ../engine/source/materials/mat/mat128/sigeps128c.F90
@@ -115,6 +116,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    self_heating_tabulated         ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
 !||    sigeps106                      ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                     ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps117                      ../engine/source/materials/mat/mat117/sigeps117.F90
 !||    sigeps123                      ../engine/source/materials/mat/mat123/sigeps123.F90
 !||    sigeps123c                     ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps128c                     ../engine/source/materials/mat/mat128/sigeps128c.F90

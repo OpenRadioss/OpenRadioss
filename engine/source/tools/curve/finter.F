@@ -107,7 +107,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sigeps101                    ../engine/source/materials/mat/mat101/sigeps101.F
 !||    sigeps105                    ../engine/source/materials/mat/mat105/sigeps105.F
 !||    sigeps111                    ../engine/source/materials/mat/mat111/sigeps111.F
-!||    sigeps117                    ../engine/source/materials/mat/mat117/sigeps117.F
 !||    sigeps187                    ../engine/source/materials/mat/mat187/sigeps187.F
 !||    sigeps28                     ../engine/source/materials/mat/mat028/sigeps28.F
 !||    sigeps33                     ../engine/source/materials/mat/mat033/sigeps33.F

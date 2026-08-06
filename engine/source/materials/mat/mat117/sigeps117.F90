@@ -21,8 +21,25 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    sigeps117_mod   ../engine/source/materials/mat/mat117/sigeps117.F90
+!||--- called by ------------------------------------------------------
+!||    suser43         ../engine/source/elements/solid/sconnect/suser43.F
+!||====================================================================
       module sigeps117_mod
         contains
+!||====================================================================
+!||    sigeps117               ../engine/source/materials/mat/mat117/sigeps117.F90
+!||--- called by ------------------------------------------------------
+!||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       subroutine sigeps117(                                                    &
         nel     ,matparam,nuvar   ,uvar    ,jsms    ,time    ,                 &
         area    ,off     ,offl    ,ipg     ,nfail   ,ngl     ,                 &

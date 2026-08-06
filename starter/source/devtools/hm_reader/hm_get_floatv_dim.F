@@ -71,7 +71,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_mat113                             ../starter/source/materials/mat/mat113/hm_read_mat113.F
 !||    hm_read_mat114                             ../starter/source/materials/mat/mat114/hm_read_mat114.F
 !||    hm_read_mat116                             ../starter/source/materials/mat/mat116/hm_read_mat116.F
-!||    hm_read_mat117                             ../starter/source/materials/mat/mat117/hm_read_mat117.F
+!||    hm_read_mat117                             ../starter/source/materials/mat/mat117/hm_read_mat117.F90
 !||    hm_read_mat11_k_eps                        ../starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
 !||    hm_read_mat120                             ../starter/source/materials/mat/mat120/hm_read_mat120.F
 !||    hm_read_mat121                             ../starter/source/materials/mat/mat121/hm_read_mat121.F
