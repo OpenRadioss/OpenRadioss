@@ -369,3 +369,10 @@ Only one %s card is allowed
 /MESSAGE/200044/DESCRIPTION
 %s (id: %u, name: %s) : For hardening type HR = %f conversion is not supported
 #------------------------------------------------------------------------------
+
+/MESSAGE/200045/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200045/DESCRIPTION
+%s (id: %u, name: %s) :
+For this material, in *SECTION_BEAM definition, ELFORM = 6 and  CA > 0 are obligatory.
+#------------------------------------------------------------------------------
