@@ -94,7 +94,8 @@ C---------------------------------------------
           INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_KSEGS  !< ids of th surfaces to which each segment of load pressure is included
           INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_SEGS   !< list of th surfaces to which each segment of load pressure is included
 
-          my_real, DIMENSION(:,:), ALLOCATABLE :: CHANNELS   !< channels for /TH/SURF output (1:TH_SURF_NUM_CHANNEL, 1:NSURF)
+          my_real, DIMENSION(:,:), ALLOCATABLE :: CHANNELS        !< Local /TH/SURF accumulator
+          my_real, DIMENSION(:,:), ALLOCATABLE :: CHANNELS_OUTPUT !< MPI-reduced /TH/SURF output snapshot
           !
         END TYPE TH_SURF_
 
