@@ -89,7 +89,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      type(python_), intent(in) :: PYTHON
+C     REDEF3 declares PYTHON as INTENT(INOUT).
+      type(python_), intent(inout) :: PYTHON
       INTEGER, INTENT(IN) :: STF !< Size of TF
       INTEGER, INTENT(IN) :: SANIN !< Size of ANIM
       INTEGER, INTENT(IN) :: IRESP !< Single Precision flag

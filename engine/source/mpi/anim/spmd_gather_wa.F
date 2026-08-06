@@ -51,7 +51,9 @@ C-----------------------------------------------
 !       MODE = 0 --> collect the index array for each proc
 !       MODE = 1 --> collect all the buffer arrays
 !       SIZE_BUFFER_S is the size of the local sended array
-        INTEGER, INTENT(IN) :: MODE,SIZE_BUFFER_S
+        INTEGER, INTENT(IN) :: MODE
+!       SPMD_GATHERV declares RECVBUF as INTENT(INOUT).
+        INTEGER, INTENT(INOUT) :: SIZE_BUFFER_S
 !       SIZE_BUFFER_R is the size of the global received array, proc 0 
         INTEGER, INTENT(INOUT) :: SIZE_BUFFER_R
 !       SINDEX : index buffer array, local on each proc                      
@@ -59,7 +61,8 @@ C-----------------------------------------------
 !       RINDEX_PROC : global index buffer array, only on proc 0
         INTEGER, DIMENSION(NSECT+1,3,NSPMD), INTENT(INOUT) :: RINDEX_PROC
 !       BUFFER_S : sended buffer
-        INTEGER, DIMENSION(SIZE_BUFFER_S), INTENT(IN) :: BUFFER_S
+!       SPMD_GATHERV declares SENDBUF as INTENT(INOUT).
+        INTEGER, DIMENSION(SIZE_BUFFER_S), INTENT(INOUT) :: BUFFER_S
 !       BUFFER_R : received buffer, size = SIZE_BUFFER_R on proc 0
         INTEGER, DIMENSION(*), INTENT(INOUT) :: BUFFER_R
         INTEGER, DIMENSION(NSPMD), INTENT(INOUT) :: SHIFT_R,NB_ELEM_R

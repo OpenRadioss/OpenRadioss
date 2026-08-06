@@ -207,7 +207,8 @@ C-----------------------------------------------
       CHARACTER MDS_LABEL(1024,MDS_NMAT)
       TYPE (STACK_PLY) :: STACK
       TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET :: SENSORS
-      TYPE (MAT_ELEM_), INTENT(IN) :: MAT_ELEM
+C     LECSTAT declares MAT_PARAM as INTENT(INOUT).
+      TYPE (MAT_ELEM_), INTENT(INOUT) :: MAT_ELEM
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)  :: DYNAIN_DATA
       TYPE (DT_), INTENT(INOUT)              :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
@@ -3931,4 +3932,3 @@ C
  8700 FORMAT(
      .  ' FREE RIGID MOTION /MRIGM W/ REF_NODE_ID:',2X,3I10/)
       END
-

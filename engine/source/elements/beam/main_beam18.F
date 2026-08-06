@@ -102,7 +102,8 @@ C-----------------------------------------------
       my_real ,DIMENSION(STF)  ,INTENT(IN)    :: TF
 C
       TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
-      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
+C     FAIL_BEAM18 declares FAIL as INTENT(INOUT).
+      TYPE (MATPARAM_STRUCT_) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

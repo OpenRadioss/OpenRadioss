@@ -129,7 +129,8 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      TYPE (INTERFACES_)    ,INTENT(IN) :: INTERFACES
+C     REALLOCATE_I_SKYLINE declares PON as INTENT(INOUT).
+      TYPE (INTERFACES_)    ,INTENT(INOUT) :: INTERFACES
       TYPE (GLOB_THERM_)    ,INTENT(IN) :: GLOB_THERM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
