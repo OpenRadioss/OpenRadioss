@@ -161,6 +161,11 @@
           dmax2 = (one - qp2)/max((qp2 - gamma),em20)
           if (dmax1 == zero) dmax1 = one
           if (dmax2 == zero) dmax2 = one
+          rho_x(1) = max(min(rho_x(1),one),-one)
+          rho_y(1) = max(min(rho_y(1),one),-one)
+          rho_x(2) = max(min(rho_x(2),one),-one)
+          rho_y(2) = max(min(rho_y(2),one),-one)
+          gamma = max(min(gamma,one),zero)
 !
           !----------------------------------------------------------------------------------
           !< Filling buffer tables

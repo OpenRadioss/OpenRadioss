@@ -171,17 +171,17 @@
           !< Computation of elastic deviatoric stresses and equivalent stress
           !=====================================================================
           do i=1,nel
-            dav(i)    =  (depsxx(i) + depsyy(i) + depszz(i))*third
-            pold(i)   = -(sigoxx(i) + sigoyy(i) + sigozz(i))*third
-            signxx(i) = sigoxx(i) + pold(i) + g2*(depsxx(i)-dav(i))
-            signyy(i) = sigoyy(i) + pold(i) + g2*(depsyy(i)-dav(i))
-            signzz(i) = sigozz(i) + pold(i) + g2*(depszz(i)-dav(i))
-            signxy(i) = sigoxy(i) + g*depsxy(i)
-            signyz(i) = sigoyz(i) + g*depsyz(i)
-            signzx(i) = sigozx(i) + g*depszx(i)
-            j2        = half*(signxx(i)**2+signyy(i)**2+signzz(i)**2)          &
-                            + signxy(i)**2+signyz(i)**2+signzx(i)**2
-            vm(i)     = sqrt(three*j2)
+              dav(i)    =  (depsxx(i) + depsyy(i) + depszz(i))*third
+              pold(i)   = -(sigoxx(i) + sigoyy(i) + sigozz(i))*third
+              signxx(i) = sigoxx(i) + pold(i) + g2*(depsxx(i)-dav(i))
+              signyy(i) = sigoyy(i) + pold(i) + g2*(depsyy(i)-dav(i))
+              signzz(i) = sigozz(i) + pold(i) + g2*(depszz(i)-dav(i))
+              signxy(i) = sigoxy(i) + g*depsxy(i)
+              signyz(i) = sigoyz(i) + g*depsyz(i)
+              signzx(i) = sigozx(i) + g*depszx(i)
+              j2        = half*(signxx(i)**2+signyy(i)**2+signzz(i)**2)          &
+                              + signxy(i)**2+signyz(i)**2+signzx(i)**2
+              vm(i)     = sqrt(three*j2)
           end do
 !
           !=====================================================================
@@ -315,7 +315,7 @@
           !< Radial return mapping for deviatoric stress tensor
           !=====================================================================
           do i=1,nel
-            if ((off(i) == one).and.(noff(i) == 0)) then
+            if ((off(i) == one).and.((noff(i) == 0).or.(ifail == 5))) then
               !< Normalized deviatoric yield stress
               sigstar = vm(i)/fc
               !< Radial return scale factor
