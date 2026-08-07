@@ -27,7 +27,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    resol                             ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||    find_dt_target                    ../common_source/tools/time_step/find_dt_target.F
-!||    myqsort                           ../common_source/tools/sort/myqsort.F
 !||    spmd_gather_dtnoda                ../engine/source/mpi/generic/spmd_gather_dtnoda.F
 !||    spmd_glob_imax9                   ../engine/source/mpi/generic/spmd_glob_imax9.F
 !||    spmd_glob_isum9                   ../engine/source/mpi/interfaces/spmd_th.F
@@ -40,12 +39,13 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       SUBROUTINE FIND_DT_FOR_TARGETED_ADDED_MASS(MS,STIFN,DTSCA,IGRP_USR,TARGET_DT,
      .                                           PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,TOTMAS,WEIGHT,IGRNOD,
-     .                                           ICNDS10)
+     .                                           ICNDS10,ITAB)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE CPPSORT_MOD, ONLY : SORT_REAL_INT2_PERM
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER WEIGHT(*),IGRP_USR,ICNDS10(3,*)
+      INTEGER WEIGHT(*),IGRP_USR,ICNDS10(3,*),ITAB(*)
       my_real
      .   MS(*),STIFN(*),TARGET_DT,DTSCA,PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,TOTMAS
 C-----------------------------------------------
@@ -75,10 +75,11 @@ C-----------------------------------------------
      .   DT2_L
       my_real, DIMENSION(:),ALLOCATABLE :: 
      .   STF_L,MS_L
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
+     .   UID_L
       my_real, DIMENSION(:),POINTER ::
      .   TMP
       my_real SUMK,SUMM,TARGET_PERCENT
-      INTEGER :: IERROR
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
 C=======================================================================
 C
@@ -133,22 +134,25 @@ C---  Counstruction of arrays
           call my_alloc(DT2_L, 2*SIZG, "DT2_L")
           call my_alloc(STF_L, SIZG, "STF_L")
           call my_alloc(MS_L, SIZG, "MS_L")
-          SIZ = SIZ_MAX
-        ENDIF
-        CALL SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,SIZ,DT2_L,STF_L,MS_L)
+          call my_alloc(UID_L, SIZG, "UID_L")
+        SIZ = SIZ_MAX
+      ENDIF
+      CALL SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,ITAB,SIZ,DT2_L,STF_L,MS_L,UID_L)
       ELSE
-        call my_alloc(DT2_L, 2*SIZG, "DT2_L")
-        call my_alloc(STF_L, SIZG, "STF_L")
-        call my_alloc(MS_L, SIZG, "MS_L")
-        COMPT = 0
-        DO I=1,NUMNOD
-          IF (TAGN(I) > 0) THEN
-            COMPT = COMPT + 1
-            DT2_L(COMPT) = MS(I)/STIFN(I)
-            MS_L(COMPT) = MS(I)
-            STF_L(COMPT) = STIFN(I)
-          ENDIF
-        ENDDO
+      call my_alloc(DT2_L, 2*SIZG, "DT2_L")
+      call my_alloc(STF_L, SIZG, "STF_L")
+      call my_alloc(MS_L, SIZG, "MS_L")
+      call my_alloc(UID_L, SIZG, "UID_L")
+      COMPT = 0
+      DO I=1,NUMNOD
+        IF (TAGN(I) > 0) THEN
+          COMPT = COMPT + 1
+          DT2_L(COMPT) = MS(I)/STIFN(I)
+          MS_L(COMPT) = MS(I)
+          STF_L(COMPT) = STIFN(I)
+          UID_L(COMPT) = ITAB(I)
+        ENDIF
+      ENDDO
       ENDIF
 C
       call my_dealloc(TAGN)
@@ -163,13 +167,12 @@ C
         SUMM = ZERO
         SUMK = ZERO
         DO I=1,SIZG
-          TMP(I)=I
           PERM(I) = I
           SUMM = SUMM + MS_L(I)
           SUMK = SUMK + STF_L(I)
         ENDDO
 
-        CALL MYQSORT(SIZG,DT2_L,PERM,IERROR)
+        CALL SORT_REAL_INT2_PERM(SIZG, DT2_L, UID_L, PERM)
         TMP(1:SIZG) = PERM(1:SIZG)
 
         call my_dealloc(PERM)
@@ -190,6 +193,7 @@ C
         call my_dealloc(DT2_L)
         call my_dealloc(STF_L)
         call my_dealloc(MS_L)
+        call my_dealloc(UID_L)
 C
       ENDIF
 C
