@@ -1554,7 +1554,7 @@ C------------------------------------------
      .                                NGPE,NGRTH,NELEM,NODREAC,GRTH,IGRTH,DXANCG, 
      .                                IGROUPFLG,IGROUPC,IGROUPTG,IGROUPS,NUMMAT,IPM,NPROPMI, 
      .                                NVOLU,NUMELC,NUMELS)
- 
+
 C-----------------------------------------------
 C /IMPDISP/FGEO
               FXVEL_FGEO = 0
@@ -5790,7 +5790,7 @@ C----------------------------------------------------------
                 call spmd_profile_begin(PROF_RWALL)
                 CALL RGWALF(NODES%A ,RWALL%RWBUF ,RWALL%NPRW ,NODES%MS )
                 IF (RWALL%nrwall_pen>0 .AND. IMPL_S==0) THEN 
-                   nsect_offset = nsect + nintsub + ninter 
+                   nsect_offset = nsect + nintsub + ninter
 !$OMP PARALLEL
                   CALL RGWAL0_PEN(
      1            NODES%X           ,NODES%A        ,NODES%V      ,NODES%MS       ,NUMNOD            ,
@@ -5977,7 +5977,7 @@ C----------------------------------------------------------
               IF ((NCYCLE==0).AND.(IDT_PERCENT_ADDMASS > 0).AND.(IDTMIN(11)==3.OR.IDTMIN(11)==8)) THEN
                 CALL FIND_DT_FOR_TARGETED_ADDED_MASS(NODES%MS,NODES%STIFN,DTFAC1(11),IDTGR(11),TARGET_DT,
      .                                               PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,MASS0_START,NODES%WEIGHT_MD,IGRNOD,
-     .                                               ICNDS10)
+     .                                               ICNDS10,NODES%ITAB)
                 DTMIN1(11) = MAX(DTMIN1(11),TARGET_DT)
               ELSEIF ((IDT_PERCENT_ADDMASS == 2).AND.(IDTMIN(11) == 8)) THEN
 C--     For /DT/NODA/STOP + % added mass - IDTMIN switch back to 1 after first cycle
