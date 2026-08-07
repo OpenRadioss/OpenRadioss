@@ -342,7 +342,7 @@ C--------------------------------------------------
           TSTART = ZERO
           TSTOP=EP30
           FULL_FORMAT = .TRUE. 
-          IF (ALPHA==ZERO) ALPHA = ONE ! default =1 to add in manual
+          IF ((FUNC_ID /= 0).AND.(ALPHA==ZERO)) ALPHA = ONE ! default =1 if function is defined
           FACTB = ALPHA
           ALPHA = ALPHA_X
 !---------FUNC ID user-----------------------------
