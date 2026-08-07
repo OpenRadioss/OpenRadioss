@@ -100,7 +100,7 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG)==1)GOTO 50
+        IF((NCYCLE > 0).AND.(IPARG(8,NG)==1)) GOTO 50
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
@@ -157,7 +157,7 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG)==1)GOTO 100
+        IF((NCYCLE > 0).AND.(IPARG(8,NG)==1)) GOTO 100
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
@@ -289,7 +289,7 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG)==1)GOTO 200
+        IF((NCYCLE > 0).AND.(IPARG(8,NG)==1)) GOTO 200
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
