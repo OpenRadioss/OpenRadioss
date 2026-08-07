@@ -29,7 +29,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-       SUBROUTINE SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,NUM,DT2_L,STF_L,MS_L)
+       SUBROUTINE SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,ITAB,NUM,DT2_L,STF_L,MS_L,UID_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,19 +47,21 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   STIFN(*),MS(*),DT2_L(*),MS_L(*),STF_L(*)
-       INTEGER WEIGHT(*),NUM,TAGN(*)
+       INTEGER WEIGHT(*),NUM,TAGN(*),ITAB(*),UID_L(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MS_LOFF,ID_G
-      INTEGER SIZ,MS_LTYP,I,K,NREC
+      INTEGER SIZ,MS_LTYP,I,K,NREC,UID_LTYP
 
       DATA MS_LOFF/7014/
        my_real, DIMENSION(:) , ALLOCATABLE :: BUFSR
+       INTEGER, DIMENSION(:) , ALLOCATABLE :: BUFI
 C
 C=======================================================================
-       ALLOCATE (BUFSR(3*NUM))     
+       ALLOCATE (BUFSR(3*NUM))
+       ALLOCATE (BUFI(NUM))
 C  
        IF (ISPMD/=0) THEN     
          SIZ = 0
@@ -68,16 +70,17 @@ C
              SIZ = SIZ + 3
              BUFSR(SIZ-2) = MS(I)/STIFN(I)
              BUFSR(SIZ-1) = STIFN(I) 
-             BUFSR(SIZ  ) = MS(I)  
+             BUFSR(SIZ  ) = MS(I)
+             BUFI(SIZ/3) = ITAB(I)
            END IF
          END DO 
 
-C   Because of the simple precision version, we cannot put the integer
-C   In the floating buffer because there are only 2 24 bits available ~ 16 million
-C   nodes at most
-
+C   Floating buffer (MS/STIFN, STIFN, MS)
          MS_LTYP = MS_LOFF 
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MS_LTYP,
+     .     SPMD_COMM_WORLD,ierror)
+         UID_LTYP = MS_LOFF + 1
+         CALL MPI_SEND(BUFI,SIZ/3,MPI_INTEGER,IT_SPMD(1),UID_LTYP,
      .     SPMD_COMM_WORLD,ierror)
 
        ELSE
@@ -87,7 +90,8 @@ C   nodes at most
               ID_G = ID_G + 1 
               DT2_L(ID_G) = MS(I)/STIFN(I) 
               STF_L(ID_G) = STIFN(I) 
-              MS_L(ID_G) = MS(I) 
+              MS_L(ID_G) = MS(I)
+              UID_L(ID_G) = ITAB(I)
             ENDIF
           ENDDO
 
@@ -99,8 +103,10 @@ C-------------
               CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror) 
 
 C------------ Reception of the floating buffer
-
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MS_LTYP,
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
+            UID_LTYP = MS_LOFF + 1
+            CALL MPI_RECV(BUFI,SIZ/3,MPI_INTEGER,IT_SPMD(I),UID_LTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)
      
             NREC = SIZ
@@ -108,13 +114,15 @@ C------------ Reception of the floating buffer
               ID_G = ID_G + 1
               DT2_L(ID_G) = BUFSR(K)
               STF_L(ID_G) = BUFSR(K+1)
-              MS_L(ID_G) = BUFSR(K+2) 
+              MS_L(ID_G) = BUFSR(K+2)
+              UID_L(ID_G) = BUFI(K/3+1)
             ENDDO
 C
           ENDDO
 
        ENDIF
        DEALLOCATE(BUFSR)
+       DEALLOCATE(BUFI)
 
 #endif
        RETURN
