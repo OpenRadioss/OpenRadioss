@@ -43,7 +43,7 @@ void stlsort_generic_generic(int *len,  K *keys, V *values){
         pairs[i] = std::make_pair(keys[i], values[i]);
     }
 
-    std::sort(pairs.begin(), pairs.end(), [](const std::pair<K, V> &a, const std::pair<K, V> &b) {
+    std::stable_sort(pairs.begin(), pairs.end(), [](const std::pair<K, V> &a, const std::pair<K, V> &b) {
         return a.first < b.first;
     });
 
@@ -51,6 +51,46 @@ void stlsort_generic_generic(int *len,  K *keys, V *values){
         keys[i] = pairs[i].first;
         values[i] = pairs[i].second;
     }
+}
+
+// Sort by two real keys (key1 primary, key2 secondary), tracking a 1-based integer permutation.
+// Used for reproducible /DT/NODA sorting independent of MPI partition order.
+template<typename K>
+void stlsort_real2_int_generic(int *len, K *key1, K *key2, int *perm) {
+    int n = *len;
+    // Build index array (0-based internally, returned as 1-based)
+    std::vector<int> idx(n);
+    for (int i = 0; i < n; ++i) idx[i] = i;
+
+    std::stable_sort(idx.begin(), idx.end(), [&](int a, int b) {
+        if (key1[a] != key1[b]) return key1[a] < key1[b];
+        return key2[a] < key2[b];
+    });
+
+    // Reorder key1 and key2 in place and write 1-based perm
+    std::vector<K> k1(n), k2(n);
+    for (int i = 0; i < n; ++i) { k1[i] = key1[idx[i]]; k2[i] = key2[idx[i]]; }
+    for (int i = 0; i < n; ++i) { key1[i] = k1[i]; key2[i] = k2[i]; perm[i] = idx[i] + 1; }
+}
+
+// Sort by real key (primary) then integer key (secondary), tracking a 1-based integer permutation.
+// Used for reproducible /DT/NODA sorting: primary=DT ratio, secondary=node user ID.
+template<typename K>
+void stlsort_real_int2_int_generic(int *len, K *key1, int *key2, int *perm) {
+    int n = *len;
+    std::vector<int> idx(n);
+    for (int i = 0; i < n; ++i) idx[i] = i;
+
+    std::stable_sort(idx.begin(), idx.end(), [&](int a, int b) {
+        if (key1[a] != key1[b]) return key1[a] < key1[b];
+        return key2[a] < key2[b];
+    });
+
+    // Reorder key1 and key2 in place and write 1-based perm
+    std::vector<K> k1(n);
+    std::vector<int> k2(n);
+    for (int i = 0; i < n; ++i) { k1[i] = key1[idx[i]]; k2[i] = key2[idx[i]]; }
+    for (int i = 0; i < n; ++i) { key1[i] = k1[i]; key2[i] = k2[i]; perm[i] = idx[i] + 1; }
 }
 
 extern "C" {
@@ -108,5 +148,38 @@ extern "C" {
     void STLSORT_REAL_INT_(int *len, my_real* keys,  int *values) {
          stlsort_generic_generic<my_real,int>(len, keys, values); 
     } 
-}
 
+// sort by two real keys (primary, secondary) with 1-based integer permutation output
+    void stlsort_real2_int(int *len, my_real* key1, my_real* key2, int *perm) {
+         stlsort_real2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void stlsort_real2_int__(int *len, my_real* key1, my_real* key2, int *perm) {
+         stlsort_real2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void _FCALL stlsort_real2_int_(int *len, my_real* key1, my_real* key2, int *perm) {
+         stlsort_real2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void _FCALL STLSORT_REAL2_INT(int *len, my_real* key1, my_real* key2, int *perm) {
+         stlsort_real2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void STLSORT_REAL2_INT_(int *len, my_real* key1, my_real* key2, int *perm) {
+         stlsort_real2_int_generic<my_real>(len, key1, key2, perm);
+    }
+
+// sort by real primary key + integer secondary key (e.g. node user ID) with 1-based permutation output
+    void stlsort_real_int2_int(int *len, my_real* key1, int* key2, int *perm) {
+         stlsort_real_int2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void stlsort_real_int2_int__(int *len, my_real* key1, int* key2, int *perm) {
+         stlsort_real_int2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void _FCALL stlsort_real_int2_int_(int *len, my_real* key1, int* key2, int *perm) {
+         stlsort_real_int2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void _FCALL STLSORT_REAL_INT2_INT(int *len, my_real* key1, int* key2, int *perm) {
+         stlsort_real_int2_int_generic<my_real>(len, key1, key2, perm);
+    }
+    void STLSORT_REAL_INT2_INT_(int *len, my_real* key1, int* key2, int *perm) {
+         stlsort_real_int2_int_generic<my_real>(len, key1, key2, perm);
+    }
+}

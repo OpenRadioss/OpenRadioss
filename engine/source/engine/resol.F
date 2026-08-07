@@ -483,7 +483,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    damping_funct_ini_mod                        ../engine/source/assembly/damping_funct_ini.F90
 !||    damping_vref_compute_dampa_mod               ../engine/source/assembly/damping_vref_compute_dampa.F90
 !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F
-!||    debug_mod                                    ../engine/share/modules/debug_mod.F
 !||    detach_node_mod                              ../engine/source/engine/node_spliting/detach_node.F90
 !||    diffusion_mod                                ../engine/share/modules/diffusion_mod.F
 !||    drape_mod                                    ../engine/share/modules/drape_mod.F
@@ -784,7 +783,6 @@ C-----------------------------------------------
               USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
               USE ams_work_mod
               USE UPDATE_PON_MOD
-              USE DEBUG_MOD
               use inter_init_component_mod , only : inter_init_component
               use damping_vref_compute_dampa_mod
               use coupling_adapter_mod
@@ -1554,6 +1552,9 @@ C------------------------------------------
      .                                NGPE,NGRTH,NELEM,NODREAC,GRTH,IGRTH,DXANCG, 
      .                                IGROUPFLG,IGROUPC,IGROUPTG,IGROUPS,NUMMAT,IPM,NPROPMI, 
      .                                NVOLU,NUMELC,NUMELS)
+
+
+
  
 C-----------------------------------------------
 C /IMPDISP/FGEO
@@ -2667,7 +2668,6 @@ C===========================================================================
 
  100          CONTINUE
 
-              NCYCLE_DEBUG = NCYCLE
               IF (ViperCoupling) THEN
                 print*, "Radioss: start of loop with time ",TT
               ENDIF
@@ -5790,7 +5790,7 @@ C----------------------------------------------------------
                 call spmd_profile_begin(PROF_RWALL)
                 CALL RGWALF(NODES%A ,RWALL%RWBUF ,RWALL%NPRW ,NODES%MS )
                 IF (RWALL%nrwall_pen>0 .AND. IMPL_S==0) THEN 
-                   nsect_offset = nsect + nintsub + ninter 
+                   nsect_offset = nsect + nintsub + ninter
 !$OMP PARALLEL
                   CALL RGWAL0_PEN(
      1            NODES%X           ,NODES%A        ,NODES%V      ,NODES%MS       ,NUMNOD            ,
@@ -5977,7 +5977,7 @@ C----------------------------------------------------------
               IF ((NCYCLE==0).AND.(IDT_PERCENT_ADDMASS > 0).AND.(IDTMIN(11)==3.OR.IDTMIN(11)==8)) THEN
                 CALL FIND_DT_FOR_TARGETED_ADDED_MASS(NODES%MS,NODES%STIFN,DTFAC1(11),IDTGR(11),TARGET_DT,
      .                                               PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,MASS0_START,NODES%WEIGHT_MD,IGRNOD,
-     .                                               ICNDS10)
+     .                                               ICNDS10,NODES%ITAB)
                 DTMIN1(11) = MAX(DTMIN1(11),TARGET_DT)
               ELSEIF ((IDT_PERCENT_ADDMASS == 2).AND.(IDTMIN(11) == 8)) THEN
 C--     For /DT/NODA/STOP + % added mass - IDTMIN switch back to 1 after first cycle
