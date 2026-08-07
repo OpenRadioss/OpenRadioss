@@ -847,7 +847,7 @@ C-----------------------------------------------
       LOGICAL MARQUEUR3
 
       INTEGER, DIMENSION(:),ALLOCATABLE ::
-     *        IWCONT, IWCIN2      , IKINE1LAG ,IKINE, DSDOF, TAGXREF,
+     *        IWCONT, IWCIN2      , IKINE1LAG ,DSDOF, TAGXREF,
      *        ADDCNE, ADDCNE_PXFEM, FXBTAG    ,ADDCNE_CRKXFEM,
      *        TAGREFSTA,CSRECT
 
@@ -1387,9 +1387,6 @@ C INTEGER
 C
       CALL MY_ALLOC(IKINE1LAG,3*NUMNOD,"IKINE1LAG")
         IKINE1LAG(1:3*NUMNOD)=0
-
-      CALL MY_ALLOC(IKINE,5*NUMNOD,"IKINE")
-        IKINE(1:5*NUMNOD)=0
 
       CALL MY_ALLOC(DSDOF,NUMNOD,"DSDOF")
       DSDOF(1:NUMNOD)=0
@@ -2015,7 +2012,7 @@ c      ALLOCATE(XFRAME(SXFRAME) ,STAT=stat)
 C--------------------------------------------
       ERR_MSG='KINEMATIC INITIALIZATION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      CALL KININI(IKINE  )
+      CALL KININI(D      )
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     READING MATERIALS
@@ -4043,21 +4040,21 @@ C--------------------------------------------
       IF(NUMBCS /= 0 .OR. NALEBCS /= 0 .OR. NUMBCSN /= 0) THEN
         WRITE(ISTDO,'(A)')TITRE(13)
 C READ /BCS & /BCS/LAGMUL
-        CALL HM_READ_BCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
+        CALL HM_READ_BCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1),
      .              UNITAB   ,LSUBMODEL,IBCSCYC,LBCSCYC)
 C READ /ALE/BCS
-        CALL HM_READ_ALEBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
+        CALL HM_READ_ALEBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1),
      .              LSUBMODEL)
 C READ /NBCS
-        CALL HM_READ_NBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
+        CALL HM_READ_NBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
      .                    IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .                    IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1),LSUBMODEL)
 C PRINT /BCS
-        CALL PRINTBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,IKINE   ,
+        CALL PRINTBCS(ICODE  ,ISKEW  ,ITAB   ,ITABM1  ,D       ,
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1), NBCSLAG)
       ENDIF
@@ -7630,7 +7627,7 @@ C     READING RB LAGRANGE
 C--------------------------------------------
       IF(NRBYLAG > 0) THEN
          CALL HM_READ_RBODY_LAGMUL(RBYL    ,NPBYL   ,LPBYL   ,IGRNOD   ,LSUBMODEL ,
-     .                             ITAB    ,ITABM1  ,IKINE   ,IKINE1LAG,NOM_OPT)
+     .                             ITAB    ,ITABM1  ,D       ,IKINE1LAG,NOM_OPT)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -10534,7 +10531,6 @@ C    The memory peak is in ddsplit: we need to deallocate everything that is not
 C    needed anmyre before ddsplit.
 
        CALL MY_DEALLOC(IKINE1LAG)
-       CALL MY_DEALLOC(IKINE)
        CALL MY_DEALLOC(IWCONT)
        CALL MY_DEALLOC(IWCIN2)
        CALL MY_DEALLOC(DSDOF)
