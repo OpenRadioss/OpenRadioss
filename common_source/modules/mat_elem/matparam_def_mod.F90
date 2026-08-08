@@ -442,6 +442,7 @@
 !||    sigeps87c                                  ../engine/source/materials/mat/mat087/sigeps87c.F90
 !||    sigeps88                                   ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                                  ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    sini43                                     ../starter/source/elements/solid/sconnect/sini43.F
 !||    sinit3                                     ../starter/source/elements/solid/solide/sinit3.F
 !||    spgrhead                                   ../starter/source/elements/sph/spgrhead.F
 !||    spgrtails                                  ../starter/source/elements/sph/spgrtails.F

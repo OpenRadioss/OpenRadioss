@@ -22,9 +22,9 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    sini43         ../starter/source/elements/solid/sconnect/sini43.F
+!||    sini43             ../starter/source/elements/solid/sconnect/sini43.F
 !||--- called by ------------------------------------------------------
-!||    suinit3        ../starter/source/elements/elbuf_init/suinit3.F
+!||    suinit3            ../starter/source/elements/elbuf_init/suinit3.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SINI43(ELBUF_STR,
