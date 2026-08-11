@@ -131,7 +131,7 @@ c
           TABSL(2,J+KK)=N
         ENDDO
 C
-        IF(IDDLEVEL==0)THEN
+        IF(IDDLEVEL==0.AND.NPBY(21,N)==0)THEN ! check for rbody by part later
          IF(IKREM == 0)THEN
           DO J=1,NSL
            DO IDIR=1,6

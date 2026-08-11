@@ -164,7 +164,7 @@
           numnod  ,itab  ,npart ,ipart ,lipart1,       &
           icode   ,iskew ,nfxvel,nifv  ,ibfv   ,       &
           ngrav   ,nigrav,igrav ,slgrav,lgrav  ,       &
-          numskw  ,x )
+          numskw  ,x     ,iddlevel,ikine)
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
@@ -192,7 +192,7 @@
           integer,dimension(lipart1,npart),     intent(in)         :: ipart
           integer, dimension(numnod),           intent(inout)      :: icode           !< coded nodes data (boundary conditions)
           integer, dimension(numnod),           intent(inout)      :: iskew           !< local skew data
-          integer, dimension(numnod),           intent(in   )      :: itab            !< noed user id
+          integer, dimension(numnod),           intent(in   )      :: itab            !< node user id
           integer, intent(in)                                      :: nfxvel          !< number of imposed velocities
           integer, intent(in)                                      :: nifv            !< first dimesion of ibfv
           integer, dimension(nifv,nfxvel),      intent(inout)      :: ibfv            !< imposed velocities/dips/acc
@@ -203,11 +203,14 @@
           integer, dimension(nigrav,ngrav),     intent(inout)      :: igrav           !< gravities data
           integer, dimension(slgrav),           intent(inout)      :: lgrav           !< gravities node list
           real(kind=WP), intent(inout) ,dimension(3,numnod)        :: x               !< coordinate array
+          integer, intent(in)                                      :: iddlevel        !< domaine decomposition pass flag 
+          integer, dimension(5*numnod),         intent(inout)      :: ikine           !< nodal kinematic value
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,m,iad,jpart,nsl,part_id,ns1
-          integer, dimension(:), allocatable :: itag
+          integer :: i,m,iad,jpart,nsl,part_id,ns1,idir,j
+          integer, dimension(:), allocatable :: itag,ikine1
+          logical :: no_bcs,no_fv
 ! ======================================================================================================================
 !  for BSC remove 2nd nodes & add main_id (tra->rot)
 !  for impvel, do like itetra10=2 using ibfv(3,) to replace & remove
@@ -216,6 +219,10 @@
 ! ======================================================================================================================
           call my_alloc(itag,numnod,"itag")
           itag = 0
+          if(iddlevel==0) then 
+            call my_alloc(ikine1,3*numnod,"IKINE1")
+            ikine1=0
+          end if
           do i=1,nrbykin
             jpart = npby(21,i)
             if (jpart==0) cycle
@@ -224,19 +231,27 @@
             nsl = npby(2,i)
             part_id = ipart(4,jpart)
             itag(lpby(iad+1:iad+nsl)) = 1
-            call rpart_bcs_check(m,nsl,lpby(iad+1:iad+nsl),icode,iskew,numnod,itab,part_id,numskw,ns1)
+            call rpart_bcs_check(m,nsl,lpby(iad+1:iad+nsl),icode,iskew,numnod,itab,part_id,numskw,ns1,no_bcs)
             if (ns1>0) then ! special case w/ only one secondary node with bcs
               x(1:3,m)=x(1:3,ns1)
               npby(3,i) = 3   ! ICoG is fixed to 3 to respect the boundary conditions
             end if
-            call rpart_fv_check(m,itag,nfxvel,nifv,ibfv,numnod,itab,part_id)
+            call rpart_fv_check(m,itag,nfxvel,nifv,ibfv,numnod,itab,part_id,no_fv)
             call rpart_grav_check(m,itag,ngrav,nigrav,igrav,slgrav,lgrav,numnod,itab,part_id)
             itag(lpby(iad+1:iad+nsl)) = 0
+            if(iddlevel==0.and.no_bcs.and.no_fv)then 
+              do j=1,nsl
+               do idir=1,6
+                 call kinset(8,itab(lpby(j+iad)),ikine(lpby(j+iad)),idir,0,ikine1(lpby(j+iad)))
+               enddo
+              enddo
+            endif
           end do
           call my_dealloc(itag)
+          if(iddlevel==0) call my_dealloc(ikine1) 
         end subroutine rbody_part_check
 ! ======================================================================================================================
-! \brief check rbody by part with bcs(boundary conditions),replace slave nodes by main_id if needed
+! \brief check rbody by part with bcs(boundary conditions),replace secondary nodes by main_id if needed
 ! ======================================================================================================================
 !||====================================================================
 !||    rpart_bcs_check    ../starter/source/constraints/general/rbody/rbody_part_modif.F90
@@ -247,7 +262,7 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine rpart_bcs_check(m ,nsl ,isl  ,icode ,iskew ,numnod,itab,part_id,numskw,ns1)
+        subroutine rpart_bcs_check(m ,nsl ,isl  ,icode ,iskew ,numnod,itab,part_id,numskw,ns1,no_bcs)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -270,6 +285,7 @@
           integer, intent(in)                                      :: part_id         !< part id
           integer, intent(in)                                      :: numskw          !< number of local skew
           integer, intent(inout)                                   :: ns1             !< secondary node id if only one after check
+          logical, intent(inout)                                   :: no_bcs          !< if secondary node is replaced in BCS
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -283,6 +299,7 @@
           isk_m = max(1,iskew(isl(1)))
           n_ns = 0
           ns1 = 0
+          no_bcs=.true.
           do i=1,nsl
             ns = isl(i)
             ic = icode(ns)
@@ -319,6 +336,7 @@
             n_ns = n_ns + 1
             if (n_ns == 1) ns1 = ns
             icode(ns) = 0
+            no_bcs=.false.
           end do
           if (n_ns>1) ns1 = 0
           ict_m = jt_m(1)*4 + jt_m(2)*2 + jt_m(3)
@@ -344,7 +362,7 @@
 
         end subroutine rpart_bcs_check
 ! ======================================================================================================================
-! \brief check rbody by part with impvel(/IMPVEL,IMP/DISP...),replace slave nodes by main_id if needed
+! \brief check rbody by part with impvel(/IMPVEL,IMP/DISP...),replace secondary nodes by main_id if needed
 ! ======================================================================================================================
 !||====================================================================
 !||    rpart_fv_check     ../starter/source/constraints/general/rbody/rbody_part_modif.F90
@@ -355,7 +373,7 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine rpart_fv_check(m ,itag ,nfxvel,nifv,ibfv,numnod,itab,part_id)
+        subroutine rpart_fv_check(m ,itag ,nfxvel,nifv,ibfv,numnod,itab,part_id,no_fv)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -376,6 +394,7 @@
           integer, dimension(numnod),           intent(in)         :: itab            !< node user id
           integer, intent(in)                                      :: part_id         !< part id
           integer, dimension(nifv,nfxvel),      intent(inout)      :: ibfv            !< imposed velocities
+          logical, intent(inout)                                   :: no_fv           !< if secondary node is replaced in IMPVEL
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -383,6 +402,7 @@
 ! ======================================================================================================================
           jd(1:6)=0 ! tag for 6 dof
           ipr = 0
+          no_fv=.true.
           do i=1,nfxvel
             ns = iabs(ibfv(1,i))
             if (itag(ns)==0) cycle
@@ -397,6 +417,7 @@
               ipr = 1
             else
               ibfv(3,i) = -iabs(ibfv(3,i)) ! remove this impvel
+              no_fv=.false.
             end if
           end do
 
