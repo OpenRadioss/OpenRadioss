@@ -394,18 +394,18 @@
       signyz(1:nel) = (one-dmg(1:nel))*e_elas_s*epsyz(1:nel)
       signzx(1:nel) = (one-dmg(1:nel))*e_elas_s*epszx(1:nel)
 !
-      if (icrittyp == 2) then
-        ! smooth c^1 fade-out near deletion (energy-based criterion)
-        ! 3-2 hermite step on d in [d_fade=0.95, d_crit=0.999]
-        where (dmg(1:nel) > zep95)
-          xi(1:nel) = min(max((dmg(1:nel) - zep95) /                           &
-                                  (zep999 - zep95), zero), one)
-          fade(1:nel) = one - xi(1:nel)*xi(1:nel)*(three - two*xi(1:nel))
-          signzz(1:nel) = signzz(1:nel)*fade(1:nel)
-          signyz(1:nel) = signyz(1:nel)*fade(1:nel)
-          signzx(1:nel) = signzx(1:nel)*fade(1:nel)
-        endwhere
-      endif
+      ! if (icrittyp == 2) then
+      !   ! smooth c^1 fade-out near deletion (energy-based criterion)
+      !   ! 3-2 hermite step on d in [d_fade=0.95, d_crit=0.999]
+      !   where (dmg(1:nel) > zep95)
+      !     xi(1:nel) = min(max((dmg(1:nel) - zep95) /                           &
+      !                             (zep999 - zep95), zero), one)
+      !     fade(1:nel) = one - xi(1:nel)*xi(1:nel)*(three - two*xi(1:nel))
+      !     signzz(1:nel) = signzz(1:nel)*fade(1:nel)
+      !     signyz(1:nel) = signyz(1:nel)*fade(1:nel)
+      !     signzx(1:nel) = signzx(1:nel)*fade(1:nel)
+      !   endwhere
+      ! endif
 !      
       !=========================================================================
       !< SAVE UVAR FIELDS
