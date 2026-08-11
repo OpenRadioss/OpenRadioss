@@ -189,6 +189,24 @@ c
             IPT_ALL = IPT_ALL + NPTT
           ENDDO  !  DO ILAY=1,NPT
 c
+        ELSE IF (ELBUF_STR%BUFLY(1)%ILAW == 136) THEN
+          KK = NVSHELL + 4
+          DO J = 1,8
+            KK = KK + 1
+            JJ = (J-1)*NEL + I
+            ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR(JJ) = SIGSH(KK,II)
+          ENDDO
+          DO J = 1,5
+            KK = KK + 1
+            JJ = (J-1)*NEL + I
+            ELBUF_STR%BUFLY(1)%LBUF(1,1,1)%SIGB(JJ) = SIGSH(KK,II)
+          ENDDO
+          DO J = 1,3
+            KK = KK + 1
+            JJ = (J-1)*NEL + I
+            ELBUF_STR%BUFLY(1)%LBUF(1,1,1)%DMG(JJ) = SIGSH(KK,II)
+          ENDDO
+c
         ELSE IF (NPG <= 1) THEN                                      
           IF (NIP == 0) THEN
             UVAR => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR                         

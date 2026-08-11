@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER I,N,J,K,JJ,LEN, IOFF,
      .        NG, NEL, NFT, ITY, LFT,LLT, MLW, ID, IPRT0,IPRT,IE, 
      .        NPG,NPT,NPTR,NPTS,NPTT,NLAY,IR,IS,IT,IL,
-     .        IVAR,NUVAR,MY_NUVAR,NPT_ALL,IGTYP
+     .        IVAR,NUVAR,MY_NUVAR,NPT_ALL,IGTYP,MPT
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
 
@@ -107,6 +107,7 @@ C
           MLW   = IPARG(1,NG)
           NEL   = IPARG(2,NG)
           NFT   = IPARG(3,NG)
+          MPT   = IPARG(6,NG)
           IGTYP = IPARG(38,NG)
           NPTR = ELBUF_TAB(NG)%NPTR    
           NPTS = ELBUF_TAB(NG)%NPTS    
@@ -145,6 +146,7 @@ C
             WA(JJ) = IXC(NIXC,N)
             JJ = JJ + 1
             WA(JJ) = NPT
+            IF (MPT == 0) WA(JJ) = 0
             JJ = JJ + 1
             WA(JJ) = NPG
 C
@@ -271,6 +273,29 @@ c
                         WA(JJ) = ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I + IVAR*NEL)
                       ENDDO
                     ENDDO
+                  ENDDO
+                ENDDO
+              ENDDO  ! DO IL = 1,NLAY
+c
+            ELSEIF (MLW == 136) THEN     ! STA/AUX 
+              BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+              MY_NUVAR = BUFLY%NVAR_MAT + BUFLY%L_SIGB + BUFLY%L_DMG
+              JJ = JJ + 1
+              WA(JJ) = MY_NUVAR
+c
+              DO IS=1,NPTS
+                DO IR=1,NPTR                                                       
+                  DO IVAR=1,BUFLY%NVAR_MAT
+                    JJ = JJ + 1
+                    WA(JJ) = BUFLY%MAT(IR,IS,1)%VAR(I + IVAR*NEL)
+                  ENDDO
+                  DO IVAR=1,BUFLY%L_SIGB
+                    JJ = JJ + 1
+                    WA(JJ) = BUFLY%LBUF(IR,IS,1)%SIGB(I + IVAR*NEL)
+                  ENDDO
+                  DO IVAR=1,BUFLY%L_DMG
+                    JJ = JJ + 1
+                    WA(JJ) = BUFLY%LBUF(IR,IS,1)%DMG(I + IVAR*NEL)
                   ENDDO
                 ENDDO
               ENDDO  ! DO IL = 1,NLAY
@@ -404,7 +429,7 @@ C
               WRITE(LINE,'(4I10)')ID,NPT,NPG,MY_NUVAR
               CALL STRS_TXT50(LINE,100)
             ENDIF
-            DO JJ=1,NPT*NPG
+            DO JJ=1,MAX(1,NPT)*NPG
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(1P5E20.13)')(WAP0(J + K),K=1,MY_NUVAR)
               ELSE
@@ -430,6 +455,7 @@ C
           MLW   = IPARG(1,NG)
           NEL   = IPARG(2,NG)
           NFT   = IPARG(3,NG)
+          MPT   = IPARG(6,NG)
           IGTYP = IPARG(38,NG)
           NPTR = ELBUF_TAB(NG)%NPTR    
           NPTS = ELBUF_TAB(NG)%NPTS    
@@ -468,6 +494,7 @@ C
             WA(JJ) = IXTG(NIXTG,N)
             JJ = JJ + 1
             WA(JJ) = NPT
+            IF (MPT == 0) WA(JJ) = 0
             JJ = JJ + 1
             WA(JJ) = NPG
 c
@@ -577,6 +604,29 @@ c
                         WA(JJ) = SIGB((IVAR-1)*NEL + I)
                       ENDDO
                     ENDDO
+                  ENDDO
+                ENDDO
+              ENDDO  ! DO IL = 1,NLAY
+c
+            ELSEIF (MLW == 136) THEN     ! STA/AUX 
+              BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+              MY_NUVAR = BUFLY%NVAR_MAT + BUFLY%L_SIGB + BUFLY%L_DMG
+              JJ = JJ + 1
+              WA(JJ) = MY_NUVAR 
+c
+              DO IS=1,NPTS
+                DO IR=1,NPTR                                                       
+                  DO IVAR=1,BUFLY%NVAR_MAT
+                    JJ = JJ + 1
+                    WA(JJ) = BUFLY%MAT(IR,IS,1)%VAR(I + IVAR*NEL)
+                  ENDDO
+                  DO IVAR=1,BUFLY%L_SIGB
+                    JJ = JJ + 1
+                    WA(JJ) = BUFLY%LBUF(IR,IS,1)%SIGB(I + IVAR*NEL)
+                  ENDDO
+                  DO IVAR=1,BUFLY%L_DMG
+                    JJ = JJ + 1
+                    WA(JJ) = BUFLY%LBUF(IR,IS,1)%DMG(I + IVAR*NEL)
                   ENDDO
                 ENDDO
               ENDDO  ! DO IL = 1,NLAY
@@ -701,7 +751,7 @@ C
               IPRT0=IPRT
             ENDIF  !  IF (IPRT /= IPRT0)
             ID  = NINT(WAP0(J + 3)) 
-            NPT = NINT(WAP0(J + 4)) 
+            NPT = NINT(WAP0(J + 4))
             NPG = NINT(WAP0(J + 5)) 
             MY_NUVAR = NINT(WAP0(J + 6))
             J = J + 6
@@ -711,7 +761,7 @@ C
               WRITE(LINE,'(4I10)')ID,NPT,NPG,MY_NUVAR
               CALL STRS_TXT50(LINE,100)
             ENDIF
-            DO JJ=1,NPT*NPG
+            DO JJ=1,MAX(1,NPT)*NPG
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(1P5E20.13)')(WAP0(J + K),K=1,MY_NUVAR)
               ELSE

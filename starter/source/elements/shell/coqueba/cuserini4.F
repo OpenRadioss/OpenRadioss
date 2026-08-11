@@ -96,7 +96,7 @@ C
         NPGI  = NINT(SIGSH(NVSHELL + 3,II))
         NVARS = NINT(SIGSH(NVSHELL + 4,II))
 C
-        IF ((NPGI /= NPG.OR.NPI /= NPT) .AND. IGTYP/=51 .AND. IGTYP/=52) THEN
+        IF ((NPGI /= NPG.OR.(NPI /= NPT .AND. NPT /= 0)) .AND. IGTYP/=51 .AND. IGTYP/=52) THEN
 c         for IGTYP == 51, usually NPT <= NPTI (NPTI = NTPP --> for all layers)
           IPID1=IX(NIX-1,NFT+I)
           PID1=IGEO(1,IPID1)
@@ -207,6 +207,24 @@ c
                     ENDDO
                   ENDDO
                 ENDDO  !  DO ILAY=1,NPT
+c
+              ELSE IF (ELBUF_STR%BUFLY(1)%ILAW == 136) THEN
+                KK  = NVSHELL + 4 +(IPG-1)*NVARS*NPI
+                DO J = 1,8
+                  KK = KK + 1
+                  JJ = (J-1)*NEL + I
+                  ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR(JJ) = SIGSH(KK,II)
+                ENDDO
+                DO J = 1,5
+                  KK = KK + 1
+                  JJ = (J-1)*NEL + I
+                  ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)%SIGB(JJ) = SIGSH(KK,II)
+                ENDDO
+                DO J = 1,3
+                  KK = KK + 1
+                  JJ = (J-1)*NEL + I
+                  ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)%DMG(JJ) = SIGSH(KK,II)
+                ENDDO
 c
               ELSE ! ILAW
                 IPT_ALL = 0
