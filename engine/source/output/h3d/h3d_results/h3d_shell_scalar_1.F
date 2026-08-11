@@ -1107,10 +1107,21 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'THIN')THEN
 C--------------------------------------------------
-              DO I=1,NEL
-                VALUE(I) = HUNDRED *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)
-                IS_WRITTEN_VALUE(I) = 1
-              ENDDO
+              IF (ITY == 3) THEN
+                DO I=1,NEL
+                  N = I + NFT
+                  THK0 = GEO(1,IXC(NIXC-1,N))
+                  VALUE(I) = HUNDRED *(THK0-GBUF%THK(I))/THK0
+                  IS_WRITTEN_VALUE(I) = 1
+                ENDDO
+              ELSEIF (ITY == 7) THEN
+                DO I=1,NEL
+                  N = I + NFT + NUMELC
+                  THK0 = GEO(1,IXTG(NIXTG-1,N))
+                  VALUE(I) = HUNDRED *(THK0-GBUF%THK(I))/THK0
+                  IS_WRITTEN_VALUE(I) = 1
+                ENDDO
+              ENDIF
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'USER' .OR. KEYWORD == 'MDS') THEN
 C--------------------------------------------------

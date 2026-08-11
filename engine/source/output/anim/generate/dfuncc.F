@@ -116,7 +116,7 @@ C-----------------------------------------------
      .   Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,VAR,RINDX,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
      .   VG(5),VLY(5),VE(5),DMGMX_LY,EVAR_TMP,
-     .   VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR
+     .   VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR,THK0
       INTEGER I,IDX,I1,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,NFAIL,
      .        N,K,K2,JTURB,MT,IALEL,NNI,
@@ -1508,9 +1508,20 @@ c---
               EVAR(LFT:LLT) = GBUF%EPSD(LFT:LLT)
 c---
             ELSEIF(IFUNC == 2155)THEN
-              DO I=LFT,LLT
-                EVAR(I) = HUNDRED *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)
-              ENDDO
+              IF (ITY == 3) THEN
+                DO I=LFT,LLT
+                  N = I + NFT
+                  THK0 = GEO(1,IXC(NIXC-1,N))
+                  EVAR(I) = HUNDRED *(THK0-GBUF%THK(I))/THK0
+                ENDDO
+              ELSEIF (ITY == 7) THEN
+                DO I=LFT,LLT
+                  N = I + NFT + NUMELC
+                  THK0 = GEO(1,IXTG(NIXTG-1,N))
+                  EVAR(I) = HUNDRED *(THK0-GBUF%THK(I))/THK0
+                ENDDO
+              ENDIF
+c---
 c------------------------------------
             ELSEIF (IFUNC>=20 .AND. IFUNC<=24) THEN
 C             USER VARIABLES from 1 to 5
