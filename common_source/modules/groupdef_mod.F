@@ -522,6 +522,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    presearchigeo3d                   ../starter/source/elements/ige3d/searchigeo3d.F
 !||    printbcs                          ../starter/source/constraints/general/bcs/printbcs.F
 !||    printgroup                        ../starter/source/output/outfile/printgroup.F
+!||    q1np_generate_main                ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_surf_grid_mod                ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
 !||    qa_print_groups                   ../starter/source/output/qaprint/st_qaprint_groups.F
 !||    qa_print_surf                     ../starter/source/output/qaprint/st_qaprint_surf.F

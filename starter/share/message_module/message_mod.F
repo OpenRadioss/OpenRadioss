@@ -1043,6 +1043,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    printgroup                                 ../starter/source/output/outfile/printgroup.F
 !||    prodmat                                    ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    prodmatvect                                ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    q1np_generate_main                         ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_mass3_mod                             ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
 !||    q1np_promote_cp_mod                        ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
 !||    q1np_volume_mod                            ../starter/source/elements/solid/solid_q1np/q1np_volume.F90

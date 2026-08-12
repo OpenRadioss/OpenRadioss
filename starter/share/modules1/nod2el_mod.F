@@ -27,6 +27,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    i2tid3                  ../starter/source/interfaces/inter3d1/i2tid3.F
 !||    lectur                  ../starter/source/starter/lectur.F
 !||    merge_node              ../starter/source/elements/nodes/merge_node.F
+!||    q1np_generate_main      ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    r2r_check_seg           ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    r2r_count               ../starter/source/coupling/rad2rad/r2r_count.F
 !||    r2r_prelec              ../starter/source/coupling/rad2rad/r2r_prelec.F

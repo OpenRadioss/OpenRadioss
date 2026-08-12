@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    q1np_generate_main_mod   ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                   ../starter/source/starter/lectur.F
+!||====================================================================
       module q1np_generate_main_mod
         implicit none
       contains
@@ -34,6 +39,34 @@
 !!          allocates all Q1NP data tables, promotes control points to mesh nodes, and resizes
 !!          all NUMNOD-dependent arrays accordingly.
 !
+!||====================================================================
+!||    q1np_generate_main               ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                           ../starter/source/output/message/message.F
+!||    constit                          ../starter/source/elements/nodes/constit.F
+!||    genq1np                          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    hm_get_intv                      ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key               ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start                  ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    ini_ifront                       ../starter/source/spmd/node/ddtools.F
+!||    q1np_build_surf_grid             ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||    q1np_export_hex8_csv             ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||    q1np_promote_cp_to_nodes         ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
+!||--- uses       -----------------------------------------------------
+!||    front_mod                        ../starter/share/modules1/front_mod.F
+!||    genq1np_mod                      ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    group_mod                        ../starter/share/modules1/group_mod.F
+!||    hm_option_read_mod               ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                      ../starter/share/message_module/message_mod.F
+!||    nod2el_mod                       ../starter/share/modules1/nod2el_mod.F
+!||    q1np_export_csv_mod              ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
+!||    q1np_promote_cp_mod              ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
+!||    q1np_surf_grid_mod               ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
+!||    restmod                          ../starter/share/modules1/restart_mod.F
+!||    submodel_mod                     ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine q1np_generate_main(iwcont, iwcin2, ikine1lag, ikine, dsdof, addcne,               &
           addcne_pxfem, fxbtag, itag, flagkin, xyzref,                   &
           sx, sv, sd, sms, sin,                                          &

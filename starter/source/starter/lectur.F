@@ -371,6 +371,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    printgroup                          ../starter/source/output/outfile/printgroup.F
 !||    printstsz                           ../starter/source/spmd/node/st_array_size.F
 !||    python_duplicate_nodes              ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
+!||    q1np_generate_main                  ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    qgrhead                             ../starter/source/elements/solid_2d/quad/qgrhead.F
 !||    qgrtails                            ../starter/source/elements/solid_2d/quad/qgrtails.F
 !||    r2r_check                           ../starter/source/coupling/rad2rad/r2r_check.F
@@ -534,6 +535,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    nod2el_mod                          ../starter/share/modules1/nod2el_mod.F
 !||    option_mod                          ../starter/share/modules1/options_mod.F
 !||    python_duplicate_nodes_mod          ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
+!||    q1np_generate_main_mod              ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    r2r_mod                             ../starter/share/modules1/r2r_mod.F
 !||    random_mod                          ../starter/share/modules1/random_mod.F
 !||    rbody_part_modif_mod                ../starter/source/constraints/general/rbody/rbody_part_modif.F90

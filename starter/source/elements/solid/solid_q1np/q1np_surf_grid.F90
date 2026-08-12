@@ -36,6 +36,7 @@
 !||    q1np_surf_grid_mod   ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
 !||--- called by ------------------------------------------------------
 !||    genq1np_mod          ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_generate_main   ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module q1np_surf_grid_mod
@@ -103,6 +104,7 @@
 !||    q1np_build_surf_grid          ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
 !||--- called by ------------------------------------------------------
 !||    genq1np                       ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_generate_main            ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||--- calls      -----------------------------------------------------
 !||    q1np_grid_dir_to_local_edge   ../starter/source/elements/solid/solid_q1np/q1np_surf_grid.F90
 !||--- uses       -----------------------------------------------------

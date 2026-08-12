@@ -418,6 +418,7 @@
 !||    q1np_export_hex8_csv                     ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
 !||    q1np_fill_element_gp_volumes             ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
 !||    q1np_fit_control_points                  ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_generate_main                       ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_init_lbuf_gp_vol                    ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
 !||    q1np_init_mod                            ../starter/source/elements/solid/solid_q1np/q1np_init.F90
 !||    q1np_mass3                               ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90

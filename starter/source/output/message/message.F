@@ -751,6 +751,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    prepare_int25                          ../starter/source/model/mesh/build_cnel.F
 !||    printgroup                             ../starter/source/output/outfile/printgroup.F
 !||    q1np_fit_control_points                ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_generate_main                     ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_mass3                             ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
 !||    q1np_promote_cp_to_nodes               ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
 !||    q4deri2                                ../starter/source/elements/solid_2d/quad4/q4deri2.F

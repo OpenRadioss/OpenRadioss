@@ -39,6 +39,7 @@
 !||    q1np_contact_driver_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
 !||    q1np_dump_hist_state          ../engine/source/elements/solid/solid_q1np/q1np_dump_hist_state.F90
 !||    q1np_forc3                    ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_generate_main            ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_init_lbuf_vol_mod        ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
 !||    q1np_init_mod                 ../starter/source/elements/solid/solid_q1np/q1np_init.F90
 !||    q1np_mass3_mod                ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
@@ -129,9 +130,10 @@
       CONTAINS
 
 !||====================================================================
-!||    reset_q1np_counts   ../common_source/modules/q1np_restart_mod.F90
+!||    reset_q1np_counts    ../common_source/modules/q1np_restart_mod.F90
 !||--- called by ------------------------------------------------------
-!||    reset_q1np_state    ../common_source/modules/q1np_restart_mod.F90
+!||    q1np_generate_main   ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
+!||    reset_q1np_state     ../common_source/modules/q1np_restart_mod.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         SUBROUTINE RESET_Q1NP_COUNTS()
@@ -177,7 +179,9 @@
         END SUBROUTINE RESET_Q1NP_STATE
 
 !||====================================================================
-!||    set_q1np_counts   ../common_source/modules/q1np_restart_mod.F90
+!||    set_q1np_counts      ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_generate_main   ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||====================================================================
         SUBROUTINE SET_Q1NP_COUNTS(NUMELQ1NP_IN, &
           SKQ1NP,SIQ1NP,SQ1NPBULK,                &
@@ -200,6 +204,8 @@
 
 !||====================================================================
 !||    set_q1np_knot_sets   ../common_source/modules/q1np_restart_mod.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_generate_main   ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         SUBROUTINE SET_Q1NP_KNOT_SETS(NSETS_IN, NX_SET_IN, NY_SET_IN, KTAB_OFF_IN, KTAB_LEN_IN)
@@ -241,6 +247,7 @@
 !||    set_q1np_tabvint_len   ../common_source/modules/q1np_restart_mod.F90
 !||--- called by ------------------------------------------------------
 !||    genq1np                ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
+!||    q1np_generate_main     ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    rdresa                 ../engine/source/output/restart/rdresa.F
 !||====================================================================
         SUBROUTINE SET_Q1NP_TABVINT_LEN(LEN)
@@ -253,6 +260,7 @@
 !||--- called by ------------------------------------------------------
 !||    q1np_compute_volume_element      ../starter/source/elements/solid/solid_q1np/q1np_volume.F90
 !||    q1np_ensure_gauss_scheme         ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
+!||    q1np_generate_main               ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_mass3                       ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90
 !||--- calls      -----------------------------------------------------
 !||    q1np_gauss_1d                    ../common_source/modules/q1np_restart_mod.F90

@@ -63,6 +63,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    prepare_split_i7          ../starter/source/restart/ddsplit/inter_tools.F
 !||    prepare_split_i8          ../starter/source/restart/ddsplit/inter_tools.F
 !||    prepare_split_i9          ../starter/source/restart/ddsplit/inter_tools.F
+!||    q1np_generate_main        ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    r2r_split                 ../starter/source/coupling/rad2rad/r2r_split.F
 !||    read_ebcs                 ../starter/source/boundary_conditions/ebcs/read_ebcs.F
 !||    realloc_iddconnect        ../starter/source/spmd/node/ddtools.F

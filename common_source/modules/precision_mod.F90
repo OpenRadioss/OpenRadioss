@@ -443,6 +443,7 @@
 !||    q1np_export_csv_mod                        ../starter/source/elements/solid/solid_q1np/q1np_export_csv.F90
 !||    q1np_fit_control_points                    ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
 !||    q1np_forc3                                 ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_generate_main                         ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_geom_mod                              ../common_source/modules/q1np_geom_mod.F90
 !||    q1np_init_lbuf_vol_mod                     ../starter/source/elements/solid/solid_q1np/q1np_init_lbuf_vol.F90
 !||    q1np_init_mod                              ../starter/source/elements/solid/solid_q1np/q1np_init.F90

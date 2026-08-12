@@ -386,6 +386,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    q1np_eval_top_patch_point                  ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
 !||    q1np_fit_control_points                    ../starter/source/elements/solid/solid_q1np/q1np_genelements.F90
 !||    q1np_forc3                                 ../engine/source/elements/solid/solid_q1np/q1np_forc3.F90
+!||    q1np_generate_main                         ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||    q1np_geom_mod                              ../common_source/modules/q1np_geom_mod.F90
 !||    q1np_init_mod                              ../starter/source/elements/solid/solid_q1np/q1np_init.F90
 !||    q1np_mass3_mod                             ../starter/source/elements/solid/solid_q1np/q1np_mass3.F90

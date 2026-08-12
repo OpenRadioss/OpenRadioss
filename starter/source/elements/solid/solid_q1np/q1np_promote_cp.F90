@@ -37,6 +37,8 @@
 !=======================================================================
 !||====================================================================
 !||    q1np_promote_cp_mod   ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_generate_main    ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../starter/share/message_module/message_mod.F
 !||====================================================================
@@ -50,6 +52,8 @@
 !
 !||====================================================================
 !||    q1np_promote_cp_to_nodes   ../starter/source/elements/solid/solid_q1np/q1np_promote_cp.F90
+!||--- called by ------------------------------------------------------
+!||    q1np_generate_main         ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                     ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
