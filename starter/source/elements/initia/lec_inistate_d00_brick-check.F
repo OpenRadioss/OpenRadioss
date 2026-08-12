@@ -53,7 +53,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IGEO(NPROPGI,*) ,ITRIS(*), ISOLNODD00(*)
       INTEGER IE, NPT, ISOLNOD, JJHBE, IGTYP, ISROT, NLAY
-      CHARACTER*15,KEYWORD 
+      CHARACTER(LEN=15) :: KEYWORD
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

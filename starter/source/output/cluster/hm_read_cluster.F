@@ -120,7 +120,7 @@ c
             ENDIF                                 
           ENDDO                                   
         ENDIF
-        IF (UID / = 0 .and. IFLAGUNIT == 0) THEN                        
+        IF (UID /= 0 .AND. IFLAGUNIT == 0) THEN                        
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=CLID,I2=UID,C1='CLUSTER',C2='CLUSTER',C3=TITR)
         ENDIF                                                        
 c----------------------------

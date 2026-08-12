@@ -72,7 +72,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPART(LIPART1,*) ,IPARTS(*) ,
      .   NPC(*), IPARG(NPARG,*),IADS(8,*),NELTST,ITYPTST,
-     .   KXX(NIXX,*),I XX(*), ITAB(*),
+     .   KXX(NIXX,*), IXX(*), ITAB(*),
      .   IPARTX(*), ISKY(*),GRTH(*),IGRTH(*)
 C     REAL
       my_real

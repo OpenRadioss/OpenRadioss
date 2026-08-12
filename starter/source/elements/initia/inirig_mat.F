@@ -507,8 +507,8 @@ C
      .               BIDBUF, STACK,BIDG ,RNOISE,DRAPE,
      .               PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
      .               X2L      ,X3L    ,Y3L , IBID, IBID   )
-        CALL C3DERII(LFT,LLT,PM,GEO,PX1,PY1,PY2,S
-     .               TIFN   ,STIFR   ,IXTG(1,NFT+1),
+                  CALL C3DERII(LFT,LLT,PM,GEO,PX1,PY1,PY2,
+     .               STIFN  ,STIFR   ,IXTG(1,NFT+1),
      .               THKT,SH3TREE,ALDT,BUFMAT , IPM   ,IGEO ,
      .               STACK%PM , ISUBSTACK, STRTG(NFT+1),IMAT,IPROP,
      .               AREA ,DT  ,X31 ,Y31 ,Z31 ,

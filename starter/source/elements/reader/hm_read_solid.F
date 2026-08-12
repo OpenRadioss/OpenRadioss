@@ -757,7 +757,7 @@ C
         I1=1
         I2=50
 C
-        DOWHILE(I1<=NUMELS20)
+        DO WHILE(I1<=NUMELS20)
          WRITE (IOUT,'(//A/A//A/A,A/A/A)')
      .        '            TWENTY NODE BRICK ELEMENTS',
      .        '            --------------------------',
@@ -782,7 +782,7 @@ C
         I1=1
         I2=50
 C
-        DOWHILE(I1<=NUMELS16)
+        DO WHILE(I1<=NUMELS16)
          WRITE (IOUT,'(//A/A//A/A,A/A,A)')
      .        '            SIXTEEN NODE SHELL ELEMENTS',
      .        '            ---------------------------',

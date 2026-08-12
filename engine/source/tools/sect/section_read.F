@@ -88,7 +88,7 @@ C-----------------------------------------------
         IFRL2=MOD(IFRL1+1,2)
         L=1
         CALL CUR_FIL_C(4)
-        DOWHILE(TT2<=TTT)
+        DO WHILE(TT2<=TTT)
           IFRL1=IFRL2
           IFRL2=MOD(IFRL1+1,2)
           CALL READ_R_C(R4,1)
@@ -111,7 +111,7 @@ C test EOF-------------------------------------------------------------------
                 FILNAM(I:I)=CHAR(NSTRF(15+I))
                 IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
             ENDDO
-            DOWHILE(TT3<=TTT.AND.IR<100)
+            DO WHILE(TT3<=TTT.AND.IR<100)
               IR=IR+1
               WRITE(LCHRUN,'(I2.2)')IR
               FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
@@ -180,7 +180,7 @@ C-----------------------------------------------
             KR0 = NSTRF(26)
             FOUND=0
             N=0
-            DOWHILE(FOUND==0.AND.N<NSECT)
+            DO WHILE(FOUND==0.AND.N<NSECT)
                 N=N+1
                 IF(ID_SEC==NSTRF(K0+23))THEN
                   FOUND=1

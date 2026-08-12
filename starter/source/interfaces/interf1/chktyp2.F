@@ -71,7 +71,7 @@ C-----------------------------------------------
       TAGHIER(1:NUMNOD) = 0
 C
       DO N=1,NINTER
-         NTY =I PARI(7,N)
+         NTY =IPARI(7,N)
          IF (NTY == 2) THEN
           NRTS  =IPARI(3,N)
           NRTM  =IPARI(4,N)

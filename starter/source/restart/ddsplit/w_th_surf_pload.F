@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER , INTENT(IN) :: IBCL(NIBCLD,NCONLD)   !< list of segments where pressure /PLOAD is applied 
       INTEGER , INTENT(IN) :: NODLOCAL(NUMNOD)   !< table of local nodes
       INTEGER , INTENT(IN) :: CEP(LEN_CEP)          !< Proc to which belong the element
-      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF !< Type for /TH/SURF and load pressures output tabs
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF !< Type for /TH/SURF and load pressures output tabs
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

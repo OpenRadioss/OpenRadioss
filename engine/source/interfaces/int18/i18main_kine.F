@@ -223,7 +223,7 @@ C LINDMAX = NCONT*MULTIMP
      1                       N           ,IPARI(1,N)    ,INTBUF_TAB(N)         ,X                , 
      2                       STIFN       ,V             ,A                     ,MS               , NMN             ,
      3                       ITAB        ,LINDMAX       ,CAND_SAV(INT18ADD(N)) ,MTF              , ALE_NE_CONNECT  ,
-     4                       NRTMDIM     ,JTASK         ,NB_JLT(JTASK)         ,NB_JLT_NEW(JTASK),N B_STOK_N(JTASK),
+     4                       NRTMDIM     ,JTASK         ,NB_JLT(JTASK)         ,NB_JLT_NEW(JTASK), NB_STOK_N(JTASK),
      5                       KINET       ,MULTI_FVM     ,XCELL,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,
      .                            XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
        ENDIF

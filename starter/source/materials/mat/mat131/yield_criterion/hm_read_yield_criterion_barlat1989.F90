@@ -68,7 +68,7 @@
           integer,                 intent(inout) :: icrit                 !< yield criterion type
           integer,                 intent(inout) :: nupar_crit            !< number of yield criterion parameters
           real(kind=WP),dimension(100),intent(inout) :: upar_crit         !< yield criterion parameters
-          logical,                 intent(in)    :: is_available          !< availability flag
+          logical,                 intent(inout)    :: is_available          !< availability flag
           type(unit_type_),        intent(in)    :: unitab                !< units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
           integer,                 intent(in)    :: iout                  !< output unit

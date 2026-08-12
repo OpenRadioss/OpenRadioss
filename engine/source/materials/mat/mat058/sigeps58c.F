@@ -661,7 +661,7 @@ c---    uncoupled model  (compression of fiber)
         DDEC  = DC - UVAR(I,15)                        
         DDET  = DT - UVAR(I,16)                        
         IF (DCC >ZERO ) THEN   
-         IF ((DDEC >=ZERO .AND. DCC> = UVAR(I,17)) .OR.
+         IF ((DDEC >=ZERO .AND. DCC >= UVAR(I,17)) .OR.
      .       (DDEC >=ZERO .AND. UVAR(I,17)==UVAR(I,18)) ) THEN     
            !----------------------LOAD
            DO ITER = 1, NITER           
@@ -1583,8 +1583,8 @@ c-----
              SXYMIN(I)    = SIGNXY(I)         
             ENDIF!DPHI LOAD - RELOAD - UNLOAD
           ELSE ! PHI <ZERO 
-            IF((DPHI <=ZERO .AND. UVAR(I,32) ==ZERO).OR.(DPHI <=ZERO .AND. PHI <UVAR(I,33))
-     .     .OR.(DPHI <=ZERO .AND. UVAR(I,33)==UVAR(I,32)) ) THEN
+            IF((DPHI <=ZERO .AND. UVAR(I,32) ==ZERO).OR.(DPHI <= ZERO .AND. PHI < UVAR(I,33))
+     .     .OR.(DPHI <=ZERO .AND. UVAR(I,33) == UVAR(I,32)) ) THEN
              !----------------------LOAD
               SIGNXY(I)   = YFAC(3)*FINTER(KFUNC(3),PHI,NPF,TF,GXY)
               KG          = GXY*YFAC(3)*TAN2

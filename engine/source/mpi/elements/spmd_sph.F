@@ -1964,25 +1964,22 @@ C-----------------------------------------------
      .                                   REC_IPPV,SEND_IPPV,SEND_IPPV2
 
       INTEGER 
-     .        
      .        NS,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
-     . NP,K,JMPOSE2,IPPVR,INDICE
-     .        IDEB2, C, INDICE, IDEB2,N1, SIZ,INDICE1,
+     .        NP,K,JMPOSE2,IPPVR,
+     .        CC, INDICE, IDEB2,N1, SIZ,INDICE1,
      .        NBIS,MSGOFF,MSGOFF2,MSGOFF3
 
        my_real
      .        BUFS(12,NSPHS), BUFR(12,NSPHR)
        my_real
      .       VX,VY,VZ,
-     .       
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,
      .       DI,RHOI,DJ,RHOJ,DIJ,
      .       VXJ,VYJ,VZJ,
      .       VJ,VJX,VJY,VJZ,
      .       WGHT,WGRAD(3),WGRDX,WGRDY,WGRDZ,
      .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .       
      .       ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,XP,YP,ZP  
        LOGICAL :: CONDITION
        DATA MSGOFF /2020/
@@ -2177,8 +2174,8 @@ C
 c treatment
         IF(MYPSPHR(P)/=0)THEN
           DO N = 1, MYPSPHR(P)
-            C = REC_IPPV(IDEB2+N)
-            ICELL = LSPHS(C+IDEB)
+            CC = REC_IPPV(IDEB2+N)
+            ICELL = LSPHS(CC+IDEB)
             INOD = KXSP(3,ICELL)
             NP=ICELL
             XP=X(1,INOD)

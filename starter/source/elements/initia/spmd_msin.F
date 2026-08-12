@@ -548,7 +548,7 @@ C
         ITRI(I) = IXTG(6,I)
       ENDDO
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELTG,1)
-      IF(ITHERM _FE== 0 ) THEN
+      IF(ITHERM_FE== 0 ) THEN
        IF(NADMESH==0)THEN
         DO J=1,NUMELTG
           I = INDEX(J)

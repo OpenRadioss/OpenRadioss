@@ -151,7 +151,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
-      TYPE (PARAMETERS_) ,INTENT(INOUT)     :: INTER_PARAMETERS
+      TYPE (PARAMETERS_) ,INTENT(IN)     :: INTER_PARAMETERS
       TYPE (SENSORS_)    ,INTENT(IN)        :: SENSORS
       TYPE (UNIT_TYPE_), INTENT(IN)         :: UNITAB
       TYPE(glob_therm_) ,intent(inout)      :: glob_therm

@@ -239,7 +239,7 @@ C------------
         DO NN=1,NSPGROUP
           COMPTEUR = 0
           DO K = 1,NSPMD
-            IF ((ADRESS(NN+1,K)-1-ADRESS(NN,K)) > =0) THEN
+            IF ((ADRESS(NN+1,K)-1-ADRESS(NN,K)) >= 0) THEN
               DO L = ADRESS(NN,K),ADRESS(NN+1,K)-1
                 COMPTEUR = COMPTEUR + 1
                 WAP0(COMPTEUR) = WAP0_LOC(L)

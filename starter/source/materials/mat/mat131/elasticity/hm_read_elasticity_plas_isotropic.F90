@@ -72,7 +72,7 @@
           integer,                 intent(in)    :: ikey                  !< Material key
           integer,                 intent(inout) :: ielas                 !< Elastic model type
           integer,                 intent(inout) :: nupar_elas            !< Number of elastic parameters
-          logical,                 intent(in)    :: is_available          !< Availability flag
+          logical,                 intent(inout) :: is_available          !< Availability flag
           type(unit_type_),        intent(in)    :: unitab                !< Units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< Submodel data structure
           type(matparam_struct_),  intent(inout) :: matparam              !< Matparam data structure

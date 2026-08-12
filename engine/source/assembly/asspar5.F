@@ -47,14 +47,9 @@ C
       integer*8 
      .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
      .  I8VISCN(3,*)
-      my_real 
-     .  A(3,*),AR(3,*),PARTSAV(*),STIFN(*),STIFR(*),VISCN(*),GRESAV(*)
-c___________________________________________________          
+      my_real  A(3,*),AR(3,*),PARTSAV(*),STIFN(*),STIFR(*),VISCN(*),GRESAV(*)
       double precision r8_deuxm43
-      integer*8  i8_deuxp43
-      data i8_deuxp43 /'80000000000'x/
-      r8_deuxm43 = 1.d00 / i8_deuxp43
-c___________________________________________________          
+       parameter (r8_deuxm43 = 2.d0**(-43))
 C
       NUM7 = NPSAV*NPART
       NUM8 = NGPE*NPART

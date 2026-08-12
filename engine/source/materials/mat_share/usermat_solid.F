@@ -231,24 +231,92 @@ C-----------------------------------------------
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
      .  NVARF,NVARTMP,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV,VISCTYPE
       INTEGER, DIMENSION(:), POINTER  :: VARTMP
-      my_real 
-     .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
-     .SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
-     . EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),E7(MVSIZ),
-     . EP4(2*MVSIZ),EP5(2*MVSIZ),EP6(2*MVSIZ),EINC,
-     . S1(MVSIZ) ,S2(MVSIZ) ,S3(MVSIZ) ,
-     . S4(2*MVSIZ) ,S5(2*MVSIZ) ,S6(2*MVSIZ),
-     . DE1(MVSIZ),DE2(MVSIZ),DE3(MVSIZ),
-     . DE4(2*MVSIZ),DE5(2*MVSIZ),DE6(2*MVSIZ),
-     . SO1(MVSIZ),SO2(MVSIZ),SO3(MVSIZ),
-     . SO4(2*MVSIZ),SO5(2*MVSIZ),SO6(2*MVSIZ),
-     .ES1(MVSIZ),ES2(MVSIZ),ES3(MVSIZ),ES4(MVSIZ),ES5(MVSIZ),ES6(MVSIZ),
-     .SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
-     .SVO1(MVSIZ),SVO2(MVSIZ),SVO3(MVSIZ),SVO4(MVSIZ),SVO5(MVSIZ),SVO6(MVSIZ),
-     .R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),    
-     .R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),EPSP1(MVSIZ),DPLA(MVSIZ),
-     .PAIR(MVSIZ),ES7(MVSIZ),ES8(MVSIZ),ES9(MVSIZ),DEFP0(MVSIZ)
-      my_real FACQ0
+      my_real :: E1
+      my_real :: E2
+      my_real :: E3
+      my_real :: E4
+      my_real :: E5
+      my_real :: E6
+      my_real :: BID1
+      my_real :: BID3
+      my_real :: Q1
+      my_real :: Q2
+      my_real :: Q3
+      my_real :: SS1
+      my_real :: SS2
+      my_real :: SS3
+      my_real :: SS4
+      my_real :: SS5
+      my_real :: SS6
+      my_real :: WXXF
+      my_real :: WYYF
+      my_real :: WZZF
+      my_real :: P2
+      my_real :: EPSP
+      my_real :: DAV
+      my_real :: ASRATE
+      my_real :: EINC
+      my_real :: C1(MVSIZ)
+      my_real :: EP1(MVSIZ)
+      my_real :: EP2(MVSIZ)
+      my_real :: EP3(MVSIZ)
+      my_real :: E7(MVSIZ)
+      my_real :: EP4(2*MVSIZ)
+      my_real :: EP5(2*MVSIZ)
+      my_real :: EP6(2*MVSIZ)
+      my_real :: S1(MVSIZ)
+      my_real :: S2(MVSIZ)
+      my_real :: S3(MVSIZ)
+      my_real :: S4(2*MVSIZ)
+      my_real :: S5(2*MVSIZ)
+      my_real :: S6(2*MVSIZ)
+      my_real :: DE1(MVSIZ)
+      my_real :: DE2(MVSIZ)
+      my_real :: DE3(MVSIZ)
+      my_real :: DE4(2*MVSIZ)
+      my_real :: DE5(2*MVSIZ)
+      my_real :: DE6(2*MVSIZ)
+      my_real :: SO1(MVSIZ)
+      my_real :: SO2(MVSIZ)
+      my_real :: SO3(MVSIZ)
+      my_real :: SO4(2*MVSIZ)
+      my_real :: SO5(2*MVSIZ)
+      my_real :: SO6(2*MVSIZ)
+      my_real :: ES1(MVSIZ)
+      my_real :: ES2(MVSIZ)
+      my_real :: ES3(MVSIZ)
+      my_real :: ES4(MVSIZ)
+      my_real :: ES5(MVSIZ)
+      my_real :: ES6(MVSIZ)
+      my_real :: SV1(MVSIZ)
+      my_real :: SV2(MVSIZ)
+      my_real :: SV3(MVSIZ)
+      my_real :: SV4(MVSIZ)
+      my_real :: SV5(MVSIZ)
+      my_real :: SV6(MVSIZ)
+      my_real :: SVO1(MVSIZ)
+      my_real :: SVO2(MVSIZ)
+      my_real :: SVO3(MVSIZ)
+      my_real :: SVO4(MVSIZ)
+      my_real :: SVO5(MVSIZ)
+      my_real :: SVO6(MVSIZ)
+      my_real :: R11(MVSIZ)
+      my_real :: R12(MVSIZ)
+      my_real :: R13(MVSIZ)
+      my_real :: R21(MVSIZ)
+      my_real :: R22(MVSIZ)
+      my_real :: R23(MVSIZ)
+      my_real :: R31(MVSIZ)
+      my_real :: R32(MVSIZ)
+      my_real :: R33(MVSIZ)
+      my_real :: EPSP1(MVSIZ)
+      my_real :: DPLA(MVSIZ)
+      my_real :: PAIR(MVSIZ)
+      my_real :: ES7(MVSIZ)
+      my_real :: ES8(MVSIZ)
+      my_real :: ES9(MVSIZ)
+      my_real :: DEFP0(MVSIZ)
+      my_real :: FACQ0
      
       my_real FPSXX(MVSIZ),FPSYY(MVSIZ),FPSZZ(MVSIZ),FPSXY(MVSIZ),
      *        FPSYZ(MVSIZ),FPSZX(MVSIZ),FPSYX(MVSIZ),FPSZY(MVSIZ),
