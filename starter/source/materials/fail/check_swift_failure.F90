@@ -67,7 +67,7 @@
             case(39)                             ! gene1
 
             case(41)                             ! fail_tab2
-              ireg = fail%iparam(2)
+              ireg = nint(fail%uparam(9))
               if (ireg == 3) swift_reg = .true.        
             case(42)                             ! inievo
               ninievo = nint(fail%uparam(1))

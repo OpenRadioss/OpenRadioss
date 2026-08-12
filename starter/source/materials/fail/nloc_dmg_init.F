@@ -855,8 +855,8 @@ C
               N = IDXI(IXC(K+1,I))
               ! Update the number of elements attached to the node
               NELEN(N) = NELEN(N) + 1
-              ! Save the corresponding element internal number
-              IDELEM(IADDN(N)+NELEN(N)-1) = I
+              ! Save the corresponding VOLNOD index (shell offset = NUMELS)
+              IDELEM(IADDN(N)+NELEN(N)-1) = NUMELS + I
             ENDDO 
             ! Material number
             IMAT   = IXC(1,I)
@@ -876,8 +876,8 @@ C
               N = IDXI(IXTG(K+1,I))
               ! Update the number of elements attached to the node
               NELEN(N) = NELEN(N) + 1
-              ! Save the corresponding element internal number
-              IDELEM(IADDN(N)+NELEN(N)-1) = I
+              ! Save the corresponding VOLNOD index (triangle offset = NUMELS+NUMELC)
+              IDELEM(IADDN(N)+NELEN(N)-1) = NUMELS + NUMELC + I
             ENDDO
             ! Material number
             IMAT   = IXTG(1,I)
