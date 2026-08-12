@@ -311,7 +311,7 @@ C
          NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG)==1)GOTO 50
+          IF(IPARG(8,NG)==1.OR.IPARG(1,NG)==13)GOTO 50
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
@@ -403,7 +403,7 @@ C
          NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG)==1)GOTO 60
+          IF(IPARG(8,NG)==1.OR.IPARG(1,NG)==13)GOTO 60
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
@@ -477,7 +477,7 @@ C
          NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG)==1)GOTO 70
+          IF(IPARG(8,NG)==1.OR.IPARG(1,NG)==13)GOTO 70
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
@@ -564,7 +564,7 @@ C-------
         NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG)==1)GOTO 100
+          IF(IPARG(8,NG)==1.OR.IPARG(1,NG)==13)GOTO 100
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
@@ -631,7 +631,7 @@ C-----------------------------------------------
         NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG)==1)GOTO 250
+          IF(IPARG(8,NG)==1.OR.IPARG(1,NG)==13)GOTO 250
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
@@ -820,7 +820,7 @@ C-------
 #include "lockoff.inc"
 C--------
 C Solids to SPH, particles must be computed when cloud active
-          IF(IPARG(8,NG)==1)GOTO 350
+          IF(IPARG(8,NG)==1.OR.IPARG(1,NG)==13)GOTO 350
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
@@ -1225,7 +1225,7 @@ C--------
           NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG)==1)GOTO 400
+          IF(IPARG(8,NG)==1.OR.IPARG(1,NG)==13)GOTO 400
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
