@@ -1516,7 +1516,7 @@ c---
                 ENDDO
               ELSEIF (ITY == 7) THEN
                 DO I=LFT,LLT
-                  N = I + NFT + NUMELC
+                  N = I + NFT
                   THK0 = GEO(1,IXTG(NIXTG-1,N))
                   EVAR(I) = HUNDRED *(THK0-GBUF%THK(I))/THK0
                 ENDDO

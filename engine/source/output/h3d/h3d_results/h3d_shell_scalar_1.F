@@ -1116,7 +1116,7 @@ C--------------------------------------------------
                 ENDDO
               ELSEIF (ITY == 7) THEN
                 DO I=1,NEL
-                  N = I + NFT + NUMELC
+                  N = I + NFT
                   THK0 = GEO(1,IXTG(NIXTG-1,N))
                   VALUE(I) = HUNDRED *(THK0-GBUF%THK(I))/THK0
                   IS_WRITTEN_VALUE(I) = 1
