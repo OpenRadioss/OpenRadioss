@@ -149,13 +149,65 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, PROC_L, CC, CC_L, N1, N2, N3, N4,
-     .        K, K0, K1, K6, NV, KN, JJ, INACTI,NG,NUMG0,
-     .        IS,NN,J,ITY,CLOAD,NUML,NUMG, II, MAIN,J_L,IPVENT,
-     .        NSL, NSL_L, KK, P,K_ L, MSR, PMAIN, NTY, NRTS,NL_L,N0,
-     .        NRTM, NSN, NMN, L, NSN_L, OFFTG,
-     .        OFFC,ITYP,NVENT,IV,IADHOL,KIBHOL,KIBJET,K2,NNC,NAV,J0,
-     .        N_L 
+      INTEGER :: N
+      INTEGER :: I
+      INTEGER :: PROC_L
+      INTEGER :: CC
+      INTEGER :: CC_L
+      INTEGER :: N1
+      INTEGER :: N2
+      INTEGER :: N3
+      INTEGER :: N4
+      INTEGER :: K
+      INTEGER :: K0
+      INTEGER :: K1
+      INTEGER :: K6
+      INTEGER :: NV
+      INTEGER :: KN
+      INTEGER :: JJ
+      INTEGER :: INACTI
+      INTEGER :: NG
+      INTEGER :: NUMG0
+      INTEGER :: IS
+      INTEGER :: NN
+      INTEGER :: J
+      INTEGER :: ITY
+      INTEGER :: CLOAD
+      INTEGER :: NUML
+      INTEGER :: NUMG
+      INTEGER :: II
+      INTEGER :: MAIN
+      INTEGER :: J_L
+      INTEGER :: IPVENT
+      INTEGER :: NSL
+      INTEGER :: NSL_L
+      INTEGER :: KK
+      INTEGER :: P
+      INTEGER :: K_L
+      INTEGER :: MSR
+      INTEGER :: PMAIN
+      INTEGER :: NTY
+      INTEGER :: NRTS
+      INTEGER :: NL_L
+      INTEGER :: N0
+      INTEGER :: NRTM
+      INTEGER :: NSN
+      INTEGER :: NMN
+      INTEGER :: L
+      INTEGER :: NSN_L
+      INTEGER :: OFFTG
+      INTEGER :: OFFC
+      INTEGER :: ITYP
+      INTEGER :: NVENT
+      INTEGER :: IV
+      INTEGER :: IADHOL
+      INTEGER :: KIBHOL
+      INTEGER :: KIBJET
+      INTEGER :: K2
+      INTEGER :: NNC
+      INTEGER :: NAV
+      INTEGER :: J0
+      INTEGER :: N_L
       INTEGER :: IDEBRBK(NSPMD)
       INTEGER :: PROCNE_PXFEM(LCNEPXFEM_L)
       INTEGER :: IADC_PXFEM(4,NUMELCPXFEM_L)

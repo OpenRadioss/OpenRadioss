@@ -68,7 +68,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(T_ALE_CONNECTIVITY), INTENT(INOUT) :: ALE_CONNECTIVITY
-      TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT), INTENT(INOUT) :: MAT_PARAM
+      TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
       INTEGER,INTENT(IN) :: NPF(*)
       my_real,INTENT(IN) :: TF(*)
 C-----------------------------------------------

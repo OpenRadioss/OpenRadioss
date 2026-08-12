@@ -59,20 +59,20 @@ C-----------------------------------------------
       use my_alloc_mod
       use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
-C-----------------------------------------------
+C10----------------------------------------------
 C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
+C9----------------------------------------------
 #include "spmd.inc"
-C-----------------------------------------------
+C8----------------------------------------------
 C   C o m m o n   B l o c k s
-C-----------------------------------------------
+C7----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "i25edge_c.inc"
-C-----------------------------------------------
+C6----------------------------------------------
 C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+C5----------------------------------------------
       INTEGER, INTENT(IN) :: NEDGE
       INTEGER, INTENT(INOUT) :: LEDGE(NLEDGE,NEDGE)
       INTEGER, INTENT(IN) ::  NIN,
@@ -80,10 +80,9 @@ C-----------------------------------------------
       INTEGER :: COMM,RANK,COMSIZE
       my_real
      .        STFE(NEDGE)
-C-----------------------------------------------
+C4----------------------------------------------
 C   L o c a l  V a r i a b l e s
-C-----------------------------------------------
-
+C3----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER_SEND,BUFFER_RECV
       INTEGER :: LOCAL_SIZE(COMSIZE,2), TOTAL_SIZE
       INTEGER :: LOCAL_SIZE_SUM(COMSIZE,2)
@@ -93,11 +92,8 @@ C-----------------------------------------------
       INTEGER :: S_LEFT,S_RIGHT
       INTEGER :: ID_LEFT,ID_RIGHT
 #ifdef MPI
-      INTEGER DATA MSGOFF/1001/
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-C
+      INTEGER, PARAMETER :: MSGOFF = 1001
+C2----------------------------------------------
       IF(.NOT. (NSPMD == 1 .OR. COMM == MPI_COMM_NULL)) THEN 
 !       Count fully broken edge
         LOCAL_SIZE(1:COMSIZE,1:2) = 0
@@ -118,9 +114,9 @@ C
         LOCAL_SIZE(1:COMSIZE,1:2) = LOCAL_SIZE_SUM(1:COMSIZE,1:2)
 
 
-C
+Ca
 C     Send broken edges 
-C 
+Cb
         TOTAL_SIZE = SUM(LOCAL_SIZE(1:COMSIZE,1))
         IF(TOTAL_SIZE > 0) THEN
           call my_alloc(BUFFER_SEND, LOCAL_SIZE(RANK+1,1), "BUFFER_SEND")
@@ -164,9 +160,9 @@ C hash table would be better here (UID -> index in LEDEG_FIE)
           ENDDO
           call my_dealloc(BUFFER_RECV)
         ENDIF
-C
+Cc
 C     Send Free edges 
-C 
+Cd 
         TOTAL_SIZE = SUM(LOCAL_SIZE(1:COMSIZE,2))
         IF(TOTAL_SIZE > 0) THEN
           call my_alloc(BUFFER_SEND, 5*LOCAL_SIZE(RANK+1,2), "BUFFER_SEND")

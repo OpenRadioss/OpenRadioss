@@ -69,7 +69,7 @@
           integer,                 intent(inout) :: ielas                 !< elastic model type
           integer,                 intent(inout) :: nupar_elas            !< number of elastic parameters
           real(kind=WP),dimension(100),intent(inout) :: upar_elas         !< elastic parameters
-          logical,                 intent(in)    :: is_available          !< availability flag
+          logical,                 intent(inout) :: is_available          !< availability flag
           type(unit_type_),        intent(in)    :: unitab                !< units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
           type(matparam_struct_),  intent(inout) :: matparam              !< matparam data structure

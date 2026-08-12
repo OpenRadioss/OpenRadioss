@@ -91,7 +91,7 @@
           real(kind=WP),dimension(100),intent(inout) :: x4vect            !< X4 scale factor for tabulated hardening
           real(kind=WP),dimension(100),intent(inout) :: fscale            !< Y  scale factor for tabulated hardening
           integer,                 intent(inout) :: nvartmp               !< Number of variables used in tabulated hardening
-          logical,                 intent(in)    :: is_available          !< Availability flag
+          logical,                 intent(inout)    :: is_available          !< Availability flag
           type(unit_type_),        intent(in)    :: unitab                !< Units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< Submodel data structure
           integer,                 intent(in)    :: iout                  !< Output unit

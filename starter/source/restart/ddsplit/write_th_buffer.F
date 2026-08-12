@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TH_),INTENT(INOUT)                :: TH               ! TH Type 
+      TYPE(TH_),INTENT(IN)                :: TH               ! TH Type 
       INTEGER,INTENT(IN)                     :: P                ! Current SPMD domain
       INTEGER,INTENT(IN)                     :: NUMNOD           ! Total number of Model Nodes
       INTEGER,INTENT(IN)                     :: NUMSPH           ! Total number of SPH partikles in model

@@ -760,7 +760,7 @@ C!$OMP ORDERED
 C-----------------------------------------------
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
-          IF(IMPL_S = =1) THEN
+          IF(IMPL_S == 1) THEN
             DO I = 1 ,JLT_NEW
              NS_IMP(I+NUM_IMP)=CN_LOC(I)
              NE_IMP(I+NUM_IMP)=CE_LOC(I)

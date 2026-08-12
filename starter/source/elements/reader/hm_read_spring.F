@@ -304,9 +304,9 @@ C--------------------------------------------------
 C
 C----
       RETURN
-  300 FORMAT(/' SPRING ELEMENTS'/
-     +        ' ---------------'/
-     + '    LOC-EL     GLO-EL       GEOM      NODE1      NODE2'
-     + '    (NODE3)                                    (MAT_ID)     (SKEW)')
+  300 FORMAT(/,' SPRING ELEMENTS',/
+     .        ' ---------------',/
+     . '    LOC-EL     GLO-EL       GEOM      NODE1      NODE2',
+     . '    (NODE3)                                    (MAT_ID)     (SKEW)')
       RETURN
       END

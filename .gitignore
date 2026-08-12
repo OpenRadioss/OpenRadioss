@@ -36,6 +36,7 @@ extlib.zip
 *.F90.json
 *.cpp.json
 *.c.json
+*fparser2*
 .devcontainer/**
 .idea/
 *.s

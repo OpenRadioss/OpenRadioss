@@ -332,61 +332,61 @@ C-----------
      & 5X,'  PRONY SERIES MODEL  :'         ,/,
      & 5X,' --------------------- '         ,/)
  1100 FORMAT(
-     & 5X,'BULK MODULUS FOR VISCO ELASTIC MATERIAL . . . . . . . . . . . . . . . =',1PG20.13/   
-     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10/)    
+     & 5X,'BULK MODULUS FOR VISCO ELASTIC MATERIAL . . . . . . . . . . . . . . . =',1PG20.13,/
+     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10,/)    
  1150 FORMAT(
-     & 5X,' ----------------------------------------------------------------------'/
-     & 5X,' PARAMETERS FOR PRONY FUNCTION NUMBER #',I10/
-     & 5X,' ----------------------------------------------------------------------'/)   
+     & 5X,' ----------------------------------------------------------------------',/
+     & 5X,' PARAMETERS FOR PRONY FUNCTION NUMBER #',I10,/
+     & 5X,' ----------------------------------------------------------------------',/)   
  1200 FORMAT(
-     & 5X,'SHEAR RELAXATION G MODULUS  . . . . . . . . . . . . . . . . . . . . . = '1PG20.13/
+     & 5X,'SHEAR RELAXATION G MODULUS  . . . . . . . . . . . . . . . . . . . . . = ',1PG20.13,/
      & 5X,'BETA DECAY SHEAR MODULUS  . . . . . . . . . . . . . . . . . . . . . . =',1PG20.13) 
  1300 FORMAT(   
-     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10//) 
+     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10,/,/) 
  1400 FORMAT(
-     & 5X,'BULK RELAXATION K MODULUS . . . . . . . . . . . . . . . . . . . . . . = '1PG20.13/
-     & 5X,'BETAK DECAY BULK MODULUS  . . . . . . . . . . . . . . . . . . . . . . =',1PG20.13//)  
+     & 5X,'BULK RELAXATION K MODULUS . . . . . . . . . . . . . . . . . . . . . . = ',1PG20.13,/
+     & 5X,'BETAK DECAY BULK MODULUS  . . . . . . . . . . . . . . . . . . . . . . =',1PG20.13,/,/)  
  1500 FORMAT(   
-     & 5X,'TABULATED PRONY SERIES FLAG  . . . . . . . . . . . . . . . . . . . . .=',I10/
-     & 5X,'  ITAB=1  FITTING FROM MODULUS VS TIME CURVES'/
-     & 5X,'  ITAB=2  FITTING FROM STORAGE AND LOSS MODULI VS FREQUENCY CURVES'/
-     & 5X,'SHAPE PRONY SERIES FLAG  . . . . . . . . . . . . . . . . . . . . . . .=',I10/
-     & 5X,'  ISHAPE=0 WITHOUT INFINITE MODULUS (DEFAULT)'/
-     & 5X,'  ISHAPE=1 WITH INFINITE MODULUS'/)          
+     & 5X,'TABULATED PRONY SERIES FLAG  . . . . . . . . . . . . . . . . . . . . .=',I10,/
+     & 5X,'  ITAB=1  FITTING FROM MODULUS VS TIME CURVES',/
+     & 5X,'  ITAB=2  FITTING FROM STORAGE AND LOSS MODULI VS FREQUENCY CURVES',/
+     & 5X,'SHAPE PRONY SERIES FLAG  . . . . . . . . . . . . . . . . . . . . . . .=',I10,/
+     & 5X,'  ISHAPE=0 WITHOUT INFINITE MODULUS (DEFAULT)',/
+     & 5X,'  ISHAPE=1 WITH INFINITE MODULUS',/)          
  1600 FORMAT(
-     & 5X,'LEAST SQUARE FITTING FROM SHEAR MODULUS G FUNCTION ID. . . . . . . . .= 'I10/
-     & 5X,'TIME SCALE FACTOR FOR SHEAR MODULUS  . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'SCALE FACTOR FOR SHEAR MODULUS . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/)     
+     & 5X,'LEAST SQUARE FITTING FROM SHEAR MODULUS G FUNCTION ID. . . . . . . . .= ',I10,/
+     & 5X,'TIME SCALE FACTOR FOR SHEAR MODULUS  . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'SCALE FACTOR FOR SHEAR MODULUS . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/)     
  1800 FORMAT(
-     & 5X,'LEAST SQUARE FITTING FROM BULK MODULUS K FUNCTION ID . . . . . . . . .= 'I10/
-     & 5X,'TIME SCALE FACTOR FOR BULK MODULUS . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'SCALE FACTOR FOR BULK MODULUS  . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/)
+     & 5X,'LEAST SQUARE FITTING FROM BULK MODULUS K FUNCTION ID . . . . . . . . .= ',I10,/
+     & 5X,'TIME SCALE FACTOR FOR BULK MODULUS . . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'SCALE FACTOR FOR BULK MODULUS  . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/)
  2000 FORMAT(
-     & 5X,'LEAST SQUARE FITTING FROM STORAGE SHEAR MODULUS GL FUNCTION ID . . . .= 'I10/
-     & 5X,'FREQUENCY SCALE FACTOR FOR STORAGE SHEAR MODULUS . . . . . . . . . . .= '1PG20.13/
-     & 5X,'SCALE FACTOR FOR STORAGE SHEAR MODULUS . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'LEAST SQUARE FITTING FROM LOSS SHEAR MODULUS GS FUNCTION ID  . . . . .= 'I10/
-     & 5X,'FREQUENCY SCALE FACTOR FOR LOSS SHEAR MODULUS  . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'SCALE FACTOR FOR LOSS SHEAR MODULUS FUNCTION . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/)
+     & 5X,'LEAST SQUARE FITTING FROM STORAGE SHEAR MODULUS GL FUNCTION ID . . . .= ',I10,/
+     & 5X,'FREQUENCY SCALE FACTOR FOR STORAGE SHEAR MODULUS . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'SCALE FACTOR FOR STORAGE SHEAR MODULUS . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'LEAST SQUARE FITTING FROM LOSS SHEAR MODULUS GS FUNCTION ID  . . . . .= ',I10,/
+     & 5X,'FREQUENCY SCALE FACTOR FOR LOSS SHEAR MODULUS  . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'SCALE FACTOR FOR LOSS SHEAR MODULUS FUNCTION . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/)
  2500 FORMAT(
-     & 5X,'LEAST SQUARE FITTING FROM STORAGE BULK MODULUS KL FUNCTION ID  . . . .= 'I10/
-     & 5X,'FREQUENCY SCALE FACTOR FOR STORAGE BULK MODULUS  . . . . . . . . . . .= '1PG20.13/
-     & 5X,'SCALE FACTOR FOR STORAGE BULK MODULUS  . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'LEAST SQUARE FITTING FROM LOSS BULK MODULUS GS FUNCTION ID . . . . . .= 'I10/
-     & 5X,'FREQUENCY SCALE FACTOR FOR LOSS BULK MODULUS . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'SCALE FACTOR FOR LOSS BULK MODULUS FUNCTION  . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/)
+     & 5X,'LEAST SQUARE FITTING FROM STORAGE BULK MODULUS KL FUNCTION ID  . . . .= ',I10,/
+     & 5X,'FREQUENCY SCALE FACTOR FOR STORAGE BULK MODULUS  . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'SCALE FACTOR FOR STORAGE BULK MODULUS  . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'LEAST SQUARE FITTING FROM LOSS BULK MODULUS GS FUNCTION ID . . . . . .= ',I10,/
+     & 5X,'FREQUENCY SCALE FACTOR FOR LOSS BULK MODULUS . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'SCALE FACTOR FOR LOSS BULK MODULUS FUNCTION  . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/
+     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/)
  3000 FORMAT(
-     & 5X,'SHEAR MODULUS INFINITE VALUE GINF  . . . . . . . . . . . . . . . . . .= '1PG20.13/)
+     & 5X,'SHEAR MODULUS INFINITE VALUE GINF  . . . . . . . . . . . . . . . . . .= ',1PG20.13,/)
  3500 FORMAT(
-     & 5X,'BULK MODULUS INFINITE VALUE KINF . . . . . . . . . . . . . . . . . . .= '1PG20.13/)
+     & 5X,'BULK MODULUS INFINITE VALUE KINF . . . . . . . . . . . . . . . . . . .= ',1PG20.13,/)
      
       RETURN
       END

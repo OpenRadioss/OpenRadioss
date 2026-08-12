@@ -266,7 +266,7 @@ c            END IF
             ELSEIF(IS1 == 2)THEN
               CALL INPOINT(NSN,NOINT,IGRNOD(ISU1)%ENTITY,ITAB,INTBUF_TAB(NI)%NSV)
             ELSEIF(IS1 == 3)THEN
-              LINE_NODES = > IGRSLIN(ISU1)%NODES(1:NRTS,1:2)
+              LINE_NODES => IGRSLIN(ISU1)%NODES(1:NRTS,1:2)
               CALL INSLIN(NRTS,NSN,INTBUF_TAB(NI)%IRECTS,NOINT,
      .                    LINE_NODES,ITAB,INTBUF_TAB(NI)%NSV,
      .                    NTAG)

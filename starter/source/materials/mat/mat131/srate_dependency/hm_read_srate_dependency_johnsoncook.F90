@@ -66,7 +66,7 @@
           integer,                 intent(inout) :: iratedep              !< Strain rate dependency type
           integer,                 intent(inout) :: nupar_ratedep         !< Number of rate dependency parameters
           real(kind=WP),dimension(100),intent(inout) :: upar_ratedep      !< Strain rate dependency parameters
-          logical,                 intent(in)    :: is_available          !< Availability flag
+          logical,                 intent(inout)    :: is_available          !< Availability flag
           type(unit_type_),        intent(in)    :: unitab                !< Units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< Submodel data structure
           integer,                 intent(in)    :: iout                  !< Output unit

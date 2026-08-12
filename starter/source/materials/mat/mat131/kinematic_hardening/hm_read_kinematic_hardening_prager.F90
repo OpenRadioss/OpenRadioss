@@ -66,7 +66,7 @@
           integer,                 intent(inout) :: ikine                 !< kinematic hardening type
           integer,                 intent(inout) :: nupar_kine            !< number of kinematic hardening parameters
           real(kind=WP),           intent(inout) :: chard                 !< Kinematic hardening parameter
-          logical,                 intent(in)    :: is_available          !< availability flag
+          logical,                 intent(inout)    :: is_available          !< availability flag
           type(unit_type_),        intent(in)    :: unitab                !< units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
           integer,                 intent(in)    :: iout                  !< output unit

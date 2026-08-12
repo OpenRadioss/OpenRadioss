@@ -220,9 +220,9 @@ C-----------------------------------------------
      .        VSLV(6,NINTER),VMSR(6,NINTER),V21MSR(3,NINTSTAMP),
      .        SIZE_T(NINTER),DXANCG(3,*), DIAG_SMS(*),
      .        FORNEQS(*), MAXDGAP(NINTER), T2FAC_SMS(*)
-      my_real, dimension(3*numnod), target, intent(in) :: X !< nodal position
-      my_real, dimension(3*numnod), target, intent(in) :: V !< velocity
-      my_real, dimension(3*numnod), target, intent(in) :: W !< velocity (interface 22)
+      my_real, dimension(3*numnod), target, intent(inout) :: X !< nodal position (modified in i22subvol.F)
+      my_real, dimension(3*numnod), target, intent(inout) :: V !< velocity
+      my_real, dimension(3*numnod), target, intent(inout) :: W !< velocity (interface 22)
       REAL*4 FSKYN25(3,*)
 
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB

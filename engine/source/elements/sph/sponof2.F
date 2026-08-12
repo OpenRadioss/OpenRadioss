@@ -456,7 +456,7 @@ C------
             DPS_OLD=WA(NP2SORT)
             CALL SPH_NODSEG(XI,YI,ZI,XX,TFLAG,NP2SORT,LONFSPH,MWA,WA,WA(KVNORM),1)
             DPS=WA(NP2SORT)
-            IF (DPS _OLD*DPS<ZERO) THEN
+            IF (DPS_OLD*DPS<ZERO) THEN
 C       Pure outlet/Silent Boundaries we swap the counting direction
               IF (ISPHIO(1,I)/=4) DPS_OLD = -DPS_OLD
 C       the particle crossed the surface in the + direction

@@ -400,7 +400,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)  , DIMENSION(NUMELC_DRAPE + NUMELTG_DRAPE):: DRAPE 
       TYPE (DRAPEG_)                            :: DRAPEG 
       TYPE (t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      TYPE (INTBUF_STRUCT_) , INTENT(IN   ) ::  INTBUF_TAB(NINTER)
+      TYPE (INTBUF_STRUCT_) , INTENT(INOUT) ::  INTBUF_TAB(NINTER) ! modified in initmass
       TYPE (INTERFACES_) , INTENT(INOUT   ) ::  INTERFACES
       TYPE (PREL1D_) , INTENT(IN)   ,DIMENSION(NPRELOAD_A) ::  PRELOAD_A
       TYPE (SENSORS_)       ,INTENT(IN)    :: SENSORS

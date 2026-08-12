@@ -593,7 +593,7 @@ C     PRES
                           VALUE1 = PTRy(IND - 1)                                                                       
                           VALUE2 = PTRy(IND)                                                                           
                           PRES(ELEMID - NFT, IMAT) = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1)) *  
-     .                         * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)                                                      
+     .                          INIMAP1D(KK)%FAC_PRES_ENER(IMAT)                                                      
                        ELSE                                                                                            
                           VALUE1 = PTRy(FIRST + NPT - 1)                                                               
                           PRES(ELEMID - NFT, IMAT) = VALUE1 * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)                         

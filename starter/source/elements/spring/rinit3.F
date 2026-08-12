@@ -965,7 +965,7 @@ C
      .            C1=OPTION)
           ENDIF
         ELSEIF (IGTYP == 30) THEN
-          IF (USERL_AVAI L == 1) THEN
+          IF (USERL_AVAIL == 1) THEN
             CALL ST_USERLIB_RINIUSER(IGTYP,ROOTNAM,ROOTLEN,
      1        NEL      ,I0     ,
      2        UIX    ,UL    ,GBUF%MASS  ,UINER  ,USTIFM ,

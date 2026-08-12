@@ -166,7 +166,7 @@ C-----------------------------------------------
 
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER*15,KEYWORD 
+      CHARACTER(LEN=15) :: KEYWORD
       INTEGER NONEXIST
 C-----------------------------------------------
       EXTERNAL UEL2SYS

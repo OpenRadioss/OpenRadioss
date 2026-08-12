@@ -64,7 +64,7 @@
           integer,                 intent(inout) :: ihard                 !< work hardening type
           integer,                 intent(inout) :: nupar_hard            !< number of work hardening parameters
           real(kind=WP),dimension(100),intent(inout) :: upar_hard         !< work hardening parameters
-          logical,                 intent(in)    :: is_available          !< availability flag
+          logical,                 intent(inout)    :: is_available          !< availability flag
           type(unit_type_),        intent(in)    :: unitab                !< units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
           integer,                 intent(in)    :: iout                  !< output unit

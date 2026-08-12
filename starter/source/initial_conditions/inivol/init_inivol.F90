@@ -110,7 +110,7 @@
           real(kind=WP),intent(in) :: bufsf(sbufsf)                                                         !< buffer
           real(kind=WP),intent(in) :: bufmat(sbufmat)                                                       !< material buffer
           real(kind=WP),intent(in) :: geo(npropg,numgeo)                                                    !< property buffer (real parameters)
-          type (elbuf_struct_), target, dimension(ngroup), intent(in) :: elbuf_tab                    !< elem buffer
+          type (elbuf_struct_), target, dimension(ngroup), intent(inout) :: elbuf_tab                    !< elem buffer: modified in inivol_set 
           type (multi_fvm_struct),intent(in) :: multi_fvm                                             !< buffer for colocated scheme (law151)
           type (inivol_struct_), dimension(NUM_INIVOL), intent(inout) :: inivol                       !< inivol data structure
           type (surf_), dimension(nsurf), intent(in) :: igrsurf                                       !< surface buffer

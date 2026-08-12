@@ -131,8 +131,8 @@ C-----------------------------------------------
       CHARACTER*14 :: tmp_SECTYPE(8)
       INTEGER      :: tmp_SecID_CELL(8),tmp_NumNOD(8),tmp_NumPOINT(8),NTAG
 
-      TYPE(POLY_ENTITY)tmpPOLY(8)  
-      TYPE(CUT_PLANE)tmpCUT(8) 
+      TYPE(POLY_ENTITY) :: tmpPOLY(8)  
+      TYPE(CUT_PLANE) :: tmpCUT(8) 
 C----------------------------------------------------------------
 
 !A TO PERFORM : SI PAS DE BRIQUE OU PLUS DE BRIQUE, METTRE QUAND MEME NODES A 0.

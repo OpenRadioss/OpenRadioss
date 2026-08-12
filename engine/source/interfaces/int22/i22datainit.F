@@ -576,9 +576,9 @@ C=======================================================================
       Gface(:,104)=(/3,6,4,2,5,0/)      
       Gface(:,105)=(/3,2,6,5,4,0/)      
       Gface(:,106)=(/3,5,2,4,6,0/)                   
-      !--------------------------- -------------------------!
-      !  SUBVOLUME 'G'RAPH : 'N'NUMBERR of 'Pt'POINT        !  !enables to have number of point on local face of a given polyhedron. Check graph index1-6 corresponds to Fa,Fb,Fc,Fd,Fe,Ff
-      !----------------------------------------------------!  
+      !----------------------------------------------------!
+      !  SUBVOLUME 'G'RAPH : 'N'NUMBER of 'Pt'POINT        ! !enables to have number of point on local face of a given polyhedron.
+      !----------------------------------------------------!   Check graph index1-6 corresponds to Fa,Fb,Fc,Fd,Fe,Ff
       DO I=01,08 ;GNPt(:,I)  = (/3,3,3,0,0,0/);ENDDO  
       DO I=09,20 ;GNPt(:,I)  = (/3,3,4,4,0,0/);ENDDO  
       DO I=21,44 ;GNPt(:,I)  = (/5,3,4,4,3,0/);ENDDO  
@@ -600,10 +600,10 @@ C=======================================================================
       !  SUBVOLUME 'G'RAPH : 'C'ORNER                      !  !EDGE id => intersection node id (CORNER).
       !----------------------------------------------------!
       !TETRA
-      Gcorner(:, 1)=(/1,2,3,1,0,0,0/)      * -1
-      Gcorner(:, 2)=(/6,5,4,6,0,0,0/)      * -1
-      Gcorner(:, 3)=(/7,8,9,7,0,0,0/)      * -1
-      Gcorner(:, 4)=(/10,12,11,10,0,0,0/)  * -1
+      Gcorner(:, 1)=(/-1,-2,-3,-1,0,0,0/)
+      Gcorner(:, 2)=(/-6,-5,-4,-6,0,0,0/)
+      Gcorner(:, 3)=(/-7,-8,-9,-7,0,0,0/)
+      Gcorner(:, 4)=(/-10,-12,-11,-10,0,0,0/)
       Gcorner(:, 5)=(/7,4,1,7,0,0,0/)
       Gcorner(:, 6)=(/10,2,5,10,0,0,0/)
       Gcorner(:, 7)=(/3,11,8,3,0,0,0/)

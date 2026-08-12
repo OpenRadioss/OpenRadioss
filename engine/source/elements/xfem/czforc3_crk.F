@@ -276,7 +276,7 @@ C=======================================================================
       call my_alloc(VARNL, NEL, 1, "VARNL")
       VARNL = ZERO
 C -----will put it in starter     
-      IF (ISMST R>= 10) ISMSTR=4
+      IF (ISMSTR >= 10) ISMSTR=4
 C
       DO I=JFT,JLT
         MAT(I) = IXC(1,I)

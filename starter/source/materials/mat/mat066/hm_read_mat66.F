@@ -141,7 +141,7 @@ C-----------------------------------------------
 C!!
       IF(IRATE == 0) IRATE = 1      
 Card3 
-      IF(IRATE < = 3) THEN
+      IF(IRATE <= 3) THEN
          CALL HM_GET_INTV  ('FUN_A1'       ,IFUNC(1)   ,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INTV  ('FUN_A2'       ,IFUNC(2)   ,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_FLOATV('FScale11'     ,YFAC(1)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -156,7 +156,7 @@ C unit
          RATE(2) = ZERO          
       ENDIF  
 C        
-      IF(IRATE < = 2) THEN   
+      IF(IRATE <= 2) THEN   
          CALL HM_GET_FLOATV('Epsilon_0'    ,EPSP0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C0'       ,CP         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('SIGMA_r'      ,SIGY       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
