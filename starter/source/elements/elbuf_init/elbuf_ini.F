@@ -127,7 +127,7 @@ c------
 c      1) size of the ELBUF array for restart
 c      2) allocation of the ELBUF_TAB structure
 C=======================================================================
-      DEBUG_PRINT = 0
+      DEBUG_PRINT = 1
 c      
       IF(PRINT_FLAG>6) WRITE(IOUT, 1001)
 c
