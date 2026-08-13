@@ -8068,6 +8068,7 @@ C--------------------------------------------
 c
       FLAG_XFEM = 0
       allocate(ELBUF_TAB(NGROUP))
+      print *,*,'calling ELBUF_INI for ELBUF_TAB'
 C
       CALL ELBUF_INI(ELBUF_TAB,MAT_ELEM%MAT_PARAM,
      .               MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
