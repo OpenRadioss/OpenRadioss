@@ -45,6 +45,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    i2tid3                 ../starter/source/interfaces/inter3d1/i2tid3.F
 !||    itagsl12               ../starter/source/interfaces/inter3d1/inintr2.F
 !||    itagsl2                ../starter/source/interfaces/inter3d1/itagsl2.F
+!||    rbody_part_check       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    read_impdisp           ../starter/source/constraints/general/impvel/read_impdisp.F
 !||    read_impvel            ../starter/source/constraints/general/impvel/read_impvel.F
 !||    read_impvel_lagmul     ../starter/source/constraints/general/impvel/read_impvel_lagmul.F

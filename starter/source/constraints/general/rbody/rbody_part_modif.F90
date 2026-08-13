@@ -154,6 +154,7 @@
 !||--- called by ------------------------------------------------------
 !||    lectur             ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||    kinset             ../starter/source/constraints/general/kinset.F
 !||    rpart_bcs_check    ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    rpart_fv_check     ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    rpart_grav_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
