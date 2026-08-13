@@ -8068,7 +8068,7 @@ C--------------------------------------------
 c
       FLAG_XFEM = 0
       allocate(ELBUF_TAB(NGROUP))
-      print *,*,'calling ELBUF_INI for ELBUF_TAB'
+      print*,'calling ELBUF_INI for ELBUF_TAB'
 C
       CALL ELBUF_INI(ELBUF_TAB,MAT_ELEM%MAT_PARAM,
      .               MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
@@ -8077,6 +8077,7 @@ C
      .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK ,
      .               IXT      ,IXP      ,IXR      ,KXX        ,GEO       ,
      .               EOS_TAG  ,ISTR_24  ,IPRI     ,DEFAULTS)
+      print*,'ELBUF_INI done for ELBUF_TAB'
 C---
 C  if xfem
 c---
