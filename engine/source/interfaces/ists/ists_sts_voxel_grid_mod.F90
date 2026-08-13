@@ -135,8 +135,18 @@
         SUBROUTINE ISTS_STS_VOXEL_GRID_GET(NIN, CELL_SIZE, SEARCH_PADDING, &
      &    PAD_SQ, N_CELL_RADIUS)
           INTEGER, INTENT(IN) :: NIN
-          INTEGER, INTENT(INOUT) :: N_CELL_RADIUS
-          REAL(KIND=WP), INTENT(INOUT) :: CELL_SIZE, SEARCH_PADDING, PAD_SQ
+          INTEGER, INTENT(OUT) :: N_CELL_RADIUS
+          REAL(KIND=WP), INTENT(OUT) :: CELL_SIZE, SEARCH_PADDING, PAD_SQ
+          
+          ! Guards auf Grid-Lookup
+          CELL_SIZE = 0.0_WP
+          SEARCH_PADDING = 0.0_WP
+          PAD_SQ = 0.0_WP
+          N_CELL_RADIUS = 1
+          IF (NIN <= 0) RETURN
+          IF (.NOT. ALLOCATED(STS_VOXEL_GRID)) RETURN
+          IF (NIN > SIZE(STS_VOXEL_GRID)) RETURN
+          IF (.NOT. STS_VOXEL_GRID(NIN)%initialized) RETURN
 
           CELL_SIZE = STS_VOXEL_GRID(NIN)%cell_size
           SEARCH_PADDING = STS_VOXEL_GRID(NIN)%search_padding

@@ -90,35 +90,50 @@
       REAL*8, INTENT(INOUT) :: ECONTT_TOT, ECONVT_TOT
       REAL*8, INTENT(INOUT) :: FN_TOT(3), FT_TOT(3)
       real(kind=WP), INTENT(IN)    :: DT1, DTFAC1_10
+      my_real CONT_ELEMENT(MAX_STS_SIZE_ACTUAL,3,8)
+      my_real STIF(MAX_STS_SIZE_ACTUAL)
+      INTEGER COUNT, OPTION, STS_INTERFACE_ID, NCYCLE_IN
+      INTEGER CAND_SEC_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
+      INTEGER CAND_MST_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
+      INTEGER CAND_SEC_GP_MASK(MAX_STS_SIZE_ACTUAL,4)
+      my_real load_arr(MAX_STS_SIZE_ACTUAL,8,4)
+      INTEGER node_id_load(MAX_STS_SIZE_ACTUAL*8)
+      INTEGER L_out, IMPACT_glob, MAX_STS_SIZE_ACTUAL
+      my_real FRICC(MVSIZ)
+      my_real XMU(MVSIZ)
+      INTEGER IFPEN(MAX_STS_SIZE_ACTUAL)     
+      my_real GAP  ! Gap value from user input
+      my_real V(3,*), MS(*), VISC, VISCFFRIC(MVSIZ), DT2T
+      INTEGER IVIS2, NELTST, ITYPTST
+      REAL*8 ECONTT_TOT, ECONVT_TOT
+      REAL*8 FN_TOT(3), FT_TOT(3)
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       INTEGER I, J, K, L, IMPACT
-      INTEGER selected_option, impact_gauss, impact_lobatto
-      INTEGER neltst_probe, ityptst_probe
-      INTEGER valid_gauss, valid_lobatto
+      INTEGER valid_gp
+      INTEGER ipass, npass
+      INTEGER sec_id, mst_id, max_sec_id
       REAL*8 XUPD(3,8)
       REAL*8 p_load_new(24)
-      REAL*8 p_probe(24)
       REAL*8 node_stiff(8)
-      REAL*8 node_stiff_probe(8)
       REAL*8 unit_gp_weight(4)
-      REAL*8 p_friction(24)  ! Friction forces (separate output)
-      REAL*8 p_friction_probe(24)
+      REAL*8 p_friction(24)
       REAL*8 pair_max_penetration
-      REAL*8 probe_pen_gauss, probe_pen_lobatto
-      REAL*8 probe_score_gauss, probe_score_lobatto
-      REAL*8 min_pene_gauss, min_pene_lobatto
       REAL*8 econt_pair, econtv_pair
       REAL*8 econt_probe, econtv_probe
       real(kind=WP) DT2T_PROBE
       INTEGER node_ids(8)  ! Node IDs for velocity interpolation
       REAL*8 gap_abs, lobatto_margin
+      REAL*8 probe_score, min_pene
+      INTEGER node_ids(8)
       REAL*8, ALLOCATABLE, SAVE :: lobatto_gp_weight(:,:)
+      INTEGER, ALLOCATABLE, SAVE :: sec_mst_mark(:)
+      REAL*8, ALLOCATABLE, SAVE :: sec_area_by_sec(:)
       LOGICAL pair_activity_skip, pair_aabb_skip
       LOGICAL STS_CONTACT_PAIR_AABB_SKIP
-      REAL*8, PARAMETER :: STS_MIXED_LOBATTO_GAP_MARGIN = 2.0D-2
-      REAL*8, PARAMETER :: STS_MIXED_LOBATTO_REL_MARGIN = 2.0D-1
+      LOGICAL do_commit, need_fn_partition
+      REAL*8 sec_area_pair
 !-----------------------------------------------
 !   I n i t i a l i z a t i o n
 !-----------------------------------------------
@@ -127,61 +142,121 @@
       ECONVT_TOT = 0.0D0
       FN_TOT = 0.0D0
       FT_TOT = 0.0D0
-      
+
 !     No candidate pairs are available for this pass.
       IF (COUNT <= 0) THEN
         L_out = 1
         RETURN
       END IF
       
-      ! Initialize counters
       K = 1
       L = 1
       unit_gp_weight = 1.0D0
 
-      IF (.NOT. ALLOCATED(lobatto_gp_weight) .OR. &
-     &    SIZE(lobatto_gp_weight, 2) < COUNT) THEN
-        IF (ALLOCATED(lobatto_gp_weight)) CALL MY_DEALLOC(lobatto_gp_weight)
-        CALL MY_ALLOC(lobatto_gp_weight, 4, COUNT, "LOBATTO_GP_WEIGHT")
-      ENDIF
-      lobatto_gp_weight(1:4, 1:COUNT) = 1.0D0
-      IF (OPTION == 1 .OR. OPTION == 2) THEN
-        lobatto_gp_weight = 0.0D0
+!     Lobatto corner weights: split shared secondary-corner load over
+!     duplicate master-patch pairs via CAND_SEC_GP_MASK. Gauss (OPTION=0)
+!     never needs this — skip the alloc/hash entirely.
+      IF (OPTION == 1) THEN
+        IF (.NOT. ALLOCATED(lobatto_gp_weight) .OR. &
+     &      SIZE(lobatto_gp_weight, 2) < COUNT) THEN
+          IF (ALLOCATED(lobatto_gp_weight)) CALL MY_DEALLOC(lobatto_gp_weight)
+          CALL MY_ALLOC(lobatto_gp_weight, 4, COUNT, "LOBATTO_GP_WEIGHT")
+        ENDIF
+        lobatto_gp_weight(1:4, 1:COUNT) = 0.0D0
+
+        ! Build Lobatto corner weights for corner splitting
         CALL STS_BUILD_LOBATTO_GP_WEIGHTS(COUNT, MAX_STS_SIZE_ACTUAL, &
      &    CAND_SEC_SEG_ID, CAND_MST_SEG_ID, CAND_SEC_GP_MASK, &
      &    lobatto_gp_weight)
       ENDIF
 
+!     Probe+commit only when one secondary segment hits multiple masters
+!     (edge overlap / FN partition). Otherwise one pass is enough.
+      need_fn_partition = .FALSE.
+      max_sec_id = 0
+      DO I = 1, COUNT
+        max_sec_id = MAX(max_sec_id, CAND_SEC_SEG_ID(I,1))
+      ENDDO
+      IF (max_sec_id > 0) THEN
+        IF (.NOT. ALLOCATED(sec_mst_mark) .OR. &
+     &      SIZE(sec_mst_mark) < max_sec_id) THEN
+          IF (ALLOCATED(sec_mst_mark)) CALL MY_DEALLOC(sec_mst_mark)
+          CALL MY_ALLOC(sec_mst_mark, max_sec_id, "SEC_MST_MARK")
+        ENDIF
+        sec_mst_mark(1:max_sec_id) = 0
+        DO I = 1, COUNT
+          sec_id = CAND_SEC_SEG_ID(I,1)
+          mst_id = CAND_MST_SEG_ID(I,1)
+          IF (sec_id <= 0 .OR. sec_id > max_sec_id) CYCLE
+          IF (sec_mst_mark(sec_id) == 0) THEN
+            sec_mst_mark(sec_id) = mst_id
+          ELSE IF (sec_mst_mark(sec_id) /= mst_id) THEN
+            need_fn_partition = .TRUE.
+            EXIT
+          ENDIF
+        ENDDO
+      ENDIF
+
+      IF (need_fn_partition) THEN
+        CALL sts_gp_fn_weight_reset()
+        npass = 2
+      ELSE
+        npass = 1
+      ENDIF
+
+!     Cache secondary-segment area across masters; Miss → eval_pair fills on first use.
+      IF (max_sec_id > 0) THEN
+        IF (.NOT. ALLOCATED(sec_area_by_sec) .OR. &
+     &      SIZE(sec_area_by_sec) < max_sec_id) THEN
+          IF (ALLOCATED(sec_area_by_sec)) CALL MY_DEALLOC(sec_area_by_sec)
+          CALL MY_ALLOC(sec_area_by_sec, max_sec_id, "SEC_AREA_BY_SEC")
+        ENDIF
+        sec_area_by_sec(1:max_sec_id) = 0.0D0
+      ENDIF
+
 !-----------------------------------------------
 !   M a i n   L o o p
 !-----------------------------------------------
-      DO I = 1, COUNT
-        IMPACT = 0
-        XUPD = CONT_ELEMENT(I, 1:3, 1:8)
-
-        pair_aabb_skip = STS_CONTACT_PAIR_AABB_SKIP(XUPD, GAP)
-        IF (pair_aabb_skip) THEN
-          CYCLE
+      DO ipass = 1, npass
+        IF (npass == 1) THEN
+          do_commit = .TRUE.
+        ELSE
+          do_commit = (ipass == 2)
         ENDIF
-      
-        ! Get node IDs for velocity interpolation
-        DO J = 1, 4
-          node_ids(J)   = CAND_MST_SEG_ID(I, J+1)   ! Primary nodes
-          node_ids(J+4) = CAND_SEC_SEG_ID(I, J+1)   ! Secondary nodes
-        ENDDO
-        XMU(1) = FRICC(MIN(I,MVSIZ)) ! Friction coefficient mu
-      
-        selected_option = OPTION
-        impact_gauss = 0
-        impact_lobatto = 0
-        probe_pen_gauss = 0.0D0
-        probe_pen_lobatto = 0.0D0
-        probe_score_gauss = 0.0D0
-        probe_score_lobatto = 0.0D0
-        valid_gauss = 0
-        valid_lobatto = 0
-        min_pene_gauss = 0.0D0
-        min_pene_lobatto = 0.0D0
+        IF (do_commit) THEN
+          K = 1
+          L = 1
+          IMPACT_glob = 0
+          ECONTT_TOT = 0.0D0
+          ECONVT_TOT = 0.0D0
+          FN_TOT = 0.0D0
+          FT_TOT = 0.0D0
+        ENDIF
+
+        DO I = 1, COUNT
+          IMPACT = 0
+          XUPD = CONT_ELEMENT(I, 1:3, 1:8)
+
+          pair_aabb_skip = STS_CONTACT_PAIR_AABB_SKIP(XUPD, GAP)
+          IF (pair_aabb_skip) THEN
+            CYCLE
+          ENDIF
+          IF (STIF(I) <= ZERO) CYCLE
+        
+          DO J = 1, 4
+            node_ids(J)   = CAND_MST_SEG_ID(I, J+1)
+            node_ids(J+4) = CAND_SEC_SEG_ID(I, J+1)
+          ENDDO
+          XMU(1) = FRICC(MIN(I,MVSIZ))
+
+          IF (do_commit) THEN
+            CALL STS_PAIR_ACTIVITY_SHOULD_SKIP(NCYCLE_IN, &
+     &        STS_INTERFACE_ID, CAND_SEC_SEG_ID(I,1), &
+     &        CAND_MST_SEG_ID(I,1), OPTION, pair_activity_skip)
+            IF (pair_activity_skip) THEN
+              CYCLE
+            ENDIF
+          ENDIF
 
         IF (OPTION == 2 .OR. OPTION == 0) THEN
           DT2T_PROBE = DT2T
@@ -218,124 +293,87 @@
      &                      .FALSE., probe_score_lobatto, &
      &                      valid_lobatto, min_pene_lobatto, DT1, DTFAC1_10)
         ENDIF
+          sec_id = CAND_SEC_SEG_ID(I,1)
+          sec_area_pair = 0.0D0
+          IF (sec_id >= 1 .AND. sec_id <= max_sec_id) THEN
+            sec_area_pair = sec_area_by_sec(sec_id)
+          ENDIF
 
-        IF (OPTION == 2) THEN
-          IF (impact_gauss == 0 .AND. impact_lobatto == 0) THEN
-            selected_option = -1
-          ELSE IF (impact_lobatto == 1 .AND. impact_gauss == 0) THEN
-            selected_option = 1
-          ELSE IF (impact_gauss == 1 .AND. impact_lobatto == 0) THEN
-            gap_abs = MAX(DABS(DBLE(GAP)), 1.0D-30)
-            lobatto_margin = MAX(STS_MIXED_LOBATTO_GAP_MARGIN*gap_abs, &
-     &        STS_MIXED_LOBATTO_REL_MARGIN*probe_pen_gauss)
-            IF (valid_lobatto <= 0) THEN
-              selected_option = -1
-            ELSE IF (min_pene_lobatto > lobatto_margin) THEN
-              selected_option = -1
-            ELSE
-              selected_option = 0
-            ENDIF
+          IF (OPTION == 1) THEN
+            CALL STS_CONTACT_EVAL_PAIR(XUPD, STIF(I), p_load_new, IMPACT, I, &
+     &                        node_stiff, OPTION, &
+     &                        FRICC, XMU, IFPEN, &
+     &                        p_friction, node_ids, V, &
+     &                        .TRUE., MAX_STS_SIZE_ACTUAL, GAP, &
+     &                        lobatto_gp_weight(1:4,I), &
+     &                        pair_max_penetration, econt_pair, econtv_pair, &
+     &                        MS, STS_INTERFACE_ID, VISC, IVIS2, &
+     &                        VISCFFRIC(MIN(I,MVSIZ)), DT2T, NELTST, ITYPTST, &
+     &                        do_commit, probe_score, valid_gp, min_pene, &
+     &                        sec_area_pair, need_fn_partition)
           ELSE
-            gap_abs = MAX(DABS(DBLE(GAP)), 1.0D-30)
-            lobatto_margin = MAX(STS_MIXED_LOBATTO_GAP_MARGIN*gap_abs, &
-     &        STS_MIXED_LOBATTO_REL_MARGIN*MAX(probe_pen_gauss, &
-     &        probe_pen_lobatto))
-            IF (probe_pen_lobatto > probe_pen_gauss + &
-     &          lobatto_margin) THEN
-              selected_option = 1
-            ELSE IF (probe_pen_lobatto > probe_pen_gauss .AND. &
-     &          probe_score_lobatto > &
-     &          (1.0D0 + STS_MIXED_LOBATTO_REL_MARGIN) * &
-     &          probe_score_gauss) THEN
-              selected_option = 1
-            ELSE
-              selected_option = 0
-            ENDIF
+            CALL STS_CONTACT_EVAL_PAIR(XUPD, STIF(I), p_load_new, IMPACT, I, &
+     &                        node_stiff, OPTION, &
+     &                        FRICC, XMU, IFPEN, &
+     &                        p_friction, node_ids, V, &
+     &                        .TRUE., MAX_STS_SIZE_ACTUAL, GAP, &
+     &                        unit_gp_weight, &
+     &                        pair_max_penetration, econt_pair, econtv_pair, &
+     &                        MS, STS_INTERFACE_ID, VISC, IVIS2, &
+     &                        VISCFFRIC(MIN(I,MVSIZ)), DT2T, NELTST, ITYPTST, &
+     &                        do_commit, probe_score, valid_gp, min_pene, &
+     &                        sec_area_pair, need_fn_partition)
           ENDIF
-        ELSE IF (OPTION == 0) THEN
-          IF (impact_gauss == 1 .AND. impact_lobatto == 0) THEN
-            gap_abs = MAX(DABS(DBLE(GAP)), 1.0D-30)
-            lobatto_margin = MAX(STS_MIXED_LOBATTO_GAP_MARGIN*gap_abs, &
-     &        STS_MIXED_LOBATTO_REL_MARGIN*probe_pen_gauss)
-            IF (valid_lobatto <= 0) THEN
-              selected_option = -1
-            ELSE IF (min_pene_lobatto > lobatto_margin) THEN
-              selected_option = -1
-            ENDIF
+          IF (sec_id >= 1 .AND. sec_id <= max_sec_id) THEN
+            sec_area_by_sec(sec_id) = sec_area_pair
           ENDIF
-        ENDIF
 
-        IF (selected_option < 0) THEN
-          CYCLE
-        ENDIF
+          IF (.NOT. do_commit) CYCLE
 
-        CALL STS_PAIR_ACTIVITY_SHOULD_SKIP(NCYCLE_IN, &
-     &    STS_INTERFACE_ID, CAND_SEC_SEG_ID(I,1), &
-     &    CAND_MST_SEG_ID(I,1), selected_option, pair_activity_skip)
-        IF (pair_activity_skip) THEN
-          CYCLE
-        ENDIF
+          CALL STS_PAIR_ACTIVITY_UPDATE(NCYCLE_IN, STS_INTERFACE_ID, &
+     &      CAND_SEC_SEG_ID(I,1), CAND_MST_SEG_ID(I,1), OPTION, &
+     &      IMPACT, valid_gp, min_pene, DBLE(GAP))
+        
+          IF (IMPACT == 1) THEN
+            IMPACT_glob = 1
+            ECONTT_TOT = ECONTT_TOT + econt_pair
+            ECONVT_TOT = ECONVT_TOT + econtv_pair
 
-        ! Commit exactly one quadrature. Probe calls above are side-effect free.
-        ! Normal penalty: d1 = 0.5*STIF*FAC; friction trial: d1_fric = 0.5*STIF (NTS STIF0).
-        CALL STS_CONTACT_EVAL_PAIR(XUPD, STIF(I), p_load_new, IMPACT, I, &
-     &                    node_stiff, selected_option, &
-     &                    FRICC, XMU, IFPEN, &
-     &                    p_friction, node_ids, V, numnod, &
-     &                    .TRUE., MAX_STS_SIZE_ACTUAL, GAP, &
-     &                    lobatto_gp_weight(1:4,I), &
-     &                    pair_max_penetration, econt_pair, econtv_pair, &
-     &                    MS, STS_INTERFACE_ID, VISC, IVIS2, &
-     &                    VISCFFRIC(MIN(I,MVSIZ)), DT2T, NELTST, ITYPTST, &
-     &                    .TRUE., probe_score_gauss, valid_gauss, &
-     &                    min_pene_gauss, DT1, DTFAC1_10)
-        CALL STS_PAIR_ACTIVITY_UPDATE(NCYCLE_IN, STS_INTERFACE_ID, &
-     &    CAND_SEC_SEG_ID(I,1), CAND_MST_SEG_ID(I,1), selected_option, &
-     &    IMPACT, valid_gauss, min_pene_gauss, DBLE(GAP))
-      
-        IF (IMPACT == 1) THEN
-          IMPACT_glob = 1
-          ECONTT_TOT = ECONTT_TOT + econt_pair
-          ECONVT_TOT = ECONVT_TOT + econtv_pair
+!           Secondary-side force resultants for /TH/INTER (normal = p - p_friction).
+            DO J = 5, 8
+              FN_TOT(1) = FN_TOT(1) + p_load_new(3*(J-1)+1) - p_friction(3*(J-1)+1)
+              FN_TOT(2) = FN_TOT(2) + p_load_new(3*(J-1)+2) - p_friction(3*(J-1)+2)
+              FN_TOT(3) = FN_TOT(3) + p_load_new(3*(J-1)+3) - p_friction(3*(J-1)+3)
+              FT_TOT(1) = FT_TOT(1) + p_friction(3*(J-1)+1)
+              FT_TOT(2) = FT_TOT(2) + p_friction(3*(J-1)+2)
+              FT_TOT(3) = FT_TOT(3) + p_friction(3*(J-1)+3)
+            ENDDO
 
-!         Slave-side force resultants for /TH/INTER (normal = p - p_friction).
-          DO J = 5, 8
-            FN_TOT(1) = FN_TOT(1) + p_load_new(3*(J-1)+1) - p_friction(3*(J-1)+1)
-            FN_TOT(2) = FN_TOT(2) + p_load_new(3*(J-1)+2) - p_friction(3*(J-1)+2)
-            FN_TOT(3) = FN_TOT(3) + p_load_new(3*(J-1)+3) - p_friction(3*(J-1)+3)
-            FT_TOT(1) = FT_TOT(1) + p_friction(3*(J-1)+1)
-            FT_TOT(2) = FT_TOT(2) + p_friction(3*(J-1)+2)
-            FT_TOT(3) = FT_TOT(3) + p_friction(3*(J-1)+3)
-          ENDDO
+            IF (L > MAX_STS_SIZE_ACTUAL .OR. &
+     &          K + 7 > MAX_STS_SIZE_ACTUAL*8) THEN
+              EXIT
+            END IF
 
-          IF (L > MAX_STS_SIZE_ACTUAL .OR. &
-     &        K + 7 > MAX_STS_SIZE_ACTUAL*8) THEN
-            EXIT
-          END IF
-
-          ! Save node IDs: Primary (1-4), Secondary (5-8)
-          node_id_load(K:K+3) = CAND_MST_SEG_ID(I, 2:5)
-          node_id_load(K+4:K+7) = CAND_SEC_SEG_ID(I, 2:5)
-          K = K + 8
-      
-          ! Store forces: Primary (1-4), Secondary (5-8)
-          DO J = 1, 4
-            ! Primary forces
-            load_arr(L, J, 1:3) = p_load_new(3*(J-1) + 1 : 3*J)
-            ! Secondary forces
-            load_arr(L, J + 4, 1:3) = p_load_new(12 + 3*(J-1) + 1 : 12 + 3*J)
-          ENDDO
-      
-          ! Store stiffness info for all 8 nodes
-          load_arr(L, 1:8, 4) = node_stiff(1:8)
-      
-          L = L + 1
-          
-!         Stop after filling the last available pair-load slot.
-          IF (L > MAX_STS_SIZE_ACTUAL .OR. K > MAX_STS_SIZE_ACTUAL*8) THEN
-            EXIT
-          END IF
-        ENDIF
+            node_id_load(K:K+3) = CAND_MST_SEG_ID(I, 2:5)
+            node_id_load(K+4:K+7) = CAND_SEC_SEG_ID(I, 2:5)
+            K = K + 8
+        
+            DO J = 1, 4
+              load_arr(L, J, 1:3) = p_load_new(3*(J-1) + 1 : 3*J)
+              load_arr(L, J + 4, 1:3) = p_load_new(12 + 3*(J-1) + 1 : 12 + 3*J)
+            ENDDO
+        
+            load_arr(L, 1:8, 4) = node_stiff(1:8)
+        
+            L = L + 1
+            
+            IF (L > MAX_STS_SIZE_ACTUAL .OR. K > MAX_STS_SIZE_ACTUAL*8) THEN
+              EXIT
+            END IF
+          ENDIF
+        ENDDO
+        IF (do_commit .AND. (L > MAX_STS_SIZE_ACTUAL .OR. &
+     &      K > MAX_STS_SIZE_ACTUAL*8)) EXIT
       ENDDO
 
       L_out = L
