@@ -8055,6 +8055,7 @@ C
 C--------------------------------------------
 C     ELEMENT BUFFER INTIALIZATION
 C--------------------------------------------
+      print*,'enter buffer initialization'
       ERR_MSG='ELEMENT BUFFER INITIALIZATION'
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
@@ -8067,6 +8068,8 @@ C     NEW ELEMENT BUFFER STRUCTURE ALLOCATION
 C--------------------------------------------
 c
       FLAG_XFEM = 0
+      print*,'allocating ELBUF_TAB',NGROUP
+      IF(ALLOCATED(ELBUF_TAB)) DEALLOCATE(ELBUF_TAB)
       allocate(ELBUF_TAB(NGROUP))
       print*,'calling ELBUF_INI for ELBUF_TAB'
 C
