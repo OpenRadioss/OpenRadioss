@@ -1599,14 +1599,14 @@ c                LVISC = LVISC + NUVARV*NEL
               ENDDO                                                                  
             ENDDO                                                                   
             IF (DEBUG_PRINT == 1) THEN
-              print*,''
+              print*
               print*,'    INTLAY ',IL
               print*,'      LIMAT,LIFAIL = ',LIMAT,LIFAIL
             ENDIF          
           ENDDO                                                                    
 c----------------------------------
           IF (DEBUG_PRINT == 1) THEN
-            print*,''
+            print*
             print*,'      sum local variables mat,visc,fail on all layers'
             print*,'      LMAT,LVISC,LFAIL,LEOS = ',LMAT,LVISC,LFAIL,LEOS
           ENDIF          
