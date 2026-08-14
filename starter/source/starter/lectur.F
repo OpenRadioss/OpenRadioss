@@ -7196,7 +7196,7 @@ C
        FLAG_ALLOCATE = 1
        !PROC argument is used only for call in ddsplit
        PROC_BID = 0
-
+      print*,'call INTBUF_INI_STARTER',idlevel
        IF(IDDLEVEL == 0) THEN
          !--------------------------------------------!
          !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION
@@ -7207,6 +7207,7 @@ C
          !--------------------------------------------!
          !NEW INTERFACE BUFFER STRUCTURE INITIALIZATION
          !--------------------------------------------!
+         print*,'call INTBUF_INI_STARTER'
          CALL INTBUF_INI_STARTER(INTBUF_TAB, IPARI, NUMNOD,
      .                           I11FLAG, FLAG_ALLOCATE, PROC_BID ,INTBUF_FRIC_TAB)
          !--------------------------------------------!
@@ -8046,6 +8047,7 @@ C--------------------------------------------
 C
 C----------------------------------------------------------
 C
+      print*,'end of inintr',iddlevel
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C  The following is executed with iddlevel=0 only for AMS with automatic element selection
 C  or if no contact interfaces and no ams
