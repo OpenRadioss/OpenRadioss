@@ -82,10 +82,10 @@ C----------------------------------------------------------------
       my_real
      .   MU(NEL),MU2(NEL),POLD(NEL),VM(NEL),
      .   DELTAP(NEL),PNEW(NEL),PSTAR(NEL),SCALE(NEL), 
-     .   SIGYI(NEL),SIGYF(NEL),SIGYOLD(NEL),DMG_OLD(NEL)
+     .   SIGYI(NEL),SIGYF(NEL),DMG_OLD(NEL)
       my_real
      .   DAV, CE, SIGSTAR, EPFAIL, P1, YIELD, DELTAU, DPDMU,
-     .   PMIN, J2
+     .   PMIN, J2, HARDP
 C
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -117,7 +117,6 @@ c
         IF (OFF(I) < EM01) OFF(I) = ZERO
         IF (OFF(I) <  ONE) OFF(I) = OFF(I)*FOUR_OVER_5
         DELTAP(I)  = UVAR(I,1)
-        SIGYOLD(I) = UVAR(I,2)/SHEL
         DMG_OLD(I) = DMG(I)
         MU(I)      = AMU(I)
         MU2(I)     = MU(I)*MU(I)
@@ -181,9 +180,12 @@ C
         ENDIF
 C
          SIGYI(I) = CE*SIGYI(I)
+         SIGYI(I) = MAX(SIGYI(I),EM20)
          SIGYF(I) = CE*SIGYF(I)
          SIGYF(I) = MIN(SIGYF(I),SIGFMAX)
+         SIGYF(I) = MAX(SIGYF(I),EM20)
          SIGY(I)  = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
+         SIGY(I)  = MAX(SIGY(I),EM20)
       ENDDO
 c
       !========================================================================
@@ -228,7 +230,7 @@ c
           ! Update plastic strain and damage
           ! -> When damage parameters are defined, progressive failure + plastic strain
           IF (EPFAIL > ZERO) THEN 
-            DPLA(I) = (ONE - SCALE(I))*VM(I)/(THREE*SQRT(THREE)*G)
+            DPLA(I) = (ONE - SCALE(I))*VM(I)/(THREE*G)
             DEFP(I) = DEFP(I) + DPLA(I)  
             DMG(I)  = DMG(I)  + DPLA(I)/EPFAIL
             DMG(I)  = MIN(DMG(I),ONE)
@@ -267,11 +269,11 @@ c
         IF ((DMG(I) > DMG_OLD(I)).AND.(MU(I) > ZERO).AND.(OFF(I) == ONE)) THEN     
           P1     = K1*MU(I)
           YIELD  = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
-          DELTAU = (SIGYOLD(I)*SIGYOLD(I)-YIELD*YIELD)/(SIX*G)
+          YIELD  = MAX(YIELD,EM20)
+          DELTAU = (SIGY(I)*SIGY(I)-YIELD*YIELD)/(SIX*G)
           IF (DELTAU > ZERO) THEN
             DELTAU = DELTAU*SHEL*SHEL
-            DELTAP(I) = -P1+
-     .               SQRT((DELTAP(I)+P1)**2+TWO*BETA*K1*DELTAU)
+            DELTAP(I) = -P1+SQRT((DELTAP(I)+P1)**2+TWO*BETA*K1*DELTAU)
           ENDIF
         ENDIF
       ENDDO
@@ -280,8 +282,6 @@ C
       ! - UPDATE STRESS TENSOR AND SOUND SPEED
       !========================================================================
       DO I=1,NEL
-        UVAR(I,1)  = DELTAP(I)
-        UVAR(I,2)  = SIGY(I)*SHEL
         SIGNXX(I)  = SIGNXX(I)-PNEW(I)
         SIGNYY(I)  = SIGNYY(I)-PNEW(I)
         SIGNZZ(I)  = SIGNZZ(I)-PNEW(I)
@@ -290,8 +290,15 @@ C
         ELSE 
           DPDMU    = K1
         ENDIF
-        SOUNDSP(I) = SQRT((DPDMU+FOUR_OVER_3*G)/RHO0(I))
-        ET(I) = ONE
+        SOUNDSP(I) = SQRT((DPDMU+FOUR_OVER_3*G)/MIN(RHO0(I),RHO(I)))
+        IF (DPLA(I) > EM20) THEN
+          HARDP = (SIGY(I)*SHEL - UVAR(I,2)) / DPLA(I)   ! UVAR(I,2)=SIGYOLD*SHEL from last cycle
+          ET(I) = MAX(HARDP,ZERO) / (MAX(HARDP,ZERO) + THREE*G)   
+        ELSE
+          ET(I) = ONE
+        ENDIF
+        UVAR(I,1)  = DELTAP(I)
+        UVAR(I,2)  = SIGY(I)*SHEL
       ENDDO
 C
       !========================================================================
