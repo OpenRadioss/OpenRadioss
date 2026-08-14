@@ -7196,7 +7196,7 @@ C
        FLAG_ALLOCATE = 1
        !PROC argument is used only for call in ddsplit
        PROC_BID = 0
-      print*,'call INTBUF_INI_STARTER',idlevel
+      print*,'call INTBUF_INI_STARTER',iddlevel
        IF(IDDLEVEL == 0) THEN
          !--------------------------------------------!
          !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION
