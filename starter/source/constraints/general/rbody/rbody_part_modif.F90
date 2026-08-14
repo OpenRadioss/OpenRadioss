@@ -209,7 +209,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,m,iad,jpart,nsl,part_id,ns1,idir,j
+          integer :: i,m,iad,jpart,nsl,part_id,ns1,idir,j,j6(6),ict,icr
           integer, dimension(:), allocatable :: itag,ikine1
           logical :: no_bcs,no_fv
 ! ======================================================================================================================
@@ -237,16 +237,31 @@
               x(1:3,m)=x(1:3,ns1)
               npby(3,i) = 3   ! ICoG is fixed to 3 to respect the boundary conditions
             end if
-            call rpart_fv_check(m,itag,nfxvel,nifv,ibfv,numnod,itab,part_id,no_fv)
+            call rpart_fv_check(m,itag,nfxvel,nifv,ibfv,numnod,itab,part_id,no_fv,ikine,ikine1,iddlevel)
             call rpart_grav_check(m,itag,ngrav,nigrav,igrav,slgrav,lgrav,numnod,itab,part_id)
             itag(lpby(iad+1:iad+nsl)) = 0
-            if(iddlevel==0.and.no_bcs.and.no_fv)then 
-              do j=1,nsl
-               do idir=1,6
-                 call kinset(8,itab(lpby(j+iad)),ikine(lpby(j+iad)),idir,0,ikine1(lpby(j+iad)))
-               enddo
-              enddo
-            endif
+            if(iddlevel==0)then 
+              if(.not.no_bcs.and.icode(m)/=0)then 
+                ict = icode(m)/512  !tra_x*4 +tra_y*2 +tra_z
+                icr = (icode(m)-512*(ict))/64
+                j6(1) = ict/4
+                j6(2) = (ict-4*j6(1))/2
+                j6(3) = ict-4*j6(1)-2*j6(2)
+                j6(4) = icr/4
+                j6(5) = (icr-4*j6(4))/2
+                j6(6) = icr-4*j6(4)-2*j6(5)
+                do idir=1,6
+                  if (j6(idir)/=0) call kinset(1,itab(m),ikine(m),idir,iskew(m),ikine1(m))
+                enddo
+              end if
+              if(no_bcs.and.no_fv)then 
+                do j=1,nsl
+                 do idir=1,6
+                   call kinset(8,itab(lpby(j+iad)),ikine(lpby(j+iad)),idir,0,ikine1(lpby(j+iad)))
+                 enddo
+                enddo
+              end if
+            end if !(iddlevel==0)then 
           end do
           call my_dealloc(itag)
           if(iddlevel==0) call my_dealloc(ikine1) 
@@ -374,7 +389,7 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine rpart_fv_check(m ,itag ,nfxvel,nifv,ibfv,numnod,itab,part_id,no_fv)
+        subroutine rpart_fv_check(m ,itag ,nfxvel,nifv,ibfv,numnod,itab,part_id,no_fv,ikine,ikine1,iddlevel)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -396,6 +411,9 @@
           integer, intent(in)                                      :: part_id         !< part id
           integer, dimension(nifv,nfxvel),      intent(inout)      :: ibfv            !< imposed velocities
           logical, intent(inout)                                   :: no_fv           !< if secondary node is replaced in IMPVEL
+          integer, dimension(5*numnod),         intent(inout)      :: ikine           !< nodal kinematic value
+          integer, dimension(3*numnod),         intent(inout)      :: ikine1          !< work array for ikine
+          integer, intent(in)                                      :: iddlevel        !< domaine decomposition pass flag 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -416,6 +434,7 @@
               if (j>3) ibfv(6,i) = 1 ! imposed rot on main_id
               jd(j) = 1
               ipr = 1
+              if(iddlevel==0) call kinset(16,itab(m),ikine(m),j,isk,ikine1(m))
             else
               ibfv(3,i) = -iabs(ibfv(3,i)) ! remove this impvel
               no_fv=.false.
