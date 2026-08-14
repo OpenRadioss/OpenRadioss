@@ -1054,7 +1054,7 @@ C
           JCVT = 0       
           ENDIF
 c          IF (JHBE == 14 .AND. (IKSNOD0 == 16 .OR. IKSNOD0 == 20)) THEN
-          IF (JHBE /= 16 .AND. IKSNOD0 == 20) THEN
+          IF (JHBE /= 16 .AND. (IKSNOD0 == 16 .OR. IKSNOD0 == 20)) THEN
             CALL ANCMSG(MSGID=860,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
