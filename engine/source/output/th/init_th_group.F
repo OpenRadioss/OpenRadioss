@@ -30,11 +30,15 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       SUBROUTINE INIT_TH_GROUP(GR       ,IGR     ,NELEM    ,NGRTH   ,IPARG  ,
      .                         IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
-     .                         IGRTRUSS ,IGRBEAM ,IGRSPRING)
+     .                         IGRTRUSS ,IGRBEAM ,IGRSPRING,IGRPART ,IPARTC,
+     .                         IPARTTG  ,IPARTS  ,IPARTQ   ,IPARTT  ,IPARTP,
+     .                         IPARTR   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,18 +63,31 @@ C-----------------------------------------------
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRTRUS) :: IGRTRUSS
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRBEAM) :: IGRBEAM
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRSPRI) :: IGRSPRING
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRPART) :: IGRPART
+
+      INTEGER, DIMENSION(NUMELC), TARGET, INTENT(IN) :: IPARTC
+      INTEGER, DIMENSION(NUMELTG), TARGET, INTENT(IN) :: IPARTTG
+      INTEGER, DIMENSION(NUMELS), TARGET, INTENT(IN) :: IPARTS
+      INTEGER, DIMENSION(NUMELQ), TARGET, INTENT(IN) :: IPARTQ
+      INTEGER, DIMENSION(NUMELT), TARGET, INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP), TARGET, INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR), TARGET, INTENT(IN) :: IPARTR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ID,ITYP,CPT,GRTMP,IGRTMP(NGRTH+NELEM),
-     .       FLAG,OFFSET,NG,CPT1,IGRELE,NENTITY
+     .       FLAG,OFFSET,NG,CPT1,IGRELE,NENTITY,IP,TAGPART(NPART),COUNT,NELEM0
       INTEGER :: NEL,NFT
       INTEGER, DIMENSION(:), POINTER :: ELEM
+      INTEGER, TARGET, DIMENSION(:), ALLOCATABLE :: ELEM_THPART
 C-----------------------------------------------
       CPT = 1
       IGRTMP = 0
       OFFSET = 0
       CPT1 = 0
+      NELEM0 = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP + NUMELR + NUMELTG
+      call my_alloc(ELEM_THPART, NELEM0, "ELEM_THPART")
+     !
       DO K=NPART+1,NPART+NTHPART
         I = IPART(1,K)
         CPT1 = CPT1 + 1
@@ -80,7 +97,7 @@ C-----------------------------------------------
         ITYP   = IPART(2,K)
         ID     = IPART(4,K)
         NENTITY = 0
-!
+!------------------------------------
         IF (ITYP == 1) OFFSET = 0
         IF (ITYP == 2) OFFSET = NUMELS
         IF (ITYP == 3) OFFSET = NUMELS + NUMELQ
@@ -91,7 +108,7 @@ C-----------------------------------------------
      .                           + NUMELT + NUMELP
         IF (ITYP == 7) OFFSET = NUMELS + NUMELQ + NUMELC
      .                           + NUMELT + NUMELP + NUMELR
-!
+!------------------------------------
         IF (ITYP == 1) THEN  ! brick group of thpart
           NENTITY = IGRBRIC(IGRELE)%NENTITY
           ELEM   => IGRBRIC(IGRELE)%ENTITY
@@ -113,6 +130,82 @@ C-----------------------------------------------
         ELSEIF (ITYP == 7) THEN  ! SH3N group of thpart
           NENTITY = IGRSH3N(IGRELE)%NENTITY
           ELEM   => IGRSH3N(IGRELE)%ENTITY
+        ELSEIF (ITYP == -1) THEN  ! PART group of thpart
+          NENTITY = IGRPART(IGRELE)%NENTITY
+          TAGPART = 0
+          DO J=1,NENTITY
+            IP = IGRPART(IGRELE)%ENTITY(J)
+            TAGPART(IP) = 1
+          ENDDO ! DO J=1,NENTITY
+          !
+          COUNT = 0
+          ELEM_THPART = 0
+          !
+          ! Solids: no offset
+          DO J=1,NUMELS
+            IP = IPARTS(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELS
+          !
+          ! Quads: offset = NUMELS
+          DO J=1,NUMELQ
+            IP = IPARTQ(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J + NUMELS
+            ENDIF
+          ENDDO ! DO J=1,NUMELQ
+          !
+          ! Shells: offset = NUMELS + NUMELQ
+          DO J=1,NUMELC
+            IP = IPARTC(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J + NUMELS + NUMELQ
+            ENDIF
+          ENDDO ! DO J=1,NUMELC
+          !
+          ! Trusses: offset = NUMELS + NUMELQ + NUMELC
+          DO J=1,NUMELT
+            IP = IPARTT(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J + NUMELS + NUMELQ + NUMELC
+            ENDIF
+          ENDDO ! DO J=1,NUMELT
+          !
+          ! Beams: offset = NUMELS + NUMELQ + NUMELC + NUMELT
+          DO J=1,NUMELP
+            IP = IPARTP(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J + NUMELS + NUMELQ + NUMELC + NUMELT
+            ENDIF
+          ENDDO ! DO J=1,NUMELP
+          !
+          ! Springs: offset = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP
+          DO J=1,NUMELR
+            IP = IPARTR(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J + NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP
+            ENDIF
+          ENDDO ! DO J=1,NUMELR
+          !
+          ! Sh3n: offset = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP + NUMELR
+          DO J=1,NUMELTG
+            IP = IPARTTG(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J + NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP + NUMELR
+            ENDIF
+          ENDDO ! DO J=1,NUMELTG
+          !
+          NENTITY = COUNT
+          ELEM => ELEM_THPART(1:COUNT) ! ELEM is a pointer to the ELEM_THPART array
         ENDIF ! IF (ITYP == 1)
 !---
         DO J=1,NENTITY
@@ -190,6 +283,8 @@ C-----------------------------------------------
           ENDIF
         ENDDO
       ENDDO
+      !
+      call my_dealloc(ELEM_THPART)
 !---
       RETURN
       END
