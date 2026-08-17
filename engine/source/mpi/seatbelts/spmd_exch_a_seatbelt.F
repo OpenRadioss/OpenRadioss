@@ -95,7 +95,7 @@ C
 C preparation envoi  partie fixe (elem) a proc I
 #include      "vectorize.inc"
           DO J=ANCHOR_REMOTE_SEND%ADD_PROC(I),ANCHOR_REMOTE_SEND%ADD_PROC(I+1)-1
-            NOD = ANCHOR_REMOTE_SEND%NODE(J)
+            NOD = ANCHOR_REMOTE_SEND%BUF_INDEX(J)
             SBUF(L  ) =  BUF_EXCH(NOD,1)
             SBUF(L+1) =  BUF_EXCH(NOD,2)
             SBUF(L+2) =  BUF_EXCH(NOD,3)
