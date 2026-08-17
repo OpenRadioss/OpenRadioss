@@ -187,7 +187,8 @@ C define structure for remote anchor node
 c=======================================================================
         TYPE SEATBELT_REMOTE_NODES_STRUCT
           INTEGER, DIMENSION(:)   , ALLOCATABLE :: ADD_PROC
-          INTEGER, DIMENSION(:)   , ALLOCATABLE :: NODE
+          INTEGER, DIMENSION(:)   , ALLOCATABLE :: NODE       ! local anchor node id
+          INTEGER, DIMENSION(:)   , ALLOCATABLE :: BUF_INDEX  ! index of the corresponding entry in BUF_EXCH (ANCHOR_REMOTE_SEND only)
         END TYPE SEATBELT_REMOTE_NODES_STRUCT
 
         TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE,ANCHOR_REMOTE_SEND

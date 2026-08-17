@@ -2112,6 +2112,7 @@ C Initialization of joint type spring (PID33 and PID45)
 C------------------------------------------------------
       FLAG_KJ = 0
       DO NG=1,NGROUP
+        MTN = IPARG(1,NG)
         NEL = IPARG(2,NG)
         ITY = IPARG(5,NG)
         NFT = IPARG(3,NG)
@@ -2137,7 +2138,7 @@ C------------------------------------------------------
           ELSEIF (IGTYP==23 .AND. MTN ==135) THEN
             NUVAR = GBUF%G_NUVAR
             FLAG_KJ = 1
-      CALL RINI135_RB(
+            CALL RINI135_RB(
      .   NEL         ,NUVAR       ,IXR         ,NPBY        ,
      .   LPBY        ,RBY         ,GBUF%VAR    ,ITAB        ,
      .   IGEO(1,IPROP),MS         ,IN          ,NFT         ,

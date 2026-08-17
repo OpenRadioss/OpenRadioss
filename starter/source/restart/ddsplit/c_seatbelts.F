@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL 
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -177,6 +177,7 @@ C
       COMPT = 0
 C
       call my_alloc(ANCHOR_REMOTE_SEND_L%ADD_PROC, NSPMD+1, "ANCHOR_REMOTE_SEND_L%ADD_PROC")
+      call my_alloc(ANCHOR_REMOTE_SEND_L%BUF_INDEX, N_ANCHOR_REMOTE_SEND_L, "ANCHOR_REMOTE_SEND_L%BUF_INDEX")
       call my_alloc(ANCHOR_REMOTE_SEND_L%NODE, N_ANCHOR_REMOTE_SEND_L, "ANCHOR_REMOTE_SEND_L%NODE")
 C
       IF (N_ANCHOR_REMOTE_L > 0) THEN
@@ -184,6 +185,7 @@ C
         DO PP=1,NSPMD
           ANCHOR_REMOTE_L%ADD_PROC(PP+1) = ANCHOR_REMOTE_L%ADD_PROC(PP) + N_REC_PROC(PP)
         ENDDO
+        N_REC_PROC = 0
       ENDIF
 C
       IF (N_ANCHOR_REMOTE_SEND_L > 0) THEN
@@ -205,7 +207,9 @@ C--           Proc main of slipring
               DO PP=1,NSPMD 
                 IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,PP)==1)) THEN
 C--               remote anchor node (send)
-                  ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
+                  ANCHOR_REMOTE_SEND_L%BUF_INDEX(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
+                  ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) =
+     .              NODLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE)
                   N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1              
                 ENDIF
               ENDDO
@@ -226,7 +230,9 @@ C--         Proc main of retractor
             DO PP=1,NSPMD 
               IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%ANCHOR_NODE,PP)==1)) THEN
 C--             remote anchor node (send)
-                ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
+                ANCHOR_REMOTE_SEND_L%BUF_INDEX(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
+                ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) =
+     .            NODLOCAL(RETRACTOR(I)%ANCHOR_NODE)
                 N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1            
               ENDIF
             ENDDO
@@ -253,7 +259,9 @@ C--         Loop on nodes (anchor + cable nodes)
                 DO PP=1,NSPMD 
                   IF ((PP /= P).AND.(NLOCAL(GUIDE(I)%NODES(J),PP)==1)) THEN
 C--                 remote anchor node (send)
-                    ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
+                    ANCHOR_REMOTE_SEND_L%BUF_INDEX(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
+                    ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) =
+     .                NODLOCAL(GUIDE(I)%NODES(J))
                     N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1    
                   ENDIF
                 ENDDO
@@ -271,12 +279,13 @@ C..             Store position of nodes 1,2,and 3 and anchor node in remote node
 C         Loop on nodes (anchor + cable nodes)          
           DO J=1,GUIDE(I)%NB_NODES            
             IF (NLOCAL(GUIDE(I)%NODES(J),P)==1) THEN
-              COMPT = COMPT + 1
-              ANCHOR_REMOTE_L%NODE(COMPT) = NODLOCAL(GUIDE(I)%NODES(J))
+              PP = GUIDE(I)%PROC
+              ANCHOR_REMOTE_L%NODE(ANCHOR_REMOTE_L%ADD_PROC(PP)+N_REC_PROC(PP)) = NODLOCAL(GUIDE(I)%NODES(J))
+              N_REC_PROC(PP) = N_REC_PROC(PP) + 1  
             ENDIF
           ENDDO
         ENDIF
-      ENDDO 
+      ENDDO
 C
 C---  COnstruction of arrays for spmd exchange of TH on proc 0
       IF ((NSPMD > 1).AND.(P == 1)) THEN
