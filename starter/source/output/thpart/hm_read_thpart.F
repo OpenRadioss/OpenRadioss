@@ -40,7 +40,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_THPART(IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
-     .                     IGRTRUSS ,IGRBEAM ,IGRSPRING, LSUBMODEL)
+     .                     IGRTRUSS ,IGRBEAM ,IGRSPRING, IGRPART, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS
       TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM
       TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING
+      TYPE (GROUP_)  , DIMENSION(NGRPART) :: IGRPART
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -114,7 +115,11 @@ C-----------------------------------------------
         TYP(1:6)=KEY(1:6)
         TITR1=TITR
         CALL FRETITL(TITR,IPART(LIPART1-LTITR+1,NPART+I),LTITR)
-         CALL HM_GET_INTV('grelem_ID',  GR  ,IS_AVAILABLE,LSUBMODEL)        
+        IF(TYP(1:6) == 'GRPART') THEN
+          CALL HM_GET_INTV('grpart_ID',  GR  ,IS_AVAILABLE,LSUBMODEL)
+        ELSE
+          CALL HM_GET_INTV('grelem_ID',  GR  ,IS_AVAILABLE,LSUBMODEL)
+        END IF       
         
 C ITYP : 1 BRIC, 
 C        2 QUAD, 
@@ -123,6 +128,7 @@ C        4 TRUSS,
 C        5 BEAM, 
 C        6 SPRINGS,
 C        7 SHELL_3N
+C        8 PART
 
         ITYP = 0
         IGR = 0
@@ -161,6 +167,10 @@ C        7 SHELL_3N
           ITYP = 7
           IGR = NINTRIGR(GR,IGRSH3N,NGRSH3N)
           IF (ITYP == IGRSH3N(IGR)%GRTYPE) IS_FOUND_SURF = .TRUE.
+        ELSEIF (TYP(1:6) == 'GRPART') THEN
+          ITYP = -1
+          IGR = NINTRIGR(GR,IGRPART,NGRPART)
+          IF (ITYP == IGRPART(IGR)%GRTYPE) IS_FOUND_SURF = .TRUE.
         ENDIF
         
         IF(.NOT. IS_FOUND_SURF)THEN
@@ -169,8 +179,14 @@ C        7 SHELL_3N
         
         WRITE(IOUT,'(/A,I10,2A)')'THPART:',ID,',',TRIM(TITR)
         WRITE(IOUT,'(A)')       '----'
-        WRITE(IOUT,'(A,A)')'TYPE OF ELEMENT GROUP : ',TYP(1:6)
-        WRITE(IOUT,'(A,I10)')'ELEMENT GROUP ID : ',GR
+        IF(ITYP /= -1) THEN
+          WRITE(IOUT,'(A,A)')'TYPE OF ELEMENT GROUP : ',TYP(1:6)
+          WRITE(IOUT,'(A,I10)')'ELEMENT GROUP ID : ',GR
+        ELSE
+          WRITE(IOUT,'(A,A)')'TYPE OF PART GROUP : ',TYP(1:6)
+          WRITE(IOUT,'(A,I10)')'PART GROUP ID : ',GR
+        ENDIF
+        
 
         IPART(1,NPART+I)=IGR
         IPART(2,NPART+I)=ITYP

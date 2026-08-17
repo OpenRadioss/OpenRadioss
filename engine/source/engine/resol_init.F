@@ -170,7 +170,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
      7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
      8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION,
-     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST,RBE3,NHIER_RBY)
+     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST,RBE3,NHIER_RBY,
+     1  IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,IPARTP,IPARTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -360,6 +361,14 @@ C-----------------------------------------------
       type (glob_therm_) ,intent(inout)   :: glob_therm
       type (pblast_) ,intent(inout)   :: pblast
       type (rbe3_) ,intent(inout)   :: rbe3
+
+      INTEGER, DIMENSION(NUMELC), TARGET, INTENT(IN) :: IPARTC
+      INTEGER, DIMENSION(NUMELTG), TARGET, INTENT(IN) :: IPARTTG
+      INTEGER, DIMENSION(NUMELS), TARGET, INTENT(IN) :: IPARTS
+      INTEGER, DIMENSION(NUMELQ), TARGET, INTENT(IN) :: IPARTQ
+      INTEGER, DIMENSION(NUMELT), TARGET, INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP), TARGET, INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR), TARGET, INTENT(IN) :: IPARTR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -406,7 +415,9 @@ C
         IF (IGRELEM == 1 ) THEN
           CALL INIT_TH_GROUP(GRTH     ,IGRTH   ,NELEM    ,NGRTH   ,IPARG  ,
      .                       IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
-     .                       IGRTRUSS ,IGRBEAM ,IGRSPRING)
+     .                       IGRTRUSS ,IGRBEAM ,IGRSPRING,IGRPART,IPARTC,
+     .                       IPARTTG  ,IPARTS  ,IPARTQ   ,IPARTT ,IPARTP,
+     .                       IPARTR   )
         ENDIF
 C----- reset initial mass        
         IF (IMASSI /= 0) THEN
