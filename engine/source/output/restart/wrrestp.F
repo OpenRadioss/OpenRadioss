@@ -348,6 +348,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Restart size
       INTEGER,INTENT(INOUT) :: RESTSIZE
+      integer :: N
+      my_real, allocatable :: DIST_SAV(:)
 C-----------------------------------------------
       DATA IJK/'I','J','K','L','M','N','O','P','Q','R',
      .         'S','T','U','V','W','X','Y','Z','A','B',
@@ -753,7 +755,24 @@ c        CALL WRITE_I_C(INBUF,SINBUF)
         CALL W_BUFBRIC_22() !inter22
 
         !write new structure INTBUF_TAB
+        ! Ensure type10 distance is negative so next run triggers a sort
+        ALLOCATE(DIST_SAV(NINTER))
+        DO N = 1, NINTER
+          IF (IPARI(NPARI*(N-1)+7)==10 .AND.
+     .        INTBUF_TAB(N)%S_VARIABLES >= distance_index) THEN
+            DIST_SAV(N) = INTBUF_TAB(N)%VARIABLES(distance_index)
+            INTBUF_TAB(N)%VARIABLES(distance_index) =
+     .        -ABS(DIST_SAV(N))
+          ENDIF
+        ENDDO
         CALL WRITE_INTBUF(INTBUF_TAB)
+        DO N = 1, NINTER
+          IF (IPARI(NPARI*(N-1)+7)==10 .AND.
+     .        INTBUF_TAB(N)%S_VARIABLES >= distance_index) THEN
+            INTBUF_TAB(N)%VARIABLES(distance_index) = DIST_SAV(N)
+          ENDIF
+        ENDDO
+        DEALLOCATE(DIST_SAV)
 
         CALL WRITE_I_C(RWALL%NPRW,RWALL%NNPRW*RWALL%NRWALL)
 
