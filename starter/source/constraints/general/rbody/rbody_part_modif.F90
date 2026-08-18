@@ -386,6 +386,7 @@
 !||    rbody_part_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg             ../starter/source/output/message/message.F
+!||    kinset             ../starter/source/constraints/general/kinset.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
