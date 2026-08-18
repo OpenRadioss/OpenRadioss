@@ -247,6 +247,11 @@ C---------------------------------
             PHI3(I) = PHI3(I) + PHIM*H3(I)
             PHI4(I) = PHI4(I) + PHIM*H4(I)
 
+         ELSE
+            PHI1(I) = ZERO
+            PHI2(I) = ZERO
+            PHI3(I) = ZERO
+            PHI4(I) = ZERO
          ENDIF
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
@@ -414,6 +419,11 @@ C---------------------------------
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
             PHI4(I) = PHI4(I) + PHIM*H4(I)
+         ELSE
+            PHI1(I) = ZERO
+            PHI2(I) = ZERO
+            PHI3(I) = ZERO
+            PHI4(I) = ZERO
          ENDIF
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
