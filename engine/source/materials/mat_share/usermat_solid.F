@@ -1388,12 +1388,12 @@ C---- wierzbicki
      6                    TDEL )                          
           ELSEIF (IRUPT == 10)THEN                                        
 C---- strain tension            
-              CALL FAIL_TENSSTRAIN_S(LLT ,NPAR,NVARF,NFUNC,IFUNC       ,
-     2             NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3             NGL ,DELTAX   ,TSTAR ,ISMSTR, 
+              CALL FAIL_TENSSTRAIN_S(FAILPARAM   ,
+     2             NEL      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,
+     3             NGL ,DELTAX   ,TSTAR ,ISMSTR,TT    , 
      4             ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6     ,
      5             S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
-     6             EPSP1,UVARF,OFF ,DFMAX,TDEL  ,
+     6             EPSP1   ,OFF ,DFMAX,TDEL  ,
      7             MFXX   ,MFXY   ,MFXZ   ,MFYX    ,MFYY   ,MFYZ   ,                 
      8             MFZX   ,MFZY   ,MFZZ   ,LBUF%DMGSCL)
           ELSEIF (IRUPT == 11)THEN                                        
