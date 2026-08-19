@@ -366,8 +366,8 @@ c
             ELSEIF (KEY(1:8) == 'TENSSTRA') THEN
               IRUPT = 10
               CALL HM_READ_FAIL_TENSSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .             TITLE   ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             NTABLE  ,TABLE    ,LSUBMODEL,UNITAB   ,UNIT_ID  )
 c     
             ELSEIF (KEY(1:6) == 'ENERGY') THEN
               IRUPT = 11
