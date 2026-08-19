@@ -26,7 +26,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    genani                       ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    clsconv3                     ../engine/source/output/anim/generate/dfuncc.F
 !||    initbuf                      ../engine/share/resol/initbuf.F
 !||    output_schlieren             ../engine/source/output/anim/generate/output_schlieren.F
 !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
@@ -4505,7 +4504,6 @@ c-----------
 !||====================================================================
 !||    clsconv3          ../engine/source/output/anim/generate/dfuncc.F
 !||--- called by ------------------------------------------------------
-!||    dfuncc            ../engine/source/output/anim/generate/dfuncc.F
 !||    stat_c_orth_loc   ../engine/source/output/sta/stat_c_orth_loc.F
 !||====================================================================
       SUBROUTINE CLSCONV3(
