@@ -1075,12 +1075,12 @@
                 &tdele)
               elseif(irupt == 10)then
 !----strain tension
-                call fail_tensstrain_s(llt ,npar,nvarf,nfunc,ifunc        ,&
-                &npf ,tf  ,tt  ,dt1  ,uparamf,&
-                &ngl ,deltax  ,tstar,ismstr,&
+                call fail_tensstrain_s(mat_param(imat)%fail(ir)  , &
+                llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   , &
+                &ngl ,deltax  ,tstar,ismstr,tt      ,&
                 &es1 ,es2 ,es3 ,es4  ,es5  ,es6     ,&
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
-                &epsp1,uvarf   ,off  ,dfmax   ,tdele,&
+                &epsp1    ,off      ,dfmax    ,tdele  ,&
                 &bidon   ,bidon   ,bidon   ,bidon    ,bidon   ,bidon   ,&
                 &bidon   ,bidon   ,bidon   ,lbuf%dmgscl)
 !

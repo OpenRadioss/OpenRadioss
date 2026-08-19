@@ -1320,12 +1320,11 @@ c
      5               TDEL      )           
 c
               CASE (10)     !    Tension Strain failure model
-                CALL FAIL_TENSSTRAIN_C(                                         
-     1               NEL       ,NFUNC_FAIL    ,NUPAR     ,NVARF     ,IFUNC_FAIL    ,
-     2               UPARAMF   ,UVARF     ,NPF       ,TF        ,TT        ,
+                CALL FAIL_TENSSTRAIN_C(fail_param ,                             
+     1               nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,
      3               NGL       ,IPG       ,ILAYER    ,IT        ,EPSPL     ,
      4               EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
-     5               OFF       ,FOFF      ,DFMAX     ,TDEL      ,
+     5               OFF       ,FOFF      ,DFMAX     ,TDEL      ,TT        ,  
      6               DMG_FLAG  ,DMG_LOC_SCALE ,ALDT  ,TSTAR     ,ISMSTR    )                                
 c
               CASE (11)     !    Energy failure model
