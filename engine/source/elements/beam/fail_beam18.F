@@ -213,13 +213,12 @@ c---------------
             TSTAR(1:NEL) = ZERO
           ENDIF
 
-          CALL FAIL_TENSSTRAIN_IB(                                         
-     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM ,
+          CALL FAIL_TENSSTRAIN_IB(FAIL       ,NEL      ,NGL      ,                                         
+     .          NUVAR    ,NVARTMP  ,UVARF    ,VARTMP   ,
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
-     .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
+     .          TDEL     ,IOUT     ,ISTDO    ,
      .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
-     .          SNPC     ,NPF      ,STF      ,UVARF  ,NUVAR,
-     .          TF       ,IPT      ,FOFF     ,ISMSTR ,ELBUF_STR%GBUF%UELR ,NPT)
+     .          IPT      ,FOFF     ,ISMSTR   ,ELBUF_STR%GBUF%UELR)
 c---------------  
         CASE (11)     ! Energy failure model                                           
           CALL FAIL_ENERGY_IB(FAIL ,NEL      ,NGL      ,
@@ -227,7 +226,7 @@ c---------------
      .          TDEL     ,IOUT     ,ISTDO    ,LBUF%DMGSCL,
      .          NUVAR    ,UVARF    ,NVARTMP  ,VARTMP   ,
      .          IPT      ,FOFF     ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .          DEPSXX   ,DEPSXY   ,DEPSXZ   ,ELBUF_STR%GBUF%UELR ,NPT)
+     .          DEPSXX   ,DEPSXY   ,DEPSXZ   ,ELBUF_STR%GBUF%UELR ,NPT   )
 
 c--------------- 
         CASE (30)     !    BIQUAD                                                  

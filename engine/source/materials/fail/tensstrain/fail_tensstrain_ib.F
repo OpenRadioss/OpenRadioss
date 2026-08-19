@@ -28,13 +28,17 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    finter               ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_TENSSTRAIN_IB(
-     .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
+      SUBROUTINE FAIL_TENSSTRAIN_IB(FAIL      ,NEL      ,NGL      ,
+     .           NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       
-     .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
-     .           EPSXX    ,AL       ,TSTAR    ,DAMSCL   ,
-     .           SNPC     ,NPF      , STF     , UVAR  ,NVARF,
-     .           TF       ,IPT      ,FOFF   ,ISMSTR, UELR, NPG)
+     .           TDEL     ,IOUT     ,ISTDO    ,
+     .           EPSXX    ,AL       ,TSTAR    ,DAMSCL   ,         
+     .           IPT      ,FOFF     ,ISMSTR   ,UELR     )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
 C-----------------------------------------------
 c    tens strain failure model for integrated beams (TYPE 18) !irup=10
 C-----------------------------------------------
@@ -49,94 +53,70 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER                     ,INTENT(IN)    :: NEL     ! size of element group
-      INTEGER                     ,INTENT(IN)    :: NUPARAM ! size of parameter array
       INTEGER                     ,INTENT(IN)    :: IPT     ! current integration point
       INTEGER                     ,INTENT(IN)    :: IOUT    ! output file unit
-      INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit
-      INTEGER                     ,INTENT(IN)    :: SNPC 
-      INTEGER                     ,INTENT(IN)    :: STF       
+      INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit      
       INTEGER                     ,INTENT(IN)    :: ISMSTR
-      INTEGER                     ,INTENT(IN)    :: NVARF   
+      INTEGER                     ,INTENT(IN)    :: NUVAR   ! number of user variables
+      INTEGER                     ,INTENT(IN)    :: NVARTMP ! number of tmp user variables
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
-      INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
-      INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF
+      INTEGER ,DIMENSION(NEL,NVARTMP),INTENT(INOUT) :: VARTMP
       my_real                     ,INTENT(IN)    :: TIME    ! current time    
-      my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: TSTAR
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX 
-      my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
-      my_real ,DIMENSION(NEL,NVARF),INTENT(INOUT) :: UVAR   
+      my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT):: UVAR   
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: UELR  
-      INTEGER                     ,INTENT(IN)    :: NPG   
+      type (fail_param_) ,intent(inout) :: fail             !< failure model data structure  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINDXD,NINDXF,NINDX1,NINDX2,S_FLAG,SCALE_FLAG,STRDEF,STRFLAG,FAILIP
-      INTEGER ,DIMENSION(NEL) :: INDXD,INDXF,INDX1,INDX2
-      my_real R1,R2,EPSF1,EPSF2,LAMBDA,FAC,DF,
-     .        EL_REF,SC_EL,SCALE_TEMP,RFAC,RFAC2,
-     .        UNIT_T,EPSP_UNIT,FINTER,DYDX,EPST1,EPST2
-      EXTERNAL FINTER
+      INTEGER I,J,NINDX,NINDXD,NINDXF,NINDX1,NINDX2,S_FLAG,STRDEF,STRFLAG,FAILIP
+      INTEGER ,DIMENSION(NEL) :: INDX,INDXD,INDXF,INDX1,INDX2
+      my_real :: R1,R2,EPSF1,EPSF2,EL_REF,EPST1,EPST2
       my_real ,DIMENSION(NEL) :: EPS_MAX,DAMAGE,EPSRATE,EPS11,EPSI,EPS_EQ
-C=======================================================================
-      EPST1   = UPARAM(1)
-      EPST2   = UPARAM(2)
-      EPSF1   = UPARAM(3)            
-      EPSF2   = UPARAM(4)
-      SC_EL      = UPARAM(5)
-      EL_REF     = UPARAM(6)
-      SCALE_TEMP = UPARAM(7)
-      S_FLAG     = INT(UPARAM(8))
-      UNIT_T     = UPARAM(9)
-      STRDEF     = INT(UPARAM(10))
-      FAILIP  = MIN(NINT(UPARAM(11)),NPG) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
-     
+      my_real ,dimension(nel) :: lambda,xvec,dydx
+      my_real ,dimension(nel) :: rfac,rfac2
+C=======================================================================  
+      STRDEF  = FAIL%IPARAM(1)
+      S_FLAG  = FAIL%IPARAM(2)
+      FAILIP  = FAIL%IPARAM(3)            ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
+!
+      EPST1   = FAIL%UPARAM(1)
+      EPST2   = FAIL%UPARAM(2)
+      EPSF1   = FAIL%UPARAM(3)            
+      EPSF2   = FAIL%UPARAM(4)
+      EL_REF  = FAIL%UPARAM(5)    
 c
       DAMAGE(:NEL)  = ZERO
       EPS_MAX(:NEL) = ZERO
+      NINDX   = 0
       NINDXD  = 0  
       NINDXF  = 0  
+      NINDX1  = 0  
+      NINDX2  = 0    
       STRFLAG = 0 
 C-----------------------------------------------
 c     Initialization
 C-----------------------------------------------
       IF (UVAR(1,1) == ZERO) THEN 
         SELECT CASE (S_FLAG)
-          CASE (2)
-            IF (IFUNC(2) > 0)THEN
-              DO I=1,NEL
-                LAMBDA    = AL(I)  / EL_REF
-                FAC       = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF)
-                UVAR(I,1) = FAC 
-              ENDDO
+          CASE (2,3)
+            IF (fail%table4d(2)%notable > 0)THEN
+              LAMBDA(:) = AL(:) / EL_REF
+              call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp(1:nel,1:1),lambda,uvar(1:nel,1),dydx)
             ELSE
-              DO I=1,NEL
-                UVAR(I,1) = ONE
-              ENDDO
-            ENDIF              
-          CASE (3)
-            IF (IFUNC(2) > 0)THEN
-              DO I=1,NEL
-                LAMBDA    = AL(I)  / EL_REF
-                FAC       = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF)
-                UVAR(I,1) = FAC
-              ENDDO
-            ELSE
-              DO I=1,NEL
-                UVAR(I,1) = ONE
-              ENDDO
-            ENDIF 
-          CASE DEFAULT  ! default - old formulation
-            DO I=1,NEL
-              UVAR(I,1) = EPSF1             
-            ENDDO
+              UVAR(:,1) = ONE
+            ENDIF
+              
+          CASE DEFAULT ! default - old formulation
+            UVAR(1:NEL,1) = EPSF1
         END SELECT
       ENDIF
 c----------------------------------------------
@@ -184,171 +164,188 @@ c-------------------------
               EPSI(I)    = EPS11(I)
             END IF
           ENDDO
-      END SELECT
-          
-          
-c-------------------
-      NINDXD = 0  
-      NINDXF = 0  
-      NINDX1 = 0  
-      NINDX2 = 0  
-c
+      END SELECT     
+c-------------------  
+!     Tag active elements 
+      do i=1,nel
+        if (off(i) == one .and. foff(i) == 1) then
+          nindx = nindx + 1
+          indx(nindx) = i  
+        end if
+      end do
+c-----------------------------------------------------------------------------------
       SELECT CASE (S_FLAG)
         CASE (2)
 C-------------------
 c     Equivalent strain. New format: Element length and temperature
 C-------------------
-          DO I=1,NEL
-            IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-              IF (IFUNC(1) > 0) THEN   ! strain rate
-                EPSP_UNIT = EPSRATE(I) * UNIT_T
-                RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
-                RFAC = MAX(RFAC,EM20)
-              ELSE
-                RFAC = ONE
-              ENDIF  
-              IF (IFUNC(3) > 0) THEN   ! temperatuer
-                RFAC2 = FINTER(IFUNC(3),TSTAR(I),NPF,TF,DYDX)
-                RFAC2 = MAX(RFAC2,EM20)
-              ELSE
-                RFAC2 = ONE
-              ENDIF  
-              R1 = EPST1*RFAC*RFAC2*UVAR(I,1)
-              R2 = EPST2*RFAC*RFAC2*UVAR(I,1)  
-              IF (EPS_EQ(I) > R1) THEN
-                IF (DFMAX(I) == ZERO) THEN
-                  NINDXD = NINDXD + 1  
-                  INDXD(NINDXD) = I
-                ENDIF   
-                DAMAGE(I) = MIN(ONE, (EPS_EQ(I)-R1)/(R2-R1))
-                DFMAX(I)  = MAX(DFMAX(I) ,DAMAGE(I))
-              ENDIF
-              IF (EPS_EQ(I) >= R2) THEN
-                FOFF(I) = 0
-                TDEL(I) = TIME 
-                NINDXF  = NINDXF + 1  
-                INDXF(NINDXF) = I
-                DFMAX(I)    = ONE
-                UELR(I) = UELR(I) + ONE
-                IF (NINT(UELr(I)) >= FAILIP) THEN
-                  OFF(I) = FOUR_OVER_5
-                ENDIF 
-              ENDIF 
-            ENDIF          
-          ENDDO
+        if (fail%table4d(1)%notable > 0) then   ! strain rate
+          do j=1,nindx
+            i = indx(j)
+            xvec(j) = epsrate(i)
+          enddo
+          call table_mat_vinterp(fail%table4d(1),nindx,nel,vartmp(1:nel,1:1),xvec,rfac,dydx)
+          rfac(:) = max(rfac(:),em20)
+        else
+          rfac(:) = one
+        endif
+        if (fail%table4d(3)%notable > 0) then  ! temperature
+          do j=1,nindx
+            i = indx(j)
+            xvec(j) = tstar(i)
+          enddo
+          call table_mat_vinterp(fail%table4d(3),nindx,nel,vartmp(1:nel,2:2),xvec,rfac,dydx)
+          rfac2(:) = max(rfac(:),em20)
+        else
+          rfac2(:) = one
+        endif
+        !
+        do j=1,nindx
+          i = indx(j)
+          r1 = epst1*rfac(j)*rfac2(j)*uvar(i,1)
+          r2 = epst2*rfac(j)*rfac2(j)*uvar(i,1)  
+          if (eps_eq(i) > r1) then
+            if (dfmax(i) == zero) then
+              nindxd = nindxd + 1  
+              indxd(nindxd) = i
+            endif   
+            damage(i) = min(one, (eps_eq(i)-r1)/(r2-r1))
+          endif
+          if (eps_eq(i) >= r2) then
+            foff(i)  = 0
+            tdel(i) = time 
+            nindxf  = nindxf + 1  
+            indxf(nindxf) = i
+            dfmax(i) = one
+            uelr(i)  = uelr(i) + one
+            if (nint(uelr(i)) >= failip) then
+              off(i) = four_over_5
+            end if
+          end if 
+        end do
 C-------------------
         CASE (3)
 C-------------------
 c     principal strain. with Element length and temperature
 C-------------------
-          DO I=1,NEL
-            IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-              IF (IFUNC(1) > 0) THEN   ! strain rate
-                EPSP_UNIT = EPSRATE(I) * UNIT_T
-                RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
-                RFAC = MAX(RFAC,EM20)
-              ELSE
-                RFAC = ONE
-              ENDIF  
-              IF (IFUNC(3) > 0) THEN   ! temperatuer
-                RFAC2 = FINTER(IFUNC(3),TSTAR(I),NPF,TF,DYDX)
-                RFAC2 = MAX(RFAC2,EM20)
-              ELSE
-                RFAC2 = ONE
-              ENDIF  
-              R1 = EPST1*RFAC*RFAC2*UVAR(I,1)
-              R2 = EPST2*RFAC*RFAC2*UVAR(I,1)  
-              IF (EPSI(I) > R1) THEN
-                IF (DFMAX(I) == ZERO) THEN
-                  NINDXD = NINDXD + 1  
-                  INDXD(NINDXD) = I
-                ENDIF   
-                DAMAGE(I) = MIN(ONE, (EPSI(I)-R1)/(R2-R1))
-                DFMAX(I)  = MAX(DFMAX(I) ,DAMAGE(I))
-              ENDIF
-              IF (EPSI(I) >= R2) THEN
-                FOFF(I) = 0
-                TDEL(I) = TIME 
-                NINDXF  = NINDXF + 1  
-                INDXF(NINDXF) = I
-                DFMAX(I)    = ONE
-                UELR(I) = UELR(I) + ONE
-                IF (NINT(UELr(I)) >= FAILIP) THEN
-                  OFF(I) = FOUR_OVER_5
-                ENDIF           
-              ENDIF 
-            ENDIF          
-          ENDDO
-
+        if (fail%table4d(1)%notable > 0) then   ! strain rate
+          do j=1,nindx
+            i = indx(j)
+            xvec(j) = epsrate(i)
+          enddo
+          call table_mat_vinterp(fail%table4d(1),nindx,nel,vartmp(1:nel,1:1),xvec,rfac,dydx)
+          rfac(:) = max(rfac(:),em20)
+        else
+          rfac(:) = one
+        endif
+        if (fail%table4d(3)%notable > 0) then  ! temperature
+          do j=1,nindx
+            i = indx(j)
+            xvec(j) = tstar(i)
+          enddo
+          call table_mat_vinterp(fail%table4d(3),nindx,nel,vartmp(1:nel,2:2),xvec,rfac,dydx)
+          rfac2(:) = max(rfac(:),em20)
+        else
+          rfac2(:) = one
+        endif
+        !
+        do j=1,nindx
+          i = indx(j)
+          r1 = epst1*rfac(j)*rfac2(j)*uvar(i,1)
+          r2 = epst2*rfac(j)*rfac2(j)*uvar(i,1)  
+          if (epsi(i) > r1) then
+            if (dfmax(i) == zero) then
+              nindxd = nindxd + 1  
+              indxd(nindxd) = i
+            endif   
+            damage(i) = min(one, (epsi(i)-r1)/(r2-r1))
+            dfmax(i)  = max(dfmax(i) ,damage(i))
+          endif
+          if (epsi(i) >= r2) then
+            foff(i)  = 0
+            tdel(i) = time 
+            nindxf  = nindxf + 1  
+            indxf(nindxf) = i
+            dfmax(i)    = one
+            uelr(i)  = uelr(i) + one
+            if (nint(uelr(i)) >= failip) then
+              off(i) = four_over_5
+            end if           
+          end if
+        end do
 C-------------------
 c     Equivalent strain.  
 C-------------------
         CASE DEFAULT  
-          DO I=1,NEL
-            IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-              IF (IFUNC(1) > 0) THEN   ! strain rate
-                EPSP_UNIT = EPSRATE(I) * UNIT_T
-                RFAC = FINTER(IFUNC(1),EPSP_UNIT,NPF,TF,DYDX)
-                RFAC = MAX(RFAC,EM20)
-              ELSE
-                RFAC = ONE
-              ENDIF  
-              R1 = EPST1*RFAC
-              R2 = EPST2*RFAC 
-              IF (EPS_EQ(I) > R1) THEN
-                IF (DFMAX(I) == ZERO) THEN
-                  NINDXD = NINDXD + 1  
-                  INDXD(NINDXD) = I
-                ENDIF   
-                DAMAGE(I) = MIN(ONE, (EPS_EQ(I)-R1)/(R2-R1))
-                DFMAX(I)     = MAX(DFMAX(I), DAMAGE(I))
-             ENDIF
-              IF (EPS_EQ(I) >= R2) THEN
-                FOFF(I) = 0
-                TDEL(I) = TIME 
-                NINDXF  = NINDXF + 1  
-                INDXF(NINDXF) = I
-                DFMAX(I)      = ONE
-                UELR(I) = UELR(I) + ONE
-                IF (NINT(UELr(I)) >= FAILIP) THEN
-                  OFF(I) = FOUR_OVER_5
-                ENDIF 
-              ENDIF 
-              IF (EPSF1 > ZERO .OR. EPSF2 > ZERO) THEN               
-                IF ( EPS_EQ(I) > UVAR(I,1) .AND. UVAR(I,1) /= ZERO) THEN
-                  FOFF(I) = 0
-                  TDEL(I) = TIME 
-                  NINDX1  = NINDX1 + 1  
-                  INDX1(NINDX1) = I
-                  UELR(I) = UELR(I) + ONE
-                  IF (NINT(UELr(I)) >= FAILIP) THEN
-                    OFF(I) = FOUR_OVER_5
-                  ENDIF 
-                ELSEIF  (EPSI(I) > EPSF2 .AND. EPSF2 > ZERO) THEN
-                  FOFF(I) = 0
-                  TDEL(I) = TIME 
-                  NINDX2  = NINDX2 + 1  
-                  INDX2(NINDX2) = I
-                  EPS_EQ(I) = EPSI(I)
-                  UELR(I) = UELR(I) + ONE
-                  IF (NINT(UELr(I)) >= FAILIP) THEN
-                    OFF(I) = FOUR_OVER_5
-                  ENDIF 
-                ENDIF
-                DFMAX(I)   = MAX(DFMAX(I),MIN( ONE, (EPS_EQ(I) / UVAR(I,1))))
-                SCALE_FLAG = 0
-              ENDIF
-            ENDIF
-c                       
-          ENDDO
+        if (fail%table4d(1)%notable > 0) then   ! strain rate
+          do j=1,nindx
+            i = indx(j)
+            xvec(j) = epsrate(i)
+          enddo
+          call table_mat_vinterp(fail%table4d(1),nindx,nel,vartmp(1:nel,1:1),xvec,rfac,dydx)
+          rfac(:) = max(rfac(:),em20)
+        else
+          rfac(:) = one
+        endif
+!
+        do j=1,nindx
+          i = indx(j)
+          r1 = epst1*rfac(j)
+          r2 = epst2*rfac(j)
+          if (eps_eq(i) > r1) then
+            if (dfmax(i) == zero) then
+              nindxd = nindxd + 1  
+              indxd(nindxd) = i
+            endif   
+            damage(i) = min(one, (eps_eq(i)-r1)/(r2-r1))
+            dfmax(i)  = max(dfmax(i) ,damage(i))
+          endif
+          if (eps_eq(i) >= r2) then
+            off(i)  = four_over_5
+            tdel(i) = time 
+            nindxf  = nindxf + 1  
+            indxf(nindxf) = i
+            dfmax(i)    = one
+            uelr(i)  = uelr(i) + one
+            if (nint(uelr(i)) >= failip) then
+              off(i) = four_over_5
+            end if           
+          end if
+        end do
+!
+        if (epsf1 > zero .or. epsf2 > zero) then               
+          do j=1,nindx
+            i = indx(j) 
+            if (eps_eq(i) > uvar(i,1) .and. uvar(i,1) /= zero) then
+                  foff(i) = 0
+                  tdel(i) = time 
+                  nindx1  = nindx1 + 1  
+                  indx1(nindx1) = i
+                  uelr(i) = uelr(i) + one
+                  if (nint(uelr(i)) >= failip) then
+                    off(i) = four_over_5
+                  endif 
+            elseif (epsi(i) > epsf2 .and. epsf2 > zero) then
+                  foff(i) = 0
+                  tdel(i) = time 
+                  nindx2  = nindx2 + 1  
+                  indx2(nindx2) = i
+                  eps_eq(i) = epsi(i)
+                  uelr(i) = uelr(i) + one
+                  if (nint(uelr(i)) >= failip) then
+                    off(i) = four_over_5
+                  endif 
+            endif
+            dfmax(i)   = max(dfmax(i),min( one, (eps_eq(i) / uvar(i,1))))
+          end do
+        end if
+!
       END SELECT
 
 C-------------------
       DO I=1,NEL
         DAMSCL(I) = ONE - DFMAX(I)
       END DO
-           
-         
 c------------------------
 c     print
 c------------------------

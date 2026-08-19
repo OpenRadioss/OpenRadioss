@@ -2284,13 +2284,12 @@
                     &tdel      )
 !
                    case (10)     !    tension strain failure model
-                    call fail_tensstrain_c(&
-                    &nel       ,nfunc_fail    ,nupar     ,nvarf     ,ifunc_fail    ,&
-                    &uparamf   ,uvarf     ,npf       ,tf        ,tt        ,&
-                    &ngl       ,ipg       ,ilayer    ,it        ,epsd      ,&
-                    &epsxx     ,epsyy     ,epsxy     ,epsyz     ,epszx     ,&
-                    &off       ,foff      ,dfmax     ,tdel      ,&
-                    &dmg_flag  ,dmg_loc_scale ,aldt  ,tstar     ,ismstr    )
+                    call fail_tensstrain_c(fail_param    ,&
+                     nel       ,nvarf     ,nvarftmp  ,uvarf     ,vartmp    ,&
+                     ngl       ,ipg       ,ilayer    ,it        ,epsd      ,&
+                     epsxx     ,epsyy     ,epsxy     ,epsyz     ,epszx     ,&
+                     off       ,foff      ,dfmax     ,tdel      ,tt        ,&
+                     dmg_flag  ,dmg_loc_scale ,aldt  ,tstar     ,ismstr    )
 !
                    case (11)     !    energy failure model
                     call fail_energy_c(fail_param    ,                      &
