@@ -255,7 +255,7 @@ C-------------------------
                 NODESSUB(CNT) = K
               ENDIF
             ENDDO
-            CALL transform_translate_in_local_skew(
+            IF (CNT > 0) CALL transform_translate_in_local_skew(
      .            NODESSUB     ,CNT        ,X   ,NUMNOD     , ISK  ,
      .            TX           ,TY         ,TZ  ,SKEW       , LSKEW,
      .            SSKEW        )
@@ -378,5 +378,5 @@ c     .'  NODAL TRANSFORMATIONS       '/,
 c     .'  ---------------------- ')
 c 1000 FORMAT(/10X,'NEW NODE COORDINATES',14X,'X',24X,'Y',24X,'Z')
 c 1500 FORMAT( 17X,I10,3(5X,E20.13))
-      RETURN
+       RETURN
       END

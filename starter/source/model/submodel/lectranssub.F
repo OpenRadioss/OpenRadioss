@@ -295,6 +295,10 @@ C
           ROT(1) = ONE
           ROT(5) = ONE
           ROT(9) = ONE
+
+          DO K=1,9
+            RTRANS(I,K+2) = ROT(K)
+          ENDDO
 C
           WRITE(IOUT,500) ID,ID_TRANSSUB   
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
