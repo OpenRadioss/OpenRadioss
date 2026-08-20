@@ -142,7 +142,7 @@ C------------change shear to eij
 C       
       CALL H3D_SOL_SKIN_SCALAR1(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                          SKIN_SCALAR,TAG_SKINS6,T6GPS,X  ,
-     .                          NPF,TF,H3D_PART,IS_WRITTEN_SKIN,
+     .                          H3D_PART,IS_WRITTEN_SKIN,
      .                          KEYWORD,NSKIN,MAT_PARAM)
 C
        call my_dealloc(AFLU)
@@ -164,73 +164,52 @@ C-----------
 !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
-      SUBROUTINE IDX_FLD_SOL(
-     1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TF       ,UPARAM   ,EPS3     ,FLD_IDX  ,
-     3     NIPARAM  ,IPARAM   ,PLA      )
+      SUBROUTINE IDX_FLD_SOL(FAIL       ,
+     .     NEL      ,EPS3     ,FLD_IDX  ,PLA      )
 C-----------------------------------------------
 c    FLD failure model
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C     Modules
 C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
       use my_alloc_mod
       use my_dealloc_mod, only : my_dealloc
+C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
-C---------+---------+---+---+--------------------------------------------
 C---------+---------+---+---+--------------------------------------------
 C EPS3    | NEL*3   | F | R | IN PLANE STRAIN TENSOR
 C---------+---------+---+---+--------------------------------------------
-C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NFUNC,NIPARAM
-      INTEGER ,DIMENSION(NFUNC) :: IFUNC
-      INTEGER, DIMENSION(NIPARAM), INTENT(IN) :: IPARAM
-      my_real ,DIMENSION(3,NEL), INTENT(IN) ::  EPS3
-      my_real,DIMENSION(NUPARAM) :: UPARAM
-      my_real ,DIMENSION(NEL), INTENT(IN) :: PLA
+      INTEGER, INTENT(IN) :: NEL
+      my_real ,DIMENSION(3,NEL), INTENT(IN) :: EPS3
+      my_real ,DIMENSION(NEL)  , INTENT(IN) :: PLA
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: FLD_IDX
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER , FINTERFLD ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
-C-----------------------------------------------
+      type (fail_param_) ,intent(inout) :: fail    !< failure model data structureC-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,IENG,LENF,IMARGIN
+      INTEGER :: I,IENG,LENF,IMARGIN
+      INTEGER ,DIMENSION(NEL) :: IPOS
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
-      my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
+      my_real ,ALLOCATABLE, DIMENSION(:) :: XF,YF  
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM,BETA
 C=======================================================================
-c
       ! -> Real parameters
-      FACT_MARGIN     = UPARAM(1)
-      RANI            = UPARAM(3)
-      FACT_LOOSEMETAL = UPARAM(4)
+      FACT_MARGIN     = FAIL%UPARAM(1)
+      RANI            = FAIL%UPARAM(3)
+      FACT_LOOSEMETAL = FAIL%UPARAM(4)
       ! -> Integer parameters
-      IMARGIN  = IPARAM(2)
-      IENG     = IPARAM(3)
+      IMARGIN  = FAIL%IPARAM(2)
+      IENG     = FAIL%IPARAM(3)
+      IPOS(:)  = 1
 c
       !=================================================================
       ! - MINOR AND MAJOR (TRUE) STRAIN DEFORMATION
@@ -250,36 +229,36 @@ c
         BETA(I) = EMIN(I)/MAX(EMAJ(I),EM20)
       ENDDO
 c
+      LENF = size(fail%table4d(1)%x(1)%values)
+      call my_alloc(XF, LENF, "XF")
+      call my_alloc(YF, LENF, "YF")
       !=================================================================
       ! FAILURE MAJOR STRAIN FROM INPUT CURVE AND DAMAGE RATIO
       !=================================================================
       ! -> Engineering strains input
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
-        II   = NPF(IFUNC(1))
-        LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
-        call my_alloc(XF, LENF, "XF")
         DO I = 1,LENF
-          XF(I) = LOG(TF(II + I-1) + ONE)
+          XF(I) = LOG(fail%table4d(1)%x(1)%values(i) + ONE)
+          YF(I) = fail%table4d(1)%y1d(i)
         ENDDO
-c
-        DO I = 1,NEL
-          EM(I) = FINTERFLD(EMIN(I),LENF,XF)
-        ENDDO
-        call my_dealloc(XF)
+        call vinter_1d(nel,nel,lenf,ipos,xf,yf,emin,em)
       ! -> True strains input
       ELSE
+        DO I = 1,LENF
+          XF(I) = fail%table4d(1)%x(1)%values(i)
+          YF(I) = fail%table4d(1)%y1d(i)
+        ENDDO
         ! -> Classical formulation
         IF (IENG == 0) THEN 
-          DO I = 1,NEL
-            EM(I) = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
-          ENDDO
+          call vinter_1d(nel,nel,lenf,ipos,xf,yf,emin,em)
         ! -> Non-linear path formulation
         ELSEIF (IENG == 2) THEN           
-          DO I = 1,NEL
-            EM(I) = FINTER(IFUNC(1),BETA(I),NPF,TF,DYDX)
-          ENDDO
+          call vinter_1d(nel,nel,lenf,ipos,xf,yf,beta,em)
         ENDIF
-      ENDIF 
+      ENDIF
+      !
+      call my_dealloc(XF)
+      call my_dealloc(YF)
 c
       !=================================================================
       ! FLD ZONE INDEX CALCULATION FOR ANIM OUTPUT
@@ -355,6 +334,7 @@ c
             ENDIF
           ENDDO
         ENDIF
+        
       ENDIF
 C------------------------
       RETURN
@@ -370,76 +350,53 @@ C------------------------
 !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
-      SUBROUTINE DAM_FLD_SOL(
-     1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TF       ,UPARAM   ,EPS3     ,DAM,
-     3     NIPARAM  ,IPARAM   ,PLA      )
+      SUBROUTINE DAM_FLD_SOL(FAIL      ,
+     .     NEL      ,EPS3     ,DAM     ,PLA      )
 C-----------------------------------------------
 c    FLD failure model
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C     Modules
 C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
       use my_alloc_mod
       use my_dealloc_mod, only : my_dealloc
+C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C---------+---------+---+---+--------------------------------------------
 C EPS3    | NEL*3   | F | R | IN PLANE STRAIN TENSOR
 C---------+---------+---+---+--------------------------------------------
-C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
-C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C DAM     | NEL     | F |R/W| DAMAGE FACTOR 
-C---------+---------+---+---+--------------------------------------------
-C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NFUNC,NIPARAM
-      INTEGER ,DIMENSION(NFUNC) :: IFUNC
-      INTEGER, DIMENSION(NIPARAM), INTENT(IN) :: IPARAM
+      INTEGER, INTENT(IN) :: NEL
       my_real ,DIMENSION(3,NEL), INTENT(IN) ::  EPS3
-      my_real,DIMENSION(NUPARAM) :: UPARAM
       my_real ,DIMENSION(NEL), INTENT(IN) :: PLA
+      type (fail_param_) ,intent(in) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: DAM
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER , FINTERFLD ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,IENG,LENF,IMARGIN
+      INTEGER :: I,IENG,LENF,IMARGIN
+      INTEGER ,DIMENSION(NEL) :: IPOS
       my_real :: RANI,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
-      my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
+      my_real ,ALLOCATABLE, DIMENSION(:) :: XF,YF 
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM,BETA
 C=======================================================================
-c
-      ! -> Real parameters
-      FACT_MARGIN     = UPARAM(1)
-      RANI            = UPARAM(3)
-      FACT_LOOSEMETAL = UPARAM(4)
+   ! -> Real parameters
+      FACT_MARGIN     = FAIL%UPARAM(1)
+      RANI            = FAIL%UPARAM(3)
+      FACT_LOOSEMETAL = FAIL%UPARAM(4)
       ! -> Integer parameters
-      IMARGIN  = IPARAM(2)
-      IENG     = IPARAM(3)
+      IMARGIN  = FAIL%IPARAM(2)
+      IENG     = FAIL%IPARAM(3)
+      IPOS(:)  = 1
 c
       !=================================================================
       ! - MINOR AND MAJOR (TRUE) STRAIN DEFORMATION
@@ -462,37 +419,46 @@ c
       !=================================================================
       ! FAILURE MAJOR STRAIN FROM INPUT CURVE AND DAMAGE RATIO
       !=================================================================
+c
+      LENF = size(fail%table4d(1)%x(1)%values)
+      call my_alloc(XF, LENF, "XF")
+      call my_alloc(YF, LENF, "YF")
+      !=================================================================
+      ! FAILURE MAJOR STRAIN FROM INPUT CURVE AND DAMAGE RATIO
+      !=================================================================
       ! -> Engineering strains input
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
-        II   = NPF(IFUNC(1))
-        LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
-        call my_alloc(XF, LENF, "XF")
         DO I = 1,LENF
-          XF(I) = LOG(TF(II + I-1) + ONE)
-        ENDDO
-c
+          XF(I) = LOG(fail%table4d(1)%x(1)%values(i) + ONE)
+          YF(I) = fail%table4d(1)%y1d(i)
+        END DO
+        call vinter_1d(nel,nel,lenf,ipos,xf,yf,emin,em)
         DO I = 1,NEL
-          EM(I)    = FINTERFLD(EMIN(I),LENF,XF)
-          DAM(I)   = EMAJ(I) / EM(I)
-c          DFMAX(I) = MIN(ONE, DAM(I))
-        ENDDO
-        call my_dealloc(XF)
-      ! -> True strains input
+          DAM(I) = EMAJ(I) / EM(I)
+        END DO
+             ! -> True strains input
       ELSE
+        DO I = 1,LENF
+          XF(I) = fail%table4d(1)%x(1)%values(i)
+          YF(I) = fail%table4d(1)%y1d(i)
+        END DO
         ! -> Classical formulation
         IF (IENG == 0) THEN 
+          call vinter_1d(nel,nel,lenf,ipos,xf,yf,emin,em)
           DO I = 1,NEL
-            EM(I)  = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
             DAM(I) = EMAJ(I) / EM(I)
-          ENDDO
-        ! -> Non-linear path formulation
+          END DO
+       ! -> Non-linear path formulation
         ELSEIF (IENG == 2) THEN           
+          call vinter_1d(nel,nel,lenf,ipos,xf,yf,beta,em)
           DO I = 1,NEL
-            EM(I)  = FINTER(IFUNC(1),BETA(I),NPF,TF,DYDX)
             DAM(I) = PLA(I) / EM(I)
-          ENDDO
+          END DO
         ENDIF
-      ENDIF 
+      ENDIF
+      !
+      call my_dealloc(XF)
+      call my_dealloc(YF)
 C------------------------
       RETURN
       END
