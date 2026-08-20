@@ -2257,7 +2257,7 @@
                     enddo
                     if (ixfem == 0) then
                       call fail_fld_c(fail_param    ,&
-                      &nel       ,nvarf     ,nvartmp   ,uvarf      ,vartmp    ,&
+                      &nel       ,nvarf     ,nvarftmp  ,uvarf      ,vartmp    ,&
                       &tt        ,ngl       ,ipg       ,ilayer     ,it        ,&
                       &epsxx     ,epsyy     ,epsxy     ,lf_dammx   ,&
                       &depsxx    ,depsyy    ,depsxy    ,el_pla     ,&
@@ -2265,7 +2265,7 @@
                       &fld_idx   ,dam       ,dfmax     ,dt1        )
                     else if (matparam%ixfem > 0) then
                       call fail_fld_xfem(fail_param    ,&
-                      &nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp    ,&
+                      &nel       ,nvarf     ,nvarftmp  ,uvarf    ,vartmp    ,&
                       &tt        ,ngl       ,ipt       ,mpt       ,ssp       ,tensx     ,&
                       &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
                       &epsxx     ,epsyy     ,epsxy     ,epsyz     ,epszx     ,&

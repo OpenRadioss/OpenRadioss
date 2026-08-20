@@ -202,7 +202,7 @@ C-----------------------------------------------
      .   IGMAT,IPGMAT,KK,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
      .   FAILNPT,JOFF,SIZNUL,PLY_ID,IJ(5),K,ISEQ,PROGRESSIVE_CRACK,
      .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE,
-     .   LF_DAMMX,NIPAR
+     .   LF_DAMMX,NIPAR,NVARFTMP
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
       INTEGER :: IFUNC(MAXFUNC),IFLAG(1),IOFF_DUCT(MVSIZ)
       INTEGER :: MAT_ID
@@ -1115,7 +1115,7 @@ c---
               FAIL_PARAM => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)
               NUPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM
               NIPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NIPARAM
-              nvartmp    =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%nvartmp
+              NVARFTMP   =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NVARTMP
               NFUNC_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NFUNC
               NTABL_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE
               UPARAMF    => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(1:NUPAR)
@@ -1292,7 +1292,7 @@ c
                 ENDDO
                 IF (IXFEM == 0) THEN
                   CALL FAIL_FLD_C(fail_param , 
-     1            NEL       ,NVARF     ,NVARTMP   ,UVARF      ,VARTMP   ,
+     1            NEL       ,NVARF     ,NVARFTMP  ,UVARF      ,VARTMP   ,
      2            TT        ,NGL       ,IPG       ,ILAYER    ,IT         ,
      4            EPSXX     ,EPSYY     ,EPSXY     ,LF_DAMMX   ,
      5            DEPSXX    ,DEPSYY    ,DEPSXY    ,EL_PLA     ,
@@ -1300,7 +1300,7 @@ c
      7            FLD_IDX   ,DAM       ,DFMAX     ,DT1        )
                 ELSE
                   CALL FAIL_FLD_XFEM(fail_param ,                                       
-     1            NEL       ,NVARF     ,NVARTMP   ,UVARF      ,VARTMP   ,
+     1            NEL       ,NVARF     ,NVARFTMP  ,UVARF      ,VARTMP   ,
      2            TT        ,
      3            NGL       ,IPT       ,MPT       ,SSP       ,TENSX     ,
      4            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
@@ -1331,7 +1331,7 @@ c
 c
               CASE (11)     !    Energy failure model
                 call fail_energy_c(fail_param ,                      
-     &               nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,
+     &               nel       ,nvarf     ,nvarftmp  ,uvarf    ,vartmp     ,
      &               ngl       ,ipg       ,ilayer    ,it       ,epspl      ,
      &               area      ,thkn      ,dmg_flag  ,tt       ,            
      &               dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,
@@ -1387,7 +1387,7 @@ c
 c
               CASE (24)     !    Orthotropic strain failure model
                 call fail_orthstrain_c(fail_param,                              
-     &               nel       ,nvarf     ,uvarf     ,nvartmp   ,vartmp  ,      
+     &               nel       ,nvarf     ,uvarf     ,nvarftmp  ,vartmp  ,      
      &               tt        ,dt1       ,ipg       ,ilayer    ,it        ,    
      &               epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale ,
      &               epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,    
@@ -1525,7 +1525,7 @@ c
               CASE (39)     !    GENE1
 c
                 CALL FAIL_GENE1_C(mat_elem%mat_param(imat)%fail(ifl),
-     1            JLT      ,NVARF    ,nvartmp  ,UVARF    ,vartmp   ,
+     1            JLT      ,NVARF    ,nvarftmp ,UVARF    ,vartmp   ,
      2            TT       ,DT1C     ,IPG      ,
      3            NGL      ,GBUF%DT  ,EPSPL    ,OFF      ,    
      4            EPSXX    ,EPSYY    ,EPSXY    ,AREA     ,THKN     ,            
@@ -1548,7 +1548,7 @@ c
      1            JLT      ,NUPAR    ,NVARF    ,NFUNC_FAIL,IFUNC_FAIL,
      2            NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
      3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
-     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,NVARTMP  ,VARTMP   ,              
+     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,NVARFTMP ,VARTMP   ,              
      5            EL_TEMP  ,FOFF     ,DFMAX    ,TDEL     ,IPT      ,
      6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,NTABL_FAIL,ITABL_FAIL,
      7            NIPAR    ,IPARAMF  ,GBUF%NOFF,OFF      ,NPTT     ,
@@ -1557,7 +1557,7 @@ c
               CASE (42)     !    INIEVO
 c
                 CALL FAIL_INIEVO_C(
-     1            JLT      ,NUPAR    ,NVARF    ,NVARTMP  ,VARTMP   ,
+     1            JLT      ,NUPAR    ,NVARF    ,NVARFTMP ,VARTMP   ,
      2            TABLE    ,NTABL_FAIL,ITABL_FAIL   ,TT       ,UPARAMF  , 
      3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
      4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
