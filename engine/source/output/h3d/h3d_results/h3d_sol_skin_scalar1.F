@@ -39,7 +39,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       SUBROUTINE H3D_SOL_SKIN_SCALAR1(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                                SKIN_SCALAR,TAG_SKINS6,T6GPS,X  ,
-     .                                NPF,TF,H3D_PART,IS_WRITTEN_SKIN,
+     .                                H3D_PART,IS_WRITTEN_SKIN,
      .                                KEYWORD,NSKIN ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,10 +66,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IPARTS(*),
-     .        IXS10(6,*) ,TAG_SKINS6(*) ,NSKIN , NPF(*),H3D_PART(*),
+     .        IXS10(6,*) ,TAG_SKINS6(*) ,NSKIN ,H3D_PART(*),
      .        IS_WRITTEN_SKIN(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      my_real,INTENT(IN),TARGET :: TF(*)
       my_real,INTENT(IN),TARGET :: T6GPS(6,*),X(3,*)
       my_real,INTENT(OUT),TARGET :: SKIN_SCALAR(*)
       CHARACTER(LEN=NCHARLINE100):: KEYWORD
@@ -88,8 +87,8 @@ C-----------------------------------------------
      .        NN,NN1,N1,IOK_PART(MVSIZ),IS_WRITTEN_VALUE(MVSIZ)
       INTEGER NC(10,MVSIZ),PWR(7),LL,IXSK(5,6*MVSIZ)
       INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,T3(3),T6(6),TIA4S(3,4)
-      INTEGER IFUNC(MAXFUNC),IDEB
-      INTEGER NPAR,NFUNC,MX,NSK,IL,IR,IS,IT,NFAIL,IFAIL,NSKI,NIPAR
+      INTEGER IDEB
+      INTEGER MX,NSK,IL,IR,IS,IT,NFAIL,IFAIL,NSKI
       my_real EVAR(3,MVSIZ),VALUE(MVSIZ)
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
@@ -325,17 +324,8 @@ C-----------------------------------------------
                 IS_WRITTEN_VALUE(1:NSKI) = 1
                 DO IFAIL=1,NFAIL                                                          
                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                    NPAR   = MAT_PARAM(MX)%FAIL(IFAIL)%NUPARAM   
-                    NFUNC  =  MAT_PARAM(MX)%FAIL(IFAIL)%NFUNC   
-                    NIPAR  = MAT_PARAM(MX)%FAIL(IFAIL)%NIPARAM
-                    DO I=1,NFUNC
-                      IFUNC(I) = MAT_PARAM(MX)%FAIL(IFAIL)%IFUNC(I)
-                    END DO
-                   CALL IDX_FLD_SOL(
-     1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
-     2                            NPF      ,TF       ,MAT_PARAM(MX)%FAIL(IFAIL)%UPARAM,
-     3                            EVAR     ,VALUE    ,NIPAR    ,MAT_PARAM(MX)%FAIL(IFAIL)%IPARAM,
-     4                            BUFLY%LBUF(IR,IS,IT)%PLA)
+                    CALL IDX_FLD_SOL(MAT_PARAM(MX)%FAIL(IFAIL)  ,
+     .                   NSKI     ,EVAR     ,VALUE    ,BUFLY%LBUF(IR,IS,IT)%PLA)
 C
                   ENDIF                                                                   
                 ENDDO
@@ -349,17 +339,9 @@ C-----------------------------------------------
                 IS_WRITTEN_VALUE(1:NSKI) = 1
                 DO IFAIL=1,NFAIL                                                          
                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                    NPAR   = MAT_PARAM(MX)%FAIL(IFAIL)%NUPARAM 
-                    NIPAR  = MAT_PARAM(MX)%FAIL(IFAIL)%NIPARAM  
-                    NFUNC  = MAT_PARAM(MX)%FAIL(IFAIL)%NFUNC
-                    DO I=1,NFUNC
-                      IFUNC(I) = MAT_PARAM(MX)%FAIL(IFAIL)%IFUNC(I)
-                    END DO
-                   CALL DAM_FLD_SOL(
-     1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
-     2                            NPF      ,TF       ,MAT_PARAM(MX)%FAIL(IFAIL)%UPARAM,
-     3                            EVAR     ,VALUE    ,NIPAR    ,MAT_PARAM(MX)%FAIL(IFAIL)%IPARAM,
-     4                            BUFLY%LBUF(IR,IS,IT)%PLA)
+
+                   CALL DAM_FLD_SOL(MAT_PARAM(MX)%FAIL(IFAIL)  ,
+     .                  NSKI     ,EVAR     ,VALUE    ,BUFLY%LBUF(IR,IS,IT)%PLA)
 C
                   ENDIF                                                                   
                 ENDDO
