@@ -53,13 +53,13 @@
           ngrnod,  ngrbric,    ngrquad,       ngrsh3n,           &
           igrnod,  igrbric,    igrquad,       igrsh3n,           &
           numskw,    lskew,    numfram,       sensors,           &
-          xframe,      skew,          x,             v,           &
-          vr,    numnod,      vflow,         wflow,           &
-          w, multi_fvm,       iale,       ialelag,           &
+          xframe,     skew,          x,             v,           &
+          vr,       numnod,      vflow,         wflow,           &
+          w,     multi_fvm,       iale,       ialelag,           &
           time ,    iroddl,   ninivelt,      inivel_t,           &
           nparg,    ngroup,       lens,         iparg,           &
-          elbuf_tab,         ms,         in,        weight,           &
-          nxframe,      t_kin)
+          elbuf_tab,    ms,         in,        weight,           &
+          nxframe,   t_kin,      ns10e,       icnds10)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -99,6 +99,8 @@
           integer , intent(in   )                          :: ngrquad   !< number quad element group
           integer , intent(in   )                          :: ngrsh3n   !< number tria element group
           integer , intent(in   )                          :: lens      !< dimension of work array itagvel
+          integer , intent(in   )                          :: ns10e     !< number of tetra10 edges
+          integer , intent(in   ) ,dimension(3,ns10e)      :: icnds10   !< tetra10 edge connectivity
           integer , intent(in   ) ,dimension(numnod)       :: weight    !< nodal mass weight array (spmd)
           integer , dimension(nparg,ngroup), intent(in   ) :: iparg     !< element group data array
           type(inivel_), dimension(ninivelt),intent(inout) :: inivel_t  !< inivel_struc
@@ -125,9 +127,9 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer  :: i,j,id,n,ng,itype,nosys,sens_id,iremain,iupdate
-          integer  :: igrs,igbric,igqd,igtria,isk,ifra,idir,ifm,k1,k2,k3
+          integer  :: igrs,igbric,igqd,igtria,isk,ifra,idir,ifm,k1,k2,k3,n1,n2,nd
           integer  :: mtn,nel,nft,ii,n_ini
-          integer , dimension(:) , allocatable :: itagvel
+          integer , dimension(:) , allocatable :: itagvel,itag_n
           real(kind=WP)  :: tstart,tstart_s,tstart1,vx,vy,vz,vl(3), nixj(6),vlt(3),mas
           real(kind=WP) :: vra, ox, oy, oz
           type(g_bufel_), pointer :: gbuf
@@ -168,6 +170,8 @@
           if (iupdate>0) then
             call my_alloc(itagvel, lens, "itagvel")
             itagvel = 0
+            call my_alloc(itag_n, numnod, "itag_n")
+            itag_n = 0            
           end if
           iremain = 0
           do n =1,ninivelt
@@ -247,6 +251,7 @@
                 do j=1,igrnod(igrs)%nentity
                   nosys=igrnod(igrs)%entity(j)
                   v(1:3,nosys)=vl(1:3)
+                  itag_n(nosys) = 2
                   if(ialelag > 0) then
                     vflow(1:3,nosys) = vl(1:3)
                     wflow(1:3,nosys) = vl(1:3)
@@ -267,6 +272,7 @@
                 do j=1,igrnod(igrs)%nentity
                   nosys=igrnod(igrs)%entity(j)
                   v(1:3,nosys)=vl(1:3)
+                  itag_n(nosys) = 2
                   if(ialelag > 0) then
                     vflow(1:3,nosys) = vl(1:3)
                     wflow(1:3,nosys) = vl(1:3)
@@ -336,6 +342,7 @@
                   v(1,nosys)= vl(1)+vra*(nixj(3)-nixj(4))
                   v(2,nosys)= vl(2)+vra*(nixj(5)-nixj(6))
                   v(3,nosys)= vl(3)+vra*(nixj(1)-nixj(2))
+                  itag_n(nosys) = 2
                   if(ialelag > 0) then
                     vflow(1:3,nosys) = v(1:3,nosys)
                     wflow(1:3,nosys) = v(1:3,nosys)
@@ -440,7 +447,18 @@
                 end do
               end if !(mtn == 151) then
             end do
+            do n = 1, ns10e
+              nd = iabs(icnds10(1,n))
+              if (itag_n(nd)==2) cycle
+              n1 = icnds10(2,n)
+              n2 = icnds10(3,n)
+              if (itag_n(n1)==2 .and. itag_n(n2)==2) then 
+                v(1:3,nd) = half*(v(1:3,n1)+v(1:3,n2))
+              end if
+            end do
+!             
             call my_dealloc(itagvel)
+            call my_dealloc(itag_n)
           end if
 
 ! 1000   FORMAT(3X,'BY SENSOR ON, ACTIVATING INIVEL OF ID =',I10)
