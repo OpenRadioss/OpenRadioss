@@ -21,16 +21,20 @@ Copyright>        As an alternative to this open-source version, Siemens also of
 Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
-!||====================================================================
-!||    fail_fld_xfem    ../engine/source/materials/fail/fld/fail_fld_xfem.F
-!||--- called by ------------------------------------------------------
-!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
-!||--- calls      -----------------------------------------------------
 
+!||====================================================================
+!||    fail_fld_xfem           ../engine/source/materials/fail/fld/fail_fld_xfem.F
+!||--- called by ------------------------------------------------------
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    vinter_1d               ../engine/source/materials/fail/fld/fail_fld_c.F
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
-!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod          ../common_source/tools/memory/my_dealloc.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_FLD_XFEM(FAIL     ,
      1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,

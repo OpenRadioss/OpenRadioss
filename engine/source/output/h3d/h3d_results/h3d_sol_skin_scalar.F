@@ -154,15 +154,16 @@ C-----------
       RETURN
       END 
 !||====================================================================
-!||    idx_fld_sol            ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+!||    idx_fld_sol             ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 !||--- called by ------------------------------------------------------
-!||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
+!||    h3d_sol_skin_scalar1    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
 !||--- calls      -----------------------------------------------------
-!||    finter                 ../engine/source/tools/curve/finter.F
-!||    finterfld              ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    vinter_1d               ../engine/source/materials/fail/fld/fail_fld_c.F
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
-!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod          ../common_source/tools/memory/my_dealloc.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE IDX_FLD_SOL(FAIL       ,
      .     NEL      ,EPS3     ,FLD_IDX  ,PLA      )
@@ -340,15 +341,16 @@ C------------------------
       RETURN
       END
 !||====================================================================
-!||    dam_fld_sol            ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+!||    dam_fld_sol             ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 !||--- called by ------------------------------------------------------
-!||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
+!||    h3d_sol_skin_scalar1    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
 !||--- calls      -----------------------------------------------------
-!||    finter                 ../engine/source/tools/curve/finter.F
-!||    finterfld              ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    vinter_1d               ../engine/source/materials/fail/fld/fail_fld_c.F
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
-!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod          ../common_source/tools/memory/my_dealloc.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE DAM_FLD_SOL(FAIL      ,
      .     NEL      ,EPS3     ,DAM     ,PLA      )

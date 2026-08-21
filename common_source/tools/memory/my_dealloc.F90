@@ -173,7 +173,7 @@
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
 !||    extend_array_mod                         ../common_source/tools/memory/extend_array.F90
 !||    f_nodloc2                                ../starter/source/restart/ddsplit/f_nodloc2.F
-!||    fail_fld_c                               ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_f                                   ../engine/source/materials/fail/fld/fail_fld_c.F
 !||    fail_fld_tsh                             ../engine/source/materials/fail/fld/fail_fld_tsh.F
 !||    fail_fld_xfem                            ../engine/source/materials/fail/fld/fail_fld_xfem.F
 !||    fail_inievo_b                            ../engine/source/materials/fail/inievo/fail_inievo_b.F90

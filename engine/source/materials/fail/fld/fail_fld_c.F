@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    fail_fld_c       ../engine/source/materials/fail/fld/fail_fld_c.F
-!||--- called by ------------------------------------------------------
-!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
+!||    fail_f                  ../engine/source/materials/fail/fld/fail_fld_c.F
 !||--- calls      -----------------------------------------------------
-!||    vinter2          ../engine/source/tools/curve/vinter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    vinter_1d               ../engine/source/materials/fail/fld/fail_fld_c.F
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
-!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod          ../common_source/tools/memory/my_dealloc.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_F   LD_C(FAIL     ,
      1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
@@ -379,6 +379,15 @@ c------------------------
       END
 c      
 
+!||====================================================================
+!||    vinter_1d       ../engine/source/materials/fail/fld/fail_fld_c.F
+!||--- called by ------------------------------------------------------
+!||    dam_fld_sol     ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+!||    fail_f          ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_fld_tsh    ../engine/source/materials/fail/fld/fail_fld_tsh.F
+!||    fail_fld_xfem   ../engine/source/materials/fail/fld/fail_fld_xfem.F
+!||    idx_fld_sol     ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+!||====================================================================
       subroutine VINTER_1D(NPOS,NEL,LENF,IPOS,XF,YF,XX,YY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -435,13 +444,7 @@ c-----------
       END
 c      
 !||====================================================================
-!||    finterfld       ../engine/source/materials/fail/fld/fail_fld_c.F
-!||--- called by ------------------------------------------------------
-!||    dam_fld_sol     ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-!||    fail_fld_c      ../engine/source/materials/fail/fld/fail_fld_c.F
-!||    fail_fld_tsh    ../engine/source/materials/fail/fld/fail_fld_tsh.F
-!||    fail_fld_xfem   ../engine/source/materials/fail/fld/fail_fld_xfem.F
-!||    idx_fld_sol     ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+!||    finterfld   ../engine/source/materials/fail/fld/fail_fld_c.F
 !||====================================================================
       my_real FUNCTION FINTERFLD(EPST,LENF,XF)
 C-----------------------------------------------

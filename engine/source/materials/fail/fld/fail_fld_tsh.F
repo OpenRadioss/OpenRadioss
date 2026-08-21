@@ -22,15 +22,17 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    fail_fld_tsh     ../engine/source/materials/fail/fld/fail_fld_tsh.F
+!||    fail_fld_tsh            ../engine/source/materials/fail/fld/fail_fld_tsh.F
 !||--- called by ------------------------------------------------------
-!||    h3d_fld_tsh      ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
+!||    h3d_fld_tsh             ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
 !||--- calls      -----------------------------------------------------
-!||    finter           ../engine/source/tools/curve/finter.F
-!||    finterfld        ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    vinter_1d               ../engine/source/materials/fail/fld/fail_fld_c.F
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
-!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod          ../common_source/tools/memory/my_dealloc.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_FLD_TSH(FAIL,
      1     NEL      ,NUVAR    ,UVAR     ,TIME     ,TIMESTEP ,

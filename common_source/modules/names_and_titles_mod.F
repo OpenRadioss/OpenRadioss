@@ -319,6 +319,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_fail                      ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_fail_biquad               ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
 !||    hm_read_fail_energy               ../starter/source/materials/fail/energy/hm_read_fail_energy.F
+!||    hm_read_fail_fld                  ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gurson               ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
 !||    hm_read_fail_johnson              ../starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
 !||    hm_read_fail_orthbiquad           ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F

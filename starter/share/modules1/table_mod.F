@@ -43,6 +43,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_fail                 ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_fail_energy          ../starter/source/materials/fail/energy/hm_read_fail_energy.F
+!||    hm_read_fail_fld             ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gene1           ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
 !||    hm_read_fail_orthstrain      ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_tab1            ../starter/source/materials/fail/tabulated/hm_read_fail_tab1.F

@@ -27,6 +27,7 @@
 !||    biquad_upd                ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||    brokmann_random           ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
 !||    check_swift_failure       ../starter/source/materials/fail/check_swift_failure.F90
+!||    dam_fld_sol               ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 !||    delm01law                 ../engine/source/properties/composite_options/stack/delm01law.F
 !||    delm02law                 ../engine/source/properties/composite_options/stack/delm02law.F
 !||    delm24law                 ../engine/source/properties/composite_options/stack/delm24law.F
@@ -38,6 +39,9 @@
 !||    fail_energy_c             ../engine/source/materials/fail/energy/fail_energy_c.F
 !||    fail_energy_ib            ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||    fail_energy_s             ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_f                    ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_fld_tsh              ../engine/source/materials/fail/fld/fail_fld_tsh.F
+!||    fail_fld_xfem             ../engine/source/materials/fail/fld/fail_fld_xfem.F
 !||    fail_fun2sys              ../starter/source/materials/tools/fail_fun2sys.F
 !||    fail_gene1_b              ../engine/source/materials/fail/gene1/fail_gene1_b.F90
 !||    fail_gene1_c              ../engine/source/materials/fail/gene1/fail_gene1_c.F
@@ -90,6 +94,7 @@
 !||    hm_read_fail_wilkins      ../starter/source/materials/fail/wilkins/hm_read_fail_wilkins.F
 !||    hm_read_fractal_dmg       ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
 !||    hm_read_mullins_or        ../starter/source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
+!||    idx_fld_sol               ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 !||    mat_hardening_to_fail     ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    mmain                     ../engine/source/materials/mat_share/mmain.F90

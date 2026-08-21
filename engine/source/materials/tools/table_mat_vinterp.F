@@ -30,6 +30,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    compaction_tab_init            ../common_source/eos/compaction_tab.F90
 !||    condamage                      ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion                     ../engine/source/materials/mat/mat190/conversion.F
+!||    dam_fld_sol                    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 !||    elasticity_plas_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_plas_isotropic.F90
 !||    elasticity_temp_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
 !||    elasticity_viscous_isotropic   ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
@@ -39,6 +40,9 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_energy_c                  ../engine/source/materials/fail/energy/fail_energy_c.F
 !||    fail_energy_ib                 ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||    fail_energy_s                  ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_f                         ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_fld_tsh                   ../engine/source/materials/fail/fld/fail_fld_tsh.F
+!||    fail_fld_xfem                  ../engine/source/materials/fail/fld/fail_fld_xfem.F
 !||    fail_gene1_b                   ../engine/source/materials/fail/gene1/fail_gene1_b.F90
 !||    fail_gene1_c                   ../engine/source/materials/fail/gene1/fail_gene1_c.F
 !||    fail_gene1_ib                  ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
@@ -46,6 +50,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_orthstrain                ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
 !||    fail_orthstrain_c              ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
 !||    granular51                     ../engine/source/materials/mat/mat051/granular51.F90
+!||    idx_fld_sol                    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 !||    mat87c_tabulated               ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho    ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
 !||    no_asso_lplas76c               ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
@@ -100,6 +105,9 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_energy_c                  ../engine/source/materials/fail/energy/fail_energy_c.F
 !||    fail_energy_ib                 ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||    fail_energy_s                  ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_f                         ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_fld_tsh                   ../engine/source/materials/fail/fld/fail_fld_tsh.F
+!||    fail_fld_xfem                  ../engine/source/materials/fail/fld/fail_fld_xfem.F
 !||    fail_gene1_b                   ../engine/source/materials/fail/gene1/fail_gene1_b.F90
 !||    fail_gene1_c                   ../engine/source/materials/fail/gene1/fail_gene1_c.F
 !||    fail_gene1_ib                  ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
