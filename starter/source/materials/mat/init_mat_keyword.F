@@ -250,6 +250,9 @@ c
         CASE ("SHELL_ALL")         ! Compatibility with /PROP/TYPE 1/9/10/11/16/17/19/51/52
           MATPARAM%PROP_SHELL = 5          
 c
+        CASE ("SHELL_GLOBAL")
+          MATPARAM%PROP_SHELL = 6  ! Compatibility with /PROP/TYPE 1
+c
         CASE ("BEAM_CLASSIC")      ! Compatibility with /PROP/TYPE 3
           MATPARAM%PROP_BEAM = 1          
 c
