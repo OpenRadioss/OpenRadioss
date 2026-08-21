@@ -396,7 +396,7 @@ C----6---------------------------------------------------------------7---------8
 !||====================================================================
       SUBROUTINE S10CND_INI(ICNDS10,ITAGND,IAD_CNDM,FR_CNDM,FR_NBCCCND,
      1                      ADDCNCND,PROCNCND,VND  ,V   ,ITAB    ,
-     2                      IAD_CNDM1,FR_CNDM1,FR_NBCCCND1)
+     2                      IAD_CNDM1,FR_CNDM1,FR_NBCCCND1,TIME )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -417,6 +417,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   V(3,*),VND(3,*)
+      my_real, INTENT(IN) :: TIME
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -431,6 +432,12 @@ C-----------------------------------------------
         VND(2,I) = HALF*(V(2,N1) + V(2,N2))
         VND(3,I) = HALF*(V(3,N1) + V(3,N2))
        END DO
+       IF (TIME==ZERO) THEN 
+         DO I = 1, NS10E
+           NOD = IABS(ICNDS10(1,I))
+           V(1:3,NOD) = VND(1:3,I)
+         END DO
+       END IF
 C       
        IF (IPARIT/=0) THEN
         DO I = 1, NSPMD+1

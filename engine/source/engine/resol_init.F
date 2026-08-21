@@ -1145,7 +1145,7 @@ C-----------------------
      .                   FR_CNDS,IAD_CNDS,itab ) 
          CALL S10CND_INI(ICNDS10,ITAGND,IAD_CNDM,FR_CNDM,FR_NBCCCND,
      1                 ADDCNCND,PROCNCND,VND   ,V    ,ITAB ,
-     2                 IAD_CNDM1,FR_CNDM1,FR_NBCCCND1)
+     2                 IAD_CNDM1,FR_CNDM1,FR_NBCCCND1,TT )
         END IF
         CALL MY_BARRIER()
       ENDIF
