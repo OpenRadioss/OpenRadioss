@@ -24,7 +24,11 @@
 !||====================================================================
 !||    q1np_contact_driver_mod       ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
 !||--- called by ------------------------------------------------------
-!||    ists_mainf                    ../engine/source/interfaces/ists/ists_mainf.F90
+!||    ists_mainf                        ../engine/source/interfaces/ists/ists_mainf.F90
+!||--- calls      -----------------------------------------------------
+!||    q1np_contact_broad_phase          ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_narrow_phase         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
+!||    q1np_contact_force_assembly       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                  ../common_source/modules/constant_mod.F
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
@@ -44,6 +48,8 @@
      &    Q1NP_CONTACT_FORCE_ASSEMBLY, &
      &    Q1NP_CONTACT_WORKSPACE_FREE, &
      &    Q1NP_CONTACT_INIT_GRID_NODES, &
+     &    Q1NP_CONTACT_FRICTION_CYCLE_BEGIN, &
+     &    Q1NP_CONTACT_FRICTION_CYCLE_END, &
      &    Q1NP_CONTACT_PAIR, &
      &    Q1NP_CONTACT_WORKSPACE
         IMPLICIT NONE
@@ -57,7 +63,6 @@
         REAL(KIND=WP), PARAMETER :: SKIP_SCALE    = 8.0_WP
         REAL(KIND=WP), PARAMETER :: SKIP_EXPONENT = 1.5_WP
         INTEGER, PARAMETER :: SKIP_MAX      = 200
-        REAL(KIND=WP), PARAMETER :: GAP_FALLBACK  = 1.0E-6_WP
         INTEGER, SAVE :: SKIP_REMAINING = 0
 
         PUBLIC :: Q1NP_CONTACT_DRIVER_INT7
@@ -70,40 +75,37 @@
 !   INT7 entry: runs broad phase, narrow phase, and force assembly,
 !   at most once per NCYCLE.
 !=======================================================================
-!||====================================================================
-!||    q1np_contact_driver_int7          ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
-!||--- called by ------------------------------------------------------
-!||    ists_mainf                        ../engine/source/interfaces/ists/ists_mainf.F90
-!||--- calls      -----------------------------------------------------
-!||    q1np_contact_broad_phase          ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||    q1np_contact_export_begin_cycle   ../engine/source/interfaces/ists_q1np/q1np_contact_export.F90
-!||    q1np_contact_force_assembly       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||    q1np_contact_narrow_phase         ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||    q1np_contact_update_skip          ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
-!||    q1np_contact_workspace_free       ../engine/source/interfaces/ists_q1np/q1np_contact_algorithms.F90
-!||====================================================================
-        SUBROUTINE Q1NP_CONTACT_DRIVER_INT7(NCYCLE, NUMNOD, X, A, &
+        SUBROUTINE Q1NP_CONTACT_DRIVER_INT7(NCYCLE, NIN, NUMNOD, X, V, A, &
      &      STIFN, GAP, IGSTI, KMIN, KMAX, IRECTM, NSV, STFNS, NSN, &
-     &      STFM, NRTM, FCONT, DO_FCONT, IMPACT_glob)
-          INTEGER, INTENT(IN) :: NCYCLE, NUMNOD, IGSTI, NSN, NRTM
-          INTEGER, INTENT(INOUT) :: IMPACT_glob
+     &      STFM, NRTM, FCONT, DO_FCONT, MU_FRICTION, DT1, IMPACT_glob, &
+     &      ECONTT_TOT, ECONVT_TOT, FN_TOT, FT_TOT)
+          INTEGER, INTENT(IN) :: NCYCLE, NIN, NUMNOD, IGSTI, NSN, NRTM
+          INTEGER, INTENT(OUT) :: IMPACT_glob
           INTEGER, INTENT(IN) :: IRECTM(:)
           INTEGER, INTENT(IN) :: NSV(:)
-          REAL(KIND=WP), INTENT(IN) :: X(3,NUMNOD)
-          REAL(KIND=WP), INTENT(IN) :: GAP, KMIN, KMAX
+          REAL(KIND=WP), INTENT(IN) :: X(3,NUMNOD), V(3,NUMNOD)
+          REAL(KIND=WP), INTENT(IN) :: GAP, KMIN, KMAX, MU_FRICTION, DT1
           REAL(KIND=WP), INTENT(IN) :: STFNS(:), STFM(:)
           REAL(KIND=WP), INTENT(INOUT) :: A(3,NUMNOD), STIFN(NUMNOD)
           REAL(KIND=WP), INTENT(INOUT) :: FCONT(3,NUMNOD)
           LOGICAL, INTENT(IN) :: DO_FCONT
+          REAL(KIND=WP), INTENT(OUT) :: ECONTT_TOT, ECONVT_TOT
+          REAL(KIND=WP), INTENT(OUT) :: FN_TOT(3), FT_TOT(3)
 
           TYPE(Q1NP_CONTACT_WORKSPACE) :: WS
           TYPE(Q1NP_CONTACT_PAIR), ALLOCATABLE :: PAIRS(:)
           INTEGER :: N_PAIRS
           REAL(KIND=WP) :: D_MIN
 
+          ECONTT_TOT = 0.0_WP
+          ECONVT_TOT = 0.0_WP
+          FN_TOT(1:3) = 0.0_WP
+          FT_TOT(1:3) = 0.0_WP
+
           IF (NCYCLE /= Q1NP_CONTACT_INT7_LAST_NCYCLE) THEN
             Q1NP_CONTACT_INT7_LAST_NCYCLE = NCYCLE
             CALL Q1NP_CONTACT_EXPORT_BEGIN_CYCLE(NCYCLE, NUMELQ1NP_G)
+            CALL Q1NP_CONTACT_FRICTION_CYCLE_BEGIN(NUMELQ1NP_G)
             Q1NP_CONTACT_INT7_ALREADY = .FALSE.
           END IF
           IMPACT_glob = 0
@@ -112,6 +114,7 @@
 !         --- Adaptive skip ---
           IF (SKIP_ENABLED .AND. SKIP_REMAINING > 0) THEN
             SKIP_REMAINING = SKIP_REMAINING - 1
+            CALL Q1NP_CONTACT_FRICTION_CYCLE_END()
             Q1NP_CONTACT_INT7_ALREADY = .TRUE.
             RETURN
           END IF
@@ -135,20 +138,23 @@
           END IF
           ! PAIRS (CONTACT_PAIRS) holds the penetrating contact pairs.
 
-!         --- Force assembly (penalty forces + FCONT scatter) ---
+!         --- Force assembly (penalty + friction + FCONT scatter) ---
           IF (N_PAIRS > 0) THEN
             IMPACT_glob = 1
             CALL Q1NP_CONTACT_FORCE_ASSEMBLY( &
      &        PAIRS, N_PAIRS, &
      &        KQ1NP_TAB, IQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, &
-     &        Q1NP_KTAB, X, NUMNOD, GAP, A, STIFN, &
+     &        Q1NP_KTAB, X, V, NUMNOD, GAP, A, STIFN, &
      &        IGSTI, KMIN, KMAX, NSV, STFNS, NSN, STFM, NRTM, &
-     &        FCONT, DO_FCONT)
+     &        FCONT, DO_FCONT, MU_FRICTION, DT1, NIN, &
+     &        ECONTT_TOT, ECONVT_TOT, FN_TOT, FT_TOT)
           END IF
 
 !         --- Cleanup and adaptive skip ---
+          CALL Q1NP_CONTACT_UPDATE_SKIP( &
+     &      D_MIN, WS%SEARCH_TOL, N_PAIRS > 0)
           CALL Q1NP_CONTACT_WORKSPACE_FREE(WS)
-          CALL Q1NP_CONTACT_UPDATE_SKIP(D_MIN, GAP, N_PAIRS > 0)
+          CALL Q1NP_CONTACT_FRICTION_CYCLE_END()
 
           IF (ALLOCATED(PAIRS)) DEALLOCATE(PAIRS)
           Q1NP_CONTACT_INT7_ALREADY = .TRUE.
@@ -157,16 +163,12 @@
 !=======================================================================
 !   Q1NP_CONTACT_UPDATE_SKIP
 !=======================================================================
-!||====================================================================
-!||    q1np_contact_update_skip   ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
-!||--- called by ------------------------------------------------------
-!||    q1np_contact_driver_int7   ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
-!||====================================================================
-        SUBROUTINE Q1NP_CONTACT_UPDATE_SKIP(D_MIN, GAP, HAS_CONTACT)
-          REAL(KIND=WP), INTENT(IN) :: D_MIN, GAP
+        SUBROUTINE Q1NP_CONTACT_UPDATE_SKIP( &
+     &      D_MIN, SEARCH_TOL, HAS_CONTACT)
+          REAL(KIND=WP), INTENT(IN) :: D_MIN, SEARCH_TOL
           LOGICAL, INTENT(IN) :: HAS_CONTACT
 
-          REAL(KIND=WP) :: GAP_CONTACT, TRIGGER_TOL, DIST_RATIO
+          REAL(KIND=WP) :: TRIGGER_TOL, DIST_RATIO
 
           IF (.NOT. SKIP_ENABLED) THEN
             SKIP_REMAINING = 0
@@ -178,9 +180,7 @@
             RETURN
           END IF
 
-          GAP_CONTACT = MAX(GAP_FALLBACK, ABS(GAP))
-          TRIGGER_TOL = MAX(1.0E-12_WP, &
-     &      GAP_CONTACT)
+          TRIGGER_TOL = MAX(1.0E-12_WP, SEARCH_TOL)
           DIST_RATIO = D_MIN / TRIGGER_TOL
           IF (DIST_RATIO <= ONE) THEN
             SKIP_REMAINING = 0

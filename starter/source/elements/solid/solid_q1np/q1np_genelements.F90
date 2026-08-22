@@ -121,6 +121,8 @@
   !C                  KQ1NP_TAB(12,*)= Surface grid element count NX (u) for knot sizing
   !C                  KQ1NP_TAB(13,*)= Surface grid element count NY (v) for knot sizing
   !C                  KQ1NP_TAB(14,*)= Offset to bulk nodes in IQ1NP_BULK_TAB
+  !C                  KQ1NP_TAB(15,*)= Knot-set ID
+  !C                  KQ1NP_TAB(16,*)= Original surface ID
   !C     IQ1NP_TAB  - Control point connectivity array (output)
   !C                  Stores (p+1)*(q+1) control-point IDs per element
   !C     IQ1NP_BULK_TAB - Bulk node connectivity array (output)
@@ -145,7 +147,7 @@
       INTEGER, PARAMETER :: P = 2 ! NURBS degrees (quadratic in u and v)
       INTEGER, PARAMETER :: Q = 2 ! NURBS degrees (quadratic in u and v)
       INTEGER, PARAMETER :: NBULKQ1NP = 4 ! Number of bulk nodes per Q1Np element
-      INTEGER, PARAMETER :: NKQ1NP = 15 ! Number of fields in KQ1NP_TAB per element
+      INTEGER, PARAMETER :: NKQ1NP = 16 ! Number of fields in KQ1NP_TAB per element
   !C-----------------------------------------------
   !C   D u m m y   A r g u m e n t s
   !C-----------------------------------------------
@@ -586,6 +588,7 @@
           KQ1NP_TAB(12,IEL_Q1NP + KQ1NP_KCOL0) = NX              ! Surface grid element count in u (engine knot sizing)
           KQ1NP_TAB(13,IEL_Q1NP + KQ1NP_KCOL0) = NY              ! Surface grid element count in v (engine knot sizing)
           KQ1NP_TAB(15,IEL_Q1NP + KQ1NP_KCOL0) = knot_set_id_in  ! Knot-set selection for per-element knot vectors
+          KQ1NP_TAB(16,IEL_Q1NP + KQ1NP_KCOL0) = CSV_SURF_ID_IN   ! Original surface ID for output grouping (only for Post-Processing)
 
   !C=======================================================================
   !C         Step 6c: Store control point connectivity in IQ1NP_TAB (CP node IDs)

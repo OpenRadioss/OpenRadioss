@@ -95,12 +95,6 @@
       INTEGER, ALLOCATABLE, SAVE :: SEC_NODE_SEG_COUNT(:)
       INTEGER, ALLOCATABLE, SAVE :: SEC_NODE_SEG_OFF(:)
       INTEGER, ALLOCATABLE, SAVE :: SEC_NODE_SEG_LIST(:)
-      INTEGER, ALLOCATABLE, SAVE :: MST_NODE_SEG_COUNT(:)
-      INTEGER, ALLOCATABLE, SAVE :: MST_NODE_SEG_OFF(:)
-      INTEGER, ALLOCATABLE, SAVE :: MST_NODE_SEG_LIST(:)
-      INTEGER, ALLOCATABLE, SAVE :: MST_SEG_NEI_COUNT(:)
-      INTEGER, ALLOCATABLE, SAVE :: MST_SEG_NEI_OFF(:)
-      INTEGER, ALLOCATABLE, SAVE :: MST_SEG_NEI_LIST(:)
       INTEGER, ALLOCATABLE :: PAIR_HASH_SEC(:)
       INTEGER, ALLOCATABLE :: PAIR_HASH_MST(:)
       INTEGER, ALLOCATABLE :: PAIR_HASH_INDEX(:)
@@ -112,7 +106,7 @@
       INTEGER, SAVE :: TOPO_CACHE_SEC_SURF = 0
       INTEGER, SAVE :: TOPO_CACHE_MST_SURF = 0
       LOGICAL, SAVE :: TOPO_CACHE_READY = .FALSE.
-      LOGICAL, PARAMETER :: EXPAND_MASTER_PATCH = .TRUE.
+
 !-----------------------------------------------
 !   S o u r c e   L i n e s
 !-----------------------------------------------
@@ -161,11 +155,6 @@
 
         CALL STS_REMAP_BUILD_NODE_SEG_ADJ(IGRSURF_S_TEMP, NSEG, NUMNOD, &
      &    SEC_NODE_SEG_COUNT, SEC_NODE_SEG_OFF, SEC_NODE_SEG_LIST)
-        CALL STS_REMAP_BUILD_MASTER_NODE_ADJ(IRECT, NRTM, NUMNOD, &
-     &    MST_NODE_SEG_COUNT, MST_NODE_SEG_OFF, MST_NODE_SEG_LIST)
-        CALL STS_REMAP_BUILD_MASTER_NEIGHBORS(IRECT, NRTM, &
-     &    MST_NODE_SEG_COUNT, MST_NODE_SEG_OFF, MST_NODE_SEG_LIST, &
-     &    MST_SEG_NEI_COUNT, MST_SEG_NEI_OFF, MST_SEG_NEI_LIST)
 
         TOPO_CACHE_NUMNOD = NUMNOD
         TOPO_CACHE_NSEG = NSEG
@@ -199,10 +188,9 @@
         IF (CAND_N_CUR(I) > 0 .AND. CAND_N_CUR(I) <= NSEC_BOUNDS) THEN
           candidate = INTBUF_TAB%NSV(CAND_N_CUR(I))
           IF (candidate > 0 .AND. candidate <= NUMNOD) THEN
-            CALL STS_REMAP_ADD_SEC_SEGS_FOR_NODE_PATCH( &
+            CALL STS_REMAP_ADD_SEC_SEGS_FOR_NODE( &
      &        NSEG, candidate, candidateM, &
      &        SEC_NODE_SEG_COUNT, SEC_NODE_SEG_OFF, SEC_NODE_SEG_LIST, &
-     &        MST_SEG_NEI_COUNT, MST_SEG_NEI_OFF, MST_SEG_NEI_LIST, &
      &        COUNT, CAND_SEC_SEG, CAND_MST_SEG, CAND_SEC_GP_MASK, &
      &        MAX_STS_SIZE_ACTUAL, found_corner, capacity_full)
           ENDIF
@@ -251,9 +239,13 @@
         J = 1
         DO K = 2, 5
           NI = CAND_MST_SEG_ID(I, K)
-          CONT_ELEMENT(I, 1, J) = X(1, NI)  ! X
-          CONT_ELEMENT(I, 2, J) = X(2, NI)  ! Y
-          CONT_ELEMENT(I, 3, J) = X(3, NI)  ! Z
+          IF (NI > 0 .AND. NI <= NUMNOD) THEN
+            CONT_ELEMENT(I, 1, J) = X(1, NI)  ! X
+            CONT_ELEMENT(I, 2, J) = X(2, NI)  ! Y
+            CONT_ELEMENT(I, 3, J) = X(3, NI)  ! Z
+          ELSE
+            CONT_ELEMENT(I, 1:3, J) = ZERO
+          END IF
           J = J + 1
         END DO
       END DO
@@ -262,9 +254,13 @@
         J = 5
         DO K = 2, 5
           NI = CAND_SEC_SEG_ID(I, K)
-          CONT_ELEMENT(I, 1, J) = X(1, NI)  ! X
-          CONT_ELEMENT(I, 2, J) = X(2, NI)  ! Y
-          CONT_ELEMENT(I, 3, J) = X(3, NI)  ! Z
+          IF (NI > 0 .AND. NI <= NUMNOD) THEN
+            CONT_ELEMENT(I, 1, J) = X(1, NI)  ! X
+            CONT_ELEMENT(I, 2, J) = X(2, NI)  ! Y
+            CONT_ELEMENT(I, 3, J) = X(3, NI)  ! Z
+          ELSE
+            CONT_ELEMENT(I, 1:3, J) = ZERO
+          END IF
           J = J + 1
         END DO
       END DO
@@ -329,76 +325,12 @@
         END SUBROUTINE STS_REMAP_TRY_ADD_PAIR
 
         !=======================================================================
-        ! STS_REMAP_ADD_SEC_SEGS_FOR_NODE_PATCH
-        !
-        ! INT7 stores one master segment per active secondary node. STS projects
-        ! all secondary Lobatto points of the remapped segment, so adjacent
-        ! master facets are required when the projected point lies across the
-        ! original INT7 facet edge.
-        !=======================================================================
-!||====================================================================
-!||    sts_remap_add_sec_segs_for_node_patch   ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- called by ------------------------------------------------------
-!||    sts_remap_segments                      ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- calls      -----------------------------------------------------
-!||    sts_remap_add_sec_segs_for_node         ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||====================================================================
-        SUBROUTINE STS_REMAP_ADD_SEC_SEGS_FOR_NODE_PATCH( &
-     &    NSEG_IN, SEC_NODE_IN, MST_SEG_IN, &
-     &    SEC_COUNT, SEC_OFF, SEC_LIST, MST_NEI_COUNT, MST_NEI_OFF, &
-     &    MST_NEI_LIST, COUNT_INOUT, CAND_SEC, CAND_MST, GP_MASK, &
-     &    CAPACITY, FOUND_ANY, CAPACITY_FULL)
-          INTEGER, INTENT(IN) :: NSEG_IN, SEC_NODE_IN, MST_SEG_IN
-          INTEGER, INTENT(IN) :: CAPACITY
-          INTEGER, INTENT(IN) :: SEC_COUNT(:), SEC_OFF(:), SEC_LIST(:)
-          INTEGER, INTENT(IN) :: MST_NEI_COUNT(:), MST_NEI_OFF(:)
-          INTEGER, INTENT(IN) :: MST_NEI_LIST(:)
-          INTEGER, INTENT(INOUT) :: COUNT_INOUT
-          INTEGER, INTENT(INOUT) :: CAND_SEC(CAPACITY)
-          INTEGER, INTENT(INOUT) :: CAND_MST(CAPACITY)
-          INTEGER, INTENT(INOUT) :: GP_MASK(CAPACITY, 4)
-          LOGICAL, INTENT(INOUT) :: FOUND_ANY, CAPACITY_FULL
-          INTEGER :: MSEG, P, P0, P1
-          LOGICAL :: FOUND_LOCAL, CAPACITY_LOCAL
-
-          FOUND_ANY = .FALSE.
-          CAPACITY_FULL = .FALSE.
-          IF (MST_SEG_IN <= 0 .OR. MST_SEG_IN > SIZE(MST_NEI_COUNT)) RETURN
-
-          CALL STS_REMAP_ADD_SEC_SEGS_FOR_NODE( &
-     &      NSEG_IN, SEC_NODE_IN, MST_SEG_IN, SEC_COUNT, SEC_OFF, &
-     &      SEC_LIST, COUNT_INOUT, CAND_SEC, CAND_MST, GP_MASK, &
-     &      CAPACITY, FOUND_LOCAL, CAPACITY_LOCAL)
-          FOUND_ANY = FOUND_ANY .OR. FOUND_LOCAL
-          IF (CAPACITY_LOCAL) THEN
-            CAPACITY_FULL = .TRUE.
-            RETURN
-          ENDIF
-
-          IF (.NOT. EXPAND_MASTER_PATCH) RETURN
-
-          P0 = MST_NEI_OFF(MST_SEG_IN)
-          P1 = MST_NEI_OFF(MST_SEG_IN + 1) - 1
-          DO P = P0, P1
-            MSEG = MST_NEI_LIST(P)
-            CALL STS_REMAP_ADD_SEC_SEGS_FOR_NODE( &
-     &        NSEG_IN, SEC_NODE_IN, MSEG, SEC_COUNT, SEC_OFF, &
-     &        SEC_LIST, COUNT_INOUT, CAND_SEC, CAND_MST, GP_MASK, &
-     &        CAPACITY, FOUND_LOCAL, CAPACITY_LOCAL)
-            FOUND_ANY = FOUND_ANY .OR. FOUND_LOCAL
-            IF (CAPACITY_LOCAL) THEN
-              CAPACITY_FULL = .TRUE.
-              EXIT
-            ENDIF
-          ENDDO
-        END SUBROUTINE STS_REMAP_ADD_SEC_SEGS_FOR_NODE_PATCH
-
-        !=======================================================================
         ! STS_REMAP_ADD_SEC_SEGS_FOR_NODE
         !
         ! A legacy INT7 bucket hit is node-based.  For STS this node represents
         ! every secondary surface segment sharing it; keeping only one segment
         ! makes the integrated contact patch too sparse on curved surfaces.
+        ! Pair only with the INT7 master segment (no neighbour-master expand).
         !=======================================================================
 !||====================================================================
 !||    sts_remap_add_sec_segs_for_node         ../engine/source/interfaces/ists/ists_remap_segments.F90
@@ -505,175 +437,6 @@
         END SUBROUTINE STS_REMAP_BUILD_NODE_SEG_ADJ
 
         !=======================================================================
-        ! STS_REMAP_BUILD_MASTER_NODE_ADJ
-        !
-        ! Build a compressed node-to-master-segment adjacency table.
-        !=======================================================================
-!||====================================================================
-!||    sts_remap_build_master_node_adj   ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- called by ------------------------------------------------------
-!||    sts_remap_segments                ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- calls      -----------------------------------------------------
-!||====================================================================
-        SUBROUTINE STS_REMAP_BUILD_MASTER_NODE_ADJ(IRECT_IN, NRTM_IN, &
-     &    NUMNOD_IN, NODE_COUNT, NODE_OFF, NODE_LIST)
-          INTEGER, INTENT(IN) :: NRTM_IN, NUMNOD_IN
-          INTEGER, INTENT(IN) :: IRECT_IN(4, NRTM_IN)
-          INTEGER, ALLOCATABLE, INTENT(INOUT) :: NODE_COUNT(:)
-          INTEGER, ALLOCATABLE, INTENT(INOUT) :: NODE_OFF(:)
-          INTEGER, ALLOCATABLE, INTENT(INOUT) :: NODE_LIST(:)
-          INTEGER :: SEG, C, NID, TOTAL, POS
-
-          IF (ALLOCATED(NODE_COUNT)) DEALLOCATE(NODE_COUNT)
-          IF (ALLOCATED(NODE_OFF))   DEALLOCATE(NODE_OFF)
-          IF (ALLOCATED(NODE_LIST))  DEALLOCATE(NODE_LIST)
-          CALL MY_ALLOC(NODE_COUNT, NUMNOD_IN, "NODE_COUNT")
-          CALL MY_ALLOC(NODE_OFF, NUMNOD_IN + 1, "NODE_OFF")
-          NODE_COUNT = 0
-
-          DO SEG = 1, NRTM_IN
-            DO C = 1, 4
-              NID = IRECT_IN(C, SEG)
-              IF (NID <= 0 .OR. NID > NUMNOD_IN) CYCLE
-              NODE_COUNT(NID) = NODE_COUNT(NID) + 1
-            ENDDO
-          ENDDO
-
-          NODE_OFF(1) = 1
-          DO NID = 1, NUMNOD_IN
-            NODE_OFF(NID + 1) = NODE_OFF(NID) + NODE_COUNT(NID)
-          ENDDO
-          TOTAL = NODE_OFF(NUMNOD_IN + 1) - 1
-          CALL MY_ALLOC(NODE_LIST, MAX(1, TOTAL), "NODE_LIST")
-
-          NODE_COUNT = 0
-          DO SEG = 1, NRTM_IN
-            DO C = 1, 4
-              NID = IRECT_IN(C, SEG)
-              IF (NID <= 0 .OR. NID > NUMNOD_IN) CYCLE
-              POS = NODE_OFF(NID) + NODE_COUNT(NID)
-              NODE_LIST(POS) = SEG
-              NODE_COUNT(NID) = NODE_COUNT(NID) + 1
-            ENDDO
-          ENDDO
-        END SUBROUTINE STS_REMAP_BUILD_MASTER_NODE_ADJ
-
-        !=======================================================================
-        ! STS_REMAP_BUILD_MASTER_NEIGHBORS
-        !
-        ! Build sorted master-segment neighbor lists by shared corner nodes.
-        !=======================================================================
-!||====================================================================
-!||    sts_remap_build_master_neighbors   ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- called by ------------------------------------------------------
-!||    sts_remap_segments                 ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- calls      -----------------------------------------------------
-!||    sts_remap_sort_int                 ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||====================================================================
-        SUBROUTINE STS_REMAP_BUILD_MASTER_NEIGHBORS(IRECT_IN, NRTM_IN, &
-     &    NODE_COUNT, NODE_OFF, NODE_LIST, SEG_COUNT, SEG_OFF, SEG_LIST)
-          INTEGER, INTENT(IN) :: NRTM_IN
-          INTEGER, INTENT(IN) :: IRECT_IN(4, NRTM_IN)
-          INTEGER, INTENT(IN) :: NODE_COUNT(:), NODE_OFF(:), NODE_LIST(:)
-          INTEGER, ALLOCATABLE, INTENT(INOUT) :: SEG_COUNT(:)
-          INTEGER, ALLOCATABLE, INTENT(INOUT) :: SEG_OFF(:)
-          INTEGER, ALLOCATABLE, INTENT(INOUT) :: SEG_LIST(:)
-          INTEGER, ALLOCATABLE :: MARK(:), TMP(:)
-          INTEGER :: SEG, C, NID, P, P0, P1, OTHER, TOTAL, NFOUND, ILOC
-
-          IF (ALLOCATED(SEG_COUNT)) DEALLOCATE(SEG_COUNT)
-          IF (ALLOCATED(SEG_OFF))   DEALLOCATE(SEG_OFF)
-          IF (ALLOCATED(SEG_LIST))  DEALLOCATE(SEG_LIST)
-          CALL MY_ALLOC(SEG_COUNT, NRTM_IN, "SEG_COUNT")
-          CALL MY_ALLOC(SEG_OFF, NRTM_IN + 1, "SEG_OFF")
-          CALL MY_ALLOC(MARK, NRTM_IN, "MARK")
-          CALL MY_ALLOC(TMP, MAX(1, NRTM_IN), "TMP")
-          SEG_COUNT = 0
-          MARK = 0
-
-          DO SEG = 1, NRTM_IN
-            NFOUND = 0
-            DO C = 1, 4
-              NID = IRECT_IN(C, SEG)
-              IF (NID <= 0 .OR. NID > SIZE(NODE_COUNT)) CYCLE
-              IF (NODE_COUNT(NID) <= 0) CYCLE
-              P0 = NODE_OFF(NID)
-              P1 = NODE_OFF(NID + 1) - 1
-              DO P = P0, P1
-                OTHER = NODE_LIST(P)
-                IF (OTHER <= 0 .OR. OTHER > NRTM_IN) CYCLE
-                IF (OTHER == SEG) CYCLE
-                IF (MARK(OTHER) == SEG) CYCLE
-                MARK(OTHER) = SEG
-                NFOUND = NFOUND + 1
-              ENDDO
-            ENDDO
-            SEG_COUNT(SEG) = NFOUND
-          ENDDO
-
-          SEG_OFF(1) = 1
-          DO SEG = 1, NRTM_IN
-            SEG_OFF(SEG + 1) = SEG_OFF(SEG) + SEG_COUNT(SEG)
-          ENDDO
-          TOTAL = SEG_OFF(NRTM_IN + 1) - 1
-          CALL MY_ALLOC(SEG_LIST, MAX(1, TOTAL), "SEG_LIST")
-
-          MARK = 0
-          DO SEG = 1, NRTM_IN
-            NFOUND = 0
-            DO C = 1, 4
-              NID = IRECT_IN(C, SEG)
-              IF (NID <= 0 .OR. NID > SIZE(NODE_COUNT)) CYCLE
-              IF (NODE_COUNT(NID) <= 0) CYCLE
-              P0 = NODE_OFF(NID)
-              P1 = NODE_OFF(NID + 1) - 1
-              DO P = P0, P1
-                OTHER = NODE_LIST(P)
-                IF (OTHER <= 0 .OR. OTHER > NRTM_IN) CYCLE
-                IF (OTHER == SEG) CYCLE
-                IF (MARK(OTHER) == SEG) CYCLE
-                MARK(OTHER) = SEG
-                NFOUND = NFOUND + 1
-                TMP(NFOUND) = OTHER
-              ENDDO
-            ENDDO
-            CALL STS_REMAP_SORT_INT(TMP, NFOUND)
-            DO ILOC = 1, NFOUND
-              SEG_LIST(SEG_OFF(SEG) + ILOC - 1) = TMP(ILOC)
-            ENDDO
-          ENDDO
-
-          CALL MY_DEALLOC(MARK)
-          CALL MY_DEALLOC(TMP)
-        END SUBROUTINE STS_REMAP_BUILD_MASTER_NEIGHBORS
-
-        !=======================================================================
-        ! STS_REMAP_SORT_INT
-        !
-        ! Sort a short integer work array in ascending order.
-        !=======================================================================
-!||====================================================================
-!||    sts_remap_sort_int                 ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||--- called by ------------------------------------------------------
-!||    sts_remap_build_master_neighbors   ../engine/source/interfaces/ists/ists_remap_segments.F90
-!||====================================================================
-        SUBROUTINE STS_REMAP_SORT_INT(ARR, N)
-          INTEGER, INTENT(INOUT) :: ARR(:)
-          INTEGER, INTENT(IN) :: N
-          INTEGER :: ILOC, JLOC, KEY
-
-          DO ILOC = 2, N
-            KEY = ARR(ILOC)
-            JLOC = ILOC - 1
-            DO WHILE (JLOC >= 1 .AND. ARR(JLOC) > KEY)
-              ARR(JLOC + 1) = ARR(JLOC)
-              JLOC = JLOC - 1
-            ENDDO
-            ARR(JLOC + 1) = KEY
-          ENDDO
-        END SUBROUTINE STS_REMAP_SORT_INT
-
-        !=======================================================================
         ! STS_REMAP_DEALLOCATE_WORK
         !
         ! Release per-call hash and nearest-segment work arrays.
@@ -707,12 +470,6 @@
           IF (ALLOCATED(SEC_NODE_SEG_COUNT)) CALL MY_DEALLOC(SEC_NODE_SEG_COUNT)
           IF (ALLOCATED(SEC_NODE_SEG_OFF)) CALL MY_DEALLOC(SEC_NODE_SEG_OFF)
           IF (ALLOCATED(SEC_NODE_SEG_LIST)) CALL MY_DEALLOC(SEC_NODE_SEG_LIST)
-          IF (ALLOCATED(MST_NODE_SEG_COUNT)) CALL MY_DEALLOC(MST_NODE_SEG_COUNT)
-          IF (ALLOCATED(MST_NODE_SEG_OFF)) CALL MY_DEALLOC(MST_NODE_SEG_OFF)
-          IF (ALLOCATED(MST_NODE_SEG_LIST)) CALL MY_DEALLOC(MST_NODE_SEG_LIST)
-          IF (ALLOCATED(MST_SEG_NEI_COUNT)) CALL MY_DEALLOC(MST_SEG_NEI_COUNT)
-          IF (ALLOCATED(MST_SEG_NEI_OFF)) CALL MY_DEALLOC(MST_SEG_NEI_OFF)
-          IF (ALLOCATED(MST_SEG_NEI_LIST)) CALL MY_DEALLOC(MST_SEG_NEI_LIST)
           TOPO_CACHE_READY = .FALSE.
         END SUBROUTINE STS_REMAP_CLEAR_TOPO_CACHE
 

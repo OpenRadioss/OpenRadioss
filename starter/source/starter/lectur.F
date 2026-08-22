@@ -3327,7 +3327,8 @@ C---
 C--------------------------------------------
 C     GENERATE Q1NP ELEMENTS FROM SURFACE (ENRICHED HEX)
 C     Elements generated internally from surface definition.
-C     Prototype mode: generate Q1NP for external /SURF IDs 100 and 200.
+C     First pass handles interfaces that reference explicit /SURF cards.
+C     A guarded retry after /SET handles /SET/GENERAL SEG surfaces.
 C--------------------------------------------
 
       CALL Q1NP_GENERATE_MAIN(IWCONT, IWCIN2, IKINE1LAG, IKINE, DSDOF, ADDCNE,
@@ -3523,6 +3524,19 @@ C--------------------------------------------
      
      
 C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
+      ENDIF
+
+C     Q1NP /SET/GENERAL support.
+C     Retry Q1NP generation after these sets have been converted to surfaces.
+      IF(NUMELQ1NP_G == 0)THEN
+        CALL Q1NP_GENERATE_MAIN(IWCONT, IWCIN2, IKINE1LAG, DSDOF,
+     .                          ADDCNE, ADDCNE_PXFEM, FXBTAG, ITAG,
+     .                          FLAGKIN, XYZREF, SX, SV, SD, SMS, SIN,
+     .                          SVR, SDR, S_NOD2ELS, IPARTS, IRODDL,
+     .                          IRODDL0, ISECUT, IMPOSE_DR, NSURF,
+     .                          NUMNOD, NUMELS, IOUT, IISROT, IDROT,
+     .                          SICODE, SISKEW, SNOD2SP, NCHARKEY,
+     .                          HM_NINTER, LSUBMODEL)
       ENDIF
       
       IF (NSURF+NSETS > 0) THEN

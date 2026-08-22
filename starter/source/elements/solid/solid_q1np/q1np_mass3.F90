@@ -71,7 +71,7 @@
           integer, intent(in) :: numels, numnod, npart
           integer, intent(in) :: npropm, nummat
           integer, intent(in) :: iparg(:,:)
-          integer, intent(in) :: kq1np_tab(15, numelq1np_in)
+          integer, intent(in) :: kq1np_tab(:,:)
           integer, intent(in) :: iq1np_tab(siq1np_g)
           integer, intent(in) :: iq1np_bulk_tab(sq1npbulk_g)
           integer, intent(in) :: sfill

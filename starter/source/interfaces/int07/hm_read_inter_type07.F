@@ -155,6 +155,8 @@ C Initializations
       INTTH = 0
       IDEL7N = 0
       IGAP_TYPE19 = 0
+      ITIED = 0
+      ISTS = 0
 
 C Hidden flags : no more read using HM reader 
       IVIS2 = 0
