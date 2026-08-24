@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER I,J,K,IL,IR,IS,IT,NG,NEL,NPT,L_REL,BUFLEN,NUVAR,
      .   ITY,IGTYP,ERR,IFAIL,
      .   NFAIL,IXFEM,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL,
-     .   IDAMP_FREQ_RANGE
+     .   IDAMP_FREQ_RANGE,NVARTMP
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,G_WPLA,
@@ -1654,6 +1654,10 @@ c
                L_REL = L_REL + NEL*LF_INDX
              RBUF_L(L_REL+1:L_REL+NEL*LF_OFF) = ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF(1:NEL*LF_OFF)
                L_REL = L_REL + NEL*LF_OFF
+             NVARTMP = SIZE(ELBUF_TAB(NG)%GBUF%FAIL(1)%VARTMP) / NEL
+             RBUF_L(L_REL+1:L_REL+NEL*NVARTMP) = ELBUF_TAB(NG)%GBUF%FAIL(1)%VARTMP(1:NEL*NVARTMP)
+               L_REL = L_REL + NEL*NVARTMP
+c
           END IF            
 c---
 c seatbelt elements

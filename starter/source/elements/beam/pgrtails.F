@@ -301,6 +301,7 @@ c                                        other groups using old buffer
               IPARG(6,NGROUP) = NIP
               IPARG(9,NGROUP) = NINT(GEO(3,PID))
               IPARG(13,NGROUP) = JTHE  !beam : 0 or 1 only
+              IPARG(18,NGROUP) = IXP(1,NFT+1) 
               IPARG(38,NGROUP) = IGTYP
               !--- Group/processor
               IPARG(32,NGROUP)= P-1

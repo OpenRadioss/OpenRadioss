@@ -2439,6 +2439,12 @@ c
      &"ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF")
              ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF = 1                                                           
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF*NEL + 1
+c
+             NVARTMP = MAT_PARAM(IMID)%FAIL(1)%NVARTMP
+      CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%VARTMP, NVARTMP*NEL,"ELBUF_TAB(NG)%GBUF%FAIL(1)%VARTMP")
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%VARTMP = 0
+             GFAIL = GFAIL + NVARTMP*NEL
+c
           END IF
 c
           BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL + GFAIL
