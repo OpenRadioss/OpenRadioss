@@ -137,7 +137,7 @@ C
             ! Compute hydrostatic stress
           P    = THIRD*SIGNXX(I)
           ! Compute Von Mises stress
-          SVM  = SQRT(THREE*(HALF*SIGNXX(I)**2 + SIGNXY(I)**2 + SIGNXZ(I)**2))
+          SVM  = SQRT(SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2))
           ! Compute stress triaxiality
           TRIAXS = P/MAX(EM20,SVM)
           IF (TRIAXS < -TWO_THIRD) TRIAXS = -TWO_THIRD
