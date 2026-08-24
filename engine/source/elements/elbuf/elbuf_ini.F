@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ERR,NG,BUFLEN,ITY,NPT,IXFEM,IXEL,ISNOD,NEWLEN,INLOC
-      INTEGER IDAMP_FREQ_RANGE
+      INTEGER IDAMP_FREQ_RANGE,IMID
 C=======================================================================
 c      Element Buffer Routine (Solid) 
 c------
@@ -70,7 +70,8 @@ C=======================================================================
 c-------------------------------------------------
       DO NG = 1,NGROUP                                                 
         ITY    = IPARG(5,NG)
-        NPT    = IPARG(6,NG)                                   
+        NPT    = IPARG(6,NG) 
+        IMID   = IPARG(18,NG)                                 
         BUFLEN = IPARG(66,NG)
         IXFEM  = IPARG(54,NG)
         INLOC  = IPARG(78,NG)
@@ -87,7 +88,7 @@ c          print*,'  NG =',ng
      .      ITY==7 .or. ITY==101 .or. ITY==4  .or. ITY==5 .or.
      .      ITY==6 .or. ITY==100)THEN
           CALL ALLOCBUF_AUTO(MAT_ELEM%ELBUF(NG),MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
-     .                       IDAMP_FREQ_RANGE)
+     .                       IDAMP_FREQ_RANGE,IMID)
           IPARG(66,NG)=NEWLEN
         END IF
       ENDDO   ! NG = 1,NGROUP
@@ -101,6 +102,7 @@ c        ENDIF
           DO NG = 1,NGROUP
             ITY    = IPARG(5,NG)
             NPT    = IPARG(6,NG)
+            IMID   = IPARG(18,NG)
             BUFLEN = IPARG(66,NG)
             IXFEM  = IPARG(54,NG)
             INLOC  = IPARG(78,NG)
@@ -111,7 +113,7 @@ c      if xfem, count buffer's length only in the groups with xfem phantom eleme
 c----
             IF (IXFEM > 0 .and. (ITY==3 .or. ITY==7)) THEN
               CALL ALLOCBUF_AUTO(MAT_ELEM%XFEM_TAB(NG,IXEL),MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
-     .                           IDAMP_FREQ_RANGE)
+     .                           IDAMP_FREQ_RANGE,IMID)
               IPARG(66,NG)=NEWLEN
             ENDIF
           ENDDO

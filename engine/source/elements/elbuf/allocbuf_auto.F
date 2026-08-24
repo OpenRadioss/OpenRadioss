@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
-     .                         IDAMP_FREQ_RANGE)
+     .                         IDAMP_FREQ_RANGE,IMID)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,6 +59,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDAMP_FREQ_RANGE
       TYPE(ELBUF_STRUCT_) , TARGET   :: ELBUF_STR
       TYPE(MAT_ELEM_) , TARGET   :: MAT_ELEM
+      INTEGER, INTENT(IN) :: IMID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -223,7 +224,7 @@ c
 c
         ILAW  = NINT(RBUF(IAD+1))                         
           IAD = IAD+1                                                  
-        IMAT  = NINT(RBUF(IAD+1))                         
+        IMAT  = NINT(RBUF(IAD+1))   
           IAD = IAD+1                                                  
         IEOS  = NINT(RBUF(IAD+1))                         
           IAD = IAD+1                                                  
@@ -2051,6 +2052,10 @@ c---
           ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%OFF(GBUF%FAIL(1)%LF_OFF*NEL) ,STAT=ERR)
             GBUF%FAIL(1)%OFF(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%LF_OFF)
               IAD = IAD + NEL*GBUF%FAIL(1)%LF_OFF
+          NVARTMP = MAT_ELEM%MAT_PARAM(IMID)%FAIL(1)%NVARTMP
+          call my_alloc(ELBUF_STR%GBUF%FAIL(1)%VARTMP, NEL*NVARTMP, "ELBUF_STR%GBUF%FAIL(1)%VARTMP")
+                GBUF%FAIL(1)%VARTMP(1:NEL*NVARTMP) = RBUF(IAD+1:IAD+NEL*NVARTMP)
+              IAD = IAD + NEL*NVARTMP
       ENDIF
 c---
 C seatbelt elements
