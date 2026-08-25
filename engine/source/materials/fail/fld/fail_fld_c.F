@@ -42,7 +42,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C-----------------------------------------------
 c    FLD failure model
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C     M o d u l e s
 C-----------------------------------------------
       use fail_param_mod
       use table_mat_vinterp_mod
