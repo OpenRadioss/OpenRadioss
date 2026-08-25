@@ -154,6 +154,8 @@ c
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 4) THEN  ! no element suppression
         PTHKF = EM06
+      ELSE
+        PTHKF = ONE
       ENDIF
 c---------------------------
       FAIL%KEYWORD = 'FLD' 
@@ -209,7 +211,6 @@ c
       nfunc = 1
       x1scale    = one
       x2scale    = one
-      x2scale    = one
       x2vect(:)  = zero
       yscale(1)  = one
 !
@@ -222,13 +223,15 @@ c
         call ancmsg(msgid=487,msgtype=msgerror,anmode=aninfo_blind,i1=mat_id,c1=title,i2=func_fld)
       end if
       ! create local Xfem advancement function table using input function ID
-      if (func_xfem > 0) then
+      if (ixfem > 0 .and. func_xfem > 0) then
 
           func_id(1) = func_xfem
           call func_table_copy(fail%table4d(2) ,title   ,mat_id   ,      
      1           nfunc   ,func_id ,x2vect  ,x1scale ,      
      1           x2scale  ,yscale  ,ntable  ,table   ,      
      1           ierror  )
+      else
+        fail%table4d(2)%notable = 0
       end if
 c--------------------------------------------------
       IF (IS_ENCRYPTED) THEN
