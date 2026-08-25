@@ -29,16 +29,21 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    finter          ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_NXT_C(
-     1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      ,
-     2     TIME      ,NPF       ,TF        ,NFUNC     ,IFUNC     ,
+      SUBROUTINE FAIL_NXT_C(FAIL,
+     1     NEL       ,NUVAR     ,NVARTMP   ,UVAR      ,VARTMP    ,
+     2     TIME      ,
      3     NGL       ,IPG       ,ILAY      ,IPT       ,HARDM     ,
      4     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
      5     OFF       ,FOFF      ,DFMAX     ,TDEL      ,LF_DAMMX  )
 C-----------------------------------------------
 c     NXT Failure
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C     M o d u l e s
+C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -50,8 +55,6 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C---------+---------+---+---+--------------------------------------------
@@ -73,47 +76,34 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,IPG,ILAY,IPT,LF_DAMMX
-      INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
-      INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
-      my_real ,INTENT(IN) :: TIME
-      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,HARDM,
-     .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-      my_real,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
-C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
-C-----------------------------------------------
-      INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL
-      my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
-      my_real ,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER :: I,J,NINDX,CHECK
-      INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: S1,S2,SS,S12,DYDX1,DYDX2,SIGSR,SIG3D
-      my_real ,DIMENSION(NEL)  :: SIG1,SIG2,LAMBDANXT
+      integer ,intent(in) :: nel,nuvar,nvartmp,ipg,ilay,ipt,lf_dammx
+      integer ,dimension(nel) ,intent(in) :: ngl
+      my_real ,intent(in) :: time
+      my_real ,dimension(nel) ,intent(in)    :: off,hardm,
+     .   signxx,signyy,signxy,signyz,signzx
+      type (fail_param_) ,intent(inout) :: fail    !< failure model data structure
+c-----------------------------------------------
+c   i n p u t   o u t p u t   a r g u m e n t s 
+c-----------------------------------------------
+      integer ,dimension(nel) ,intent(inout) :: foff
+      integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp
+      my_real ,dimension(nel) ,intent(out)   :: tdel
+      my_real ,dimension(nel,nuvar) ,intent(inout) :: uvar
+      my_real ,dimension(nel,lf_dammx),intent(inout) :: dfmax
+c-----------------------------------------------
+c   l o c a l   v a r i a b l e s
+c-----------------------------------------------
+      integer :: i,j,nindx,nindxf
+      integer ,dimension(nel) :: indx,indxf,check
+      my_real :: s1,s2,ss,s12
+      my_real ,dimension(nel)  :: sig1,sig2,lambdanxt
+      my_real ,dimension(nel)  :: sigsr,sig3d,dydx,tab_loc,sigsr_loc,sig3d_loc
 C=======================================================================
-      DO I=1,NEL
-        SIG1(I) = ZERO    ! 1st principal normalized stress
-        SIG2(I) = ZERO    ! 2d principal normalized stress
-        LAMBDANXT(I) = ZERO  ! Instability factor
-      ENDDO 
-      NINDX = 0                                                
+      SIG1(1:nel) = ZERO       ! 1st principal normalized stress
+      SIG2(1:nel) = ZERO       ! 2d principal normalized stress
+      LAMBDANXT(1:nel) = ZERO  ! Instability factor
+      NINDX  = 0
+      NINDXF = 0                             
 C-------- ZERO VALUE for deleted element       
       DO I=1,NEL
         IF (OFF(I) == ZERO) THEN 
@@ -121,77 +111,90 @@ C-------- ZERO VALUE for deleted element
           UVAR(I,2)= ZERO
         END IF
       ENDDO    
+      ! Tag active elements
+      DO I = 1,NEL
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
+          NINDX = NINDX + 1
+          INDX(NINDX) = I
+        ENDIF
+      ENDDO 
+!
 C-------------------------------------------------------
 C     SIGMA1 and SIGMA2 computing: Principal stresses
 C-------------------------------------------------------
-      DO I=1,NEL
-        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
+      DO J=1,NINDX
+        I = INDX(J)
           S12= SIGNXY(I)
           S1 = HALF*(SIGNXX(I) + SIGNYY(I))
           S2 = HALF*(SIGNXX(I) - SIGNYY(I))
           SIG1(I) = S1  + SQRT(S2**2 + S12**2)
           SS   = S1 - SQRT(S2**2 + S12**2)
           SIG2(I) = SS
-
           IF(SS >= SIG1(I))THEN
             SIG2(I) = SIG1(I)
             SIG1(I) = SS
           ENDIF
-          CHECK = 1
+          CHECK(i) = 1
           IF (SIG2(I)/=ZERO) THEN
             SS = SIG1(I)/SIG2(I)
-            IF ((SS < -ONE .AND. SS < ZERO) .OR.
-     .          (SIG1(I) < ZERO .AND. SIG2(I) < ZERO)) THEN
-              CHECK = 0
+            IF ((SS < -ONE .AND. SS < ZERO) .OR. (SIG1(I) < ZERO .AND. SIG2(I) < ZERO)) THEN
+              CHECK(i) = 0
             ENDIF
           ENDIF
-C --- Normalization of stresses
+C ---     Normalization of principal stresses vs hardening modulus
           S1 = SIG1(I)
           S2 = SIG2(I)
           SIG1(I) = SIG1(I)/MAX(HARDM(I),EM20)
           SIG2(I) = SIG2(I)/MAX(HARDM(I),EM20)
-          IF (CHECK == 1 ) THEN
-C --- compute variables from input curve SR and 3D 
-            SIGSR =  FINTER(IFUNC(1),SIG2(I),NPF,TF,DYDX1)
-            SIG3D =  FINTER(IFUNC(2),SIG2(I),NPF,TF,DYDX2)      
-            IF(SIGSR < ABS(SIG2(I)).AND.SIG3D < ABS(SIG2(I))) THEN
+      END DO
+! ---   compute failure parameters from input curve SR and 3D
+      do j = 1,nindx
+        i = indx(j)
+        tab_loc(j) = sig2(i)
+      end do
+
+      call table_mat_vinterp(fail%table4d(1),nel,nindx,vartmp(1:nel,1:1),tab_loc,sigsr,dydx)
+      call table_mat_vinterp(fail%table4d(2),nel,nindx,vartmp(1:nel,2:2),tab_loc,sig3d,dydx)
+      do j = 1,nindx
+        i = indx(j)
+        sigsr(i) = sigsr_loc(j)
+        sig3d(i) = sig3d_loc(j)
+      end do! --- The instability factor
+      DO J=1,NINDX
+        I = INDX(J)
+        IF (CHECK(I) == 1 ) THEN           
+            IF(SIGSR(I) < ABS(SIG2(I)).AND.SIG3D(I) < ABS(SIG2(I))) THEN
                LAMBDANXT(I) = TWO
-            ELSEIF(SIGSR < ABS(SIG2(I))) THEN
-              SIGSR = ABS(SIG2(I))  
-              LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
+            ELSEIF(SIGSR(I) < ABS(SIG2(I))) THEN
+              SIGSR(I) = ABS(SIG2(I))  
+              LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR(I))/(SIG3D(I) - SIGSR(I)))
             ELSE 
-C --- The instability factor
-             LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
+             LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR(I))/(SIG3D(I) - SIGSR(I)))
             ENDIF
             LAMBDANXT(I) = MAX(LAMBDANXT(I),ZERO)
             LAMBDANXT(I) = MIN(LAMBDANXT(I),TWO)
-          ELSE
-            LAMBDANXT(I) = ZERO
-          ENDIF  
-        ENDIF 
-      ENDDO
-c
-c-----------------------
-      DO I=1,NEL
-        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-          IF (LAMBDANXT(I) >= TWO) THEN
-            NINDX = NINDX + 1
-            INDX(NINDX) = I  
-            FOFF(I) = 0
-            TDEL(I) = TIME
-          ENDIF
-                 ENDIF
+        ENDIF
       ENDDO
 c-----------------------
-      IF (NINDX > 0) THEN
-        DO J=1,NINDX
-          I = INDX(J)
+      DO J=1,NINDX
+        I = INDX(J)
+        IF (LAMBDANXT(I) >= TWO) THEN
+          NINDXF = NINDXF + 1
+          INDXF(NINDXF) = I  
+          FOFF(I) = 0
+          TDEL(I) = TIME
+        ENDIF
+      ENDDO
+c-----------------------
+      IF (NINDXF > 0) THEN
+        DO J=1,NINDXF
+          I = INDXF(J)
 #include  "lockon.inc"
            WRITE(IOUT, 2000) NGL(I),IPT,LAMBDANXT(I)
            WRITE(ISTDO,2100) NGL(I),IPT,TIME,LAMBDANXT(I)
 #include  "lockoff.inc"
          END DO
-      ENDIF   ! NINDX            
+      ENDIF   ! NINDXF            
 c-----------------------
 c     SAVE USER VARIABLES
 c-----------------------
