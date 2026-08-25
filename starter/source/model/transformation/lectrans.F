@@ -111,7 +111,7 @@ C-----------------------------------------------
       my_real
      .   X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),NORM1, NORM2, NORM3, SCAL1, 
-     .   SCAL2, SCAL3, EPS,XYZPOS(3),XYZPOS0(3)
+     .   SCAL2, SCAL3, EPS,XYZPOS(3),XYZPOS0(3),SKEW_TRANS(12)
       CHARACTER(LEN=NCHARFIELD) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARFIELD) :: DIR
@@ -204,7 +204,6 @@ c---------------------
               ENDIF
           ENDIF
           IF (N0 > 0 .OR. N1 > 0) THEN
-            ISK = 0
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
             IF (I0 == 0) THEN
@@ -232,10 +231,17 @@ c---------------------
             TZ = TZ * FAC_L 
           ENDIF
 
+          DO J=1,12
+            SKEW_TRANS(J)=ZERO
+          ENDDO
+          IF(ISK > 0) THEN
+            DO J=1,12
+              SKEW_TRANS(J)=SKEW(J,ISK)
+            ENDDO
+          ENDIF
           CALL transform_translate_in_local_skew(
-     .                 IGRNOD(IGS)%ENTITY ,IGRNOD(IGS)%NENTITY ,X    ,NUMNOD   , ISK  ,
-     .                 TX                 ,TY                  ,TZ   ,SKEW     , LSKEW,
-     .                 SSKEW              )
+     .                 IGRNOD(IGS)%ENTITY ,IGRNOD(IGS)%NENTITY ,X    ,NUMNOD    , ISK  ,
+     .                 TX                 ,TY                  ,TZ   ,SKEW_TRANS)
 
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
 C
