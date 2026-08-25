@@ -1394,9 +1394,9 @@ c
      &               off       ,offly     ,foff      ,dfmax     ,tdel      )
 c
               CASE (25)     !    NXT Failure
-                CALL FAIL_NXT_C(
-     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,NPF       ,TF        ,NFUNC_FAIL,IFUNC_FAIL,   
+                CALL FAIL_NXT_C(fail_param,
+     1               NEL       ,NVARF     ,NVARFTMP  ,UVARF     ,VARTMP    ,
+     2               TT        ,   
      3               NGL       ,IPG       ,ILAYER    ,IT        ,HARDM     ,   
      4               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      5               OFF       ,FOFF      ,DFMAX     ,TDEL      ,LF_DAMMX  )

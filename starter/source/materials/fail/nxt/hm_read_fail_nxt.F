@@ -33,9 +33,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_FAIL_NXT(
-     .           FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   ,FAIL_TAG )
+      SUBROUTINE HM_READ_FAIL_NXT(FAIL    ,TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT     ,
+     .                  NTABLE  ,TABLE    ,LSUBMODEL,UNITAB   ,FAIL_TAG )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read NXT failure model parameters
@@ -47,7 +46,11 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
       USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       use my_alloc_mod
+      use table_mod
+      use func_table_copy_mod
+      use names_and_titles_mod , only : nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,21 +62,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER            ,INTENT(IN) :: FAIL_ID       !< failure model ID
-      INTEGER            ,INTENT(IN) :: MAT_ID        !< material law ID
-      INTEGER            ,INTENT(IN) :: IRUPT         !< failure model type number
-      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        !< table of input units
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  !< submodel table
-      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       !< failure model data structure
-      TYPE (FAIL_TAG_)   ,INTENT(INOUT) :: FAIL_TAG   !< failure model tag for buffer allocation
+      integer            ,intent(in) :: fail_id       !< failure model id
+      integer            ,intent(in) :: ntable        !< number of system function tables
+      integer            ,intent(in) :: mat_id        !< material law id
+      integer            ,intent(in) :: irupt         !< failure model type number
+      type(unit_type_)   ,intent(in) :: unitab        !< table of input units
+      type(submodel_data),intent(in) :: lsubmodel(*)  !< submodel table
+      type(fail_param_)  ,intent(inout) :: fail       !< failure model data structure
+      type (fail_tag_)   ,intent(inout) :: fail_tag   !< failure model tag for buffer allocation
+      type(ttable) ,dimension(ntable) ,intent(in)    :: table      !< input table array
+      character(len=nchartitle) ,intent(in):: title   !< material model title
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER    ::     IFAIL_SH
-      INTEGER ,PARAMETER :: NFUNC = 2
-      INTEGER ,DIMENSION(NFUNC) :: IFUNC
-      my_real PTHKF
-C-----------------------------------------------
+      INTEGER :: IFAIL_SH
+      INTEGER :: NFUNC
+      INTEGER ,DIMENSION(2) :: IFUNC
+      INTEGER :: IERROR
+      my_real :: PTHKF
+      my_real :: x1scale,x2scale
+      my_real, dimension(1) :: x2vect,yscale
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
@@ -83,17 +90,17 @@ C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
-C EXTRACT DATAS  
-C--------------------------------------------------
+C     READ INPUT DATA
+C--------------------------------------------------      
       IFAIL_SH = 0
-Card1      
-      CALL HM_GET_INTV ('fct_ID1'  ,IFUNC(1) ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV ('fct_ID2'  ,IFUNC(2) ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV ('Ifail_sh' ,IFAIL_SH ,IS_AVAILABLE,LSUBMODEL)
+Card1
+      CALL HM_GET_INTV ('fct_ID1'  ,ifunc(1)    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV ('fct_ID2'  ,ifunc(2)    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV ('Ifail_sh' ,IFAIL_SH    ,IS_AVAILABLE,LSUBMODEL)
 c-----------------------------
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
+      ELSE
         PTHKF = ONE
       ENDIF
 c-----------------------------------------------------
@@ -103,33 +110,59 @@ c-----------------------------------------------------
       FAIL%NUPARAM = 1
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 2
-      FAIL%NFUNC   = NFUNC
+      FAIL%nvartmp = 2
+      FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
+      FAIL%ntable4d= 2
       FAIL%NMOD    = 1
       FAIL%PTHK    = PTHKF
 c            
-      call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
-      call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
-      call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
-      call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      call my_alloc(fail%uparam ,fail%nuparam,  "FAIL%UPARAM")
+      call my_alloc(fail%iparam ,fail%niparam,  "FAIL%IPARAM")
+      call my_alloc(fail%ifunc  ,fail%nfunc,    "FAIL%IFUNC")
+      call my_alloc(fail%table  ,fail%ntable,   "FAIL%TABLE")
+      if (allocated(fail%table4d)) deallocate(fail%table4d)
+      allocate(fail%table4d(fail%ntable4d))
 c
       ! Modes of failure
       FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
       allocate(FAIL%MODE(FAIL%NMOD))
       FAIL%MODE(1) = "Instability factor"
-c      
-      FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
+c------------------------------------------------------      
       FAIL%UPARAM(1) = IFAIL_SH
 c-----------------------------------------------------
-      IF(IS_ENCRYPTED)THEN
-        WRITE(IOUT, 1000)
-      ELSE    
-       IF(IFAIL_SH == 0) THEN   
-        WRITE(IOUT, 1001)IFUNC(1),IFUNC(2)
-       ELSE
-        WRITE(IOUT, 1100)IFUNC(1),IFUNC(2)
-       ENDIF
-      ENDIF       
+      ! create local NXT from input functions
+      nfunc = 1
+      x1scale    = one
+      x2scale    = one
+      x2vect(1)  = zero
+      yscale(1)  = one
+!
+      call func_table_copy(fail%table4d(1) ,title   ,mat_id   ,      
+     1           nfunc    ,ifunc(1)   ,x2vect  ,x1scale ,      
+     1           x2scale  ,yscale  ,ntable  ,table   ,      
+     1           ierror  )
+      if (ierror /= 0) then
+        call ancmsg(msgid=487,msgtype=msgerror,anmode=aninfo_blind,i1=mat_id,c1=title,i2=ifunc(1))
+      end if
+ !
+      call func_table_copy(fail%table4d(2) ,title   ,mat_id   ,      
+     1           nfunc    ,ifunc(2)   ,x2vect  ,x1scale ,      
+     1           x2scale  ,yscale  ,ntable  ,table   ,      
+     1           ierror  )
+      if (ierror /= 0) then
+        call ancmsg(msgid=487,msgtype=msgerror,anmode=aninfo_blind,i1=mat_id,c1=title,i2=ifunc(2))
+      end if
+!--------------------------------------------------------------------------------------------------
+      if(is_encrypted)then
+        write(iout, 1000)
+      else    
+       if (ifail_sh == 0) then   
+        write(iout, 1001) ifunc(1),ifunc(2)
+       else
+        write(iout, 1100) ifunc(1),ifunc(2)
+       endif
+      endif       
 C-----------
  1000 FORMAT(
      & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,
