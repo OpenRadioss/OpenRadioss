@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,MY_OR,CHECK_NEW
+      INTEGER USR2SYS,CHECK_NEW
 !
 C
 C-----------------------------------------------
@@ -183,7 +183,7 @@ c
           IC =IC1*512+IC2*64
 c
           IF(NOSYS /= 0) THEN
-            ICODE(NOSYS)=MY_OR(IC,ICODE(NOSYS))
+            ICODE(NOSYS)=IOR(IC,ICODE(NOSYS))
              IF(ISKEW(NOSYS)==-1.OR.ISKEW(NOSYS)==IS)THEN
                CHECK_NEW=IS
              ELSE

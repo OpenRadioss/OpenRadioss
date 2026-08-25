@@ -139,8 +139,8 @@ C-----------------------------------------------
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
 
-      EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
-      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
+      EXTERNAL MY_AND
+      INTEGER MY_AND
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
 C
 Clef 1---------------------------------
@@ -478,28 +478,28 @@ C
 C---     Clef3 
 C
 C       IPLA   = MY_SHIFTL(IPLA,0)
-        ISTRAIN= MY_SHIFTL(ISTRAIN,3)
-        ISSN   = MY_SHIFTL(ISSN,6)
+        ISTRAIN= ISHFT(ISTRAIN,3)
+        ISSN   = ISHFT(ISSN,6)
 C
-        IGTYP  = MY_SHIFTL(IGTYP,9)
-        MLN    = MY_SHIFTL(MLN,18)    
+        IGTYP  = ISHFT(IGTYP,9)
+        MLN    = ISHFT(MLN,18)
 C       Beware full;
 C       ICO must remain the heaviest weight in this key.
-        ICO   = MY_SHIFTL(ICO,29) 
+        ICO   = ISHFT(ICO,29)
         ITRI(3,I)=IPLA+ISTRAIN+ISSN+IGTYP+MLN+ICO 
 C
 C---clef4
 C
 C       IRB    = MY_SHIFTL(IRB,0)
-        IFAIL  = MY_SHIFTL(IFAIL,4)
-        IEXPAN = MY_SHIFTL(IEXPAN,5)
-        JTHE =  MY_SHIFTL(JTHE,6)
-        ISH3N  = MY_SHIFTL(ISH3N,11)
-        ICSEN = MY_SHIFTL(ICSEN,16)
-        NPN   = MY_SHIFTL(NPN,17)
-        IREP  = MY_SHIFTL(IREP,26)
-        ITHK  = MY_SHIFTL(ITHK,30)
-        IF(IXFEM > 0)IXFEM  = MY_SHIFTL(IXFEM,9)
+        IFAIL  = ISHFT(IFAIL,4)
+        IEXPAN = ISHFT(IEXPAN,5)
+        JTHE =  ISHFT(JTHE,6)
+        ISH3N  = ISHFT(ISH3N,11)
+        ICSEN = ISHFT(ICSEN,16)
+        NPN   = ISHFT(NPN,17)
+        IREP  = ISHFT(IREP,26)
+        ITHK  = ISHFT(ITHK,30)
+        IF(IXFEM > 0)IXFEM  = ISHFT(IXFEM,9)
 C
         ITRI(4,I)=ITHK+IREP+NPN+ICSEN+ISH3N+JTHE+IRB+IFAIL+IXFEM
 C---     Clef3 

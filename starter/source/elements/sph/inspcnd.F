@@ -81,7 +81,6 @@ C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER MY_OR
       my_real
      .         GET_U_GEO
       EXTERNAL GET_U_GEO
@@ -231,7 +230,7 @@ C               2 conditions already made + 1 condition:
                  IC1=J6(1)*4+J6(2)*2+J6(3)
                  IC2=0
                  IC=IC1*512+IC2*64
-                 ICODE(INOD)=MY_OR(IC,ICODE(INOD))
+                 ICODE(INOD)=IOR(IC,ICODE(INOD))
                ELSEIF(NC==1)THEN
 C---------------
                  K=7*J6(3)+4*J6(2)+J6(1)
@@ -277,7 +276,7 @@ C---------------
                  IC1=J6(1)*4+J6(2)*2+J6(3)
                  IC2=0
                  IC=IC1*512+IC2*64
-                 ICODE(INOD)=MY_OR(IC,ICODE(INOD))
+                 ICODE(INOD)=IOR(IC,ICODE(INOD))
                ELSEIF(NC==0)THEN
                  DO K=1,9
                   SKEW(K,ISK)=XFRAME(K,IFR)
@@ -289,7 +288,7 @@ C---------------
                  ENDIF
                  IC2=0
                  IC=IC1*512+IC2*64
-                 ICODE(INOD)=MY_OR(IC,ICODE(INOD))
+                 ICODE(INOD)=IOR(IC,ICODE(INOD))
                ENDIF
  888        CONTINUE
           ENDIF
