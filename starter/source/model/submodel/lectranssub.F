@@ -240,7 +240,6 @@ C
           ENDIF
 c
           IF (N0 > 0 .OR. N1 > 0) THEN
-            ISK = 0
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
             IF (I0 == 0) THEN
