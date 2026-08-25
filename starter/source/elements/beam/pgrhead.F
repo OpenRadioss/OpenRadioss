@@ -83,8 +83,8 @@ C-----------------------------------------------
       INTEGER :: I, K,  MLN, ISSN, NN, MID, PID,IGTYP
       INTEGER :: II, J, II2,JJ2,JJ,II3,JJ3,II4,JJ4,II5,JJ5,NPG,MODE
       INTEGER ::  WORK(70000)
-      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND,IPRLD
-      EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
+      INTEGER MY_AND,IPRLD
+      EXTERNAL MY_AND
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   global sorting on all criteria for all elements
 C----------------------------------------------------------
@@ -122,11 +122,11 @@ C
         JTHE = NINT(PM(71,MID))
         IEXPAN = IPM(218,MID)
 c
-        IGTYP = MY_SHIFTL(IGTYP,12)
-        ISSN  = MY_SHIFTL(ISSN,6)
-        JTHE  = MY_SHIFTL(JTHE,9)
-        IEXPAN  = MY_SHIFTL(IEXPAN,12)
-        MLN   = MY_SHIFTL(MLN,21)
+        IGTYP = ISHFT(IGTYP,12)
+        ISSN  = ISHFT(ISSN,6)
+        JTHE  = ISHFT(JTHE,9)
+        IEXPAN  = ISHFT(IEXPAN,12)
+        MLN   = ISHFT(MLN,21)
 C
         ITRI(1,I) = MLN + IGTYP + ISSN + JTHE + IEXPAN
         ITRI(2,I) = IPOUOFF(I)
@@ -140,7 +140,7 @@ C
           END IF
         END IF
 C       JSMS = MY_SHIFTL(JSMS,0)
-        NPG  = MY_SHIFTL(NPG,12)
+        NPG  = ISHFT(NPG,12)
         ITRI(3,I) = JSMS+NPG
 C       NEXT = MY_SHIFTL(NEXT,1)
      

@@ -78,8 +78,6 @@ C-----------------------------------------------
      .        I, K, ISSN, NN, MID, PID ,
      .        II, J, II2,JJ2,JJ, II3, JJ3,
      .        MSKMTN,MSKISN,MSKPID, MODE, WORK(70000)
-      EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
-      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
 C
       DATA MSKMTN /O'07770000000'/
       DATA MSKISN /O'00000000700'/
@@ -125,8 +123,8 @@ C
         ISSN = 0
         IF(GEO(5,PID)/=ZERO) ISSN=1
 C        
-        ISSN=MY_SHIFTL(ISSN,6)
-        MTN=MY_SHIFTL(MTN,21)
+        ISSN=ISHFT(ISSN,6)
+        MTN=ISHFT(MTN,21)
 C
         ITRI(1,I)=MTN+ISSN
         ITRI(2,I)=PID

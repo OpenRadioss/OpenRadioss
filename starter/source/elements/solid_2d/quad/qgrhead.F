@@ -101,8 +101,8 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER WORK(70000)
-      EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
-      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
+      EXTERNAL MY_AND
+      INTEGER MY_AND
       integer, dimension(:), allocatable :: index2
 C
       DATA MSKMLN /O'07770000000'/
@@ -214,28 +214,28 @@ C IRB = 2: Elem inactive but optimized to be active in SPMD
 C
 C Npt = 1;Jhbe = 0;Jivf = 0 and jlag not used
 C Key 1---------------------------------
-        JPOR=MY_SHIFTL(JPOR,0)
-        JTHE=MY_SHIFTL(JTHE,3)
-        JTUR=MY_SHIFTL(JTUR,6)
-        JEUL=MY_SHIFTL(JEUL,9)
-        JALE=MY_SHIFTL(JALE,12)
-        MLN=MY_SHIFTL(MLN,21)
+        JPOR=ISHFT(JPOR,0)
+        JTHE=ISHFT(JTHE,3)
+        JTUR=ISHFT(JTUR,6)
+        JEUL=ISHFT(JEUL,9)
+        JALE=ISHFT(JALE,12)
+        MLN=ISHFT(MLN,21)
 c        IRB=MY_SHIFTL(IRB,0)
         ITRI(1,I)=MLN+JALE+JEUL+JTUR+JTHE+JPOR+IRB 
 C Key 2---------------------------------
-        IPLAST=MY_SHIFTL(IPLAST,0)
-        IFAIL = MY_SHIFTL(IFAIL,3)
-        ML1=MY_SHIFTL(ML1,5)
-        ML2=MY_SHIFTL(ML2,13)
-        IGT=MY_SHIFTL(IGT,21)
-        JCVT=MY_SHIFTL(JCVT,28)
+        IPLAST=ISHFT(IPLAST,0)
+        IFAIL = ISHFT(IFAIL,3)
+        ML1=ISHFT(ML1,5)
+        ML2=ISHFT(ML2,13)
+        IGT=ISHFT(IGT,21)
+        JCVT=ISHFT(JCVT,28)
         ITRI(2,I)=IPLAST+ML1+ML2+IGT+JCVT + IFAIL
 C Key 3---------------------------------
         ITRI(3,I)=MID
 C Key 4---------------------------------
         ITRI(4,I)=PID
 C Key 5---------------------------------
-        IEOS = MY_SHIFTL(IEOS,0) 
+        IEOS = ISHFT(IEOS,0)
 C       next = MY_SHIFTL(next,4) 
         ITRI(5,I)=IEOS
 

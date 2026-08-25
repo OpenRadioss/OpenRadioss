@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER MY_OR,CHECK_NEW,NGR2USR
+      INTEGER CHECK_NEW,NGR2USR
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C
@@ -197,7 +197,7 @@ C
           IF (ILAGM == 0) THEN
             DO J=1,IGRNOD(IGRS)%NENTITY
               NOSYS=IGRNOD(IGRS)%ENTITY(J)
-              ICODE(NOSYS)=MY_OR(IC,ICODE(NOSYS))
+              ICODE(NOSYS)=IOR(IC,ICODE(NOSYS))
               IF(ISKEW(NOSYS)==-1.OR.ISKEW(NOSYS)==IS)THEN
                 CHECK_NEW=IS
               ELSE

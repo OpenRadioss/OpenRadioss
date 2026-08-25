@@ -136,8 +136,8 @@ C-----------------------------------------------
       integer :: sh4tree_dim1,sh4tree_dim2
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKC
       my_real, DIMENSION(:), ALLOCATABLE :: ANGLE !(NUMELC)
-      EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
-      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
+      EXTERNAL MY_AND
+      INTEGER MY_AND
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSHEL
 C     REAL OR REAL*8
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE

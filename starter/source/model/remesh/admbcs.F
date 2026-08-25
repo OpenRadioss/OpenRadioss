@@ -58,8 +58,6 @@ C-----------------------------------------------
       INTEGER IP,NLEV,N1,N2,IC1,IC2,ICOD,IS1,IS2, 
      .        DIR, N
 C-----------------------------------------------
-      INTEGER MY_AND
-      EXTERNAL MY_AND
 C-----------------------------------------------
 C
       DO N=1,NUMELC0
@@ -71,7 +69,7 @@ C
             N2=IXC(MOD(DIR+1,4)+2,N)
             IC1 =ICODE(N1)
             IC2 =ICODE(N2)
-            ICOD=MY_AND(IC1,IC2)
+            ICOD=IAND(IC1,IC2)
             IF(ICOD/=0)THEN
               IS1=ISKEW(N1)
               IS2=ISKEW(N2)
@@ -99,7 +97,7 @@ C
             N2=IXTG(MOD(DIR+1,3)+2,N)
             IC1 =ICODE(N1)
             IC2 =ICODE(N2)
-            ICOD=MY_AND(IC1,IC2)
+            ICOD=IAND(IC1,IC2)
             IF(ICOD/=0)THEN
               IS1=ISKEW(N1)
               IS2=ISKEW(N2)
@@ -153,8 +151,6 @@ C-----------------------------------------------
       INTEGER LEVEL,IP,NLEV
       INTEGER SON,M1,M2
 C-----------------------------------------------
-      INTEGER MY_OR
-      EXTERNAL MY_OR
 C-----------------------------------------------
       LEVEL=SH4TREE(3,N)
       IF(LEVEL<0)THEN
@@ -173,8 +169,8 @@ C-----------------------------------------------
       ELSE
         M1=IXC(DIR+2,N)
         M2=IXC(MOD(DIR+1,4)+2,N)
-        ICODE(M1)=MY_OR(ICOD,ICODE(M1))
-        ICODE(M2)=MY_OR(ICOD,ICODE(M2))
+        ICODE(M1)=IOR(ICOD,ICODE(M1))
+        ICODE(M2)=IOR(ICOD,ICODE(M2))
         ISKEW(M1)=ISK
         ISKEW(M2)=ISK
       END IF
@@ -212,8 +208,6 @@ C-----------------------------------------------
       INTEGER LEVEL,IP,NLEV
       INTEGER SON, M1, M2
 C-----------------------------------------------
-      INTEGER MY_OR
-      EXTERNAL MY_OR
 C-----------------------------------------------
       LEVEL=SH3TREE(3,N)
       IF(LEVEL<0)THEN
@@ -232,8 +226,8 @@ C-----------------------------------------------
       ELSE
         M1=IXTG(DIR+2,N)
         M2=IXTG(MOD(DIR+1,3)+2,N)
-        ICODE(M1)=MY_OR(ICOD,ICODE(M1))
-        ICODE(M2)=MY_OR(ICOD,ICODE(M2))
+        ICODE(M1)=IOR(ICOD,ICODE(M1))
+        ICODE(M2)=IOR(ICOD,ICODE(M2))
         ISKEW(M1)=ISK
         ISKEW(M2)=ISK
       END IF

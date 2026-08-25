@@ -81,8 +81,6 @@ C-----------------------------------------------
      .        I, K, NN, MID, PID ,
      .        II, J, II2,JJ2,JJ, II3, JJ3,
      .        MODE, WORK(70000),NCTRL,MLN,JALE_FROM_MAT,JALE_FROM_PROP
-      EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
-      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
       my_real
      .    KNOTLOCELINDX(SKNOTLOCEL)
 C

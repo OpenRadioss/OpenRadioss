@@ -79,8 +79,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  MY_SHIFTL,MY_SHIFTR,MY_AND
-      EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
+      INTEGER  MY_AND
+      EXTERNAL MY_AND
       my_real, EXTERNAL :: GET_U_GEO
 C-----------------------------------------------
 
@@ -160,28 +160,28 @@ C
         IFAIL = 0
         IF (MAT_PARAM(MT)%NFAIL > 0) IFAIL = 1
 C Key 1
-        JTHE=MY_SHIFTL(JTHE,1)
-        JTUR=MY_SHIFTL(JTUR,2)
-        JEUL=MY_SHIFTL(JEUL,3)
-        JLAG=MY_SHIFTL(JLAG,4)
-        JALE=MY_SHIFTL(JALE,5)
+        JTHE=ISHFT(JTHE,1)
+        JTUR=ISHFT(JTUR,2)
+        JEUL=ISHFT(JEUL,3)
+        JLAG=ISHFT(JLAG,4)
+        JALE=ISHFT(JALE,5)
 C        ISSN=MY_SHIFTL(ISSN,6)
 C        JHBE=MY_SHIFTL(JHBE,9)
 C        JPOR=MY_SHIFTL(JPOR,12)
 ! do not sort in the following cases
         IF(MLN<28.OR.MLN==36.OR.MLN==46.OR.MLN==47)MLN=0
-        MLN   = MY_SHIFTL(MLN,21)
-        IFAIL = MY_SHIFTL(IFAIL,31)
+        MLN   = ISHFT(MLN,21)
+        IFAIL = ISHFT(IFAIL,31)
         ITRI(2,I)=MLN+JALE+JLAG+JEUL+JTUR+JTHE+IFAIL
 C
         ITRI(3,I)=NG
 C
         ITRI(4,I)=MT
 C Key 4
-        IORDER= MY_SHIFTL(IORDER,0)
-        ISORTH= MY_SHIFTL(ISORTH,2)
-        ISRAT = MY_SHIFTL(ISRAT,3)
-        IEOS  = MY_SHIFTL(IEOS,5) 
+        IORDER= ISHFT(IORDER,0)
+        ISORTH= ISHFT(ISORTH,2)
+        ISRAT = ISHFT(ISRAT,3)
+        IEOS  = ISHFT(IEOS,5)
 C       next  = MY_SHIFTL(next,9) 
         ITRI(5,I)=IORDER+ISRAT+ISORTH+IEOS
 C Key5 5
