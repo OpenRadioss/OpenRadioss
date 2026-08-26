@@ -36,6 +36,9 @@ set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libl
 #metis
 set (metis_lib "${source_directory}/../extlib/metis/linux64/libmetis_linux64_gcc.a ")
 
+#H3D
+set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
+
 #ZLIB
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
@@ -86,10 +89,10 @@ if ( debug STREQUAL "1" )
 set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS " -Wall ${fort_flags} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 -g -O0 -fbacktrace ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${h3d_inc} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g -std=c++14 " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${h3d_inc} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g -std=c++14 " )
 
 
 else ()
@@ -99,10 +102,10 @@ else ()
 set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${fort_flags} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 -O2 ${ADF}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${h3d_inc} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -std=c++14 " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${h3d_inc} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -std=c++14 " )
 
 endif()
 
