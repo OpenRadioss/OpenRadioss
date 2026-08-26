@@ -118,6 +118,7 @@ C------
         JNOD=IXSP(J,N)
         IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
+          IF(M<=0) CYCLE
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
           ZJ=X(3,JNOD)
@@ -127,7 +128,7 @@ C------
           RHOJ=WA(10,M)
           VJ=SPBUF(12,M)/MAX(EM20,RHOJ)
           TJ=WTEMP(M)
-        ELSE
+        ELSEIF(JNOD<0)THEN
           NN = -JNOD
           XJ=XSPHR(3,NN)
           YJ=XSPHR(4,NN)
@@ -138,6 +139,8 @@ C------
           RHOJ=XSPHR(7,NN)
           VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
           TJ=WTR(NN)
+        ELSE
+          CYCLE
         END IF
         WGRDX=WGRAD(1)*ALPHAI+WGHT*ALPHAXI
      .       +WGRAD(1)*BETAXXI+WGRAD(2)*BETAXYI+WGRAD(3)*BETAXZI
@@ -335,6 +338,7 @@ C------
         JNOD=IXSP(J,N)
         IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
+          IF(M<=0) CYCLE
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
           ZJ=X(3,JNOD)
@@ -407,7 +411,7 @@ C
      . -LAMBDA(M)*(GRADTXJ*WGRD(1)+GRADTYJ*WGRD(2)+GRADTZJ*WGRD(3))
      . +LAMBDA(N)*(GRADTXI*WGRAD(1)+GRADTYI*WGRAD(2)+GRADTZI*WGRAD(3)))
 C--------
-        ELSE
+        ELSEIF(JNOD<0)THEN
           NN = -JNOD
           XJ=XSPHR(3,NN)
           YJ=XSPHR(4,NN)
@@ -480,6 +484,8 @@ C
           WLAPLT(N)=WLAPLT(N)+VJ*( 
      . -LAMBDR(NN)*(GRADTXJ*WGRD(1)+GRADTYJ*WGRD(2)+GRADTZJ*WGRD(3))
      . +LAMBDA(N)*(GRADTXI*WGRAD(1)+GRADTYI*WGRAD(2)+GRADTZI*WGRAD(3)))
+        ELSE
+          CYCLE
         END IF
 C--------
        END DO

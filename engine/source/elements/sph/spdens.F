@@ -141,6 +141,7 @@ C------
         JNOD=IXSP(J,N)
         IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
+          IF(M<=0.OR.M>NUMSPH) CYCLE
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
           ZJ=X(3,JNOD)
@@ -152,8 +153,9 @@ C------
           VZJ=V(3,JNOD)
           RHOJ=WA(10,M)
           VJ=SPBUF(12,M)/MAX(EM20,RHOJ)
-        ELSE
+        ELSEIF(JNOD<0)THEN
           NN = -JNOD
+          IF(NN>NSPHR) CYCLE
           XJ=XSPHR(3,NN)
           YJ=XSPHR(4,NN)
           ZJ=XSPHR(5,NN)
@@ -165,6 +167,8 @@ C------
           VZJ=XSPHR(11,NN)
           RHOJ=XSPHR(7,NN)
           VJ=XSPHR(8,NN)/MAX(EM20,RHOJ)
+        ELSE
+          CYCLE
         END IF
         WGRDX=WGRAD(1)*ALPHAI+WGHT*ALPHAXI
      .       +WGRAD(1)*BETAXXI+WGRAD(2)*BETAXYI+WGRAD(3)*BETAXZI

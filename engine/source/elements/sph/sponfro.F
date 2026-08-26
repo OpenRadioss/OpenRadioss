@@ -90,6 +90,7 @@ C         closer neighbor upstream of the outlet.
            JNOD=IXSP(K,N)
            IF(JNOD>0)THEN          ! particule locale
              M=NOD2SP(JNOD)
+             IF(M<=0) CYCLE
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              lBOOL=.FALSE.
              IF(JMPOSE == 0)THEN
@@ -107,7 +108,7 @@ C         closer neighbor upstream of the outlet.
                 DMIN=DD
                ENDIF
              ENDIF
-           ELSE
+           ELSEIF(JNOD<0)THEN
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
              IF(JMPOSE>0)THEN
@@ -125,12 +126,15 @@ C         closer neighbor upstream of the outlet.
                 DMIN=DD
                ENDIF
              ENDIF  
+           ELSE
+             CYCLE
            ENDIF
           ENDDO
 C-------
 C         d(rho)/dt=- rho * div(V) utilise div(V) calcule en IPPV.
           IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
+            IF(NP<=0) CYCLE
             DXX =WA_EPSD(1,NP)
             DYY =WA_EPSD(2,NP)
             DZZ =WA_EPSD(3,NP)
@@ -140,7 +144,7 @@ C         d(rho)/dt=- rho * div(V) utilise div(V) calcule en IPPV.
             DYX =WA_EPSD(7,NP)
             DZY =WA_EPSD(8,NP)
             DZX =WA_EPSD(9,NP)
-          ELSE
+          ELSEIF(IPPV<0)THEN
 c remote neigbourg, get values from SPMD_SPHGETWA
             DXX =WAR2(1,-IPPV)
             DYY =WAR2(2,-IPPV)
@@ -151,6 +155,8 @@ c remote neigbourg, get values from SPMD_SPHGETWA
             DYX =WAR2(7,-IPPV)
             DZY =WAR2(8,-IPPV)
             DZX =WAR2(9,-IPPV)
+          ELSE
+            CYCLE
           ENDIF
 
           DIVV=DXX+DYY+DZZ

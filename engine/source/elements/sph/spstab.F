@@ -99,20 +99,24 @@ C         <=> zstab/= 0 and there is neighbor to take into account in Sporcp.f
            JNOD=IXSP(J,N)
            IF(JNOD>0)THEN
             M=NOD2SP(JNOD)
+            IF(M<=0) CYCLE
 C
 C Solids to SPH, no interaction if both particles are inactive
             IF(KXSP(2,N)>0.OR.KXSP(2,M)>0)THEN
               IACT=1
               EXIT
             END IF
-           ELSE                           ! cellule remote
+           ELSEIF(JNOD<0)THEN
             NN = -JNOD
+              IF(NN>NSPHR) CYCLE
 C
 C Solidds to SPH, no interaction if both particles are inactive
             IF(KXSP(2,N)>0.OR.XSPHR(13,NN)>0)THEN
               IACT=1
               EXIT
             END IF
+           ELSE
+            CYCLE
            END IF
           END DO
           IF(IACT==1) THEN

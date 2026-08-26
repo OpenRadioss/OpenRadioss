@@ -28,8 +28,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       MODULE MOD_SPBUC3
       implicit none
-      INTEGER*8, DIMENSION(:), ALLOCATABLE ::  IV
-      INTEGER, DIMENSION(:), ALLOCATABLE ::  KV,NV,IVS,
+      INTEGER*8, DIMENSION(:), ALLOCATABLE ::  IV,IVS
+      INTEGER, DIMENSION(:), ALLOCATABLE ::  KV,NV,
      .                                       IAUX,KXSPR
       INTEGER, DIMENSION(:,:), ALLOCATABLE ::  IXSPR
 
@@ -88,6 +88,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, N, INOD,JNOD,NVOIS,NVOIS1,NVOIS2,K,M,NN,NS,MS,JK,IERROR,JTASK,MY_ADRV,NVOISS
+      INTEGER(KIND=8) :: IAUX_SIZE
       my_real :: MARGE, AAA, AAA2, XI,YI,ZI,XJ,YJ,ZJ, D2,D1X,D1Y,D1Z,DK
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
@@ -171,14 +172,10 @@ C--------------------------------------------------
 c     CALL MY_BARRIER fait dans SPTRIVOX
       IF(ITASK==0)THEN
 
-        ALLOCATE(NV(NUMSPH*NTHREAD),IV(NUMSPH*NTHREAD),IVS(NUMSPH),
-     .           KV(NUMSPH),IAUX(KVOISPH*(NUMSPH+NSNR)),
-     .           STAT=IERROR)
-
-        IF(IERROR/=0)THEN
-          CALL ANCMSG(MSGID=248,ANMODE=ANINFO_BLIND)
-          CALL ARRET(2)
-        END IF
+        ALLOCATE(NV(NUMSPH*NTHREAD))
+        ALLOCATE(IV(NUMSPH*NTHREAD))
+        ALLOCATE(IVS(NUMSPH))
+        ALLOCATE(KV(NUMSPH))
       END IF
 C
       CALL MY_BARRIER
@@ -245,6 +242,17 @@ C-------
             IV(NS+1)=IV(NS+1)+NV((JTASK-1)*NUMSPH+NS)
           END DO
         END DO
+C
+C       Compute exact IAUX size from IV/NV and allocate
+        IAUX_SIZE = IV(NSP2SORT)
+        DO JTASK=1,NTHREAD
+          IAUX_SIZE = IAUX_SIZE + NV((JTASK-1)*NUMSPH+NSP2SORT)
+        END DO
+        ALLOCATE(IAUX(MAX(1_8,IAUX_SIZE)), STAT=IERROR)
+        IF(IERROR/=0)THEN
+          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+          CALL ARRET(2)
+        END IF
 
       END IF
 C-------        
@@ -328,6 +336,7 @@ C-------
             AAA = SPBUF(1,N)+SPBUF(1,M)
           ELSE
             NN=-JNOD
+            XSPHR(1,NN) = -ABS(XSPHR(1,NN))
             XJ = XSPHR(3,NN)
             YJ = XSPHR(4,NN)
             ZJ = XSPHR(5,NN)
@@ -365,12 +374,18 @@ C To do: Perfect symet <=> x (hmin) -x (hmax)
             YJ = X(2,JNOD)
             ZJ = X(3,JNOD)
             AAA = SPBUF(1,N)+SPBUF(1,M)
-          ELSE
+          ELSEIF(JNOD < 0) THEN
             NN=-JNOD
+            XSPHR(1,NN) = -ABS(XSPHR(1,NN)) ! flag remote cell as useful
             XJ = XSPHR(3,NN)
             YJ = XSPHR(4,NN)
             ZJ = XSPHR(5,NN)
             AAA = SPBUF(1,N)+XSPHR(2,NN)
+          ELSE
+C           JNOD==0: invalid entry, assign large distance for later filtering
+            JVOIS(KXSP(5,N)+K)=JNOD
+            DVOIS(KXSP(5,N)+K)=HUGE(AAA)
+            CYCLE
           ENDIF
 
           AAA2 = AAA*AAA
