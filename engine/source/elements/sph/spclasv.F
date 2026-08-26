@@ -226,6 +226,7 @@ C
            NVOIS  =KXSP(5,N)
            NVOISS1=KXSP(6,N)
            NVOISS =KXSP(7,N)
+           IF(NVOIS<=0) CYCLE
            INOD=KXSP(3,N)
            XI=X(1,INOD)
            YI=X(2,INOD)
@@ -240,18 +241,23 @@ C          we are necessarily closer to the real particle than to the phantom pa
              YJ=X(2,JNOD)
              ZJ=X(3,JNOD)
              DJ=SPBUF(1,M)
-           ELSE
+           ELSEIF(JNOD<0)THEN
              NN = -JNOD
              XJ=XSPHR(3,NN)
              YJ=XSPHR(4,NN)
              ZJ=XSPHR(5,NN)
              DJ=XSPHR(2,NN)
+           ELSE
+C            JNOD==0: corrupted neighbor entry, skip
+             CYCLE
            END IF
            DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
            DMS =DI+DJ
            DMS2=DMS*DMS
-           DK=DD/DMS2
-           MYSPATRUE=MAX(ZERO,MIN(MYSPATRUE,DK-ONE))
+           IF(DMS2>ZERO) THEN
+             DK=DD/DMS2
+             MYSPATRUE=MAX(ZERO,MIN(MYSPATRUE,DK-ONE))
+           END IF
          END IF
 C
        END DO

@@ -160,6 +160,7 @@ C----------------------------------
          JNOD=IXSP(J,N)
          IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
+          IF(M<=0) CYCLE
 C
 C Solids to SPH, no interaction if both particles are inactive
           IF(KXSP(2,N)<=0.AND.KXSP(2,M)<=0)CYCLE
@@ -332,7 +333,7 @@ C           K*= fv divided by dl (c = fv divided by v)
             STIJ =STIJ/MAX(EM20,SFAC*SFAC)
             WA(7,N)=WA(7,N)+STIJ*(ONE+WI)
           ENDIF
-         ELSE                           ! cellule remote
+         ELSE IF(JNOD<0)THEN            ! cellule remote
           NN = -JNOD
 C
 C Solids to SPH, no interaction if both particles are inactive
@@ -507,6 +508,8 @@ C           K*= fv divided by dl (c = fv divided by v)
             STIJ =STIJ/MAX(EM20,SFAC*SFAC)
             WA(7,N)=WA(7,N)+STIJ*(ONE+WI)
           ENDIF
+         ELSE
+          CYCLE
          END IF
 C
          FX=FX+FVX
@@ -711,7 +714,7 @@ C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS
-          ELSE                      ! Symmetrical particle particle Remote
+          ELSE IF(JS<0)THEN           ! Symmetrical particle particle Remote
            SM=-JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
@@ -899,6 +902,8 @@ C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS
+          ELSE
+           CYCLE
           END IF
  200    CONTINUE
 C-------

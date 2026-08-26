@@ -147,6 +147,7 @@ C
            JNOD=IXSP(J,N)
            IF(JNOD>0)THEN
              M=NOD2SP(JNOD)
+             IF(M<=0) CYCLE
              IF(KXSP(2,M)>=0)THEN
               JMPOSE=KXSP(2,M)/(NGROUP+1)
               lBOOL=.FALSE.
@@ -166,7 +167,7 @@ C
                ENDIF
               ENDIF
              ENDIF
-           ELSE
+           ELSEIF(JNOD<0)THEN
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
              IF(JMPOSE>0)THEN
@@ -184,6 +185,8 @@ C
                 DMIN=DD
                ENDIF
              ENDIF
+           ELSE
+             CYCLE
            ENDIF
           ENDDO
 C
@@ -272,6 +275,7 @@ C-------
           JNOD=IXSP(J,N)
           IF(JNOD>0)THEN
             M=NOD2SP(JNOD)
+            IF(M<=0) CYCLE
             IF(KXSP(2,M)>=0)THEN
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              lBOOL=.FALSE.
@@ -291,7 +295,7 @@ C-------
               ENDIF
              ENDIF
             ENDIF
-          ELSE
+          ELSEIF(JNOD<0)THEN
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
              IF(JMPOSE>0)THEN
@@ -309,6 +313,8 @@ C-------
                 DMIN=DD
                ENDIF
              ENDIF
+          ELSE
+             CYCLE
           ENDIF
          ENDDO
 C-------

@@ -93,6 +93,7 @@ C-----------------------------------------------
 
 C compaction of structures
 C
+      INDEX = 0
       IDEB = 0
       NN = 0
       DO P = 1, NSPMD
@@ -183,6 +184,10 @@ C
         NVOIS2 = KXSP(5,N)
         DO NN = 1, NVOIS1
           IF(IXSP(NN,N)<ZERO) THEN
+            IF(INDEX(-IXSP(NN,N))==0) THEN
+              IXSP(NN,N) = 0
+              CYCLE
+            END IF
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
 C flag distinguishing active cells from others
@@ -191,6 +196,10 @@ C flag distinguishing active cells from others
         END DO
         DO NN = NVOIS1+1,NVOIS2
           IF(IXSP(NN,N)<ZERO) THEN
+            IF(INDEX(-IXSP(NN,N))==0) THEN
+              IXSP(NN,N) = 0
+              CYCLE
+            END IF
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
           END IF
@@ -206,6 +215,10 @@ C
         NVOIS2 = KXSP(5,N)
         DO NN = 1, NVOIS1
           IF(IXSP(NN,N)<ZERO) THEN
+            IF(INDEX(-IXSP(NN,N))==0) THEN
+              IXSP(NN,N) = 0
+              CYCLE
+            END IF
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
 C flag distinguishing active cells from others
@@ -214,6 +227,10 @@ C flag distinguishing active cells from others
         END DO
         DO NN = NVOIS1+1,NVOIS2
           IF(IXSP(NN,N)<ZERO) THEN
+            IF(INDEX(-IXSP(NN,N))==0) THEN
+              IXSP(NN,N) = 0
+              CYCLE
+            END IF
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
           END IF
