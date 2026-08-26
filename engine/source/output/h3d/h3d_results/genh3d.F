@@ -2154,7 +2154,7 @@ C CREATE RESULTS DATAS
 C**********************************************************************************************
         IF(ISPMD==0.AND. ( H3D_DATA%IH3D_RUN == 1)) THEN
           CALL STARTIME(TIMERS,MACRO_TIMER_LIBH3D)
-          CALL H3D_CREATE_DATATYPE(H3D_DATA,IPARI)
+          CALL H3D_CREATE_DATATYPE(H3D_DATA,IPARI,OUTPUT)
 C
 c**********************************************************************************************
 C FINALIZE FORMAT
