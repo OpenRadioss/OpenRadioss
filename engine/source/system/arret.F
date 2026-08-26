@@ -474,6 +474,8 @@ C-----------------------------------------------
       INTEGER IFIL
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
+      INTEGER :: LEN_TMP_NAME_H3D
+      CHARACTER(len=2148), TARGET :: TMP_NAME_H3D
       INTEGER :: IZIP
 C-----------------------------------------------
 C Different End Values
@@ -496,7 +498,17 @@ C ----------------------------------------------
 C TEMPO FILES Clean
 C-----------------------------------------------
        IF(ISPMD == 0 )THEN
-         IF(IS_H3D_USED) CALL C_H3D_CLOSE_FILE()
+         IF(IS_H3D_USED) THEN
+           CALL C_H3D_CLOSE_FILE()
+           IF (OUTPUT_PTR%CHECKSUM%CHECKSUM_COUNT > 0) THEN
+             TMP_NAME_H3D=ROOTNAM(1:ROOTLEN)//'.h3d'
+             LEN_TMP_NAME_H3D=ROOTLEN+4
+             IZIP=0
+             CALL COMPUTE_BINARY_CHECKSUM(
+     .            OUTPUT_PTR%CHECKSUM%FILES_CHECKSUM,
+     .            C_LOC(TMP_NAME_H3D),LEN_TMP_NAME_H3D,IZIP)
+           ENDIF
+         ENDIF
        ENDIF
 C -----------------------------------------------
 C TH FILES
