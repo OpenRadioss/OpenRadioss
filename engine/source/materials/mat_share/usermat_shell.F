@@ -1512,14 +1512,12 @@ c
 c
               CASE (38)     !    Orthotropic biquad
 c
-                CALL FAIL_ORTHBIQUAD_C(
-     1            JLT      ,NVARF   ,
-     2            TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
+                CALL FAIL_ORTHBIQUAD_C(mat_elem%mat_param(imat)%fail(ifl),
+     1            JLT      ,NVARF    ,nvarftmp,UVARF    ,vartmp   ,
+     2            TT       ,NGL      ,IPT     ,MPT      ,IPG      ,
      3            SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4            DPLA     ,EPSPL   ,UVARF    ,UELR1    ,
-     5            OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC_FAIL,
-     6            IFUNC_FAIL,NPF    ,TF       ,EL_LEN   ,FOFF     , 
-     7            IPG      )
+     4            DPLA     ,EPSPL   ,UELR1    ,EL_LEN   ,FOFF     ,
+     5            OFF      ,OFFL    ,DFMAX    ,TDEL     )
 c
               CASE (39)     !    GENE1
 c

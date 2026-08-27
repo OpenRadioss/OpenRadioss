@@ -38,8 +38,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_ORTHBIQUAD(
-     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           TITR    ,LSUBMODEL,UNITAB   )
+     .           FAIL    ,TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           NTABLE  ,TABLE    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Orthotropic strain  failure model
@@ -52,11 +52,14 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use table_mod
+      use func_table_copy_mod
       use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-      use my_dealloc_mod, only : my_dealloc
+
 #include      "implicit_f.inc"
 C----------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
@@ -68,17 +71,19 @@ C-----------------------------------------------
       INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
       INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
       INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
-      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR     ! material model title
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITLE    ! material model title
       TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
       TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
+      integer            ,intent(in)    :: ntable       !< number of function tables in Radioss input
+      type(ttable) ,dimension(ntable) ,intent(in) :: table      !< input table array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NANGLE,I,J,K,INFO,REG_FUNC,MFLAG,SFLAG,RATE_FUNC,NFUNC,NUPARAM,NUVAR
+      INTEGER :: NANGLE,I,J,K,INFO,REG_FUNC,MFLAG,SFLAG,RATE_FUNC,NFUNC,NUPARAM,IERROR
       INTEGER :: IPIV2(2),IPIV3(3)
-      INTEGER ,PARAMETER :: NSIZE = 2
-      INTEGER ,DIMENSION(NSIZE) :: IFUNC
+      INTEGER ,PARAMETER    :: NSIZE = 2
+      INTEGER ,DIMENSION(1) :: IFUNC
       my_real :: PTHK,REF_SIZ,REF_SIZ_UNIT,EPSD0,CJC,RATE_SCALE,REF_RATE_UNIT,
      .    R1,R2,R4,R5,C5,C5_MIN,THETA_MYREAL
       my_real, DIMENSION(:), ALLOCATABLE :: C1,C2,C3,C4,INST
@@ -92,6 +97,10 @@ C-----------------------------------------------
       DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: X_1,X_2,AMAT,BVEC
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPIV
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
+      integer, dimension(1) :: func_id  
+      my_real :: x1scale,x2scale
+      my_real, dimension(1) :: x2vect,yscale      
+!
       DATA TRIAX_1_LIN, TRIAX_2_LIN, TRIAX_3_LIN, TRIAX_4_LIN,
      .     TRIAX_5_LIN 
      .      / -0.33333333, 0.0, 0.33333333, 0.577350269, 0.66666667 /
@@ -132,7 +141,7 @@ C     EXTRACT DATA
       ! Error message
       IF (NANGLE > 10) THEN 
         CALL ANCMSG(MSGID=2015,MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)      
+     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITLE)      
       ENDIF 
       CALL HM_GET_INTV   ('fct_IDel' ,REG_FUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EI_ref'   ,REF_SIZ     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -204,11 +213,11 @@ C     EXTRACT DATA
             CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_INST',INST(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF (INST(J) <= ZERO)   THEN
               CALL ANCMSG(MSGID=2016,MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)    
+     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITLE)    
               SFLAG = 2
             ELSEIF (INST(J) >= C4(J)) THEN
               CALL ANCMSG(MSGID=2017,MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
+     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITLE)
               SFLAG = 2
             ENDIF           
           ENDIF
@@ -292,11 +301,11 @@ C     EXTRACT DATA
             CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_INST',INST(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF (INST(J) <= ZERO)   THEN
               CALL ANCMSG(MSGID=2016,MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)    
+     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITLE)    
               SFLAG = 2
             ELSEIF (INST(J) >= C4(J)) THEN
               CALL ANCMSG(MSGID=2017,MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
+     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITLE)
               SFLAG = 2
             ENDIF           
           ENDIF
@@ -381,7 +390,7 @@ c
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
-     .                C1=TITR,
+     .                C1=TITLE,
      .                I2=J,
      .                R1=THETA_MYREAL)          
         ENDIF
@@ -396,7 +405,7 @@ c
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
-     .                  C1=TITR,
+     .                  C1=TITLE,
      .                  I2=J,
      .                  R1=THETA_MYREAL)              
           ENDIF
@@ -477,24 +486,12 @@ c
 c
 c----------------------------------
       ! -> Number of parameters
-      NUPARAM = 7
+      NUPARAM = 5
       IF (SFLAG == 3) THEN 
         NUPARAM = NUPARAM + 7*NANGLE
       ELSE
         NUPARAM = NUPARAM + 6*NANGLE
       ENDIF
-      ! -> Number of functions
-      NFUNC   = 0
-      IF (RATE_FUNC /= 0) THEN 
-        NFUNC = NFUNC + 1
-        IFUNC(NFUNC) = RATE_FUNC
-      ENDIF
-      IF (REG_FUNC /= 0) THEN 
-        NFUNC = NFUNC + 1 
-        IFUNC(NFUNC) = REG_FUNC
-      ENDIF
-      ! -> Number of user variables
-      NUVAR = 3   
 C======================================================================================
 c     Filling buffer tables
 C======================================================================================
@@ -502,10 +499,12 @@ C===============================================================================
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = NUPARAM
-      FAIL%NIPARAM = 0
-      FAIL%NUVAR   = NUVAR
-      FAIL%NFUNC   = NFUNC
+      FAIL%NIPARAM = 2
+      FAIL%NUVAR   = 3         !< Number of user variables
+      FAIL%NVARTMP = 2         !< Number of temporary variables
+      FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
+      FAIL%NTABLE4D= 2
       FAIL%NMOD    = 0
       FAIL%PTHK    = PTHK
 c            
@@ -513,36 +512,57 @@ c
       call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
       call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
       call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
 c
-      FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
+      FAIL%IPARAM(1) = SFLAG
+      FAIL%IPARAM(2) = NANGLE
 c
       FAIL%UPARAM(1) = PTHK
-      FAIL%UPARAM(2) = SFLAG
-      FAIL%UPARAM(3) = REF_SIZ
-      FAIL%UPARAM(4) = EPSD0
-      FAIL%UPARAM(5) = CJC
-      FAIL%UPARAM(6) = RATE_SCALE
-      FAIL%UPARAM(7) = NANGLE
+      FAIL%UPARAM(2) = REF_SIZ
+      FAIL%UPARAM(3) = EPSD0
+      FAIL%UPARAM(4) = CJC
+
       IF (SFLAG == 3) THEN 
         DO J = 1,NANGLE
-          FAIL%UPARAM(8  + 7*(J-1)) = Q_X11(J)
-          FAIL%UPARAM(9  + 7*(J-1)) = Q_X12(J)
-          FAIL%UPARAM(10 + 7*(J-1)) = Q_X13(J)
-          FAIL%UPARAM(11 + 7*(J-1)) = Q_X21(J)
-          FAIL%UPARAM(12 + 7*(J-1)) = Q_X22(J)
-          FAIL%UPARAM(13 + 7*(J-1)) = Q_X23(J)
-          FAIL%UPARAM(14 + 7*(J-1)) = Q_INST(J)
+          FAIL%UPARAM(5  + 7*(J-1)) = Q_X11(J)
+          FAIL%UPARAM(6  + 7*(J-1)) = Q_X12(J)
+          FAIL%UPARAM(7  + 7*(J-1)) = Q_X13(J)
+          FAIL%UPARAM(8  + 7*(J-1)) = Q_X21(J)
+          FAIL%UPARAM(9  + 7*(J-1)) = Q_X22(J)
+          FAIL%UPARAM(10 + 7*(J-1)) = Q_X23(J)
+          FAIL%UPARAM(11 + 7*(J-1)) = Q_INST(J)
         ENDDO    
       ELSE
         DO J = 1,NANGLE
-          FAIL%UPARAM(8  + 6*(J-1)) = Q_X11(J)
-          FAIL%UPARAM(9  + 6*(J-1)) = Q_X12(J)
-          FAIL%UPARAM(10 + 6*(J-1)) = Q_X13(J)
-          FAIL%UPARAM(11 + 6*(J-1)) = Q_X21(J)
-          FAIL%UPARAM(12 + 6*(J-1)) = Q_X22(J)
-          FAIL%UPARAM(13 + 6*(J-1)) = Q_X23(J)
+          FAIL%UPARAM(5  + 6*(J-1)) = Q_X11(J)
+          FAIL%UPARAM(6  + 6*(J-1)) = Q_X12(J)
+          FAIL%UPARAM(7  + 6*(J-1)) = Q_X13(J)
+          FAIL%UPARAM(8  + 6*(J-1)) = Q_X21(J)
+          FAIL%UPARAM(9  + 6*(J-1)) = Q_X22(J)
+          FAIL%UPARAM(10 + 6*(J-1)) = Q_X23(J)
         ENDDO          
       ENDIF
+! ----------------------------------------------------------------------------------------------------------------------
+      ! create local function tables using input functions
+      nfunc = 1
+      x2scale    = one
+      x2vect(:)  = zero
+      yscale(1)  = one
+      !     element size scale factor function
+      x1scale    = one
+      func_id(1) = reg_func
+      call func_table_copy(fail%table4d(1)  ,title   ,mat_id   ,      
+     1           nfunc   ,func_id  ,x2vect  ,x1scale ,      
+     1           x2scale  ,yscale  ,ntable  ,table   ,      
+     1           ierror  )
+
+      !     strain rate factor function
+      x1scale    = rate_scale
+      func_id(1) = rate_func
+      call func_table_copy(fail%table4d(2)  ,title   ,mat_id   ,      
+     1           nfunc   ,func_id  ,x2vect  ,x1scale ,      
+     1           x2scale  ,yscale  ,ntable  ,table   ,      
+     1           ierror  )
 c--------------------------
 c     Printout data
 c-------------------------- 

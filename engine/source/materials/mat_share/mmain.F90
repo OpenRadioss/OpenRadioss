@@ -2635,12 +2635,11 @@
 !
               else if (irupt == 38) then
 !  --- orthotropic biquadratic failure model
-                call fail_orthbiquad_s(&
-                &llt      ,nparam   ,nvarf    ,nfunc    ,ifunc    ,&
-                &npf      ,tf       ,tt       ,dt1      ,uparamf,&
-                &ngl      ,dpla     ,epsp     ,uvarf    ,off      ,&
-                &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &dfmax    ,tdel     ,el_len   )
+                call fail_orthbiquad_s(mat_elem%mat_param(imat)%fail(ir),&
+                llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,&
+                tt       ,ngl      ,dpla     ,epsp     ,off      ,&
+                ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
+                dfmax    ,tdel     ,el_len   )
 !
               else if (irupt == 39) then
 !  --- gene1 failure model

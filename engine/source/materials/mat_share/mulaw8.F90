@@ -1144,10 +1144,9 @@
 !
               elseif (irupt == 38) then
 !  --- orthotropic biquadratic failure model
-                call fail_orthbiquad_s(&
-                &llt      ,npar     ,nvarf    ,nfunc    ,ifunc    ,&
-                &npf      ,tf       ,tt       ,dt1      ,uparamf,&
-                &ngl      ,dpla     ,epsp1    ,uvarf    ,off      ,&
+                call fail_orthbiquad_s(mat_param(imat)%fail(ir),&
+                &llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,&
+                &tt       ,ngl      ,dpla     ,epsp1    ,off      ,&
                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
                 &dfmax    ,tdele    ,deltax   )
 !
