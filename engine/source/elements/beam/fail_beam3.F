@@ -181,13 +181,12 @@ c---------------
 c--------------- 
 
         CASE (30)     !    BIQUAD                                                  
-          CALL FAIL_BIQUAD_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
+          CALL FAIL_BIQUAD_B(FAIL         ,NEL      ,NGL      ,
+     .                       FAIL%NUVAR   ,FAIL%NVARTMP ,ELBUF_STR%GBUF%FAIL(1)%VAR, ELBUF_STR%GBUF%FAIL(1)%VARTMP,
      .                       TIME         ,SVM      ,PRESSURE ,
      .                       DPLA         ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
-     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  ,FAIL%IFUNC   ,
-     .                       NFUNC,SNPC     ,NPF     ,STF     ,TF,
-     .                       ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL,
-     .                       ELBUF_STR%GBUF%DMGSCL)
+     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  ,
+     .                       AL           ,ELBUF_STR%GBUF%DMGSCL)
 c---------------   
         CASE (36)     !    VISUAL                                           
          CALL FAIL_VISUAL_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,

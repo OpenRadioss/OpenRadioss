@@ -28,15 +28,19 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    finter           ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_BIQUAD_IB(
-     .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
+      SUBROUTINE FAIL_BIQUAD_IB(FAIL,NEL      ,NGL      ,
+     .           NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
      .           TIME     ,OFF      ,DFMAX    ,TDEL     ,      
-     .           IOUT     ,ISTDO    ,NFUNC    ,IFUNC    ,DAMSCL   ,
-     .           UVAR     ,NUVAR    ,SNPC     ,NPF      ,
-     .           STF      ,TF       ,IPT      ,FOFF     ,          
-     .           SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA     ,AL  , UELR,NPG)
+     .           IOUT     ,ISTDO    ,DAMSCL   ,UELR     ,
+     .           IPT      ,FOFF     ,AL       ,NPG      ,        
+     .           SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA     )
 C-----------------------------------------------C-----------------------------------------------
 c    BIQUAD- failure model for integrated beams (TYPE 18) IRUP=30
+! --------------------------------------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,83 +53,70 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER                     ,INTENT(IN)    :: NEL     ! size of element group
-      INTEGER                     ,INTENT(IN)    :: NUPARAM ! size of parameter array
       INTEGER                     ,INTENT(IN)    :: IPT     ! current integration point
+      INTEGER                     ,INTENT(IN)    :: NPG    
       INTEGER                     ,INTENT(IN)    :: IOUT    ! output file unit
-      INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit
-      INTEGER                     ,INTENT(IN)    :: NFUNC   ! number of functions
-      INTEGER                     ,INTENT(IN)    :: SNPC 
-      INTEGER                     ,INTENT(IN)    :: STF       
-      INTEGER                     ,INTENT(IN)    :: NUVAR     
+      INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit  
+      INTEGER                     ,INTENT(IN)    :: NUVAR
+      INTEGER                     ,INTENT(IN)    :: NVARTMP
+      INTEGER, DIMENSION(NEL,NVARTMP), intent(inout) :: VARTMP
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
-      INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
-      INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point deactivation flag
       my_real                     ,INTENT(IN)    :: TIME    ! current time
-      my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain 
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
-      my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX,SIGNXY,SIGNXZ 
-      my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT) :: UVAR
+      my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT):: UVAR
       my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: UELR 
-      INTEGER                     ,INTENT(IN)    :: NPG    
+      type (fail_param_) ,target ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, NINDX, ICOUP, SEL, FAILIP
+      INTEGER :: I, J, NINDX, ICOUP, SEL, FAILIP,IREG,NTABLE
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: DCRIT, EXP, DF
+      my_real :: DCRIT, EXP
       
-      my_real P1X,P1Y,S1X,S1Y, A1, B1, C1, REF_EL_LEN, LAMBDA,FAC ,
-     .        P , SVM,TRIAXS
+      my_real P1X,P1Y,S1X,S1Y, A1, B1, C1, REF_EL_LEN,P, SVM,TRIAXS
       my_real X_1(3) , X_2(3)
-      EXTERNAL FINTER
-      my_real EPS_FAIL,FINTER
- 
+      my_real EPS_FAIL
+      my_real ,dimension(nel) :: lambda,dydx
+
 C=======================================================================
       EPS_FAIL = ZERO
-      X_1(1) = UPARAM(1)
-      X_1(2) = UPARAM(2)
-      X_1(3) = UPARAM(3)
-      X_2(1) = UPARAM(4)
-      X_2(2) = UPARAM(5)
-      X_2(3) = UPARAM(6)
-      
-      SEL    = INT(UPARAM(11)+0.0001)
+      IREG    = FAIL%IPARAM(1)
+      SEL     = FAIL%IPARAM(3)
+      ICOUP   = FAIL%IPARAM(4)
+      FAILIP  = MIN(FAIL%IPARAM(5),NPG)   !<  number of failed integration point prior to solid element deletion. default = 1 (integer)
       IF (SEL == 3) SEL = 2
-      REF_EL_LEN = UPARAM(13)
-      ICOUP = NINT(UPARAM(14))
-      DCRIT = UPARAM(15)
-      EXP   = UPARAM(16)
-      FAILIP  =MIN(NINT(UPARAM(17)),NPG) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
 
-      ! At initial time, compute the element size regularization factor
-      IF (NFUNC > 0) THEN 
-        IF (NUVAR == 3) THEN 
-          IF (UVAR(1,3) == ZERO) THEN 
-            DO I = 1,NEL
-              UVAR(I,3) = AL(I)  
-              LAMBDA    = AL(I)  / REF_EL_LEN
-              FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DF) 
-              UVAR(I,3) = FAC
-            ENDDO
-          ENDIF
-        ELSEIF (NUVAR == 9) THEN 
-          IF (UVAR(1,9) == ZERO) THEN 
-            DO I = 1,NEL
-              UVAR(I,9) = AL(I) 
-              LAMBDA = UVAR(I,9) / REF_EL_LEN
-              FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DF) 
-              UVAR(I,9) = FAC
-            ENDDO
-          ENDIF
-        ENDIF
-      ENDIF
+      X_1(1) = FAIL%UPARAM(1)
+      X_1(2) = FAIL%UPARAM(2)
+      X_1(3) = FAIL%UPARAM(3)
+      X_2(1) = FAIL%UPARAM(4)
+      X_2(2) = FAIL%UPARAM(5)
+      X_2(3) = FAIL%UPARAM(6)
+      REF_EL_LEN = FAIL%UPARAM(13)
+      DCRIT = FAIL%UPARAM(15)
+      EXP   = FAIL%UPARAM(16)
+!---------------------------------------------------------------------------
+!      Element size scale factor on failure plastic strain
+!---------------------------------------------------------------------------
+       if (ireg > 0) then 
+         lambda(1:nel) = al(1:nel) / ref_el_len
+         if (nuvar == 3) then 
+           if (uvar(1,3) == zero) then
+             call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,lambda,uvar(1:nel,3),dydx)
+           endif
+         elseif (nuvar == 9) then 
+           if (uvar(1,9) == zero) then 
+             call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,lambda,uvar(1:nel,9),dydx)
+           endif
+         endif
+       endif
       !====================================================================
       ! - LOOP OVER THE ELEMENT TO UPDATE DAMAGE VARIABLE
       !====================================================================   
@@ -147,13 +138,13 @@ C
           !   -> Low stress triaxialities parabolic curve
           IF (TRIAXS <= THIRD) THEN
             EPS_FAIL = X_1(1) +  X_1(2)*TRIAXS + X_1(3)*TRIAXS**2
-            IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL* UVAR(I,3)
+            IF ((NUVAR == 3).AND. IREG > 0) EPS_FAIL = EPS_FAIL* UVAR(I,3)
           !   -> High stress triaxiality parabolic curve
           ELSE
             ! Raw curve is used
             IF (SEL == 1) THEN 
               EPS_FAIL = X_2(1) +  X_2(2)*TRIAXS + X_2(3)*TRIAXS**2
-              IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,3)
+              IF ((NUVAR == 3).AND. IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
             ! Plain strain is global minimum
             ELSEIF (SEL == 2) THEN 
               IF (TRIAXS <= ONE/SQR3) THEN                     ! triax < 0.57735
@@ -165,7 +156,7 @@ C
                 B1  = -TWO*A1*S1X
                 C1  = A1*S1X**2 + S1Y 
                 EPS_FAIL = C1 + B1*TRIAXS + A1*TRIAXS**2
-                IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,3)
+                IF ((NUVAR == 3).AND. IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
               ELSE                                             ! triax > 0.57735
                 P1X = TWO*THIRD
                 P1Y = X_2(1) + X_2(2)*P1X + X_2(3)*P1X**2
@@ -175,7 +166,7 @@ C
                 B1  = -TWO*A1*S1X
                 C1  = A1*S1X**2 + S1Y 
                 EPS_FAIL = C1 + B1*TRIAXS + A1*TRIAXS**2
-                IF ((NUVAR == 3).AND.(NFUNC> 0)) EPS_FAIL = EPS_FAIL*UVAR(I,3)
+                IF ((NUVAR == 3).AND. IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
               ENDIF
             ENDIF
           ENDIF

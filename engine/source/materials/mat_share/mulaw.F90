@@ -2494,10 +2494,10 @@
               else if (irupt == 30) then
 !  --- biquadratic failure model
                 call fail_biquad_s(mat_elem%mat_param(imat)%fail(ir),&
-                &nel      ,nvarf    ,nfunc    ,ifunc    ,el_len   ,&
-                &npf      ,tf       ,tt       ,tdel     ,&
-                &ngl      ,dpla     ,uvarf    ,off      ,dfmax    ,lbuf%dmgscl,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       )
+                nel      ,nvarf    ,nvartmp  ,uvarf    ,varftmp   ,&
+                tt       ,tdel     ,el_len   ,&
+                ngl      ,dpla     ,off      ,dfmax    ,lbuf%dmgscl,&
+                s1       ,s2       ,s3       ,s4       ,s5       ,s6       )
               else if (irupt == 33 .and. mtn /= 100 .and. mtn /= 95 ) then
 !  --- mullins ogden-roxburgh damage model
                 call fail_mullins_or_s(&

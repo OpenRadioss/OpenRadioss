@@ -2399,13 +2399,11 @@
 !
                    case (30)     !    biquadratic failure model
                     call fail_biquad_c(mat_elem%mat_param(imat)%fail(ifl),&
-                    &jlt      ,nvarf   ,&
-                    &tt       ,ngl      ,ipt      ,mpt      ,&
-                    &signxx   ,signyy  ,signxy   ,signyz   ,signzx   ,&
-                    &dpla     ,uvarf   ,uelr1    ,&
-                    &off      ,offl    ,dfmax    ,tdel     ,nfunc_fail   ,&
-                    &ifunc_fail,npf     ,tf      ,el_len   ,foff     ,ipg      ,&
-                    &dmg_flag,dmg_loc_scale)
+                     jlt      ,nvarf    ,nvarftmp ,uvarf    ,vartmp    ,&
+                     tt       ,ngl      ,ipt      ,mpt      ,ipg       ,&
+                     signxx   ,signyy   ,signxy   ,signyz   ,signzx    ,&
+                     dpla     ,uelr1    ,off      ,offl     ,dfmax     ,&
+                     tdel     ,el_len   ,foff     ,dmg_flag,dmg_loc_scale)
 !
                    case (31)     !    anisotropic fabric failure model
 !

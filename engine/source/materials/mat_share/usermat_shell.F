@@ -1435,13 +1435,11 @@ c
 c
               CASE (30)     !    Biquadratic failure model
                 CALL FAIL_BIQUAD_C(mat_elem%mat_param(imat)%fail(ifl),
-     1          JLT      ,NVARF   ,
-     2          TT       ,NGL      ,IPT      ,MPT      ,
+     1          JLT      ,NVARF   ,NVARTMP  ,UVARF    ,VARTMP   ,
+     2          TT       ,NGL     ,IPT      ,MPT      ,IPG      ,
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4          DPLA     ,UVARF   ,UELR1    ,
-     5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC_FAIL,
-     6          IFUNC_FAIL,NPF    ,TF       ,EL_LEN   ,FOFF     ,IPG      ,
-     7          DMG_FLAG ,DMG_LOC_SCALE)
+     4          DPLA     ,UELR1   ,OFF      ,OFFL     ,DFMAX    ,
+     5          TDEL     ,EL_LEN   ,FOFF     ,DMG_FLAG ,DMG_LOC_SCALE)
 c
               CASE (31)     !    Anisotropic fabric failure model
 c

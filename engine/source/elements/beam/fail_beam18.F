@@ -231,13 +231,13 @@ c---------------
 
 c--------------- 
         CASE (30)     !    BIQUAD                                                  
-          CALL FAIL_BIQUAD_IB (
-     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
+          
+          CALL FAIL_BIQUAD_IB (FAIL,NEL      ,NGL      ,
+     .          NUVAR    ,NVARTMP  ,UVARF    ,VARTMP   ,
      .          TIME     ,OFF      ,DFMAX    ,TDEL     ,                       
-     .          IOUT     ,ISTDO    ,NFUNC    ,FAIL%IFUNC,LBUF%DMGSCL,
-     .          UVARF    ,NUVAR    ,SNPC     ,NPF      ,
-     .          STF      ,TF       ,IPT      ,FOFF     ,
-     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA_IPT ,AL,ELBUF_STR%GBUF%UELR ,NPT)
+     .          IOUT     ,ISTDO    ,LBUF%DMGSCL,ELBUF_STR%GBUF%UELR ,
+     .          IPT      ,FOFF     ,AL       ,NPT      ,
+     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA_IPT )
 
 c--------------- 
         CASE (34)     ! cockroft failure model                                        
