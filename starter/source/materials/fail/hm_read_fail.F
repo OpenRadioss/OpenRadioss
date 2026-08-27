@@ -482,8 +482,8 @@ c
             ELSEIF (KEY(1:6) == 'BIQUAD') THEN
               IRUPT = 30
               CALL HM_READ_FAIL_BIQUAD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+     .             MAT_PARAM(IMAT)%TITLE ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             NTABLE  ,TABLE    ,LSUBMODEL,UNITAB   )
 c     
             ELSEIF (KEY(1:6) == 'FABRIC') THEN
               IRUPT = 31
