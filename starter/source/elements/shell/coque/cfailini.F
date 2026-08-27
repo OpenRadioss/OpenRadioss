@@ -143,7 +143,7 @@ c
                      c3 = MAT_PARAM(IMAT)%FAIL(IUS)%UPARAM(9) * RNOISE(J,I+NFT)
                      c4 = ZERO
                      c5 = ZERO
-                     L = INT(MAT_PARAM(IMAT)%FAIL(IUS)%UPARAM(10))
+                     L = INT(MAT_PARAM(IMAT)%FAIL(IUS)%IPARAM(2))
 c
                      CALL BIQUAD_COEFFICIENTS(c1,c2,c3,c4,c5,L,X_1,X_2,ZERO,ZERO,ZERO,ZERO)
 c
@@ -299,7 +299,7 @@ c------------------------
                      c3 = MAT_PARAM(IMAT)%FAIL(IUS)%UPARAM(9) * RNOISE(J,I+NFT)
                      c4 = ZERO
                      c5 = ZERO
-                     L = INT(MAT_PARAM(IMAT)%FAIL(IUS)%UPARAM(10))
+                     L = INT(MAT_PARAM(IMAT)%FAIL(IUS)%IPARAM(2))
 c
                      CALL BIQUAD_COEFFICIENTS(c1,c2,c3,c4,c5,L,X_1,X_2,ZERO,ZERO,ZERO,ZERO)
                      DO IT = 1,NPTT 

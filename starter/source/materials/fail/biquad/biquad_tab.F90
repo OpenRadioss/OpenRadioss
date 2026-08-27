@@ -38,10 +38,11 @@
 !||    biquad_upd      ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-          subroutine biquad_tab(npt, nuparam, uparam, eta, epsf)
+          subroutine biquad_tab(fail   ,npt, eta, epsf)
 ! --------------------------------------------------------------------------------------------------
 !         Modules
 ! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
           use constant_mod  ,only : zero,one,two,three,four,third,two_third,three_half,sqr3
           use constant_mod  ,only : em10
           use precision_mod ,only : WP
@@ -51,10 +52,9 @@
 !         Global arguments
 ! --------------------------------------------------------------------------------------------------
           integer ,intent(in) :: npt
-          integer ,intent(in) :: nuparam
-          real(kind=WP) ,dimension(nuparam) ,intent(in)  :: uparam   !< biquad parameter table
-          real(kind=WP) ,dimension(npt)     ,intent(out) :: eta      ! triaxiality table <0,2/3>
-          real(kind=WP) ,dimension(npt)     ,intent(out) :: epsf     ! failure plastic strain
+          real(kind=WP) ,dimension(npt)     ,intent(out)   :: eta      ! triaxiality table <0,2/3>
+          real(kind=WP) ,dimension(npt)     ,intent(out)   :: epsf     ! failure plastic strain
+          type (fail_param_)                ,intent(in)    :: fail     !< failure model data structure
 ! --------------------------------------------------------------------------------------------------
 !         Local variables
 ! --------------------------------------------------------------------------------------------------
@@ -64,14 +64,14 @@
           real(kind=WP) :: r,s
           real(kind=WP) :: p1x,p1y,s1x,s1y,s2y
 !===================================================================================================
-          c      = uparam(1)
-          b      = uparam(2)
-          a      = uparam(3)
-          f      = uparam(4)
-          e      = uparam(5)
-          d      = uparam(6)
-          inst0  = uparam(12)
-          bflag  = nint(uparam(11))
+          c      = fail%uparam(1)
+          b      = fail%uparam(2)
+          a      = fail%uparam(3)
+          f      = fail%uparam(4)
+          e      = fail%uparam(5)
+          d      = fail%uparam(6)
+          inst0  = fail%uparam(12)
+          bflag  = fail%iparam(3)
           sqr23  = (one/sqr3)**2
 !
           dx = two / (npt-1)    ! b = <-1, 1> => eta = <0,2/3>

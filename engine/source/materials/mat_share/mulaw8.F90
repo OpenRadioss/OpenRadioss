@@ -1120,10 +1120,10 @@
               elseif (irupt == 30) then
 !  --- biquadratic failure model
                 call fail_biquad_s(mat_param(imat)%fail(ir),&
-                &llt      ,nvarf    ,nfunc    ,ifunc    ,deltax   ,&
-                &npf      ,tf       ,tt       ,tdele    ,&
-                &ngl      ,dpla     ,uvarf    ,off      ,dfmax    ,lbuf%dmgscl,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       )
+                 llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,&
+                 tt       ,tdele    ,deltax   ,&
+                 ngl      ,dpla     ,off      ,dfmax    ,lbuf%dmgscl,&
+                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       )
               elseif (irupt == 36) then
 !  --- visual failure model
                 call fail_visual_s(&

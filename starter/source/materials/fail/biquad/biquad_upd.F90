@@ -93,7 +93,7 @@
 !-----------------------------------------------
           ! calculate nominal failure strain from biquad equations
 
-          call biquad_tab(npt_eta, fail%nuparam, fail%uparam, eta, epsf)
+          call biquad_tab(fail ,npt_eta, eta, epsf)
 !
           if (idebug == 1) then
             print*,' '
