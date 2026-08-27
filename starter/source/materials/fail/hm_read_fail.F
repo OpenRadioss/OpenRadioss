@@ -521,8 +521,8 @@ c
             ELSEIF (KEY(1:10) == 'ORTHBIQUAD') THEN
               IRUPT = 38
               CALL HM_READ_FAIL_ORTHBIQUAD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+     .             MAT_PARAM(IMAT)%TITLE ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             NTABLE  ,TABLE    ,LSUBMODEL,UNITAB   )
 c     
             ELSEIF (KEY(1:5) == 'GENE1') THEN
               IRUPT = 39

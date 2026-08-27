@@ -1505,10 +1505,9 @@ c ---       tabulated failure model (old, obsolete version)
 c
           ELSEIF (IRUPT == 38) THEN                                      
 c  --- Orthotropic biquadratic failure model                                  
-              CALL FAIL_ORTHBIQUAD_S(
-     1          LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
-     2          NPF      ,TF       ,TT       ,DT1      ,UPARAMF  ,
-     3          NGL      ,DPLA     ,EPSP1    ,UVARF    ,OFF      ,              
+              CALL FAIL_ORTHBIQUAD_S(mat_elem%mat_param(imat)%fail(ir)   ,
+     1          LLT      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,  
+     2          TT       ,NGL      ,DPLA     ,EPSP1    ,OFF      ,              
      4          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      5          DFMAX    ,TDEL     ,EL_LEN   )  
 c

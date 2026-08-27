@@ -32,28 +32,28 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
-      SUBROUTINE FAIL_ORTHBIQUAD_C(
-     1           NEL      ,NUVAR    ,
-     2           TIME     ,UPARAM   ,NGL      ,IPT      ,NPTOT    ,
+      SUBROUTINE FAIL_ORTHBIQUAD_C(FAIL       ,
+     1           NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
+     2           TIME     ,NGL      ,IPT      ,NPTOT    ,IPG      ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4           DPLA     ,EPSP     ,UVAR     ,UEL1     ,
-     5           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
-     6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,
-     7           IPG      )
+     4           DPLA     ,EPSP     ,UEL1     ,ALDT     ,FOFF     ,
+     5           OFF      ,OFFL     ,DFMAX    ,TDEL     )
 C-----------------------------------------------
 C    ORTHOTROPIC BIQUADRATIC FAILURE MODEL
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C   Modules
 C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
       use my_alloc_mod
       use my_dealloc_mod, only : my_dealloc
+c-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include "units_c.inc"
 #include "comlock.inc"
-#include "mvsiz_p.inc"
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
@@ -81,42 +81,32 @@ C NPTOT                       NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IPG
-      INTEGER NGL(NEL),IFUNC(NFUNC)
-      my_real TIME,UPARAM(*),DPLA(NEL),EPSP(NEL),
-     .   UEL1(NEL),ALDT(NEL)
+      INTEGER ,INTENT(IN) :: NEL,NUVAR,NVARTMP,IPT,NPTOT,IPG
+      INTEGER ,INTENT(IN) :: NGL(NEL)
+      my_real ,INTENT(IN) :: TIME
+      my_real :: DPLA(NEL),EPSP(NEL),UEL1(NEL),ALDT(NEL)
+      type (fail_param_) ,intent(in) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      INTEGER, DIMENSION(NEL), INTENT(INOUT) :: FOFF
-      my_real 
-     .  UVAR(NEL,NUVAR),OFF(NEL),OFFL(NEL),
+      INTEGER, DIMENSION(NEL)        , INTENT(INOUT) :: FOFF
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
+      my_real, DIMENSION(NEL,NUVAR)  , INTENT(INOUT) :: UVAR
+      my_real :: OFF(NEL),OFFL(NEL),
      .  SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .  DFMAX(NEL),TDEL(NEL)
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real hydros,vmises,triaxs,REF_EL_LEN
-      INTEGER I,J,K,NINDX1,NINDX2,SEL,NANGLE
+      INTEGER I,II,J,K,NINDXF,NINDX1,NINDX2,SEL,NANGLE
       INTEGER IREG,IRATE
-      INTEGER, DIMENSION(MVSIZ) :: INDX1,INDX2
-      my_real X_1(3),X_2(3),DYDX,COS2(10,10),EPSD0,CJC,RATE_SCALE,FRATE
+      INTEGER, DIMENSION(NEL) :: INDXF,INDX1,INDX2
+      my_real X_1(3),X_2(3),COS2(10,10),EPSD0,CJC
       my_real EPS_FAIL,EPS_FAIL2,DAMAGE,INST,MOHR_RADIUS
-      my_real P1X,P1Y,S1X,S1Y,S2Y,A1,A2,B1,B2,C1,C2,FAC,LAMBDA,COS2THETA(NEL)
+      my_real P1X,P1Y,S1X,S1Y,S2Y,A1,A2,B1,B2,C1,C2,COS2THETA(NEL)
       my_real SIG1(NEL),SIG2(NEL),MOHR_CENTER
+      my_real, dimension(nel) :: lambda,dydx,frate
       my_real, DIMENSION(:), ALLOCATABLE :: Q_X11,Q_X12,Q_X13,Q_X21,Q_X22,Q_X23,Q_INST
 C
       DATA  COS2/
@@ -133,20 +123,21 @@ C
 C-----------------------------------------------
 c! UVAR1 = damage due to instability (triax between 1/3 and 2/3)
 c! UVAR2 = actual integration point ON or OFF
-c! UVAR3 = 
+c! UVAR3 = element size regularization factor
 C-----------------------------------------------
 c      
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering model parameters
-      SEL        = INT(UPARAM(2))
-      REF_EL_LEN = UPARAM(3)
-      EPSD0      = UPARAM(4)
-      CJC        = UPARAM(5)
-      RATE_SCALE = UPARAM(6)
-      NANGLE     = INT(UPARAM(7))
-      FRATE = -HUGE(FRATE)
+      SEL        = FAIL%IPARAM(1)
+      NANGLE     = FAIL%IPARAM(2)
+      !
+      REF_EL_LEN = FAIL%UPARAM(2)
+      EPSD0      = FAIL%UPARAM(3)
+      CJC        = FAIL%UPARAM(4)
+   
+      FRATE(1:nel) = -HUGE(FRATE(1:nel))
       ! -> Allocation of factors
       call my_alloc(Q_X11, NANGLE, "Q_X11")
       call my_alloc(Q_X12, NANGLE, "Q_X12")
@@ -158,59 +149,69 @@ c
       IF (SEL == 3) THEN
         call my_alloc(Q_INST, NANGLE, "Q_INST")
         DO J = 1,NANGLE
-          Q_X11(J)  = UPARAM(8  + 7*(J-1))
-          Q_X12(J)  = UPARAM(9  + 7*(J-1))
-          Q_X13(J)  = UPARAM(10 + 7*(J-1)) 
-          Q_X21(J)  = UPARAM(11 + 7*(J-1))
-          Q_X22(J)  = UPARAM(12 + 7*(J-1))
-          Q_X23(J)  = UPARAM(13 + 7*(J-1))
-          Q_INST(J) = UPARAM(14 + 7*(J-1))
+          Q_X11(J)  = FAIL%UPARAM(5  + 7*(J-1))
+          Q_X12(J)  = FAIL%UPARAM(6  + 7*(J-1))
+          Q_X13(J)  = FAIL%UPARAM(7 + 7*(J-1)) 
+          Q_X21(J)  = FAIL%UPARAM(8 + 7*(J-1))
+          Q_X22(J)  = FAIL%UPARAM(9 + 7*(J-1))
+          Q_X23(J)  = FAIL%UPARAM(10 + 7*(J-1))
+          Q_INST(J) = FAIL%UPARAM(11 + 7*(J-1))
         ENDDO 
       ELSE
         DO J = 1,NANGLE
-          Q_X11(J)  = UPARAM(8  + 6*(J-1))
-          Q_X12(J)  = UPARAM(9  + 6*(J-1))
-          Q_X13(J)  = UPARAM(10 + 6*(J-1)) 
-          Q_X21(J)  = UPARAM(11 + 6*(J-1))
-          Q_X22(J)  = UPARAM(12 + 6*(J-1))
-          Q_X23(J)  = UPARAM(13 + 6*(J-1)) 
+          Q_X11(J)  = FAIL%UPARAM(5  + 6*(J-1))
+          Q_X12(J)  = FAIL%UPARAM(6  + 6*(J-1))
+          Q_X13(J)  = FAIL%UPARAM(7 + 6*(J-1)) 
+          Q_X21(J)  = FAIL%UPARAM(8 + 6*(J-1))
+          Q_X22(J)  = FAIL%UPARAM(9 + 6*(J-1))
+          Q_X23(J)  = FAIL%UPARAM(10 + 6*(J-1)) 
         ENDDO
       ENDIF
 c
-      ! Recovering functions
-      IRATE = 0
-      IF (RATE_SCALE /= ZERO) THEN
-        IRATE = 1
-      ENDIF
-      IREG  = 0
-      IF (REF_EL_LEN /= ZERO) THEN
-        IREG = IRATE + 1
-      ENDIF
+      ! recovering functions
+      irate = 0
+      ireg  = 0
+      if (fail%table4d(1)%notable > 0) ireg  = 1
+      if (fail%table4d(2)%notable > 0) irate = 1     
 c      
-      ! At initial time, compute the element size regularization factor
-      IF (UVAR(1,3) == ZERO .AND. IREG > 0) THEN
-        DO I=1,NEL   
-          LAMBDA    = ALDT(I)/REF_EL_LEN
-          FAC       = FINTER(IFUNC(IREG),LAMBDA,NPF,TF,DYDX) 
-          UVAR(I,3) = FAC
-        ENDDO
+      ! at initial time, compute the element size regularization factor in uvar(3)
+      if (uvar(1,3) == zero .and. ireg > 0) then
+        lambda(1:nel) = aldt(1:nel)/ref_el_len
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),lambda,uvar(1:nel,3),dydx)
+      else
+        uvar(1:nel,3) = one
+      endif
+c
+      ! Strain-rate effects
+      IF (CJC /= ZERO .OR. IRATE == 1) THEN 
+        IF (CJC /= ZERO) THEN
+          DO I=1,NEL
+            IF (EPSP(i) > EPSD0) FRATE(i) = ONE + CJC*LOG(EPSP(i)/EPSD0)
+          END DO
+        ELSEIF (IRATE == 1) THEN 
+          call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp(1:nel,2:2),epsp,frate,dydx)
+        ENDIF
       ENDIF
-C
-      ! Initialization of variable
+c
+      ! Tag active elements with non nul plastic increment
+      NINDXF  = 0 
       NINDX1 = 0
       NINDX2 = 0
+      DO I = 1,NEL
+        IF (OFF(I) == ONE .and. FOFF(I) == 1 .AND. DPLA(I) > ZERO ) THEN
+          NINDXF = NINDXF + 1
+          INDXF(NINDXF) = I
+        ENDIF
+      ENDDO 
 c      
       !====================================================================
-      ! - LOOP OVER THE ELEMENT TO COMPUTE THE DAMAGE VARIABLE
+      ! - COMPUTE DAMAGE VARIABLE
       !====================================================================
-      DO I = 1,NEL
-c
+      do ii = 1,NINDXF
+        i = indxf(ii)
         ! Failure strain initialization
         EPS_FAIL  = ZERO
         EPS_FAIL2 = ZERO
-c
-        ! If the element is not broken
-        IF (OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) == 1) THEN
 c
           ! Computation of loading angle
           MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2 + SIGNXY(I)**2)
@@ -317,14 +318,8 @@ c
 c
           ! Strain-rate effects
           IF (CJC /= ZERO .OR. IRATE /= 0) THEN 
-            IF (CJC /= ZERO) THEN 
-              FRATE = ONE
-              IF (EPSP(I) > EPSD0) FRATE = FRATE + CJC*LOG(EPSP(I)/EPSD0)
-            ELSEIF (IRATE /= 0) THEN 
-              FRATE = FINTER(IFUNC(IRATE),EPSP(I)/RATE_SCALE,NPF,TF,DYDX)
-            ENDIF
-            EPS_FAIL = EPS_FAIL*FRATE
-            IF (SEL == 3) EPS_FAIL2 = EPS_FAIL2*FRATE
+            EPS_FAIL = EPS_FAIL*FRATE(i)
+            IF (SEL == 3) EPS_FAIL2 = EPS_FAIL2*FRATE(i)
           ENDIF
 c
           ! Computation of damage variables
@@ -363,7 +358,6 @@ c
               SIGNZX(I)     = ZERO
             ENDIF
           ENDIF
-        ENDIF
       ENDDO
 c------------------------
 c------------------------

@@ -2480,13 +2480,12 @@
 !
                    case (38)     !    orthotropic biquad
 !
-                    call fail_orthbiquad_c(&
-                    &jlt      ,nvarf   ,&
-                    &tt       ,uparamf ,ngl      ,ipt      ,mpt      ,&
-                    &signxx   ,signyy  ,signxy   ,signyz   ,signzx   ,&
-                    &dpla     ,epsd    ,uvarf    ,uelr1    ,&
-                    &off      ,offl    ,dfmax    ,tdel     ,nfunc_fail   ,&
-                    &ifunc_fail,npf    ,tf       ,el_len   ,foff     ,ipg    )
+                    call fail_orthbiquad_c(mat_elem%mat_param(imat)%fail(ifl),&
+                    jlt      ,nvarf    ,nvarftmp ,uvarf    ,vartmp   ,&
+                    tt       ,ngl      ,ipt      ,mpt      ,ipg      ,&
+                    signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
+                    dpla     ,epsd     ,uelr1    ,el_len   ,foff     ,&
+                    off      ,offl     ,dfmax    ,tdel     )
 !
                    case (39)     !    gene1
 !

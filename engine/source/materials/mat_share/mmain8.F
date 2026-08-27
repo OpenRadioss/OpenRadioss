@@ -124,17 +124,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ(6),J1,IR,NFUNC,NUVAR,NUPARAM,
+      INTEGER I,J,JJ(6),J1,IR,NFUNC,NUVAR,NVARTMP,NUPARAM,
      .        NVARF,IRUPT,NUMBER_FAILURE,IMAT,NTABL_FAIL,
      .        NIPARAM
       INTEGER IFUNC(MAXFUNC), LF_DAMMX
-      INTEGER, DIMENSION(:), POINTER :: ITABL_FAIL, IPARAMF
+      INTEGER, DIMENSION(:), POINTER :: ITABL_FAIL, IPARAMF,VARTMP
       my_real
      .   VIS(MVSIZ),ET(MVSIZ),
      .    DPLA(8*MVSIZ), EPSP(8*MVSIZ),TSTAR(MVSIZ),SXX(MVSIZ),
      .    SYY(MVSIZ),SZZ(MVSIZ),SXY(MVSIZ),SYZ(MVSIZ),SZX(MVSIZ)   
-      my_real,
-     .  DIMENSION(:) ,POINTER :: UVARF,UPARAMF,DFMAX,TDELE
+      my_real, DIMENSION(:) ,POINTER :: UVARF,UPARAMF,DFMAX,TDELE
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE (BUF_LAY_),POINTER :: BUFLY
@@ -255,6 +254,8 @@ c
           NIPARAM = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NIPARAM
           UPARAMF =>MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%UPARAM(1:NUPARAM)
           IPARAMF =>MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%IPARAM(1:NIPARAM)
+          NVARF   = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NUVAR
+          NVARTMP = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NVARTMP
           NFUNC   = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NFUNC 
           IRUPT   = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%IRUPT
           IFUNC(1:NFUNC) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(1:NFUNC)     
@@ -265,6 +266,7 @@ C----
             LBUF   => BUFLY%LBUF(1,1,J)
             UVARF  => BUFLY%FAIL(1,1,J)%FLOC(IR)%VAR
             NVARF  =  BUFLY%FAIL(1,1,J)%FLOC(IR)%NVAR
+            VARTMP => BUFLY%FAIL(1,1,J)%FLOC(IR)%VARTMP
             DFMAX  => BUFLY%FAIL(1,1,J)%FLOC(IR)%DAMMX
             TDELE  => BUFLY%FAIL(1,1,J)%FLOC(IR)%TDEL
             LF_DAMMX = BUFLY%FAIL(1,1,J)%FLOC(IR)%LF_DAMMX
@@ -349,10 +351,9 @@ c ---       tabulated failure model (old, obsolete version)
 c
 c ---   Orthotropic biquadratic failure
               ELSEIF (IRUPT == 38) THEN
-                CALL FAIL_ORTHBIQUAD_S(
-     1        NEL      ,NUPARAM  ,NVARF    ,NFUNC    ,IFUNC    ,
-     2        NPF      ,TF       ,TT       ,DT1      ,UPARAMF,
-     3        NGL      ,DPLA(J1) ,EPSP(J1) ,UVARF    ,OFF      ,
+                CALL FAIL_ORTHBIQUAD_S(mat_elem%mat_param(imat)%fail(ir),
+     1        NEL      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,
+     2        TT       ,NGL      ,DPLA(J1) ,EPSP(J1) ,OFF      ,
      4        SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      ,
      5        DFMAX    ,TDELE    ,DELTAX   )
 c
