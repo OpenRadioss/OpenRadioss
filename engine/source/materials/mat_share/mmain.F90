@@ -757,7 +757,7 @@
 ! --------------------------------------------------------
 !    thermal material istrope expansion
 ! --------------------------------------------------------
-          if (iexpan > 0 .and. jthe < 0 .and. tt/=zero ) then
+          if (iexpan > 0 .and. jthe < 0 .and. tt/=zero .and. mtn /= 137) then
             if (ismstr==4) then
               amu(1:nel)  = amu(1:nel) /(amu(1:nel) + one) ! to get amu = 1-rho0/rho
             end if
@@ -778,9 +778,9 @@
               eth(i)= alpha *(tempel(i)-tempel0(i))*off(i)
               lbuf%forth(i) = lbuf%forth(i) + eth(i)  ! lbuf%forth the total thermal strain over time
               epsth(i)= three*lbuf%forth(i)
-              dxx(i)  = dxx(i)-eth(i)/dt1
-              dyy(i)  = dyy(i)-eth(i)/dt1
-              dzz(i)  = dzz(i)-eth(i)/dt1
+              dxx(i)  = dxx(i)-eth(i)/max(dt1,em20)
+              dyy(i)  = dyy(i)-eth(i)/max(dt1,em20)
+              dzz(i)  = dzz(i)-eth(i)/max(dt1,em20)
               dvol(i) = dvol(i)-three*eth(i)*vol_avg(i)
               amu(i)  = amu(i) + epsth(i)
               sigkk(i)= lbuf%sig(nel*(1-1)+i)+lbuf%sig(nel*(2-1)+i)+lbuf%sig(nel*(3-1)+i)
@@ -2052,7 +2052,9 @@
             glob_therm%heat_meca = glob_therm%heat_meca + heat_meca_l
 !$omp end critical
           end if
-          if((iexpan > 0).and.(jthe < 0).and.(tt/=0)) then
+!    same exclusion as above: law 137 already updates lbuf%eintth itself
+!    inside sigeps137, using its own trapezoidal old+new stress average.
+          if((iexpan > 0).and.(jthe < 0).and.(tt/=0).and.(mtn /= 137)) then
             do i=1,nel
               sigkk(i) = lbuf%sig(nel*(1-1)+i)+lbuf%sig(nel*(2-1)+i)+lbuf%sig(nel*(3-1)+i)
               lbuf%eintth(i) = lbuf%eintth(i)-half*sigkk(i)*eth(i)
