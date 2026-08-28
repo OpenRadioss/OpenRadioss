@@ -254,6 +254,7 @@
           use hm_read_mat134_mod
           use hm_read_mat135_mod
           use hm_read_mat136_mod
+          use hm_read_mat137_mod
           use hm_read_mat163_mod
           use hm_read_mat169_arup_mod
           use names_and_titles_mod ,only : nchartitle, ncharline
@@ -1295,6 +1296,14 @@
               &matparam ,nuvar    ,nfunc    ,parmat  ,unitab   ,&
               &mat_id   ,titr     ,mtag     ,nvartmp ,lsubmodel,&
               &iout     )
+!-------
+             case ('LAW137','COMPUTATIONAL_WELDING_MECHANICS')
+              ilaw  = 137
+              call hm_read_mat137(&
+              &matparam ,nuvar    ,nfunc    ,parmat  ,unitab   ,&
+              &mat_id   ,titr     ,mtag     ,nvartmp ,lsubmodel,&
+              &iout     ,ntable   ,table    )
+              ipm(218,i) = 1
 !-------
              case ('LAW151','MULTIFLUID')
               ilaw  = 151

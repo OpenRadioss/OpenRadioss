@@ -230,7 +230,7 @@ C     add source terme for law not user
         DIE(JFT:JLT)   = ZERO
       ENDIF
 c-----------------
-      IF (IEXPAN > 0 .AND. JTHE > 0) THEN
+      IF (IEXPAN > 0 .AND. JTHE > 0 .AND. MTN /= 137) THEN
 c
         IF (TT == ZERO) TEMPEL0(JFT:JLT) = TEMPEL(JFT:JLT)
         DTEMP(JFT:JLT) = TEMPEL(JFT:JLT) - TEMPEL0(JFT:JLT) 
@@ -351,7 +351,7 @@ c
      T       IPARTC  ,NPART)
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
-      IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN
+      IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0 .AND. MTN /= 137) THEN
          CALL THERMEXPC(ELBUF_STR,
      1                  JFT  ,JLT   ,GBUF%FORTH  ,FOR   ,EINT  , 
      2                  OFF  ,ETH   ,THK0        ,EXX   ,EYY   ,    
