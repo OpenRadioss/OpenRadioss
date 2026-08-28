@@ -28,13 +28,18 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    finter         ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_CONNECT(
-     1           NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
-     2           NPF     ,TF      ,TIME    ,TIMESTEP,UPARAM  ,
-     3           UVAR    ,NGL     ,EPS1    ,EPS2    ,EPS3    ,
-     4           EPSP    ,OFFG    ,OFFL    ,IPG     ,ISOLID  ,
+      SUBROUTINE FAIL_CONNECT(FAIL,NEL     ,
+     1           NUVAR   ,NVARTMP ,UVAR    ,VARTMP  ,NGL     ,
+     2           TIME    ,TIMESTEP,EPS1    ,EPS2    ,EPS3    ,
+     4           EPSP    ,OFFG    ,OFFL    ,IPG     ,
      5           SIGNZZ  ,SIGNYZ  ,SIGNZX  ,DEIN    ,DEIT    ,
      6           DFMAX   ,LF_DAMMX,TDELE   ,AREA    ,SOFT    )
+c-----------------------------------------------
+!     Modules
+!-----------------------------------------------
+      use fail_param_mod
+      use table_mod
+      use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,17 +48,10 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C IFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER FAILURE PARAMETER ARRAY
 C---------+---------+---+---+--------------------------------------------
 C EPS1    | NEL     | F | W | LOCAL STRAIN1
 C EPS2    | NEL     | F | W | LOCAL STRAIN2
@@ -63,14 +61,6 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFFG    | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C-----------------------------------------------
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
@@ -79,48 +69,45 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,NFUNC,IPG,ISOLID
-      INTEGER NGL(*),NPF(*),IFUNC(*)
+      INTEGER ,INTENT(IN) :: NEL,NUVAR,NVARTMP,IPG
+      INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
+      my_real, DIMENSION(NEL,NUVAR)  , INTENT(INOUT) :: UVAR
       INTEGER, INTENT(IN) :: LF_DAMMX
-      my_real TIME,TIMESTEP
-      my_real UPARAM(NUPARAM),UVAR(NEL,NUVAR),TF(*)
+      my_real :: TIME,TIMESTEP
       my_real, DIMENSION(NEL) :: OFFG,OFFL,EPS1,EPS2,EPS3,EPST,EPSP,
      .   SIGNZZ,SIGNYZ,SIGNZX,DEIN,DEIT,TDELE,AREA,SOFT
       my_real ,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
+      type(fail_param_)  ,intent(in) :: fail       !< failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,NINDX,NINDXA,NINDXE,NINDXS,FUNN,FUNT,IFAILS,IFAILE,
-     .   ISYM
+      INTEGER I,J,IDEL,NINDX,NINDXA,NINDXE,NINDXS,FUNN,FUNT,IFAILS,IFAILE,ISOLID,ISYM
       INTEGER, DIMENSION(NEL) :: INDX,INDXA,INDXE,INDXS
-      my_real C1,C2,C3,C4,CM,DYDX,DAMT,DEFO,DTIME,DSOFT,AREASCALE,
-     .   MAXDN,MAXDT,MAXEI,MAXEN,MAXET,FAC1,FAC2,ASCALE,EXPN,EXPT,NN,NT
+      my_real C1,C2,C3,C4,CM,DAMT,DEFO,DTIME,DSOFT,AREASCALE,
+     .   MAXDN,MAXDT,MAXEI,MAXEN,MAXET,FAC1,FAC2,EXPN,EXPT,NN,NT
       my_real, DIMENSION(NEL) :: EI,EN,ET,DAM1,DAM2,DAM3,DAM4
-C-----------------------------------------------
-C     E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-      my_real FINTER 
-      EXTERNAL FINTER
+      my_real ,dimension(nel) :: facn,fact,dydx
 C=======================================================================
-      MAXDN  = UPARAM(1)         
-      MAXDT  = UPARAM(2)         
-      EXPN   = UPARAM(3)         
-      EXPT   = UPARAM(4)         
-      FAC1   = UPARAM(5)         
-      FAC2   = UPARAM(6)         
-      ASCALE = UPARAM(7)     
-      IFAILS = NINT(UPARAM(8))    
-      IFAILE = NINT(UPARAM(9))
-      ISOLID = NINT(UPARAM(10))  
-      MAXEI  = UPARAM(11) 
-      MAXEN  = UPARAM(12) 
-      MAXET  = UPARAM(13) 
-      NN     = UPARAM(14)
-      NT     = UPARAM(15)
-      DTIME  = UPARAM(16)
-      DSOFT  = UPARAM(17)
-      ISYM   = NINT(UPARAM(18))     
-      AREASCALE = UPARAM(19)        
+      IFAILS = FAIL%IPARAM(1)    
+      IFAILE = FAIL%IPARAM(2)
+      ISOLID = FAIL%IPARAM(3)  
+      ISYM   = FAIL%IPARAM(4)   !
+!
+      MAXDN  = FAIL%UPARAM(1)         
+      MAXDT  = FAIL%UPARAM(2)         
+      EXPN   = FAIL%UPARAM(3)         
+      EXPT   = FAIL%UPARAM(4)         
+      FAC1   = FAIL%UPARAM(5)         
+      FAC2   = FAIL%UPARAM(6)            
+      MAXEI  = FAIL%UPARAM(7) 
+      MAXEN  = FAIL%UPARAM(8) 
+      MAXET  = FAIL%UPARAM(9) 
+      NN     = FAIL%UPARAM(10)
+      NT     = FAIL%UPARAM(11)
+      DTIME  = FAIL%UPARAM(12)
+      DSOFT  = FAIL%UPARAM(13)  
+      AREASCALE = FAIL%UPARAM(14)        
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -144,7 +131,18 @@ C-----------------------------------------------
         DAM4(I) = UVAR(I,5)                   
         EN(I)   = UVAR(I,6)                   
         ET(I)   = UVAR(I,7)                   
-      ENDDO                                   
+      ENDDO
+      facn(1:nel) = one
+      fact(1:nel) = one                                
+C-----------------------------------------------
+      if (ifails > 0) then
+        if (fail%table4d(1)%notable > 0) then
+          call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),epsp,facn,dydx)
+        endif
+        if (fail%table4d(2)%notable > 0) then
+          call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp(1:nel,2:2),epsp,fact,dydx)
+        endif
+      end if
 C-----------------------------------------------
       NINDX  = 0
       NINDXE = 0
@@ -217,14 +215,9 @@ c-----------------------------
 c------ max strain criterion
 c-----------------------------
         IF (IFAILS > 0) THEN
-          FUNN = IFUNC(1)                                              
-          FUNT = IFUNC(2)
-          ! EPS2 = EPSZX and EPS3 Epsxy
-          EPST(I) = SQRT(EPS2(I)**2 + EPS3(I)**2)                                     
-          C3 = FAC1*EPS1(I)/MAXDN  
-          C4 = FAC2*EPST(I)/MAXDT
-          IF (FUNN > 0) C3 = C3*FINTER(FUNN,EPSP(I)*ASCALE,NPF,TF,DYDX)
-          IF (FUNT > 0) C4 = C4*FINTER(FUNT,EPSP(I)*ASCALE,NPF,TF,DYDX) 
+          EPST(I) = SQRT(EPS2(I)**2 + EPS3(I)**2)   ! EPS2 = EPSZX and EPS3 Epsxy                                  
+          C3 = FAC1 * FACN(I) * EPS1(I) / MAXDN  
+          C4 = FAC2 * FACT(I) * EPST(I) / MAXDT
           DFMAX(I,2) = MAX(DFMAX(I,2),C3)
           DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
           DFMAX(I,3) = MAX(DFMAX(I,3),C4)
@@ -285,8 +278,7 @@ c---    deformed elements check
           ENDIF
         ENDIF
 c-------------------------------
-        UVAR(I,1) = SOFT(I)           
-c      
+        UVAR(I,1) = SOFT(I)              
         UVAR(I,2) = DAM1(I)
         UVAR(I,3) = DAM2(I)
         UVAR(I,4) = DAM3(I)

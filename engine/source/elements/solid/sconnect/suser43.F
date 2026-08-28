@@ -188,9 +188,9 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,IR,IPG,IEL,ISRATE,
-     .  NPAR,NPARF,NVARF,NFUNC,NFUNCR,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
-     .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP,LF_DAMMX
-      INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)
+     .  NPAR,NVARF,NFUNC,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
+     .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP,NVARFTMP,LF_DAMMX
+      INTEGER IFUNC(MAXFUNC)
       my_real :: EPSP,ASRATE,ALPHA,TTHICK,OFF_EL
       my_real 
      .   HH(NPG,NPG),AREAP(MVSIZ,NPG),AREAT(MVSIZ),
@@ -218,8 +218,8 @@ C-----------------------------------------------
       TYPE(FAIL_LOC_) ,POINTER :: FLOC
       TARGET :: AREAP   
       TYPE (TTABLE)  , DIMENSION(NTABLE) ::  TABLE
-      INTEGER, DIMENSION(:) ,POINTER   :: ITABLE,VARTMP
-      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN
+      INTEGER, DIMENSION(:) ,POINTER :: ITABLE,VARTMP
+      my_real, DIMENSION(:) ,POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN
       integer :: JJ(6)
      
 C=======================================================================
@@ -547,37 +547,30 @@ c
           NFAILS = MAT_PARAM(IMAT)%NFAIL     
                            
           DO IR = 1,NFAILS                                                     
-            IFAIL  = MAT_PARAM(IMAT)%FAIL(IR)%IRUPT                                   
-            NPARF  = MAT_PARAM(IMAT)%FAIL(IR)%NUPARAM                                       
-            NVARF  = MAT_PARAM(IMAT)%FAIL(IR)%NUVAR    
-            NFUNCR = MAT_PARAM(IMAT)%FAIL(IR)%NFUNC
-            DO I=1,NFUNCR                                                      
-              IFUNCR(I) = MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(I) 
-            ENDDO                                                              
-C
-            FLOC  => ELBUF_STR%BUFLY(1)%FAIL(IPG,1,1)%FLOC(IR)  
+            IFAIL    = MAT_PARAM(IMAT)%FAIL(IR)%IRUPT                                                                        
+            NVARF    = MAT_PARAM(IMAT)%FAIL(IR)%NUVAR    
+            NVARFTMP = MAT_PARAM(IMAT)%FAIL(IR)%NVARTMP                                                             
+            FLOC     => ELBUF_STR%BUFLY(1)%FAIL(IPG,1,1)%FLOC(IR)  
             LF_DAMMX = FLOC%LF_DAMMX                    
 c
             IF (IFAIL == 20)THEN                                                   
 C
-              CALL FAIL_CONNECT(                                                          
-     1        NEL       ,NPARF    ,NVARF   ,NFUNCR   ,IFUNCR    ,                    
-     2        NPF       ,TF       ,TIME    ,TIMESTEP ,MAT_PARAM(IMAT)%FAIL(IR)%UPARAM,                
-     3        FLOC%VAR  ,NGL      ,EPSZZ   ,EPSZX    ,EPSYZ     ,                           
-     4        GBUF%EPSD ,GBUF%OFF ,LBUF%OFF,IPG      ,ISOLIDF   ,                       
-     5        SIGNZZ    ,SIGNYZ   ,SIGNZX  ,DEIN     ,DEIT      ,              
-     6        FLOC%DAMMX,LF_DAMMX ,FLOC%TDEL,AREAN   ,SOFT      )                                                   
+              CALL FAIL_CONNECT(MAT_PARAM(IMAT)%FAIL(IR) ,NEL        ,                                                          
+     1        NVARF     ,NVARFTMP ,FLOC%VAR  ,FLOC%VARTMP,NGL        ,                    
+     2        TIME      ,TIMESTEP ,EPSZZ     ,EPSZX      ,EPSYZ      ,                           
+     4        GBUF%EPSD ,GBUF%OFF ,LBUF%OFF ,IPG         ,                     
+     5        SIGNZZ    ,SIGNYZ   ,SIGNZX   ,DEIN        ,DEIT       ,              
+     6        FLOC%DAMMX,LF_DAMMX ,FLOC%TDEL,AREAN       ,SOFT       )                                                   
 c
             ELSEIF (IFAIL == 26)THEN                                               
 C
               NDAMF =  FLOC%LF_DAM                                                  
-              CALL FAIL_SNCONNECT(                                                          
-     1        NEL       ,NPARF     ,NVARF     ,NFUNCR    ,IFUNCR    ,             
-     2        NPF       ,TF        ,TIME      ,TIMESTEP  ,MAT_PARAM(IMAT)%FAIL(IR)%UPARAM,     
-     3        FLOC%VAR  ,NGL       ,IPG       ,NPG       ,NDAMF     ,              
-     4        LBUF%EPSD ,LBUF%PLA  ,GBUF%OFF  ,LBUF%OFF  ,ISOLIDF   ,         
-     5        SIGNZZ    ,SIGNYZ    ,SIGNZX    ,SYM       ,AREAN     ,               
-     6        LBUF%DMG  ,FLOC%DAM  ,FLOC%DAMMX,FLOC%TDEL )                    
+              CALL FAIL_SNCONNECT(MAT_PARAM(IMAT)%FAIL(IR),                                                          
+     1        NEL        ,NVARF     ,NVARFTMP  ,FLOC%VAR  ,FLOC%VARTMP,           
+     2        TIME       ,NGL       ,IPG       ,NPG       ,NDAMF     ,              
+     4        LBUF%EPSD  ,LBUF%PLA  ,GBUF%OFF  ,LBUF%OFF  ,     
+     5        SIGNZZ     ,SIGNYZ    ,SIGNZX    ,SYM       ,AREAN     ,               
+     6        LBUF%DMG   ,FLOC%DAM  ,FLOC%DAMMX,FLOC%TDEL )                    
 
             ENDIF
 c
