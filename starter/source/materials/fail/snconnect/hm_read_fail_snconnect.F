@@ -35,8 +35,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_SNCONNECT(
-     .           FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   )
+     .           FAIL     ,TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read SNCONNECT cohesive failure model parameters
@@ -47,6 +47,9 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      use table_mod
+      use func_table_copy_mod
+      use names_and_titles_mod , only : nchartitle
       use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,20 +62,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
-      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
-      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
-      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
-      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
+      integer            ,intent(in) :: fail_id       ! failure model id
+      integer            ,intent(in) :: mat_id        ! material law id
+      integer            ,intent(in) :: irupt         ! failure model type number
+      integer            ,intent(in)    :: ntable     !< number of function tables in radioss input
+      type(ttable) ,dimension(ntable) ,intent(in) :: table  !< input table array
+      type(unit_type_)   ,intent(in) :: unitab        !< table of input units
+      type(submodel_data),intent(in) :: lsubmodel(*)  !< submodel table
+      type(fail_param_)  ,intent(inout) :: fail       !< failure model data structure
+      character(len=nchartitle) ,intent(in) :: title
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ID_0N,ID_0S,ID_FN,ID_FS,ISOLID,NFAIL,ISYM 
-      my_real :: A2, B2 , A3, B3,XSCALE0,XSCALEF,AREASCALE,
-     .           XSCALE0_UNIT,XSCALEF_UNIT
-C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
+      integer :: i,id_0n,id_0s,id_fn,id_fs,isolid,nfail,isym,ierror
+      my_real :: a2, b2 , a3, b3,xscale0,xscalef,areascale,xscale0_unit,xscalef_unit
+      integer :: nf
+      integer ,parameter :: nfunc = 4
+      integer ,dimension(nfunc) :: ifunc
+      my_real :: x2scale
+      my_real ,dimension(nfunc) :: x1scale,yscale
+      my_real, dimension(1) :: x2vect
+c-----------------------------------------------
+      logical :: is_available,is_encrypted
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -121,32 +132,46 @@ c-----------------------------------------------------
       FAIL%KEYWORD = 'SNCONNECT' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 9
-      FAIL%NIPARAM = 0
+      FAIL%NUPARAM = 5
+      FAIL%NIPARAM = 2
       FAIL%NUVAR   = 3
-      FAIL%NFUNC   = 4
+      FAIL%NVARTMP = nfunc
+      FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
+      FAIL%NTABLE4D= nfunc
       FAIL%NMOD    = 0
 c            
       call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
       call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
       call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
       call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
 c
+      FAIL%iparam(1) = ISYM
+      FAIL%iparam(2) = NFAIL
+!
       FAIL%UPARAM(1) = A2
       FAIL%UPARAM(2) = B2
       FAIL%UPARAM(3) = A3
       FAIL%UPARAM(4) = B3
-      FAIL%UPARAM(5) = NFAIL
-      FAIL%UPARAM(6) = XSCALE0
-      FAIL%UPARAM(7) = XSCALEF
-      FAIL%UPARAM(8) = ISYM
-      FAIL%UPARAM(9) = AREASCALE
+      FAIL%UPARAM(5) = AREASCALE
 c    
-      FAIL%IFUNC(1)  = ID_0N
-      FAIL%IFUNC(2)  = ID_0S
-      FAIL%IFUNC(3)  = ID_FN
-      FAIL%IFUNC(4)  = ID_FS
+      IFUNC(1)  = ID_0N
+      IFUNC(2)  = ID_0S
+      IFUNC(3)  = ID_FN
+      IFUNC(4)  = ID_FS
+!
+      nf = 1
+      x1scale(1:2) = xscale0
+      x1scale(3:4) = xscalef
+      x2scale      = one
+      x2vect(:)    = zero
+      yscale(:)    = one
+      do i = 1,nfunc
+        call func_table_copy(fail%table4d(i),title  ,mat_id   ,      
+     .           nf      ,ifunc(i),x2vect  ,x1scale(i) ,x2scale  ,yscale(i)  ,      
+     .           ntable  ,table   ,ierror  )
+      end do
 c-----------------------------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)

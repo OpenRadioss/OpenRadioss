@@ -418,8 +418,8 @@ c
             ELSEIF (KEY(1:7) == 'CONNECT') THEN
               IRUPT = 20
               CALL HM_READ_FAIL_CONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IMAT,IFL))
+     .             TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
+     .             NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   ,FAIL_TAG(IMAT,IFL))
 c     
             !! ELSEIF (KEY(1:10) == ' ') THEN 
             !!       IRUPT = 21                     ! not used
@@ -460,7 +460,8 @@ c
             ELSEIF (KEY(1:9) == 'SNCONNECT') THEN
               IRUPT = 26
               CALL HM_READ_FAIL_SNCONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .             TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   )
               FAIL_TAG(IMAT,IFL)%LF_DAM = 3
 c     
             ELSEIF (KEY(1:3) == 'EMC') THEN
