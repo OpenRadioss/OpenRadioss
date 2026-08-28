@@ -92,6 +92,8 @@ C-----------------------------------------------
             MLAW_TAG(I)%G_MASS = 0
             MLAW_TAG(I)%G_SKEW_ID = 0
             MLAW_TAG(I)%G_THK = 0
+            MLAW_TAG(I)%G_FORTH = 0
+            MLAW_TAG(I)%G_EINTTH = 0
 c           layer variables 
 c   
             MLAW_TAG(I)%LY_DIRA = 0

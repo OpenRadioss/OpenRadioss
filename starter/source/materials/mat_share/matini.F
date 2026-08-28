@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE M36INIT_MOD
       USE LAW129_INIT_MOD
+      USE LAW137_INIT_MOD
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -392,6 +393,9 @@ C=======================================================================
 
         ELSEIF (MTN == 129) THEN
           CALL LAW129_INIT(MAT_PARAM(IMAT) ,NEL   ,NUVAR ,MBUF%VAR)
+
+        ELSEIF (MTN == 137) THEN
+          CALL LAW137_INIT(MAT_PARAM(IMAT) ,NEL   ,LBUF%PLA(1:NEL))
 
         ENDIF
       ENDIF

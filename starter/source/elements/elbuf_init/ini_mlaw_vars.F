@@ -86,6 +86,8 @@ c       global variables - scalars
         MTAG%G_MAXFRAC= 0   
         MTAG%G_MAXEPS = 0
         MTAG%G_DMG    = 0  
+        MTAG%G_EINTTH = 0
+        MTAG%G_FORTH  = 0
 C
         MTAG%G_TOTDEPL = 0                
         MTAG%G_TOTROT  = 0              
