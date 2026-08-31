@@ -103,6 +103,7 @@ C
         TYPE SLIPRING_STRUCT
           INTEGER  ID
           INTEGER  IDG
+          INTEGER  PROC
           INTEGER  NFRAM
           INTEGER  IFUNC(4)
           INTEGER  SENSID
@@ -126,6 +127,7 @@ c
         TYPE RETRACTOR_STRUCT
           INTEGER  ID
           INTEGER  IDG
+          INTEGER  PROC
           INTEGER  UPDATE
           INTEGER  ANCHOR_NODE
           INTEGER  NODE(2)

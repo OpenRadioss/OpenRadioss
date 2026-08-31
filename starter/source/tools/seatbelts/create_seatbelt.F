@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                           X,SENSORS,BUFMAT,PM,GEO,
      .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
-     .                           ISKN    ,TF      ,NPC)
+     .                           ISKN    ,TF      ,NPC     ,KNOD2ELTG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDDLEVEL,IXR(NIXR,*),ITAB(*),KNOD2EL1D(*),NOD2EL1D(*),IPM(NPROPMI,*),
-     .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
+     .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*),KNOD2ELTG(*)
       INTEGER, INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO),ISKN(SISKWN)
       my_real X(3,*),BUFMAT(*),PM(NPROPM,*),GEO(NPROPG,*)
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
@@ -75,7 +75,7 @@ C-----------------------------------------------
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
      .        FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV,IECROU,NB_ELEM_1D,NB_BRANCH,
      .        BRANCH_CPT,NB_ELEM_2D,J1,NPT,NPT2,STAT,WARNFUNC,SAME_FUNC,MID2,MTYP2,FLAG_SHELL,
-     .        FLAG_ERR_LOOP_2D,NLOOP_1D,NB_ELEM_1D_NOT_TAGED
+     .        FLAG_ERR_LOOP_2D,NLOOP_1D,NB_ELEM_1D_NOT_TAGED,ERR_NON_SEATBELT_ELT
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
      .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,FSCALET,KMAX,A1C,A2C
       my_real X1,X2,Y1,Y2,SHIFT,DERI,MIN_SLOPE,MIN_SLOPE_ABS,DERI_P
@@ -112,6 +112,43 @@ C
             ELSE
               SLIPRING(I)%SENSID = ISENS_LOC(1)
             ENDIF
+          ENDIF       
+C--       Check of elements connected to slipring midle node  - only seatbelt elements are allowed             
+          ERR_NON_SEATBELT_ELT = 0
+          DO J=1,SLIPRING(I)%NFRAM
+            NODE = SLIPRING(I)%FRAM(J)%NODE(2)
+C--         1D elements connected to the node -  spring with mat114 only is allowed
+            DO L=KNOD2EL1D(NODE)+1,KNOD2EL1D(NODE+1)
+              IF (NOD2EL1D(L) > NUMELT+NUMELP) THEN
+C--             spring element -> must use material law 114
+                ELEM_CUR = NOD2EL1D(L)-NUMELT-NUMELP
+                MID = IXR(5,ELEM_CUR)
+                MTYP = 0
+                IF (MID > 0) MTYP = IPM(2,MID)
+                IF (MTYP /= 114) ERR_NON_SEATBELT_ELT = 1
+              ELSE
+C--             beam element or truss -> not allowed                  
+                ERR_NON_SEATBELT_ELT = 1
+              ENDIF
+            ENDDO
+C--         2D shell (4-node) elements connected to the node - mat119 only is allowed
+            DO L=KNOD2ELC(NODE)+1,KNOD2ELC(NODE+1)
+              ELEM_CUR = NOD2ELC(L)
+              MID = IXC(1,ELEM_CUR)
+              MTYP = 0
+              IF (MID > 0) MTYP = IPM(2,MID)
+              IF (MTYP /= 119) ERR_NON_SEATBELT_ELT = 1
+            ENDDO
+C--         2D triangle (3-node) elements connected to the node - not allowed
+            DO L=KNOD2ELTG(NODE)+1,KNOD2ELTG(NODE+1)
+              ERR_NON_SEATBELT_ELT = 1
+            ENDDO
+          ENDDO
+          IF (ERR_NON_SEATBELT_ELT == 1) THEN
+            CALL ANCMSG(MSGID=3165,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=SLIPRING(I)%ID)
           ENDIF
         ENDDO
 C
@@ -307,6 +344,27 @@ C             if node is connected to 2 spring and only 1 is kined to 2D seatble
           ENDIF  
         ENDIF
       ENDDO
+C
+C    For 2d sliprings - check of 1d seatbelt elements connected to slipring nodes
+      IF (NB_ELEM_2D > 0) THEN
+        DO I=1,NSLIPRING
+          IF (SLIPRING(I)%NFRAM > 1) THEN
+            DO J=1,SLIPRING(I)%NFRAM      
+              IF ((TAG_NOD_SPRING(SLIPRING(I)%FRAM(J)%NODE(1)) < 1).OR.
+     .            (TAG_NOD_SPRING(SLIPRING(I)%FRAM(J)%NODE(2)) < 2).OR.
+     .            (TAG_NOD_SPRING(SLIPRING(I)%FRAM(J)%NODE(3)) < 1)) THEN
+                CALL ANCMSG(MSGID=3166,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=SLIPRING(I)%ID,
+     .                      I2=ITAB(SLIPRING(I)%FRAM(J)%NODE(1)),
+     .                      I3=ITAB(SLIPRING(I)%FRAM(J)%NODE(2)),
+     .                      I4=ITAB(SLIPRING(I)%FRAM(J)%NODE(3)))
+              ENDIF
+            ENDDO
+          ENDIF  
+        ENDDO    
+      ENDIF  
 C
 C     Mat_seatbelt not used - nothing to do
       IF ((NB_ELEM_1D > 0).or.(NB_ELEM_2D > 0)) THEN      
