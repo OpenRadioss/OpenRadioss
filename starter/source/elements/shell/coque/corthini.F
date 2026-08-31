@@ -616,9 +616,15 @@ C
      .                      C1=TITR1,
      .                      I2=IX(NIX,I))
               ENDIF
-              VX(I)=VX(I)/V(I)
-              VY(I)=VY(I)/V(I)
-              VZ(I)=VZ(I)/V(I)
+              IF (V(I) < EM3) THEN
+                VX(I) = ZERO
+                VY(I) = ZERO
+                VZ(I) = ZERO
+              ELSE
+                VX(I)=VX(I)/V(I)
+                VY(I)=VY(I)/V(I)
+                VZ(I)=VZ(I)/V(I)
+              ENDIF
             ENDDO
          ENDIF ! IRP   
 C
