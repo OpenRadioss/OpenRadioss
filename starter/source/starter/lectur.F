@@ -5340,7 +5340,7 @@ C
         CALL CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                       X,SENSORS,BUFMAT,PM,GEO,
      .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
-     .                       ISKWN   ,TF      ,NPC)
+     .                       ISKWN   ,TF      ,NPC     ,KNOD2ELTG)
         CALL TRACE_OUT1()
       ENDIF
 C      

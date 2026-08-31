@@ -83,14 +83,14 @@ C
       DO I = 1, NSLIPRING   
         SLIPRING(I)%IDG = I
 C
-        IF (NLOCAL(SLIPRING(I)%FRAM(1)%NODE(2),P)==1) THEN
+        IF (SLIPRING(I)%PROC==P) THEN
 C--       Proc main of slipring
           N_SLIPRING_L = N_SLIPRING_L + 1
           LOCAL_SLIP(I) = N_SLIPRING_L
         ENDIF 
 C
         DO J=1,SLIPRING(I)%NFRAM           
-          IF (NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),P)==1) THEN
+          IF (SLIPRING(I)%PROC==P) THEN
             DO PP=1,NSPMD 
               IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,PP)==1)) THEN
 C--             Count of remote anchor node (send)
@@ -104,7 +104,7 @@ C--         Count of remote anchor node (receive)
             N_ANCHOR_REMOTE_L = N_ANCHOR_REMOTE_L + 1
             COMPT = 0
             DO PP=1,NSPMD 
-              IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),PP)==1)) THEN
+              IF ((PP /= P).AND.(SLIPRING(I)%PROC==PP)) THEN
 C--             Count of remote anchor node per main proc
                 N_REC_PROC(PP) = N_REC_PROC(PP) + 1
               ENDIF
@@ -116,7 +116,7 @@ C
 C
       DO I = 1, NRETRACTOR
         RETRACTOR(I)%IDG = I 
-        IF (NLOCAL(RETRACTOR(I)%NODE(2),P)==1) THEN
+        IF (RETRACTOR(I)%PROC==P) THEN
 C--       Proc main of retractor
           N_RETRACTOR_L = N_RETRACTOR_L + 1
           LOCAL_RETR(I) = N_RETRACTOR_L
@@ -132,7 +132,7 @@ C--           remote anchor node (send)
 C--       Remote anchor node
           N_ANCHOR_REMOTE_L = N_ANCHOR_REMOTE_L + 1
           DO PP=1,NSPMD 
-            IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%NODE(2),PP)==1)) THEN
+            IF ((PP /= P).AND.(RETRACTOR(I)%PROC==PP)) THEN
 C--           Count of remote anchor node per main proc
               N_REC_PROC(PP) = N_REC_PROC(PP) + 1
             ENDIF
@@ -200,7 +200,7 @@ C
 C
       DO I = 1, NSLIPRING   
         DO J=1,SLIPRING(I)%NFRAM           
-          IF (NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),P)==1) THEN
+          IF (SLIPRING(I)%PROC==P) THEN
             IF (SLIPRING(I)%FRAM(J)%N_REMOTE_PROC > 0) THEN
 C--           Proc main of slipring
               NN = NN + 1        
@@ -216,14 +216,15 @@ C--               remote anchor node (send)
             ENDIF
           ELSEIF (NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)==1) THEN
 C--         Proc remote of slipring
-            COMPT = COMPT + 1
-            ANCHOR_REMOTE_L%NODE(COMPT) = NODLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE)
+            PP = SLIPRING(I)%PROC
+            ANCHOR_REMOTE_L%NODE(ANCHOR_REMOTE_L%ADD_PROC(PP)+N_REC_PROC(PP)) = NODLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE)
+            N_REC_PROC(PP) = N_REC_PROC(PP) + 1
           ENDIF
         ENDDO
       ENDDO 
 C
       DO I = 1, NRETRACTOR                
-        IF (NLOCAL(RETRACTOR(I)%NODE(2),P)==1) THEN
+        IF (RETRACTOR(I)%PROC==P) THEN
           IF (RETRACTOR(I)%N_REMOTE_PROC > 0) THEN
 C--         Proc main of retractor
             NN = NN + 1        
@@ -238,9 +239,10 @@ C--             remote anchor node (send)
             ENDDO
           ENDIF
         ELSEIF (NLOCAL(RETRACTOR(I)%ANCHOR_NODE,P)==1) THEN
-C--       Proc remote of slipring
-          COMPT = COMPT + 1
-          ANCHOR_REMOTE_L%NODE(COMPT) = NODLOCAL(RETRACTOR(I)%ANCHOR_NODE)
+C--       Proc remote of retractor
+          PP = RETRACTOR(I)%PROC
+          ANCHOR_REMOTE_L%NODE(ANCHOR_REMOTE_L%ADD_PROC(PP)+N_REC_PROC(PP)) = NODLOCAL(RETRACTOR(I)%ANCHOR_NODE)
+          N_REC_PROC(PP) = N_REC_PROC(PP) + 1
         ENDIF
       ENDDO
 
@@ -295,10 +297,10 @@ C
 C
         DO PP=1,NSPMD 
           DO I=1,NSLIPRING
-            IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(1)%NODE(2),PP)==1)) TAG_PROC(1,PP) = 1
+            IF ((PP /= P).AND.(SLIPRING(I)%PROC==PP)) TAG_PROC(1,PP) = 1
           ENDDO
           DO I=1,NRETRACTOR
-            IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%NODE(2),PP)==1)) TAG_PROC(2,PP) = 1
+            IF ((PP /= P).AND.(RETRACTOR(I)%PROC==PP)) TAG_PROC(2,PP) = 1
           ENDDO
           IF (TAG_PROC(1,PP) + TAG_PROC(2,PP) > 0) NSEATBELT_TH_PROC = NSEATBELT_TH_PROC + 1
         ENDDO
@@ -315,13 +317,13 @@ C--         data must be received from this proc for TH
             SEATBELT_TH_EXCH(COMPT)%NSLIPRING = 0
             SEATBELT_TH_EXCH(COMPT)%NRETRACTOR = 0
             DO I=1,NSLIPRING
-              IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(1)%NODE(2),PP)==1)) THEN
+              IF ((PP /= P).AND.(SLIPRING(I)%PROC==PP)) THEN
                 SEATBELT_TH_EXCH(COMPT)%NSLIPRING = SEATBELT_TH_EXCH(COMPT)%NSLIPRING + 1
                 SEATBELT_TH_EXCH(COMPT+1)%ADD_PROC = SEATBELT_TH_EXCH(COMPT)%ADD_PROC + 6
               ENDIF
             ENDDO
             DO I=1,NRETRACTOR
-              IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%NODE(2),PP)==1)) THEN
+              IF ((PP /= P).AND.(RETRACTOR(I)%PROC==PP)) THEN
                 SEATBELT_TH_EXCH(COMPT)%NRETRACTOR = SEATBELT_TH_EXCH(COMPT)%NRETRACTOR + 1
                 SEATBELT_TH_EXCH(COMPT+1)%ADD_PROC = SEATBELT_TH_EXCH(COMPT)%ADD_PROC + 3
               ENDIF

@@ -59,7 +59,7 @@ C-----------------------------------------------
 C
       DO I = 1, NSLIPRING
 C
-        IF (NLOCAL(SLIPRING(I)%FRAM(1)%NODE(2),P)==1) THEN
+        IF (SLIPRING(I)%PROC==P) THEN
 C
           CALL WRITE_I_C(SLIPRING(I)%ID, 1)
           CALL WRITE_I_C(SLIPRING(I)%IDG, 1)
@@ -122,7 +122,7 @@ C
 C
       DO I = 1, NRETRACTOR
 C
-        IF (NLOCAL(RETRACTOR(I)%NODE(2),P)==1) THEN
+        IF (RETRACTOR(I)%PROC==P) THEN
           CALL WRITE_I_C(RETRACTOR(I)%ID, 1)
           CALL WRITE_I_C(RETRACTOR(I)%IDG, 1)
           CALL WRITE_I_C(RETRACTOR(I)%UPDATE, 1)

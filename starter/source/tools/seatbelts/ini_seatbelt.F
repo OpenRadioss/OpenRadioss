@@ -90,35 +90,6 @@ C-----Reset of TAG_RES from SEATBELT_TAB structure------------------------------
         ENDDO 
       ENDDO
 C
-C-----Preparation for SPMD computation  ---------------------------------------------
-      IF (NSPMD > 1) THEN
-C
-        DO I=1,NSLIPRING
-          DO J=1,SLIPRING(I)%NFRAM
-            N2 = SLIPRING(I)%FRAM(J)%NODE(2)
-            DO P=1,NSPMD
-              IF ((NLOCAL(N2,P)==1).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)==0)) THEN
-C--             Anchor node and orientation node must be stick on the proc of the slipring
-                CALL IFRONTPLUS(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)
-                IF (SLIPRING(I)%FRAM(J)%ORIENTATION_NODE > 0)
-     .             CALL IFRONTPLUS(SLIPRING(I)%FRAM(J)%ORIENTATION_NODE,P)
-              ENDIF
-            ENDDO
-          ENDDO
-        ENDDO
-C
-        DO I=1,NRETRACTOR
-          N2 = RETRACTOR(I)%NODE(2)
-          DO P=1,NSPMD
-            IF ((NLOCAL(N2,P)==1).AND.(NLOCAL(RETRACTOR(I)%ANCHOR_NODE,P)==0)) THEN
-C--           Anchor node must be stick on the proc of the retractor
-              CALL IFRONTPLUS(RETRACTOR(I)%ANCHOR_NODE,P)
-            ENDIF
-          ENDDO
-        ENDDO
-C
-      ENDIF
-
 C-----------------------------------------------------------------------------------
 
       CALL MY_ALLOC(TAG_RETRACTOR,NUMELR,"TAG_RETRACTOR")
@@ -159,6 +130,14 @@ C
       ENDDO
 C
 C--   Loop to initialise elements with seatbelt material 
+C
+C-----Initialisation of PROC (owning processor determined from a connected spring)------------------
+      DO K=1,NSLIPRING
+        SLIPRING(K)%PROC = 0
+      ENDDO
+      DO K=1,NRETRACTOR
+        RETRACTOR(K)%PROC = 0
+      ENDDO
 C
       DO NG=1,NGROUP
 C
@@ -224,6 +203,13 @@ C
               ENDDO
             ENDDO
 C
+C-          Determine owning processor of slipring from this connected spring (first match wins)
+            IF (GBUF%SLIPRING_ID(I) > 0) THEN
+              IF (SLIPRING(GBUF%SLIPRING_ID(I))%PROC == 0) THEN
+                SLIPRING(GBUF%SLIPRING_ID(I))%PROC = IPARG(32,NG)+1
+              ENDIF
+            ENDIF
+C
 C----------------------------------------------------------------------------
 C-          Detection if element is in retractor
 C----------------------------------------------------------------------------
@@ -237,6 +223,13 @@ CC-             element is mouth element of retractor - 1st direction
                 GBUF%SLIPRING_STRAND(I) = -1
               ENDIF
             ENDDO
+C
+C-          Determine owning processor of retractor from this connected spring (first match wins)
+            IF (GBUF%RETRACTOR_ID(I) > 0) THEN
+              IF (RETRACTOR(GBUF%RETRACTOR_ID(I))%PROC == 0) THEN
+                RETRACTOR(GBUF%RETRACTOR_ID(I))%PROC = IPARG(32,NG)+1
+              ENDIF
+            ENDIF
 C
             IF (TAG_RETRACTOR(J) > 0) THEN
 C-            element initially in the retractor
@@ -444,6 +437,33 @@ C
         ENDIF
 C
       ENDDO         
+C
+C-----Preparation for SPMD computation using slipring/retractor owning PROC --------
+      IF (NSPMD > 1) THEN
+C
+        DO I=1,NSLIPRING
+          P = SLIPRING(I)%PROC
+          IF (P > 0) THEN
+            DO J=1,SLIPRING(I)%NFRAM
+              IF (NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)==0) THEN
+C--             Anchor node and orientation node must be stick on the proc of the slipring
+                CALL IFRONTPLUS(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)
+                IF (SLIPRING(I)%FRAM(J)%ORIENTATION_NODE > 0)
+     .             CALL IFRONTPLUS(SLIPRING(I)%FRAM(J)%ORIENTATION_NODE,P)
+              ENDIF
+            ENDDO
+          ENDIF
+        ENDDO
+C
+        DO I=1,NRETRACTOR
+          P = RETRACTOR(I)%PROC
+          IF ((P > 0).AND.(NLOCAL(RETRACTOR(I)%ANCHOR_NODE,P)==0)) THEN
+C--           Anchor node must be stick on the proc of the retractor
+            CALL IFRONTPLUS(RETRACTOR(I)%ANCHOR_NODE,P)
+          ENDIF
+        ENDDO
+C
+      ENDIF
 C
       CALL MY_DEALLOC(TAG_RES)
       CALL MY_DEALLOC(TAG_RETRACTOR)
