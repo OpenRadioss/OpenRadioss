@@ -448,12 +448,6 @@ c
       !                 sound speed depends on pressure derivative over volume change
       !                 calculated in EOS
       IF (IEOS > 0) THEN
-        SIGNXX(1:NEL) = SIGNXX(1:NEL) - SIGM(1:NEL)
-        SIGNYY(1:NEL) = SIGNYY(1:NEL) - SIGM(1:NEL)
-        SIGNZZ(1:NEL) = SIGNZZ(1:NEL) - SIGM(1:NEL)
-        SIGNXY(1:NEL) = SIGNXY(1:NEL)
-        SIGNYZ(1:NEL) = SIGNYZ(1:NEL)
-        SIGNZX(1:NEL) = SIGNZX(1:NEL)
         SOUNDSP(1:NEL)= SQRT((DPDM(1:NEL) + FOUR_OVER_3*G) / RHO(1:NEL))
       ELSE 
         SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))

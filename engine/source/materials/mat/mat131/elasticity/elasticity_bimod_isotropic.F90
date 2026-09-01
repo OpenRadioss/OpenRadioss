@@ -156,8 +156,8 @@
           cstf(1:nel,6,6) = shear(1:nel)
           !< Sound speed
           if (ieos > 0) then 
-            soundsp(1:nel) = sqrt((dpdm(1:nel) +                               &
-                                    four_over_3*shear(1:nel))/rho(1:nel))
+            soundsp(1:nel) = sqrt(max((dpdm(1:nel) +                           &
+                                    four_over_3*shear(1:nel))/rho(1:nel),zero))
           else
             soundsp(1:nel) = sqrt((bulk(1:nel)+                                &
                                     four_over_3*shear(1:nel))/rho(1:nel))
