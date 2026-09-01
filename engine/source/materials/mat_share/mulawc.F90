@@ -2418,12 +2418,11 @@
                       eps1(1:nel) = uvar(ii:ii+nel)
                       eps2(1:nel) = uvar(jj:jj+nel)
                     endif
-                    call fail_fabric_c(&
-                    &nel      ,ngl       ,nupar     ,nvarf     ,nfunc_fail    ,&
-                    &uparamf  ,uvarf     ,ifunc_fail    ,tt        ,dt1       ,&
-                    &npf      ,tf        ,depsxx     ,depsyy     ,eps1      ,&
-                    &eps2     ,signxx    ,signyy    ,dfmax     ,tdel      ,&
-                    &ipg      ,ilayer    ,it        ,off       ,foff      )
+                    call fail_fabric_c(mat_elem%mat_param(imat)%fail(ifl) ,nel      ,&
+                     ngl      ,nvarf     ,nvarftmp  ,uvarf     ,vartmp    ,&
+                     tt       ,dt1       ,depsxx    ,depsyy    ,eps1      ,&
+                     eps2     ,signxx    ,signyy    ,dfmax     ,tdel      ,&
+                     ipg      ,ilayer    ,it        ,off       ,foff      )
 !
                    case (32)     !    hc_dsse failure model
                     call fail_hc_dsse_c(&
