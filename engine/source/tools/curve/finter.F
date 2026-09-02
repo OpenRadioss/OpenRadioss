@@ -41,8 +41,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_connect                 ../engine/source/materials/fail/connect/fail_connect.F
 !||    fail_fabric_c                ../engine/source/materials/fail/fabric/fail_fabric_c.F
 !||    fail_nxt_c                   ../engine/source/materials/fail/nxt/fail_nxt_c.F
-!||    fail_orthbiquad_c            ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
-!||    fail_orthbiquad_s            ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_sahraei_s               ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_snconnect               ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||    fail_syazwan_c               ../engine/source/materials/fail/syazwan/fail_syazwan_c.F

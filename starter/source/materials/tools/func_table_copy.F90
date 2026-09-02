@@ -29,6 +29,7 @@
 !||    hm_read_fail_energy       ../starter/source/materials/fail/energy/hm_read_fail_energy.F
 !||    hm_read_fail_fld          ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gene1        ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
+!||    hm_read_fail_orthbiquad   ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthstrain   ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_mat123            ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
@@ -53,6 +54,7 @@
 !||    hm_read_fail_energy       ../starter/source/materials/fail/energy/hm_read_fail_energy.F
 !||    hm_read_fail_fld          ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gene1        ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
+!||    hm_read_fail_orthbiquad   ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthstrain   ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_mat123            ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
