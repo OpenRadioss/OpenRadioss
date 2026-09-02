@@ -327,6 +327,9 @@ C------------------------
           WA(II+20)= OUTPUT%DATA%INOUT%DM_OUT   !outlet mass
           WA(II+21)= OUTPUT%DATA%INOUT%DE_IN    !inlet energy
           WA(II+22)= OUTPUT%DATA%INOUT%DE_OUT   !outlet energy
+          WA(II+23)= ENINT + ENCIN + ENROT + (ECONT + ECONT_CUMU + ECONTV + ECONTD) + EHOUR ! +TTE
+     .                - OUTPUT%TH%WFEXT ! -EFW
+     .                + OUTPUT%DATA%INOUT%DE_IN + OUTPUT%DATA%INOUT%DE_OUT ! +inlet/outlet energy  (DE_IN > 0, DE_OUT < 0)
           IF(IUNIT==IUHIS) CALL WRTDES(WA,WA,NGLOBTH,ITTYP,1)
         ENDIF  ! ISPMD==0
 C-----------------------------

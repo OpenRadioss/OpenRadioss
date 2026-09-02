@@ -249,6 +249,7 @@
           write(io, *) "         20 M_OUT     OUTLET MASS"
           write(io, *) "         21 E_IN      INLET ENERGY"
           write(io, *) "         22 E_OUT     OUTLET ENERGY"
+          write(io, *) "         23 DTE_INOUT IE+KE+RKE+CE+HE-EFW+E_IN-E_OUT"
 
 
           write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
