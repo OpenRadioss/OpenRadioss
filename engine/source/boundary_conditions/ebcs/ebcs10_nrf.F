@@ -141,8 +141,9 @@ C-----------------------------------------------
       my_real :: YM
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
-      INTEGER :: ADRESS ! adress for parit/on array
-      INTEGER :: SURF_ID ! EBCS Surface Identify
+      INTEGER :: ADRESS !< address for parit/on array
+      INTEGER :: SURF_ID !< EBCS Surface Identify
+      INTEGER :: IFORM !< /EBCS/NRF formulation flag
 C-----------------------------------------------
       DATA ICF_2d  /1,2,2,3,3,4,4,1/
       DATA ICF_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
@@ -157,6 +158,7 @@ C-----------------------------------------------
       DM_IN = ZERO
       DM_OUT = ZERO
       YM = ONE
+      IFORM = EBCS%IFORM
       
       ALPHA = DT1/TCAR_P
       BETA = DT1/MAX(DT1,TCAR_VF)
@@ -295,11 +297,11 @@ C-----------------------------------------------
           IF(TIME == ZERO)Pold=Pvois+DP0 
 
           !-- fixed far-field reference pressure used as the relaxation target.
-          IF(EBCS%has_pref .AND. ALLOCATED(EBCS%pref))THEN
+          IF(EBCS%has_pref .AND. ALLOCATED(EBCS%pref) .AND. IFORM /= 3)THEN
             IF(TIME == ZERO)EBCS%pref(IS) = Pvois + DP0
             Pref = EBCS%pref(IS)
           ELSE
-            ! fallback (e.g. legacy restart without pref): keep previous behaviour
+            ! iform 3
             Pref = Pvois + DP0
           ENDIF
 
@@ -362,6 +364,7 @@ C-----------------------------------------------
               RHOC2 = RHO*SSP*SSP
               ROC   =SQRT(RHO*RHOC2)
               PP    = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*Pref/(ALPHA + ONE)
+
             ENDIF
             !-- storage for next cycle (only on found segments, kept consistent with Vold)
             EBCS%pold(IS) = PP
