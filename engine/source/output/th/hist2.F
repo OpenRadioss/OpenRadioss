@@ -77,6 +77,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    pinchtype_mod           ../common_source/modules/pinchtype_mod.F
 !||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
 !||    sensor_mod              ../common_source/modules/sensor_mod.F90
+!||    spmd_mod                ../engine/source/mpi/spmd_mod.F90
 !||    stack_mod               ../engine/share/modules/stack_mod.F
 !||    th_mod                  ../engine/share/modules/th_mod.F
 !||    th_surf_mod             ../common_source/modules/interfaces/th_surf_mod.F

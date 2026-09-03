@@ -34,6 +34,7 @@
 !||    deallocate_fi1_tmp              ../engine/source/mpi/interfaces/spmd_i25slide.F
 !||    freform                         ../engine/source/input/freform.F
 !||    genh3d                          ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    hist2                           ../engine/source/output/th/hist2.F
 !||    init_ale_aconve                 ../engine/source/ale/init_ale_aconve.F90
 !||    init_ale_arezon                 ../engine/source/ale/init_ale_arezon.F90
 !||    init_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
