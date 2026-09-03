@@ -35,21 +35,24 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_FAIL_SAHRAEI(    
-     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   )
+      SUBROUTINE HM_READ_FAIL_SAHRAEI(FAIL    ,    
+     .           TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Sahraei failure criterion (irup = 29)
 C-----------------------------------------------
 C    M o d u l e s
 C-----------------------------------------------
-      USE FAIL_PARAM_MOD
-      USE UNITAB_MOD
-      USE MESSAGE_MOD
-      USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD
+      use fail_param_mod
+      use unitab_mod
+      use message_mod
+      use submodel_mod
+      use hm_option_read_mod
       use my_alloc_mod
+      use names_and_titles_mod , only : nchartitle
+      use table_mod
+      use func_table_copy_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,20 +64,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
-      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
-      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
-      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
-      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
+      integer ,intent(in) :: fail_id                       !< failure model id
+      integer ,intent(in) :: mat_id                        !< material law id
+      integer ,intent(in) :: irupt                         !< failure model type number
+      character(len=nchartitle)  ,intent(in) :: title      !< material model title
+      type(unit_type_)   ,intent(in)    :: unitab          !< table of input units
+      type(submodel_data),intent(in)    :: lsubmodel(*)    !< submodel table
+      type(fail_param_)  ,intent(inout) :: fail            !< failure model data structure
+      integer            ,intent(in)    :: ntable          !< number of function tables in radioss input
+      type(ttable) ,dimension(ntable) ,intent(in) :: table !< input table array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NUM,DEN,ORDI,COMP_DIR,IDEL,NUPARAM,NUVAR,NFUNC
-      INTEGER ,PARAMETER :: NSIZE = 2
-      INTEGER ,DIMENSION(NSIZE) :: IFUNC
+      INTEGER :: I,NUM,DEN,ORDI,COMP_DIR,IDEL,NUVAR,NF,IERROR
+      INTEGER ,PARAMETER :: NFUNC = 2
+      INTEGER ,DIMENSION(NFUNC) :: IFUNC
       my_real :: VOL_STRAIN,MAX_COMP_STRAIN,RATIO,EL_REF,EL_REF_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
+      my_real :: x1scale,x2scale
+      my_real, dimension(1) :: x2vect,yscale      
+!
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C=======================================================================
@@ -143,47 +152,56 @@ C===============================================================================
 C===================================================================================
 C NUMBER OF PARAMETERS,FUNCTIONS, AND USER VARIABLE
 C===================================================================================
-      NUPARAM = 9
       IF (IFUNC(2) > 0) THEN
-        NFUNC = 2
         NUVAR = 1
       ELSE
-        NFUNC = 1
         NUVAR = 0
       ENDIF
 C===================================================================================
 C STORING PARAMETERS
 C===================================================================================
-      FAIL%KEYWORD = 'SAHRAEI' 
-      FAIL%IRUPT   = IRUPT 
-      FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = NUPARAM
-      FAIL%NIPARAM = 0
-      FAIL%NUVAR   = NUVAR
-      FAIL%NFUNC   = NFUNC
-      FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
+      FAIL%KEYWORD  = 'SAHRAEI' 
+      FAIL%IRUPT    = IRUPT 
+      FAIL%FAIL_ID  = FAIL_ID 
+      FAIL%NUPARAM  = 4
+      FAIL%NIPARAM  = 5
+      FAIL%NUVAR    = NUVAR
+      FAIL%NVARTMP  = NFUNC
+      FAIL%NFUNC    = 0
+      FAIL%NTABLE   = 0
+      FAIL%NTABLE4D = NFUNC
+      FAIL%NMOD     = 0
 c            
       call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
       call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
       call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
       call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
-      
-      FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
 c
+      FAIL%IPARAM(1) = NUM
+      FAIL%IPARAM(2) = DEN
+      FAIL%IPARAM(3) = ORDI
+      FAIL%IPARAM(4) = COMP_DIR
+      FAIL%IPARAM(5) = IDEL
+       !
       FAIL%UPARAM(1) = VOL_STRAIN
-      FAIL%UPARAM(2) = NUM
-      FAIL%UPARAM(3) = DEN
-      FAIL%UPARAM(4) = ORDI
-      IF (COMP_DIR == ZERO) THEN
-        FAIL%UPARAM(5) = ZERO
-      ELSE
-        FAIL%UPARAM(5) = COMP_DIR
-      ENDIF
-      FAIL%UPARAM(6) = MAX_COMP_STRAIN
-      FAIL%UPARAM(7) = RATIO
-      FAIL%UPARAM(8) = IDEL
-      FAIL%UPARAM(9) = EL_REF
+      FAIL%UPARAM(2) = MAX_COMP_STRAIN
+      FAIL%UPARAM(3) = RATIO
+      FAIL%UPARAM(4) = EL_REF
+! ----------------------------------------------------------------------------------------------------------------------
+      ! create local function tables using input functions
+      nf = 1
+      x1scale    = one
+      x2scale    = one
+      yscale(1)  = one
+      x2vect(:)  = zero
+      do i = 1,nf
+        call func_table_copy(fail%table4d(i),title   ,mat_id   ,      
+     .           nf       ,ifunc(i),x2vect  ,x1scale ,      
+     .           x2scale  ,yscale  ,ntable  ,table   ,      
+     .           ierror  )
+      end do
+c--------------------------
 C===================================================================================
 C PRINTING OUT DATA
 C===================================================================================
