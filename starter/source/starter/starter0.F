@@ -121,6 +121,7 @@ C-----------------------------------------------
       use hm_create_rbodies_from_rigid_parts_mod
       use hm_convert_tetra4_to_tetra10_mod
       use input_modification_mod, only : input_modif_
+      use write_include_files_list_mod, only : write_include_files_list
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -688,15 +689,15 @@ C-------------------------------------------------------------------
       allocate(LSUBMODEL(1))
       IF(ALLOCATED(LSUBMODEL)) DEALLOCATE(LSUBMODEL)
 
+      GLOBAL_PATH = TRIM(PATH)
+      STATUS_CWD = GETCWD(CWD)
 C------------------------------------------------
 C Build model in memory (Radioss format)
 C------------------------------------------------
       IF (GOT_INPUT == 1 .AND. IS_DYNA == 0)THEN
 C
         CALL STARTIME(16,1)
-        STATUS_CWD = GETCWD(CWD)
         LEN_CWD = LEN_TRIM(CWD)
-        GLOBAL_PATH = TRIM(PATH)
 c
         CALL CPP_BUILD_MODEL_INC(FNAME,LFNAME,EDI_RES,NB_DYNA_INCLUDE,GLOBAL_PATH,LEN_TRIM(GLOBAL_PATH) )
 c
@@ -706,14 +707,13 @@ c
           CALL CPP_PRINT_DYNA(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
           OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
      .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")   
-          WRITE(IOUT,'(A)')''
-          WRITE(IOUT,'(A)')''
-          WRITE(IOUT,'(A)')'************************************************************************'
-          WRITE(IOUT,'(A)')'* RADIOSS STARTER PROCESS'
-          WRITE(IOUT,'(A)')'************************************************************************'
         ENDIF
         CALL STOPTIME(16,1)
       ENDIF
+C------------------------------------------------
+C Write include files list
+C------------------------------------------------
+      CALL WRITE_INCLUDE_FILES_LIST(FNAME,CWD,IS_DYNA,IOUT)
 C-------------------------------------------------------------------
 C     Keyword mapping header output ( DYNA to RADIOSS)
 C-------------------------------------------------------------------
@@ -723,11 +723,6 @@ C-------------------------------------------------------------------
           CALL CPP_PRINT_DYNA(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
           OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
      .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")   
-          WRITE(IOUT,'(A)')''
-          WRITE(IOUT,'(A)')''
-          WRITE(IOUT,'(A)')'************************************************************************'
-          WRITE(IOUT,'(A)')'* RADIOSS STARTER PROCESS'
-          WRITE(IOUT,'(A)')'************************************************************************'
         ENDIF
 C------------------------------------------------
 C Output errors/warning message (input reading phase)
