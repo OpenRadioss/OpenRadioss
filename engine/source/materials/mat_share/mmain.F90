@@ -146,7 +146,6 @@
 !||    mqviscb                 ../engine/source/materials/mat_share/mqviscb.F
 !||    mreploc                 ../engine/source/materials/mat_share/mreploc.F
 !||    mrotens                 ../engine/source/materials/mat_share/mrotens.F
-!||    mtheta                  ../engine/source/materials/mat_share/mtheta.F
 !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
 !||    put_etfac               ../engine/source/elements/solid/solide8z/put_etfac.F
 !||    putsignor3              ../engine/source/elements/solid/solide8z/putsignor3.F
@@ -1315,11 +1314,6 @@
             &dvol,               voln,               pturb,               tmu,&
             &vis,                vd2,                mat,                pid,&
             &lft,                llt,                jpor,               jclose)
-            if (jthe == 1) then
-              call mtheta(pm,       lbuf%eint,lbuf%temp,amu,   &
-                c1,       c2,       df,       psh,   &
-                pc,       mat,      nel)
-            end if
 !
           else if (mtn == 10) then
             call m10law(pm      ,off      ,lbuf%sig  ,lbuf%eint,lbuf%rho,&
@@ -1572,10 +1566,7 @@
             &vd2,     dvol,    aire,    einc,&
             &pturb,   alogey,  nel,&
             &lft,     llt,     jpor)
-            if(jthe == 1)call mtheta(&
-            &pm,       lbuf%eint,lbuf%temp,amu,&
-            &c1,       c2,       df,       psh,&
-            &pc,       mat,      nel)
+
           else if (mtn == 18) then
             call m18law(&
             &pm,         lbuf%vol,   lbuf%eint,  lbuf%temp,&
