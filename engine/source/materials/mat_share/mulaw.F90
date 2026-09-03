@@ -1594,7 +1594,7 @@
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
             &epsd     ,lbuf%dmg ,ssp      ,uvar     ,off      ,amu      ,&
-            &et       )
+            &et       ,inloc    ,varnl    ,l_planl  ,lbuf%planl)
 !
           else if (mtn == 80) then
             call sigeps80(&
@@ -2875,7 +2875,7 @@
 !------------------------------------------------------------
 !     variable to regularize with non-local
 !------------------------------------------------------------
-          if ((elbuf_tab(ng)%bufly(ilay)%l_pla > 0).and.(mtn /= 126)) then
+          if ((elbuf_tab(ng)%bufly(ilay)%l_pla > 0).and.(mtn /= 126).and.(mtn /= 79)) then
             if (inloc > 0) then
 #include "vectorize.inc"
               do i=1,nel

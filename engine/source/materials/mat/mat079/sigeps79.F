@@ -33,7 +33,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      4      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      5      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6      EPSD     ,DMG      ,SOUNDSP  ,UVAR     ,OFF      ,AMU      ,
-     7      ET       )      
+     7      ET       ,INLOC    ,VARNL    ,L_PLANL  ,PLANL    )
 C
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -70,6 +70,13 @@ C----------------------------------------------------------------
       my_real,INTENT(INOUT) :: 
      .      UVAR(NEL,NUVAR),OFF(NEL),DMG(NEL),
      .      DEFP(NEL),ET(NEL)
+C----------------------------------------------------------------
+C  N O N - L O C A L   A R G U M E N T S
+C----------------------------------------------------------------
+      INTEGER,INTENT(IN) :: INLOC
+      INTEGER,INTENT(IN) :: L_PLANL
+      my_real,INTENT(INOUT) :: VARNL(NEL)
+      my_real,INTENT(IN) :: PLANL(L_PLANL*NEL)
 C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
@@ -154,6 +161,54 @@ c
       ENDDO
 c
       !========================================================================
+      ! - UPDATE PLASTIC STRAIN AND DAMAGE IN CASE OF NON-LOCAL REGULARISATION
+      !========================================================================
+      NINDX = 0
+      INDX(1:NEL) = 0
+      IF (INLOC > 0) THEN
+        DO I=1,NEL
+          IF (OFF(I) == ONE) THEN
+c
+            ! Compute plastic strain at failure
+            IF (D2 == ZERO) THEN
+              EPFAIL = D1
+            ELSEIF ((PSTAR(I)+TSTAR) >= ZERO) THEN
+              EPFAIL = D1*(PSTAR(I)+TSTAR)**D2
+            ELSE
+              EPFAIL = ZERO
+            ENDIF
+c
+            ! Update damage using the non-local variable
+            IF (EPFAIL > ZERO) THEN
+              DMG(I)  = DMG(I)  + MAX(VARNL(I),ZERO)/EPFAIL
+              DMG(I)  = MIN(DMG(I),ONE)
+            ENDIF
+c
+            ! Check element deletion
+            IF (IDEL == 1) THEN
+              IF ((PSTAR(I)+TSTAR) < ZERO) THEN
+                OFF(I) = FOUR_OVER_5
+                NINDX  = NINDX + 1
+                INDX(NINDX) = I
+              ENDIF
+            ELSEIF (IDEL == 2) THEN
+              IF (PLANL(I) > EPSMAX) THEN
+                OFF(I) = FOUR_OVER_5
+                NINDX  = NINDX + 1
+                INDX(NINDX) = I
+              ENDIF
+            ELSEIF (IDEL == 3) THEN
+              IF (DMG(I) == ONE) THEN
+                OFF(I) = FOUR_OVER_5
+                NINDX  = NINDX + 1
+                INDX(NINDX) = I
+              ENDIF
+            ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
+c
+      !========================================================================
       ! - COMPUTATION OF THE YIELD STRESS
       !========================================================================
       DO I=1,NEL
@@ -213,54 +268,61 @@ c
       !========================================================================
       ! - UPDATE PLASTIC STRAIN AND DAMAGE
       !========================================================================
-      NINDX = 0
-      INDX(1:NEL) = 0
       DO I=1,NEL
-        IF (OFF(I) == ONE) THEN 
-c
-          ! Compute plastic strain at failure
-          IF (D2 == ZERO) THEN
-            EPFAIL = D1
-          ELSEIF ((PSTAR(I)+TSTAR) >= ZERO) THEN
-            EPFAIL = D1*(PSTAR(I)+TSTAR)**D2
-          ELSE
-            EPFAIL = ZERO
-          ENDIF
-c
-          ! Update plastic strain and damage
-          ! -> When damage parameters are defined, progressive failure + plastic strain
-          IF (EPFAIL > ZERO) THEN 
-            DPLA(I) = (ONE - SCALE(I))*VM(I)/(THREE*G)
-            DEFP(I) = DEFP(I) + DPLA(I)  
-            DMG(I)  = DMG(I)  + DPLA(I)/EPFAIL
-            DMG(I)  = MIN(DMG(I),ONE)
-          ! -> When damage parameters are not defined, no plastic strain and instant failure
-          ELSEIF (SCALE(I)<ONE) THEN 
-            DMG(I)  = ONE
-          ENDIF
-c 
-          ! Check element deletion
-          IF (IDEL == 1) THEN 
-            IF ((PSTAR(I)+TSTAR) < ZERO) THEN 
-              OFF(I) = FOUR_OVER_5
-              NINDX  = NINDX + 1
-              INDX(NINDX) = I
-            ENDIF 
-          ELSEIF (IDEL == 2) THEN 
-            IF (DEFP(I) > EPSMAX) THEN 
-              OFF(I) = FOUR_OVER_5
-              NINDX  = NINDX + 1
-              INDX(NINDX) = I
-            ENDIF
-          ELSEIF (IDEL == 3) THEN 
-            IF (DMG(I) == ONE) THEN 
-              OFF(I) = FOUR_OVER_5
-              NINDX  = NINDX + 1
-              INDX(NINDX) = I
-            ENDIF            
-          ENDIF
+        IF (OFF(I) == ONE) THEN
+          DPLA(I) = (ONE - SCALE(I))*VM(I)/(THREE*G)
+          DEFP(I) = DEFP(I) + DPLA(I) 
         ENDIF
-      ENDDO    
+      ENDDO
+c
+      IF (INLOC == 0) THEN
+        NINDX = 0
+        INDX(1:NEL) = 0
+        DO I=1,NEL
+          IF (OFF(I) == ONE) THEN 
+c
+            ! Compute plastic strain at failure
+            IF (D2 == ZERO) THEN
+              EPFAIL = D1
+            ELSEIF ((PSTAR(I)+TSTAR) >= ZERO) THEN
+              EPFAIL = D1*(PSTAR(I)+TSTAR)**D2
+            ELSE
+              EPFAIL = ZERO
+            ENDIF
+c
+            ! Update plastic strain and damage
+            ! -> When damage parameters are defined, progressive failure + plastic strain
+            IF (EPFAIL > ZERO) THEN  
+              DMG(I)  = DMG(I)  + DPLA(I)/EPFAIL
+              DMG(I)  = MIN(DMG(I),ONE)
+            ! -> When damage parameters are not defined, no plastic strain and instant failure
+            ELSEIF (SCALE(I)<ONE) THEN 
+              DMG(I)  = ONE
+            ENDIF
+c 
+            ! Check element deletion
+            IF (IDEL == 1) THEN 
+              IF ((PSTAR(I)+TSTAR) < ZERO) THEN 
+                OFF(I) = FOUR_OVER_5
+                NINDX  = NINDX + 1
+                INDX(NINDX) = I
+              ENDIF 
+            ELSEIF (IDEL == 2) THEN 
+              IF (DEFP(I) > EPSMAX) THEN 
+                OFF(I) = FOUR_OVER_5
+                NINDX  = NINDX + 1
+                INDX(NINDX) = I
+              ENDIF
+            ELSEIF (IDEL == 3) THEN 
+              IF (DMG(I) == ONE) THEN 
+                OFF(I) = FOUR_OVER_5
+                NINDX  = NINDX + 1
+                INDX(NINDX) = I
+              ENDIF            
+            ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
 c  
       !========================================================================
       ! - COMPUTE PRESSURE INCREMENT
@@ -299,6 +361,17 @@ C
         ENDIF
         UVAR(I,1)  = DELTAP(I)
         UVAR(I,2)  = SIGY(I)*SHEL
+        ! Non-local variable to regularize
+        IF (INLOC > 0) THEN
+          IF (OFF(I) == ONE) THEN
+            VARNL(I) = DEFP(I)
+            IF (DMG(I) >= ONE) THEN
+              VARNL(I) = ZERO
+            ENDIF
+          ELSE
+            VARNL(I) = ZERO
+          ENDIF
+        ENDIF
       ENDDO
 C
       !========================================================================
