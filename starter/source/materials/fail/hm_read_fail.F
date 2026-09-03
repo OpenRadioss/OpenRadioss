@@ -477,7 +477,8 @@ c
             ELSEIF (KEY(1:8) == 'SAHRAEI') THEN
               IRUPT = 29
               CALL HM_READ_FAIL_SAHRAEI(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .             TITLE   ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             NTABLE  ,TABLE    ,LSUBMODEL,UNITAB   )
 c     
             ELSEIF (KEY(1:6) == 'BIQUAD') THEN
               IRUPT = 30

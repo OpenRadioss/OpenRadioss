@@ -31,15 +31,19 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    finter           ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_SAHRAEI_S(
-     1     NEL   ,NFUNC ,IFUNC ,NPF   ,TF     ,
-     2     TIME  ,NGL   ,UPARAM ,
-     3     EPSXX ,EPSYY ,EPSZZ ,EPSXY ,EPSYZ  ,
-     4     EPSZX ,OFF   ,DFMAX ,TDELE  , 
-     5     DELTAX,NUVAR ,UVAR  )
+      SUBROUTINE FAIL_SAHRAEI_S(FAIL  ,
+     1     NEL    ,NUVAR  ,NVARTMP,UVAR   ,VARTMP  ,
+     2     TIME   ,NGL    ,EPSXX  ,EPSYY  ,EPSZZ   ,
+     3     EPSXY  ,EPSYZ  ,EPSZX  ,OFF    ,DFMAX   ,
+     5     TDELE  ,DELTAX )
 C-----------------------------------------------
 C   MIT Wierzbicki Sahraei electric battery failure
 C   /FAIL/SAHRAEI1 - tabulated rupture criteria for solids
+C-----------------------------------------------
+C   Modules
+C-----------------------------------------------
+      use fail_param_mod
+      use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,17 +52,10 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C IFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER FAILURE PARAMETER ARRAY
 C---------+---------+---+---+--------------------------------------------
 C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
@@ -75,45 +72,27 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-C
-      INTEGER NEL,NUVAR
-      INTEGER NGL(NEL)
-      INTEGER, INTENT(IN) :: NFUNC 
-      INTEGER, DIMENSION(NFUNC), INTENT(IN) ::  IFUNC    
-      my_real TIME,UPARAM(*),
-     .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,UVAR(NEL,NUVAR),
-     .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,DELTAX(NEL)
+      INTEGER ,INTENT(IN) :: NEL
+      INTEGER ,INTENT(IN) :: NUVAR,NVARTMP
+      INTEGER ,DIMENSION(NEL) :: NGL  
+      INTEGER ,DIMENSION(NEL,NVARTMP) :: VARTMP
+      my_real ,DIMENSION(NEL,NUVAR)   :: UVAR
+      my_real :: TIME
+      my_real :: EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,DELTAX(NEL)
+      type (fail_param_) ,intent(in) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real OFF(NEL), DFMAX(NEL),TDELE(NEL)
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER ,TF(*),DYDX
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,II,J,NINDX1,NINDX2,NUM,DEN,
-     .          FAIL_ORT,ORDI,COMP_DIR,NINDXOFF,IDEL
-        my_real
-     .          VOL_STRAIN_LIMIT,MAX_COMP_STRAIN,RATIO_2,EL_REF,DAMAGE_SP(NEL)
-        DOUBLE PRECISION          
-     .          I1,I2,I3,E11,E22,E33,EXX,EYY,EZZ,EXY,EZX,EYZ,
-     .          Q,R,R_INTER,PHI,RATIO(NEL),DAMAGE(NEL),E00,FAC,
-     .          VOL_STRAIN,NUMERATOR,DENOMINATOR,
-     .          LAMBDA,PLAMAX(NEL)
-        INTEGER,DIMENSION(NEL) :: INDX1,INDX2,INDX3,INDXOFF
-C-----------------------------------------------
+        INTEGER I,II,J,NINDX1,NINDX2,NUM,DEN,ORDI,COMP_DIR,NINDXOFF,IDEL
+        INTEGER ,DIMENSION(NEL) :: FAIL_ORT,INDX1,INDX2,INDX3,INDXOFF
+        my_real :: MAX_COMP_STRAIN,RATIO_2,EL_REF,DAMAGE_SP(NEL)
+        DOUBLE PRECISION :: I1,I2,I3,Q,R,R_INTER,PHI,E00,VOL_STRAIN_LIMIT,NUMERATOR,DENOMINATOR
+        DOUBLE PRECISION ,DIMENSION(NEL) :: E11,E22,E33,EXX,EYY,EZZ,EXY,EZX,EYZ,VOL_STRAIN
+        my_real ,DIMENSION(NEL) :: LAMBDA,DYDX,Y_LOC,PLAMAX,RATIO,DAMAGE,SIZE_FAC
 c!#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
 c!#
 c!# NUMERATOR    =  1  ==> Eps_xx 
@@ -153,27 +132,29 @@ C-----------------------------------------------
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering model parameters
-      VOL_STRAIN_LIMIT = UPARAM(1)
-      NUM              = INT(UPARAM(2))
-      DEN              = INT(UPARAM(3))
-      ORDI             = INT(UPARAM(4))
-      COMP_DIR         = INT(UPARAM(5))
-      MAX_COMP_STRAIN  = UPARAM(6)
-      RATIO_2          = UPARAM(7)
-      IDEL             = INT(UPARAM(8))
-      EL_REF           = UPARAM(9)
-c      
+  
+      NUM              = FAIL%IPARAM(1)
+      DEN              = FAIL%IPARAM(2)
+      ORDI             = FAIL%IPARAM(3)
+      COMP_DIR         = FAIL%IPARAM(4)
+      IDEL             = FAIL%IPARAM(5)
+      
+      VOL_STRAIN_LIMIT = FAIL%UPARAM(1)
+      MAX_COMP_STRAIN  = FAIL%UPARAM(2)
+      RATIO_2          = FAIL%UPARAM(3)
+      EL_REF           = FAIL%UPARAM(4)
+c-----------------------------------------------      
       ! Initialization
-      IF (NFUNC == 2) THEN 
+      IF (FAIL%TABLE4D(2)%NOTABLE > 0) THEN 
         IF (UVAR(1,1) == ZERO) THEN
-          DO I=1,NEL
-            LAMBDA    = DELTAX(I)/EL_REF
-            UVAR(I,1) = FINTER(IFUNC(2),LAMBDA,NPF,TF,DYDX) 
-          ENDDO
+          LAMBDA(:) = DELTAX(:)/EL_REF
+          call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp,lambda,uvar(1:nel,2:2),dydx)
         ENDIF
+        SIZE_FAC(1:nel) = UVAR(1:nel,1)  !  element size factor 
+      ELSE
+        SIZE_FAC(1:nel) = ONE
       ENDIF
 c      
-      ! Recovering internal variables
       DO I=1,NEL
         ! Checking failure flag
         IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
@@ -181,12 +162,6 @@ c
         ! Resetting damage variable
         DAMAGE(I)    = ZERO
         DAMAGE_SP(I) = ZERO
-        ! Recovering element size factor if needed
-        IF (NFUNC == 2) THEN
-          FAC = UVAR(I,1)
-        ELSE
-          FAC = ONE
-        ENDIF
       END DO
 c
       ! Initialization of counter
@@ -205,148 +180,156 @@ c
       !=======================================================================
       ! Loop over elements
 #include "vectorize.inc" 
-      DO II = 1,NINDXOFF
-c      
-        ! Number of the element                                           
+      DO II = 1,NINDXOFF                                           
         I = INDXOFF(II)
 C
         ! Initialization of FAIL_ORT
-        FAIL_ORT = ORDI
+        FAIL_ORT(I) = ORDI
 C
         ! Copying strain value
-        EXX = EPSXX(I)
-        EYY = EPSYY(I)
-        EZZ = EPSZZ(I)
-        EXY = HALF*EPSXY(I)
-        EYZ = HALF*EPSYZ(I)
-        EZX = HALF*EPSZX(I)
+        EXX(I) = EPSXX(I)
+        EYY(I) = EPSYY(I)
+        EZZ(I) = EPSZZ(I)
+        EXY(I) = HALF*EPSXY(I)
+        EYZ(I) = HALF*EPSYZ(I)
+        EZX(I) = HALF*EPSZX(I)
 C
         ! Computation of strain tensor invariants (attention au formalisme : EPSXY = GAMMAXY = 2*DEFXY)
-        I1 = EXX + EYY + EZZ
-        I2 = EXX*EYY + EYY*EZZ + EZZ*EXX - EXY*EXY - EZX*EZX - EYZ*EYZ
-        I3 = EXX*EYY*EZZ - EXX*EYZ*EYZ - EYY*EZX*EZX - EZZ*EXY*EXY + TWO*EXY*EZX*EYZ
+        I1 = EXX(I) + EYY(I) + EZZ(I)
+        I2 = EXX(I)*EYY(I) + EYY(I)*EZZ(I) + EZZ(I)*EXX(I) - EXY(I)*EXY(I) - EZX(I)*EZX(I) - EYZ(I)*EYZ(I)
+        I3 = EXX(I)*EYY(I)*EZZ(I) - EXX(I)*EYZ(I)*EYZ(I) - EYY(I)*EZX(I)*EZX(I) - EZZ(I)*EXY(I)*EXY(I) + TWO*EXY(I)*EZX(I)*EYZ(I)
         Q  = (THREE*I2 - I1*I1)/NINE
         R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4
         R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
         PHI     = ACOS(MAX(R_INTER,-ONE))
         ! Computation of principal strain
-        E11 = TWO*SQRT(MAX(-Q,ZERO))*COS( PHI/THREE           ) + THIRD*I1
-        E22 = TWO*SQRT(MAX(-Q,ZERO))*COS((PHI+TWO*PI)/THREE  ) + THIRD*I1
-        E33 = TWO*SQRT(MAX(-Q,ZERO))*COS((PHI+FOUR*PI)/THREE) + THIRD*I1
+        E11(I) = TWO*SQRT(MAX(-Q,ZERO))*COS( PHI/THREE         ) + THIRD*I1
+        E22(I) = TWO*SQRT(MAX(-Q,ZERO))*COS((PHI+TWO*PI)/THREE ) + THIRD*I1
+        E33(I) = TWO*SQRT(MAX(-Q,ZERO))*COS((PHI+FOUR*PI)/THREE) + THIRD*I1
         ! Sorting principal strains
-        IF (E11 < E22) THEN 
-          R_INTER = E11
-          E11     = E22
-          E22     = R_INTER
+        IF (E11(I) < E22(I)) THEN 
+          R_INTER = E11(I)
+          E11(I)     = E22(I)
+          E22(I)     = R_INTER
         ENDIF 
-        IF (E22 < E33)THEN
-          R_INTER = E22
-          E22     = E33
-          E33     = R_INTER
+        IF (E22(I) < E33(I))THEN
+          R_INTER = E22(I)
+          E22(I)     = E33(I)
+          E33(I)     = R_INTER
         ENDIF
-        IF (E11 < E22)THEN
-          R_INTER = E11
-          E11     = E22
-          E22     = R_INTER
+        IF (E11(I) < E22(I))THEN
+          R_INTER = E11(I)
+          E11(I)     = E22(I)
+          E22(I)     = R_INTER
         ENDIF     
 c
         ! Computation of volumetric strain 
-        VOL_STRAIN = E11 + E22 + E33 + E11*E22 + E11*E33 + E22*E33 + E11*E22*E33
+        VOL_STRAIN(I) = E11(I) + E22(I) + E33(I) + E11(I)*E22(I) + E11(I)*E33(I) + E22(I)*E33(I) + E11(I)*E22(I)*E33(I)
 c
         !-----------------------------------------------------------------------------------
         ! Volumetric strain failure
         !-----------------------------------------------------------------------------------
-        IF (ABS(VOL_STRAIN) >= VOL_STRAIN_LIMIT) THEN
+        IF (ABS(VOL_STRAIN(I)) >= VOL_STRAIN_LIMIT) THEN
 C                  
           ! Numerator flag for strain-ratio
           IF (NUM == 1) THEN
-            NUMERATOR = EXX
+            NUMERATOR = EXX(I)
           ELSEIF (NUM == 2) THEN
-            NUMERATOR = EYY
+            NUMERATOR = EYY(I)
           ELSEIF (NUM == 3) THEN
-            NUMERATOR = EZZ
+            NUMERATOR = EZZ(I)
           ELSEIF (NUM == 4) THEN
-            NUMERATOR = E11
+            NUMERATOR = E11(I)
           ELSEIF (NUM == 5) THEN
-            NUMERATOR = E22
+            NUMERATOR = E22(I)
           ELSE !IF (NUM == 6) THEN
-            NUMERATOR = E33
+            NUMERATOR = E33(I)
           ENDIF
 C
           ! Denominator flag for strain-ratio     
           IF (DEN == 1) THEN 
-            DENOMINATOR = ((EXX + EZZ)/TWO) + SQRT(((EXX - EZZ)/TWO)**2 + EZX**2)            
+            DENOMINATOR = ((EXX(I) + EZZ(I))/TWO) + SQRT(((EXX(I) - EZZ(I))/TWO)**2 + EZX(I)**2)            
           ELSEIF (DEN == 2) THEN
-            DENOMINATOR = ((EXX + EYY)/TWO) + SQRT(((EXX - EYY)/TWO)**2 + EXY**2)            
+            DENOMINATOR = ((EXX(I) + EYY(I))/TWO) + SQRT(((EXX(I) - EYY(I))/TWO)**2 + EXY(I)**2)            
           ELSEIF (DEN == 3) THEN
-            DENOMINATOR = ((EYY + EZZ)/TWO) + SQRT(((EYY - EZZ)/TWO)**2 + EYZ**2)       
+            DENOMINATOR = ((EYY(I) + EZZ(I))/TWO) + SQRT(((EYY(I) - EZZ(I))/TWO)**2 + EYZ(I)**2)       
           ELSEIF (DEN == 4) THEN
-            DENOMINATOR = E11 
+            DENOMINATOR = E11(I)
           ELSEIF (DEN == 5) THEN
-            DENOMINATOR = E22
+            DENOMINATOR = E22(I)
           ELSE !IF (DEN == 6) THEN
-            DENOMINATOR = E33      
+            DENOMINATOR = E33(I)      
           ENDIF
 C
           ! Checking values
-          RATIO(I) = ABS(NUMERATOR/MAX(DENOMINATOR,EM20))
-          IF (NUMERATOR > ZERO .AND. DENOMINATOR > ZERO) RATIO(I) = ZERO
-          IF (NUMERATOR < ZERO .AND. DENOMINATOR < ZERO) FAIL_ORT = 1000
-          PLAMAX(I) = FINTER(IFUNC(1),RATIO(I),NPF,TF,DYDX)
-          PLAMAX(I) = PLAMAX(I) * FAC
-C             
+          RATIO(II) = ABS(NUMERATOR/MAX(DENOMINATOR,EM20))
+          IF (NUMERATOR > ZERO .AND. DENOMINATOR > ZERO) RATIO(I)    = ZERO
+          IF (NUMERATOR < ZERO .AND. DENOMINATOR < ZERO) FAIL_ORT(I) = 1000
+        END IF
+      END DO
+        !
+      call table_mat_vinterp(fail%table4d(1),nel,nindxoff,vartmp,ratio,y_loc,dydx)
+        !
+      do ii = 1,nindxoff
+        i = indxoff(ii)
+        plamax(i) = y_loc(ii) * size_fac(i)
+      end do
+        !
+      DO II = 1,NINDXOFF                                           
+        I = INDXOFF(II)
+        IF (ABS(VOL_STRAIN(I)) >= VOL_STRAIN_LIMIT) THEN       
           ! Case according to the ordinate
-          IF (FAIL_ORT == 1) THEN
+          IF (FAIL_ORT(I) == 1) THEN
             ! Computation of DAMAGE 
-            DAMAGE(I)= MAX(EXX/(MAX(PLAMAX(I),EM20)),
-     .                     EYY/(MAX(PLAMAX(I),EM20)),
-     .                     EZZ/(MAX(PLAMAX(I),EM20)))
+            DAMAGE(I)= MAX(EXX(I)/(MAX(PLAMAX(I),EM20)),
+     .                     EYY(I)/(MAX(PLAMAX(I),EM20)),
+     .                     EZZ(I)/(MAX(PLAMAX(I),EM20)))
             ! If the maximum strain is reached by one of the strain tensor diagonal components
-            IF (EXX >= PLAMAX(I) .OR. EYY >= PLAMAX(I) .OR. EZZ >= PLAMAX(I)) THEN
+            IF (EXX(I) >= PLAMAX(I) .OR. EYY(I) >= PLAMAX(I) .OR. EZZ(I) >= PLAMAX(I)) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
               DAMAGE(I)     = ONE
               OFF(I)        = FOUR_OVER_5
             ENDIF
-          ELSEIF (FAIL_ORT == 2) THEN
-            DAMAGE(I) = EXX/(MAX(PLAMAX(I),EM20))
-            IF (EXX >= PLAMAX(I) .AND. EXX > ZERO) THEN
+          ELSEIF (FAIL_ORT(I) == 2) THEN
+            DAMAGE(I) = EXX(I)/(MAX(PLAMAX(I),EM20))
+            IF (EXX(I) >= PLAMAX(I) .AND. EXX(I) > ZERO) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
               DAMAGE(I)     = ONE
               OFF(I)        = FOUR_OVER_5
             ENDIF            
-          ELSEIF (FAIL_ORT == 3) THEN
-            DAMAGE(I) = EYY/(MAX(PLAMAX(I),EM20))
-            IF (EYY >= PLAMAX(I) .AND. EYY > ZERO) THEN
+          ELSEIF (FAIL_ORT(I) == 3) THEN
+            DAMAGE(I) = EYY(I)/(MAX(PLAMAX(I),EM20))
+            IF (EYY(I) >= PLAMAX(I) .AND. EYY(I) > ZERO) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
               DAMAGE(I)     = ONE
               OFF(I)        = FOUR_OVER_5
             ENDIF            
-          ELSEIF (FAIL_ORT == 4) THEN
-            DAMAGE(I) = EZZ/(MAX(PLAMAX(I),EM20))
-            IF (EZZ >= PLAMAX(I) .AND. EZZ > ZERO) THEN
+          ELSEIF (FAIL_ORT(I) == 4) THEN
+            DAMAGE(I) = EZZ(I)/(MAX(PLAMAX(I),EM20))
+            IF (EZZ(I) >= PLAMAX(I) .AND. EZZ(I) > ZERO) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
               DAMAGE(I)     = ONE
               OFF(I)        = FOUR_OVER_5
             ENDIF            
-          ELSEIF (FAIL_ORT == 5) THEN
-            DAMAGE(I) = E11/(MAX(PLAMAX(I),EM20))
-            IF (E11 >= PLAMAX(I) .AND. E11 > ZERO) THEN
+          ELSEIF (FAIL_ORT(I) == 5) THEN
+            DAMAGE(I) = E11(I)/(MAX(PLAMAX(I),EM20))
+            IF (E11(I) >= PLAMAX(I) .AND. E11(I) > ZERO) THEN
               TDELE(I)      = TIME 
               NINDX1        = NINDX1 + 1  
               INDX1(NINDX1) = I
               DAMAGE(I)     = ONE
               OFF(I)        = FOUR_OVER_5
             ENDIF            
-          ELSEIF (FAIL_ORT == 6) THEN
-            E00 = ((EXX + EZZ)/TWO) + SQRT(((EXX - EZZ)/TWO)**2 + EZX**2)
+          ELSEIF (FAIL_ORT(I) == 6) THEN
+            E00 = ((EXX(I) + EZZ(I))/TWO) + SQRT(((EXX(I) - EZZ(I))/TWO)**2 + EZX(I)**2)
             DAMAGE(I) = E00/(MAX(PLAMAX(I),EM20))
             IF (E00 >= PLAMAX(I) .AND. E00 > ZERO) THEN
               TDELE(I)      = TIME 
@@ -355,8 +338,8 @@ C
               DAMAGE(I)     = ONE
               OFF(I)        = FOUR_OVER_5
             ENDIF            
-          ELSEIF (FAIL_ORT == 7) THEN
-            E00 = ((EXX + EYY)/TWO) + SQRT(((EXX - EYY)/TWO)**2 + EXY**2)
+          ELSEIF (FAIL_ORT(I) == 7) THEN
+            E00 = ((EXX(I) + EYY(I))/TWO) + SQRT(((EXX(I) - EYY(I))/TWO)**2 + EXY(I)**2)
             DAMAGE(I) = E00/(MAX(PLAMAX(I),EM20))
             IF (E00 >= PLAMAX(I) .AND. E00 > ZERO) THEN
               TDELE(I)      = TIME 
@@ -365,8 +348,8 @@ C
               DAMAGE(I)     = ONE
               OFF(I)        = FOUR_OVER_5
             ENDIF            
-          ELSEIF (FAIL_ORT == 8) THEN
-            E00 = ((EYY + EZZ)/TWO) + SQRT(((EYY - EZZ)/TWO)**2 + EYZ**2)
+          ELSEIF (FAIL_ORT(I) == 8) THEN
+            E00 = ((EYY(I) + EZZ(I))/TWO) + SQRT(((EYY(I) - EZZ(I))/TWO)**2 + EYZ(I)**2)
             DAMAGE(I) = E00/(MAX(PLAMAX(I),EM20))
             IF (E00 >= PLAMAX(I) .AND. E00 > ZERO) THEN
               TDELE(I)      = TIME 
@@ -383,7 +366,7 @@ C
         !-----------------------------------------------------------------------------------
         IF (COMP_DIR > 0 .AND. DFMAX(I) < ONE) THEN
           IF (COMP_DIR == 1) THEN 
-            IF (EYY < (-ABS(MAX_COMP_STRAIN))) THEN
+            IF (EYY(I) < (-ABS(MAX_COMP_STRAIN))) THEN
               IF (IDEL > 0) THEN 
                 OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
@@ -392,7 +375,7 @@ C
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I
               INDX3(NINDX2) = 2
-            ELSEIF (EZZ < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
+            ELSEIF (EZZ(I) < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
               IF (IDEL > 0) THEN
                 OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
@@ -403,7 +386,7 @@ C
               INDX3(NINDX2) = 3
             ENDIF             
           ELSEIF (COMP_DIR == 2) THEN 
-            IF (EZZ < (-ABS(MAX_COMP_STRAIN))) THEN
+            IF (EZZ(I) < (-ABS(MAX_COMP_STRAIN))) THEN
               IF (IDEL > 0) THEN
                 OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
@@ -412,7 +395,7 @@ C
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I
               INDX3(NINDX2) = 3
-            ELSEIF (EXX < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
+            ELSEIF (EXX(I) < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
               IF (IDEL > 0) THEN
                 OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
@@ -423,7 +406,7 @@ C
               INDX3(NINDX2) = 1
             ENDIF     
           ELSEIF (COMP_DIR == 3) THEN 
-            IF (EXX < (-ABS(MAX_COMP_STRAIN))) THEN
+            IF (EXX(I) < (-ABS(MAX_COMP_STRAIN))) THEN
               IF (IDEL > 0) THEN
                 OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
@@ -432,7 +415,7 @@ C
               NINDX2        = NINDX2 + 1  
               INDX2(NINDX2) = I
               INDX3(NINDX2) = 1
-            ELSEIF (EYY < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
+            ELSEIF (EYY(I) < (-ABS(MAX_COMP_STRAIN)*RATIO_2)) THEN
               IF (IDEL > 0) THEN
                 OFF(I)   = FOUR_OVER_5
                 TDELE(I) = TIME 
