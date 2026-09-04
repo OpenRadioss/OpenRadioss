@@ -50,6 +50,8 @@
         USE CONSTANT_MOD , ONLY : ZERO, ONE, TWO, THREE, TEN, HALF
         USE MY_ALLOC_MOD, ONLY : MY_ALLOC
         USE MY_DEALLOC_MOD, ONLY : MY_DEALLOC
+        USE CONTACT_BROAD_PHASE_TOL_MOD, ONLY : &
+     &      INTER_BP_TOL_GAP_PHYS, INTER_BP_TOL_SEARCH
         USE Q1NP_RESTART_MOD
         USE Q1NP_CONTACT_EXPORT_MOD, ONLY : Q1NP_CONTACT_EXPORT_ACCUMULATE
         USE Q1NP_NURBS_SURFACE_EVALUATION_MOD, ONLY : &
@@ -77,10 +79,16 @@
 !       shared element edges and corners.
         INTEGER, PARAMETER :: Q1NP_CONTACT_BP_NGP_U = 3
         INTEGER, PARAMETER :: Q1NP_CONTACT_BP_NGP_V = 3
+        INTEGER, PARAMETER :: Q1NP_CONTACT_BP_NSAMPLE = &
+     &      Q1NP_CONTACT_BP_NGP_U * Q1NP_CONTACT_BP_NGP_V
 
 !       Gap-dependent penalty tuning for NURBS contact.
 !       Lower bound used when interface GAP is zero/too small.
         REAL(KIND=WP), PARAMETER :: Q1NP_CONTACT_GAP_FALLBACK = 1.0E-6_WP
+!       Broad-phase padding is intentionally larger than the physical gap.
+!       This keeps sparse surface samples discoverable without changing the
+!       narrow-phase activation distance or the penalty-force calculation.
+        REAL(KIND=WP), PARAMETER :: Q1NP_CONTACT_BP_SEARCH_GAP_FACTOR = 3.0_WP
 !       Temporary debug switch: if enabled, only control-point based
 !       secondary stiffness is used (no bulk/nearest fallback path).
         LOGICAL, PARAMETER :: Q1NP_CONTACT_DISABLE_SECONDARY_FALLBACK = .FALSE.
@@ -109,6 +117,16 @@
         LOGICAL, SAVE :: Q1NP_FCONT_GRID_READY = .FALSE.
 
 ! ----------------------------------------------------------------------------------------------------------------------
+!       Coulomb friction history keyed by (ELEM_B, SAMPLE_SLOT).
+!       Reset when interface id or projected ELEM_A changes.
+! ----------------------------------------------------------------------------------------------------------------------
+        INTEGER, ALLOCATABLE, SAVE :: Q1NP_FRIC_KEY_NIN(:,:)
+        INTEGER, ALLOCATABLE, SAVE :: Q1NP_FRIC_KEY_ELEM_A(:,:)
+        REAL(KIND=WP), ALLOCATABLE, SAVE :: Q1NP_FRIC_FT(:,:,:)
+        LOGICAL, ALLOCATABLE, SAVE :: Q1NP_FRIC_ACTIVE(:,:)
+        INTEGER, SAVE :: Q1NP_FRIC_CACHE_NELEM = -1
+
+! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Contact pair type
 ! ----------------------------------------------------------------------------------------------------------------------
         TYPE Q1NP_CONTACT_PAIR
@@ -118,6 +136,7 @@
           INTEGER :: ELEM_A
           REAL(KIND=WP) :: XI_SRC, ETA_SRC
           INTEGER :: ELEM_B
+          INTEGER :: SAMPLE_SLOT_B
         END TYPE Q1NP_CONTACT_PAIR
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -135,6 +154,7 @@
           INTEGER, ALLOCATABLE       :: CANDIDATE_COUNT(:)
           LOGICAL, ALLOCATABLE       :: CANDIDATE_OVERFLOW(:)
           INTEGER :: NPTS_A = 0, NPTS_B = 0
+          REAL(KIND=WP) :: SEARCH_TOL = Q1NP_CONTACT_GAP_FALLBACK
         END TYPE Q1NP_CONTACT_WORKSPACE
 
         PUBLIC :: Q1NP_CONTACT_PAIR
@@ -144,8 +164,131 @@
         PUBLIC :: Q1NP_CONTACT_FORCE_ASSEMBLY
         PUBLIC :: Q1NP_CONTACT_WORKSPACE_FREE
         PUBLIC :: Q1NP_CONTACT_INIT_GRID_NODES
+        PUBLIC :: Q1NP_CONTACT_FRICTION_CYCLE_BEGIN
+        PUBLIC :: Q1NP_CONTACT_FRICTION_CYCLE_END
 
       CONTAINS
+
+!=======================================================================
+!   Q1NP_CONTACT_FRICTION_CYCLE_BEGIN
+!
+!   Prepare friction-history slots keyed by source element/sample.
+!=======================================================================
+        SUBROUTINE Q1NP_CONTACT_FRICTION_CYCLE_BEGIN(NUMELQ1NP)
+          INTEGER, INTENT(IN) :: NUMELQ1NP
+
+          INTEGER :: NELEM_EFF
+
+          NELEM_EFF = MAX(1, NUMELQ1NP)
+          IF (.NOT. ALLOCATED(Q1NP_FRIC_FT) .OR. &
+     &        Q1NP_FRIC_CACHE_NELEM /= NELEM_EFF) THEN
+            IF (ALLOCATED(Q1NP_FRIC_KEY_NIN)) DEALLOCATE(Q1NP_FRIC_KEY_NIN)
+            IF (ALLOCATED(Q1NP_FRIC_KEY_ELEM_A)) &
+     &        DEALLOCATE(Q1NP_FRIC_KEY_ELEM_A)
+            IF (ALLOCATED(Q1NP_FRIC_FT)) DEALLOCATE(Q1NP_FRIC_FT)
+            IF (ALLOCATED(Q1NP_FRIC_ACTIVE)) DEALLOCATE(Q1NP_FRIC_ACTIVE)
+
+            ALLOCATE(Q1NP_FRIC_KEY_NIN(Q1NP_CONTACT_BP_NSAMPLE, NELEM_EFF))
+            ALLOCATE(Q1NP_FRIC_KEY_ELEM_A(Q1NP_CONTACT_BP_NSAMPLE, NELEM_EFF))
+            ALLOCATE(Q1NP_FRIC_FT(3, Q1NP_CONTACT_BP_NSAMPLE, NELEM_EFF))
+            ALLOCATE(Q1NP_FRIC_ACTIVE(Q1NP_CONTACT_BP_NSAMPLE, NELEM_EFF))
+
+            Q1NP_FRIC_KEY_NIN(:,:) = 0
+            Q1NP_FRIC_KEY_ELEM_A(:,:) = 0
+            Q1NP_FRIC_FT(:,:,:) = ZERO
+            Q1NP_FRIC_ACTIVE(:,:) = .FALSE.
+            Q1NP_FRIC_CACHE_NELEM = NELEM_EFF
+          ELSE
+            Q1NP_FRIC_ACTIVE(:,:) = .FALSE.
+          END IF
+        END SUBROUTINE Q1NP_CONTACT_FRICTION_CYCLE_BEGIN
+
+!=======================================================================
+!   Q1NP_CONTACT_FRICTION_CYCLE_END
+!
+!   Drop friction history for source samples that were not active.
+!=======================================================================
+        SUBROUTINE Q1NP_CONTACT_FRICTION_CYCLE_END()
+          INTEGER :: IEL, ISLOT
+
+          IF (.NOT. ALLOCATED(Q1NP_FRIC_ACTIVE)) RETURN
+
+          DO IEL = 1, SIZE(Q1NP_FRIC_ACTIVE, 2)
+            DO ISLOT = 1, SIZE(Q1NP_FRIC_ACTIVE, 1)
+              IF (Q1NP_FRIC_ACTIVE(ISLOT, IEL)) CYCLE
+              Q1NP_FRIC_KEY_NIN(ISLOT, IEL) = 0
+              Q1NP_FRIC_KEY_ELEM_A(ISLOT, IEL) = 0
+              Q1NP_FRIC_FT(1:3, ISLOT, IEL) = ZERO
+            END DO
+          END DO
+        END SUBROUTINE Q1NP_CONTACT_FRICTION_CYCLE_END
+
+!=======================================================================
+!   Q1NP_CONTACT_FRICTION_ACQUIRE
+!
+!   Return tangential-force history for one committed source sample.
+!   History is reset when the projected target element changes.
+!=======================================================================
+        SUBROUTINE Q1NP_CONTACT_FRICTION_ACQUIRE( &
+     &      NIN, ELEM_A, ELEM_B, SAMPLE_SLOT, F_HIST, SLOT_VALID)
+          INTEGER, INTENT(IN) :: NIN, ELEM_A, ELEM_B, SAMPLE_SLOT
+          REAL(KIND=WP), INTENT(OUT) :: F_HIST(3)
+          LOGICAL, INTENT(OUT) :: SLOT_VALID
+
+          F_HIST(1:3) = ZERO
+          SLOT_VALID = .FALSE.
+          IF (.NOT. ALLOCATED(Q1NP_FRIC_FT)) RETURN
+          IF (SAMPLE_SLOT < 1 .OR. &
+     &        SAMPLE_SLOT > SIZE(Q1NP_FRIC_FT, 2)) RETURN
+          IF (ELEM_B < 1 .OR. ELEM_B > SIZE(Q1NP_FRIC_FT, 3)) RETURN
+
+          IF (Q1NP_FRIC_KEY_NIN(SAMPLE_SLOT, ELEM_B) /= NIN .OR. &
+     &        Q1NP_FRIC_KEY_ELEM_A(SAMPLE_SLOT, ELEM_B) /= ELEM_A) THEN
+            Q1NP_FRIC_KEY_NIN(SAMPLE_SLOT, ELEM_B) = NIN
+            Q1NP_FRIC_KEY_ELEM_A(SAMPLE_SLOT, ELEM_B) = ELEM_A
+            Q1NP_FRIC_FT(1:3, SAMPLE_SLOT, ELEM_B) = ZERO
+          END IF
+
+          Q1NP_FRIC_ACTIVE(SAMPLE_SLOT, ELEM_B) = .TRUE.
+          F_HIST(1:3) = Q1NP_FRIC_FT(1:3, SAMPLE_SLOT, ELEM_B)
+          SLOT_VALID = .TRUE.
+        END SUBROUTINE Q1NP_CONTACT_FRICTION_ACQUIRE
+
+!=======================================================================
+!   Q1NP_CONTACT_FRICTION_STORE
+!=======================================================================
+        SUBROUTINE Q1NP_CONTACT_FRICTION_STORE( &
+     &      ELEM_B, SAMPLE_SLOT, F_REAL)
+          INTEGER, INTENT(IN) :: ELEM_B, SAMPLE_SLOT
+          REAL(KIND=WP), INTENT(IN) :: F_REAL(3)
+
+          IF (.NOT. ALLOCATED(Q1NP_FRIC_FT)) RETURN
+          IF (SAMPLE_SLOT < 1 .OR. &
+     &        SAMPLE_SLOT > SIZE(Q1NP_FRIC_FT, 2)) RETURN
+          IF (ELEM_B < 1 .OR. ELEM_B > SIZE(Q1NP_FRIC_FT, 3)) RETURN
+
+          Q1NP_FRIC_FT(1:3, SAMPLE_SLOT, ELEM_B) = F_REAL(1:3)
+          Q1NP_FRIC_ACTIVE(SAMPLE_SLOT, ELEM_B) = .TRUE.
+        END SUBROUTINE Q1NP_CONTACT_FRICTION_STORE
+
+!=======================================================================
+!   Q1NP_CONTACT_SEARCH_TOLERANCE
+!
+!   Return a conservative broad-phase search distance. The mesh term
+!   covers the spacing between interior surface samples; the physical
+!   gap remains the only narrow-phase activation distance.
+!=======================================================================
+        FUNCTION Q1NP_CONTACT_SEARCH_TOLERANCE( &
+     &      GAP, H_MESH_A, H_MESH_B) RESULT(SEARCH_TOL)
+          REAL(KIND=WP), INTENT(IN) :: GAP, H_MESH_A, H_MESH_B
+          REAL(KIND=WP) :: SEARCH_TOL, MESH_SEARCH_TOL
+
+          CALL INTER_BP_TOL_SEARCH( &
+     &      GAP, H_MESH_A, H_MESH_B, MESH_SEARCH_TOL)
+          SEARCH_TOL = MAX(MESH_SEARCH_TOL, &
+     &      Q1NP_CONTACT_BP_SEARCH_GAP_FACTOR * &
+     &      INTER_BP_TOL_GAP_PHYS(GAP))
+        END FUNCTION Q1NP_CONTACT_SEARCH_TOLERANCE
 
 !=======================================================================
 !   Q1NP_CONTACT_BROAD_PHASE
@@ -175,12 +318,12 @@
           REAL(KIND=WP), INTENT(INOUT) :: D_MIN
 
           INTEGER :: IDX_A, IDX_B, MAX_PTS
-          REAL(KIND=WP) :: GAP_CONTACT
+          REAL(KIND=WP) :: SEARCH_TOL, H_MESH_A, H_MESH_B
 
           WS%NPTS_A = 0
           WS%NPTS_B = 0
+          WS%SEARCH_TOL = Q1NP_CONTACT_GAP_FALLBACK
           D_MIN = HUGE(ONE)
-          GAP_CONTACT = MAX(Q1NP_CONTACT_GAP_FALLBACK, GAP)
 
           IF (NUMELQ1NP <= 0) RETURN
           IF (Q1NP_NKNOT_SETS_G < 2) RETURN
@@ -215,6 +358,19 @@
      &        WS%SURF_POINTS_B, WS%NPTS_B,                    &
      &        WS%ELEM_IDS_B, WS%XI_B, WS%ETA_B, MAX_PTS)
 
+!         Include the surface-sample coverage in the broad-phase range.
+!         This prevents a small physical gap from hiding valid projection
+!         partners between the interior Gauss sample locations.
+          H_MESH_A = Q1NP_CONTACT_BP_MESH_SCALE( &
+     &      WS%SURF_POINTS_A, WS%NPTS_A, WS%ELEM_IDS_A, &
+     &      Q1NP_CONTACT_BP_NGP_U, Q1NP_CONTACT_BP_NGP_V)
+          H_MESH_B = Q1NP_CONTACT_BP_MESH_SCALE( &
+     &      WS%SURF_POINTS_B, WS%NPTS_B, WS%ELEM_IDS_B, &
+     &      Q1NP_CONTACT_BP_NGP_U, Q1NP_CONTACT_BP_NGP_V)
+          SEARCH_TOL = Q1NP_CONTACT_SEARCH_TOLERANCE( &
+     &      GAP, H_MESH_A, H_MESH_B)
+          WS%SEARCH_TOL = SEARCH_TOL
+
           CALL MY_ALLOC(WS%CANDIDATE_IA, &
      &      Q1NP_CONTACT_MAX_CANDIDATES_PER_B, MAX(1, WS%NPTS_B), "CANDIDATE_IA")
           CALL MY_ALLOC(WS%CANDIDATE_COUNT, MAX(1, WS%NPTS_B), "CANDIDATE_COUNT")
@@ -229,7 +385,7 @@
           CALL Q1NP_CONTACT_BROAD_PHASE_VOXEL_MIN_DISTANCE( &
      &        WS%SURF_POINTS_A, WS%NPTS_A, &
      &        WS%SURF_POINTS_B, WS%NPTS_B, &
-     &        GAP_CONTACT, D_MIN, IDX_A, IDX_B, &
+     &        SEARCH_TOL, D_MIN, IDX_A, IDX_B, &
      &        WS%CANDIDATE_IA, WS%CANDIDATE_COUNT, &
      &        WS%CANDIDATE_OVERFLOW)
 
@@ -296,8 +452,10 @@
         SUBROUTINE Q1NP_CONTACT_FORCE_ASSEMBLY( &
      &      PAIRS, N_PAIRS, &
      &      KQ1NP_TAB, IQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, Q1NP_KTAB, &
-     &      X_COORDS, NUMNOD, GAP, A, STIFN, IGSTI, KMIN, KMAX, &
-     &      NSV, STFNS, NSN, STFM, NRTM, FCONT, DO_FCONT)
+     &      X_COORDS, V_COORDS, NUMNOD, GAP, A, STIFN, IGSTI, KMIN, KMAX, &
+     &      NSV, STFNS, NSN, STFM, NRTM, FCONT, DO_FCONT, &
+     &      MU_FRICTION, DT1, NIN, &
+     &      ECONTT_TOT, ECONVT_TOT, FN_TOT, FT_TOT)
           TYPE(Q1NP_CONTACT_PAIR), INTENT(IN) :: PAIRS(:)
           INTEGER, INTENT(IN) :: N_PAIRS
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
@@ -306,25 +464,34 @@
           INTEGER, INTENT(IN) :: IRECTM(:)
           INTEGER, INTENT(IN) :: NSV(:)
           REAL(KIND=WP), INTENT(IN) :: Q1NP_KTAB(:)
-          INTEGER, INTENT(IN) :: NUMNOD, IGSTI, NSN, NRTM
-          REAL(KIND=WP), INTENT(IN) :: GAP, KMIN, KMAX
+          INTEGER, INTENT(IN) :: NUMNOD, IGSTI, NSN, NRTM, NIN
+          REAL(KIND=WP), INTENT(IN) :: GAP, KMIN, KMAX, MU_FRICTION, DT1
           REAL(KIND=WP), INTENT(IN) :: STFNS(:), STFM(:)
           REAL(KIND=WP), INTENT(IN) :: X_COORDS(3,NUMNOD)
+          REAL(KIND=WP), INTENT(IN) :: V_COORDS(3,NUMNOD)
           REAL(KIND=WP), INTENT(INOUT) :: A(3,NUMNOD)
           REAL(KIND=WP), INTENT(INOUT) :: STIFN(NUMNOD)
           REAL(KIND=WP), INTENT(INOUT) :: FCONT(3,NUMNOD)
           LOGICAL, INTENT(IN) :: DO_FCONT
+          REAL(KIND=WP), INTENT(OUT) :: ECONTT_TOT, ECONVT_TOT
+          REAL(KIND=WP), INTENT(OUT) :: FN_TOT(3), FT_TOT(3)
 
           REAL(KIND=WP) :: GAP_CONTACT
 
           GAP_CONTACT = MAX(Q1NP_CONTACT_GAP_FALLBACK, ABS(GAP))
+          ECONTT_TOT = ZERO
+          ECONVT_TOT = ZERO
+          FN_TOT(1:3) = ZERO
+          FT_TOT(1:3) = ZERO
 
           CALL Q1NP_CONTACT_COMPUTE_PENALTY_FORCES( &
      &        PAIRS, N_PAIRS, &
      &        KQ1NP_TAB, IQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, &
-     &        Q1NP_KTAB, X_COORDS, &
+     &        Q1NP_KTAB, X_COORDS, V_COORDS, &
      &        NUMNOD, GAP_CONTACT, A, STIFN, IGSTI, KMIN, KMAX, &
-     &        NSV, STFNS, NSN, STFM, NRTM, FCONT, DO_FCONT)
+     &        NSV, STFNS, NSN, STFM, NRTM, FCONT, DO_FCONT, &
+     &        MU_FRICTION, DT1, NIN, &
+     &        ECONTT_TOT, ECONVT_TOT, FN_TOT, FT_TOT)
 
         END SUBROUTINE Q1NP_CONTACT_FORCE_ASSEMBLY
 
@@ -458,6 +625,69 @@
         END SUBROUTINE Q1NP_CONTACT_BP_BUILD_SURFACE_POINTS
 
 !=======================================================================
+!   Q1NP_CONTACT_BP_MESH_SCALE
+!
+!   Estimate the largest adjacent surface-sample spacing in O(NPTS).
+!   This scale follows the element size and quadrature density without
+!   expanding the voxel range to half of a full coarse element.
+!=======================================================================
+        FUNCTION Q1NP_CONTACT_BP_MESH_SCALE( &
+     &      SURF_POINTS, NPTS, ELEM_IDS, NGP_U, NGP_V) RESULT(H_MESH)
+          INTEGER, INTENT(IN) :: NPTS, NGP_U, NGP_V
+          REAL(KIND=WP), INTENT(IN) :: SURF_POINTS(3, *)
+          INTEGER, INTENT(IN) :: ELEM_IDS(*)
+          REAL(KIND=WP) :: H_MESH
+
+          INTEGER :: IBASE, IP, IU, IV, I1, I2, NPTS_ELEM
+          REAL(KIND=WP) :: DX, DY, DZ, SAMPLE_DISTANCE
+          LOGICAL :: COMPLETE_ELEM
+
+          H_MESH = Q1NP_CONTACT_GAP_FALLBACK
+          NPTS_ELEM = NGP_U * NGP_V
+          IF (NGP_U < 2 .OR. NGP_V < 2) RETURN
+          IF (NPTS < NPTS_ELEM) RETURN
+
+          IBASE = 1
+          DO WHILE (IBASE + NPTS_ELEM - 1 <= NPTS)
+            COMPLETE_ELEM = .TRUE.
+            DO IP = IBASE + 1, IBASE + NPTS_ELEM - 1
+              IF (ELEM_IDS(IP) /= ELEM_IDS(IBASE)) THEN
+                COMPLETE_ELEM = .FALSE.
+                EXIT
+              END IF
+            END DO
+            IF (.NOT. COMPLETE_ELEM) THEN
+              IBASE = IBASE + 1
+              CYCLE
+            END IF
+
+            DO IV = 1, NGP_V
+              DO IU = 1, NGP_U - 1
+                I1 = IBASE + (IV - 1) * NGP_U + IU - 1
+                I2 = I1 + 1
+                DX = SURF_POINTS(1,I2) - SURF_POINTS(1,I1)
+                DY = SURF_POINTS(2,I2) - SURF_POINTS(2,I1)
+                DZ = SURF_POINTS(3,I2) - SURF_POINTS(3,I1)
+                SAMPLE_DISTANCE = SQRT(DX*DX + DY*DY + DZ*DZ)
+                H_MESH = MAX(H_MESH, SAMPLE_DISTANCE)
+              END DO
+            END DO
+            DO IU = 1, NGP_U
+              DO IV = 1, NGP_V - 1
+                I1 = IBASE + (IV - 1) * NGP_U + IU - 1
+                I2 = I1 + NGP_U
+                DX = SURF_POINTS(1,I2) - SURF_POINTS(1,I1)
+                DY = SURF_POINTS(2,I2) - SURF_POINTS(2,I1)
+                DZ = SURF_POINTS(3,I2) - SURF_POINTS(3,I1)
+                SAMPLE_DISTANCE = SQRT(DX*DX + DY*DY + DZ*DZ)
+                H_MESH = MAX(H_MESH, SAMPLE_DISTANCE)
+              END DO
+            END DO
+            IBASE = IBASE + NPTS_ELEM
+          END DO
+        END FUNCTION Q1NP_CONTACT_BP_MESH_SCALE
+
+!=======================================================================
 !   Q1NP_CONTACT_BROAD_PHASE_VOXEL_MIN_DISTANCE
 !
 !   Voxel minimum Euclidean distance between two 3D point clouds.
@@ -480,7 +710,7 @@
 !||====================================================================
         SUBROUTINE Q1NP_CONTACT_BROAD_PHASE_VOXEL_MIN_DISTANCE( &
      &      SURF_POINTS_A, NPTS_A, SURF_POINTS_B, NPTS_B,       &
-     &      TRIGGER_TOL,                                         &
+     &      SEARCH_TOL,                                          &
      &      D_MIN_OUT, IDX_A_OUT, IDX_B_OUT,                    &
      &      CANDIDATE_IA, CANDIDATE_COUNT, CANDIDATE_OVERFLOW)
 !C----------------------------------------------------------------------
@@ -500,12 +730,12 @@
           INTEGER, INTENT(IN)  :: NPTS_A, NPTS_B
           REAL(KIND=WP), INTENT(IN)  :: SURF_POINTS_A(3, NPTS_A)
           REAL(KIND=WP), INTENT(IN)  :: SURF_POINTS_B(3, NPTS_B)
-          REAL(KIND=WP), INTENT(IN)  :: TRIGGER_TOL
-          REAL(KIND=WP), INTENT(INOUT) :: D_MIN_OUT
-          INTEGER, INTENT(INOUT) :: IDX_A_OUT, IDX_B_OUT
-          INTEGER, INTENT(INOUT) :: CANDIDATE_IA(:,:)
-          INTEGER, INTENT(INOUT) :: CANDIDATE_COUNT(:)
-          LOGICAL, INTENT(INOUT) :: CANDIDATE_OVERFLOW(:)
+          REAL(KIND=WP), INTENT(IN)  :: SEARCH_TOL
+          REAL(KIND=WP), INTENT(OUT) :: D_MIN_OUT
+          INTEGER, INTENT(OUT) :: IDX_A_OUT, IDX_B_OUT
+          INTEGER, INTENT(OUT) :: CANDIDATE_IA(:,:)
+          INTEGER, INTENT(OUT) :: CANDIDATE_COUNT(:)
+          LOGICAL, INTENT(OUT) :: CANDIDATE_OVERFLOW(:)
 !C----------------------------------------------------------------------
 !C   L o c a l   V a r i a b l e s
 !C----------------------------------------------------------------------
@@ -517,10 +747,12 @@
           REAL(KIND=WP) :: SPAN_X, SPAN_Y, SPAN_Z
           INTEGER :: NBX, NBY, NBZ, NVOXELS
           INTEGER, ALLOCATABLE :: VOXEL(:), NEXT_PT(:)
+          REAL(KIND=WP), ALLOCATABLE :: CANDIDATE_DIST_SQ(:,:)
           INTEGER :: IB, IA, IX, IY, IZ, CELLID, JJ
           INTEGER :: IX_LO, IX_HI, IY_LO, IY_HI, IZ_LO, IZ_HI
-          INTEGER :: JX, JY, JZ
+          INTEGER :: JX, JY, JZ, ICAND, IWORST
           REAL(KIND=WP) :: DX, DY, DZ, DIST_SQ, D_MIN_SQ
+          REAL(KIND=WP) :: WORST_DIST_SQ
           REAL(KIND=WP), PARAMETER :: EPS_SPAN = 1.0E-12_WP
           REAL(KIND=WP) :: SPAN_X_SAFE, SPAN_Y_SAFE, SPAN_Z_SAFE
           REAL(KIND=WP) :: RX, RY, RZ
@@ -564,9 +796,9 @@
             IF (SURF_POINTS_B(3,IB) < ZMIN_B) ZMIN_B = SURF_POINTS_B(3,IB)
             IF (SURF_POINTS_B(3,IB) > ZMAX_B) ZMAX_B = SURF_POINTS_B(3,IB)
           END DO
-!   ----- Step 2: choose padding / cell size from the trigger tolerance -----
-          CELL_SIZE = 1.25 * TRIGGER_TOL
-          SEARCH_PADDING = 1.25 * TRIGGER_TOL
+!   ----- Step 2: choose padding / cell size from the search tolerance -----
+          CELL_SIZE = MAX(Q1NP_CONTACT_GAP_FALLBACK, SEARCH_TOL)
+          SEARCH_PADDING = CELL_SIZE
           ! Pad the bounding box of point cloud B by the search padding
           XMIN_B = XMIN_B - SEARCH_PADDING
           XMAX_B = XMAX_B + SEARCH_PADDING
@@ -606,8 +838,12 @@
 !   ----- Step 5: allocate and fill voxel grid with B points -----
           CALL MY_ALLOC(VOXEL, NVOXELS, "VOXEL")
           CALL MY_ALLOC(NEXT_PT, NPTS_B, "NEXT_PT")
+          CALL MY_ALLOC(CANDIDATE_DIST_SQ, &
+     &      SIZE(CANDIDATE_IA, 1), SIZE(CANDIDATE_IA, 2), &
+     &      "CANDIDATE_DIST_SQ")
           VOXEL(1:NVOXELS) = 0
           NEXT_PT(1:NPTS_B) = 0
+          CANDIDATE_DIST_SQ(:,:) = HUGE(ONE)
 
           ! Insert every B-point into its voxel cell
           DO IB = 1, NPTS_B
@@ -667,17 +903,32 @@
                   JJ = VOXEL(CELLID)
                   DO WHILE (JJ > 0)
                     IF (JJ > NPTS_B) EXIT
-                    NCAND = CANDIDATE_COUNT(JJ)
-                    IF (NCAND < SIZE(CANDIDATE_IA, 1)) THEN
-                      CANDIDATE_COUNT(JJ) = NCAND + 1
-                      CANDIDATE_IA(NCAND + 1, JJ) = IA
-                    ELSE
-                      CANDIDATE_OVERFLOW(JJ) = .TRUE.
-                    END IF
                     DX = SURF_POINTS_A(1,IA) - SURF_POINTS_B(1,JJ)
                     DY = SURF_POINTS_A(2,IA) - SURF_POINTS_B(2,JJ)
                     DZ = SURF_POINTS_A(3,IA) - SURF_POINTS_B(3,JJ)
                     DIST_SQ = DX*DX + DY*DY + DZ*DZ
+
+                    NCAND = CANDIDATE_COUNT(JJ)
+                    IF (NCAND < SIZE(CANDIDATE_IA, 1)) THEN
+                      CANDIDATE_COUNT(JJ) = NCAND + 1
+                      CANDIDATE_IA(NCAND + 1, JJ) = IA
+                      CANDIDATE_DIST_SQ(NCAND + 1, JJ) = DIST_SQ
+                    ELSE
+                      CANDIDATE_OVERFLOW(JJ) = .TRUE.
+                      IWORST = 1
+                      WORST_DIST_SQ = CANDIDATE_DIST_SQ(1, JJ)
+                      DO ICAND = 2, NCAND
+                        IF (CANDIDATE_DIST_SQ(ICAND, JJ) > &
+     &                      WORST_DIST_SQ) THEN
+                          IWORST = ICAND
+                          WORST_DIST_SQ = CANDIDATE_DIST_SQ(ICAND, JJ)
+                        END IF
+                      END DO
+                      IF (DIST_SQ < WORST_DIST_SQ) THEN
+                        CANDIDATE_IA(IWORST, JJ) = IA
+                        CANDIDATE_DIST_SQ(IWORST, JJ) = DIST_SQ
+                      END IF
+                    END IF
                     IF (DIST_SQ < D_MIN_SQ) THEN
                       D_MIN_SQ  = DIST_SQ 
                       ! IDX_A_OUT: index of the closest point in surface A
@@ -695,6 +946,11 @@
 
           CALL MY_DEALLOC(VOXEL)
           CALL MY_DEALLOC(NEXT_PT)
+          CALL MY_DEALLOC(CANDIDATE_DIST_SQ)
+
+          IF (IDX_A_OUT > 0 .AND. IDX_B_OUT > 0) THEN
+            D_MIN_OUT = SQRT(D_MIN_SQ)
+          END IF
 
         END SUBROUTINE Q1NP_CONTACT_BROAD_PHASE_VOXEL_MIN_DISTANCE
 
@@ -806,6 +1062,8 @@
             CONTACT_PAIRS(N_PAIRS)%XI_SRC      = XI_B(IB)
             CONTACT_PAIRS(N_PAIRS)%ETA_SRC     = ETA_B(IB)
             CONTACT_PAIRS(N_PAIRS)%ELEM_B      = ELEM_IDS_B(IB)
+            CONTACT_PAIRS(N_PAIRS)%SAMPLE_SLOT_B = &
+     &        Q1NP_CONTACT_BP_SAMPLE_SLOT(XI_B(IB), ETA_B(IB))
           END DO
 
           CALL MY_DEALLOC(U_KNOT_WS)
@@ -841,8 +1099,10 @@
         SUBROUTINE Q1NP_CONTACT_COMPUTE_PENALTY_FORCES( &
      &      CONTACT_PAIRS, N_PAIRS, &
      &      KQ1NP_TAB, IQ1NP_TAB, IQ1NP_BULK_TAB, IRECTM, Q1NP_KTAB, X_COORDS, &
-     &      NUMNOD, GAP_CONTACT, A, STIFN, IGSTI, KMIN, KMAX, &
-     &      NSV, STFNS, NSN, STFM, NRTM, FCONT, DO_FCONT)
+     &      V_COORDS, NUMNOD, GAP_CONTACT, A, STIFN, IGSTI, KMIN, KMAX, &
+     &      NSV, STFNS, NSN, STFM, NRTM, FCONT, DO_FCONT, &
+     &      MU_FRICTION, DT1, NIN, &
+     &      ECONTT_TOT, ECONVT_TOT, FN_TOT, FT_TOT)
           TYPE(Q1NP_CONTACT_PAIR), INTENT(IN) :: CONTACT_PAIRS(:)
           INTEGER, INTENT(IN) :: N_PAIRS
           INTEGER, INTENT(IN) :: KQ1NP_TAB(:,:)
@@ -851,18 +1111,23 @@
           INTEGER, INTENT(IN) :: IRECTM(:)
           INTEGER, INTENT(IN) :: NSV(:)
           REAL(KIND=WP), INTENT(IN)    :: Q1NP_KTAB(:)
-          INTEGER, INTENT(IN)          :: NUMNOD, IGSTI, NSN, NRTM
+          INTEGER, INTENT(IN)          :: NUMNOD, IGSTI, NSN, NRTM, NIN
           REAL(KIND=WP), INTENT(IN)    :: GAP_CONTACT, KMIN, KMAX
+          REAL(KIND=WP), INTENT(IN)    :: MU_FRICTION, DT1
           REAL(KIND=WP), INTENT(IN)    :: X_COORDS(3,NUMNOD)
+          REAL(KIND=WP), INTENT(IN)    :: V_COORDS(3,NUMNOD)
           REAL(KIND=WP), INTENT(IN)    :: STFNS(:), STFM(:)
           REAL(KIND=WP), INTENT(INOUT) :: A(3,NUMNOD)
           REAL(KIND=WP), INTENT(INOUT) :: STIFN(NUMNOD)
           REAL(KIND=WP), INTENT(INOUT) :: FCONT(3,NUMNOD)
           LOGICAL, INTENT(IN) :: DO_FCONT
+          REAL(KIND=WP), INTENT(INOUT) :: ECONTT_TOT, ECONVT_TOT
+          REAL(KIND=WP), INTENT(INOUT) :: FN_TOT(3), FT_TOT(3)
 
           INTEGER, PARAMETER :: MAX_CTRL = 50
           REAL(KIND=WP), PARAMETER :: EPS = 1.0E-10_WP
           REAL(KIND=WP), PARAMETER :: EPS_STIFF = 1.0E-30_WP
+          REAL(KIND=WP), PARAMETER :: MIN_CLEARANCE_FRAC = 5.0E-5_WP
           INTEGER :: IP, K, GID, U_MAX, V_MAX
           INTEGER :: NSN_EFF, NRTM_EFF, NODE_MAP_SIZE
           INTEGER :: NCTRL_A_EFF, NCTRL_B_EFF
@@ -872,8 +1137,14 @@
           REAL(KIND=WP), ALLOCATABLE :: U_KNOT_WS(:), V_KNOT_WS(:)
           REAL(KIND=WP) :: NVAL_A(MAX_CTRL), NVAL_B(MAX_CTRL)
           REAL(KIND=WP) :: F_PEN(3), F_NEG(3), F_MAG
+          REAL(KIND=WP) :: F_TAN(3), F_TOTAL(3)
+          REAL(KIND=WP) :: F_HIST(3), F_HIST_TAN(3), F_TRIAL(3)
+          REAL(KIND=WP) :: V_A(3), V_B(3), V_REL(3), V_TANG(3)
+          REAL(KIND=WP) :: V_N, HIST_N, F_TRIAL_ABS, FN_LIMIT
+          REAL(KIND=WP) :: D1_FRIC_WEIGHTED, POWER_TANG
           REAL(KIND=WP) :: F_MAX, PENETR_MAX
-          REAL(KIND=WP) :: PEN_ABS, FAC, D1
+          REAL(KIND=WP) :: PEN_ABS, FAC, D1, CLEARANCE, GAP_DISTANCE
+          REAL(KIND=WP) :: CLEAR_RATIO, PAIR_ENERGY
           REAL(KIND=WP) :: K_A_PRIMARY, K_A_SECONDARY
           REAL(KIND=WP) :: K_B_PRIMARY, K_B_SECONDARY
           REAL(KIND=WP) :: K_PAIR, GAP_REF
@@ -882,6 +1153,7 @@
           INTEGER :: FEM_IDS_A(4), FEM_IDS_B(4)
           REAL(KIND=WP) :: BIL_W_A(4), BIL_W_B(4)
           LOGICAL :: HAS_FEM_A, HAS_FEM_B
+          LOGICAL :: FRICTION_ACTIVE, FRIC_SLOT_VALID
 
           IF (N_PAIRS < 1) RETURN
 
@@ -890,6 +1162,7 @@
 
           GAP_REF = MAX(Q1NP_CONTACT_GAP_FALLBACK, GAP_CONTACT)
           PAIR_WEIGHT = ONE / (Q1NP_CONTACT_BP_NGP_U * Q1NP_CONTACT_BP_NGP_V)
+          FRICTION_ACTIVE = MU_FRICTION > EPS .AND. DT1 > ZERO
 
           NSN_EFF = MIN(NSN, SIZE(NSV), SIZE(STFNS))
           NRTM_EFF = MIN(NRTM, SIZE(STFM), SIZE(IRECTM) / 4)
@@ -962,10 +1235,16 @@
 
             K_PAIR = Q1NP_CONTACT_STIFFNESS(K_PRIMARY, K_SECONDARY, IGSTI, KMIN, KMAX)
 
-!           --- gap scaling ---
-            FAC = 1.0_WP
-            IF (GAP_REF > EPS .AND. PEN_ABS < GAP_REF) THEN
-              FAC = GAP_REF / MAX(EPS, (GAP_REF - PEN_ABS))
+!           Scale the normal penalty by the current physical clearance.
+!           Bound the denominator so geometric penetration produces a
+!           strong but finite restoring force, consistent with STS.
+            FAC = ONE
+            GAP_DISTANCE = EPS
+            CLEARANCE = GAP_REF - PEN_ABS
+            IF (GAP_REF > EPS) THEN
+              GAP_DISTANCE = MAX(CLEARANCE, &
+     &            GAP_REF * MIN_CLEARANCE_FRAC, EPS)
+              FAC = GAP_REF / GAP_DISTANCE
             END IF
 
             D1 = 0.5_WP * K_PAIR * FAC
@@ -973,23 +1252,101 @@
             D1_WEIGHTED = PAIR_WEIGHT * D1
             F_MAG = D1_WEIGHTED * PEN_ABS
             F_PEN(1:3) = F_MAG * CONTACT_PAIRS(IP)%NORMAL(1:3)
+            F_TAN(1:3) = ZERO
+
+!           --- Coulomb friction (3D traction history, no FAC on tangent) ---
+            IF (FRICTION_ACTIVE .AND. &
+     &          CONTACT_PAIRS(IP)%SAMPLE_SLOT_B > 0) THEN
+              V_A(1:3) = ZERO
+              V_B(1:3) = ZERO
+              DO K = 1, NCTRL_A_EFF
+                GID = CTRL_IDS_A(K)
+                IF (GID <= 0 .OR. GID > NUMNOD) CYCLE
+                V_A(1:3) = V_A(1:3) + NVAL_A(K) * V_COORDS(1:3, GID)
+              END DO
+              DO K = 1, NCTRL_B_EFF
+                GID = CTRL_IDS_B(K)
+                IF (GID <= 0 .OR. GID > NUMNOD) CYCLE
+                V_B(1:3) = V_B(1:3) + NVAL_B(K) * V_COORDS(1:3, GID)
+              END DO
+
+              V_REL(1:3) = V_B(1:3) - V_A(1:3)
+              V_N = V_REL(1) * CONTACT_PAIRS(IP)%NORMAL(1) + &
+     &              V_REL(2) * CONTACT_PAIRS(IP)%NORMAL(2) + &
+     &              V_REL(3) * CONTACT_PAIRS(IP)%NORMAL(3)
+              V_TANG(1:3) = V_REL(1:3) - &
+     &          V_N * CONTACT_PAIRS(IP)%NORMAL(1:3)
+
+              CALL Q1NP_CONTACT_FRICTION_ACQUIRE( &
+     &          NIN, CONTACT_PAIRS(IP)%ELEM_A, CONTACT_PAIRS(IP)%ELEM_B, &
+     &          CONTACT_PAIRS(IP)%SAMPLE_SLOT_B, F_HIST, FRIC_SLOT_VALID)
+              IF (FRIC_SLOT_VALID) THEN
+                D1_FRIC_WEIGHTED = PAIR_WEIGHT * 0.5_WP * K_PAIR
+                HIST_N = F_HIST(1) * CONTACT_PAIRS(IP)%NORMAL(1) + &
+     &                   F_HIST(2) * CONTACT_PAIRS(IP)%NORMAL(2) + &
+     &                   F_HIST(3) * CONTACT_PAIRS(IP)%NORMAL(3)
+                F_HIST_TAN(1:3) = F_HIST(1:3) - &
+     &            HIST_N * CONTACT_PAIRS(IP)%NORMAL(1:3)
+                F_TRIAL(1:3) = F_HIST_TAN(1:3) - &
+     &            D1_FRIC_WEIGHTED * DT1 * V_TANG(1:3)
+                F_TRIAL_ABS = SQRT(F_TRIAL(1) * F_TRIAL(1) + &
+     &            F_TRIAL(2) * F_TRIAL(2) + F_TRIAL(3) * F_TRIAL(3))
+                FN_LIMIT = MU_FRICTION * ABS(F_MAG)
+                IF (FN_LIMIT <= EPS_STIFF) THEN
+                  F_TAN(1:3) = ZERO
+                ELSEIF (F_TRIAL_ABS > FN_LIMIT .AND. &
+     &                  F_TRIAL_ABS > EPS_STIFF) THEN
+                  F_TAN(1:3) = F_TRIAL(1:3) * FN_LIMIT / F_TRIAL_ABS
+                ELSE
+                  F_TAN(1:3) = F_TRIAL(1:3)
+                END IF
+                CALL Q1NP_CONTACT_FRICTION_STORE( &
+     &            CONTACT_PAIRS(IP)%ELEM_B, &
+     &            CONTACT_PAIRS(IP)%SAMPLE_SLOT_B, F_TAN)
+                POWER_TANG = V_TANG(1) * F_TAN(1) + &
+     &                       V_TANG(2) * F_TAN(2) + &
+     &                       V_TANG(3) * F_TAN(3)
+                ECONVT_TOT = ECONVT_TOT - DT1 * POWER_TANG
+              END IF
+            END IF
+
+            F_TOTAL(1:3) = F_PEN(1:3) + F_TAN(1:3)
+
+!           Elastic contact energy for /TH/INTER (same FAC potential as STS).
+            IF (GAP_REF > EPS) THEN
+              CLEAR_RATIO = MAX(TINY(CLEAR_RATIO), GAP_DISTANCE / GAP_REF)
+              PAIR_ENERGY = 0.5_WP * K_PAIR * GAP_REF * GAP_REF * &
+     &          (CLEAR_RATIO - ONE - LOG(CLEAR_RATIO)) * PAIR_WEIGHT
+              IF (CLEARANCE < GAP_DISTANCE) THEN
+                PAIR_ENERGY = PAIR_ENERGY + &
+     &            0.25_WP * K_PAIR * GAP_REF / GAP_DISTANCE * &
+     &            (PEN_ABS * PEN_ABS - &
+     &            (GAP_DISTANCE - GAP_REF) * &
+     &            (GAP_DISTANCE - GAP_REF)) * PAIR_WEIGHT
+              END IF
+            ELSE
+              PAIR_ENERGY = 0.5_WP * D1_WEIGHTED * PEN_ABS * PEN_ABS
+            END IF
+            ECONTT_TOT = ECONTT_TOT + PAIR_ENERGY
+            FN_TOT(1:3) = FN_TOT(1:3) + F_PEN(1:3)
+            FT_TOT(1:3) = FT_TOT(1:3) + F_TAN(1:3)
 
             IF (F_MAG > F_MAX) F_MAX = F_MAG
             IF (PEN_ABS > PENETR_MAX) PENETR_MAX = PEN_ABS
 
-            F_NEG(1:3) = (-ONE) * F_PEN(1:3)
+            F_NEG(1:3) = (-ONE) * F_TOTAL(1:3)
             CALL Q1NP_CONTACT_EXPORT_ACCUMULATE( &
      &          CONTACT_PAIRS(IP)%ELEM_A, F_NEG, PEN_ABS)
             CALL Q1NP_CONTACT_EXPORT_ACCUMULATE( &
-     &          CONTACT_PAIRS(IP)%ELEM_B,  F_PEN, PEN_ABS)
+     &          CONTACT_PAIRS(IP)%ELEM_B,  F_TOTAL, PEN_ABS)
 
 !           --- Scatter to A control points: -N_k * F ---
             DO K = 1, NCTRL_A_EFF
               GID = CTRL_IDS_A(K)
               IF (GID <= 0 .OR. GID > NUMNOD) CYCLE
-              A(1, GID) = A(1, GID) - NVAL_A(K) * F_PEN(1)
-              A(2, GID) = A(2, GID) - NVAL_A(K) * F_PEN(2)
-              A(3, GID) = A(3, GID) - NVAL_A(K) * F_PEN(3)
+              A(1, GID) = A(1, GID) - NVAL_A(K) * F_TOTAL(1)
+              A(2, GID) = A(2, GID) - NVAL_A(K) * F_TOTAL(2)
+              A(3, GID) = A(3, GID) - NVAL_A(K) * F_TOTAL(3)
               STIFN(GID) = STIFN(GID) + D1_WEIGHTED * ABS(NVAL_A(K))
             END DO
 
@@ -998,9 +1355,9 @@
               DO K = 1, 4
                 GID = FEM_IDS_A(K)
                 IF (GID <= 0 .OR. GID > NUMNOD) CYCLE
-                FCONT(1, GID) = FCONT(1, GID) - BIL_W_A(K) * F_PEN(1)
-                FCONT(2, GID) = FCONT(2, GID) - BIL_W_A(K) * F_PEN(2)
-                FCONT(3, GID) = FCONT(3, GID) - BIL_W_A(K) * F_PEN(3)
+                FCONT(1, GID) = FCONT(1, GID) - BIL_W_A(K) * F_TOTAL(1)
+                FCONT(2, GID) = FCONT(2, GID) - BIL_W_A(K) * F_TOTAL(2)
+                FCONT(3, GID) = FCONT(3, GID) - BIL_W_A(K) * F_TOTAL(3)
               END DO
             END IF
 
@@ -1008,9 +1365,9 @@
             DO K = 1, NCTRL_B_EFF
               GID = CTRL_IDS_B(K)
               IF (GID <= 0 .OR. GID > NUMNOD) CYCLE
-              A(1, GID) = A(1, GID) + NVAL_B(K) * F_PEN(1)
-              A(2, GID) = A(2, GID) + NVAL_B(K) * F_PEN(2)
-              A(3, GID) = A(3, GID) + NVAL_B(K) * F_PEN(3)
+              A(1, GID) = A(1, GID) + NVAL_B(K) * F_TOTAL(1)
+              A(2, GID) = A(2, GID) + NVAL_B(K) * F_TOTAL(2)
+              A(3, GID) = A(3, GID) + NVAL_B(K) * F_TOTAL(3)
               STIFN(GID) = STIFN(GID) + D1_WEIGHTED * ABS(NVAL_B(K))
             END DO
 
@@ -1019,9 +1376,9 @@
               DO K = 1, 4
                 GID = FEM_IDS_B(K)
                 IF (GID <= 0 .OR. GID > NUMNOD) CYCLE
-                FCONT(1, GID) = FCONT(1, GID) + BIL_W_B(K) * F_PEN(1)
-                FCONT(2, GID) = FCONT(2, GID) + BIL_W_B(K) * F_PEN(2)
-                FCONT(3, GID) = FCONT(3, GID) + BIL_W_B(K) * F_PEN(3)
+                FCONT(1, GID) = FCONT(1, GID) + BIL_W_B(K) * F_TOTAL(1)
+                FCONT(2, GID) = FCONT(2, GID) + BIL_W_B(K) * F_TOTAL(2)
+                FCONT(3, GID) = FCONT(3, GID) + BIL_W_B(K) * F_TOTAL(3)
               END DO
             END IF
           END DO
@@ -1728,6 +2085,31 @@
         END SUBROUTINE Q1NP_CONTACT_BILINEAR_WEIGHTS
 
 !=======================================================================
+!   Q1NP_CONTACT_BP_SAMPLE_SLOT
+!
+!   Map parent (XI,ETA) to the flattened broad-phase Gauss sample index.
+!=======================================================================
+        INTEGER FUNCTION Q1NP_CONTACT_BP_SAMPLE_SLOT(XI, ETA)
+          REAL(KIND=WP), INTENT(IN) :: XI, ETA
+
+          INTEGER :: IU, IV
+          REAL(KIND=WP), PARAMETER :: EPS_SAMPLE = 1.0E-12_WP
+
+          Q1NP_CONTACT_BP_SAMPLE_SLOT = 0
+          DO IV = 1, Q1NP_CONTACT_BP_NGP_V
+            IF (ABS(ETA - Q1NP_GAUSS(IV, Q1NP_CONTACT_BP_NGP_V)) > &
+     &          EPS_SAMPLE) CYCLE
+            DO IU = 1, Q1NP_CONTACT_BP_NGP_U
+              IF (ABS(XI - Q1NP_GAUSS(IU, Q1NP_CONTACT_BP_NGP_U)) > &
+     &            EPS_SAMPLE) CYCLE
+              Q1NP_CONTACT_BP_SAMPLE_SLOT = &
+     &          (IV - 1) * Q1NP_CONTACT_BP_NGP_U + IU
+              RETURN
+            END DO
+          END DO
+        END FUNCTION Q1NP_CONTACT_BP_SAMPLE_SLOT
+
+!=======================================================================
 !   Q1NP_GAUSS
 !
 !   Return the Gauss-Legendre abscissa for sample point IGP out of NGP.
@@ -1997,8 +2379,13 @@
           REAL(KIND=WP) :: F1, F2, RES_NORM
           REAL(KIND=WP) :: A11, A12, A21, A22, DET_J
           REAL(KIND=WP) :: D_XI, D_ETA
+!         True only after a Newton step moved (XI,ETA) past the last
+!         surface evaluation; early EXIT paths already have matching S/SU/SV.
+          LOGICAL :: NEED_FINAL_EVAL
 
           VALID = .FALSE.
+          NEED_FINAL_EVAL = .FALSE.
+          RES_NORM = HUGE(ONE)
 
           CALL Q1NP_CONTACT_EXTRACT_ELEM_DATA( &
      &      ELEM_IDX, KQ1NP_TAB, IQ1NP_TAB, Q1NP_KTAB, &
@@ -2023,6 +2410,7 @@
             F2 = DIFF(1)*SV(1) + DIFF(2)*SV(2) + DIFF(3)*SV(3)
 
             RES_NORM = SQRT(F1*F1 + F2*F2)
+!           Converged: reuse this evaluation for outputs (no final re-eval).
             IF (RES_NORM < NEWTON_TOL) EXIT
 
 !           Jacobian of the residual system (first-order approximation):
@@ -2034,6 +2422,7 @@
             A22 = SV(1)*SV(1) + SV(2)*SV(2) + SV(3)*SV(3)
 
             DET_J = A11*A22 - A12*A21
+!           Singular metric: stop; S/SU/SV still match current (XI,ETA).
             IF (ABS(DET_J) < 1.0E-30_WP) EXIT
 
 !           Solve 2x2 system: [A] * [d_xi, d_eta]^T = -[f1, f2]^T
@@ -2046,20 +2435,23 @@
 !           Clamp to parent domain [-1, +1]
             XI  = MAX(-ONE, MIN(ONE, XI))
             ETA = MAX(-ONE, MIN(ONE, ETA))
+            NEED_FINAL_EVAL = .TRUE.
           END DO
 
-!         Final evaluation at converged point
-          CALL Q1NP_EVALUATE_NURBS_TOP_SURFACE_POINT_AND_DERIVS( &
-     &        XI, ETA, P_CUR, Q_CUR, &
-     &        ELEM_U_IDX, ELEM_V_IDX, &
-     &        U_KNOT_WS(1:U_LEN), V_KNOT_WS(1:V_LEN), &
-     &        MIN(NCTRL, MAX_CTRL), CTRL_IDS, &
-     &        X_COORDS, NUMNOD, S, SU, SV)
+!         Re-evaluate only when the last Newton step moved (XI,ETA).
+          IF (NEED_FINAL_EVAL) THEN
+            CALL Q1NP_EVALUATE_NURBS_TOP_SURFACE_POINT_AND_DERIVS( &
+     &          XI, ETA, P_CUR, Q_CUR, &
+     &          ELEM_U_IDX, ELEM_V_IDX, &
+     &          U_KNOT_WS(1:U_LEN), V_KNOT_WS(1:V_LEN), &
+     &          MIN(NCTRL, MAX_CTRL), CTRL_IDS, &
+     &          X_COORDS, NUMNOD, S, SU, SV)
 
-          DIFF(1:3) = S(1:3) - X_SRC(1:3)
-          F1 = DIFF(1)*SU(1) + DIFF(2)*SU(2) + DIFF(3)*SU(3)
-          F2 = DIFF(1)*SV(1) + DIFF(2)*SV(2) + DIFF(3)*SV(3)
-          RES_NORM = SQRT(F1*F1 + F2*F2)
+            DIFF(1:3) = S(1:3) - X_SRC(1:3)
+            F1 = DIFF(1)*SU(1) + DIFF(2)*SU(2) + DIFF(3)*SU(3)
+            F2 = DIFF(1)*SV(1) + DIFF(2)*SV(2) + DIFF(3)*SV(3)
+            RES_NORM = SQRT(F1*F1 + F2*F2)
+          END IF
 
           XI_OUT   = XI
           ETA_OUT  = ETA

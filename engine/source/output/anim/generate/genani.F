@@ -263,6 +263,9 @@ C-----------------------------------------------
         USE OUTPUT_MOD , ONLY : OUTPUT_
         USE ANIM_MONVOL_MOD
         use element_mod , only : nixs,nixq,nixc,nixtg,nixr,nixt,nixp
+        USE Q1NP_VIZ_REMAP_MOD, ONLY :
+     .    Q1NP_VIZ_REMAP_ENABLED, Q1NP_VIZ_REMAP_ENSURE_MAP,
+     .    Q1NP_VIZ_REMAP_ACTIVE, Q1NP_VIZ_REMAP_FILL_COORDS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -398,6 +401,7 @@ C-----------------------------------------------
      .     V_TEMP(3,64*NUMELIG3D),A_TEMP(3,64*NUMELIG3D),TABSTRESL(6,64*NUMELIG3D),
      .     BID_TEMP(3,64*NUMELIG3D),CONT_TEMP(3,64*NUMELIG3D),FINT_TEMP(3,64*NUMELIG3D),
      .     FEXT_TEMP(3,64*NUMELIG3D),FANREACT_TEMP(3,64*NUMELIG3D)
+        my_real, DIMENSION(:), ALLOCATABLE :: X_ANIM
 
 
         my_real ,DIMENSION (:), ALLOCATABLE :: CBUF
@@ -1247,10 +1251,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   NODE X Y Z
 C-----------------------------------------------
+!       Optional Q1NP viz remap (shared with H3D): legacy HEX face nodes
+!       follow evaluated NURBS span corners in ANIM absolute coordinates.
+        IF (Q1NP_VIZ_REMAP_ENABLED) THEN
+          CALL Q1NP_VIZ_REMAP_ENSURE_MAP(X, IXS, NUMNOD, NUMELS, NIXS,
+     .                                  ISPMD, NSPMD)
+        ENDIF
         CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
      .              WEIGHT)
 C
-        CALL XYZNOD(X,X_TEMP,NODGLOB,WEIGHT)
+        IF (Q1NP_VIZ_REMAP_ACTIVE(ISPMD, NSPMD)) THEN
+          CALL MY_ALLOC(X_ANIM, 3*NUMNOD, 'X_ANIM')
+          X_ANIM(1:3*NUMNOD) = X(1:3*NUMNOD)
+          CALL Q1NP_VIZ_REMAP_FILL_COORDS(X, X_ANIM, NUMNOD,
+     .                                    ISPMD, NSPMD)
+          CALL XYZNOD(X_ANIM,X_TEMP,NODGLOB,WEIGHT)
+          CALL MY_DEALLOC(X_ANIM)
+        ELSE
+          CALL XYZNOD(X,X_TEMP,NODGLOB,WEIGHT)
+        ENDIF
 
         IF(NODCUT>0)CALL XYZCUT(CBUF,NODCUT)
 C
@@ -6929,6 +6948,7 @@ C
         call my_dealloc(IOFFX2)
         call my_dealloc(IOFFX3)
         call my_dealloc(IG3DSOLID)
+        IF (ALLOCATED(X_ANIM)) call my_dealloc(X_ANIM)
 c-----------
         RETURN
       END SUBROUTINE GENANI

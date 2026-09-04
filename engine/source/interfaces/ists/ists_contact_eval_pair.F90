@@ -62,7 +62,7 @@
       &                   ECONTT_PAIR, ECONVT_PAIR, MS, NOINT, VISC, IVIS2, &
       &                   VISCFFRIC, DT2T, NELTST, ITYPTST, &
       &                   COMMIT_CONTACT, PROBE_SCORE, VALID_GP, MIN_PENE, &
-      &                   DT1, DTFAC1_10)
+      &                   SEC_AREA_CACHE, USE_FN_PARTITION, DT1, DTFAC1_10)
 !-----------------------------------------------
 !   M o d u l e s   /   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -121,11 +121,16 @@
       real(kind=WP), INTENT(INOUT) :: DT2T
       INTEGER, INTENT(INOUT) :: NELTST, ITYPTST
       LOGICAL, INTENT(IN)    :: COMMIT_CONTACT
-      REAL*8, INTENT(INOUT)    :: PROBE_SCORE
-      INTEGER, INTENT(INOUT)   :: VALID_GP
-      REAL*8, INTENT(INOUT)    :: MIN_PENE
-      real(kind=WP), INTENT(IN)    :: DT1
-      real(kind=WP), INTENT(IN)    :: DTFAC1_10
+      REAL*8, INTENT(OUT)    :: PROBE_SCORE
+      INTEGER, INTENT(OUT)   :: VALID_GP
+      REAL*8, INTENT(OUT)    :: MIN_PENE
+!     SEC_AREA_CACHE: optional secondary-segment area reuse across masters probe
+      REAL*8, INTENT(INOUT)  :: SEC_AREA_CACHE
+      
+!     USE_FN_PARTITION: .TRUE. → probe (pair check) accumulates and scales FN weights.
+!     .FALSE. → single-master path; w_scale=1.
+      LOGICAL, INTENT(IN)    :: USE_FN_PARTITION
+      real(kind=WP), INTENT(IN)    :: DT1, DTFAC1_10
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -156,15 +161,12 @@
       INTEGER sec_corner_idx
       REAL*8 gp_area_scale
 
-!     Deep-penetration guards (1/value)
-      real*8, PARAMETER :: PREC_CLEAR_GAUSS = 5.0d-5
-      real*8, PARAMETER :: PREC_CLEAR_LOBATTO = 5.0d-5
-
       real*8  dxi1, dxi2  ! Projection-history increments
       real*8  slip1, slip2
       real*8  T_trial(2), T_real(2), T_trialabs
       real*8  xi1_guess, xi2_guess
       logical have_guess
+      logical use_probe_xi
       
       ! Gauss quadrature for friction calculation
       real*8  eta1_gauss(10), eta2_gauss(10), wi1_gauss(10), wi2_gauss(10)
@@ -182,7 +184,12 @@
       logical calc_fric_this_pair
       real*8  fric_weight
       integer valid_gp_count
-      real*8 clear_frac
+      real*8 x_gp, y_gp, z_gp
+      real*8 sec_area, da_gp
+      real*8 seg_t1(3), seg_t2(3), seg_cross(3)
+      real*8 w_raw, w_scale
+      real*8, parameter :: STS_FN_W_EPS = 1.0d-3
+      real*8 rho_mst(3), dist_eucl, dist2, gap2
 !-----------------------------------------------
 !   I n i t i a l i z a t i o n
 !-----------------------------------------------
@@ -193,6 +200,7 @@
       PROBE_SCORE = 0.0D0
       VALID_GP = 0
       MIN_PENE = HUGE(1.0D0)
+      sec_corner_idx = 1
       ip = 2 ! 2x2 Gauss or Lobatto quadrature order
       pair_fric_idx = MIN(MAX(EL_NR, 1), MVSIZ)
       calc_fric_this_pair = COMMIT_CONTACT .AND. CALC_FRICTION .AND. &
@@ -226,16 +234,42 @@
       node_stiff = 0.0d0
       FAC = 1.0d0
       valid_gp_count = 0
-      rhoxi1_gauss = 0.0d0
-      rhoxi2_gauss = 0.0d0
-      xi1_gauss = 0.0d0
-      xi2_gauss = 0.0d0
-      m_ij_gauss = 0.0d0
-      detm_gauss = 0.0d0
-      eta1_gauss = 0.0d0
-      eta2_gauss = 0.0d0
-      wi1_gauss = 0.0d0
-      wi2_gauss = 0.0d0
+
+!     Secondary segment area for quadrature-weight normalization.
+!     STIF is a nodal/segment stiffness (force per length, same STFM /
+!     STFNS source as NTS TYPE7). The GP weights must therefore form a
+!     partition of unity over the secondary segment. Multiplying the
+!     force by the physical GP area instead scales the penalty with the
+!     segment area and leaves it orders of magnitude too soft on fine
+!     meshes (deep penetration carried by viscous damping).
+!     Reuse assemble-side cache when the same secondary segment is paired
+!     with several masters (or probe+commit) in one cycle.
+      IF (SEC_AREA_CACHE .GT. 0.0d0) THEN
+        sec_area = SEC_AREA_CACHE
+      ELSE
+        sec_area = 0.0d0
+        DO z = 1, ip
+          DO q = 1, ip
+            call sts_shape(eta1(z), eta2(q), N_eta)
+            DO i = 1, 3
+              seg_t1(i) = 0.0d0
+              seg_t2(i) = 0.0d0
+              DO j = 1, 4
+                seg_t1(i) = seg_t1(i) + N_eta(2,j) * XUPD(i, j+4)
+                seg_t2(i) = seg_t2(i) + N_eta(3,j) * XUPD(i, j+4)
+              ENDDO
+            ENDDO
+            seg_cross(1) = seg_t1(2)*seg_t2(3) - seg_t1(3)*seg_t2(2)
+            seg_cross(2) = seg_t1(3)*seg_t2(1) - seg_t1(1)*seg_t2(3)
+            seg_cross(3) = seg_t1(1)*seg_t2(2) - seg_t1(2)*seg_t2(1)
+            da_gp = dsqrt(seg_cross(1)**2 + seg_cross(2)**2 + &
+     &                    seg_cross(3)**2)
+            sec_area = sec_area + wi1(z) * wi2(q) * da_gp
+          ENDDO
+        ENDDO
+        sec_area = MAX(sec_area, 1.0d-20)
+        SEC_AREA_CACHE = sec_area
+      ENDIF
 !-----------------------------------------------
 !   M a i n   C o m p u t a t i o n
 !-----------------------------------------------
@@ -252,22 +286,43 @@
             call sts_gp_warm_start_xi(gp_index, xi1_guess, xi2_guess, &
      &          have_guess)
           ELSE
-            gp_index = 0
-            xi1_guess = 0.0d0
-            xi2_guess = 0.0d0
-            have_guess = .FALSE.
+              
+            call sts_gp_canonical_pair_key(node_ids, mst_key, sec_key)
+            call sts_gp_acquire_slot(mst_key, sec_key, z, q, OPTION, &
+     &          gp_index)
+            call sts_gp_warm_start_xi(gp_index, xi1_guess, xi2_guess, &
+     &          have_guess)
           ENDIF
           
-          ! Project Secondary surface to Primary surface at current Gauss/Lobatto point
-          call sts_project(XUPD, xi1, xi2, eta1(z), eta2(q), &
-     &        xi1_guess, xi2_guess, have_guess)
+          ! Reuse same-cycle probe xi on commit (skip second Newton).
+          use_probe_xi = .FALSE.
+          IF (COMMIT_CONTACT .AND. gp_index .GT. 0) THEN
+            IF (ALLOCATED(GP_PROBE_XI_VALID)) THEN
+              IF (GP_PROBE_XI_VALID(gp_index)) THEN
+                xi1 = GP_PROBE_XI1(gp_index)
+                xi2 = GP_PROBE_XI2(gp_index)
+                use_probe_xi = .TRUE.
+              ENDIF
+            ENDIF
+          ENDIF
+          IF (.NOT. use_probe_xi) THEN
+            call sts_project(XUPD, xi1, xi2, eta1(z), eta2(q), &
+     &          xi1_guess, xi2_guess, have_guess)
           
-          ! Check if projection is valid
-          IF ((xi1 .NE. xi1) .OR. (xi2 .NE. xi2) .OR. &
-     &        (dabs(xi1) .GT. 1.05d0) .OR. &
-     &        (dabs(xi2) .GT. 1.05d0)) THEN
-            CYCLE
-          END IF
+            ! NTS-like gap capsule: clamp onto the facet, then require the
+            ! Euclidean distance to the clamped point to lie inside GAP.
+            ! Normal-only PENE after clamp falsely activates coplanar
+            ! neighbor masters (same plane) and causes FN chatter.
+            IF ((xi1 .NE. xi1) .OR. (xi2 .NE. xi2)) THEN
+              CYCLE
+            END IF
+            xi1 = DMAX1(-1.0d0, DMIN1(1.0d0, xi1))
+            xi2 = DMAX1(-1.0d0, DMIN1(1.0d0, xi2))
+
+            IF (.NOT. COMMIT_CONTACT .AND. gp_index .GT. 0) THEN
+              CALL sts_gp_stash_probe_xi(gp_index, xi1, xi2)
+            ENDIF
+          ENDIF
           
           ! Build position and derivative matrices
           call sts_pos(a, daxi1, daxi2, daeta1, daeta2, xi1, xi2, &
@@ -276,7 +331,8 @@
           ! Calculate surface geometry and metrics
           call sts_surfgeom(XUPD, daxi1, daxi2, daeta1, daeta2, norm_contact, &
      &                    rhoxi1, rhoxi2, m_ij, detm, mij, detmPrimary)
-          area_weight = wi1(z) * wi2(q) * dsqrt(detm)
+!         Dimensionless partition-of-unity weight.
+          area_weight = wi1(z) * wi2(q) * dsqrt(detm) / sec_area
 
           ! ==== FRICTION PROJECTION ====
           IF (.NOT. calc_fric_this_pair) THEN
@@ -302,6 +358,7 @@
 
           ! ==== Normal impact =====
           call sts_shape(eta1(z), eta2(q), N_eta)
+          call sts_shape(xi1, xi2, N_xi)
           gp_area_scale = 1.0D0
           IF (OPTION == 1 .AND. ip == 2) THEN
             sec_corner_idx = 1
@@ -315,6 +372,31 @@
           area_weight = area_weight * gp_area_scale
           IF (area_weight <= 0.0D0) CYCLE
 
+          ! Master projection point and secondary GP (Euclidean gap test).
+          x_gp = 0.0d0
+          y_gp = 0.0d0
+          z_gp = 0.0d0
+          DO i = 1, 3
+            rho_mst(i) = 0.0d0
+          ENDDO
+          DO j = 1, 4
+            x_gp = x_gp + N_eta(1,j) * XUPD(1, j+4)
+            y_gp = y_gp + N_eta(1,j) * XUPD(2, j+4)
+            z_gp = z_gp + N_eta(1,j) * XUPD(3, j+4)
+            DO i = 1, 3
+              rho_mst(i) = rho_mst(i) + N_xi(1,j) * XUPD(i, j)
+            ENDDO
+          ENDDO
+          dist2 = (x_gp - rho_mst(1))**2 + (y_gp - rho_mst(2))**2 + &
+     &            (z_gp - rho_mst(3))**2
+          gap2 = GAPV * GAPV
+          IF (dist2 > gap2) THEN
+            IF (COMMIT_CONTACT .AND. gp_index .GT. 0) &
+     &        CALL sts_gp_reset_slot(gp_index)
+            CYCLE
+          ENDIF
+          dist_eucl = DSQRT(DMAX1(0.0d0, dist2))
+
           ! Compute signed clearance to the primary projection and orient
           ! the primary normal toward the secondary integration point.
           call sts_penetr(XUPD, penetr, norm_contact, a)
@@ -326,7 +408,7 @@
           ENDIF
           
 
-          ! Check for penetration
+          ! Check for penetration (signed gap residual, gated by Euclidean distance).
           PENE = penetr - GAPV
           valid_gp_count = valid_gp_count + 1
           MIN_PENE = MIN(MIN_PENE, PENE)
@@ -340,16 +422,10 @@
           ENDIF
           
           penetr = PENE
-          ! Calculate penalty parameter.
-          ! Clamp the physical clearance so FAC stays bounded for deep
-          ! penetration. Without this, FAC=GAP/clearance becomes singular
-          ! as a Lobatto point approaches zero clearance.
-          clear_frac = PREC_CLEAR_GAUSS
-          IF (OPTION == 1) clear_frac = PREC_CLEAR_LOBATTO
+
           IF (DABS(GAPV) .GT. EM10) THEN
             raw_gap_distance = GAPV + PENE
-            gap_distance = MAX(raw_gap_distance, &
-     &        DABS(GAPV) * clear_frac, EM10)
+            gap_distance = MAX(raw_gap_distance, EM10)
             FAC = DABS(GAPV) / gap_distance
           ELSE
             raw_gap_distance = 0.0d0
@@ -363,11 +439,24 @@
           ! Penetration detected with a valid integrated force contribution.
           IMPACT = 1
           PAIR_MAX_PENETRATION = MAX(PAIR_MAX_PENETRATION, DABS(PENE))
-          PROBE_SCORE = PROBE_SCORE + DABS(d1 * penetr) * area_weight
-          IF (.NOT. COMMIT_CONTACT) CYCLE
 
-!         Shape functions for stiffness integration and IVIS2 mass.
-          call sts_shape(xi1, xi2, N_xi)
+          IF (USE_FN_PARTITION) THEN
+            w_raw = DMAX1(STS_FN_W_EPS, GAPV - dist_eucl)
+            call sts_gp_canonical_nodes(node_ids(5:8), sec_key)
+            IF (.NOT. COMMIT_CONTACT) THEN
+              CALL sts_gp_fn_weight_add(sec_key, z, q, OPTION, w_raw)
+              PROBE_SCORE = PROBE_SCORE + DABS(d1 * penetr) * area_weight
+              CYCLE
+            ELSE
+              w_scale = sts_gp_fn_weight_scale(sec_key, z, q, OPTION, w_raw)
+              area_weight = area_weight * w_scale
+            ENDIF
+          ELSE IF (.NOT. COMMIT_CONTACT) THEN
+            PROBE_SCORE = PROBE_SCORE + DABS(d1 * penetr) * area_weight
+            CYCLE
+          ENDIF
+          PROBE_SCORE = PROBE_SCORE + DABS(d1 * penetr) * area_weight
+
 
           CALL sts_gp_normal_velocity(N_xi, N_eta, node_ids, V, numnod, &
      &        norm_contact, v_n)
@@ -447,7 +536,7 @@
               wi2_fric = wi2_gauss(q)
               eta1_fric = eta1_gauss(z)
               eta2_fric = eta2_gauss(q)
-            ELSE IF (dabs(xi1) .LE. 1.05d0 .AND. dabs(xi2) .LE. 1.05d0) THEN
+            ELSE IF (dabs(xi1) .LE. 1.0d0 .AND. dabs(xi2) .LE. 1.0d0) THEN
               ! ==== USE CURRENT PROJECTION ====
               use_gauss_for_friction = .FALSE.
               xi1_fric = xi1
@@ -530,14 +619,13 @@
      &          dxi1, dxi2)
 
             ! ===== CONVERT FROM 2D TANGENT PLANE TO 3D =====
-            ! Convert using selected tangent vectors
             FXT = T_real(1)*rhoxi1_fric(1) + T_real(2)*rhoxi2_fric(1)
             FYT = T_real(1)*rhoxi1_fric(2) + T_real(2)*rhoxi2_fric(2)
             FZT = T_real(1)*rhoxi1_fric(3) + T_real(2)*rhoxi2_fric(3)
 
             ! ===== ACCUMULATE FRICTION FORCES TO NODES =====
-            fric_weight = wi1_fric * wi2_fric * dsqrt(detm_fric) * &
-     &        gp_area_scale
+            ! Same partition-of-unity weight as the normal force assembly.
+            fric_weight = wi1_fric * wi2_fric * dsqrt(detm_fric) * gp_area_scale / sec_area
             ! Primary nodes (1-4): subtract friction
             DO j=1,4
               pm_friction((j-1)*3+1) = pm_friction((j-1)*3+1) - &

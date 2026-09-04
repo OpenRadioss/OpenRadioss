@@ -37,6 +37,7 @@
 !||====================================================================
       MODULE ISTS_STS_BP_PERSIST_MOD
         USE PRECISION_MOD, ONLY : WP
+        USE CONSTANT_MOD, ONLY : ZERO
         IMPLICIT NONE
         PRIVATE
 
@@ -57,7 +58,7 @@
 !       transient INT7 bucket candidate invalidation during deep contact.
 !       The STS narrow phase remains the geometric filter for restored
 !       pairs, so stale pairs can stay listed without necessarily loading.
-        INTEGER, PARAMETER :: PERSIST_GRACE_CYCLES = 5000
+        INTEGER, PARAMETER :: PERSIST_GRACE_CYCLES = 100
 
         TYPE(STS_BP_PERSIST_SLOT), ALLOCATABLE, SAVE :: PERSIST_SLOT(:)
 
@@ -167,9 +168,15 @@
             J = 1
             DO K = 2, 5
               NI = MST_ID(I, K)
-              CONT_ELEMENT(I, 1, J) = X(1, NI)
-              CONT_ELEMENT(I, 2, J) = X(2, NI)
-              CONT_ELEMENT(I, 3, J) = X(3, NI)
+              IF (NI > 0 .AND. NI <= NUMNOD) THEN
+                CONT_ELEMENT(I, 1, J) = X(1, NI)  ! X
+                CONT_ELEMENT(I, 2, J) = X(2, NI)  ! Y
+                CONT_ELEMENT(I, 3, J) = X(3, NI)  ! Z
+              ELSE
+                CONT_ELEMENT(I, 1, J) = ZERO
+                CONT_ELEMENT(I, 2, J) = ZERO
+                CONT_ELEMENT(I, 3, J) = ZERO
+              END IF
               J = J + 1
             END DO
           END DO
@@ -178,9 +185,15 @@
             J = 5
             DO K = 2, 5
               NI = SEC_ID(I, K)
-              CONT_ELEMENT(I, 1, J) = X(1, NI)
-              CONT_ELEMENT(I, 2, J) = X(2, NI)
-              CONT_ELEMENT(I, 3, J) = X(3, NI)
+              IF (NI > 0 .AND. NI <= NUMNOD) THEN
+                CONT_ELEMENT(I, 1, J) = X(1, NI)  ! X
+                CONT_ELEMENT(I, 2, J) = X(2, NI)  ! Y
+                CONT_ELEMENT(I, 3, J) = X(3, NI)  ! Z
+              ELSE
+                CONT_ELEMENT(I, 1, J) = ZERO
+                CONT_ELEMENT(I, 2, J) = ZERO
+                CONT_ELEMENT(I, 3, J) = ZERO
+              END IF
               J = J + 1
             END DO
           END DO
