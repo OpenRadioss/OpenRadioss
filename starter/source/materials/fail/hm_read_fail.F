@@ -454,8 +454,8 @@ c
             ELSEIF (KEY(1:3) == 'NXT') THEN
               IRUPT = 25   
               CALL HM_READ_FAIL_NXT(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IMAT,IFL))
+     .             TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   ,FAIL_TAG(IMAT,IFL))
 c     
             ELSEIF (KEY(1:9) == 'SNCONNECT') THEN
               IRUPT = 26

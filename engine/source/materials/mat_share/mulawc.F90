@@ -1112,6 +1112,8 @@
               do i=1,nel
                 vol_ipt(i) = volpg(i)*thklyl(i)/thk0(i)
               end do
+
+              hardm(1:nel) = mat_elem%mat_param(imat)%young
 !------------------------------------------
 !         elastic stress +
 !         plasticly admissible stress
@@ -2358,12 +2360,12 @@
                       off       ,offly     ,foff      ,dfmax     ,tdel      )
 !
                    case (25)     !    nxt failure
-                    call fail_nxt_c(&
-                    &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
-                    &tt        ,npf       ,tf        ,nfunc_fail    ,ifunc_fail    ,&
-                    &ngl       ,ipg       ,ilayer    ,it        ,hardm     ,&
-                    &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
-                    &off       ,foff      ,dfmax     ,tdel      ,lf_dammx  )
+                    call fail_nxt_c(fail_param,                            &
+                    nel       ,nvarf     ,nvarftmp  ,uvarf     ,vartmp    ,&
+                    tt        ,&
+                    ngl       ,ipg       ,ilayer    ,it        ,hardm     ,&
+                    signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
+                    off       ,foff      ,dfmax     ,tdel      ,lf_dammx  )
 !
                    case (28)     !    windshield failure (christian alter model)
                     irot   =  elbuf_str%bufly(ilayer)%ly_dira
