@@ -7196,7 +7196,7 @@ C
        FLAG_ALLOCATE = 1
        !PROC argument is used only for call in ddsplit
        PROC_BID = 0
-
+      print*,'call INTBUF_INI_STARTER',iddlevel
        IF(IDDLEVEL == 0) THEN
          !--------------------------------------------!
          !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION
@@ -7207,6 +7207,7 @@ C
          !--------------------------------------------!
          !NEW INTERFACE BUFFER STRUCTURE INITIALIZATION
          !--------------------------------------------!
+         print*,'call INTBUF_INI_STARTER'
          CALL INTBUF_INI_STARTER(INTBUF_TAB, IPARI, NUMNOD,
      .                           I11FLAG, FLAG_ALLOCATE, PROC_BID ,INTBUF_FRIC_TAB)
          !--------------------------------------------!
@@ -8046,6 +8047,7 @@ C--------------------------------------------
 C
 C----------------------------------------------------------
 C
+      print*,'end of inintr',iddlevel
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C  The following is executed with iddlevel=0 only for AMS with automatic element selection
 C  or if no contact interfaces and no ams
@@ -8055,6 +8057,7 @@ C
 C--------------------------------------------
 C     ELEMENT BUFFER INTIALIZATION
 C--------------------------------------------
+      print*,'enter buffer initialization'
       ERR_MSG='ELEMENT BUFFER INITIALIZATION'
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
@@ -8067,7 +8070,10 @@ C     NEW ELEMENT BUFFER STRUCTURE ALLOCATION
 C--------------------------------------------
 c
       FLAG_XFEM = 0
+      print*,'allocating ELBUF_TAB',NGROUP
+      IF(ALLOCATED(ELBUF_TAB)) DEALLOCATE(ELBUF_TAB)
       allocate(ELBUF_TAB(NGROUP))
+      print*,'calling ELBUF_INI for ELBUF_TAB'
 C
       CALL ELBUF_INI(ELBUF_TAB,MAT_ELEM%MAT_PARAM,
      .               MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
@@ -8076,6 +8082,7 @@ C
      .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK ,
      .               IXT      ,IXP      ,IXR      ,KXX        ,GEO       ,
      .               EOS_TAG  ,ISTR_24  ,IPRI     ,DEFAULTS)
+      print*,'ELBUF_INI done for ELBUF_TAB'
 C---
 C  if xfem
 c---
