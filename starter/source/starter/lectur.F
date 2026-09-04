@@ -9366,7 +9366,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(NTHPART >0) THEN
         CALL HM_READ_THPART(IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
-     .                      IGRTRUSS ,IGRBEAM ,IGRSPRING, LSUBMODEL)
+     .                      IGRTRUSS ,IGRBEAM ,IGRSPRING, IGRPART, LSUBMODEL)
       ENDIF
       CALL TRACE_OUT1()
 

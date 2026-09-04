@@ -1167,6 +1167,7 @@
             NGPE = NTHPART
             NGRTH = NTHPART
             NELEM=NUMELSG+3*NUMELS16G+NUMSPHG+NUMELCG+NUMELTGG+NUMELQG+NUMELTG+NUMELPG+2*NUMELRG
+            NELEM = 2*NELEM !  NELEM + reserve for /THPART/GRPART
           ELSE
             NGPE = 0
             NGRTH = 0
