@@ -180,8 +180,6 @@ c
       if (uvar(1,3) == zero .and. ireg > 0) then
         lambda(1:nel) = aldt(1:nel)/ref_el_len
         call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),lambda,uvar(1:nel,3),dydx)
-      else
-        uvar(1:nel,3) = one
       endif
 c
       ! Strain-rate effects
