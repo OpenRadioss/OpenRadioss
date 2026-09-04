@@ -317,6 +317,7 @@
 !     ----------------------
         type, public, extends(t_ebcs) :: t_ebcs_nrf
           integer :: nbmat=21
+          integer :: iform
           real(kind=WP) :: tcar_p = 0., tcar_vf = 1E20
           !real(kind=WP), dimension(:,:), allocatable :: phase_alpha
           type(fvm_inlet_data_struct) :: fvm_inlet_data
@@ -1841,6 +1842,8 @@
           lenr = lenr + 2
           !call write_db(this%phase_alpha, this%nbmat*this%nb_elem)
           !lenr = lenr + this%nbmat*this%nb_elem
+          call write_i_c(this%iform, 1)
+          leni = leni + 1
           if(this%is_multifluid)then
             call write_i_c(this%fvm_inlet_data%vector_velocity, 1)
             leni = leni + 1
@@ -1883,6 +1886,7 @@
           !  allocate(this%phase_alpha(this%nbmat,this%nb_elem))
           !  call read_db(this%phase_alpha, this%nbmat*this%nb_elem)
           !endif
+          call read_i_c(this%iform, 1)
           if(this%is_multifluid)then
             call read_i_c(this%fvm_inlet_data%vector_velocity, 1)
             call read_i_c(this%fvm_inlet_data%formulation, 1)
