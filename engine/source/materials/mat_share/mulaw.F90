@@ -2419,14 +2419,14 @@
                 &tdel )
               else if (irupt == 10) then
 !---- strain tension
-                call fail_tensstrain_s(nel ,nparf,nvarf,nfunc,ifunc       ,&
-                &npf ,tf  ,tt  ,dt1  ,uparf,&
-                &ngl ,deltax ,tstar, ismstr,&
-                &es1 ,es2 ,es3 ,es4  ,es5  ,es6     ,&
-                &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
-                &epsp1,uvarf,off ,dfmax,tdel  ,&
-                &mfxx     ,mfxy     ,mfxz     ,mfyx     ,mfyy     , mfyz    ,&
-                &mfzx     ,mfzy     ,mfzz     ,lbuf%dmgscl)
+                call fail_tensstrain_s(mat_elem%mat_param(imat)%fail(ir),&
+                nel      ,nvarf    ,nvarftmp ,uvarf    ,varftmp   ,      &
+                ngl      ,deltax   ,tstar    ,ismstr   ,tt        ,      &
+                es1 ,es2 ,es3 ,es4  ,es5  ,es6     ,&
+                s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
+                epsp1    ,off      ,dfmax    ,tdel  ,&
+                mfxx     ,mfxy     ,mfxz     ,mfyx     ,mfyy     , mfyz    ,&
+                mfzx     ,mfzy     ,mfzz     ,lbuf%dmgscl)
               else if (irupt == 11) then
 !---- energy failure
                 call fail_energy_s(mat_elem%mat_param(imat)%fail(ir)  , &

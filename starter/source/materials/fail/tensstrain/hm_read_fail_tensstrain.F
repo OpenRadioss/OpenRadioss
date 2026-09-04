@@ -37,8 +37,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_TENSSTRAIN(FAIL , 
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .           TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   ,UNIT_ID  )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read tensile strain failure model parameters
@@ -50,6 +50,9 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      use table_mod
+      use func_table_copy_mod
+      use names_and_titles_mod , only : nchartitle
       use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,13 +72,22 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
       TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
       TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
+      integer             ,intent(in)    :: ntable     !< number of function tables in Radioss input
+      type(ttable) ,dimension(ntable) ,intent(in)    :: table      !< input table array
+      character(len=nchartitle) :: title               !< title of the material model
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER    ::  IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF,FAILIP
+      integer    ::  i,nf,ierror
+      integer, parameter :: nfunc = 3
+      integer, dimension(nfunc) :: ifunc
       my_real    ::  RF1,RF2,EPSP1,EPSP2,SCALE_EL,PTHKF,
      .               EL_REF,SCALE_TEMP,FSCAL_UNIT,UNIT_T
       LOGICAL    ::  IS_AVAILABLE,IS_ENCRYPTED
+      my_real :: x2scale
+      my_real ,dimension(nfunc) :: x1scale,yscale
+      my_real, dimension(1) :: x2vect
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -149,10 +161,12 @@ c---------------------------
       FAIL%KEYWORD = 'TENS_STRAIN' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 11
-      FAIL%NIPARAM = 0
+      FAIL%NUPARAM = 5
+      FAIL%NIPARAM = 3
+      FAIL%NVARTMP = 3
+      FAIL%NTABLE4D= 3
       FAIL%NUVAR   = 2
-      FAIL%NFUNC   = 3
+      FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
       FAIL%NMOD    = 0
       FAIL%PTHK    = PTHKF
@@ -161,23 +175,38 @@ c
       call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
       call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
       call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
 c-----------------------
-      FAIL%UPARAM(1) = RF1 
-      FAIL%UPARAM(2) = RF2
-      FAIL%UPARAM(3) = EPSP1
-      FAIL%UPARAM(4) = EPSP2
-      FAIL%UPARAM(5) = SCALE_EL
-      FAIL%UPARAM(6) = EL_REF    
-      FAIL%UPARAM(7) = SCALE_TEMP
-      FAIL%UPARAM(8) = S_FLAG
-      FAIL%UPARAM(9) = UNIT_T
-      FAIL%UPARAM(10)= STRDEF
-      FAIL%UPARAM(11)= FAILIP
-c       
-      FAIL%IFUNC(1)  = IRFUN
-      FAIL%IFUNC(2)  = FUNC_ID
-      FAIL%IFUNC(3)  = FUNC_ID2
-C--------------------------------------------------
+      fail%iparam(1) = strdef
+      fail%iparam(2) = s_flag
+      fail%iparam(3) = failip
+
+!
+      fail%uparam(1) = rf1 
+      fail%uparam(2) = rf2
+      fail%uparam(3) = epsp1
+      fail%uparam(4) = epsp2
+      fail%uparam(5) = el_ref
+ !
+      ! create local function tables using input functions
+      ifunc(1) = irfun
+      ifunc(2) = func_id
+      ifunc(3) = func_id2
+!           
+      nf = 1
+      x1scale(1)   = unit_t
+      x1scale(2:3) = one
+      x2scale      = one
+      x2vect(:)    = zero
+      yscale(1)    = one
+      yscale(2)    = scale_el
+      yscale(3)    = scale_temp
+      do i = 1,nfunc
+        call func_table_copy(fail%table4d(i),title  ,mat_id   ,      
+     .           nf      ,ifunc(i),x2vect  ,x1scale(i) ,x2scale  ,yscale(i)  ,      
+     .           ntable  ,table   ,ierror  )
+      end do
+C=============================================
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
       ELSE
