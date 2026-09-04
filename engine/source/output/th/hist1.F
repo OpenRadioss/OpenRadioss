@@ -297,7 +297,7 @@ C-------HIERARCHY INFO------------
       IWA(4)=NSUBS
       IWA(5)=NTHGRP2 
       IF(NSECT==0.AND.NSFLSW/=0) IWA(5)=NTHGRP2+1
-      NGLOBTH=22
+      NGLOBTH=23
       IF (IUNIT /= IUHIS) THEN
         IWA(6)= 0
       ELSE
