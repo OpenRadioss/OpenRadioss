@@ -169,16 +169,16 @@ C=============================================
       RETURN
 C=============================================  
  1000 FORMAT(
-     & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,
-     & 5X,40H    -----------------------------             /)
+     & 5X,'    CRYPTED DATA IN FAILURE MODEL       '      /,
+     & 5X,'    -----------------------------       '      /)
  2000 FORMAT(
-     & 5X,40H    ENERGY   FAILURE MODEL                  /,
-     & 5X,40H    ------------------------                  /,
-     & 5X,'MAXIMUM SPECIFIC ENERGY 1. . . . . . . =',E12.4/
-     & 5X,'MAXIMUM SPECIFIC ENERGY 2. . . . . . . =',E12.4/
-     & 5X,'MAXIMUM ENERGIES SCALING FUNCTION. . . =',I8/
-     & 5X,'ABSCISSA SCALE FACTOR FOR FUNCTION . . =',E12.4/,
-     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)      
+     & 5X,'    ENERGY   FAILURE MODEL              '    /,
+     & 5X,'    ------------------------            '      /,
+     & 5X,'MAXIMUM SPECIFIC ENERGY 1. . . . . . . =',1PG20.13/
+     & 5X,'MAXIMUM SPECIFIC ENERGY 2. . . . . . . =',1PG20.13/
+     & 5X,'MAXIMUM ENERGIES SCALING FUNCTION. . . =',I10/
+     & 5X,'ABSCISSA SCALE FACTOR FOR FUNCTION . . =',1PG20.13/
+     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)
 c----------- 
       RETURN
       END

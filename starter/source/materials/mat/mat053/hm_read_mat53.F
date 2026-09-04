@@ -188,8 +188,8 @@ c
       !---OUTPUT FORMAT
 
  1000 FORMAT(
-     & 5X,30H   /MAT/LAW53 (TSAI_TAB)                ,/,
-     & 5X,30H  -------------                         ,//)
+     & 5X,'   /MAT/LAW53 (TSAI_TAB)      '          ,/,
+     & 5X,'  ----------------------      '          ,//)
  1001 FORMAT(
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . =',I10/,

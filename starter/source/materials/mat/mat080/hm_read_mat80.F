@@ -565,8 +565,8 @@ C------------------------------
  950  FORMAT(
      & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/)
 1000  FORMAT(
-     & 5X,40H  HOT STAMPING LAW FOR BORON STEEL      ,/,
-     & 5X,40H  --------------------------------      ,//)
+     & 5X,'  HOT STAMPING LAW FOR BORON STEEL      ',/,
+     & 5X,'  --------------------------------      ',//)
  1100 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/

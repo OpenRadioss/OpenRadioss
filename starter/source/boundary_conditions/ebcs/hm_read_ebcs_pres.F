@@ -211,19 +211,19 @@ C-----------
       RETURN
 C-----------
 
- 1001 FORMAT( //'IMPOSED PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)    
+ 1001 FORMAT( //'IMPOSED PRESSURE EBCS NUMBER . . . . . . :',I10,1X,A)
  1101 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    IMPOSED PRESSURE  . . . . . . . . . . . . ',E16.6,/,
-     .        '    PRESSURE SCALING FUNCTION . . . . . . . . ',I8,/,
-     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',E16.6,/,
-     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I8,/,
-     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I8,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/,
-     .        '    LINEAR RESISTANCE . . . . . . . . . . . . ',E16.6,/,
-     .        '    QUADRATIC RESISTANCE  . . . . . . . . . . ',E16.6,/)
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/,
+     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    IMPOSED PRESSURE  . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    PRESSURE SCALING FUNCTION . . . . . . . . ',I10,/,
+     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I10,/,
+     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I10,/,
+     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',1PG20.13,/,
+     .        '    LINEAR RESISTANCE . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    QUADRATIC RESISTANCE  . . . . . . . . . . ',1PG20.13,/)
 
       END

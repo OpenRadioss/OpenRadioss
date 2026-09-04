@@ -122,12 +122,12 @@ C-----------------------------------------------
 C-----------
       RETURN
 C-----------
- 1006 FORMAT( //'INITIAL PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)    
- 1104 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    DENSITY . . . . . . . . . . . . . . . . . ',E16.6,/,
-     .        '    SOUND SPEED . . . . . . . . . . . . . . . ',E16.6,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/)
+1006  FORMAT( //'INITIAL PRESSURE EBCS NUMBER . . . . . . :',I10,1X,A)
+1104  FORMAT(
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/,
+     .        '    DENSITY . . . . . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    SOUND SPEED . . . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',1PG20.13,/)
 
       END

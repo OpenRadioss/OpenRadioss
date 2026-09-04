@@ -320,12 +320,12 @@ C----------------------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
   900 FORMAT(
-     & 5X,40H  LAW FOR FLUID BOUNDARY ELEMENTS       ,/,
-     & 5X,40H  -------------------------------       ,/)
+     & 5X,'  LAW FOR FLUID BOUNDARY ELEMENTS ',/,
+     & 5X,'  ------------------------------- ',/)
  1000 FORMAT(
-     & 5X,40H  LAW FOR FLUID BOUNDARY ELEMENTS       ,/,
-     & 5X,40H  -------------------------------       ,/,
-     & 5X,40HITYP. . . . . . . . . . . . . . . . . .=,I10/,
+     & 5X,'  LAW FOR FLUID BOUNDARY ELEMENTS ',/,
+     & 5X,'  ------------------------------- ',/,
+     & 5X,'ITYP. . . . . . . . . . . . . . . . . .=',I10/,
      & 5X,'ITYP = 0 : GAS INLET',/,
      & 5X,'ITYP = 1 : LIQUID INLET',/,
      & 5X,'ITYP = 2 : IMPOSED INLET/OUTLET - TIME DEPENDENT',/,
@@ -333,41 +333,41 @@ C----------------------
      & 5X,'PSH: PRESSURE SHIFT . . . . . . . . . .=',1PG20.13/,
      & 5X,'TIME SCALE FACTOR . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
-     & 5X,40HGAMMA CONSTANT. . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HSTAGNATION PRESSURE . . . . . . . . . .=,E12.4/,
-     & 5X,40HSTAGNATION ENERGY . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCRITICAL VELOCITY . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCRITICAL DENSITY. . . . . . . . . . . .=,E12.4/,
-     & 5X,40HCRITICAL PRESSURE . . . . . . . . . . .=,E12.4/,
-     & 5X,40HREFERENCE NODE (VELOCITY) . . . . . . .=,I10/)
+     & 5X,'GAMMA CONSTANT. . . . . . . . . . . . .=',E12.4/,
+     & 5X,'STAGNATION PRESSURE . . . . . . . . . .=',E12.4/,
+     & 5X,'STAGNATION ENERGY . . . . . . . . . . .=',E12.4/,
+     & 5X,'CRITICAL VELOCITY . . . . . . . . . . .=',E12.4/,
+     & 5X,'CRITICAL DENSITY. . . . . . . . . . . .=',E12.4/,
+     & 5X,'CRITICAL PRESSURE . . . . . . . . . . .=',E12.4/,
+     & 5X,'REFERENCE NODE (VELOCITY) . . . . . . .=',I10/)
  1200 FORMAT(
-     & 5X,40HBULK MODULUS. . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HSTAGNATION PRESSURE . . . . . . . . . .=,E12.4/,
-     & 5X,40HSTAGNATION ENERGY . . . . . . . . . . .=,E12.4/,
-     & 5X,40HREFERENCE NODE (VELOCITY) . . . . . . .=,I10/)
+     & 5X,'BULK MODULUS. . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'STAGNATION PRESSURE . . . . . . . . . .=',E12.4/,
+     & 5X,'STAGNATION ENERGY . . . . . . . . . . .=',E12.4/,
+     & 5X,'REFERENCE NODE (VELOCITY) . . . . . . .=',I10/)
  1300 FORMAT(
-     & 5X,40HSTAGNATION DENSITY  LOAD CURVE. . . . .=,I10/,
-     & 5X,40HSTAGNATION PRESSURE LOAD CURVE. . . . .=,I10/)
+     & 5X,'STAGNATION DENSITY  LOAD CURVE. . . . .=',I10/,
+     & 5X,'STAGNATION PRESSURE LOAD CURVE. . . . .=',I10/)
  1301 FORMAT(
-     & 5X,40HSTAGNATION DENSITY  LOAD CURVE. . . . .=,I10/,
-     & 5X,40HSTAGNATION PRESSURE LOAD CURVE. . . . .=,I10/,
-     & 5X,40HSTAGNATION ENERGY   LOAD CURVE. . . . .=,I10/)
+     & 5X,'STAGNATION DENSITY  LOAD CURVE. . . . .=',I10/,
+     & 5X,'STAGNATION PRESSURE LOAD CURVE. . . . .=',I10/,
+     & 5X,'STAGNATION ENERGY   LOAD CURVE. . . . .=',I10/)
  1302 FORMAT(
-     & 5X,40HDENSITY    LOAD CURVE . . . . . . . . .=,I10/,
-     & 5X,40HPRESSURE   LOAD CURVE . . . . . . . . .=,I10/,
-     & 5X,40HENERGY     LOAD CURVE . . . . . . . . .=,I10/)
+     & 5X,'DENSITY    LOAD CURVE . . . . . . . . .=',I10/,
+     & 5X,'PRESSURE   LOAD CURVE . . . . . . . . .=',I10/,
+     & 5X,'ENERGY     LOAD CURVE . . . . . . . . .=',I10/)
  1349 FORMAT(
-     & 5X,40HDISCHARGE COEFFICIENT (ENTRY LOSS). . .=,E12.4/)
+     & 5X,'DISCHARGE COEFFICIENT (ENTRY LOSS). . .=',E12.4/)
  1350 FORMAT(
-     & 5X,40HFINAL STAGNATION ENERGY . . . . . . . .=,E12.4/,
-     & 5X,40HDISCHARGE COEFFICIENT (ENTRY LOSS). . .=,E12.4/)
+     & 5X,'FINAL STAGNATION ENERGY . . . . . . . .=',E12.4/,
+     & 5X,'DISCHARGE COEFFICIENT (ENTRY LOSS). . .=',E12.4/)
  1353 FORMAT(
-     & 5X,40HCHARACTERISTIC SOUND SPEED. . . . . . .=,E12.4/,
-     & 5X,40HCHARACTERISTIC LENGTH . . . . . . . . .=,E12.4/,
-     & 5X,40HREFERENCE NODE (VELOCITY) . . . . . . .=,I10/)
+     & 5X,'CHARACTERISTIC SOUND SPEED. . . . . . .=',E12.4/,
+     & 5X,'CHARACTERISTIC LENGTH . . . . . . . . .=',E12.4/,
+     & 5X,'REFERENCE NODE (VELOCITY) . . . . . . .=',I10/)
  1400 FORMAT(
-     & 5X,40HINITIAL PRESSURE(P-PSH) . . . . . . . .=,E12.4/,
-     & 5X,40HINITIAL ENERGY. . . . . . . . . . . . .=,E12.4/)
+     & 5X,'INITIAL PRESSURE(P-PSH) . . . . . . . .=',E12.4/,
+     & 5X,'INITIAL ENERGY. . . . . . . . . . . . .=',E12.4/)
  2001 FORMAT(
      & 5X,'    THERMAL BOUNDARY  ',/,
      & 5X,'    ----------------  ',/,

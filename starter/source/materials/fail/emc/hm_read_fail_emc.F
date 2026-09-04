@@ -123,11 +123,11 @@ C-----------
       RETURN
 C-----------
  1300 FORMAT(
-     & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,
-     & 5X,40H    -----------------------------             /)
+     & 5X,'    CRYPTED DATA IN FAILURE MODEL       '      /,
+     & 5X,'    -----------------------------       '      /)
  1100 FORMAT(
-     & 5X,40H    EXTENDED MOHR COULOMB RUPTURE MODEL /,
-     & 5X,40H    ----------------------------------- /,
+     & 5X,'    EXTENDED MOHR COULOMB RUPTURE MODEL '/,
+     & 5X,'    ----------------------------------- '/,
      & 5X,'HOSFORD EXPONENT. . . . . . . . . .  . . . . . . . =',E16.9/
      & 5X,'STRESS STATE SENSITIVITY. . . . . .  . . . . . . . =',E16.9/
      & 5X,'STRAIN TO FRACTURE FOR UNIAXIAL TENSION. . . . . . =',E16.9/

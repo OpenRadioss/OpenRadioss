@@ -326,8 +326,8 @@ C--------------------
       RETURN
 C--------------------
  1000 FORMAT(
-     & 5X,40H  JOHNSON COOK - GRAY LAW               ,/,
-     & 5X,40H  -----------------------               ,//)
+     & 5X,'  JOHNSON COOK - GRAY LAW               ',/,
+     & 5X,'  -----------------------               ',//)
  1001 FORMAT(
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
@@ -336,44 +336,44 @@ C--------------------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
-     & 5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HSHEAR MODULUS . . . . . . . . . . . . .=,1PG20.13//)
+     & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',1PG20.13//)
  1400 FORMAT(
-     & 5X,40HPLASTICITY Yield Stress CA. . . . . . .=,1PG20.13/,
-     & 5X,40HPLASTICITY Hardening Parameter CB.. . .=,1PG20.13/,
-     & 5X,40HPLASTICITY Hardening Exponent CN. . . .=,1PG20.13/,
-     & 5X,40HEPS-MAX . . . . . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HSIG-MAX . . . . . . . . . . . . . . . .=,1PG20.13//)
+     & 5X,'PLASTICITY Yield Stress CA. . . . . . .=',1PG20.13/,
+     & 5X,'PLASTICITY Hardening Parameter CB.. . .=',1PG20.13/,
+     & 5X,'PLASTICITY Hardening Exponent CN. . . .=',1PG20.13/,
+     & 5X,'EPS-MAX . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'SIG-MAX . . . . . . . . . . . . . . . .=',1PG20.13//)
  1500 FORMAT(
-     & 5X,40HC0 INITIAL PRESSURE(NOT ACTIVE) . . . .=,1PG20.13/,
-     & 5X,40HC HUGONIOT PARAMETERS . . . . . . . . .=,1PG20.13/,
-     & 5X,40HS US=C+S UP . . . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HGAM0. . . . . . . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HA GAMA=GAM0-A X . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HATOMIC WEIGHT . . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HPRESSURE CUTOFF . . . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HINITIAL INTERNAL ENERGY PER UNIT VOLUME=,1PG20.13//)
+     & 5X,'C0 INITIAL PRESSURE(NOT ACTIVE) . . . .=',1PG20.13/,
+     & 5X,'C HUGONIOT PARAMETERS . . . . . . . . .=',1PG20.13/,
+     & 5X,'S US=C+S UP . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'GAM0. . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'A GAMA=GAM0-A X . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'ATOMIC WEIGHT . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'PRESSURE CUTOFF . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME=',1PG20.13//)
  1600 FORMAT(
-     & 5X,40HSTRAIN RATE COEFFICIENT CC. . . . . . .=,1PG20.13/,
-     & 5X,40HREFERENCE STRAIN RATE . . . . . . . . .=,1PG20.13/,
-     & 5X,40HTEMPERATURE EXPONENT. . . . . . . . . .=,1PG20.13/,
-     & 5X,40HMELTING TEMPERATURE DEGREE K. . . . . .=,1PG20.13/,
-     & 5X,40HTHETA-MAX . . . . . . . . . . . . . . .=,1PG20.13//)
+     & 5X,'STRAIN RATE COEFFICIENT CC. . . . . . .=',1PG20.13/,
+     & 5X,'REFERENCE STRAIN RATE . . . . . . . . .=',1PG20.13/,
+     & 5X,'TEMPERATURE EXPONENT. . . . . . . . . .=',1PG20.13/,
+     & 5X,'MELTING TEMPERATURE DEGREE K. . . . . .=',1PG20.13/,
+     & 5X,'THETA-MAX . . . . . . . . . . . . . . .=',1PG20.13//)
  1700 FORMAT(
-     & 5X,40HGAM0M MELTING GAMMA . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HAM GAMAM=GAM0M-AM X . . . . . . . . . .=,1PG20.13/,
-     & 5X,40HGAME ELECTRONIC GAMMA . . . . . . . . .=,1PG20.13/,
-     & 5X,40HGE ELECTRONIC ENERGY. . . . . . . . . .=,1PG20.13/,
-     & 5X,40HDS ENTROPY OF MELTING . . . . . . . . .=,1PG20.13/,
-     & 5X,40HTM0 MELTING TEMPERATURE PARAMETER . . .=,1PG20.13/,
-     & 5X,40HVJ VOLUME WHERE EOS ARE JOINED. . . . .=,1PG20.13/,
-     & 5X,40HVB EXCLUDED VOLUME FOR VAPOR PHASE. . .=,1PG20.13//)
+     & 5X,'GAM0M MELTING GAMMA . . . . . . . . . .=',1PG20.13/,
+     & 5X,'AM GAMAM=GAM0M-AM X . . . . . . . . . .=',1PG20.13/,
+     & 5X,'GAME ELECTRONIC GAMMA . . . . . . . . .=',1PG20.13/,
+     & 5X,'GE ELECTRONIC ENERGY. . . . . . . . . .=',1PG20.13/,
+     & 5X,'DS ENTROPY OF MELTING . . . . . . . . .=',1PG20.13/,
+     & 5X,'TM0 MELTING TEMPERATURE PARAMETER . . .=',1PG20.13/,
+     & 5X,'VJ VOLUME WHERE EOS ARE JOINED. . . . .=',1PG20.13/,
+     & 5X,'VB EXCLUDED VOLUME FOR VAPOR PHASE. . .=',1PG20.13//)
  1800 FORMAT(
-     & 5X,40HUNIT (1. MBAR CM3)(1E5 SI). . . . . . .=,1PG20.13/,
-     & 5X,40HE0H ENERGY AT V=V0 T=300K P=0 . . . . .=,1PG20.13/,
-     & 5X,40HAY ATTRACTIVE POTENTIAL FOR VAPOR . . .=,1PG20.13/,
-     & 5X,40HTHETA JOIN PARAMETER. . . . . . . . . .=,1PG20.13//)
+     & 5X,'UNIT (1. MBAR CM3)(1E5 SI). . . . . . .=',1PG20.13/,
+     & 5X,'E0H ENERGY AT V=V0 T=300K P=0 . . . . .=',1PG20.13/,
+     & 5X,'AY ATTRACTIVE POTENTIAL FOR VAPOR . . .=',1PG20.13/,
+     & 5X,'THETA JOIN PARAMETER. . . . . . . . . .=',1PG20.13//)
 
 
       RETURN
