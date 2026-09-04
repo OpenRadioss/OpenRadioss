@@ -102,7 +102,7 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       integer, dimension(1) :: func_id  
       my_real :: x1scale,x2scale
-      my_real, dimension(1) :: x2vect,yscale      
+      my_real, dimension(1) :: x2vect,yscale
 !
       DATA TRIAX_1_LIN, TRIAX_2_LIN, TRIAX_3_LIN, TRIAX_4_LIN,
      .     TRIAX_5_LIN 
