@@ -227,6 +227,7 @@
           use sigeps128c_mod
           use sigeps131c_mod
           use sigeps132c_mod
+          use sigeps137c_mod
           use elbufdef_mod
           use dt_mod
           use file_descriptor_mod
@@ -1949,6 +1950,20 @@
                   off      ,offl       ,sigy       ,etse     ,ssp   ,       &
                   lbuf%dmg ,gbuf%dmg   ,ioff_duct)
                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
+!
+              elseif (ilaw == 137) then
+                call sigeps137c(                                           &
+                  nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,       &
+                  el_temp  ,                                               &
+                  epsxx    ,epsyy    ,epsxy    ,epsyz    ,epszx    ,       &
+                  depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,       &
+                  sigoxx   ,sigoyy   ,                                     &
+                  signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
+                  ssp      ,off      ,lbuf%pla ,dpla     ,lbuf%seq ,       &
+                  etse     ,sigy     ,nuvar    ,uvar     ,l_sigb   ,       &
+                  lbuf%sigb,tt       ,gbuf%forth,gbuf%eintth,lbuf%temp,    &
+                  shf      ,gbuf%thk_i,thkly(jpos),dt1   ,eint     ,       &
+                  area     ,thkn     ,ipt      ,thklyl   )
 !
               elseif (ilaw == 158) then
                 call sigeps158c(&

@@ -276,6 +276,8 @@ c
         INTEGER ::  G_EPSDNL 
         INTEGER ::  G_DMGSCL
         INTEGER ::  G_TSAIWU
+        INTEGER ::  G_FORTH
+        INTEGER ::  G_EINTTH
 c for spring with mat
         INTEGER ::  G_TOTDEPL
         INTEGER ::  G_TOTROT

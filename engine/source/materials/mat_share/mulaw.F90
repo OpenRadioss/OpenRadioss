@@ -272,6 +272,7 @@
           use sigeps131_mod
           use sigeps133_mod , only : sigeps133
           use sigeps134s_mod
+          use sigeps137_mod
           use sigeps163_mod
           use fail_spalling_s_mod
           use fail_lemaitre_s_mod
@@ -480,7 +481,7 @@
           real(kind=WP), dimension(mvsiz), intent(inout) :: vdx
           real(kind=WP), dimension(mvsiz), intent(inout) :: vdy
           real(kind=WP), dimension(mvsiz), intent(inout) :: vdz
-          real(kind=WP), dimension(mvsiz,6), intent(inout) :: eintth
+          real(kind=WP), dimension(mvsiz), intent(inout) :: eintth
           real(kind=WP), dimension(mvsiz), intent(inout) :: amu
           real(kind=WP), dimension(mvsiz), intent(inout) :: dpdm
           real(kind=WP), dimension(mvsiz), intent(inout) :: vol_avg
@@ -2139,11 +2140,22 @@
 !
           else if (mtn == 134) then
             call sigeps134s(mat_elem%mat_param(imat)    ,                      &
-            &nel      ,nuvar    ,uvar     , rho     , dt1               ,  &
-            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
-            &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
-            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
+            &nel      ,nuvar    ,uvar     , rho     , dt1               ,      &
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,      &
+            &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,      &
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,      &
             &ssp      ,off      )
+!
+          else if (mtn == 137) then
+            call sigeps137(                                                    &
+            &nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,el_temp  ,      &
+            &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,      &
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,      &
+            &ssp      ,off      ,defp     ,dpla     ,lbuf%seq ,et       ,      &
+            &sigy     ,nuvar    ,uvar     ,l_sigb   ,lbuf%sigb,tt       ,      &
+            &amu      ,lbuf%forth,dvol    ,vol_avg  ,dt1      ,lbuf%temp,      &
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,      &
+            &d1       ,d2       ,d3       ,ep1      ,ep2      ,ep3      )
 !
           else if (mtn == 163) then
             call sigeps163(                                                    &
