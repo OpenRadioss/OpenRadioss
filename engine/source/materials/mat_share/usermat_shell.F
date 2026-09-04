@@ -1458,10 +1458,9 @@ c
                   EPS1  => UVAR(II:II+NEL)
                   EPS2  => UVAR(JJ:JJ+NEL)
                 ENDIF
-                CALL FAIL_FABRIC_C(
-     1               NEL      ,NGL       ,NUPAR     ,NVARF     ,NFUNC_FAIL    ,
-     2               UPARAMF  ,UVARF     ,IFUNC_FAIL    ,TT        ,DT1       ,    
-     3               NPF      ,TF        ,DEPS1     ,DEPS2     ,EPS1      ,
+                CALL FAIL_FABRIC_C(mat_elem%mat_param(imat)%fail(ifl),NEL      ,
+     1               NGL      ,nvarf     ,nvarftmp  ,uvarf     ,vartmp  , 
+     2               TT       ,DT1       ,DEPS1     ,DEPS2     ,EPS1      ,
      4               EPS2     ,SIGNXX    ,SIGNYY    ,DFMAX     ,TDEL      ,
      5               IPG      ,ILAYER    ,IT        ,OFF       ,FOFF      )                     
 c

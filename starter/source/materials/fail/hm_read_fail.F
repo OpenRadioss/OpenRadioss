@@ -488,8 +488,8 @@ c
             ELSEIF (KEY(1:6) == 'FABRIC') THEN
               IRUPT = 31
               CALL HM_READ_FAIL_FABRIC(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
-     .             LSUBMODEL,UNITAB   )
+     .             MAT_PARAM(IMAT)%TITLE ,MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
+     .             NTABLE      ,TABLE    ,LSUBMODEL,UNITAB   )
 c     
             ELSEIF (KEY(1:7) == 'HC_DSSE') THEN
               IRUPT = 32

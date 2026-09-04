@@ -36,8 +36,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_FABRIC(FAIL     ,
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
-     .           LSUBMODEL,UNITAB   )
+     .           TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
+     .           NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -51,6 +51,9 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
       use my_alloc_mod
+      use table_mod
+      use func_table_copy_mod
+      use names_and_titles_mod , only : nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,19 +65,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
-      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
-      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
-      INTEGER             ,INTENT(IN) :: UNIT_ID       ! 
-      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
-      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table 
-      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
+      integer             ,intent(in) :: fail_id            !< failure model id
+      integer             ,intent(in) :: mat_id             !< material law id
+      integer             ,intent(in) :: irupt              !< failure model number
+      integer             ,intent(in) :: unit_id            !< 
+      type (unit_type_)   ,intent(in) :: unitab             !< table of input units
+      type (submodel_data),intent(in) :: lsubmodel(*)       !< submodel table 
+      type (fail_param_)  ,intent(inout) :: fail            !< failure model data structure
+      integer             ,intent(in)    :: ntable          !< number of function tables in Radioss input
+      type(ttable) ,dimension(ntable) ,intent(in) :: table  !< input table array
+      character(len=nchartitle),intent(in)  :: title        !< material model title
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: IRFUN,NDIR
-      my_real  :: EPSF1,EPSR1,EPSF2,EPSR2,FAC_T
-      LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
+      integer  :: func_id,ndir,nf,ierror
+      integer ,dimension(1) :: ifunc
+      my_real  :: epsf1,epsr1,epsf2,epsr2,fac_t
+      my_real  :: x1scale,x2scale
+      my_real ,dimension(1) :: yscale,x2vect
+      logical  :: is_available,is_encrypted
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -99,7 +108,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV ('Epsilon_r2'  ,EPSR2     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('NDIR'        ,NDIR      ,IS_AVAILABLE,LSUBMODEL)
 c
-      CALL HM_GET_INTV   ('fct_ID'      ,IRFUN     ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('fct_ID'      ,FUNC_ID   ,IS_AVAILABLE,LSUBMODEL)
 c--------------------------------------------------
 c     Default values
 c--------------------------------------------------
@@ -118,34 +127,46 @@ c
      .              I1=MAT_ID)
       ENDIF     
 c--------------------------------------------------
-      FAIL%KEYWORD = 'FABRIC' 
-      FAIL%IRUPT   = IRUPT 
-      FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 6
-      FAIL%NIPARAM = 0
-      FAIL%NUVAR   = 2
-      FAIL%NFUNC   = 1
-      FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
+      fail%keyword = 'fabric' 
+      fail%irupt   = irupt 
+      fail%fail_id = fail_id 
+      fail%nuparam = 4
+      fail%niparam = 1
+      fail%nuvar   = 2
+      fail%nvartmp = 2
+      fail%nfunc   = 0
+      fail%ntable  = 0
+      fail%ntable4d= 1
+      fail%nmod    = 0
 c            
-      call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
-      call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
-      call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
-      call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
-
-      FAIL%IFUNC(1)  = IRFUN
+      call my_alloc(fail%uparam, fail%nuparam, "fail%uparam")
+      call my_alloc(fail%iparam, fail%niparam, "fail%iparam")
+      call my_alloc(fail%ifunc, fail%nfunc,    "fail%ifunc")
+      call my_alloc(fail%table, fail%ntable,   "fail%table")
+      if (allocated(fail%table4d)) deallocate(fail%table4d )
+      allocate(fail%table4d(fail%ntable4d))
 c
-      FAIL%UPARAM(1) = EPSF1 
-      FAIL%UPARAM(2) = EPSR1
-      FAIL%UPARAM(3) = EPSF2
-      FAIL%UPARAM(4) = EPSR2
-      FAIL%UPARAM(5) = FAC_T   ! abscissa unit scaling factor (strain rate)
-      FAIL%UPARAM(6) = NDIR
+      fail%iparam(1) = ndir
+      fail%uparam(1) = epsf1 
+      fail%uparam(2) = epsr1
+      fail%uparam(3) = epsf2
+      fail%uparam(4) = epsr2
+! ----------------------------------------------------------------------------------------------------------------------
+      ! create local function table using input function ID
+      nf = 1
+      x1scale   = fac_t
+      x2scale   = one
+      x2vect(:) = zero
+      yscale(:) = one
+      ifunc(1)  = func_id
+      call func_table_copy(fail%table4d(1) ,title   ,mat_id   ,      
+     .           nf      ,ifunc(1),x2vect  ,x1scale ,x2scale  ,yscale  ,      
+     .           ntable  ,table   ,ierror  )
 c-----------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
       ELSE
-        WRITE(IOUT, 1100) EPSF1,EPSR1,EPSF2,EPSR2,NDIR,IRFUN
+        WRITE(IOUT, 1100) EPSF1,EPSR1,EPSF2,EPSR2,NDIR,FUNC_ID
       ENDIF
 c-----------
       RETURN
