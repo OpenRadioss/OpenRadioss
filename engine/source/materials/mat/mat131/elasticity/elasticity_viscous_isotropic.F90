@@ -133,9 +133,9 @@
           young(1:nel) = matparam%young*young_fac(1:nel)
           !< Sound speed
           if (ieos > 0) then 
-            soundsp(1:nel) = sqrt((dpdm(1:nel) +                               &
+            soundsp(1:nel) = sqrt(max((dpdm(1:nel) +                          &
                               four_over_3*matparam%shear*young_fac(1:nel))     &
-                                                               /rho(1:nel))
+                                                               /rho(1:nel),zero))
           else
             soundsp(1:nel) = sqrt((matparam%bulk+                              &
                               four_over_3*matparam%shear)*young_fac(1:nel)     &

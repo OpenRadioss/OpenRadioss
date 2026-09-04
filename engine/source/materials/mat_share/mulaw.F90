@@ -245,7 +245,8 @@
         &dt1,         tt,          glob_therm,  dpde  ,&
         &impl_s,      jlag,        fheat     ,  sensors, &
         &idyna,       userl_avail, nixs,        nixq,&
-        &dt   ,       damp_buf,    idamp_freq_range,iresp)
+        &dt   ,       damp_buf,    idamp_freq_range,iresp,&
+        &l_eos_called,amu2    ,    df        )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -287,6 +288,7 @@
           use fail_param_mod
           use precision_mod, only : WP
           use sensor_mod
+          use eosmain_mod , only : eosmain
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -494,6 +496,9 @@
           real(kind=WP), dimension(mvsiz,6), intent(inout) :: svis
 
           real(kind=WP),intent(inout) :: dpde(nel) !< partial derivative at constant volume
+          logical, intent(inout) :: l_eos_called !< logical to indicate if eos was called
+          real(kind=WP), dimension(mvsiz), intent(inout) :: amu2
+          real(kind=WP), dimension(mvsiz), intent(inout) :: df
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -507,7 +512,7 @@
             israte,ipg,nptr,npts,&
             ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
             nvarf,ir,irupt,imat,isvis,nuvarv,iseq,idev,ntabl_fail,&
-            l_planl,l_epsdnl,l_dmg,l_sigb
+            l_planl,l_epsdnl,l_dmg,l_sigb,eostyp
           integer, dimension(:) ,pointer :: varftmp
 
           real(kind=WP) :: e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
@@ -2181,6 +2186,34 @@
 !----------------------------------------
           end if  ! mtn
 !
+!----------------------------------------
+!  Update hydrostatic pressure with EOS if needed
+!----------------------------------------
+          eostyp = mat_elem%mat_param(imat)%ieos
+          if (eostyp > 0 .and. mtn /= 105) then
+            l_eos_called = .true.
+            nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
+            call eosmain(1          ,nel        ,eostyp   ,pm       ,off      ,eint,&
+            & rho       ,rho0       ,amu        ,amu2     ,espe     ,          &
+            & dvol      ,df         ,voln       ,mat      ,psh      ,          &
+            & pnew      ,dpdm       ,dpde       ,el_temp  ,                    &
+            & bufmat    ,lbuf%sig   ,lbuf%mu    ,mtn      ,                    &
+            & npf       ,tf         ,ebuf%var   ,nvareos , mat_elem%mat_param(imat),&
+            & lbuf%bfrac,nvartmp_eos,ebuf%vartmp)
+            !total stress tensor
+            if (mtn /= 102 .and. mtn /= 133) then
+              do i=1,nel
+                pold = - third*(s1(i) + s2(i) + s3(i))
+                s1(i) = s1(i) * off(i) - pnew(i) + pold
+                s2(i) = s2(i) * off(i) - pnew(i) + pold
+                s3(i) = s3(i) * off(i) - pnew(i) + pold
+                s4(i) = s4(i) * off(i)
+                s5(i) = s5(i) * off(i)
+                s6(i) = s6(i) * off(i)
+              enddo
+            endif
+          endif
+!
 !------------------------------------------------------------
 !     Calculation of the Plastic Work
 !------------------------------------------------------------
@@ -2260,7 +2293,7 @@
 !------
               if (mtn == 36.or.mtn == 44.or.mtn == 48.or.mtn == 56.or.&
               &mtn == 60.or.mtn == 76.or.mtn == 104.or.mtn == 112.or.&
-              &mtn == 121) then
+              &mtn == 121.or.mtn == 131) then
                 do i=1,nel
                   epsp1(i) = epsd(i)
                 end do
@@ -2990,6 +3023,23 @@
             end do
 !$OMP ATOMIC
             output%th%wfext = output%th%wfext + wfextt
+          elseif (eostyp > 0 .and. mtn /= 105) then
+            !case of material law using /eos  (pressure for updated later in mmain > eosmain)
+            do i=1,nel
+              p2 = -(sold1(i)+sig(i,1)+sold2(i)+sig(i,2)+sold3(i)+sig(i,3))* third
+              pold = -(sold1(i)+sold2(i)+sold3(i))* third
+              e1 = d1(i)*(sold1(i)+sig(i,1) + p2+two*svis(i,1))
+              e2 = d2(i)*(sold2(i)+sig(i,2) + p2+two*svis(i,2))
+              e3 = d3(i)*(sold3(i)+sig(i,3) + p2+two*svis(i,3))
+              e4 = d4(i)*(sold4(i)+sig(i,4) + two*svis(i,4))
+              e5 = d5(i)*(sold5(i)+sig(i,5) + two*svis(i,5))
+              e6 = d6(i)*(sold6(i)+sig(i,6) + two*svis(i,6))
+              einc(i) = off(i) * (vol_avg(i)*dt1 * (e1+e2+e3+e4+e5+e6+e7(i))&
+              &- dvol(i)*(q(i) + qold(i) + pold)) * half
+            enddo      
+            do i = 1, nel
+              eint(i) = eint(i) + einc(i)
+            end do        
           else
             !other material laws without /eos
 #include "vectorize.inc"

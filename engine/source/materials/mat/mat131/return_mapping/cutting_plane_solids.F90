@@ -680,16 +680,6 @@
           signzx(1:nel) = signzx(1:nel) + sigbzx(1:nel)
         endif
 !
-        !=======================================================================
-        !< - Equation of state coupling for solids
-        !=======================================================================       
-        if (ieos > 0) then
-          sigm(1:nel) = (signxx(1:nel) + signyy(1:nel) + signzz(1:nel))/three
-          signxx(1:nel) = signxx(1:nel) - sigm(1:nel)
-          signyy(1:nel) = signyy(1:nel) - sigm(1:nel)
-          signzz(1:nel) = signzz(1:nel) - sigm(1:nel)
-        endif
-!
         !< Large array deallocation
         if (allocated(cstf))       deallocate(cstf)
         if (allocated(N))          deallocate(N)

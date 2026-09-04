@@ -1096,8 +1096,18 @@ C
                 MBUFSP => ELBUF_TAB(MG)%BUFLY(1)%MAT(1,1,1)
                 J=NP-KFT
                 RHON = GBUF%RHO(I)
-                RHOO = WA(10,NP)
-                DIVV = (RHOO-RHON)/MAX(EM30,RHOO*DT1)
+C               Newborn SPH particle : no density-rate history is available
+C               yet for this particle slot. WA(10,*) is the persistent
+C               "old density" accumulator (seeded/updated cycle after cycle
+C               in SPFORCP/SPLOAD3) and still holds stale/uninitialized
+C               content at the exact conversion cycle. Seed it with the
+C               parent's current density and set DIVV=0 (no history yet),
+C               otherwise the density time-derivative below (and the
+C               downstream artificial viscosity/EOS/energy update) is
+C               computed from garbage right at the moment of conversion.
+                WA(10,NP)     = RHON
+                RHOO          = RHON
+                DIVV          = ZERO
                 WA(13,NP)     = DIVV
                 WA(14,NP)     = ZERO
                 SPBUF(2,NP)   = RHON
@@ -1163,6 +1173,8 @@ C-----------
                 IF(GBUF%G_PLA > 0) GBUFSP%PLA(J) = GBUF%PLA(I)
                 IF(GBUF%G_EPSD> 0) GBUFSP%EPSD(J)= GBUF%EPSD(I)
                 IF(GBUF%G_EPSQ> 0) GBUFSP%EPSQ(J)= GBUF%EPSQ(I)
+C Element temperature (self-heating / thermal softening, e.g. LAW131)
+                IF(GBUF%G_TEMP> 0) GBUFSP%TEMP(J)= GBUF%TEMP(I)
 C-----------
                 IF(GBUF%G_GAMA > 0)THEN
 C
@@ -1268,6 +1280,13 @@ C-----------
 C Afterburning param
                 IF(ELBUF_TAB(NG)%BUFLY(1)%L_ABURN > 0)THEN
                   LBUFSP%ABURN(JJ(1)+J)=LBUF%ABURN(II(1)+I)
+                END IF
+C-----------
+C Backstress tensor for kinematic hardening (e.g. LAW131)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGB > 0)THEN
+                  DO K=1,ELBUF_TAB(NG)%BUFLY(1)%L_SIGB
+                    LBUFSP%SIGB(NELSP*(K-1)+J)=LBUF%SIGB(NEL*(K-1)+I)
+                  ENDDO
                 END IF
 C-----------
 C User variables (same for SPH and solids)

@@ -692,16 +692,6 @@
         uvar(1:nel,6) = normyz(1:nel)
         uvar(1:nel,7) = normzx(1:nel)
 !
-        !=======================================================================
-        !< - Equation of state coupling for solids
-        !=======================================================================       
-        if (ieos > 0) then
-          sigm(1:nel) = (signxx(1:nel) + signyy(1:nel) + signzz(1:nel))/three
-          signxx(1:nel) = signxx(1:nel) - sigm(1:nel)
-          signyy(1:nel) = signyy(1:nel) - sigm(1:nel)
-          signzz(1:nel) = signzz(1:nel) - sigm(1:nel)
-        endif
-!
         !< Large array deallocation
         if (allocated(cstf))       deallocate(cstf)
         if (allocated(N))          deallocate(N)

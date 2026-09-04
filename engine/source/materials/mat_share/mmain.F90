@@ -454,7 +454,7 @@
           integer, dimension(:) ,pointer  :: itabl_fail
           real(kind=WP), dimension(:) ,pointer  :: strd1,strd2,el_len,el_pla
           real(kind=WP) :: Pturb(nel)
-          logical :: logical_userl_avail, l_mulaw_called, l_eos_called
+          logical :: logical_userl_avail, l_mulaw_called, l_eos_called, l_mulaw_eos_called
 !
           character :: option*256
           integer :: length
@@ -494,6 +494,7 @@
           logical_userl_avail = .false.
           l_mulaw_called=.false.
           l_eos_called = .false.
+          l_mulaw_eos_called = .false.
           if(userl_avail/=0) logical_userl_avail = .true.
 
           Pturb(1:nel)=zero ! additional turbulent pressure
@@ -1947,7 +1948,8 @@
             &dt1,         tt,          glob_therm,  dpde  ,&
             &impl_s,      jlag,        fheat     ,  sensors , &
             &idyna,       userl_avail, nixs,        nixq,&
-            &dt,          damp_buf,    idamp_freq_range,iresp)
+            &dt,          damp_buf,    idamp_freq_range,iresp,&
+            &l_mulaw_eos_called,amu2    ,    df        )
 
           end if
 !-----------------------------------
@@ -1968,7 +1970,7 @@
           end if
 
           eostyp = mat_elem%mat_param(imat)%ieos
-          if (eostyp > 0 .and. mtn /=12 .and. mtn /= 105) then
+          if (eostyp > 0 .and. mtn /= 12 .and. (.not. l_mulaw_eos_called)) then
             l_eos_called = .true.
             nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
             call eosmain(1         ,nel         ,eostyp     ,pm       ,off      ,lbuf%eint,&
@@ -1980,20 +1982,18 @@
             & lbuf%bfrac,nvartmp_eos ,ebuf%vartmp)
             if (jtur /= 0 .or. mtn == 17) pnew(1:nel) = pnew(1:nel) + pturb(1:nel)
             !total stress tensor
-            if(mtn /=102 .and. mtn /=133)then
-              do i=1,nel
-                lbuf%sig(        i) = lbuf%sig(        i) * off(i) - pnew(i)
-                lbuf%sig(  nel + i) = lbuf%sig(  nel + i) * off(i) - pnew(i)
-                lbuf%sig(2*nel + i) = lbuf%sig(2*nel + i) * off(i) - pnew(i)
-                lbuf%sig(3*nel + i) = lbuf%sig(3*nel + i) * off(i)
-                lbuf%sig(4*nel + i) = lbuf%sig(4*nel + i) * off(i)
-                lbuf%sig(5*nel + i) = lbuf%sig(5*nel + i) * off(i)
-              end do
-            end if
+            do i=1,nel
+              lbuf%sig(        i) = lbuf%sig(        i) * off(i) - pnew(i)
+              lbuf%sig(  nel + i) = lbuf%sig(  nel + i) * off(i) - pnew(i)
+              lbuf%sig(2*nel + i) = lbuf%sig(2*nel + i) * off(i) - pnew(i)
+              lbuf%sig(3*nel + i) = lbuf%sig(3*nel + i) * off(i)
+              lbuf%sig(4*nel + i) = lbuf%sig(4*nel + i) * off(i)
+              lbuf%sig(5*nel + i) = lbuf%sig(5*nel + i) * off(i)
+            end do
           end if
 
           ! --- ENERGY(rho.e.V) ---> ENERGY DENSITY(rho.e) ---!
-          if(l_mulaw_called .or. l_eos_called)then
+          if(l_mulaw_called .or. l_eos_called .or. l_mulaw_eos_called)then
             do i=1,nel
               if(lbuf%vol(i) > zero)then
                 lbuf%eint(i)=lbuf%eint(i)/max(lbuf%vol(i),em20)
