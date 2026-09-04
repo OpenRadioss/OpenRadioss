@@ -103,7 +103,6 @@ C-----------------------------------------------
       integer, dimension(1) :: func_id  
       my_real :: x1scale,x2scale
       my_real, dimension(1) :: x2vect,yscale
-!
       DATA TRIAX_1_LIN, TRIAX_2_LIN, TRIAX_3_LIN, TRIAX_4_LIN,
      .     TRIAX_5_LIN 
      .      / -0.33333333, 0.0, 0.33333333, 0.577350269, 0.66666667 /
