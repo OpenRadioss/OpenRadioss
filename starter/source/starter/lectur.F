@@ -3529,14 +3529,13 @@ C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
 C     Q1NP /SET/GENERAL support.
 C     Retry Q1NP generation after these sets have been converted to surfaces.
       IF(NUMELQ1NP_G == 0)THEN
-        CALL Q1NP_GENERATE_MAIN(IWCONT, IWCIN2, IKINE1LAG, DSDOF,
-     .                          ADDCNE, ADDCNE_PXFEM, FXBTAG, ITAG,
-     .                          FLAGKIN, XYZREF, SX, SV, SD, SMS, SIN,
+        CALL Q1NP_GENERATE_MAIN(IWCONT, IWCIN2, IKINE1LAG, IKINE, DSDOF, ADDCNE,
+     .                          ADDCNE_PXFEM, FXBTAG, ITAG, FLAGKIN, XYZREF,
+     .                          SX, SV, SD, SMS, SIN,
      .                          SVR, SDR, S_NOD2ELS, IPARTS, IRODDL,
-     .                          IRODDL0, ISECUT, IMPOSE_DR, NSURF,
-     .                          NUMNOD, NUMELS, IOUT, IISROT, IDROT,
-     .                          SICODE, SISKEW, SNOD2SP, NCHARKEY,
-     .                          HM_NINTER, LSUBMODEL)
+     .                          IRODDL0, ISECUT, IMPOSE_DR, NSURF, NUMNOD,
+     .                          NUMELS, IOUT, IISROT, IDROT, SICODE,
+     .                          SISKEW, SNOD2SP, NCHARKEY, HM_NINTER, LSUBMODEL)
       ENDIF
       
       IF (NSURF+NSETS > 0) THEN

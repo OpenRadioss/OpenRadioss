@@ -62,7 +62,7 @@
       &                   ECONTT_PAIR, ECONVT_PAIR, MS, NOINT, VISC, IVIS2, &
       &                   VISCFFRIC, DT2T, NELTST, ITYPTST, &
       &                   COMMIT_CONTACT, PROBE_SCORE, VALID_GP, MIN_PENE, &
-      &                   SEC_AREA_CACHE, USE_FN_PARTITION)
+      &                   SEC_AREA_CACHE, USE_FN_PARTITION, DT1, DTFAC1_10)
 !-----------------------------------------------
 !   M o d u l e s   /   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -130,6 +130,7 @@
 !     USE_FN_PARTITION: .TRUE. → probe (pair check) accumulates and scales FN weights.
 !     .FALSE. → single-master path; w_scale=1.
       LOGICAL, INTENT(IN)    :: USE_FN_PARTITION
+      real(kind=WP), INTENT(IN)    :: DT1, DTFAC1_10
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------

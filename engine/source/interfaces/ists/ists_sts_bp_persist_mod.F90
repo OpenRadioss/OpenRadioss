@@ -36,7 +36,7 @@
 !||    precision_mod                     ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE ISTS_STS_BP_PERSIST_MOD
-#include      "my_real.inc"
+        USE PRECISION_MOD, ONLY : WP
         USE CONSTANT_MOD, ONLY : ZERO
         IMPLICIT NONE
         PRIVATE

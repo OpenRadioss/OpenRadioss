@@ -252,7 +252,7 @@
       real(kind=8) sts_fn_tot(3), sts_ft_tot(3)
       real(kind=8) q1np_econtt_pass, q1np_econvt_pass
       real(kind=8) q1np_fn_tot(3), q1np_ft_tot(3)
-      my_real q1np_mu
+      real(kind=WP) q1np_mu
 !-----------------------------------------------
 !   s o u r c e   l i n e s
 !-----------------------------------------------

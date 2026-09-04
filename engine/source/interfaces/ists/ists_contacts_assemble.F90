@@ -90,23 +90,6 @@
       REAL*8, INTENT(INOUT) :: ECONTT_TOT, ECONVT_TOT
       REAL*8, INTENT(INOUT) :: FN_TOT(3), FT_TOT(3)
       real(kind=WP), INTENT(IN)    :: DT1, DTFAC1_10
-      my_real CONT_ELEMENT(MAX_STS_SIZE_ACTUAL,3,8)
-      my_real STIF(MAX_STS_SIZE_ACTUAL)
-      INTEGER COUNT, OPTION, STS_INTERFACE_ID, NCYCLE_IN
-      INTEGER CAND_SEC_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
-      INTEGER CAND_MST_SEG_ID(MAX_STS_SIZE_ACTUAL,5)
-      INTEGER CAND_SEC_GP_MASK(MAX_STS_SIZE_ACTUAL,4)
-      my_real load_arr(MAX_STS_SIZE_ACTUAL,8,4)
-      INTEGER node_id_load(MAX_STS_SIZE_ACTUAL*8)
-      INTEGER L_out, IMPACT_glob, MAX_STS_SIZE_ACTUAL
-      my_real FRICC(MVSIZ)
-      my_real XMU(MVSIZ)
-      INTEGER IFPEN(MAX_STS_SIZE_ACTUAL)     
-      my_real GAP  ! Gap value from user input
-      my_real V(3,*), MS(*), VISC, VISCFFRIC(MVSIZ), DT2T
-      INTEGER IVIS2, NELTST, ITYPTST
-      REAL*8 ECONTT_TOT, ECONVT_TOT
-      REAL*8 FN_TOT(3), FT_TOT(3)
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -123,10 +106,14 @@
       REAL*8 econt_pair, econtv_pair
       REAL*8 econt_probe, econtv_probe
       real(kind=WP) DT2T_PROBE
+      INTEGER NELTST_PROBE, ITYPTST_PROBE
       INTEGER node_ids(8)  ! Node IDs for velocity interpolation
       REAL*8 gap_abs, lobatto_margin
       REAL*8 probe_score, min_pene
-      INTEGER node_ids(8)
+      REAL*8 p_probe(24), p_friction_probe(24), node_stiff_probe(8)
+      REAL*8 probe_pen_gauss, probe_pen_lobatto
+      REAL*8 probe_score_gauss, probe_score_lobatto, min_pene_gauss, min_pene_lobatto
+      INTEGER impact_gauss, impact_lobatto, valid_gauss, valid_lobatto
       REAL*8, ALLOCATABLE, SAVE :: lobatto_gp_weight(:,:)
       INTEGER, ALLOCATABLE, SAVE :: sec_mst_mark(:)
       REAL*8, ALLOCATABLE, SAVE :: sec_area_by_sec(:)
@@ -258,6 +245,12 @@
             ENDIF
           ENDIF
 
+          sec_id = CAND_SEC_SEG_ID(I,1)
+          sec_area_pair = 0.0D0
+          IF (sec_id >= 1 .AND. sec_id <= max_sec_id) THEN
+            sec_area_pair = sec_area_by_sec(sec_id)
+          ENDIF
+
         IF (OPTION == 2 .OR. OPTION == 0) THEN
           DT2T_PROBE = DT2T
           NELTST_PROBE = NELTST
@@ -274,7 +267,8 @@
      &                      IVIS2, VISCFFRIC(MIN(I,MVSIZ)), DT2T_PROBE, &
      &                      NELTST_PROBE, ITYPTST_PROBE, &
      &                      .FALSE., probe_score_gauss, valid_gauss, &
-     &                      min_pene_gauss, DT1, DTFAC1_10)
+     &                      min_pene_gauss, sec_area_pair, need_fn_partition, &
+     &                      DT1, DTFAC1_10)
           DT2T_PROBE = DT2T
           NELTST_PROBE = NELTST
           ITYPTST_PROBE = ITYPTST
@@ -291,38 +285,34 @@
      &                      IVIS2, VISCFFRIC(MIN(I,MVSIZ)), DT2T_PROBE, &
      &                      NELTST_PROBE, ITYPTST_PROBE, &
      &                      .FALSE., probe_score_lobatto, &
-     &                      valid_lobatto, min_pene_lobatto, DT1, DTFAC1_10)
+     &                      valid_lobatto, min_pene_lobatto, sec_area_pair, &
+     &                      need_fn_partition, DT1, DTFAC1_10)
         ENDIF
-          sec_id = CAND_SEC_SEG_ID(I,1)
-          sec_area_pair = 0.0D0
-          IF (sec_id >= 1 .AND. sec_id <= max_sec_id) THEN
-            sec_area_pair = sec_area_by_sec(sec_id)
-          ENDIF
 
           IF (OPTION == 1) THEN
             CALL STS_CONTACT_EVAL_PAIR(XUPD, STIF(I), p_load_new, IMPACT, I, &
      &                        node_stiff, OPTION, &
      &                        FRICC, XMU, IFPEN, &
-     &                        p_friction, node_ids, V, &
+     &                        p_friction, node_ids, V, numnod, &
      &                        .TRUE., MAX_STS_SIZE_ACTUAL, GAP, &
      &                        lobatto_gp_weight(1:4,I), &
      &                        pair_max_penetration, econt_pair, econtv_pair, &
      &                        MS, STS_INTERFACE_ID, VISC, IVIS2, &
      &                        VISCFFRIC(MIN(I,MVSIZ)), DT2T, NELTST, ITYPTST, &
      &                        do_commit, probe_score, valid_gp, min_pene, &
-     &                        sec_area_pair, need_fn_partition)
+     &                        sec_area_pair, need_fn_partition, DT1, DTFAC1_10)
           ELSE
             CALL STS_CONTACT_EVAL_PAIR(XUPD, STIF(I), p_load_new, IMPACT, I, &
      &                        node_stiff, OPTION, &
      &                        FRICC, XMU, IFPEN, &
-     &                        p_friction, node_ids, V, &
+     &                        p_friction, node_ids, V, numnod, &
      &                        .TRUE., MAX_STS_SIZE_ACTUAL, GAP, &
      &                        unit_gp_weight, &
      &                        pair_max_penetration, econt_pair, econtv_pair, &
      &                        MS, STS_INTERFACE_ID, VISC, IVIS2, &
      &                        VISCFFRIC(MIN(I,MVSIZ)), DT2T, NELTST, ITYPTST, &
      &                        do_commit, probe_score, valid_gp, min_pene, &
-     &                        sec_area_pair, need_fn_partition)
+     &                        sec_area_pair, need_fn_partition, DT1, DTFAC1_10)
           ENDIF
           IF (sec_id >= 1 .AND. sec_id <= max_sec_id) THEN
             sec_area_by_sec(sec_id) = sec_area_pair

@@ -120,7 +120,7 @@
           INTEGER, ALLOCATABLE :: PERSIST_SEC_ID(:,:)
           INTEGER, ALLOCATABLE :: PERSIST_MST_ID(:,:)
           INTEGER, ALLOCATABLE :: PERSIST_GP_MASK(:,:)
-          my_real, ALLOCATABLE :: PERSIST_CONT_ELEMENT(:,:,:)
+          real(kind=WP), ALLOCATABLE :: PERSIST_CONT_ELEMENT(:,:,:)
           LOGICAL :: PERSIST_RESTORED
           LOGICAL :: PERSIST_STABILIZE, PAIR_EXISTS
 !-----------------------------------------------
