@@ -36,6 +36,7 @@
 !||    inter11_duplicate_edge        ../engine/source/engine/node_spliting/detach_node.F90
 !||    lag_mult                      ../engine/source/tools/lagmul/lag_mult.F
 !||    lag_multp                     ../engine/source/tools/lagmul/lag_mult.F
+!||    lecsec42                      ../starter/source/tools/sect/hm_read_sect.F
 !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
 !||--- calls      -----------------------------------------------------
 !||    build_error_message           ../common_source/tools/memory/extend_array.F90

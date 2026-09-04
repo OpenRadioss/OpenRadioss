@@ -26,6 +26,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    contrl                      ../starter/source/starter/contrl.F
 !||    leclas                      ../starter/source/loads/laser/leclas.F
+!||    lecsec42                    ../starter/source/tools/sect/hm_read_sect.F
 !||    lectur                      ../starter/source/starter/lectur.F
 !||    new_link                    ../starter/source/coupling/rad2rad/new_link.F
 !||    q1np_generate_main          ../starter/source/elements/solid/solid_q1np/q1np_generate_main.F90

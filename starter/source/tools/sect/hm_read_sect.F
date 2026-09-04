@@ -33,6 +33,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fretitl                  ../starter/source/starter/freform.F
 !||    grsize_ele               ../starter/source/system/nintrr.F
 !||    grsize_ele_trans         ../starter/source/system/nintrr.F
+!||    grsizen                  ../starter/source/system/nintrr.F
 !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
 !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
 !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
