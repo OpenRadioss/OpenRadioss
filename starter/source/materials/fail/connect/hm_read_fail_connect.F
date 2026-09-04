@@ -35,8 +35,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_CONNECT(FAIL ,
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID,
-     .           LSUBMODEL,UNITAB   ,FAIL_TAG )
+     .           TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID,
+     .           NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   ,FAIL_TAG )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -50,6 +50,9 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD 
       USE ELBUFTAG_MOD            
       use my_alloc_mod
+      use table_mod
+      use func_table_copy_mod
+      use names_and_titles_mod , only : nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,20 +64,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER             ,INTENT(IN) :: FAIL_ID       !< failure model ID
-      INTEGER             ,INTENT(IN) :: MAT_ID        !< material law ID
-      INTEGER             ,INTENT(IN) :: UNIT_ID       ! 
-      INTEGER             ,INTENT(IN) :: IRUPT         !< failure model number
-      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        !< table of input units
-      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*) 
-      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
-      TYPE (FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG   !< failure model tag for buffer allocation
+      INTEGER             ,INTENT(IN)    :: FAIL_ID         !< failure model ID
+      INTEGER             ,INTENT(IN)    :: MAT_ID          !< material law ID
+      INTEGER             ,INTENT(IN)    :: UNIT_ID         ! 
+      INTEGER             ,INTENT(IN)    :: IRUPT           !< failure model number
+      INTEGER             ,intent(in)    :: ntable
+      type(ttable) ,dimension(ntable) ,intent(in) :: table  !< input table array
+      type(fail_param_)   ,intent(inout) :: fail            !< failure model data structure
+      TYPE (UNIT_TYPE_)   ,INTENT(IN)    :: UNITAB          !< table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN)    :: LSUBMODEL(*) 
+      TYPE (FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG        !< failure model tag for buffer allocation
+      character(len=nchartitle) ,intent(in) :: title
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER    ::     IFUNN,IFUNT,IFAIL,IFAILS,IFAILE,ISOLID,NFAIL,ISYM
-      my_real    ::     MAXDN,MAXDT,EXPN,EXPT,FACN,FACT,ASCALE,MAXEI,MAXEN,MAXET,NN,NT,
+      INTEGER :: I,IFUNN,IFUNT,IFAIL,IFAILS,IFAILE,ISOLID,NFAIL,ISYM,IERROR
+      my_real :: MAXDN,MAXDT,EXPN,EXPT,FACN,FACT,ASCALE,MAXEI,MAXEN,MAXET,NN,NT,
      .                  DTIME,DSOFT,AREASCALE, UNIT_T
+      integer :: nf
+      integer ,parameter :: nfunc = 2
+      integer ,dimension(nfunc) :: ifunc
+      my_real :: x2scale
+      my_real ,dimension(nfunc) :: x1scale,yscale
+      my_real, dimension(1)     :: x2vect
 C-----------------------------------------------
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -148,22 +160,25 @@ c-----------------------------------------------------------------------
       ELSE
         UNIT_T = ONE
       ENDIF
-      ASCALE = ONE / UNIT_T
+      ASCALE = UNIT_T
 c-----------------------------------------------------------------------
       FAIL%KEYWORD = 'CONNECT' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 19
-      FAIL%NIPARAM = 0
+      FAIL%NUPARAM = 14
+      FAIL%NIPARAM = 4
       FAIL%NUVAR   = 8
-      FAIL%NFUNC   = 2
+      FAIL%NVARTMP = nfunc
+      FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
+      fail%ntable4d= nfunc
       FAIL%NMOD    = 7
 c            
       call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
       call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
       call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
       call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
 c
       ! Modes of failure
       FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
@@ -176,29 +191,39 @@ c
       FAIL%MODE(6) = "Total energy damage"
       FAIL%MODE(7) = "Energy based damage"
 c
+      FAIL%IPARAM(1)  = IFAILS
+      FAIL%IPARAM(2)  = IFAILE
+      FAIL%IPARAM(3)  = ISOLID
+      FAIL%IPARAM(4)  = ISYM
+c
       FAIL%UPARAM(1)  = MAXDN
       FAIL%UPARAM(2)  = MAXDT
       FAIL%UPARAM(3)  = EXPN
       FAIL%UPARAM(4)  = EXPT
       FAIL%UPARAM(5)  = FACN
       FAIL%UPARAM(6)  = FACT
-      FAIL%UPARAM(7)  = ASCALE
-      FAIL%UPARAM(8)  = IFAILS
-      FAIL%UPARAM(9)  = IFAILE
-      FAIL%UPARAM(10) = NFAIL
-      FAIL%UPARAM(11) = MAXEI
-      FAIL%UPARAM(12) = MAXEN
-      FAIL%UPARAM(13) = MAXET
-      FAIL%UPARAM(14) = NN
-      FAIL%UPARAM(15) = NT
-      FAIL%UPARAM(16) = DTIME
-      FAIL%UPARAM(17) = DSOFT
-      FAIL%UPARAM(18) = ISYM
-      FAIL%UPARAM(19) = AREASCALE
-C    
-      FAIL%IFUNC(1) = IFUNN
-      FAIL%IFUNC(2) = IFUNT
-C--------------------------------------------------
+      FAIL%UPARAM(7)  = MAXEI
+      FAIL%UPARAM(8)  = MAXEN
+      FAIL%UPARAM(9)  = MAXET
+      FAIL%UPARAM(10) = NN
+      FAIL%UPARAM(11) = NT
+      FAIL%UPARAM(12) = DTIME
+      FAIL%UPARAM(13) = DSOFT
+      FAIL%UPARAM(14) = AREASCALE
+c-----------------------------------------------------------------------   
+      nf = 1
+      ifunc(1)   = ifunn
+      ifunc(2)   = ifunt
+      x1scale(:) = ascale
+      x2scale    = one
+      x2vect(:)  = zero
+      yscale(:)  = one
+      do i = 1,nfunc
+        call func_table_copy(fail%table4d(i),title  ,mat_id   ,      
+     .           nf      ,ifunc(i),x2vect  ,x1scale(i) ,x2scale  ,yscale(i)  ,      
+     .           ntable  ,table   ,ierror  )
+      end do
+c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT, 1000)
       ELSE
