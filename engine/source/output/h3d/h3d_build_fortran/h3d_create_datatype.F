@@ -36,11 +36,12 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                              ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE H3D_CREATE_DATATYPE(H3D_DATA,IPARI)
+      SUBROUTINE H3D_CREATE_DATATYPE(H3D_DATA,IPARI,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
+        USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,10 +55,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE (H3D_DATABASE) :: H3D_DATA
         INTEGER, INTENT(IN) ::  IPARI(NPARI,*)
+        TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT ! Output structure
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I, INTER_ID
+        CHARACTER(LEN=100)::KEY3
 C-----------------------------------------------
         DO I=1,H3D_DATA%N_OUTP_H3D
           IF(H3D_DATA%OUTPUT_LIST(I)%OK == 1 )  THEN
@@ -259,6 +262,18 @@ c------------tensor
         CALL C_H3D_CREATE_SPH_ERODED(H3D_DATA%N_OUTP_H3D+6, 'Erosion Status', 14,0,'',0)
         CALL C_H3D_CREATE_QUAD_ERODED(H3D_DATA%N_OUTP_H3D+7, 'Erosion Status', 14,0,'',0)
         CALL C_H3D_CREATE_SKIN_ERODED(H3D_DATA%N_OUTP_H3D+8, 'Erosion Status', 14,0,'',0)
+        
+C--------------------------------------------------
+C BUILD DEFAULT OUTPUTS FOR CHECKSUM OPTION
+C--------------------------------------------------
+        IF(OUTPUT%CHECKSUM%CHECKSUM_COUNT > 0) THEN
+          DO I=1,OUTPUT%CHECKSUM%CHECKSUM_COUNT
+            KEY3 = 'ZCHKSM_'//OUTPUT%CHECKSUM%CHECKSUMS(I)
+            CALL C_H3D_ADD_STRING(KEY3,LEN_TRIM(KEY3))
+          ENDDO
+        ENDIF
+
+
 
 
         RETURN
