@@ -39,7 +39,7 @@
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-        subroutine h3d_gather_id_val(isend_buffer,isend_buffer_real, send_size, &
+        subroutine h3d_gather_id_val(isend_buffer,isend_buffer_real, send_size, flt_num, &
           irecv_buffer, irec_buffer_real, recv_size, &
           shell_stacksize_p0,p0_sizes,p0_offsets,nspmd,ispmd,it_spmd)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -55,18 +55,19 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent (in   )                          :: send_size            !< number of elements to send
-          integer, intent (in),dimension(send_size)        :: isend_buffer         !< integer buffer to send
-          real(kind=4), intent (in),dimension(send_size)   :: isend_buffer_real    !< float buffer to send
-          integer , intent (in   )                         :: recv_size            !< total size of elements to receive
-          integer, intent (inout  ),dimension(recv_size)   :: irecv_buffer         !< integer buffer to receive
-          real(kind=4), intent (inout  ),dimension(recv_size) :: irec_buffer_real  !< float buffer to receive
-          integer, intent(inout)                           :: shell_stacksize_p0   !< Size of stack after gather
-          integer, intent (in   ),dimension(nspmd)         :: p0_sizes             !< size to receive from each mpi domain
-          integer, intent (in   ),dimension(nspmd+1)       :: p0_offsets           !< offset to apply on integer buffer
-          integer, intent (in   )                          :: nspmd                !< number of spmd domain
-          integer, intent (in   )                          :: ispmd                !< spmd rank id
-          integer, intent (in   ),dimension(nspmd)         :: it_spmd              !< spmd rank id for communications
+          integer, intent (in   )                                :: send_size            !< number of elements to send
+          integer, intent (in   )                                :: flt_num              !< number of float elements to send
+          integer, intent (in),dimension(send_size)              :: isend_buffer         !< integer buffer to send
+          real(kind=4), intent (in),dimension(send_size*flt_num) :: isend_buffer_real    !< float buffer to send
+          integer , intent (in   )                               :: recv_size            !< total size of elements to receive
+          integer, intent (inout  ),dimension(recv_size)         :: irecv_buffer         !< integer buffer to receive
+          real(kind=4), intent (inout  ),dimension(recv_size*flt_num) :: irec_buffer_real  !< float buffer to receive
+          integer, intent(inout)                                 :: shell_stacksize_p0   !< Size of stack after gather
+          integer, intent (in   ),dimension(nspmd)               :: p0_sizes             !< size to receive from each mpi domain
+          integer, intent (in   ),dimension(nspmd+1)             :: p0_offsets           !< offset to apply on integer buffer
+          integer, intent (in   )                                :: nspmd                !< number of spmd domain
+          integer, intent (in   )                                :: ispmd                !< spmd rank id
+          integer, intent (in   ),dimension(nspmd)               :: it_spmd              !< spmd rank id for communications
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -102,7 +103,7 @@
             end do
 
             if (buffer_size > 0) then
-              buffer_size = (buffer_size+10)*integer_size+(buffer_size+10)*real_size
+              buffer_size = (buffer_size+10)*integer_size+(buffer_size+10)*flt_num*real_size
               allocate(buffer(buffer_size))     ! buffer will host [integer_4][real_4] array.
               iad_recv(1) = 1
               do i=1,nspmd
@@ -111,7 +112,7 @@
               do i=2,nspmd
                 if (p0_sizes(i) > 0) then
                   l = iad_recv(i)
-                  rec_dim = p0_sizes(i) * integer_size +  p0_sizes(i) * real_size  ! each process sends integer and real data
+                  rec_dim = p0_sizes(i) * integer_size +  p0_sizes(i) * flt_num * real_size  ! each process sends integer and real data
                   ! Prepare the receive buffer for unpacking
                   call MPI_Recv(buffer, rec_dim, MPI_PACKED, it_spmd(i), msgtag, SPMD_COMM_WORLD, status, ierror)
                   ! Unpack the received data into the receive buffers
@@ -119,7 +120,7 @@
                   call mpi_unpack(buffer, buffer_size, pos, irecv_buffer(l),  &
                   &       p0_sizes(i), MPI_INTEGER, SPMD_COMM_WORLD, ierror)
                   call mpi_unpack(buffer,  buffer_size, pos, irec_buffer_real(l), &
-                  &       p0_sizes(i) , MPI_REAL, SPMD_COMM_WORLD, ierror)
+                  &       p0_sizes(i)*flt_num, MPI_REAL, SPMD_COMM_WORLD, ierror)
                   do k=1,p0_sizes(i)
                     irecv_buffer(l+k-1) = irecv_buffer(l+k-1) + p0_offsets(i)
                   end do
@@ -131,11 +132,11 @@
             ! Other processes will send their data to domain 0
             ! --------------------------------------------------
             if (send_size > 0) then
-              buffer_size = send_size * integer_size + send_size * real_size
+              buffer_size = send_size * integer_size + send_size * flt_num * real_size
               allocate(buffer(buffer_size))
               pos = 0
               call mpi_pack(isend_buffer, send_size, MPI_INTEGER, buffer, buffer_size, pos, SPMD_COMM_WORLD, ierror)
-              call mpi_pack(isend_buffer_real, send_size, MPI_REAL, buffer, buffer_size, pos, SPMD_COMM_WORLD, ierror)
+              call mpi_pack(isend_buffer_real, send_size* flt_num , MPI_REAL, buffer, buffer_size, pos, SPMD_COMM_WORLD, ierror)
               call MPI_Send(buffer, buffer_size, MPI_PACKED, 0, msgtag, SPMD_COMM_WORLD, ierror)
             end if
           end if
@@ -159,21 +160,25 @@
 !||====================================================================
       program  h3d_gather_id_val_test
         use h3d_gather_id_val_mod
+        use spmd_comm_world_mod, only : spmd_comm_world
+
         implicit none
 #include "mpif.h"
         integer,dimension(10) :: isend
-        real(kind=4),dimension(10) :: isend_real
+        real(kind=4),dimension(2,10) :: isend_real
         integer,dimension(:),allocatable :: irecv_buffer
-        real(kind=4),dimension(:),allocatable :: irec_buffer_real
+        real(kind=4),dimension(:,:),allocatable :: irec_buffer_real
         integer,dimension(:),allocatable :: p0_sizes
         integer,dimension(:),allocatable :: p0_offsets
         integer,dimension(:),allocatable :: it_spmd
         integer :: i, ierr, rank, size, recv_size,send_size
+        integer :: shell_stacksize_p0
 
 
         call MPI_Init(ierr)
         call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
         call MPI_Comm_size(MPI_COMM_WORLD, size, ierr)
+        spmd_comm_world = MPI_COMM_WORLD
 
         if (rank /= 0)then
           send_size= 10
@@ -202,7 +207,7 @@
             p0_offsets(i+1) = p0_offsets(i) + p0_sizes(i)
           end do
           allocate(irecv_buffer(recv_size))
-          allocate(irec_buffer_real(recv_size))
+          allocate(irec_buffer_real(2,recv_size))
         else
           allocate(p0_sizes(1))
           allocate(p0_offsets(1))
@@ -211,19 +216,23 @@
 
         do i=1,send_size
           isend(i) =  i
-          isend_real(i) = (rank * 1000 + i)/10.0
+          isend_real(1,i) = (rank * 1000 + i)/10.0
+          isend_real(2,i) = (rank * 1000 + i)/10.0 + 1000
         end do
 
-        call h3d_gather_id_val(isend,isend_real, send_size, &
+        shell_stacksize_p0 = 0
+        call h3d_gather_id_val(isend,isend_real, send_size, 2, &
           irecv_buffer, irec_buffer_real, recv_size, &
-          p0_sizes,p0_offsets,size,rank,it_spmd)
+          shell_stacksize_p0,p0_sizes,p0_offsets,size,rank,it_spmd)
 
 
         if (rank == 0) then
-          print *, "Rank 0 received:"
+          print *, "Rank 0 received:",shell_stacksize_p0
           print *, irecv_buffer
           print*,"flt"
-          print *, irec_buffer_real
+          do i=1,recv_size
+            print *, irec_buffer_real(1,i), irec_buffer_real(2,i)
+          end do
         end if
         call mpi_barrier(MPI_COMM_WORLD,ierr)
         call mpi_finalize(ierr)

@@ -60,3 +60,44 @@ c=======================================================================
 c----------- 
       RETURN
       END
+
+!||====================================================================
+!||    h3d_write_sh_tensor   ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor.F
+!||--- called by ------------------------------------------------------
+!||    h3d_shell_tensor      ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||====================================================================
+      SUBROUTINE H3D_WRITE_SH_TENSOR_ARRAY_STACK(
+     .                  IOK_PART,         ISELECT, NEL,        OFFSET,          NFT,
+     .                  IS_WRITTEN_SHELL, TENSOR,  TENS_VALUE, SHELL_STACKSIZE, MAX_SHELL_STACKSIZE)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAX_SHELL_STACKSIZE
+      INTEGER SHELL_STACKSIZE
+      REAL(KIND=4) :: TENSOR(3,MAX_SHELL_STACKSIZE)
+      my_real TENS_VALUE(3,NEL)
+      INTEGER IOK_PART(*),IS_WRITTEN_SHELL(*)
+      INTEGER NEL
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,OFFSET,NFT,ISELECT
+C-----------------------------------------------
+      DO I=1,NEL
+       IF(IOK_PART(I) == 1 .AND. ISELECT == 1) THEN
+            SHELL_STACKSIZE = SHELL_STACKSIZE + 1
+            IS_WRITTEN_SHELL(SHELL_STACKSIZE)= OFFSET+NFT+I
+            TENSOR(1,SHELL_STACKSIZE) = REAL(TENS_VALUE(I,1), KIND=4)
+            TENSOR(2,SHELL_STACKSIZE) = REAL(TENS_VALUE(I,2), KIND=4)
+            TENSOR(3,SHELL_STACKSIZE) = REAL(TENS_VALUE(I,3), KIND=4)
+       ENDIF
+      END DO
+      TENS_VALUE(1:NEL,1:3) = ZERO
+ 
+      RETURN
+      END
+

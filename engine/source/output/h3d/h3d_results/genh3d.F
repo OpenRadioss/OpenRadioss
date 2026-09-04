@@ -480,6 +480,8 @@ c to be made allocatable
         INTEGER MAX_NOD_ID,MAX_NCORN
         REAL(KIND=4), DIMENSION(:), ALLOCATABLE :: SHELL_STACK
         REAL(KIND=4), DIMENSION(:), ALLOCATABLE :: SHELL_STACK_P
+        REAL(KIND=4), DIMENSION(:), ALLOCATABLE :: SHELL_TENSOR_STACK
+        REAL(KIND=4), DIMENSION(:), ALLOCATABLE :: SHELL_TENSOR_STACK_P        
         INTEGER,DIMENSION(NSPMD) ::  GATHER_SIZE
         INTEGER,DIMENSION(NSPMD) ::  TMP_OFFSETS
         INTEGER,DIMENSION(NSPMD+1) ::  SH_TRIA_SPMD_OFFSETS
@@ -554,6 +556,7 @@ c to be made allocatable
         INTEGER :: REQUESTED_H3D_VERSION_MINOR        ! Requested H3D minor version
         INTEGER :: H3D_VERSION_MAJOR        ! H3D major version to write
         INTEGER :: H3D_VERSION_MINOR        ! H3D minor version to write
+        INTEGER TENS_COUNT,ct
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -2298,6 +2301,7 @@ c
           call my_alloc(ONED_ITY_P, NUMELRG+NUMELPG+NUMELTRG, "ONED_ITY_P")
           call my_alloc(IS_WRITEN_ONED_P, NUMELRG+NUMELPG+NUMELTRG, "IS_WRITEN_ONED_P")
           IS_WRITEN_ONED_P(1:NUMELRG+NUMELPG+NUMELTRG) = 0
+          ALLOCATE(SHELL_TENSOR_STACK_P(3*(NUMELCG+NUMELTGG)))
         ELSE
           call my_alloc(ONED_SCALAR_P, 1, "ONED_SCALAR_P")
           call my_alloc(ONED_VECTOR_P, 1, "ONED_VECTOR_P")
@@ -2307,6 +2311,7 @@ c
           call my_alloc(ONED_ITY_P, 1, "ONED_ITY_P")
           call my_alloc(IS_WRITEN_ONED_P, 1, "IS_WRITEN_ONED_P")
           IS_WRITEN_ONED_P(1) = 0
+          ALLOCATE(SHELL_TENSOR_STACK_P(1))
         ENDIF
 c
 c
@@ -2315,6 +2320,7 @@ c
         call my_alloc(SHELL_STACK_P, NUMELCG+NUMELTGG, "SHELL_STACK_P")
         call my_alloc(SHELL_VECTOR, 3*(NUMELC+NUMELTG), "SHELL_VECTOR")
         call my_alloc(SHELL_TENSOR, 3*(NUMELC+NUMELTG), "SHELL_TENSOR")
+        ALLOCATE(SHELL_TENSOR_STACK(3*(NUMELC+NUMELTG)))
         call my_alloc(SHELL_ID, NUMELC+NUMELTG, "SHELL_ID")
         call my_alloc(SHELL_ITY, NUMELC+NUMELTG, "SHELL_ITY")
         call my_alloc(IS_WRITEN_SHELL, NUMELC+NUMELTG, "IS_WRITEN_SHELL")
@@ -2606,6 +2612,9 @@ C-----------------------------------------------
 C  UPDATE RESULTS VALUES
 C-----------------------------------------------
 c
+        if (isPMD == 0) then
+           print *, 'Output H3D results :', H3D_DATA%N_OUTP_H3D
+        end if
         DO I = 1,H3D_DATA%N_OUTP_H3D
 c
           IS_WRITEN_NODE(1:NUMNOD) = 0
@@ -3129,7 +3138,7 @@ c
 
                ! Then gather the shell+triangle stack to P0 & apply elemen offset
                ! to fit with P0 order
-               CALL H3D_GATHER_ID_VAL(IS_WRITEN_SHELL,SHELL_STACK,SHELL_STACKSIZE,
+               CALL H3D_GATHER_ID_VAL(IS_WRITEN_SHELL,SHELL_STACK,SHELL_STACKSIZE,1,
      *           IS_WRITEN_SHELL_P,SHELL_STACK_P,NUMELCG+NUMELTGG,
      *           SHELL_STACKSIZE_P0,GATHER_SIZE,SH_TRIA_SPMD_OFFSETS,NSPMD,ISPMD,IT_SPMD)      
 
@@ -3228,19 +3237,34 @@ c         IF(ISPMD == 0)   print *,'shell tensor',N_OUTP_DATA,'IFUNC',IFUNC,'INF
 
 c         IF(ISPMD == 0)   print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-            CALL H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR ,IPARG ,IFUNC ,INVERT,NELCUT,
+            SHELL_STACKSIZE = 0
+            CALL H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR_STACK ,IPARG ,IFUNC ,INVERT,NELCUT,
      .                   EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
      .                   NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
      .                   IGEO     ,IXTG  ,IPM   ,STACK ,SHELL_ID   ,SHELL_ITY    ,INFO1,
      .                   INFO2    ,IS_WRITEN_SHELL ,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                   ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD,D    ,
-     .                   OBJECT_ID  ,BUFMAT    ,MAT_PARAM,GEO ,DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
+     .                   OBJECT_ID  ,BUFMAT    ,MAT_PARAM,GEO ,DRAPE_SH4N, DRAPE_SH3N, DRAPEG,MAX_SHELL_STACKSIZE,
+     .                   SHELL_STACKSIZE)
 
+            if (ispmd==0) then
+                IS_WRITEN_SHELL_P(1:SHELL_STACKSIZE) =  IS_WRITEN_SHELL(1:SHELL_STACKSIZE)
+                SHELL_TENSOR_STACK_P(1:3*SHELL_STACKSIZE) =  SHELL_TENSOR_STACK(1:3*SHELL_STACKSIZE)
+                SHELL_STACKSIZE_P0 = SHELL_STACKSIZE
+            else
+                SHELL_STACKSIZE_P0 = 1
+            endif
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)
-              CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG)
-              CALL SPMD_H3D_GATHER_R(SHELL_TENSOR,3*(NUMELC+NUMELTG),SHELL_TENSOR_P,3*(NUMELCG+NUMELTGG))
+
+              ! First Gather the size of the shell+triangle stack
+              CALL SPMD_GATHER(SHELL_STACKSIZE,GATHER_SIZE,1,1,IT_SPMD(1))
+
+              CALL H3D_GATHER_ID_VAL(IS_WRITEN_SHELL,SHELL_TENSOR_STACK,SHELL_STACKSIZE,3,
+     *           IS_WRITEN_SHELL_P,SHELL_TENSOR_STACK_P,NUMELCG+NUMELTGG,
+     *           SHELL_STACKSIZE_P0,GATHER_SIZE,SH_TRIA_SPMD_OFFSETS,NSPMD,ISPMD,IT_SPMD)
+   
               CALL STOPTIME(TIMERS,MACRO_TIMER_SPMDH3D)
             ELSE
               IS_WRITEN_SHELL_P(1:NUMELC+NUMELTG) =  IS_WRITEN_SHELL(1:NUMELC+NUMELTG)
@@ -3251,9 +3275,10 @@ c
               CALL STARTIME(TIMERS,MACRO_TIMER_LIBH3D)
               CALL C_H3D_UPDATE_SHELL_TENSOR(TT,H3D_DATA%IH3D,ITAB,NUMNOD,IXC_P,
      .                             NIXC,NUMELCG,IPARTC,IXTG,NIXTG,
-     .                             NUMELTGG,IPARTTG,SHELL_TENSOR_P,SHELL_ID_P,
+     .                             NUMELTGG,IPARTTG,SHELL_TENSOR_STACK_P,SHELL_ID_P,
      .                             N_OUTP_DATA,SHELL_ITY_P,NUMELS,
-     .                             NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P)
+     .                             NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P,
+     .                             SHELL_STACKSIZE_P0)
               CALL STOPTIME(TIMERS,MACRO_TIMER_LIBH3D)
 
             ENDIF
