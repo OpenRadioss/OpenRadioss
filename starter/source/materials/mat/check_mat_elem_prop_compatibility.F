@@ -174,7 +174,8 @@ c
               ! Isotropic shells property
               CASE (1)
                 IF (MAT_PARAM(IMAT)%PROP_SHELL /= 1 .AND. 
-     .              MAT_PARAM(IMAT)%PROP_SHELL /= 5) COMPAT_PROP = .FALSE.
+     .              MAT_PARAM(IMAT)%PROP_SHELL /= 5 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SHELL /= 6) COMPAT_PROP = .FALSE.
               ! Orthotropic shells property
               CASE (9)
                 IF (MAT_PARAM(IMAT)%PROP_SHELL /= 1 .AND. 

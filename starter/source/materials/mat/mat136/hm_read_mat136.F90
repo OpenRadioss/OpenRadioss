@@ -131,6 +131,11 @@
           !----------------------------------------------------------------------------------
           !< Parameters default values
           !----------------------------------------------------------------------------------
+          rho_x(1) = max(min(rho_x(1),one),-one)
+          rho_y(1) = max(min(rho_y(1),one),-one)
+          rho_x(2) = max(min(rho_x(2),one),-one)
+          rho_y(2) = max(min(rho_y(2),one),-one)
+          gamma = max(min(gamma,one),zero)
 !
           !----------------------------------------------------------------------------------
           !< Elastic constants
@@ -161,11 +166,6 @@
           dmax2 = (one - qp2)/max((qp2 - gamma),em20)
           if (dmax1 == zero) dmax1 = one
           if (dmax2 == zero) dmax2 = one
-          rho_x(1) = max(min(rho_x(1),one),-one)
-          rho_y(1) = max(min(rho_y(1),one),-one)
-          rho_x(2) = max(min(rho_x(2),one),-one)
-          rho_y(2) = max(min(rho_y(2),one),-one)
-          gamma = max(min(gamma,one),zero)
 !
           !----------------------------------------------------------------------------------
           !< Filling buffer tables
@@ -243,7 +243,7 @@
           matparam%mode(2) = "Negative bending damage"
 !
           !< Properties compatibility
-          call init_mat_keyword(matparam,"SHELL_ISOTROPIC")
+          call init_mat_keyword(matparam,"SHELL_GLOBAL")
 !
           !< Material model keywords
           call init_mat_keyword(matparam ,"INCREMENTAL"   )

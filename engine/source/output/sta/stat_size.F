@@ -352,6 +352,8 @@ C
               NUVAR = 3
             ELSE IF (MLW == 36) THEN
               NUVAR = 6  ! backstress will be printed in /AUX
+            ELSE IF (MLW == 136) THEN
+              NUVAR = 16
             END IF
 C
             MPT = IABS(NPT)
