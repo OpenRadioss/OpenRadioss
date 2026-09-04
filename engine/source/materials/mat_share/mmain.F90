@@ -2593,12 +2593,11 @@
                 &off      ,dfmax    ,tdel     )
               else if (irupt == 29) then
 ! ---   mit wierzbicki sahraei electric battery failure
-                call fail_sahraei_s(&
-                &llt      ,nfunc    ,ifunc    ,npf      ,tf       ,&
-                &tt       ,ngl      ,uparamf   ,&
-                &es1      ,es2      ,es3      ,es4      ,es5      ,es6 ,&
-                &off      ,dfmax    ,tdel     ,deltax   ,&
-                &nvarf    ,uvarf    )
+                call fail_sahraei_s(mat_elem%mat_param(imat)%fail(ir),&
+                 llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,&
+                 tt       ,ngl      ,es1      ,es2      ,es3      ,&
+                 es4      ,es5      ,es6      ,off      ,dfmax    ,&
+                 tdel     ,deltax   )
               else if (irupt == 30) then
 !  --- biquadratic failure model
                 call fail_biquad_s(mat_elem%mat_param(imat)%fail(ir),       &

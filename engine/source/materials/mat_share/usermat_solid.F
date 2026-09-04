@@ -1455,12 +1455,12 @@ c ---   extended mohr coulomb failure model
      5         OFF      ,DFMAX    ,TDEL    )                                      
           ELSEIF (IRUPT == 29) THEN                                      
 c ---   MIT Wierzbicki Sahraei electric battery failure                                               
-              CALL FAIL_SAHRAEI_S(
-     1        LLT      ,NFUNC    ,IFUNC    ,NPF      ,TF       ,
-     2        TT       ,NGL      ,UPARAMF  ,
-     3        ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      , 
-     4        OFF      ,DFMAX    ,TDEL     ,DELTAX   ,
-     5        NVARF    ,UVARF    ) 
+              CALL FAIL_SAHRAEI_S (mat_elem%mat_param(imat)%fail(ir), 
+     1        LLT      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,
+     2        TT       ,NGL      ,ES1      ,ES2      ,ES3      ,
+     3        ES4      ,ES5      ,ES6      ,OFF      ,DFMAX    ,
+     4        TDEL     ,DELTAX   ) 
+
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
               CALL FAIL_BIQUAD_S(mat_elem%mat_param(imat)%fail(ir),
