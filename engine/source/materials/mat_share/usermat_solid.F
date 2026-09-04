@@ -1464,9 +1464,9 @@ c ---   MIT Wierzbicki Sahraei electric battery failure
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
               CALL FAIL_BIQUAD_S(mat_elem%mat_param(imat)%fail(ir),
-     1        LLT      ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
-     2        NPF      ,TF       ,TT       ,TDEL     ,
-     3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,                   
+     1        LLT      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,
+     2        TT       ,TDEL     ,EL_LEN   ,
+     3        NGL      ,DPLA     ,OFF      ,DFMAX    ,LBUF%DMGSCL,                   
      4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       )    
           ELSEIF (IRUPT == 33) THEN                                
 c  --- Mullins Ogden-Roxburgh damage model                                  

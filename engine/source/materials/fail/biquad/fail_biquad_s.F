@@ -37,9 +37,9 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_BIQUAD_S(FAIL  ,
-     1  NEL      ,NUVAR    ,MFUNC    ,KFUNC    ,ALDT     ,
-     2  NPF      ,TF       ,TIME     ,TDELE    ,
-     3  NGL      ,DPLA     ,UVAR     ,OFF      ,DFMAX    ,DMGSCL   ,
+     1  NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
+     2  TIME     ,TDELE    ,ALDT     ,
+     3  NGL      ,DPLA     ,OFF      ,DFMAX    ,DMGSCL   ,
      4  SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   )
 C-----------------------------------------------
 C    Biquadratic failure model for solids
@@ -55,38 +55,31 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include "scr17_c.inc"
-#include "tabsiz_c.inc"
 #include "units_c.inc"
 #include "comlock.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUVAR,NGL(NEL)
+      INTEGER, INTENT(IN) :: NEL,NUVAR,NVARTMP,NGL(NEL)
+      INTEGER, DIMENSION(NEL,NVARTMP), intent(inout) :: VARTMP
+      my_real, DIMENSION(NEL,NUVAR)  , intent(inout) :: UVAR
       my_real, INTENT(IN) :: TIME,
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .   DPLA(NEL),ALDT(NEL)
-      my_real, INTENT(INOUT) :: UVAR(NEL,NUVAR),DFMAX(NEL),
-     .   TDELE(NEL),OFF(NEL),DMGSCL(NEL)
+      my_real, INTENT(INOUT) :: DFMAX(NEL),TDELE(NEL),OFF(NEL),DMGSCL(NEL)
       type (fail_param_) ,target ,intent(inout) :: fail    !< failure model data structure
-C!-----------------------------------------------
-C!   VARIABLES FOR FUNCTION INTERPOLATION 
-C!-----------------------------------------------
-      INTEGER NPF(SNPC), MFUNC, KFUNC(MFUNC)
-      my_real FINTER ,TF(STF)
-      EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,INDX(NEL),NINDX,SFLAG,FLAG_PERTURB,ICOUP
+      INTEGER I,J,INDX(NEL),NINDX,SFLAG,FLAG_PERTURB,ICOUP,NTABLE
       INTEGER IREG
       INTEGER ,DIMENSION(NEL,1) :: IPOS
       my_real ,DIMENSION(NEL,1) :: ETA
-      my_real ,DIMENSION(NEL)   :: REG_FAC,regf_eta,DERI
+      my_real ,DIMENSION(NEL)   :: REG_FAC,regf_eta,DERI,lambda
       my_real 
-     .  DF,PRESSURE,SVM,TRIAX,SXX,SYY,SZZ,EPS_FAIL,P1X,P1Y,S1X,S1Y,
-     .  A1,B1,C1,REF_EL_LEN,LAMBDA,X_1(3),X_2(3),DCRIT,EXP
+     .  PRESSURE,SVM,TRIAX,SXX,SYY,SZZ,EPS_FAIL,P1X,P1Y,S1X,S1Y,
+     .  A1,B1,C1,REF_EL_LEN,X_1(3),X_2(3),DCRIT,EXP
 C===================================================================================================
       IREG  = FAIL%IPARAM(1)
       SFLAG = FAIL%IPARAM(3)
@@ -104,27 +97,23 @@ C===============================================================================
       DCRIT = FAIL%UPARAM(15)
       EXP   = FAIL%UPARAM(16)
       EPS_FAIL = ZERO
+      NTABLE   = FAIL%NTABLE4D
 !---------------------------------------------------------------------------------------------------
       ! At initial time, compute the element size regularization factor
-      IF (MFUNC > 0) THEN 
-        IF (NUVAR == 3) THEN 
-          IF (UVAR(1,3) == ZERO) THEN 
-            DO I = 1,NEL
-              LAMBDA = ALDT(I) / REF_EL_LEN
-              UVAR(I,3) = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
-            ENDDO
-          ENDIF
-          REG_FAC(1:NEL) = UVAR(1:NEL,3)
-        ELSEIF (NUVAR == 9) THEN 
-          IF (UVAR(1,9) == ZERO) THEN 
-            DO I = 1,NEL
-              LAMBDA = ALDT(I) / REF_EL_LEN
-              UVAR(I,9) = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
-            ENDDO
-          ENDIF
-          REG_FAC(1:NEL) = UVAR(1:NEL,9)
-        ENDIF
-      ENDIF
+       if (ireg > 0) then 
+         lambda(1:nel) = aldt(1:nel) / ref_el_len
+         if (nuvar == 3) then 
+           if (uvar(1,3) == zero) then
+             call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,lambda,uvar(1:nel,3),deri)
+           endif
+           reg_fac(1:nel) = uvar(1:nel,3)
+         elseif (nuvar == 9) then 
+           if (uvar(1,9) == zero) then 
+             call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,lambda,uvar(1:nel,9),deri)
+           endif
+           reg_fac(1:nel) = uvar(1:nel,9)
+         endif
+       endif
 !---------------------------------------------------------------------------------------------------
        ! calculate triaxiality
        do i=1,nel
@@ -142,9 +131,9 @@ C===============================================================================
           eta(i,1) = triax
        end do
        IF (IREG > 1) THEN
-         ! calculate triaxiality dependent scaling factor on failure limits
+         ! calculate triaxiality dependent scaling factor on failure limits, automatically created table is always last one
          ipos(1:nel,1) = 1
-         call table_mat_vinterp(fail%table4d(1),nel,nel,ipos,eta,regf_eta,deri)
+         call table_mat_vinterp(fail%table4d(ntable),nel,nel,ipos,eta,regf_eta,deri)
          reg_fac(1:nel) = (one - regf_eta(1:nel)) + regf_eta(1:nel)*reg_fac(1:nel)
        END IF
 !---------------------------------------------------------------------------------------------------
