@@ -481,6 +481,18 @@ c-----------------------------------------------------------------
           ENDDO
         ENDDO
       ENDIF
+
+      IF (ISU4 /= 0.AND..NOT.LINE_SEG) THEN
+        DO J=1,IGRSLIN(ISU4)%NSEG
+          LINE_TYP = IGRSLIN(ISU4)%ELTYP(J)
+          IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
+            DO K=1,2
+              TAG(IGRSLIN(ISU4)%NODES(J,K)) = 2
+            ENDDO
+          ENDIF
+        ENDDO
+      ENDIF
+
       IF(ISU1 /= 0.AND..NOT.LINE_SEG_M)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
           DO K=1,4
@@ -491,6 +503,22 @@ c-----------------------------------------------------------------
               TAG(I) = 3
             ENDIF
           ENDDO
+        ENDDO
+      ENDIF
+
+      IF (ISU3 /= 0.AND..NOT.LINE_SEG) THEN
+        DO J=1,IGRSLIN(ISU3)%NSEG
+          LINE_TYP = IGRSLIN(ISU3)%ELTYP(J)
+          IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
+            DO K=1,2 
+              I=IGRSLIN(ISU3)%NODES(J,K)
+              IF(TAG(I) == 0)THEN
+                  TAG(I) = 1
+              ELSEIF(TAG(I) == 2)THEN
+                  TAG(I) = 3
+              ENDIF
+            ENDDO
+          ENDIF
         ENDDO
       ENDIF
 C for inteply activation needed for Plyxfem + Type24      
@@ -530,14 +558,35 @@ c-----------------------------------------------------------------
 c     taged nodes on S2 -> negative value
             IF(TAG(I) == 2 .OR. TAG(I) == 3)THEN
               TAG(I) = - TAG(I)
-                IF ( ILEV == 2.AND.TAGS(I) == 0 ) THEN
+              IF ( ILEV == 2.AND.TAGS(I) == 0 ) THEN
                 NSN = NSN + 1
                 TAGS(I) = NSN
                 IF(IALLO == 2) THEN
                  NSV(NSN) = I
                  IF(ILEV == 2)NBINFLG(NSN) = BITSET(NBINFLG(NSN),1)
                 END IF
+              END IF !( ILEV == 2 ) THEN
+            ENDIF
+          ENDDO
+        ENDDO
+      ENDIF
+      IF(ISU4 /= 0.AND..NOT.LINE_SEG)THEN
+        DO J=1,IGRSLIN(ISU4)%NSEG
+          DO K=1,2
+            I=IGRSLIN(ISU4)%NODES(J,K)
+            LINE_TYP = IGRSLIN(ISU4)%ELTYP(J)
+            IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
+              IF(TAG(I) == 2 .OR. TAG(I) == 3)THEN
+                TAG(I) = - TAG(I)
+                IF ( ILEV == 2.AND.TAGS(I) == 0 ) THEN
+                  NSN = NSN + 1
+                  TAGS(I) = NSN
+                  IF(IALLO == 2) THEN
+                    NSV(NSN) = I
+                    IF(ILEV == 2)NBINFLG(NSN) = BITSET(NBINFLG(NSN),1)
+                  END IF
                 END IF !( ILEV == 2 ) THEN
+              ENDIF
             ENDIF
           ENDDO
         ENDDO
@@ -569,6 +618,30 @@ c     taged nodes on S1 -> negative value, ->+3 for nodes on both
               IF(IALLO == 2)MSR(NMN) = I
             ENDIF
           ENDDO
+        ENDDO
+      ENDIF
+
+      IF(ISU3 /= 0.AND..NOT.LINE_SEG)THEN
+        DO J=1,IGRSLIN(ISU3)%NSEG
+          LINE_TYP = IGRSLIN(ISU4)%ELTYP(J)
+          IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
+            DO K=1,2
+              I=IGRSLIN(ISU3)%NODES(J,K)
+              IF(TAGS(I) == 0 .AND. ILEV /= 3 ) THEN
+                NSN = NSN + 1
+                TAGS(I) = NSN
+                IF(IALLO == 2) THEN
+                  NSV(NSN) = I
+                  IF(ILEV == 2)NBINFLG(NSN) = BITSET(NBINFLG(NSN),0)
+                END IF
+              ELSEIF(ILEV==2)THEN
+                IF(IALLO == 2) THEN
+                  ISN=TAGS(I)
+                  NBINFLG(ISN) = BITSET(NBINFLG(ISN),0)
+                ENDIF
+              ENDIF
+            ENDDO
+          ENDIF
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
