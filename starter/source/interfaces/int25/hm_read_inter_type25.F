@@ -446,7 +446,7 @@ C            3 : ISU1=0,ISU2>0;IS3>0
             IS1=-1
             IS2=-3
 
-            IF(NSLIN >0.AND.IEDGE >0) THEN
+            IF(NSLIN >0) THEN
               INGR2USR => IGRSLIN(1:NSLIN)%ID
               ISU3=NGR2USRNN(ISU3,INGR2USR,NSLIN)
               IF (ISU3==0) THEN
@@ -481,7 +481,7 @@ C----------------if we copy int7--
             IS1=-1
             IS2=-1
 
-            IF(NSLIN >0.AND.IEDGE >0) THEN
+            IF(NSLIN >0) THEN
               INGR2USR => IGRSLIN(1:NSLIN)%ID
               ISU3=NGR2USRNN(ISU3,INGR2USR,NSLIN)
               IF (ISU3==0) THEN
@@ -493,7 +493,7 @@ C----------------if we copy int7--
               ISU3 = 0
             ENDIF
 
-            IF(NSLIN >0.AND.IEDGE >0) THEN
+            IF(NSLIN >0) THEN
               INGR2USR => IGRSLIN(1:NSLIN)%ID
               ISU4=NGR2USRNN(ISU4,INGR2USR,NSLIN)
               IF (ISU4==0) THEN
