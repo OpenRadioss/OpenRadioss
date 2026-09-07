@@ -177,17 +177,17 @@ C-----------
       RETURN
 C-----------
 
- 1005 FORMAT( //'IMPOSED NORMAL VELOCITY EBCS NUMBER  . . :',I8,1X,A)    
+ 1005 FORMAT( //'IMPOSED NORMAL VELOCITY EBCS NUMBER  . . :',I10,1X,A)
  1102 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    IMPOSED VELOCITY  . . . . . . . . . . . . ',E16.6,/,
-     .        '    VELOCITY SCALING FUNCTION . . . . . . . . ',I8,/,
-     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',E16.6,/,
-     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I8,/,
-     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I8,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/)
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/,
+     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    IMPOSED VELOCITY  . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    VELOCITY SCALING FUNCTION . . . . . . . . ',I10,/,
+     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I10,/,
+     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I10,/,
+     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',1PG20.13,/)
 
       END

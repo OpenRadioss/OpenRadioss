@@ -241,11 +241,11 @@
 !-----------
           return
 !-----------
-1001      format( //"CYCLIC EBCS NUMBER. . . . :",I8,1X,A)
+1001      format( //"CYCLIC EBCS NUMBER. . . . :",I10,1X,A)
 1118      format(&
-            "    SURFACE 1 . . . . . . . . . . . . . . . . ",I8)
+            "    SURFACE 1 . . . . . . . . . . . . . . . . ",I10)
 1119      format(&
-            "    SURFACE 2 . . . . . . . . . . . . . . . . ",I8)
+            "    SURFACE 2 . . . . . . . . . . . . . . . . ",I10)
 1200      format( '        +REFERENCE NODES'   ,/,&
             "        |--NODE1 . . . . ",I10,/,&
             "        |--NODE2 . . . . ",I10,/,&

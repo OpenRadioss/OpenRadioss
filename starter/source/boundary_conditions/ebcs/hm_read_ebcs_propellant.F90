@@ -214,28 +214,28 @@
 !-----------
           return
 !-----------
-1001      format( //"PROPELLANT EBCS NUMBER. . . . :",I8,1X,A)
+1001      format( //"PROPELLANT EBCS NUMBER. . . . :",I10,1X,A)
 
 1118      format(&
-            "    ON SURFACE  . . . . . . . . . . . . . . . ",I8,/,&
-            "    SENSOR ID   . . . . . . . . . . . . . . . ",I8,/,&
-            "    SUBMAT ID   . . . . . . . . . . . . . . . ",I8,/,&
-            "    ENTHALPY FLAG . . . . . . . . . . . . . . ",I8,/,&
-            "    NUMBER OF SEGMENTS FOUND. . . . . . . . . ",I8,/,&
-            "    PROPELLANT DENSITY  . . . . . . . . . . . ",E20.12,/,&
-            "    PROPELLANT TEMPERATURE RISE . . . . . . . ",E20.12)
+            "    ON SURFACE  . . . . . . . . . . . . . . . ",I10,/,&
+            "    SENSOR ID   . . . . . . . . . . . . . . . ",I10,/,&
+            "    SUBMAT ID   . . . . . . . . . . . . . . . ",I10,/,&
+            "    ENTHALPY FLAG . . . . . . . . . . . . . . ",I10,/,&
+            "    NUMBER OF SEGMENTS FOUND. . . . . . . . . ",I10,/,&
+            "    PROPELLANT DENSITY  . . . . . . . . . . . ",1PG20.13,/,&
+            "    PROPELLANT TEMPERATURE RISE . . . . . . . ",1PG20.13)
 1201      format( '      --- COMBUSTION MODEL : VIEILLE''S LAW'   ,/,&
-            "      VIEILLE PARAMETER A . . . . . . . . . . ",E20.12,/,&
-            "      VIEILLE PARAMETER N . . . . . . . . . . ",E20.12,/,&
-            "     f(t) function . . . . . . . . . . . . . ",I8,/,&
-            "      f X-scale . . . . . . . . . . . . . . . ",E20.12,/,&
-            "      f Y-scale . . . . . . . . . . . . . . . ",E20.12,/,&
-            "     g(T) function . . . . . . . . . . . . . ",I8,/,&
-            "      g X-scale . . . . . . . . . . . . . . . ",E20.12,/,&
-            "      g Y-scale . . . . . . . . . . . . . . . ",E20.12,/,&
-            "     h(P) function h(P)  . . . . . . . . . . ",I8,/,&
-            "      h X-scale . . . . . . . . . . . . . . . ",E20.12,/,&
-            "      h Y-scale . . . . . . . . . . . . . . . ",E20.12)
+            "      VIEILLE PARAMETER A . . . . . . . . . . ",1PG20.13,/,&
+            "      VIEILLE PARAMETER N . . . . . . . . . . ",1PG20.13,/,&
+            "     f(t) function . . . . . . . . . . . . . ",I10,/,&
+            "      f X-scale . . . . . . . . . . . . . . . ",1PG20.13,/,&
+            "      f Y-scale . . . . . . . . . . . . . . . ",1PG20.13,/,&
+            "     g(T) function . . . . . . . . . . . . . ",I10,/,&
+            "      g X-scale . . . . . . . . . . . . . . . ",1PG20.13,/,&
+            "      g Y-scale . . . . . . . . . . . . . . . ",1PG20.13,/,&
+            "     h(P) function h(P)  . . . . . . . . . . ",I10,/,&
+            "      h X-scale . . . . . . . . . . . . . . . ",1PG20.13,/,&
+            "      h Y-scale . . . . . . . . . . . . . . . ",1PG20.13)
 
         end subroutine hm_read_ebcs_propellant
 

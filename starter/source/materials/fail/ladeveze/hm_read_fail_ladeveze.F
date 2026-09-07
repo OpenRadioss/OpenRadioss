@@ -161,8 +161,8 @@ C for solid
       ENDIF
 C-----------       
  1000 FORMAT(
-     & 5X,40H    LADEVEZE DELAMINATION DAMAGE            /,
-     & 5X,40H    ------------------------                  /,
+     & 5X,'    LADEVEZE DELAMINATION DAMAGE '    /,
+     & 5X,'    ---------------------------- '      /,
      & 5X,'Stiffness in direction 13. .  . . . . . . . =',E12.4/
      & 5X,'Stiffness in direction 23. .  . . . . . . . =',E12.4/
      & 5X,'Stiffness in direction 33. .  . . . . . . . =',E12.4/

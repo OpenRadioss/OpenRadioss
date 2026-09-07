@@ -152,10 +152,10 @@ C-----------------------------------------------
 C-----------
       RETURN
 C-----------
- 1019 FORMAT( //'FLUX OUT  EBCS NUMBER  . . . . . . . . . :',I8,1X,A)
+ 1019 FORMAT( //'FLUX OUT  EBCS NUMBER  . . . . . . . . . :',I10,1X,A)
  1118 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/)
 
       END SUBROUTINE HM_READ_EBCS_FLUXOUT
 

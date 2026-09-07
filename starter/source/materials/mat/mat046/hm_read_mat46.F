@@ -168,33 +168,33 @@ C-----------------------------------------------
       
 c-----------
  1000 FORMAT(
-     & 5X,40H  LES FLUID                             ,/,
-     & 5X,40H  ---------                             ,//
+     & 5X,'  LES FLUID                             ',/,
+     & 5X,'  ---------                             ',//
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',E12.4/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,    
-     & 5X,40HSOUND SPEED . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HMOLECULAR DYNAMIC VISCOSITY . . . . . .=,E12.4/)
+     & 5X,'SOUND SPEED . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'MOLECULAR DYNAMIC VISCOSITY . . . . . .=',E12.4/)
  1001 FORMAT(
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . . =',I10/)
  1100 FORMAT(
-     & 5X,40H  LES WITH SMAGORINSKY SGS MODEL        ,/,
-     & 5X,40H  ------------------------------        ,//
+     & 5X,'  LES WITH SMAGORINSKY SGS MODEL        ',/,
+     & 5X,'  ------------------------------        ',//
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',E12.4/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,     
-     & 5X,40HSOUND SPEED . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HMOLECULAR DYNAMIC VISCOSITY . . . . . .=,E12.4/,
-     & 5X,40HSMAGORINSKY CONSTANT  . . . . . . . . .=,E12.4//)
+     & 5X,'SOUND SPEED . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'MOLECULAR DYNAMIC VISCOSITY . . . . . .=',E12.4/,
+     & 5X,'SMAGORINSKY CONSTANT  . . . . . . . . .=',E12.4//)
  1200 FORMAT(
-     & 5X,40H  LES WITH ACOUSTIC SMAGORINSKY SGS     ,/,
-     & 5X,40H  ---------------------------------     ,//
+     & 5X,'  LES WITH ACOUSTIC SMAGORINSKY SGS     ',/,
+     & 5X,'  ---------------------------------     ',//
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',E12.4/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,     
-     & 5X,40HSOUND SPEED . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HMOLECULAR DYNAMIC VISCOSITY . . . . . .=,E12.4/,
-     & 5X,40HSMAGORINSKY CONSTANT  . . . . . . . . .=,E12.4/,
-     & 5X,40HPRESSURE DAMPING. . . . . . . . . . . .=,E12.4//)
+     & 5X,'SOUND SPEED . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'MOLECULAR DYNAMIC VISCOSITY . . . . . .=',E12.4/,
+     & 5X,'SMAGORINSKY CONSTANT  . . . . . . . . .=',E12.4/,
+     & 5X,'PRESSURE DAMPING. . . . . . . . . . . .=',E12.4//)
 c-----------
      
       RETURN

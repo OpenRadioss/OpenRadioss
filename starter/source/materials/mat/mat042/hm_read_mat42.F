@@ -319,11 +319,11 @@ C-----------------
      & 5X,'OGDEN MODEL PARAMETERS:                           ',/,
      & 5X,'------------------------                          ',/,
      & 5X,'                                                  ',/,
-     & 5X,'NUMBER OF TERMS IN OGDEN MODEL. . . . . . . . . .=',I8/)
+     & 5X,'NUMBER OF TERMS IN OGDEN MODEL. . . . . . . . . .=',I10/)
  1500 FORMAT(
-     & 5X,'OGDEN TERM NUMBER # '                              ,I8/,
+     & 5X,'OGDEN TERM NUMBER # '                              ,I10/,
      & 5X,'GROUND SHEAR MODULUS. . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EXPONENT ALPHA. . . . . . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'EXPONENT ALPHA. . . . . . . . . . . . . . . . . .=',1PG20.13/)
  1600 FORMAT(
      & 5X,'INITIAL SHEAR MODULUS . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BULK MODULUS  . . . . . . . . . . . . . . . . . .=',1PG20.13/) 
@@ -331,9 +331,9 @@ C-----------------
      & 5X,'PRONY SERIES PARAMETERS:                          ',/,
      & 5X,'------------------------                          ',/,
      & 5X,'                                                  ',/,
-     & 5X,'NUMBER OF TERMS IN PRONY SERIES M . . . . . . . .=',I8/)
+     & 5X,'NUMBER OF TERMS IN PRONY SERIES M . . . . . . . .=',I10/)
  1800 FORMAT(
-     & 5X,'PRONY TERM NUMBER # '                              ,I8/,
+     & 5X,'PRONY TERM NUMBER # '                              ,I10/,
      & 5X,'SHEAR STIFFNESS . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RELAXATION TIME . . . . . . . . . . . . . . . . .=',1PG20.13/)  
 C-----------------

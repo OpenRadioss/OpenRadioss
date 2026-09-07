@@ -329,8 +329,8 @@ c
       
       !---OUTPUT FORMAT    
  1000 FORMAT(
-     & 5X,40H  HONEYCOMS LAW - COSSERA FORMULATION   ,/,
-     & 5X,40H  -----------------------------------   ,//)
+     & 5X,'  HONEYCOMS LAW - COSSERA FORMULATION   ',/,
+     & 5X,'  -----------------------------------   ',//)
  1001 FORMAT(
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . =',I10/,

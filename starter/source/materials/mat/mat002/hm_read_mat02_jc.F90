@@ -390,9 +390,9 @@
           return
 !-----------------------------------------------------------------------
 1010      format(//                                                                     &
-            5x,A,/,                                                                        &
-            5x,40hMATERIAL NUMBER . . . . . . . . . . . .=,i10/,                           &
-            5x,'MATERIAL LAW  . . . . . . . . . . . . . .= PLAS_JOHNS',/)
+            5x,A,/,                                                              &
+            5x,'MATERIAL NUMBER. . . . . . . . . . . . =',i10/,                           &
+            5x,'MATERIAL LAW . . . . . . . . . . . . . = PLAS_JOHNS',/)
 1000      format(                                                                         &
             5x,'  ELASTIC PLASTIC LAW                   ',/,                               &
             5x,'  -------------------                   ',//)

@@ -352,17 +352,17 @@
 !-----------------------------------------------------------------------
 1010      format(//                                                                      &
             5X,A,/,                                                                        &
-            5X,40HMATERIAL NUMBER . . . . . . . . . . . .=,i10/,                           &
-            5X,'MATERIAL LAW  . . . . . . . . . . . . . .= PLAS_ZERIL',/)
+            5x,'MATERIAL NUMBER. . . . . . . . . . . . =',i10/,                           &
+            5X,'MATERIAL LAW . . . . . . . . . . . . . = PLAS_ZERIL',/)
 1000      format(                                                                         &
             5X,'  ELASTIC PLASTIC LAW                   ',/,                               &
             5X,'  -------------------                   ',//)
 1100      format(                                                                         &
-            5X,'INITIAL DENSITY. . . . . . . . . . . . .=',1pg20.13/)
+            5X,'INITIAL DENSITY. . . . . . . . . . . . =',1pg20.13/)
 1300      format(                                                                         &
-            5X,'YOUNG MODULUS. . . . . . . . . . . . . .=',1pg20.13/,                      &
-            5X,'POISSON RATIO. . . . . . . . . . . . . .=',1pg20.13/,                      &
-            5X,'SHEAR MODULUS  . . . . . . . . . . . . .=',1pg20.13//)
+            5X,'YOUNG MODULUS. . . . . . . . . . . . . =',1pg20.13/,                      &
+            5X,'POISSON RATIO. . . . . . . . . . . . . =',1pg20.13/,                      &
+            5X,'SHEAR MODULUS  . . . . . . . . . . . . =',1pg20.13//)
 1400      format(                                                                         &
             5X,'ZERILLI ARMSTRONG MODEL :',/,                                              &
             5X,'YIELD COEFFICIENT C0. . . . . . . . . .=',1pg20.13/,                       &

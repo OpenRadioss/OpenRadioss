@@ -378,23 +378,23 @@ C-----------------------------------------------
 C-----------
       RETURN
 C-----------
- 1018 FORMAT( //'FLUID INLET EBCS NUMBER .  . . . . . . . :',I8,1X,A)
- 1021 FORMAT( '   VELOCITY & PRESSURE')    
+ 1018 FORMAT( //'FLUID INLET EBCS NUMBER .  . . . . . . . :',I10,1X,A)
+ 1021 FORMAT( '   VELOCITY & PRESSURE')
  1022 FORMAT( '   VELOCITY & ENERGY')
  1118 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/)
  1121 FORMAT(
-     .        '    IVx FUNCTION ID . . . . . . . . . . . . . ',I8,/,
-     .        '    Vx SCALE FACTOR . . . . . . . . . . . . . ',E16.6)
+     .        '    IVx FUNCTION ID . . . . . . . . . . . . . ',I10,/,
+     .        '    Vx SCALE FACTOR . . . . . . . . . . . . . ',1PG20.13)
  1122 FORMAT(
-     .        '    IVy FUNCTION ID . . . . . . . . . . . . . ',I8,/,
-     .        '    Vy SCALE FACTOR . . . . . . . . . . . . . ',E16.6)
+     .        '    IVy FUNCTION ID . . . . . . . . . . . . . ',I10,/,
+     .        '    Vy SCALE FACTOR . . . . . . . . . . . . . ',1PG20.13)
  1123 FORMAT(
-     .        '    IVz FUNCTION ID . . . . . . . . . . . . . ',I8,/,
-     .        '    Vz SCALE FACTOR . . . . . . . . . . . . . ',E16.6)
+     .        '    IVz FUNCTION ID . . . . . . . . . . . . . ',I10,/,
+     .        '    Vz SCALE FACTOR . . . . . . . . . . . . . ',1PG20.13)
  1124 FORMAT(
-     .        '    IVx FUNCTION ID . . . . . . . . . . . . . ',I2) 
+     .        '    IVx FUNCTION ID . . . . . . . . . . . . . ',I2)
  1125 FORMAT(
      .        '    IVy FUNCTION ID . . . . . . . . . . . . . ',I2)
  1126 FORMAT(
@@ -412,18 +412,18 @@ C-----------
  1130 FORMAT(
      .      /,'    SUBMAT-',I2)
  1131 FORMAT(
-     .        '      IALPHA FUNCTION. . . . . . . . . . . . .',I8,/,
-     .        '      IRHO FUNCTION. . . . . . . . . . . . . .',I8,/,
-     .        '      IPRES FUNCTION. . . . . . . . . . . . . ',I8)
+     .        '      IALPHA FUNCTION. . . . . . . . . . . . .',I10,/,
+     .        '      IRHO FUNCTION. . . . . . . . . . . . . .',I10,/,
+     .        '      IPRES FUNCTION. . . . . . . . . . . . . ',I10)
  1132 FORMAT(
-     .        '      ALPHA SCALE FACTOR . . . . . . . . . . .',E16.6,/,
-     .        '      RHO SCALE FACTOR . . . . . . . . . . . .',E16.6,/,
-     .        '      PRES SCALE FUNCTION . . . . . . . . . . ',E16.6)
+     .        '      ALPHA SCALE FACTOR . . . . . . . . . . .',1PG20.13,/,
+     .        '      RHO SCALE FACTOR . . . . . . . . . . . .',1PG20.13,/,
+     .        '      PRES SCALE FUNCTION . . . . . . . . . . ',1PG20.13)
  1133 FORMAT(
-     .        '    IVn FUNCTION ID . . . . . . . . . . . . . ',I8,/,
-     .        '    Vn SCALE FACTOR . . . . . . . . . . . . . ',E16.6)
+     .        '    IVn FUNCTION ID . . . . . . . . . . . . . ',I10,/,
+     .        '    Vn SCALE FACTOR . . . . . . . . . . . . . ',1PG20.13)
  1134 FORMAT(
-     .        '    Vn CONSTANT VELOCITY. . . . . . . . . . . ',E16.6) 
+     .        '    Vn CONSTANT VELOCITY. . . . . . . . . . . ',1PG20.13)
  1135 FORMAT(
      .        '    IVn FUNCTION ID . . . . . . . . . . . . . ',I2,/,
      .        '      Von Neumann BCS :  d/dn Vn = 0')

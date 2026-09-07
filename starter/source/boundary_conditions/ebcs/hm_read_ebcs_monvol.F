@@ -140,10 +140,10 @@ C-----------
 C-----------
 
  1008 FORMAT(//
-     .        'EBCS NUMBER :',I8,1X,A,/,    
-     .        '    CONNECTION TO MONITORED VOLUME. . . . . . ',I8,/,
-     .        '    THROUGH SURFACE . . . . . . . . . . . . . ',I8,/,
-     .        '    ACTIVATED BY SENSOR . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
+     .        'EBCS NUMBER :',I10,1X,A,/,
+     .        '    CONNECTION TO MONITORED VOLUME. . . . . . ',I10,/,
+     .        '    THROUGH SURFACE . . . . . . . . . . . . . ',I10,/,
+     .        '    ACTIVATED BY SENSOR . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/)
 
       END

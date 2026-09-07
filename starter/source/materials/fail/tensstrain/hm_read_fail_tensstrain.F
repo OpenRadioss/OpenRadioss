@@ -195,11 +195,11 @@ C--------------------------------------------------
       RETURN
 C-------------------------------------------------- 
  1000 FORMAT(
-     & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,
-     & 5X,40H    -----------------------------             /)
+     & 5X,'    CRYPTED DATA IN FAILURE MODEL       '      /,
+     & 5X,'    -----------------------------       '      /)
  1100 FORMAT(
-     & 5X,40H    TENSION STRAIN FAILURE MODEL               /,
-     & 5X,40H    ------------------------                  /,
+     & 5X,'    TENSION STRAIN FAILURE MODEL        '       /,
+     & 5X,'    ----------------------------        '      /,
      & 5X,'MAXIMUM TENSION STRAIN 1. . . . . . . . . . . . . . . . =',E12.4/
      & 5X,'MAXIMUM TENSION STRAIN 2. . . . . . . . . . . . . . . . =',E12.4/
      & 5X,'MAXIMUM STRAINS SCALING FUNCTION. . . . . . . . . . . . =',I10/

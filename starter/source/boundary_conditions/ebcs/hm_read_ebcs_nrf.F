@@ -211,31 +211,31 @@ C-----------------------------------------------
 C-----------
       RETURN
 C-----------
- 1001 FORMAT( //'NON-REFLECTING FRONTIER EBCS NUMBER. . . . :',I8,1X,A,/)
- 1002 FORMAT(   '    TCAR_P  : CHARACTERISTIC TIME FOR PRESSURE RELAXATION',/,
+1001  FORMAT( //'NON-REFLECTING FRONTIER EBCS NUMBER. . . . :',I10,1X,A,/)
+1002  FORMAT(   '    TCAR_P  : CHARACTERISTIC TIME FOR PRESSURE RELAXATION',/,
      .          '              SMALL VALUE: PRESSURE STRONGLY RELAXED TO REFERENCE STATE',/,
      .          '                           MAY INCREASE NUMERICAL REFLECTIONS',/,
      .          '              DEFAULT    : LCAR/2/LOG(2)/MAX(SSP)',/,
      .          '              = 1E20     : PRESSURE RELAXATION DISABLED',/,
      .          '                           CHARACTERISTIC NON-REFLECTING UPDATE ONLY'/)
 
- 1003 FORMAT(   '    TCAR_VF : CHARACTERISTIC TIME FOR VOLUME FRACTION RELAXATION (INFLOW ONLY)',/,
+1003  FORMAT(   '    TCAR_VF : CHARACTERISTIC TIME FOR VOLUME FRACTION RELAXATION (INFLOW ONLY)',/,
      .          '              CONTROLS RELAXATION OF INCOMING VOLUME FRACTIONS',/,
      .          '              TOWARDS THEIR INITIAL VALUES',/,
      .          '              < DT       : INITIAL VOLUME FRACTIONS FULLY REINJECTED',/,
      .          '              > DT       : PROGRESSIVE RELAXATION TO INITIAL VALUES',/,
      .          '              = 1E20     : VOLUME FRACTION RELAXATION DISABLED'/)
 
- 1118 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    TCAR_P  . . . . . . . . . . . . . . . . . ',E20.12,/,
-     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',E20.12,/)
- 1119 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
+1118  FORMAT(
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/,
+     .        '    TCAR_P  . . . . . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',1PG20.13,/)
+1119  FORMAT(
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/,
      .        '    TCAR_P  . . . . . . . . . . . . . . . . . ','  auto',/,
-     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',E20.12,/)
+     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',1PG20.13,/)
 
       END SUBROUTINE HM_READ_EBCS_NRF
 

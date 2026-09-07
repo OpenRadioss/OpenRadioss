@@ -236,8 +236,8 @@ c-----------------
       RETURN
 !---
  1000 FORMAT(
-     & 5X,40H  TABULATED NON LINEAR VISCO ELASTIC LAW,/,
-     & 5X,40H  --------------------------------------,//)
+     & 5X,'  TABULATED NON LINEAR VISCO ELASTIC LAW',/,
+     & 5X,'  --------------------------------------',//)
  1001 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,

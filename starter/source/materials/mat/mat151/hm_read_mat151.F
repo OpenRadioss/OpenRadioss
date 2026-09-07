@@ -167,9 +167,9 @@ C-----------------------------------------------
  1000 FORMAT(
      & 5X,'  MULTIFLUID LAW   ',/,
      & 5X,'  --------------  ',/,
-     & 5X,'  NUMBER OF MATERIALS. . . . . . .=',I8//)
+     & 5X,'  NUMBER OF MATERIALS. . . . . . .=',I10//)
  1010 FORMAT(
-     & 5X,'  MATERIAL ID', I8, ' ; VOLUME FRACTION',1PG20.13/)
+     & 5X,'  MATERIAL ID', I10, ' ; VOLUME FRACTION',1PG20.13/)
       RETURN
  
 C-----------------------------------------------

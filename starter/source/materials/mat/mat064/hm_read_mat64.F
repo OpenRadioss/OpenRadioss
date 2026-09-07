@@ -187,8 +187,8 @@ C-----------------------------------------------
 
       RETURN
  1000 FORMAT(/
-     . 5X,40H  TRIP-STEELS  PLASTIC LAW              ,/,
-     & 5X,40H  ------------------------              ,/)
+     . 5X,'  TRIP-STEELS  PLASTIC LAW              ',/,
+     & 5X,'  ------------------------              ',/)
  1001 FORMAT(
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . =',I10/,

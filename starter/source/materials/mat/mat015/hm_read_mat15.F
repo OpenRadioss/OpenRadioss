@@ -407,16 +407,16 @@ c-----------
  950  FORMAT(
      & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/)
  1000 FORMAT(
-     & 5X,40H  ORTHOTROPIC MATERIAL FOR SHELLS       ,/,
-     & 5X,40H  -------------------------------       ,//)
+     & 5X,'  ORTHOTROPIC MATERIAL FOR SHELLS       ',/,
+     & 5X,'  -------------------------------       ',//)
  1100 FORMAT(
-     & 5X,40HYOUNG'S MODULUS E11 . . . . . . . . . .=,E12.4/,
-     & 5X,40HYOUNG'S MODULUS E22 . . . . . . . . . .=,E12.4/,
-     & 5X,40HPOISSON'S RATIO N12 . . . . . . . . . .=,E12.4/)
+     & 5X,'YOUNG''S MODULUS E11 . . . . . . . . . .=',E12.4/,
+     & 5X,'YOUNG''S MODULUS E22 . . . . . . . . . .=',E12.4/,
+     & 5X,'POISSON''S RATIO N12 . . . . . . . . . .=',E12.4/)
  1300 FORMAT(
-     & 5X,40HSHEAR MODULUS   G12 . . . . . . . . . .=,E12.4/,
-     & 5X,40HSHEAR MODULUS   G23 . . . . . . . . . .=,E12.4/,
-     & 5X,40HSHEAR MODULUS   G31 . . . . . . . . . .=,E12.4/)
+     & 5X,'SHEAR MODULUS   G12 . . . . . . . . . .=',E12.4/,
+     & 5X,'SHEAR MODULUS   G23 . . . . . . . . . .=',E12.4/,
+     & 5X,'SHEAR MODULUS   G31 . . . . . . . . . .=',E12.4/)
 c 
  1510 FORMAT(
      & 5X,'COMPOSITE HARDENING PARAMETER  (B). . .=',1PG20.13/,
