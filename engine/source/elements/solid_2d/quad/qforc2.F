@@ -231,10 +231,12 @@ C-----------------------------------------------
       my_real :: SUM_EPS(9),SUM_M,SUM_VOL
 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       GBUF => ELBUF_TAB(NG)%GBUF
+      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
 c
       IBIDON=0
       IBID = 0
@@ -451,6 +453,14 @@ c
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT         , BID      ,SENSORS)
+ !---------true strain compute w/ laws (type not users-laws)
+       IF (ISTRAIN == 1)THEN 
+         CALL SSTRA3(
+     1   EYY,     EZZ,       ETT,      EYZ,
+     2   EZT,     EYT,       LBUF%STRA,WYZ,
+     3   WYY,     WZZ,  GBUF%OFF,      NEL,
+     4   JCVT)
+       ENDIF
 C--------------------------
 C       SYNTHESIS PER MATERIAL (thermics)
 C--------------------------
