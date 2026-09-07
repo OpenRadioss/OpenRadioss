@@ -24,10 +24,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 C.../SCLCPL/
 C.../INDCPL/
       COMMON /SCLCPL/MADUL,MADUT,MADUM
-      COMMON /SCRMAD/IMADFSH4
       COMMON /IMADCPL/IMADCPL,MADCONID,MADNODID,MADELEMID,MADCLNODS
       my_real
      .       MADUL,MADUT,MADUM
-      INTEGER IMADFSH4
       INTEGER IMADCPL,MADCONID,MADNODID,MADELEMID,MADCLNODS
 

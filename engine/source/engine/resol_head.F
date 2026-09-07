@@ -255,7 +255,7 @@ C
      T  NBRCVOIS        ,NBSDVOIS       ,LNRCVOIS       ,LNSDVOIS       ,NERCVOIS       ,NESDVOIS    ,LERCVOIS         ,
      U  LESDVOIS        ,NPSEGCOM       ,LSEGCOM        ,NPORGEO        ,
      V  IXTG1           ,NPBYL          ,LPBYL          ,RBYL           ,IGEO           ,IPM         ,
-     W  MADPRT         ,MADSH4         ,MADSH3         ,MADSOL         ,MADNOD      ,MADFAIL          ,
+     W  MADPRT         ,MADSH4         ,MADSH3         ,MADSOL         ,MADNOD      ,
      X  IAD_RBY         ,FR_RBY         ,IAD_RBY2       ,
      Y  FR_RBY2         ,IAD_I2M        ,FR_I2M         ,ADDCNI2        ,PROCNI2        ,IADI2       ,FR_MV            ,
      Z  IADMV2          ,FR_LL          ,FR_RL          ,IADCJ          ,

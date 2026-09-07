@@ -75,7 +75,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      B    IPART     ,IPARTC    ,IPARTTG   ,SECFCUM   ,
      D    FSAVD     ,GROUP_PARAM_TAB,
      F    FZERO     ,IXTG1     ,IADTG1    ,IGEO      ,IPM       ,
-     G    MADFAIL   ,XSEC      ,ITASK     ,MCP       ,
+     G    XSEC      ,ITASK     ,MCP       ,
      H    TEMP      ,FTHE      ,FTHESKY   ,
      I    MS_PLY    ,ZI_PLY    ,INOD_PXFEM,XEDGE4N   ,XEDGE3N   ,
      J    IEL_PXFEM ,IADC_PXFEM,IGROUC    ,NGROUC    ,GRESAV    ,
@@ -152,7 +152,7 @@ C-----------------------------------------------
      .   NSTRF(*), IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   IADC(4,*), IADTG(3,*),NELTST,
      .   ITYPTST,IXTG1(4,*),XEDGE4N(4,*),XEDGE3N(3,*),
-     .   IADTG1(3,*),MADFAIL(*),ITASK,
+     .   IADTG1(3,*),ITASK,
      .   INOD_PXFEM(*),IEL_PXFEM(*) ,IADC_PXFEM(4,*), IGROUC(*),
      .   NGROUC,GRTH(*),IGRTH(*),KNOD2ELC(*),
      .   INOD_CRK(*),IEL_CRK(*),IADC_CRK(*),ELCUTC(2,*),
@@ -543,13 +543,6 @@ C
                 K0 = NSTRF(K0+24)
                ENDDO
           ENDIF
-             IF(NEXMAD/=0.AND.IOFC/=0)THEN
-               IMADFSH4=1
-               DO J=1,IOFC
-                II=INDXOF(J)+JFT-1+NFT
-                MADFAIL(II)=1
-               ENDDO
-             ENDIF
 C----6---------------------------------------------------------------7--
         ELSEIF(ITY==7)THEN
           IOFC = 0
@@ -744,7 +737,7 @@ C----6---------------------------------------------------------------7---------8
 !     B    IPART     ,IPARTC    ,IPARTTG   ,SECFCUM   ,
 !     D    FSAVD     ,GROUP_PARAM_TAB,
 !     F    FZERO     ,IXTG1     ,IADTG1    ,IGEO      ,IPM       ,
-!     G    MADFAIL   ,XSEC      ,ITASK     ,MCP       ,
+!     G    XSEC      ,ITASK     ,MCP       ,
 !     H    TEMP      ,FTHE      ,FTHESKY   ,
 !     I    MS_PLY    ,ZI_PLY    ,INOD_PXFEM,XEDGE4N   ,XEDGE3N   ,
 !     J    IEL_PXFEM ,IADC_PXFEM,IGROUC    ,NGROUC    ,GRESAV    ,
@@ -825,7 +818,7 @@ C----6---------------------------------------------------------------7---------8
 !     .   NSTRF(*), IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
 !     .   IADC(4,*), IADTG(3,*),NELTST,
 !     .   ITYPTST,IXTG1(4,*),XEDGE4N(4,*),XEDGE3N(3,*),
-!     .   IADTG1(3,*),MADFAIL(*),ITASK,
+!     .   IADTG1(3,*),ITASK,
 !     .   INOD_PXFEM(*),IEL_PXFEM(*) ,IADC_PXFEM(4,*), IGROUC(*),
 !     .   NGROUC,GRTH(*),IGRTH(*),KNOD2ELC(*),
 !     .   INOD_CRK(*),IEL_CRK(*),IADC_CRK(*),ELCUTC(2,*),

@@ -621,7 +621,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      T        NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,NERCVOIS,NESDVOIS,LERCVOIS,
      U        LESDVOIS,NPSEGCOM,LSEGCOM ,NPORGEO ,
      V        IXTG1   ,NPBYL   ,LPBYL   ,RBYL    ,IGEO    ,IPM     ,
-     W        MADPRT  ,MADSH4  ,MADSH3  ,MADSOL  ,MADNOD  ,MADFAIL ,
+     W        MADPRT  ,MADSH4  ,MADSH3  ,MADSOL  ,MADNOD  ,
      X        IAD_RBY ,FR_RBY  ,IAD_RBY2,
      Y        FR_RBY2 ,IAD_I2M ,FR_I2M  ,ADDCNI2 ,PROCNI2 ,IADI2   ,FR_MV   ,
      Z        IADMV2  ,FR_LL   ,FR_RL   ,IADCJ   ,
@@ -889,7 +889,7 @@ C-----------------------------------------------
      .           NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*), NPORGEO(*),
      .           NPSEGCOM(*), LSEGCOM(*), IGEO(NPROPGI,*),
      .           IPM(NPROPMI,*),MADPRT(*), MADSH4(*), MADSH3(*), MADSOL(*),
-     .           MADNOD(*),MADFAIL(*),
+     .           MADNOD(*),
      .           IAD_RBY2(*),
      .           FR_RBY2(*),IAD_I2M(*),FR_I2M(*),ADDCNI2(*),PROCNI2(*),IADI2(*),
      .           FR_MV(*), IADMV2(*),  FR_LL(*),  FR_RL(*),
@@ -1681,7 +1681,7 @@ C
      L         XFRAME   ,
      M         IXTG1    ,IBCL     ,NODES%VISCN    ,DD_R2R   ,
      O         ELBUF    ,IPART    ,MADPRT   ,MADSH4   ,
-     P         MADSH3   ,MADSOL   ,MADNOD   ,MADFAIL  ,IGEO     ,
+     P         MADSH3   ,MADSOL   ,MADNOD   ,IGEO     ,
      Q         INTLIST  ,NBINTC   ,ELEMENT%PON%PROCNE   ,NISKYFI  ,NODES%WEIGHT   ,
      R         ISIZXV   ,ILENXV   ,ADDCNI2  ,PROCNI2  ,IAD_I2M  ,
      S         FR_I2M   ,FR_NBCCI2,I2SIZE   ,FR_MAD   ,LWIBEM   ,
@@ -2737,8 +2737,6 @@ C
 C----------------------------------
               IF(IMONM > 0) CALL STOPTIME(TIMERS,47)
               IF(IMON>0) CALL STOPTIME(TIMERS,6)
-
-              IMADFSH4=0
 
 C----------------------------------
 C       Gather actual thickness of shells
@@ -4148,7 +4146,7 @@ C Init var parallel SMP
      A           IPART        ,IPART(K3)       ,IPART(K8)       ,SECFCUM        ,
      B           FSAVD        ,MAT_ELEM%GROUP_PARAM ,
      E           FZERO        ,IXTG1           ,ELEMENT%PON%IAD_TG6      ,IGEO           ,IPM          ,
-     F           MADFAIL      ,XSEC            ,ITSK            ,NODES%MCP          ,
+     F           XSEC         ,ITSK            ,NODES%MCP          ,
      G           NODES%TEMP         ,FTHE(IDX_FTHE)  ,FTHESKY         ,
      H           MS_PLY       ,ZI_PLY          ,INOD_PXFEM      ,XEDGE4N       ,XEDGE3N       ,
      I           IEL_PXFEM    ,IADC_PXFEM      ,IGROUC          ,NGROUC        ,GRESAV(IGMTSK),
