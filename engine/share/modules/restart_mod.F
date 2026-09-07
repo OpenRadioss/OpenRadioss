@@ -69,7 +69,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      .      IEXLNK,  IBVEL,    LBVEL,   IACTIV,  IBMPC, 
      .      IPARI,   NPRW,    LPRW,    
      .      ICONX,   LGAUGE,
-     .      MADPRT,  MADSH4,  MADSH3,   MADSOL,  MADNOD,  MADFAIL, 
+     .      MADPRT,  MADSH4,  MADSH3,   MADSOL,  MADNOD, 
      .      NPBY,    NPBYL,   LPBY,     LPBYL,   LRIVET,  NSTRF,
      .      LJOINT,  NODPOR,  MONVOL,   LAGBUF,  
      .      IPART_STATE,IRBYM ,LNRBYM, WEIGHT_RM,ICODRBYM,

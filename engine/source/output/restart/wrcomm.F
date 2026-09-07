@@ -269,7 +269,7 @@ C   sizes of integer arrays
       TABVINT(106) = SMADSH3
       TABVINT(107) = SMADSOL
       TABVINT(108) = SMADNOD
-      TABVINT(109) = SMADFAIL
+      TABVINT(109) = 0
       TABVINT(110) = SNPBY
       TABVINT(111) = SNPBYL
       TABVINT(112) = SLPBY
