@@ -373,7 +373,11 @@ C
           ISRAT=IPM(3,MID)
           IFAIL = 0
           NFAIL = MAT_PARAM(MID)%NFAIL
-          ISTRAIN = 1
+          IF(MLN/=25.AND.MLN<28)THEN
+            ISTRAIN = 1
+          ELSEIF(MLN>=28)THEN
+            ISTRAIN=2
+          ENDIF
           IEOS=IPM(4,MID)
 
 C

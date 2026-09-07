@@ -590,6 +590,13 @@ C       UPDATE STRESS
      .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT         ,  BID   ,SENSORS)
 C
+       IF (ISTRAIN == 1)THEN 
+        CALL SSTRA3(
+     1   EYY,     EZZ,       EXX,      EYZ,
+     2   EZX,     EXY,       LBUF%STRA,WYY,
+     3   WZZ,     WXX,       OFF,      NEL,
+     4   JCVT)
+       ENDIF
 C       COMPUTE NODAL INTERNAL FORCE
         CALL Q4FINT2(
      1   LBUF%SIG,AY,      FAY,     FAZ,

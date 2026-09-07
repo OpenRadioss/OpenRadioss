@@ -90,7 +90,7 @@ C     REAL
      .        ISROT,IVISC,
      .        IGTYP,ISUBSTACK,
      .        NPTT,ILAY,
-     .        IUVAR,IAD,JALE,JTURB,JCVT,ISORTH
+     .        IUVAR,IAD,JALE,JTURB,JCVT,ISORTH,IPR,IPS
       INTEGER IOK_PART(MVSIZ), JJ(6), IS_WRITTEN_TENSOR(MVSIZ)
 C
  
@@ -266,16 +266,14 @@ C-----------------------------------------------
 c
                 DO I=1,NEL
                   N = I + NFT   
-                  DO IS=1,NPTS               
-                   DO IT=1,NPTT
-                    DO IR=1,NPTR
-                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
+                  DO IPS=1,NPTS               
+                    DO IPR=1,NPTR
+                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPR,IPS,1)        
                      EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)/NPT
                      EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)/NPT
                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF/NPT
                      IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
-                   ENDDO
                   ENDDO
                 ENDDO
 
@@ -314,10 +312,9 @@ C-----------------------------------------------
 c
                 DO I=1,NEL
                   N = I + NFT   
-                  DO IS=1,NPTS               
-                   DO IT=1,NPTT
-                    DO IR=1,NPTR
-                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)                                         
+                  DO IPS=1,NPTS               
+                    DO IPR=1,NPTR
+                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPR,IPS,1)                                         
                      IF(ELBUF_TAB(NG)%BUFLY(1)%L_DGLO > 0) THEN
                        EVAR(1,I) = EVAR(1,I)+LBUF%DGLO(JJ(1) + I)/NPT
                        EVAR(2,I) = EVAR(2,I)+LBUF%DGLO(JJ(2) + I)/NPT
@@ -325,7 +322,6 @@ c
                        IS_WRITTEN_TENSOR(I) = 1
                      ENDIF
                    ENDDO                                                   
-                  ENDDO                                                    
                  ENDDO                                                     
                 ENDDO   
 c                                                  
@@ -351,16 +347,14 @@ C-----------------------------------------------
 c
                 DO I=1,NEL
                   N = I + NFT   
-                  DO IS=1,NPTS               
-                   DO IT=1,NPTT
-                    DO IR=1,NPTR
-                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
+                  DO IPS=1,NPTS               
+                    DO IPR=1,NPTR
+                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPR,IPS,1)        
                      EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)/NPT
                      EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)/NPT
                      EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*HALF/NPT
                      IS_WRITTEN_TENSOR(I) = 1
                     ENDDO
-                   ENDDO
                   ENDDO
                 ENDDO
 
