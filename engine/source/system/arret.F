@@ -472,6 +472,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER*2048 INAME
       INTEGER IFIL
+      INTEGER I
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
       INTEGER :: LEN_TMP_NAME_H3D
@@ -529,6 +530,13 @@ C -----------------------------------------------
      *                                      C_LOC(OUTPUT_PTR%TH%TH_FILENAME),
      *                                      LEN_TRIM(OUTPUT_PTR%TH%TH_FILENAME),
      *                                      IZIP)
+               DO I=1,9
+                 IF(LEN_TRIM(OUTPUT_PTR%TH%AUX_TH_FILENAME(I)) > 0) THEN
+                   CALL COMPUTE_BINARY_CHECKSUM(OUTPUT_PTR%CHECKSUM%files_checksum,
+     *              C_LOC(OUTPUT_PTR%TH%AUX_TH_FILENAME(I)),
+     *              LEN_TRIM(OUTPUT_PTR%TH%AUX_TH_FILENAME(I)),IZIP)
+                 ENDIF
+               ENDDO
             ENDIF
        ENDIF
 C -----------------------------------------------

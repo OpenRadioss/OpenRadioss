@@ -45,6 +45,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
           INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRP
           INTEGER  SITHGRP
           character (len=2048) :: TH_FILENAME
+          character (len=2048), dimension(9) :: AUX_TH_FILENAME
           INTEGER :: TH_WRITE_TYPE
           !
           INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFA

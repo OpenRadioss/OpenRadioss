@@ -1646,6 +1646,7 @@ C------------------------------------------------
           WA(1:SWA) = ZERO
           ! Store filename for eventuel checksum computation
           OUTPUT%TH%TH_FILENAME(1:LEN_TRIM(FILNAMTH))=FILNAMTH(1:LEN_TRIM(FILNAMTH))
+          OUTPUT%TH%AUX_TH_FILENAME = ''
 
 C   Multiple th files
             IF(NTHGRP01(1)/=0)THEN
@@ -1669,6 +1670,7 @@ C   Multiple th files
      4                    IPM      ,IPART(1+LIPART1*(NPART+NTHPART)) ,2  ,1    ,
      5                    1       ,AFORM(1)           ,ITHFLAG       ,ITHVAR,
      6                    IFILTITL,OUTPUT%TH%SITHBUFA ,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(1) = FILNAMTH
             END IF
 
             IF(NTHGRP01(2)/=0)THEN
@@ -1692,6 +1694,7 @@ C   Multiple th files
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(2)          ,ITHFLAG          ,ITHVAR,
      6                   IFILTITL,OUTPUT%TH%SITHBUFB,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(2) = FILNAMTH
             END IF
 
             IF(NTHGRP01(3)/=0)THEN
@@ -1715,6 +1718,7 @@ C   Multiple th files
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+4*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(3)          ,ITHFLAG           ,ITHVAR,
      6                   IFILTITL,OUTPUT%TH%SITHBUFC,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(3) = FILNAMTH
             END IF
 
             IF(NTHGRP01(4)/=0)THEN
@@ -1738,6 +1742,7 @@ C   Multiple th files
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+6*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(4)          ,ITHFLAG           ,ITHVAR,
      6                   IFILTITL ,OUTPUT%TH%SITHBUFD,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(4) = FILNAMTH
             END IF
 
             IF(NTHGRP01(5)/=0)THEN
@@ -1761,6 +1766,7 @@ C   Multiple th files
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+8*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(5)          ,ITHFLAG           ,ITHVAR,
      6                   IFILTITL,OUTPUT%TH%SITHBUFE,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(5) = FILNAMTH
             END IF
 
             IF(NTHGRP01(6)/=0)THEN
@@ -1784,6 +1790,7 @@ C   Multiple th files
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+10*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(6)          ,ITHFLAG           ,ITHVAR,
      6                   IFILTITL,OUTPUT%TH%SITHBUFF,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(6) = FILNAMTH
             END IF
 
             IF(NTHGRP01(7)/=0)THEN
@@ -1807,6 +1814,7 @@ C   Multiple th files
      4                   IPM,IPART(1+LIPART1*(NPART+NTHPART)+12*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(7)          ,ITHFLAG           ,ITHVAR,
      6                   IFILTITL,OUTPUT%TH%SITHBUFG ,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(7) = FILNAMTH
             END IF
 
             IF(NTHGRP01(8)/=0)THEN
@@ -1830,6 +1838,7 @@ C   Multiple th files
      4                   IPM      ,IPART(1+LIPART1*(NPART+NTHPART)+14*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(8)           ,ITHFLAG           ,ITHVAR,
      6                   IFILTITL,OUTPUT%TH%SITHBUFH,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(8) = FILNAMTH
             END IF
 
             IF(NTHGRP01(9)/=0)THEN
@@ -1853,6 +1862,7 @@ C   Multiple th files
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(9)          ,ITHFLAG           ,ITHVAR,
      6                   IFILTITL,OUTPUT%TH%SITHBUFI,NAMES_AND_TITLES)
+        OUTPUT%TH%AUX_TH_FILENAME(9) = FILNAMTH
             END IF
         ELSE
           WRITE(CHR_OLD,'(I2.2)')IRUNN
