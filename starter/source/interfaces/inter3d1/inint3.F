@@ -2230,6 +2230,12 @@ C
          END IF !(NGROUS>0) THEN
 C-------------------------------------------------------------
          CALL ANCMSG(MSGID=1164, MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,PRMOD=MSG_PRINT)
+
+C-----cancel pressfit if no initial pene     
+        IF (INACTI==-1.AND.IWPENE == 0) THEN
+         IPARI(40,NIN) = 0
+         CALL ANCMSG(MSGID=1566,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR)
+        END IF
 C
          IF(IWPENE /= 0.AND. IDDLEVEL == 1)THEN
            IF(INACTI==0)THEN
