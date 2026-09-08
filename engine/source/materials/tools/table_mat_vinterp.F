@@ -72,6 +72,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sigeps130                      ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps132c                     ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                      ../engine/source/materials/mat/mat133/sigeps133.F90
+!||    sigeps137                      ../engine/source/materials/mat/mat137/sigeps137.F90
+!||    sigeps137c                     ../engine/source/materials/mat/mat137/sigeps137c.F90
 !||    sigeps163                      ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps50s                      ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                      ../engine/source/materials/mat/mat057/sigeps57c.F90
@@ -137,6 +139,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sigeps130                      ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps132c                     ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                      ../engine/source/materials/mat/mat133/sigeps133.F90
+!||    sigeps137                      ../engine/source/materials/mat/mat137/sigeps137.F90
+!||    sigeps137c                     ../engine/source/materials/mat/mat137/sigeps137c.F90
 !||    sigeps163                      ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps50s                      ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                      ../engine/source/materials/mat/mat057/sigeps57c.F90

@@ -271,6 +271,7 @@
 !||    hm_read_mat134                             ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat135                             ../starter/source/materials/mat/mat135/hm_read_mat135.F90
 !||    hm_read_mat136                             ../starter/source/materials/mat/mat136/hm_read_mat136.F90
+!||    hm_read_mat137                             ../starter/source/materials/mat/mat137/hm_read_mat137.F90
 !||    hm_read_mat163                             ../starter/source/materials/mat/mat163/hm_read_mat163.F90
 !||    hm_read_mat169_arup                        ../starter/source/materials/mat/mat169/hm_read_mat169.F90
 !||    hm_read_mat50                              ../starter/source/materials/mat/mat050/hm_read_mat50.F90
@@ -361,6 +362,7 @@
 !||    law123_upd                                 ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_init                                ../starter/source/materials/mat/mat129/law129_init.F90
 !||    law133_upd                                 ../starter/source/materials/mat/mat133/law133_upd.F90
+!||    law137_init                                ../starter/source/materials/mat/mat137/law137_init.F90
 !||    law190_upd                                 ../starter/source/materials/mat/mat190/law190_upd.F90
 !||    law42c_ini                                 ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||    law76_func_comp                            ../starter/source/materials/mat/mat076/law76_func_comp.F90
@@ -583,6 +585,8 @@
 !||    sigeps133                                  ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                                 ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps136g                                 ../engine/source/materials/mat/mat136/sigeps136g.F90
+!||    sigeps137                                  ../engine/source/materials/mat/mat137/sigeps137.F90
+!||    sigeps137c                                 ../engine/source/materials/mat/mat137/sigeps137c.F90
 !||    sigeps163                                  ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps169_connect                          ../engine/source/materials/mat/mat169/sigeps169_connect.F90
 !||    sigeps50s                                  ../engine/source/materials/mat/mat050/sigeps50s.F90

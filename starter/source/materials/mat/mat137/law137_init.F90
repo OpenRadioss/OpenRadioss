@@ -21,8 +21,19 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    law137_init_mod   ../starter/source/materials/mat/mat137/law137_init.F90
+!||--- called by ------------------------------------------------------
+!||    matini            ../starter/source/materials/mat_share/matini.F
+!||====================================================================
       module law137_init_mod
       contains
+!||====================================================================
+!||    law137_init        ../starter/source/materials/mat/mat137/law137_init.F90
+!||--- called by ------------------------------------------------------
+!||    matini             ../starter/source/materials/mat_share/matini.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine law137_init(mat_param,nel    ,pla      ) 
 ! ------------------------------------------------------------------------------
 !           Modules

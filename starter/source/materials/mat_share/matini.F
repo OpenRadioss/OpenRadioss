@@ -52,6 +52,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    athlen                 ../starter/source/ale/athlen.F
 !||    fretitl2               ../starter/source/starter/freform.F
 !||    law129_init            ../starter/source/materials/mat/mat129/law129_init.F90
+!||    law137_init            ../starter/source/materials/mat/mat137/law137_init.F90
 !||    m105init               ../starter/source/materials/mat/mat105/m105init.F
 !||    m24in2                 ../starter/source/materials/mat/mat024/m24in2.F
 !||    m24in3                 ../starter/source/materials/mat/mat024/m24in3.F
@@ -72,6 +73,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- uses       -----------------------------------------------------
 !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
 !||    law129_init_mod        ../starter/source/materials/mat/mat129/law129_init.F90
+!||    law137_init_mod        ../starter/source/materials/mat/mat137/law137_init.F90
 !||    m36init_mod            ../starter/source/materials/mat/mat036/m36init.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================

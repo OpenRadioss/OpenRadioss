@@ -21,8 +21,25 @@
 !Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
+!||====================================================================
+!||    sigeps137_mod   ../engine/source/materials/mat/mat137/sigeps137.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||====================================================================
       module sigeps137_mod
       contains
+!||====================================================================
+!||    sigeps137               ../engine/source/materials/mat/mat137/sigeps137.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       subroutine sigeps137(                                                    &
         nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,temp     ,           &
         epsxx    ,epsyy    ,epszz    ,epsxy    ,epsyz    ,epszx    ,           &
