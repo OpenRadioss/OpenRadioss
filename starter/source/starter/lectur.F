@@ -9395,7 +9395,7 @@ c
 c
       IF(OUTPUT%CHECKSUM%checksum_count > 0) NTHGRP0 = NTHGRP0 + 1
       DO I=1,9
-        IF(OUTPUT%CHECKSUM%checksum_count > 0) NTHGRP01(I) = NTHGRP01(I) + 1  
+        IF(NTHGRP01(I) > 0 .AND. OUTPUT%CHECKSUM%checksum_count > 0) NTHGRP01(I) = NTHGRP01(I) + 1
         NTHGRPMX = MAX(NTHGRP0,NTHGRP01(I))
       ENDDO
 c

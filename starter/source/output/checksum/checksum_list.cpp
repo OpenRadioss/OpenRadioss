@@ -169,10 +169,14 @@ bool List_checksum::is_integer(const std::string s) {
           anim_file_list.push_back(fname);
       }
       string th_pattern=rootname+ "T";
-      string file_T=fname.substr(0,fname.length()-2);
-      rd_run = fname.substr(fname.length()-2);
-      if ( is_integer(rd_run)  && th_pattern == file_T){
-          th_file_list.push_back(fname);
+      string th_suffix=fname.substr(th_pattern.length());
+      bool is_base_th_file = th_suffix.length() == 2 && is_integer(th_suffix);
+      bool is_aux_th_file = th_suffix.length() == 3 &&
+                  is_integer(th_suffix.substr(0,2)) &&
+                  th_suffix[2] >= 'a' && th_suffix[2] <= 'i';
+      if (fname.compare(0,th_pattern.length(),th_pattern) == 0 &&
+        (is_base_th_file || is_aux_th_file)) {
+        th_file_list.push_back(fname);
       }
 
         if (fname == rootname + ".h3d") {
@@ -504,6 +508,8 @@ bool List_checksum::is_integer(const std::string s) {
       for (const auto& checksum : get<3>(item)){
           size_t pos = checksum.find_last_of("_");
           string title=checksum.substr(0,pos); // Remove the checksum value
+          // trim end of title
+          title.erase(title.find_last_not_of(" \n\r\t")+1); 
           string digest=checksum.substr(pos+1);  // Keep only the checksum value
           string checksum_line="                  "+title+": "+digest;
           write_out(fd,checksum_line);

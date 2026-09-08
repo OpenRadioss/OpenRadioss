@@ -3170,7 +3170,7 @@ c
       ! /TH/CHECKSUM ( activated automaticaly if /CHECKSUM is used )
       !-------------------------------------------
       HM_NTHCHECKSUM=CHECKSUM%checksum_count
-      IF (HM_NTHCHECKSUM > 0) THEN 
+      IF (HM_NTHCHECKSUM > 0) THEN
         HM_NTHGRP = HM_NTHGRP + 1
         IGS = IGS+1
         CHECKSUM_TITLE = ''
