@@ -623,7 +623,7 @@ c     taged nodes on S1 -> negative value, ->+3 for nodes on both
 
       IF(ISU3 /= 0.AND..NOT.LINE_SEG)THEN
         DO J=1,IGRSLIN(ISU3)%NSEG
-          LINE_TYP = IGRSLIN(ISU4)%ELTYP(J)
+          LINE_TYP = IGRSLIN(ISU3)%ELTYP(J)
           IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
             DO K=1,2
               I=IGRSLIN(ISU3)%NODES(J,K)
