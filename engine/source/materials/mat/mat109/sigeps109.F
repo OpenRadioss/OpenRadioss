@@ -36,11 +36,11 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NVARTMP ,NUMTABL ,
      2     UPARAM  ,UVAR    ,VARTMP  ,ITABLE  ,TABLE   ,JTHE    ,
      3     TIME    ,TIMESTEP,OFF     ,RHO     ,PLA     ,DPLA    ,
-     4     SOUNDSP ,SIGY    ,ET      ,TEMP    ,EPSD    ,DPDM    ,
+     4     SOUNDSP ,SIGY    ,ET      ,TEMP    ,EPSD    ,
      5     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8     INLOC   ,DPLANL  ,IEOS    ,JLAG    ,FHEAT   ,VOLUME  ,
+     8     INLOC   ,DPLANL  ,JLAG    ,FHEAT   ,VOLUME  ,
      9     SEQ     ,LPLANL  ,PLA_NL  ,LEPSDNL ,DPDT_NL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -58,7 +58,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: IEOS
       INTEGER ,INTENT(IN) :: JTHE
       INTEGER ,INTENT(IN) :: JLAG
       INTEGER NEL,NUPARAM,NUVAR,NVARTMP,NUMTABL,INLOC
@@ -68,7 +67,7 @@ c
       my_real  :: TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
       my_real,DIMENSION(NEL)     ,INTENT(IN)  :: VOLUME
-      my_real,DIMENSION(NEL)     ,INTENT(IN)  :: RHO,DPDM,OFF,
+      my_real,DIMENSION(NEL)     ,INTENT(IN)  :: RHO,OFF,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX,DPLANL
       my_real ,DIMENSION(NEL)    ,INTENT(OUT) ::  SOUNDSP,SIGY,ET,
@@ -442,22 +441,9 @@ c
         ENDIF
       ENDIF
 !
-      !< Equation Of State (EOS) specific treatment
+      !< Sound speed computation
       !-------------------------------------------------------------------------
-      ! if EOS is used, material law calculates only deviatoric stress tensor
-      !                 sound speed depends on pressure derivative over volume change
-      !                 calculated in EOS
-      IF (IEOS > 0) THEN
-        SIGNXX(1:NEL) = SIGNXX(1:NEL) - SIGM(1:NEL)
-        SIGNYY(1:NEL) = SIGNYY(1:NEL) - SIGM(1:NEL)
-        SIGNZZ(1:NEL) = SIGNZZ(1:NEL) - SIGM(1:NEL)
-        SIGNXY(1:NEL) = SIGNXY(1:NEL)
-        SIGNYZ(1:NEL) = SIGNYZ(1:NEL)
-        SIGNZX(1:NEL) = SIGNZX(1:NEL)
-        SOUNDSP(1:NEL)= SQRT((DPDM(1:NEL) + FOUR_OVER_3*G) / RHO(1:NEL))
-      ELSE 
-        SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))
-      END IF                
+      SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))              
 !      
       !< Storing output values
       !-------------------------------------------------------------------------

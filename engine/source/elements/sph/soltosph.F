@@ -588,6 +588,8 @@ C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
       TYPE(L_BUFEL_) ,POINTER :: LBUF, LBUFSP, LBUF2     
       TYPE(BUF_MAT_) ,POINTER :: MBUF, MBUFSP
+      TYPE(BUF_FAIL_),POINTER :: FBUF, FBUFSP
+      INTEGER IRF, KDF, NFAIL
 C-----------------------------------------------
       my_real A_GAUSS(9,9)
       DATA A_GAUSS /
@@ -648,6 +650,8 @@ C-----------
           GBUF => ELBUF_TAB(NG)%GBUF
           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
           MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
+          FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)
+          NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL
 C-----------
           CALL SREP2GLO(
      1   X,           IXS(1,NFT+1),GBUF%GAMA,   RX,
@@ -1094,14 +1098,27 @@ C
                 GBUFSP => ELBUF_TAB(MG)%GBUF
                 LBUFSP => ELBUF_TAB(MG)%BUFLY(1)%LBUF(1,1,1)
                 MBUFSP => ELBUF_TAB(MG)%BUFLY(1)%MAT(1,1,1)
+                FBUFSP => ELBUF_TAB(MG)%BUFLY(1)%FAIL(1,1,1)
                 J=NP-KFT
                 RHON = GBUF%RHO(I)
-                RHOO = WA(10,NP)
-                DIVV = (RHOO-RHON)/MAX(EM30,RHOO*DT1)
+C               Newborn SPH particle : no density-rate history is available
+C               yet for this particle slot. WA(10,*) is the persistent
+C               "old density" accumulator (seeded/updated cycle after cycle
+C               in SPFORCP/SPLOAD3) and still holds stale/uninitialized
+C               content at the exact conversion cycle. Seed it with the
+C               parent's current density and set DIVV=0 (no history yet),
+C               otherwise the density time-derivative below (and the
+C               downstream artificial viscosity/EOS/energy update) is
+C               computed from garbage right at the moment of conversion.
+                WA(10,NP)     = RHON
+                RHOO          = RHON
+                DIVV          = ZERO
                 WA(13,NP)     = DIVV
                 WA(14,NP)     = ZERO
                 SPBUF(2,NP)   = RHON
                 GBUFSP%RHO(J) = RHON
+C               Element status flag
+                GBUFSP%OFF(J) = GBUF%OFF(I)
 C
 C               group was not computed 
 C               (there is no cloud active particle within the group)
@@ -1163,6 +1180,15 @@ C-----------
                 IF(GBUF%G_PLA > 0) GBUFSP%PLA(J) = GBUF%PLA(I)
                 IF(GBUF%G_EPSD> 0) GBUFSP%EPSD(J)= GBUF%EPSD(I)
                 IF(GBUF%G_EPSQ> 0) GBUFSP%EPSQ(J)= GBUF%EPSQ(I)
+C Element temperature (self-heating / thermal softening, e.g. LAW131)
+                IF(GBUF%G_TEMP> 0) GBUFSP%TEMP(J)= GBUF%TEMP(I)
+C Plastic work accumulator (used by some hardening/damage laws)
+                IF(GBUF%G_WPLA> 0) GBUFSP%WPLA(J)= GBUF%WPLA(I)
+C Equivalent stress (used by some output/damage criteria)
+                IF(GBUF%G_SEQ > 0) GBUFSP%SEQ(J) = GBUF%SEQ(I)
+C Artificial bulk viscosity pressure (old value used as history by
+C some multi-material ALE viscosity schemes, e.g. LAW51)
+                IF(GBUF%G_QVIS> 0) GBUFSP%QVIS(J)= GBUF%QVIS(I)
 C-----------
                 IF(GBUF%G_GAMA > 0)THEN
 C
@@ -1203,6 +1229,17 @@ C-----------
                 IF(ELBUF_TAB(NG)%BUFLY(1)%L_DAM > 0)THEN
                   DO K=1,ELBUF_TAB(NG)%BUFLY(1)%L_DAM
                     LBUFSP%DAM(JJ(K)+J)=LBUF%DAM(II(K)+I)
+                  ENDDO
+                END IF
+C-----------
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0)THEN
+                  LBUFSP%PLA(JJ(1)+J)=LBUF%PLA(II(1)+I)
+                END IF                
+C-----------
+C Generic damage variable (e.g. laws 25/52/104-type delamination/damage)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0)THEN
+                  DO K=1,ELBUF_TAB(NG)%BUFLY(1)%L_DMG
+                    LBUFSP%DMG(JJ(K)+J)=LBUF%DMG(II(K)+I)
                   ENDDO
                 END IF
 C-----------
@@ -1270,11 +1307,54 @@ C Afterburning param
                   LBUFSP%ABURN(JJ(1)+J)=LBUF%ABURN(II(1)+I)
                 END IF
 C-----------
+C Backstress tensor for kinematic hardening (e.g. LAW131)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGB > 0)THEN
+                  DO K=1,ELBUF_TAB(NG)%BUFLY(1)%L_SIGB
+                    LBUFSP%SIGB(NELSP*(K-1)+J)=LBUF%SIGB(NEL*(K-1)+I)
+                  ENDDO
+                END IF
+C-----------
 C User variables (same for SPH and solids)
                 IF(ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT > 0)THEN
                   DO K=1,ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
                     MBUFSP%VAR(NELSP*(K-1)+J) = MBUF%VAR(NEL*(K-1)+I)
                   END DO
+                ENDIF
+C-----------
+C Failure model damage state (e.g. /FAIL/SPALLING DFMAX/TDEL)
+                IF(NFAIL > 0)THEN
+                  DO IRF=1,NFAIL
+                    IF(FBUF%FLOC(IRF)%LF_DAMMX > 0)THEN
+                      DO KDF=1,FBUF%FLOC(IRF)%LF_DAMMX
+                        FBUFSP%FLOC(IRF)%DAMMX(NELSP*(KDF-1)+J) =
+     .                    FBUF%FLOC(IRF)%DAMMX(NEL*(KDF-1)+I)
+                      ENDDO
+                    ENDIF
+                    IF(FBUF%FLOC(IRF)%LF_DAM > 0)THEN
+                      DO KDF=1,FBUF%FLOC(IRF)%LF_DAM
+                        FBUFSP%FLOC(IRF)%DAM(NELSP*(KDF-1)+J) =
+     .                    FBUF%FLOC(IRF)%DAM(NEL*(KDF-1)+I)
+                      ENDDO
+                    ENDIF
+                    IF(FBUF%FLOC(IRF)%LF_DAMINI > 0)THEN
+                      DO KDF=1,FBUF%FLOC(IRF)%LF_DAMINI
+                        FBUFSP%FLOC(IRF)%DAMINI(NELSP*(KDF-1)+J) =
+     .                    FBUF%FLOC(IRF)%DAMINI(NEL*(KDF-1)+I)
+                      ENDDO
+                    ENDIF
+                    IF(FBUF%FLOC(IRF)%LF_TDEL > 0)THEN
+                      DO KDF=1,FBUF%FLOC(IRF)%LF_TDEL
+                        FBUFSP%FLOC(IRF)%TDEL(NELSP*(KDF-1)+J) =
+     .                    FBUF%FLOC(IRF)%TDEL(NEL*(KDF-1)+I)
+                      ENDDO
+                    ENDIF
+                    IF(FBUF%FLOC(IRF)%LF_OFF > 0)THEN
+                      DO KDF=1,FBUF%FLOC(IRF)%LF_OFF
+                        FBUFSP%FLOC(IRF)%OFF(NELSP*(KDF-1)+J) =
+     .                    FBUF%FLOC(IRF)%OFF(NEL*(KDF-1)+I)
+                      ENDDO
+                    ENDIF
+                  ENDDO
                 ENDIF
 C              
               ENDIF  

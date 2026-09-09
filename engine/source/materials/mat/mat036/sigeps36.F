@@ -39,9 +39,9 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
      6     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
      7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     8     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IEOS   ,
+     8     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
      9     IPM    ,MAT    ,EPSP    ,IPLA    ,YLD     ,PLA    ,
-     A     DPLA1  ,ETSE   ,AL_IMP  ,SIGNOR  ,AMU     ,DPDM   ,
+     A     DPLA1  ,ETSE   ,AL_IMP  ,SIGNOR  ,AMU     ,
      B     FACYLDI,NVARTMP,VARTMP  ,DMG     ,INLOC   ,PLANL  ,
      C     SIGBXX ,SIGBYY ,SIGBZZ  ,SIGBXY  ,SIGBYZ  ,SIGBZX )
 C-----------------------------------------------
@@ -98,7 +98,6 @@ C---------+---------+---+---+--------------------------------------------
 #include      "impl1_c.inc"
 C=======================================================================
       INTEGER, INTENT(IN) :: NEL, NUVAR,IPLA,NVARTMP,INLOC
-      INTEGER, INTENT(IN) :: IEOS
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL,MAT
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
       my_real :: TIMESTEP,UPARAM(*),RHO0(NEL),
@@ -110,7 +109,6 @@ C=======================================================================
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   EPSP(NEL),ETSE(NEL),AMU(NEL),FACYLDI(NEL),
      .   DMG(NEL),PLANL(NEL)
-      my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: DPDM
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -1453,22 +1451,13 @@ c          ..gets stresses from shifted stresses and back stresses
         ENDIF ! ..FISOKIN 
       END IF !(IPLA/=1.OR.IMPL_S<=0 ) THEN
 
-      IF (IEOS == 0) THEN !  add pressure to the deviatoric stress
-        DO I=1,NEL
-!         P = BULK * (RHO/RHO0-ONE)
-          P = BULK(I) * AMU(I)
-          SIGNXX(I) = SIGNXX(I) - P
-          SIGNYY(I) = SIGNYY(I) - P
-          SIGNZZ(I) = SIGNZZ(I) - P
-        ENDDO
-      ELSE
-        ! if EOS is used, material law calculates only deviatoric stress tensor
-        !                 sound speed depends on pressure derivative over volume change
-        !                 calculated in EOS
-        DO I = 1, NEL
-          SOUNDSP(I) = SQRT((DPDM(I) + FOUR*G(I)/THREE)/RHO0(I))
-        ENDDO       
-      END IF 
+      DO I=1,NEL
+!        P = BULK * (RHO/RHO0-ONE)
+        P = BULK(I) * AMU(I)
+        SIGNXX(I) = SIGNXX(I) - P
+        SIGNYY(I) = SIGNYY(I) - P
+        SIGNZZ(I) = SIGNZZ(I) - P
+      ENDDO
 c
 c-------------------------
       IF (IMPL_S > 0) THEN

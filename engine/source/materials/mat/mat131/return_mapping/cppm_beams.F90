@@ -61,6 +61,7 @@
           use matparam_def_mod
           use constant_mod
           use precision_mod, only : WP
+          use cppm_shells_mod, only : solve3x2_pp
           use elasto_plastic_trial_stress_mod
           use elasto_plastic_eq_stress_mod
           use elasto_plastic_yield_stress_mod
@@ -117,10 +118,13 @@
             signxy_i,signyz_i,signzx_i,epsd_i,sigy_i,pla_i,dsigy_dpla_i,temp_i,  &
             seq_i,normxx_i,normyy_i,normzz_i,normxy_i,normyz_i,normzx_i,         &
             dtemp_dpla_i,dpla_dlam_i,strs_d2sds2dsdlam,epsdot,dav,deve1,deve2,   &
-            deve3,deve4,dpla,rho,shf,soundsp
+            deve3,deve4,dpla,rho,shf,soundsp,signxx_tr,signxy_tr,signzx_tr,      &
+            x2xx,x2xy,x2zx,hnx2xx,hnx2xy,hnx2zx,nx2,mx2,rhs1,rhs2
           real(kind=WP) :: dX_dRes(nel,2,2),detdRes_dX(nel),Res(nel,2),X(nel,2), &
             dRes_dX(nel,2,2),N_dsigdlam(nel,6)
-          logical :: converged
+          real(kind=WP), dimension(:,:,:), allocatable :: hmat,rhsb
+          real(kind=WP) :: a3(3,3),b3(3,2)  !< Local 3x3 curvature system (scalar solve)
+          logical :: converged,ok_solve
           real(kind=WP), dimension(:,:), allocatable :: dsigb_dlam,sigb_i
           real(kind=WP), dimension(nel) :: signzz,sigozz,depszz,signyy,signyz,   &
           sigoyy,sigoyz,depsyy,depsyz
@@ -130,7 +134,6 @@
           integer, parameter :: nitermax = 500           !< Maximum number of plastic iterations
           real(kind=WP), parameter :: tol = 1.0d-6       !< Tolerance for plasticity convergence
           integer, parameter :: iresp = 0                !< Response type (0 - standard)
-          integer, parameter :: ieos = 0                 !< Equation of state type (0 - standard)
 
           logical, dimension(nel) :: active_elements_mask
           integer, dimension(nel) :: temp_all_indices
@@ -141,6 +144,8 @@
           if (.not. allocated(cstf))       allocate(cstf(nel,6,6))
           if (.not. allocated(N))          allocate(N(nel,6,6))
           if (.not. allocated(N_i))        allocate(N_i(nel,6,6))
+          if (.not. allocated(hmat))       allocate(hmat(nel,3,3))
+          if (.not. allocated(rhsb))       allocate(rhsb(nel,3,2))
           if (.not. allocated(dsigb_dlam)) allocate(dsigb_dlam(nel,l_sigb))
           if (.not. allocated(sigb_i))     allocate(sigb_i(nel,l_sigb))
           if (.not. allocated(ipos0))      allocate(ipos0(nel,nvartmp))
@@ -183,9 +188,9 @@
             depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
             sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
             signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
-            eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-            dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
-            temp     ,pla      )
+            eltype   ,shf      ,s13      ,s23      ,s43      ,dpdm     ,         &
+            nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,temp     ,         &
+            pla      )
 !
           !=======================================================================
           !< - Computation of the initial yield stress
@@ -234,9 +239,28 @@
           !< - Computation of the trial yield function and count yielding elements
           !=======================================================================
           phi(1:nel) = (seq(1:nel) / sigy(1:nel))**2 - one
-          active_elements_mask(1:nel) = (phi(1:nel) >= zero .and. off(1:nel) == one)
+          where (phi(1:nel) >= zero .and. off(1:nel) == one .and.                &
+                sigy(1:nel) <= em20)
+            signxx(1:nel) = zero
+            signyy(1:nel) = zero
+            signzz(1:nel) = zero
+            signxy(1:nel) = zero
+            signyz(1:nel) = zero
+            signzx(1:nel) = zero
+            seq(1:nel)    = zero
+            phi(1:nel)    = -one
+          end where
+          active_elements_mask(1:nel) = (phi(1:nel) >= zero .and.                &
+            off(1:nel) == one .and. sigy(1:nel) > em20)
           nindx = COUNT(active_elements_mask(1:nel))
           temp_all_indices(1:nel) = [(i, i=1,nel)]
+!
+          !< Store the trial (elastic predictor, backstress-reduced) stress
+          !< tensor: it is the reference state for the closest-point stress
+          !< residual used by the 2nd order (curvature) correction below
+          signxx_tr(1:nel) = signxx(1:nel)
+          signxy_tr(1:nel) = signxy(1:nel)
+          signzx_tr(1:nel) = signzx(1:nel)
 !
           !=======================================================================
           !< - Iterative algorithm using Closest Point Projection Method (C.P.P.M)
@@ -314,6 +338,7 @@
                 dphi_dsigy(ii) = -two*(seq(i)**2)/(sigy(i)**3)
 !
                 !<  d) Derivative of the stress tensor w.r.t the plastic multiplier
+                !<     (1st order / elastic predictor direction Cn = Cstf:n)
                 !<  --------------------------------------------------------------
                 dsigxx_dlam(ii) =                                                &
                   -(cstf(i,1,1)*normxx_i(ii) + cstf(i,1,4)*normxy_i(ii) +        &
@@ -324,6 +349,77 @@
                 dsigzx_dlam(ii) =                                                &                                  
                   -(cstf(i,6,1)*normxx_i(ii) + cstf(i,6,4)*normxy_i(ii) +        &
                     cstf(i,6,6)*normzx_i(ii))
+!
+                !<  d-bis) Algorithmic (curvature) operator H = I + dlam*Cstf:N
+                !<         (restricted to the xx,xy,zx beam components) and
+                !<         closest-point stress residual Rsig, assembled as a
+                !<         2 right-hand-side linear system [Cn | Rsig]
+                !<  --------------------------------------------------------------
+                hmat(i,1,1) = one + X(i,1)*(cstf(i,1,1)*N(i,1,1) +               &
+                              cstf(i,1,4)*N(i,4,1) + cstf(i,1,6)*N(i,6,1))
+                hmat(i,1,2) =       X(i,1)*(cstf(i,1,1)*N(i,1,4) +               &
+                              cstf(i,1,4)*N(i,4,4) + cstf(i,1,6)*N(i,6,4))
+                hmat(i,1,3) =       X(i,1)*(cstf(i,1,1)*N(i,1,6) +               &
+                              cstf(i,1,4)*N(i,4,6) + cstf(i,1,6)*N(i,6,6))
+                hmat(i,2,1) =       X(i,1)*(cstf(i,4,1)*N(i,1,1) +               &
+                              cstf(i,4,4)*N(i,4,1) + cstf(i,4,6)*N(i,6,1))
+                hmat(i,2,2) = one + X(i,1)*(cstf(i,4,1)*N(i,1,4) +               &
+                              cstf(i,4,4)*N(i,4,4) + cstf(i,4,6)*N(i,6,4))
+                hmat(i,2,3) =       X(i,1)*(cstf(i,4,1)*N(i,1,6) +               &
+                              cstf(i,4,4)*N(i,4,6) + cstf(i,4,6)*N(i,6,6))
+                hmat(i,3,1) =       X(i,1)*(cstf(i,6,1)*N(i,1,1) +               &
+                              cstf(i,6,4)*N(i,4,1) + cstf(i,6,6)*N(i,6,1))
+                hmat(i,3,2) =       X(i,1)*(cstf(i,6,1)*N(i,1,4) +               &
+                              cstf(i,6,4)*N(i,4,4) + cstf(i,6,6)*N(i,6,4))
+                hmat(i,3,3) = one + X(i,1)*(cstf(i,6,1)*N(i,1,6) +               &
+                              cstf(i,6,4)*N(i,4,6) + cstf(i,6,6)*N(i,6,6))
+                rhsb(i,1,1) = -dsigxx_dlam(ii)
+                rhsb(i,2,1) = -dsigxy_dlam(ii)
+                rhsb(i,3,1) = -dsigzx_dlam(ii)
+                rhsb(i,1,2) = signxx(i)-signxx_tr(i) - X(i,1)*dsigxx_dlam(ii)
+                rhsb(i,2,2) = signxy(i)-signxy_tr(i) - X(i,1)*dsigxy_dlam(ii)
+                rhsb(i,3,2) = signzx(i)-signzx_tr(i) - X(i,1)*dsigzx_dlam(ii)
+              enddo
+!
+              !<  d-ter) Solve the 3x3 curvature system H*[x1|x2] = [Cn|Rsig] with
+              !<         a partial-pivoted Gauss elimination (LAPACK is not linked
+              !<         into the engine binary). If H turns out to be numerically
+              !<         singular for a given element, fall back to the 1st order
+              !<         values already stored in rhsb (x1=Cn, x2=Rsig=0), i.e. the
+              !<         curvature correction is simply dropped on that iteration.
+              !<  --------------------------------------------------------------
+              do ii = 1,nindx
+                i = indx(ii)
+                a3(1:3,1:3) = hmat(i,1:3,1:3)
+                b3(1:3,1)   = rhsb(i,1:3,1)
+                b3(1:3,2)   = rhsb(i,1:3,2)
+                call solve3x2_pp(a3,b3,ok_solve)
+                if (ok_solve) then
+                  rhsb(i,1:3,1) = b3(1:3,1)
+                  rhsb(i,1:3,2) = b3(1:3,2)
+                else
+                  rhsb(i,1:3,2) = zero
+                endif
+              enddo
+!
+              !<  d-quater) Extract the consistent stress sensitivity (x1 -> the
+              !<            curvature-corrected dstrs_dlam) and the closest-point
+              !<            residual correction x2
+              !<  --------------------------------------------------------------
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii)
+                dsigxx_dlam(ii) = -rhsb(i,1,1)
+                dsigxy_dlam(ii) = -rhsb(i,2,1)
+                dsigzx_dlam(ii) = -rhsb(i,3,1)
+                x2xx(ii) = rhsb(i,1,2)
+                x2xy(ii) = rhsb(i,2,2)
+                x2zx(ii) = rhsb(i,3,2)
+              enddo
+!
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii)
 !
                 !<  d) Product dstrs_dlam * dsigeq_dsig
                 !<  --------------------------------------------------------------
@@ -342,6 +438,20 @@
                 N_dsigdlam(ii,6) =                                               &
                   N(i,6,1)*dsigxx_dlam(ii) + N(i,6,4)*dsigxy_dlam(ii) +          &
                   N(i,6,6)*dsigzx_dlam(ii)
+!
+                !<  e-bis) Yield-surface feedback from the 2nd order (curvature)
+                !<         residual correction x2: nx2 = n.x2, mx2 = nx2 + sig.(N*x2)
+                !<  --------------------------------------------------------------
+                nx2(ii) = normxx_i(ii)*x2xx(ii) + normxy_i(ii)*x2xy(ii) +        &
+                          normzx_i(ii)*x2zx(ii)
+                hnx2xx(ii) = N(i,1,1)*x2xx(ii) + N(i,1,4)*x2xy(ii) +             &
+                             N(i,1,6)*x2zx(ii)
+                hnx2xy(ii) = N(i,4,1)*x2xx(ii) + N(i,4,4)*x2xy(ii) +             &
+                             N(i,4,6)*x2zx(ii)
+                hnx2zx(ii) = N(i,6,1)*x2xx(ii) + N(i,6,4)*x2xy(ii) +             &
+                             N(i,6,6)*x2zx(ii)
+                mx2(ii) = nx2(ii) + signxx(i)*hnx2xx(ii) + signxy(i)*hnx2xy(ii) +&
+                          signzx(i)*hnx2zx(ii)
               enddo
 !
               !<  f) Add the contribution of the backstress tensor to the derivative
@@ -440,23 +550,31 @@
                 dX_dRes(ii,2,1) = (one/detdRes_dX(ii))*dX_dRes(ii,2,1)
                 dX_dRes(ii,2,2) = (one/detdRes_dX(ii))*dX_dRes(ii,2,2)
 !
+                !<  a-bis) Right-hand side of the Newton update, including the
+                !<         closest-point residual feedback from the curvature
+                !<         correction x2 (2nd order term)
+                !<  --------------------------------------------------------------
+                rhs1(ii) = -Res(i,1) + dphi_dseq(ii)*nx2(ii)
+                rhs2(ii) = -Res(i,2) - (X(i,1)/max(sigy(i),em20))*mx2(ii)
+!
                 !<  b) Update the design variables
                 !<  --------------------------------------------------------------
-                X(i,1) = X(i,1)-dX_dRes(ii,1,1)*Res(i,1)-dX_dRes(ii,1,2)*Res(i,2)
-                X(i,2) = X(i,2)-dX_dRes(ii,2,1)*Res(i,1)-dX_dRes(ii,2,2)*Res(i,2)
+                X(i,1) = X(i,1) + dX_dRes(ii,1,1)*rhs1(ii) + dX_dRes(ii,1,2)*rhs2(ii)
+                X(i,2) = X(i,2) + dX_dRes(ii,2,1)*rhs1(ii) + dX_dRes(ii,2,2)*rhs2(ii)
 !
                 !< 3 - Computation of plastic multiplier and variables update
                 !-----------------------------------------------------------------
 !
                 !<  a) Computation of the plastic multiplier increment dlam
                 !<  --------------------------------------------------------------
-                dlam(ii) = - dX_dRes(ii,1,1)*Res(i,1) - dX_dRes(ii,1,2)*Res(i,2)
+                dlam(ii) = dX_dRes(ii,1,1)*rhs1(ii) + dX_dRes(ii,1,2)*rhs2(ii)
 !
-                !<  b) Stress tensor update
+                !<  b) Stress tensor update (closest-point return corrected by
+                !<     the 2nd order curvature residual x2)
                 !<  --------------------------------------------------------------
-                signxx_i(ii) = signxx(i) + dsigxx_dlam(ii)*dlam(ii)
-                signxy_i(ii) = signxy(i) + dsigxy_dlam(ii)*dlam(ii)
-                signzx_i(ii) = signzx(i) + dsigzx_dlam(ii)*dlam(ii)
+                signxx_i(ii) = signxx(i) + dsigxx_dlam(ii)*dlam(ii) - x2xx(ii)
+                signxy_i(ii) = signxy(i) + dsigxy_dlam(ii)*dlam(ii) - x2xy(ii)
+                signzx_i(ii) = signzx(i) + dsigzx_dlam(ii)*dlam(ii) - x2zx(ii)
 !
                 !<  c) Update the plastic strain related variables
                 !<  --------------------------------------------------------------
@@ -586,15 +704,30 @@
                 i = indx(ii)
                 !<  h) Yield function update
                 !<  --------------------------------------------------------------
-                Res(i,1) = (seq(i)/sigy(i))**2 - one
+                if (sigy(i) <= em06) then
+                  signxx(i)    = zero
+                  signyy(i)    = zero
+                  signzz(i)    = zero
+                  signxy(i)    = zero
+                  signyz(i)    = zero
+                  signzx(i)    = zero
+                  seq(i)       = zero
+                  dpla_dlam(i) = zero
+                  Res(i,1)     = zero
+                  Res(i,2)     = zero
+                  dpla(i)      = zero
+                  pla(i)       = pla0(i)
+                else
+                  Res(i,1) = (seq(i)/sigy(i))**2 - one
 !
-                !<  i) Energy equivalence residue update
-                !<  --------------------------------------------------------------
-                sig_dseqdsig(i) = signxx_i(ii)*normxx_i(ii) +                    &
-                                  signxy_i(ii)*normxy_i(ii) +                    &
-                                  signzx_i(ii)*normzx_i(ii)
-                dpla_dlam(i) = sig_dseqdsig(i)/max(sigy(i),em20)
-                Res(i,2) = X(i,2) - X(i,1)*dpla_dlam(i)
+                  !<  i) Energy equivalence residue update
+                  !<  ------------------------------------------------------------
+                  sig_dseqdsig(i) = signxx_i(ii)*normxx_i(ii) +                  &
+                                    signxy_i(ii)*normxy_i(ii) +                  &
+                                    signzx_i(ii)*normzx_i(ii)
+                  dpla_dlam(i) = sig_dseqdsig(i)/max(sigy(i),em20)
+                  Res(i,2) = X(i,2) - X(i,1)*dpla_dlam(i)
+                endif
 !
                 !<  j) Update iterations number
                 !< ---------------------------------------------------------------
@@ -653,10 +786,13 @@
           if (allocated(cstf))       deallocate(cstf)
           if (allocated(N))          deallocate(N)
           if (allocated(N_i))        deallocate(N_i)
+          if (allocated(hmat))       deallocate(hmat)
+          if (allocated(rhsb))       deallocate(rhsb)
           if (allocated(dsigb_dlam)) deallocate(dsigb_dlam)
           if (allocated(sigb_i))     deallocate(sigb_i)
           if (allocated(ipos0))      deallocate(ipos0)
           if (allocated(vartmp_i))   deallocate(vartmp_i)
 !
         end subroutine cppm_beams
+!
       end module cppm_beams_mod
