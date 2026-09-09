@@ -180,6 +180,7 @@
 !||    fail_inievo_c                            ../engine/source/materials/fail/inievo/fail_inievo_c.F
 !||    fail_inievo_ib                           ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
 !||    fail_inievo_s                            ../engine/source/materials/fail/inievo/fail_inievo_s.F
+!||    fail_nxt_c                               ../engine/source/materials/fail/nxt/fail_nxt_c.F
 !||    fail_orthbiquad_c                        ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
 !||    fail_orthbiquad_s                        ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fcont_max_output                         ../engine/source/output/h3d/h3d_results/fcont_max_output.F

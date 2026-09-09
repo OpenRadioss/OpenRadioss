@@ -52,6 +52,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    s8efmoy3               ../engine/source/elements/solid/solide8e/s8efmoy3.F
 !||    s8zsigp3               ../engine/source/elements/solid/solide8z/s8zsigp3.F
 !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F

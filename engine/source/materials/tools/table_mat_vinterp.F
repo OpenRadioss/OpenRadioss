@@ -47,6 +47,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_gene1_c                   ../engine/source/materials/fail/gene1/fail_gene1_c.F
 !||    fail_gene1_ib                  ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
 !||    fail_gene1_s                   ../engine/source/materials/fail/gene1/fail_gene1_s.F
+!||    fail_nxt_c                     ../engine/source/materials/fail/nxt/fail_nxt_c.F
 !||    fail_orthbiquad_c              ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
 !||    fail_orthbiquad_s              ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_orthstrain                ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
@@ -116,6 +117,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_gene1_c                   ../engine/source/materials/fail/gene1/fail_gene1_c.F
 !||    fail_gene1_ib                  ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
 !||    fail_gene1_s                   ../engine/source/materials/fail/gene1/fail_gene1_s.F
+!||    fail_nxt_c                     ../engine/source/materials/fail/nxt/fail_nxt_c.F
 !||    fail_orthbiquad_c              ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
 !||    fail_orthbiquad_s              ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_orthstrain                ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F

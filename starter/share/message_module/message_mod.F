@@ -392,6 +392,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_fail_ladeveze                      ../starter/source/materials/fail/ladeveze/hm_read_fail_ladeveze.F
 !||    hm_read_fail_lemaitre                      ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
 !||    hm_read_fail_maxstrain                     ../starter/source/materials/fail/max_strain/hm_read_fail_maxstrain.F
+!||    hm_read_fail_nxt                           ../starter/source/materials/fail/nxt/hm_read_fail_nxt.F
 !||    hm_read_fail_orthbiquad                    ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthenerg                     ../starter/source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
 !||    hm_read_fail_orthstrain                    ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F

@@ -53,6 +53,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    qrota2                 ../engine/source/elements/solid_2d/quad/qrota2.F
 !||    qrrota2                ../engine/source/elements/solid_2d/quad/qrrota2.F
 !||    qvolu2                 ../engine/source/elements/solid_2d/quad/qvolu2.F
+!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
