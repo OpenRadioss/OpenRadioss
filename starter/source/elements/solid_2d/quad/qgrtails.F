@@ -373,7 +373,7 @@ C
           ISRAT=IPM(3,MID)
           IFAIL = 0
           NFAIL = MAT_PARAM(MID)%NFAIL
-          IF(MLN/=25.AND.MLN<28)THEN
+          IF(MLN/=24.AND.MLN/=25.AND.MLN<28)THEN
             ISTRAIN = 1
           ELSEIF(MLN>=28)THEN
             ISTRAIN=2

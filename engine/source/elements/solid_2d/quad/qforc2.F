@@ -455,7 +455,7 @@ c
      .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT         , BID      ,SENSORS)
  !---------true strain compute w/ laws (type not users-laws)
-       IF (ISTRAIN == 1)THEN 
+       IF (ISTRAIN == 1.AND.MTN /= 11)THEN 
          CALL SSTRA3(
      1   EYY,     EZZ,       ETT,      EYZ,
      2   EZT,     EYT,       LBUF%STRA,WYZ,
