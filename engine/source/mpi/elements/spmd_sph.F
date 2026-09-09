@@ -2492,6 +2492,21 @@ c        index of the voxels occupied by the facet
          IY2=INT(NBY*(X(2,NN)+AAA-YMINB)/(YMAXB-YMINB))
          IZ2=INT(NBZ*(X(3,NN)+AAA-ZMINB)/(ZMAXB-ZMINB))
 
+C        The margin-expanded box (AAA uses SPASORT, whereas the sort bounding
+C        box padding DBUC uses SPATRUE, and SPATRUE can be reduced below
+C        SPASORT in SPCLASV) may extend outside the voxel grid. Skip particles
+C        fully outside and clamp the remaining indices to [0,LRVOXEL] to avoid
+C        an out-of-bounds CRVOXEL / IBSET bit access (mirrors SPMD_SPHVOX).
+         IF(IX1 > NBX .OR. IX2 < 0) CYCLE
+         IF(IY1 > NBY .OR. IY2 < 0) CYCLE
+         IF(IZ1 > NBZ .OR. IZ2 < 0) CYCLE
+         IX1=MAX(0,MIN(IX1,NBX))
+         IX2=MIN(NBX,MAX(IX2,0))
+         IY1=MAX(0,MIN(IY1,NBY))
+         IY2=MIN(NBY,MAX(IY2,0))
+         IZ1=MAX(0,MIN(IZ1,NBZ))
+         IZ2=MIN(NBZ,MAX(IZ2,0))
+
 #include "lockon.inc"
          DO IZ = IZ1, IZ2
            DO IY = IY1, IY2

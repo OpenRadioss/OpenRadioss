@@ -668,9 +668,9 @@
                 es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
                 so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
                 s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
-                sspp     ,vis      ,uvar     ,off      ,ngl      ,ieos  ,&
+                sspp     ,vis      ,uvar     ,off      ,ngl      ,&
                 ipm      ,mat      ,epsd     ,ipla     ,sigy     ,lbuf%pla,&
-                dpla     ,et       ,bidon    ,bidon    ,amu      ,bidv      ,&
+                dpla     ,et       ,bidon    ,bidon    ,amu      ,&
                 cst1     ,nvartmp  ,vartmp   ,lbuf%dmg ,inloc    ,lbuf%planl,&
                 sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx )
 !
@@ -747,7 +747,7 @@
               call sigeps44(&
               &llt      ,npar     ,nuvar    ,nfunc    ,ifunc    ,npf      ,&
               &tf       ,tt       ,dt1      ,uparam0   ,rho0     ,rho      ,&
-              &voln     ,eint     ,ieos     ,bidv     ,&
+              &voln     ,eint     ,&
               &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6   ,&
               &de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
               &es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&

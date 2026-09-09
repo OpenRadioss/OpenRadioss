@@ -247,7 +247,8 @@
         &dt1,         tt,          glob_therm,  dpde  ,&
         &impl_s,      jlag,        fheat     ,  sensors, &
         &idyna,       userl_avail, nixs,        nixq,&
-        &dt   ,       damp_buf,    idamp_freq_range,iresp)
+        &dt   ,       damp_buf,    idamp_freq_range,iresp,&
+        &l_eos_called,amu2    ,    df        )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -290,6 +291,7 @@
           use fail_param_mod
           use precision_mod, only : WP
           use sensor_mod
+          use eosmain_mod , only : eosmain
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -497,6 +499,9 @@
           real(kind=WP), dimension(mvsiz,6), intent(inout) :: svis
 
           real(kind=WP),intent(inout) :: dpde(nel) !< partial derivative at constant volume
+          logical, intent(inout) :: l_eos_called !< logical to indicate if eos was called
+          real(kind=WP), dimension(mvsiz), intent(inout) :: amu2
+          real(kind=WP), dimension(mvsiz), intent(inout) :: df
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -510,7 +515,7 @@
             israte,ipg,nptr,npts,&
             ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
             nvarf,ir,irupt,imat,isvis,nuvarv,iseq,idev,ntabl_fail,&
-            l_planl,l_epsdnl,l_dmg,l_sigb
+            l_planl,l_epsdnl,l_dmg,l_sigb,eostyp
           integer, dimension(:) ,pointer :: varftmp
 
           real(kind=WP) :: e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
@@ -565,6 +570,9 @@
           real(kind=WP), dimension(nel), target :: vecnul
           real(kind=WP), dimension(:), pointer, contiguous  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
           real(kind=WP), dimension(nel) :: off_old
+          real(kind=WP), dimension(nel) :: pold2
+          real(kind=WP), dimension(nel) :: svm_prefail  !< sum(|sig_ij|) just before the failure loop (to detect a failure stress reset)
+          logical,       dimension(nel) :: fail_reset   !< .true. for elements whose stress was zeroed this cycle by a failure criterion
 !=======================================================================
           gbuf   => elbuf_tab(ng)%gbuf
           lbuf   => elbuf_tab(ng)%bufly(ilay)%lbuf(iptr,ipts,iptt)
@@ -1161,9 +1169,9 @@
               es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,&
               so1    ,so2    ,so3    ,so4    ,so5    ,so6   ,&
               s1     ,s2     ,s3     ,s4     ,s5     ,s6    ,&
-              ssp    ,vis    ,uvar   ,off    ,ngl    ,matparam%ieos, &
+              ssp    ,vis    ,uvar   ,off    ,ngl    ,       &
               ipm    ,mat    ,epsd   ,ipla   ,sigy   ,defp  ,&
-              dpla   ,et     ,al_imp ,signor ,amu    ,dpdm  ,&
+              dpla   ,et     ,al_imp ,signor ,amu    ,       &
               yldfac ,nvartmp,vartmp ,lbuf%dmg,inloc,lbuf%planl,&
               sigbxx ,sigbyy ,sigbzz ,sigbxy ,sigbyz ,sigbzx )
 
@@ -1235,7 +1243,7 @@
           else if (mtn == 44) then
             call sigeps44(nel ,npar,nuvar,nfunc,ifunc,&
             &npf ,tf  ,tt,dt1,uparam0,rho0,rho ,&
-            &voln,eint,matparam%ieos,dpdm   ,&
+            &voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
             &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
@@ -1943,11 +1951,11 @@
             &nel      ,ngl     ,npar     ,nuvar    ,nvartmp  ,numtabl  ,&
             &uparam0  ,uvar    ,vartmp   ,itable   ,table    ,jthe     ,&
             &tt       ,dt1     ,off      ,rho0     ,lbuf%pla ,dpla     ,&
-            &ssp      ,sigy    ,et       ,el_temp  ,epsd     ,dpdm     ,&
+            &ssp      ,sigy    ,et       ,el_temp  ,epsd     ,          &
             &de1      ,de2     ,de3      ,de4      ,de5      ,de6      ,&
             &so1      ,so2     ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2      ,s3       ,s4       ,s5       ,s6       ,&
-            &inloc    ,varnl   ,matparam%ieos,jlag ,fheat    ,voln     ,&
+            &inloc    ,varnl   ,jlag     ,fheat    ,voln     ,          &
             &lbuf%seq ,l_planl ,lbuf%planl,l_epsdnl,lbuf%epsdnl)
 !
           else if (mtn == 111) then
@@ -2127,8 +2135,8 @@
               s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,     &
               ssp      ,off      ,defp     ,dpla     ,lbuf%seq ,et       ,     &
               sigy     ,dt1      ,epsd     ,el_temp  ,israte   ,asrate   ,     &
-              nuvar    ,uvar     ,l_sigb   ,lbuf%sigb,matparam%ieos,dpdm ,     &
-              jthe     ,fheat    ,voln     ,inloc    ,varnl    )
+              nuvar    ,uvar     ,l_sigb   ,lbuf%sigb,dpdm     ,jthe     ,     &
+              fheat    ,voln     ,inloc    ,varnl    ,lbuf%off )
 !
           else if (mtn == 133) then
             call sigeps133( &
@@ -2195,6 +2203,36 @@
 !----------------------------------------
           end if  ! mtn
 !
+!----------------------------------------
+!  Update hydrostatic pressure with EOS if needed
+!----------------------------------------
+          eostyp = mat_elem%mat_param(imat)%ieos
+          if (eostyp > 0 .and. mtn /= 105) then
+            if (mtn /= 131) then 
+              ssp(1:nel) = sqrt(abs(dpdm(1:nel) + four_over_3*matparam%shear)/ &
+                                               min(rho(1:nel),rho0(1:nel)))
+            endif
+            l_eos_called = .true.
+            nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
+            call eosmain(1          ,nel        ,eostyp   ,pm       ,off      ,eint,&
+            & rho       ,rho0       ,amu        ,amu2     ,espe     ,          &
+            & dvol      ,df         ,voln       ,mat      ,psh      ,          &
+            & pnew      ,dpdm       ,dpde       ,el_temp  ,                    &
+            & bufmat    ,lbuf%sig   ,lbuf%mu    ,mtn      ,                    &
+            & npf       ,tf         ,ebuf%var   ,nvareos , mat_elem%mat_param(imat),&
+            & lbuf%bfrac,nvartmp_eos,ebuf%vartmp)
+            !total stress tensor
+            if (mtn /= 102 .and. mtn /= 103 .and. mtn /= 133) then
+              pold2(1:nel) = - third*(s1(1:nel) + s2(1:nel) + s3(1:nel))
+              s1(1:nel) = s1(1:nel) + pold2(1:nel) - pnew(1:nel)
+              s2(1:nel) = s2(1:nel) + pold2(1:nel) - pnew(1:nel)
+              s3(1:nel) = s3(1:nel) + pold2(1:nel) - pnew(1:nel)
+              s4(1:nel) = s4(1:nel)
+              s5(1:nel) = s5(1:nel)
+              s6(1:nel) = s6(1:nel)
+            endif
+          endif
+!
 !------------------------------------------------------------
 !     Calculation of the Plastic Work
 !------------------------------------------------------------
@@ -2238,6 +2276,17 @@
           if ((itask==0).and.(imon_mat==1))call startime(timers,121)
           if (nfail > 0) then
 !
+            ! Snapshot the stress magnitude just before the failure loop.
+            ! A failure criterion (e.g. /FAIL/SPALLING) may zero the full stress
+            ! tensor of an element this cycle. That reset is a numerical event, not
+            ! mechanical work, so the energy integration below must not book the
+            ! (spurious) unloading work associated with it, and the EOS pressure work
+            ! already accounted by eosmain must be restored for consistency.
+            do i = 1,nel
+              svm_prefail(i) = abs(s1(i)) + abs(s2(i)) + abs(s3(i)) +          &
+                               abs(s4(i)) + abs(s5(i)) + abs(s6(i))
+            end do
+!
             ! failure criterion parameters scaling
             if (inloc > 0) then
               ! -> length used for failure criterion parameters scaling is le_max
@@ -2274,7 +2323,7 @@
 !------
               if (mtn == 36.or.mtn == 44.or.mtn == 48.or.mtn == 56.or.&
               &mtn == 60.or.mtn == 76.or.mtn == 104.or.mtn == 112.or.&
-              &mtn == 121) then
+              &mtn == 121.or.mtn == 131) then
                 do i=1,nel
                   epsp1(i) = epsd(i)
                 end do
@@ -2949,6 +2998,25 @@
           &vis,                  fvd2,                 fqvis,                ity,&
           &ismstr)
 !-----------
+          ! Energy consistency at a failure stress reset (e.g. /FAIL/SPALLING).
+          ! An element whose full stress tensor was zeroed by a failure criterion
+          ! this cycle (either deleted, off=0, or spall-relaxed, off=1) must not book
+          ! the fictitious unloading work in the stress-work integral below, and the
+          ! EOS pressure work already booked by eosmain (eint -= half*dvol*pnew) must
+          ! be restored so the internal energy is frozen through this numerical event.
+          fail_reset(1:nel) = .false.
+          if (nfail > 0 .and. eostyp > 0 .and. mtn /= 105 .and.                &
+              mtn /= 102 .and. mtn /= 103 .and. mtn /= 133) then
+            do i = 1,nel
+              fail_reset(i) = (off_old(i) > zero) .and. (svm_prefail(i) > zero) &
+                .and. ( abs(sig(i,1)) + abs(sig(i,2)) + abs(sig(i,3)) +        &
+                        abs(sig(i,4)) + abs(sig(i,5)) + abs(sig(i,6)) == zero )
+            end do
+            where (fail_reset(1:nel))
+              eint(1:nel) = eint(1:nel) + half*dvol(1:nel)*pnew(1:nel)
+            end where
+          end if
+!-----------
           if (mtn == 67) then
             do i=1,nel
               eint(i)=eint(i)-(q(i)+qold(i))*dvol(i)*half
@@ -3004,6 +3072,24 @@
             end do
 !$OMP ATOMIC
             output%th%wfext = output%th%wfext + wfextt
+          elseif (eostyp > 0 .and. mtn /= 105) then
+            !case of material law using /eos  (pressure for updated later in mmain > eosmain)
+            do i=1,nel
+              p2 = -(sold1(i)+sig(i,1)+sold2(i)+sig(i,2)+sold3(i)+sig(i,3))* third
+              pold = -(sold1(i)+sold2(i)+sold3(i))* third
+              e1 = d1(i)*(sold1(i)+sig(i,1) + p2+two*svis(i,1))
+              e2 = d2(i)*(sold2(i)+sig(i,2) + p2+two*svis(i,2))
+              e3 = d3(i)*(sold3(i)+sig(i,3) + p2+two*svis(i,3))
+              e4 = d4(i)*(sold4(i)+sig(i,4) + two*svis(i,4))
+              e5 = d5(i)*(sold5(i)+sig(i,5) + two*svis(i,5))
+              e6 = d6(i)*(sold6(i)+sig(i,6) + two*svis(i,6))
+              einc(i) = off(i) * (vol_avg(i)*dt1 * (e1+e2+e3+e4+e5+e6+e7(i))&
+              &- dvol(i)*(q(i) + qold(i) + pold + psh(i))) * half
+            enddo      
+            do i = 1, nel
+              if (fail_reset(i)) einc(i) = zero   !< skip spurious unloading work at a failure stress reset
+              eint(i) = eint(i) + einc(i)
+            end do        
           else
             !other material laws without /eos
 #include "vectorize.inc"
