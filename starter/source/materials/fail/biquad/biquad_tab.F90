@@ -33,9 +33,9 @@
         ! \brief generate tabulated function of failure strain vs triaxiality using biquad equations
         ! ==========================================================================================
 !||====================================================================
-!||    biquad_tab      ../starter/source/materials/fail/biquad/biquad_tab.F90
+!||    biquad_tab       ../starter/source/materials/fail/biquad/biquad_tab.F90
 !||--- called by ------------------------------------------------------
-!||    biquad_upd      ../starter/source/materials/fail/biquad/biquad_upd.F90
+!||    biquad_upd       ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
           subroutine biquad_tab(fail   ,npt, eta, epsf)

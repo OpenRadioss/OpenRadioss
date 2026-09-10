@@ -22,12 +22,15 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    fail_tensstrain_c   ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F
+!||    fail_tensstrain_c       ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc              ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    table_mat_vinterp   ../engine/source/materials/table_mat_vinterp.F90
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_TENSSTRAIN_C(FAIL ,
      .     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,

@@ -326,6 +326,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_fail_orthbiquad           ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthstrain           ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_tab2                 ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
+!||    hm_read_fail_tensstrain           ../starter/source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
 !||    hm_read_fail_user                 ../starter/source/materials/fail/failuser/hm_read_fail_user.F
 !||    hm_read_friction                  ../starter/source/interfaces/friction/reader/hm_read_friction.F
 !||    hm_read_friction_models           ../starter/source/interfaces/friction/reader/hm_read_friction_models.F

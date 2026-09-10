@@ -34,10 +34,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    daasolv                      ../engine/source/fluid/daasolv.F
 !||    daasolvp                     ../engine/source/fluid/daasolvp.F
 !||    ebcs11_propellant            ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
-!||    fail_biquad_b                ../engine/source/materials/fail/biquad/fail_biquad_b.F
-!||    fail_biquad_c                ../engine/source/materials/fail/biquad/fail_biquad_c.F
-!||    fail_biquad_ib               ../engine/source/materials/fail/biquad/fail_biquad_ib.F
-!||    fail_biquad_s                ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    fail_connect                 ../engine/source/materials/fail/connect/fail_connect.F
 !||    fail_fabric_c                ../engine/source/materials/fail/fabric/fail_fabric_c.F
 !||    fail_sahraei_s               ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
@@ -54,10 +50,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_tab_old_xfem            ../engine/source/materials/fail/tabulated/fail_tab_old_xfem.F
 !||    fail_tab_s                   ../engine/source/materials/fail/tabulated/fail_tab_s.F
 !||    fail_tab_xfem                ../engine/source/materials/fail/tabulated/fail_tab_xfem.F
-!||    fail_tensstrain_b            ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
-!||    fail_tensstrain_c            ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F
-!||    fail_tensstrain_ib           ../engine/source/materials/fail/tensstrain/fail_tensstrain_ib.F
-!||    fail_tensstrain_s            ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
 !||    fail_visual_b                ../engine/source/materials/fail/visual/fail_visual_b.F90
 !||    fail_visual_ib               ../engine/source/materials/fail/visual/fail_visual_ib.F90
 !||    finter_mixed_mod             ../engine/source/tools/finter_mixed.F90
