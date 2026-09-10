@@ -69,7 +69,7 @@
           use message_mod
           use submodel_mod
           use MY_ALLOC_MOD
-          use constant_mod ,only : half,one,zero,two,four,pi,em3,em20,ep20
+          use constant_mod ,only : half,one,zero,two,four,pi,em3,ep20
           use constant_mod ,only : onep1,onep2,zep999,four,six_over_5,five_over_6
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -388,10 +388,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           f1_db  = one / sigyt1_db - one / sigyc1_db
           f2_db  = one / sigyt2_db - one / sigyc2_db
-          f11_db = one / max(em20,min(ep20,(sigyt1_db*sigyc1_db)))
-          f22_db = one / max(em20,min(ep20,(sigyt2_db*sigyc2_db)))
-          f33_db = one / max(em20,min(ep20,(sigyt12_db*sigyc12_db)))
-          f12_db = -alpha/(two*sqrt(max(em20,min(ep20,sigyt1_db*sigyc1_db*sigyt2_db*sigyc2_db))))
+          f11_db = one / (sigyt1_db*sigyc1_db)
+          f22_db = one / (sigyt2_db*sigyc2_db)
+          f33_db = one / (sigyt12_db*sigyc12_db)
+          f12_db = -alpha/(two*sqrt(sigyt1_db*sigyc1_db*sigyt2_db*sigyc2_db))
           ft1_db = f11_db*f22_db - four*f12_db**2
 
           f1  = f1_db

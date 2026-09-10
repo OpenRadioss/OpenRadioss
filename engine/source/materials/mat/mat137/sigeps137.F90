@@ -338,7 +338,6 @@
             else
               re(1:nel)  = infinity
             endif
-            xvec(1:nel,1) = pla(1:nel)
             if (matparam%table(5)%notable > 0) then
               call table_mat_vinterp(matparam%table(5),nel,nel,vartmp(1:nel,6),&
                 xvec(1:nel,1),hr(1:nel),dhr(1:nel))
