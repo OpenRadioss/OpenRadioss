@@ -2125,7 +2125,7 @@ C--------------------------------------------
      .                         C1='RTRANS')
         CALL LECTRANSSUB(X      ,IGRNOD   ,ITAB   ,ITABM1   ,UNITAB,
      .                 RTRANS   ,LSUBMODEL,IS_DYNA,ISKEW_TMP,LISKN ,
-     .                 NSPCOND  ,NUMSPH   ,SISKWN )
+     .                 NSPCOND  ,NUMSPH   ,SISKWN ,LSKEW,SSKEW,SKEW_TMP)
         CALL LECSUBMOD(ISUBMOD  ,X         ,UNITAB  ,ITABM1    ,RTRANS,
      .                 ITAB     ,LSUBMODEL ,IS_DYNA ,ISKEW_TMP ,LISKN ,
      .                 SKEW_TMP ,LSKEW     ,SISKWN  ,SSKEW     )
