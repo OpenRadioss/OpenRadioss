@@ -26,6 +26,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define _FCALL
 
@@ -45,7 +46,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dlfcn.h>
-#include <stdbool.h>
 
 #endif
 
