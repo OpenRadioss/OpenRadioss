@@ -30,21 +30,16 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
 !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
 !||--- calls      -----------------------------------------------------
-!||    finter                ../engine/source/tools/curve/finter.F
-!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
-!||    interface_table_mod   ../engine/share/modules/table_mod.F
-!||    table_mod             ../engine/share/modules/table_mod.F
 !||====================================================================
-      SUBROUTINE FAIL_TAB_S (
-     1     NEL     ,NUVAR   ,NPF     ,TF      ,TIME    ,
-     2     UPARAM  ,NGL     ,ALDT    ,
+      SUBROUTINE FAIL_TAB_S (FAIL    ,
+     1     NEL     ,NUVAR   ,NVARTMP ,UVAR    ,VARTMP   ,
+     2     TIME    ,NGL     ,ALDT    ,
      4     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
-     5     DPLA    ,EPSP    ,TSTAR   ,UVAR    ,NTABLF  ,ITABLF   ,
-     6     OFF     ,TABLE   ,DFMAX   ,TDELE   ,NFUNC   ,IFUNC    )
+     5     DPLA    ,EPSP    ,TSTAR   ,OFF     ,DFMAX   ,TDELE    )
 C---------+---------+---+---+--------------------------------------------
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
+      use fail_param_mod
+      use table_mat_vinterp_mod
 C---------+---------+---+---+--------------------------------------------
 C   /FAIL/TAB - tabulated rupture criteria for solids
 C-----------------------------------------------
@@ -55,15 +50,10 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER FAILURE PARAMETER ARRAY
 C---------+---------+---+---+--------------------------------------------
 C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
@@ -75,72 +65,50 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include "mvsiz_p.inc"
 #include "units_c.inc"
-#include "param_c.inc"
-#include "scr17_c.inc"
 #include "impl1_c.inc"
 #include "comlock.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR
+      INTEGER, INTENT(IN) :: NUVAR
+      INTEGER, INTENT(IN) :: NVARTMP
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NGL(NEL)
-      INTEGER, INTENT(IN) :: NFUNC
-      INTEGER, INTENT(IN) :: NTABLF
-      INTEGER, DIMENSION(NFUNC)  ,INTENT(IN) :: IFUNC
-      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
-c
-      my_real TIME,UPARAM(*),ALDT(NEL),
+
+      my_real TIME,ALDT(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .   DPLA(NEL),EPSP(NEL),TSTAR(NEL)     
+      type (fail_param_) ,intent(in) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      TYPE(TTABLE) TABLE(*)
-      my_real, DIMENSION(NEL,3) :: XX0
-      my_real 
-     .   UVAR(NEL,NUVAR), OFF(NEL), DFMAX(NEL),TDELE(NEL)
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
+      INTEGER, DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
+      my_real :: OFF(NEL), DFMAX(NEL),TDELE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,NINDX,
-     .  IFUN_EL,IFUN_TEMP,ID_DD ,ITAB_EPSF
+      INTEGER :: I,J,IDEL,IDEV
+      INTEGER :: IFUN_EL,IFUN_TEMP,IFUN_DMG ,IFUN_EPSF
       INTEGER :: SFLAG
       INTEGER, DIMENSION(MVSIZ) :: INDX
-      INTEGER :: NINDX_2
+      INTEGER :: NINDX,NINDX_2
       INTEGER, DIMENSION(MVSIZ) :: INDX_2
       INTEGER, DIMENSION(NEL,3) :: IPOS
-      my_real, DIMENSION(MVSIZ) :: EPSF,YY,DYDX,DP
-      my_real :: DCRIT,DD,DN,SC_TEMP,SC_EL,EL_REF
-      my_real 
-     .        P,SIGM,SVM,SXX,SYY,SZZ,DF,FAC,LAMBDA,
-     .        XI,THETA, DET,Y1SCALE,
-     .        X1SCALE
+      my_real, DIMENSION(MVSIZ) :: EPSF,DP
+      my_real :: DCRIT,DD,DN,EL_REF
+      my_real ::P,SIGM,SVM,SXX,SYY,SZZ,XI,THETA, DET
+      my_real ,dimension(nel)   :: lambda,fade_expo,size_fac,y_loc,dydx
+      my_real ,dimension(nel,3) :: xvec
 C=======================================================================
 C     INITIALIZATIONS
 C-----------------------------------------------
-        SFLAG   = INT(UPARAM(1))    
-        DCRIT   = UPARAM(4)
-        DD      = UPARAM(5)
-        DN      = UPARAM(6)
-        SC_TEMP = UPARAM(7)
-        SC_EL   = UPARAM(8)
-        EL_REF  = UPARAM(9)
-        Y1SCALE = UPARAM(12) 
-        X1SCALE = UPARAM(13)
+        SFLAG   = INT(FAIL%UPARAM(1))    
+        DCRIT   = FAIL%UPARAM(4)
+        DD      = FAIL%UPARAM(5)
+        DN      = FAIL%UPARAM(6)
+        EL_REF  = FAIL%UPARAM(9)
 c---
         IDEL = 0
         IDEV = 0
@@ -153,10 +121,13 @@ c---
             IDEV = 2
         ENDIF
 C-------------------------------------------------------------------
+      ifun_epsf = 1    ! failure strain table     
+      ifun_el   = 3    ! element size function
+      ifun_temp = 4    ! temperature scale function
+      ifun_dmg  = 5    ! damage function
+C-------------------------------------------------------------------
 c     Failure strain value - function interpolation
 C-------------------------------------------------------------------
-
-        IPOS(1:NEL,1:3) = 1
         DO I=1,NEL
 C---    failure strain interpolation
             P   = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))     
@@ -176,32 +147,26 @@ C----
             IF(XI < -ONE) XI = -ONE
             IF(XI > ONE) XI = ONE
             THETA = ONE - TWO*ACOS(XI)/PI
-            XX0(I,1)=SIGM 
-            XX0(I,2)=EPSP(I) *X1SCALE
-            XX0(I,3)=THETA
+            xvec(I,1)=SIGM 
+            xvec(I,2)=EPSP(I)
+            xvec(I,3)=THETA
         ENDDO
-        ITAB_EPSF = ITABLF(1)
-
-        CALL TABLE_VINTERP(TABLE(ITAB_EPSF),NEL,NEL,IPOS,XX0,YY,DYDX)
-        EPSF(1:NEL) = YY(1:NEL)*Y1SCALE
-
-
-c---- Scale functions       
-        DO I=1,NEL
-            IFUN_EL   = IFUNC(1)
-            IFUN_TEMP = IFUNC(2)
-c---- Length Scale Function element
-            IF (IFUN_EL > 0) THEN
-                LAMBDA = ALDT(I) / EL_REF                     
-                FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)  
-                EPSF(I) = EPSF(I)* FAC                           
-            ENDIF                                                              
-c----   temperature scale function
-            IF (IFUN_TEMP > 0) THEN
-                FAC = SC_TEMP*FINTER(IFUN_TEMP,TSTAR(I),NPF,TF,DF) 
-                EPSF(I) = EPSF(I)* FAC 
-            ENDIF                                                              
-        ENDDO
+        !
+        call table_mat_vinterp(fail%table4d(ifun_epsf),nel,nel,vartmp,xvec,epsf,dydx)
+        !
+        ! element size scale factor
+        if (fail%table4d(ifun_el)%notable > 0) then
+          lambda(1:nel) = aldt(i) / el_ref
+          call table_mat_vinterp(fail%table4d(ifun_el),nel,nel,vartmp(1:nel,4:4),lambda,size_fac,dydx)
+          epsf(1:nel) = epsf(1:nel) * size_fac(1:nel)
+        end if
+!
+        !  temperature scale function
+        if (fail%table4d(ifun_temp)%notable > 0) THEN
+          call table_mat_vinterp(fail%table4d(ifun_temp),nel,nel,vartmp(1:nel,5:5),tstar,size_fac,dydx)
+          epsf(1:nel) = epsf(1:nel) * size_fac(1:nel)
+        end if
+!
 c-------------------------------------------------------------------
 c---- element will be deleted 
         IF (IDEL == 1) THEN
@@ -211,29 +176,40 @@ c---- element will be deleted
             ENDDO
         ENDIF
 C      
-        IF (IDEL == 1)THEN
-            NINDX = 0  
-            NINDX_2 = 0  
-            ID_DD = IFUNC(3)
-            ! --------------
-            ! need to split the loop to vectorize the ID_DD==0 loop
-            IF(ID_DD /= 0 )THEN
-                DO I=1,NEL
-                    IF (SFLAG==1 .AND. OFF(I)==ONE) THEN
-                        NINDX_2 = NINDX_2 + 1
-                        INDX_2(NINDX_2) = I
-                        DP(I) = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
-                    ENDIF
-                ENDDO
-            ELSE
-                DO I=1,NEL
-                    IF (SFLAG==1 .AND. OFF(I)==ONE) THEN
-                        NINDX_2 = NINDX_2 + 1
-                        INDX_2(NINDX_2) = I
-                        DP(I) = DN*DD**(ONE-ONE/DN)
-                    ENDIF
-                ENDDO
-            ENDIF
+        IF (IDEL == 1) THEN
+          nindx   = 0
+          nindx_2 = 0
+      ! 
+          do i=1,nel
+            if (sflag == 1 .and. off(i) == one) then
+              nindx_2 = nindx_2+1                                                 
+              indx_2(nindx_2) = i
+            endif
+          enddo
+!
+          if (fail%table4d(ifun_dmg)%notable > 0 ) then
+!
+#include "vectorize.inc"
+            do j=1,nindx_2                           
+              i = indx_2(j)            
+              xvec(j,1) = uvar(i,1)
+              ipos(j,1) = vartmp(i,6)
+            enddo
+!
+            call table_mat_vinterp(fail%table4d(ifun_dmg),nel,nindx_2,ipos,xvec,y_loc,dydx)
+!
+#include "vectorize.inc" 
+          do j=1,nindx_2                           
+            i = indx_2(j)  
+            dp(i) = y_loc(j)
+            vartmp(i,6) = ipos(j,1)
+          end do
+        else
+          do j=1,nindx_2                           
+            i = indx_2(j)  
+            dp(i) = dn*dd**(one-one/dn)
+          end do
+        endif
             ! --------------
 #include "vectorize.inc"
             DO J=1,NINDX_2
@@ -257,26 +233,45 @@ C
         ENDIF
 C---- 
         IF (IDEV > 0) THEN ! element deleted when rupture in all integration points
+          !
+          nindx   = 0
+          nindx_2 = 0
+          do i=1,nel
+            if (off(i) == one .and. (sflag==2 .or. sflag==3)) then
+              nindx_2 = nindx_2+1                                                 
+              indx_2(nindx_2) = i
+              if (uvar(i,1) < dcrit) then
+                nindx = nindx+1                                                 
+                indx(nindx) = i
+              end if
+            end if
+          end do
+!
+         if (fail%table4d(ifun_dmg)%notable > 0 ) then
+#include "vectorize.inc"
+            do j=1,nindx                           
+              i = indx(j)            
+              xvec(j,1) = uvar(i,1)
+              ipos(j,1) = vartmp(i,6)
+            enddo
+!
+            call table_mat_vinterp(fail%table4d(ifun_dmg),nel,nindx,ipos,xvec,y_loc,dydx)
+!
+#include "vectorize.inc" 
+            do j=1,nindx                          
+              i = indx(j)  
+              dp(i) = y_loc(j)
+              vartmp(i,6) = ipos(j,1)
+            end do
 
+        else  ! ifun_dmg = 0
+          do j=1,nindx                         
+            i = indx(j)
+            dp(i) = dn*dd**(one-one/dn)           
+          enddo
+        end if
             ! --------------
-            NINDX  = 0 
-            NINDX_2 = 0
-            DO I=1,NEL      
-                IF (OFF(I) == ONE .AND. (SFLAG==2 .OR. SFLAG==3)) THEN
-                    NINDX_2 = NINDX_2 + 1
-                    INDX_2(NINDX_2) = I
-                    DP(I) = ZERO
-                    IF (UVAR(I,1) < DCRIT)THEN
-                        ID_DD = IFUNC(3)
-                        IF(ID_DD /= 0 )THEN
-                            DP(I) = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
-                        ELSE
-                            DP(I) = DN*DD**(ONE-ONE/DN)
-                        ENDIF
-                    ENDIF
-                ENDIF            
-            ENDDO
-            ! --------------
+        nindx = 0
 #include "vectorize.inc"
             DO J=1,NINDX_2
                 I = INDX_2(J)    
@@ -310,7 +305,8 @@ C----
                 END DO
             ENDIF           
             ! --------------
-        ENDIF   
+        ENDIF   ! idev > 0
+!
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------    
         DO I=1,NEL
             DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))

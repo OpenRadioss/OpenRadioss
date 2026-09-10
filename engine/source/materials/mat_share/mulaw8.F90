@@ -1094,12 +1094,11 @@
                  de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
               elseif (irupt == 23) then
 !---- tabulated failure model
-                call fail_tab_s(&
-                &llt      ,nvarf    ,npf      ,tf       ,tt       ,&
-                &uparamf     ,ngl      ,deltax   ,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6,&
-                &dpla     ,epsp1    ,tstar    ,uvarf    ,ntabl_fail,itabl_fail,&
-                &off      ,table    ,dfmax    ,tdele    ,nfunc    ,ifunc )
+                call fail_tab_s(mat_param(imat)%fail(ir)  ,&
+                 llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,&
+                 tt       ,ngl      ,deltax   ,&
+                 s1       ,s2       ,s3       ,s4       ,s5       ,s6      ,&
+                 dpla     ,epsp1    ,tstar    ,off      ,dfmax    ,tdele    )
 !---
               elseif (irupt == 27) then
 !----  extended mohr coulomb failure model
@@ -1131,16 +1130,6 @@
                 &es1     ,es2      ,es3      ,es4      ,es5       ,es6 ,&
                 &s1      ,s2       ,s3       ,s4       ,s5        ,s6  ,&
                 &uvarf   ,off      ,ngl      ,dfmax    ,ismstr    )
-!
-              elseif (irupt == 37) then
-! ---       tabulated failure model (old, obsolete version)
-                call fail_tab_old_s(&
-                &llt      ,nvarf    ,npf      ,tf       ,tt       ,&
-                &uparamf  ,ngl      ,deltax   ,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6,&
-                &defp     ,dpla     ,epsp1    ,tstar    ,uvarf    ,&
-                &off      ,dfmax    ,tdele    ,&
-                &nfunc    ,ifunc )
 !
               elseif (irupt == 38) then
 !  --- orthotropic biquadratic failure model

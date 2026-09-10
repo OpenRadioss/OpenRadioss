@@ -1363,24 +1363,21 @@ c
 c
               CASE (23)     !    Tabulated failure model
                 IF (IXFEM == 0) THEN
-                  CALL FAIL_TAB_C(
-     1                NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2                NFUNC_FAIL    ,IFUNC_FAIL    ,TABLE     ,NPF       ,TF        ,
+                  CALL FAIL_TAB_C(fail_param,
+     1                NEL       ,nvarf     ,nvarftmp  ,uvarf    ,vartmp     ,
      3                TT        ,NGL       ,IPG       ,ILAYER    ,IT        , 
-     4                SIGNXX    ,SIGNYY    ,SIGNXY    ,NTABL_FAIL,ITABL_FAIL,    
+     4                SIGNXX    ,SIGNYY    ,SIGNXY    ,  
      5                DPLA      ,EPSPL     ,THKN      ,EL_LEN    ,TSTAR     ,
      6                DMG_FLAG,DMG_LOC_SCALE ,OFF     ,FOFF      ,
      7                DFMAX     ,TDEL      ,INLOC     )
                 ELSE
-                  CALL FAIL_TAB_XFEM(
-     1                NEL      ,NUPAR    ,NVARF    ,NPF      ,TF       ,
-     2                TT       ,DT1C     ,UPARAMF  ,NGL      ,IPT      , 
-     3                MPT      ,NFUNC_FAIL   ,IFUNC_FAIL   ,TABLE    ,
+                  CALL FAIL_TAB_XFEM(fail_param,
+     1                NEL      ,nvarf     ,nvarftmp  ,uvarf    ,vartmp     ,
+     2                TT       ,DT1C      ,NGL       ,IPT      ,MPT      ,
      4                SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     5                DPLA     ,EPSPL    ,TSTAR    ,TENSX    ,UVARF    ,
+     5                DPLA     ,EPSPL    ,TSTAR    ,TENSX    ,DMG_FLAG ,
      6                GBUF%NOFF,ALDT     ,OFF      ,OFFL     ,ELCRKINI ,
-     7                IXFEM    ,IXEL     ,ILAYER   ,DFMAX    ,TDEL     ,
-     8                DMG_FLAG ,NTABL_FAIL,ITABL_FAIL)
+     7                IXFEM    ,IXEL     ,ILAYER   ,DFMAX    ,TDEL     )
                 ENDIF
 c
               CASE (24)     !    Orthotropic strain failure model
@@ -1486,26 +1483,6 @@ c
      1             JLT      ,NVARF   ,TT       ,DT1     ,UPARAMF ,NGL      ,
      2             SIGNXX   ,SIGNYY  ,SIGNXY   ,EPSXX   ,EPSYY   ,EPSXY    ,
      3             UVARF    ,OFF     ,DFMAX    ,ISMSTR  )
-c
-              CASE (37)     !    old (obsolete) abulated failure model
-                IF (IXFEM == 0) THEN
-                  CALL FAIL_TAB_OLD_C(
-     1                NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2                NFUNC_FAIL    ,IFUNC_FAIL    ,NPF       ,TF        ,
-     3                TT        ,NGL       ,IPG       ,ILAYER    ,IT        , 
-     4                SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,      
-     5                DPLA      ,EPSPL     ,THKN      ,EL_LEN    ,TSTAR     ,
-     6                OFF       ,FOFF      ,DFMAX     ,TDEL      )
-                ELSE
-                  CALL FAIL_TAB_OLD_XFEM(
-     1                NEL      ,NUPAR    ,NVARF    ,NPF      ,TF       ,
-     2                TT       ,DT1C     ,UPARAMF  ,NGL      ,IPT      , 
-     3                MPT      ,NFUNC_FAIL   ,IFUNC_FAIL   ,DMG_FLAG ,
-     4                SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     5                DPLA     ,EPSPL    ,TSTAR    ,TENSX    ,UVARF    ,
-     6                GBUF%NOFF,ALDT     ,OFF      ,OFFL     ,ELCRKINI ,
-     7                IXFEM    ,IXEL     ,ILAYER   ,DFMAX    ,TDEL     )
-                ENDIF
 c
               CASE (38)     !    Orthotropic biquad
 c

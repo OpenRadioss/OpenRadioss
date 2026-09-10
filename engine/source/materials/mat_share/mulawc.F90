@@ -2346,24 +2346,21 @@
 !
                    case (23)     !    tabulated failure model
                     if (ixfem == 0) then
-                      call fail_tab_c(&
-                      &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
-                      &nfunc_fail,ifunc_fail,table     ,npf       ,tf        ,&
+                      call fail_tab_c(fail_param,                             &
+                      &nel       ,nvarf     ,nvarftmp  ,uvarf    ,vartmp     ,&
                       &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&
-                      &signxx    ,signyy    ,signxy    ,ntabl_fail,itabl_fail,&
+                      &signxx    ,signyy    ,signxy    ,                      &
                       &dpla      ,epsd      ,thkn      ,el_len    ,tstar     ,&
                       &dmg_flag  ,dmg_loc_scale ,off   ,foff      ,&
                       &dfmax     ,tdel      ,inloc     )
                     else if (matparam%ixfem > 0) then
-                      call fail_tab_xfem(&
-                      &nel      ,nupar    ,nvarf    ,npf      ,tf       ,&
-                      &tt       ,dt1c     ,uparamf  ,ngl      ,ipt      ,&
-                      &mpt      ,nfunc_fail,ifunc_fail   ,table    ,&
-                      &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                      &dpla     ,epsd     ,tstar    ,tensx    ,uvarf    ,&
-                      &gbuf%noff,aldt     ,off      ,offl     ,elcrkini ,&
-                      &ixfem    ,ixel     ,ilayer   ,dfmax    ,tdel     ,&
-                      &dmg_flag ,ntabl_fail,itabl_fail)
+                      call fail_tab_xfem(fail_param, &
+                      &nel      ,nvarf     ,nvarftmp ,uvarf    ,vartmp     ,&
+                      &tt       ,dt1c      ,ngl      ,ipt      ,mpt     ,&
+                      &signxx   ,signyy   ,signxy   ,signyz   ,signzx   , &
+                      &dpla     ,epsd     ,tstar    ,tensx    ,dmg_flag , &
+                      &gbuf%noff,aldt     ,off      ,offl     ,elcrkini , &
+                      &ixfem    ,ixel     ,ilayer   ,dfmax    ,tdel     )
                     endif
 !
                    case (24)     !    orthotropic strain failure model
@@ -2473,26 +2470,6 @@
                     &jlt      ,nvarf   ,tt       ,dt1     ,uparamf  ,ngl      ,&
                     &signxx   ,signyy  ,signxy   ,epsxx   ,epsyy    ,epsxy    ,&
                     &uvarf    ,off     ,dfmax    ,ismstr  )
-!
-                   case (37)     !    old (obsolete) tabulated failure model
-                    if (ixfem == 0) then
-                      call fail_tab_old_c(&
-                      &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
-                      &nfunc_fail    ,ifunc_fail    ,npf       ,tf        ,&
-                      &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&
-                      &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
-                      &dpla      ,epsd      ,thkn      ,el_len    ,tstar     ,&
-                      &off       ,foff      ,dfmax     ,tdel      )
-                    else if (matparam%ixfem > 0) then
-                      call fail_tab_old_xfem(&
-                      &nel      ,nupar    ,nvarf    ,npf      ,tf       ,&
-                      &tt       ,dt1c     ,uparamf  ,ngl      ,ipt      ,&
-                      &mpt      ,nfunc_fail   ,ifunc_fail   ,dmg_flag ,&
-                      &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                      &dpla     ,epsd     ,tstar    ,tensx    ,uvarf    ,&
-                      &gbuf%noff,aldt     ,off      ,offl     ,elcrkini ,&
-                      &ixfem    ,ixel     ,ilayer   ,dfmax    ,tdel     )
-                    endif
 !
                    case (38)     !    orthotropic biquad
 !

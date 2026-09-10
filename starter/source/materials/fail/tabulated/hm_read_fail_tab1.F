@@ -38,8 +38,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    table_mod                ../starter/share/modules1/table_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_TAB1(FAIL   ,
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .           LSUBMODEL,UNITAB   )
+     .           TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .           NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -54,6 +54,9 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD 
       USE TABLE_MOD
       use my_alloc_mod
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use mat_table_table_copy_mod
+      use func_table_copy_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,18 +71,26 @@ C-----------------------------------------------
       INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
       INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
       INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITLE   ! failure model title
       TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
       TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*) 
       INTEGER             ,INTENT(INOUT) :: IXFEM      ! XFEM activation flag
       TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
+      integer             ,intent(in)    :: ntable      !< number of function tables in Radioss input
+      type(ttable) ,dimension(ntable) ,intent(in) :: table  !< input table array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: IFAIL_SH,ISOLID,DMG_FLAG,INST_FLAG,
-     .            IFUN_DMG,ITAB_EPSF,ITAB_INST,IFUN_SIZE,IFUN_TEMP
+      INTEGER  :: IFAIL_SH,ISOLID,DMG_FLAG,INST_FLAG,IERROR,
+     .            IFUN_DMG,ITAB_EPSF,ITAB_INST,IFUN_SIZE,IFUN_TEMP,IFUN_EXPO
       my_real  :: P_THICK,PTHKF,P_THINNFAIL,SCALE_TEMP,SCALE_EL,EL_REF,
-     .            Y1SCALE,X1SCALE,Y2SCALE,X2SCALE,DCRIT,DD,DN,DADV,
+     .            TAB1_YFAC,TAB1_XFAC,TAB2_YFAC,TAB2_XFAC,DCRIT,DD,DN,DADV,
      .            ECRIT,FADE_EXPO,FSCAL_UNIT,SHRF,BIAXF
+      integer :: nf
+      integer ,parameter :: nfunc = 4
+      integer ,dimension(nfunc) :: ifunc
+      my_real, dimension(1) :: x2vect,yscale
+      my_real :: x1scale,x2scale,x3scale,x4scale
 C-----------------------------------------------
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
@@ -118,11 +129,11 @@ Card2
       CALL HM_GET_INTV   ('fct_IDd'     ,IFUN_DMG    ,IS_AVAILABLE,LSUBMODEL)
 Card3
       CALL HM_GET_INTV   ('table1_ID'   ,ITAB_EPSF   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('Xscale1'     ,Y1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Xscale2'     ,X1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Xscale1'     ,TAB1_YFAC   ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Xscale2'     ,TAB1_XFAC   ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_INTV   ('table2_ID'   ,ITAB_INST   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('Xscale3'     ,Y2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Xscale4'     ,X2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Xscale3'     ,TAB2_YFAC   ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Xscale4'     ,TAB2_XFAC   ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 Card4
       CALL HM_GET_INTV   ('fct_IDel'    ,IFUN_SIZE   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('Fscale_el'   ,SCALE_EL    ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
@@ -169,8 +180,8 @@ c-----------------------------------------------------------------------
       IF (ISOLID == 0) ISOLID = 1
       IF (IXFEM /= 1 .AND. IXFEM /= 2) IXFEM = 0
       IF (IXFEM > 0) ISOLID = 0
-      IF (Y1SCALE == ZERO)    Y1SCALE    = ONE
-      IF (Y2SCALE == ZERO)    Y2SCALE    = ONE
+      IF (TAB1_YFAC == ZERO)    TAB1_YFAC    = ONE
+      IF (TAB2_YFAC == ZERO)    TAB2_YFAC    = ONE
       IF (SCALE_EL   == ZERO) SCALE_EL   = ONE
       IF (SCALE_TEMP == ZERO) SCALE_TEMP = ONE
       IF (SHRF  == ZERO) SHRF  =-ONE
@@ -196,10 +207,10 @@ c---------------------------
       ENDIF
 c-----------------------------------------------------------------------
       CALL HM_GET_FLOATV_DIM('Xscale2' ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
-      IF (X1SCALE == ZERO) X1SCALE = ONE*FSCAL_UNIT
+      IF (TAB1_XFAC == ZERO) TAB1_XFAC = ONE*FSCAL_UNIT
 c
       CALL HM_GET_FLOATV_DIM('Xscale4' ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
-      IF (X2SCALE == ZERO) X2SCALE = ONE*FSCAL_UNIT
+      IF (TAB2_XFAC == ZERO) TAB2_XFAC = ONE*FSCAL_UNIT
 c
       CALL HM_GET_FLOATV_DIM('EI_ref'  ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
       IF (EL_REF == ZERO) EL_REF = ONE*FSCAL_UNIT
@@ -209,9 +220,11 @@ c-----------------------------------------------------------------------
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = 22
       FAIL%NIPARAM = 0
-      FAIL%NUVAR   = 8
-      FAIL%NFUNC   = 4
-      FAIL%NTABLE  = 2
+      FAIL%NUVAR   = 5
+      FAIL%NVARTMP = 9    !< tmp variables to store last position used in function interpolation
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NTABLE4D= 6
       FAIL%NMOD    = 0
       FAIL%PTHK    = PTHKF      
 c            
@@ -219,6 +232,8 @@ c
       call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
       call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
       call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
+
 c
       FAIL%UPARAM(1) = ISOLID
       FAIL%UPARAM(2) = IFAIL_SH
@@ -231,10 +246,10 @@ c
       FAIL%UPARAM(9) = EL_REF
       FAIL%UPARAM(10)= 0   ! not used (xfem)
       FAIL%UPARAM(11)= DADV
-      FAIL%UPARAM(12)= Y1SCALE
-      FAIL%UPARAM(13)= ONE / X1SCALE
-      FAIL%UPARAM(14)= Y2SCALE
-      FAIL%UPARAM(15)= ONE / X2SCALE
+      FAIL%UPARAM(12)= TAB1_YFAC
+      FAIL%UPARAM(13)= ONE / TAB1_XFAC
+      FAIL%UPARAM(14)= TAB2_YFAC
+      FAIL%UPARAM(15)= ONE / TAB2_XFAC
       FAIL%UPARAM(16)= P_THINNFAIL
       FAIL%UPARAM(17)= ECRIT
       FAIL%UPARAM(18)= FADE_EXPO
@@ -243,25 +258,63 @@ c
       FAIL%UPARAM(21)= SHRF
       FAIL%UPARAM(22)= BIAXF
 c
-      FAIL%TABLE(1) = ITAB_EPSF
-      FAIL%TABLE(2) = ITAB_INST
-      FAIL%IFUNC(1) = IFUN_SIZE
-      FAIL%IFUNC(2) = IFUN_TEMP
-      FAIL%IFUNC(3) = IFUN_DMG
       IF (FADE_EXPO  <  ZERO) THEN
-        FAIL%IFUNC(4) = INT(ABS(FADE_EXPO))
+        IFUN_EXPO = INT(ABS(FADE_EXPO))
       ELSE
-        FAIL%IFUNC(4) = 0
+        IFUN_EXPO = 0
       ENDIF
+!
+      nf = 1
+      x1scale = one
+      x3scale = one
+      x4scale = one
+      x2vect(:) = zero
+      ifunc(1)  = ifun_size
+      ifunc(2)  = ifun_temp
+      ifunc(3)  = ifun_dmg    
+      ifunc(4)  = ifun_expo
+!
+      x2scale = one / tab1_xfac
+      call mat_table_table_copy(                          
+     .        fail%table4d(1)       ,itab_epsf ,title    ,mat_id   ,   
+     .        x1scale    ,x2scale   ,x3scale   ,x4scale  ,   
+     .        tab1_yfac  ,ntable    ,table     ,ierror   )
+!
+      x2scale = one / tab2_xfac
+      call mat_table_table_copy(                           
+     .        fail%table4d(2)       ,itab_inst ,title    ,mat_id   ,   
+     .        x1scale    ,x2scale   ,x3scale   ,x4scale  ,   
+     .        tab2_yfac  ,ntable    ,table     ,ierror   )
+!
+      x2scale = one
+      yscale(1) = scale_el
+      call func_table_copy(fail%table4d(3),title ,mat_id  ,     
+     .       nf      ,ifunc(1)  ,x2vect  ,x1scale ,x2scale  ,yscale  ,
+     .        ntable  ,table    ,ierror  )
+!
+      yscale(1) = scale_temp
+      call func_table_copy(fail%table4d(4),title ,mat_id  ,     
+     .       nf      ,ifunc(2)  ,x2vect  ,x1scale ,x2scale  ,yscale  , 
+     .        ntable  ,table    ,ierror  )
+!
+      yscale(1) = one
+      call func_table_copy(fail%table4d(5),title ,mat_id  ,     
+     .       nf      ,ifunc(3) ,x2vect  ,x1scale ,x2scale  ,yscale  , 
+     .       ntable  ,table    ,ierror  )
+!
+      call func_table_copy(fail%table4d(6),title ,mat_id  ,     
+     .        nf      ,ifunc(4) ,x2vect  ,x1scale ,x2scale  ,yscale  ,
+     .        ntable  ,table    ,ierror  )
+!
 c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE 
         WRITE(IOUT,100) MAT_ID,IRUPT,FAIL_ID
         
-        WRITE(IOUT, 1001) ITAB_EPSF, Y1SCALE, X1SCALE
+        WRITE(IOUT, 1001) ITAB_EPSF, TAB1_YFAC, TAB1_XFAC
         IF (ITAB_INST /= 0) THEN
-          WRITE(IOUT, 1002) ITAB_INST, Y2SCALE, X2SCALE
+          WRITE(IOUT, 1002) ITAB_INST, TAB2_YFAC, TAB2_XFAC
         ENDIF
         IF (IXFEM > 0) WRITE(IOUT, 1003) IXFEM,DADV
         WRITE(IOUT, 1004) P_THICK,P_THINNFAIL
@@ -273,7 +326,7 @@ c-----------------------------------------------------------------------
         IF (FADE_EXPO >= ZERO) THEN
           WRITE(IOUT, 1006) FADE_EXPO
         ELSE
-          WRITE(IOUT, 1007) INT(ABS(FADE_EXPO))
+          WRITE(IOUT, 1007) IFUN_EXPO
         ENDIF
         WRITE(IOUT, 1008) DMG_FLAG,
      .                    IFUN_TEMP,SCALE_TEMP,

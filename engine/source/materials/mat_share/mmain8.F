@@ -317,12 +317,11 @@ C---- wierzbicki
      6                 DFMAX   ,TDELE)
 C   tabulated failure model
              ELSEIF (IRUPT == 23) THEN
-               CALL FAIL_TAB_S(
-     1         NEL      ,NVARF    ,NPF      ,TF       ,TT       ,
-     2         UPARAMF     ,NGL      ,DELTAX   ,
+               CALL FAIL_TAB_S(mat_elem%mat_param(imat)%fail(ir),
+     1         NEL      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,
+     2         TT       ,NGL      ,DELTAX   ,
      3         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX,
-     4         DPLA(J1) ,EPSP(J1) ,TSTAR,UVARF ,NTABL_FAIL,ITABL_FAIL,
-     5         OFF      ,TABLE    ,DFMAX,TDELE ,NFUNC     ,IFUNC )
+     4         DPLA(J1) ,EPSP(J1) ,TSTAR    ,OFF      ,DFMAX    ,TDELE )
 c ---   extended mohr coulomb failure model
              ELSEIF (IRUPT == 27) THEN
                CALL FAIL_EMC(
@@ -338,16 +337,6 @@ c ---   Biquadratic failure
      2         TT       ,TDELE    ,DELTAX   ,
      3         NGL      ,DPLA(J1) ,OFF      ,DFMAX    ,LBUF%DMGSCL,
      4         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      )
-c
-              ELSEIF (IRUPT == 37) THEN
-c ---       tabulated failure model (old, obsolete version)
-                CALL FAIL_TAB_OLD_S(
-     1         NEL      ,NVARF    ,NPF      ,TF       ,TT       ,
-     2         UPARAMF  ,NGL      ,DELTAX   ,
-     3         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX,
-     4         LBUF%PLA ,DPLA(J1) ,EPSP(J1) ,TSTAR,UVARF,
-     5         OFF      ,DFMAX,TDELE ,
-     6         NFUNC    ,IFUNC )
 c
 c ---   Orthotropic biquadratic failure
               ELSEIF (IRUPT == 38) THEN

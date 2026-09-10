@@ -2475,12 +2475,12 @@
                 &lbuf%off,off     ,gbuf%noff,niparf ,iparf   )
               else if (irupt == 23) then
 !---- tabulated failure model
-                call fail_tab_s(&
-                &nel      ,nvarf    ,npf      ,tf       ,tt        ,&
-                &uparf    ,ngl      ,el_len   ,&
-                &s1       ,s2       ,s3       ,s4       ,s5        ,s6        ,&
-                &dpla     ,epsp1    ,tstar    ,uvarf    ,ntabl_fail,itabl_fail,&
-                &off      ,table    ,dfmax    ,tdel     ,nfunc     ,ifunc     )
+                call fail_tab_s(failparam,                               &
+                 nel      ,nvarf    ,nvarftmp ,uvarf    ,varftmp   ,&
+                 tt       ,ngl      ,el_len   ,&
+                 s1       ,s2       ,s3       ,s4       ,s5        ,s6        ,&
+                 dpla     ,epsp1    ,tstar    ,off      ,dfmax    ,tdel     )
+                 
               else if (irupt == 24) then
 !   --- orthotropic strain failure
                 call fail_orthstrain(failparam,                             &
@@ -2536,15 +2536,6 @@
                 &es1     ,es2       ,es3      ,es4     ,es5      ,es6     ,&
                 &s1      ,s2        ,s3       ,s4      ,s5       ,s6      ,&
                 &uvarf   ,off       ,ngl      ,dfmax   ,ismstr   )
-              else if (irupt == 37) then
-! ---       tabulated failure model (old, obsolete version)
-                call fail_tab_old_s(&
-                &nel      ,nvarf    ,npf      ,tf       ,tt       ,&
-                &uparf    ,ngl      ,el_len   ,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
-                &el_pla   ,dpla     ,epsp1    ,tstar    ,uvarf    ,&
-                &off      ,dfmax    ,tdel     ,&
-                &nfunc    ,ifunc    )
 !
               else if (irupt == 38) then
 !  --- orthotropic biquadratic failure model
