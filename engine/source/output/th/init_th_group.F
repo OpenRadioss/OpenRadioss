@@ -30,7 +30,9 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       SUBROUTINE INIT_TH_GROUP(GR       ,IGR     ,NELEM    ,NGRTH   ,IPARG  ,
      .                         IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
-     .                         IGRTRUSS ,IGRBEAM ,IGRSPRING)
+     .                         IGRTRUSS ,IGRBEAM ,IGRSPRING,IGRPART ,IPARTC,
+     .                         IPARTTG  ,IPARTS  ,IPARTQ   ,IPARTT  ,IPARTP,
+     .                         IPARTR   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,11 +61,21 @@ C-----------------------------------------------
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRTRUS) :: IGRTRUSS
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRBEAM) :: IGRBEAM
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRSPRI) :: IGRSPRING
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRPART) :: IGRPART
+
+      INTEGER, DIMENSION(NUMELC), TARGET, INTENT(IN) :: IPARTC
+      INTEGER, DIMENSION(NUMELTG), TARGET, INTENT(IN) :: IPARTTG
+      INTEGER, DIMENSION(NUMELS), TARGET, INTENT(IN) :: IPARTS
+      INTEGER, DIMENSION(NUMELQ), TARGET, INTENT(IN) :: IPARTQ
+      INTEGER, DIMENSION(NUMELT), TARGET, INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP), TARGET, INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR), TARGET, INTENT(IN) :: IPARTR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ID,ITYP,CPT,GRTMP,IGRTMP(NGRTH+NELEM),
-     .       FLAG,OFFSET,NG,CPT1,IGRELE,NENTITY
+     .       FLAG,OFFSET,NG,CPT1,IGRELE,NENTITY,IP,TAGPART(NPART),COUNT
+      INTEGER, TARGET :: ELEM_THPART(NELEM)
       INTEGER :: NEL,NFT
       INTEGER, DIMENSION(:), POINTER :: ELEM
 C-----------------------------------------------
@@ -108,6 +120,76 @@ C-----------------------------------------------
           OFFSET = OFFSET + NUMELR
           NENTITY = IGRSH3N(IGRELE)%NENTITY
           ELEM   => IGRSH3N(IGRELE)%ENTITY
+        ELSEIF (ITYP == -1) THEN  ! PART group of thpart
+          NENTITY = IGRPART(IGRELE)%NENTITY
+          ! loop over the elements of the PART group and set the IGR array to the thpart number
+          TAGPART = 0
+          DO J=1,NENTITY
+            IP = IGRPART(IGRELE)%ENTITY(J)
+            TAGPART(IP) = 1
+          ENDDO ! DO J=1,NENTITY
+          !
+          COUNT = 0
+          ELEM_THPART = 0
+          ELEM => ELEM_THPART(1:COUNT) ! ELEM is a pointer to the ELEM_THPART array
+          !
+          DO J=1,NUMELS
+            IP = IPARTS(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELS
+          !
+          DO J=1,NUMELQ
+            IP = IPARTQ(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELQ
+          !
+          DO J=1,NUMELC
+            IP = IPARTC(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELC
+          !
+          DO J=1,NUMELT
+            IP = IPARTT(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELT
+          !
+          DO J=1,NUMELP
+            IP = IPARTP(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELP
+          !
+          DO J=1,NUMELR
+            IP = IPARTR(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELR
+          !
+          DO J=1,NUMELTG
+            IP = IPARTTG(J)
+            IF (TAGPART(IP) == 1) THEN
+              COUNT = COUNT + 1
+              ELEM_THPART(COUNT) = J
+            ENDIF
+          ENDDO ! DO J=1,NUMELTG
+          !
+          NENTITY = COUNT
         ENDIF ! IF (ITYP == 1)
 !---
         DO J=1,NENTITY

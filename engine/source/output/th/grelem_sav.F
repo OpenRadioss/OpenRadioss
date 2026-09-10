@@ -80,6 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=JFT,JLT
         IF (IGRTH(I) /= IGRTH(I+1)) THEN
+          !print*,'GRESAV',I,IGRTH(I),IGRTH(I+1),GRTH(IGRTH(I)),GRTH(IGRTH(I+1)-1)
           IF(OFF(I) /= ZERO)THEN
             DO J = IGRTH(I),IGRTH(I+1)-1
               GRESAV(1,GRTH(J)) = GRESAV(1,GRTH(J)) + EI(I)
