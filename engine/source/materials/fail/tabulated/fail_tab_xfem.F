@@ -27,27 +27,21 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
 !||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    finter                ../engine/source/tools/curve/finter.F
-!||    table_interp          ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
-!||    interface_table_mod   ../engine/share/modules/table_mod.F
 !||    message_mod           ../engine/share/message_module/message_mod.F
-!||    table_mod             ../engine/share/modules/table_mod.F
 !||====================================================================
-      SUBROUTINE FAIL_TAB_XFEM(
-     1           NEL      ,NPARAM   ,NUVAR    ,NPF      ,TF       ,
-     2           TIME     ,TIMESTEP ,UPARAM   ,NGL      ,IPT      ,
-     3           NPTOT    ,NFUNC    ,IFUNC    ,TABLE    ,
+      SUBROUTINE FAIL_TAB_XFEM(FAIL ,
+     1           NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
+     2           TIME     ,TIMESTEP ,NGL      ,IPT      ,NPTOT    ,
      4           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     5           DPLA     ,EPSP     ,TSTAR    ,TENS     ,UVAR     ,
+     5           DPLA     ,EPSP     ,TSTAR    ,TENS     ,DMG_FLAG ,
      6           NOFF     ,ALDT     ,OFF      ,OFFL     ,ELCRKINI ,
-     7           IXFEM    ,IXEL     ,ILAY     ,DFMAX    ,TDEL     ,
-     8           DMG_FLAG ,NTABLF   ,ITABLF   )
+     7           IXFEM    ,IXEL     ,ILAY     ,DFMAX    ,TDEL     )
 C-----------------------------------------------
 C    tabulated failure model
 C-----------------------------------------------
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
+      use fail_param_mod
+      use table_mat_vinterp_mod
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -63,7 +57,6 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
 C NPF     |  *      | I | R | FUNCTION ARRAY   
@@ -94,50 +87,31 @@ C NOFF                        NUMBER OF FAILED INTEGRATION POINTS (TOTAL)
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NPARAM,NUVAR,IPT,NFUNC,IXFEM,IXEL,ILAY,
+      INTEGER NEL,NPARAM,NUVAR,NVARTMP,IPT,IXFEM,IXEL,ILAY,
      .   NPTOT,DMG_FLAG
-      INTEGER ,INTENT(IN) :: NTABLF
-      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
-      INTEGER NGL(NEL),NOFF(NEL),IFUNC(NFUNC),
+      INTEGER NGL(NEL),NOFF(NEL),
      .   ELCRKINI(NXLAYMAX,NEL)
-      my_real TIME,TIMESTEP(NEL),UPARAM(*),DPLA(NEL),EPSP(NEL),
+      my_real TIME,TIMESTEP(NEL),DPLA(NEL),EPSP(NEL),
      .   TSTAR(NEL),ALDT(NEL)
+      type (fail_param_) ,intent(in) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real, DIMENSION(2) :: XX0
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
       my_real 
      .  UVAR(NEL,NUVAR),OFF(NEL),OFFL(NEL),
      .  SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .  TENS(NEL,5),DFMAX(NEL),TDEL(NEL)
-      TYPE(TTABLE) TABLE(*)
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  ::
-     .  I,J,IADR,NINDX,ISHELL,I_MOD,I_DAM,
-     .  ITAB_EPSF,ITAB_INST,IFUN_EL,IFUN_TEMP,IFUN_DMG,IFUN_FAD
+      INTEGER :: I,J,IADR,NINDX,ISHELL,I_MOD,I_DAM
+      INTEGER :: IFUN_EPSF,IFUN_INST,IFUN_EL,IFUN_TEMP,IFUN_DMG,IFUN_FAD
       INTEGER, DIMENSION(NEL) :: INDX,RFLAG
 C
-      my_real, DIMENSION(NEL) :: EPSF,EPSF_N
-      my_real  ::
-     .  DP,P,SIGM,SIGM_PS,SVM,DF,FAC,LAMBDA,
-     .  YY,YY_N,DADV,
-     .  X1SCALE,X2SCALE,X3SCALE,X4SCALE,P_THINN,ECRIT,FADE_EXPO,
-     .  DCRIT,EL_REF,SC_EL,SC_TEMP,DD,DN
+      my_real, DIMENSION(NEL,3) :: XVEC
+      my_real, DIMENSION(NEL)   :: EPSF,EPSF_N,size_fac,dydx,lambda,fade_expo,dp
+      my_real :: P,SIGM,SIGM_PS,SVM,DADV,P_THINN,ECRIT,DCRIT,EL_REF,DD,DN
       CHARACTER (LEN=3) :: XCHAR
 C-----------------------------------------------
 C Storage of initial thickness in UVAR(x,2) at time = 0.0
@@ -160,27 +134,21 @@ C-----------------------------------------------
        ENDDO
       ENDIF
 C-----------------------------------------------
-      ISHELL    = INT(UPARAM(2))  !ISHEL
-      DCRIT     = UPARAM(4)
-      DD        = UPARAM(5)
-      DN        = UPARAM(6)
-      SC_TEMP   = UPARAM(7)
-      SC_EL     = UPARAM(8)
-      EL_REF    = UPARAM(9)
-      DADV      = UPARAM(11)
-      X1SCALE   = UPARAM(12)
-      X2SCALE   = UPARAM(13)
-      X3SCALE   = UPARAM(14)
-      X4SCALE   = UPARAM(15)
-      P_THINN   = UPARAM(16)
-      ECRIT     = UPARAM(17)
-      FADE_EXPO = UPARAM(18)
-      I_MOD     = INT(UPARAM(19))
+      ISHELL    = INT(FAIL%UPARAM(2))  !ISHEL
+      DCRIT     = FAIL%UPARAM(4)
+      DD        = FAIL%UPARAM(5)
+      DN        = FAIL%UPARAM(6)
+      EL_REF    = FAIL%UPARAM(9)
+      DADV      = FAIL%UPARAM(11)
+      P_THINN   = FAIL%UPARAM(16)
+      ECRIT     = FAIL%UPARAM(17)
+      FADE_EXPO(1:nel) = FAIL%UPARAM(18)
+      I_MOD     = INT(FAIL%UPARAM(19))
 c-----------------------------
       IF (IXFEM == 1 .and. ISHELL == 1) ISHELL=2
 c-----------------------------
       I_DAM = 0      
-      IF (ECRIT /= ZERO .OR. FADE_EXPO /= ZERO) I_DAM = 1
+      IF (ECRIT /= ZERO .OR. FADE_EXPO(1) /= ZERO) I_DAM = 1
 C---------
       NINDX = 0  
       RFLAG = 0
@@ -205,79 +173,69 @@ c
         XCHAR = ' '
       ENDIF
 C-------------------------------------------------------------------
-c---- Failure strain
-      ITAB_EPSF  = ITABLF(1)
-c---- Instability
-      ITAB_INST  = ITABLF(2)
-c---- Scale functions       
-      IFUN_EL   = IFUNC(2)
-      IFUN_TEMP = IFUNC(3)
-      IFUN_DMG  = IFUNC(3)    ! damage
-      IFUN_FAD  = IFUNC(4)    ! fading exponent
-c
+c     ifun_epsf = 1    ! failure strain table
+      ifun_inst = 2    ! instability strain table     
+      ifun_el   = 3    ! element size function
+      ifun_temp = 4    ! temperature scale function
+      ifun_dmg  = 5    ! damage function
+      ifun_fad  = 6    ! fading exponent function
+c-------------------------------------------------------------------
 c---  failure strain interpolation
       DO I=1,NEL
         P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
         SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)          
      .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))        
         SIGM = P / MAX(EM20,SVM)
-C----
-C         XX0(1)=SIGM *X1SCALE
-         XX0(1)=SIGM
-         XX0(2)=EPSP(I) *X2SCALE
-         CALL TABLE_INTERP (TABLE(ITAB_EPSF),XX0,YY)            
-         EPSF(I) = YY * X1SCALE
+        XVEC(I,1) = SIGM
+        XVEC(I,2) = EPSP(I)
+        XVEC(I,3) = ZERO
       ENDDO
-c
-      DO I=1,NEL
-c---- Length Scale Function element
-        IF (IFUN_EL > 0) THEN
-           LAMBDA = UVAR(I,5) / EL_REF
-           FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
-           EPSF(I) = EPSF(I)* FAC 
-        ENDIF                                                              
-c----   temperature scale function
-        IF (IFUN_TEMP > 0) THEN
-           FAC = SC_TEMP*FINTER(IFUN_TEMP,TSTAR(I),NPF,TF,DF) 
-           EPSF(I) = EPSF(I)* FAC 
-        ENDIF    
-        
+!
+      call table_mat_vinterp(fail%table4d(ifun_epsf),nel,nindx,vartmp,xvec,epsf,dydx)
+!
+      ! element size scale factor
+      if (fail%table4d(ifun_el)%notable > 0) then
+        lambda(1:nel) = uvar(1:nel,5) / el_ref
+        call table_mat_vinterp(fail%table4d(ifun_el),nel,nel,vartmp(1:nel,4:4),lambda,size_fac,dydx)
+        epsf(1:nel) = epsf(1:nel) * size_fac(1:nel)
+      end if
+      ! temperature scale factor
+      if (fail%table4d(ifun_temp)%notable > 0) then
+        lambda(1:nel) = uvar(1:nel,5) / el_ref
+        call table_mat_vinterp(fail%table4d(ifun_temp),nel,nel,vartmp(1:nel,5:5),tstar,size_fac,dydx)
+        epsf(1:nel) = epsf(1:nel) * size_fac(1:nel)
+      end if 
+c        
 C----   Instability function
 
-        IF (ITAB_INST > 0) THEN
-           XX0(2)=EPSP(I) *X4SCALE
-           CALL TABLE_INTERP (TABLE(ITAB_INST),XX0,YY_N)            
-           EPSF_N(I) = YY_N * X3SCALE
+        IF (fail%table4d(ifun_inst)%notable > 0) THEN
+          call table_mat_vinterp(fail%table4d(ifun_inst),nel,nel,vartmp(1:nel,6:7),xvec,epsf_n,dydx)
         ELSEIF (ECRIT > 0.0) THEN
            EPSF_N(I) = ECRIT
         ELSE 
            EPSF_N(I) = ZERO
-        ENDIF
-        
+        ENDIF       
 C----   Fading exponent
-        IF (FADE_EXPO < ZERO) THEN
-           LAMBDA = UVAR(I,5) / EL_REF
-           FADE_EXPO = FINTER(IFUN_FAD,LAMBDA,NPF,TF,DF) 
+        IF (fail%table4d(ifun_fad)%notable > 0) THEN
+          lambda(1:nel) = uvar(1:nel,5) / el_ref
+          call table_mat_vinterp(fail%table4d(ifun_fad),nel,nel,vartmp(1:nel,8:8),lambda,fade_expo,dydx)
         ENDIF
-C----         
-      ENDDO
 C-------------------------------------------------------------------
           IF (ISHELL == 1) THEN    ! shell deleted when rupture in one integration point
-            IF (IXFEM == 1 .OR. IXFEM == 2) THEN 
+            IF (IXFEM == 1 .OR. IXFEM == 2) THEN
+              if (fail%table4d(ifun_dmg)%notable > 0) then
+                call table_mat_vinterp(fail%table4d(ifun_dmg),nel,nel,vartmp(1:nel,9:9),uvar(1:nel,1),dp,dydx)
+              else
+                if(uvar(1,1) == zero) then
+                  dp(1:nel) = one
+                else
+                  dp(1:nel) = dn * uvar(1:nel,1)**(one-one/dn)
+                end if
+              end if
+              !
               DO I=1,NEL
                 IF (ISHELL == 1 .AND. OFF(I)==ONE) THEN
-                  IF (IFUN_DMG > 0) THEN
-                    DP = FINTER(IFUN_DMG,UVAR(I,1),NPF,TF,DF)
-                  ELSE
-                    IF(UVAR(I,1) == ZERO) THEN 
-                      DP = ONE
-                      ELSE
-C                     DP = DN*DD**(ONE-ONE/DN) ! old and wrong
-                      DP = DN*UVAR(I,1)**(ONE-ONE/DN)
-                    ENDIF
-                  ENDIF
-                  IF (EPSF(I) > ZERO) UVAR(I,1)=
-     .                                UVAR(I,1)+DP*DPLA(I)/EPSF(I)
+                  IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP(I)*DPLA(I)/EPSF(I)
                   IF (IXEL == 0) THEN
                     IF (ELCRKINI(ILAY,I)==0) THEN
                       IF (UVAR(I,1) >= DCRIT) THEN
@@ -328,105 +286,106 @@ c               delete
             ENDIF
           ENDIF  ! IF(ISHELL == 1)
 C-------------------------------
-          IF (ISHELL > 1) THEN  
+          IF (ISHELL > 1) THEN
+!
             IF (IXFEM == 1) THEN
-              DO I=1,NEL
-                IF (OFF(I) == ONE)THEN
-                  IF (UVAR(I,1) < DCRIT) THEN
-                    IF (IFUN_DMG > 0) THEN
-                      DP = FINTER(IFUN_DMG,UVAR(I,1),NPF,TF,DF)
-                    ELSE
-                     IF(UVAR(I,1) == ZERO) THEN 
-                       DP = ONE
-                       ELSE
-C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
-                       DP = DN*UVAR(I,1)**(ONE-ONE/DN)
-                     ENDIF
-                    ENDIF
-                    IF (EPSF(I) > ZERO) UVAR(I,1)=
-     .                                  UVAR(I,1)+DP*DPLA(I)/EPSF(I)
-                    IF (IXEL == 0) THEN
-                      IF (ELCRKINI(ILAY,I) == 0 .AND. 
-     .                    UVAR(I,1) >= DCRIT) THEN
-                        IF (ISHELL == 2) THEN
-                          SIGNXX(I) = ZERO
-                          SIGNYY(I) = ZERO
-                          SIGNXY(I) = ZERO
-                          SIGNYZ(I) = ZERO
-                          SIGNZX(I) = ZERO
-                        ENDIF
-                        NINDX=NINDX+1
-                        INDX(NINDX)=I
-                        ELCRKINI(ILAY,I) = -1
-                        NOFF(I) = NOFF(I) + 1
-                        IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = FOUR_OVER_5                                           
-                          TDEL(I)= TIME
-                        ENDIF 
-                        RFLAG(I) = 1
-                      ELSEIF (ELCRKINI(ILAY,I) == 2 .AND.
-     .                        UVAR(I,1) >= DADV) THEN
-                        IF (ISHELL == 2) THEN
-                          SIGNXX(I) = ZERO
-                          SIGNYY(I) = ZERO
-                          SIGNXY(I) = ZERO
-                          SIGNYZ(I) = ZERO
-                          SIGNZX(I) = ZERO
-                        ENDIF
-                        NINDX=NINDX+1
-                        INDX(NINDX)=I
-                        ELCRKINI(ILAY,I) = 1
-                        NOFF(I) = NOFF(I) + 1
-                        IF(DADV < DCRIT) UVAR(I,1) = DCRIT
-                        IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = FOUR_OVER_5                                           
-                          TDEL(I)= TIME
-                        ENDIF
-                        RFLAG(I) = -1
-                      ENDIF
-                    ELSEIF (UVAR(I,1) >= DCRIT) THEN  ! IXEL > 0
-                      IF (ISHELL == 2) THEN
-                        SIGNXX(I) = ZERO
-                        SIGNYY(I) = ZERO
-                        SIGNXY(I) = ZERO
-                        SIGNYZ(I) = ZERO
-                        SIGNZX(I) = ZERO
-                      ENDIF
-                      NINDX=NINDX+1
-                      INDX(NINDX)=I
-                      NOFF(I) = NOFF(I) + 1
-                      RFLAG(I) = 3
-                      IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = FOUR_OVER_5                                           
-                        RFLAG(I) = 4 !!! obsolete
-                      ENDIF
-                    ENDIF ! IXEL
-                  ELSEIF (ISHELL == 2) THEN
-                    SIGNXX(I) = ZERO
-                    SIGNYY(I) = ZERO
-                    SIGNXY(I) = ZERO
-                    SIGNYZ(I) = ZERO
-                    SIGNZX(I) = ZERO
-                  ENDIF
-                ENDIF ! OFF 
-              ENDDO
+              if (fail%table4d(ifun_dmg)%notable > 0) then
+                call table_mat_vinterp(fail%table4d(ifun_dmg),nel,nel,vartmp(1:nel,9:9),uvar(1:nel,1),dp,dydx)
+              else ! no damage function, use power law
+                do i=1,nel
+                  if (off(i) == one) then
+                    if (uvar(i,1) < dcrit) then
+                      dp(i) = dn * uvar(i,1)**(one-one/dn)
+                    end if
+                  end if
+                end do
+              end if
+!
+              do i=1,nel
+                if (off(i) == one)then
+                  if (uvar(i,1) < dcrit) then
+                    if (epsf(i) > zero) uvar(i,1) = uvar(i,1)+dp(i)*dpla(i)/epsf(i)
+                    if (ixel == 0) then
+                      if (elcrkini(ilay,i) == 0 .and. uvar(i,1) >= dcrit) then
+                        if (ishell == 2) then
+                          signxx(i) = zero
+                          signyy(i) = zero
+                          signxy(i) = zero
+                          signyz(i) = zero
+                          signzx(i) = zero
+                        endif
+                        nindx=nindx+1
+                        indx(nindx)=i
+                        elcrkini(ilay,i) = -1
+                        noff(i) = noff(i) + 1
+                        if (noff(i) == nptot) then
+                          off(i) = four_over_5                                           
+                          tdel(i)= time
+                        endif 
+                        rflag(i) = 1
+                      elseif (elcrkini(ilay,i) == 2 .and. uvar(i,1) >= dadv) then
+                        if (ishell == 2) then
+                          signxx(i) = zero
+                          signyy(i) = zero
+                          signxy(i) = zero
+                          signyz(i) = zero
+                          signzx(i) = zero
+                        endif
+                        nindx=nindx+1
+                        indx(nindx)=i
+                        elcrkini(ilay,i) = 1
+                        noff(i) = noff(i) + 1
+                        if(dadv < dcrit) uvar(i,1) = dcrit
+                        if (noff(i) == nptot) then
+                          off(i) = four_over_5                                           
+                          tdel(i)= time
+                        endif
+                        rflag(i) = -1
+                      endif
+                    elseif (uvar(i,1) >= dcrit) then  ! ixel > 0
+                      if (ishell == 2) then
+                        signxx(i) = zero
+                        signyy(i) = zero
+                        signxy(i) = zero
+                        signyz(i) = zero
+                        signzx(i) = zero
+                      endif
+                      nindx=nindx+1
+                      indx(nindx)=i
+                      noff(i) = noff(i) + 1
+                      rflag(i) = 3
+                      if (noff(i) == nptot) then
+                        off(i) = four_over_5                                           
+                        rflag(i) = 4 !!! obsolete
+                      endif
+                    endif ! ixel
+                  elseif (ishell == 2) then
+                    signxx(i) = zero
+                    signyy(i) = zero
+                    signxy(i) = zero
+                    signyz(i) = zero
+                    signzx(i) = zero
+                  endif
+                endif ! off 
+              enddo
+!
             ELSEIF (IXFEM == 2) THEN
+              if (fail%table4d(ifun_dmg)%notable > 0) then
+                call table_mat_vinterp(fail%table4d(ifun_dmg),nel,nel,vartmp(1:nel,9:9),uvar(1:nel,1),dp,dydx)
+              else ! no damage function, use power law
+                do i=1,nel
+                  if (off(i) == one) then
+                    if (uvar(i,1) < dcrit) then
+                      dp(i) = dn * uvar(i,1)**(one-one/dn)
+                    end if
+                  end if
+                end do
+              end if
+!
               DO I=1,NEL
                 IF (OFF(I)==ONE .AND. (ISHELL==2 .OR. ISHELL==3))THEN
                   IF (UVAR(I,1) < DCRIT) THEN
-                    IF (IFUN_DMG > 0) THEN
-                      DP = FINTER(IFUN_DMG,UVAR(I,1),NPF,TF,DF)
-                    ELSE
-                     IF(UVAR(I,1) == ZERO) THEN 
-                       DP = ONE
-                       ELSE
-C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
-                       DP = DN*UVAR(I,1)**(ONE-ONE/DN)
-                     ENDIF
-                    ENDIF
-
-                    IF (EPSF(I) > ZERO) UVAR(I,1)=
-     .                                  UVAR(I,1)+DP*DPLA(I)/EPSF(I)
+                    IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP(I)*DPLA(I)/EPSF(I)
                     IF (IXEL == 0) THEN
                       IF (ELCRKINI(ILAY,I) == 0 .AND. 
      .                    UVAR(I,1) >= DCRIT) THEN
@@ -492,7 +451,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                 ENDIF ! OFF 
               ENDDO
             ENDIF  ! IF (IXFEM == 1)
-c
+c---------------------------------------------------------------------------------
             IF (NINDX > 0) THEN
               DO J=1,NINDX
                 I = INDX(J)

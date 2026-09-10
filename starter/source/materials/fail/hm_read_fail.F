@@ -430,20 +430,14 @@ c
             ELSEIF (KEY(1:4) == 'TAB1') THEN
               IRUPT = 23 
               CALL HM_READ_FAIL_TAB1(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .             LSUBMODEL,UNITAB   )
+     .             TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .             NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   )
 c     
             ELSEIF (KEY(1:4) == 'TAB2') THEN
               IRUPT = 41
               CALL HM_READ_FAIL_TAB2(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,MAT_PARAM(IMAT)%TITLE,
      .             LSUBMODEL,UNITAB   ,MLAW_TAG(IMAT))
-c     
-            ELSEIF (KEY(1:3) == 'TAB') THEN
-              IRUPT = 37
-              CALL HM_READ_FAIL_TAB_OLD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .             LSUBMODEL,UNITAB   )
 c     
             ELSEIF (KEY(1:10) == 'ORTHSTRAIN') THEN
               IRUPT = 24 

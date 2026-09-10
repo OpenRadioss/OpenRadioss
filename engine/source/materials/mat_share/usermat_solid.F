@@ -1430,12 +1430,12 @@ c --- modified Puck failure model
      5        LBUF%OFF ,OFF      ,GBUF%NOFF,NIPAR    ,IPARAMF  )
           ELSEIF (IRUPT == 23) THEN                                      
 C---- tabulated failure model
-               CALL FAIL_TAB_S(
-     1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
-     2         UPARAMF  ,NGL      ,EL_LEN   ,        
+               CALL FAIL_TAB_S(FAILPARAM,
+     1         LLT      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,       
+     2         TT       ,NGL      ,EL_LEN   ,        
      3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
-     4         DPLA     ,EPSP1    ,TSTAR    ,UVARF ,NTABL_FAIL,ITABL_FAIL,             
-     5         OFF      ,TABLE    ,DFMAX    ,TDEL  ,NFUNC    ,IFUNC )                                      
+     4         DPLA     ,EPSP1    ,TSTAR    ,OFF      ,DFMAX    ,TDEL  )      
+                                    
           ELSEIF (IRUPT == 24) THEN                                      
 c   --- Orthotropic strain failure
               CALL FAIL_ORTHSTRAIN(FAILPARAM,
@@ -1492,16 +1492,6 @@ C  --- VISUAL failure model
      .        ES1     ,ES2     ,ES3      ,ES4      ,ES5       ,ES6    ,
      .        S1      ,S2      ,S3       ,S4       ,S5        ,S6     ,
      .        UVARF   ,OFF     ,NGL      ,DFMAX    ,ISMSTR    ) 
-c
-          ELSEIF (IRUPT == 37) THEN                                      
-c ---       tabulated failure model (old, obsolete version)
-              CALL FAIL_TAB_OLD_S(
-     1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
-     2         UPARAMF  ,NGL      ,EL_LEN   ,        
-     3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
-     4         DEFP     ,DPLA     ,EPSP1    ,TSTAR    ,UVARF ,             
-     5         OFF      ,DFMAX    ,TDEL     ,
-     6         NFUNC    ,IFUNC ) 
 c
           ELSEIF (IRUPT == 38) THEN                                      
 c  --- Orthotropic biquadratic failure model                                  
