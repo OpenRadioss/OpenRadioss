@@ -375,7 +375,7 @@ C
           NFAIL = MAT_PARAM(MID)%NFAIL
           IF(MLN/=24.AND.MLN/=25.AND.MLN<28)THEN
             ISTRAIN = 1
-          ELSEIF(MLN>=28)THEN
+          ELSE
             ISTRAIN=2
           ENDIF
           IEOS=IPM(4,MID)
