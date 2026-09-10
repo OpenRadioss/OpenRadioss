@@ -2295,7 +2295,7 @@
                 &ss1  ,ss2  ,ss3  ,ss4   ,ss5   ,ss6,&
                 &dpla ,epsp ,tstar,off   ,&
                 &lf_dammx   ,dfmax,tdel ,lbuf%off,&
-                  niparam , iparamf, mvsiz)
+                &niparam , iparamf, mvsiz,gbuf%uelr,gbuf%uelr1)
 !
               else if(irupt == 9)then
                 call fail_wierzbicki_s(llt ,nparam,nvarf,&

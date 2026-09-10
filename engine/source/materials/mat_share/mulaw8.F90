@@ -109,7 +109,7 @@
         &                 mat_param,        svis,    snpc,    &
         &                 dt1,     tt,      maxfunc, npropmi, &
         &                 npropg,  npropm,  imon_mat,numgeo,  &
-        &                 sbufmat, stf,     ntable )
+        &                 sbufmat, stf,     ntable,  gbuf  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -227,6 +227,7 @@
           type(ttable),dimension(ntable),intent(in) ::  table
           type (buf_lay_),intent(inout), target :: bufly
           type (matparam_struct_) ,dimension(nummat) ,intent(inout) :: mat_param
+          type(g_bufel_), intent(inout) :: gbuf
           target :: mat_param
           target :: bufmat
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1065,7 +1066,7 @@
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
                 &dpla,epsp1,tstar,off     ,&
                 &lf_dammx ,dfmax,tdele,offg,&
-                &niparf,iparamf,mvsiz)
+                &niparf,iparamf,mvsiz,gbuf%uelr,gbuf%uelr1)
               elseif(irupt == 9)then
 !----  wierzbicki
                 call fail_wierzbicki_s(llt ,npar,nvarf,&
