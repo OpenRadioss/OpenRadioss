@@ -29,12 +29,16 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- calls      -----------------------------------------------------
 !||    finter          ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_FABRIC_C(
-     1     NEL      ,NGL      ,NUPARAM  ,NUVAR    ,NFUNC    ,
-     2     UPARAM   ,UVAR     ,IFUNC    ,TIME     ,TIMESTEP ,
-     3     NPF      ,TF       ,DEPS1    ,DEPS2    ,EPS1     ,
+      SUBROUTINE FAIL_FABRIC_C(FAIL     ,NEL      ,
+     1     NGL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
+     2     TIME     ,TIMESTEP ,DEPS1    ,DEPS2    ,EPS1     ,
      4     EPS2     ,SIG1     ,SIG2     ,DFMAX    ,TDEL     ,
      5     IPG      ,ILAY     ,IPT      ,OFF      ,FOFF     )
+! ---------------------------- ----------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 c    Anisotropic fabric tension strain failure
 C-----------------------------------------------
@@ -45,15 +49,8 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C---------+---------+---+---+--------------------------------------------
-C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C IFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -80,53 +77,51 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
+      INTEGER, INTENT(IN) :: NEL,NUVAR,NVARTMP,IPG,ILAY,IPT
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
       my_real, INTENT(IN) :: TIME,TIMESTEP
-      my_real ,DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
       my_real ,DIMENSION(NEL), INTENT(IN)  :: DEPS1,DEPS2,EPS1,EPS2,OFF
+      type (fail_param_) ,intent(in) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
+      INTEGER ,DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
+      my_real, DIMENSION(NEL,NUVAR)  , INTENT(INOUT) :: UVAR
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX,SIG1,SIG2
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: TDEL
-      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX1,NINDX2,NDIR
-      my_real :: XFAC,RF1,RR1,RF2,RR2,DYDX,EPSR1,EPSR2,EPSF1,EPSF2,DMG1,DMG2
+      my_real :: RF1,RR1,RF2,RR2,EPSR1,EPSR2,EPSF1,EPSF2,DMG1,DMG2
       INTEGER ,DIMENSION(NEL) :: INDX1,INDX2
-      my_real ,DIMENSION(NEL) :: RFAC1,RFAC2,EPSP1,EPSP2
+      my_real ,DIMENSION(NEL) :: RFAC1,RFAC2,EPSP1,EPSP2,DYDX
 c-----------------------------------------------------------------------
 c     UVAR(1) = stress reduction factor in 1st fiber direction
 c     UVAR(2) = stress reduction factor in 2nd fiber direction
 C=======================================================================
       NINDX1 = 0
       NINDX2 = 0
-      EPSF1 = UPARAM(1)
-      EPSR1 = UPARAM(2)
-      EPSF2 = UPARAM(3)
-      EPSR2 = UPARAM(4)
-      XFAC  = UPARAM(5)
-      NDIR  = NINT(UPARAM(6))
+      NDIR  = FAIL%IPARAM(1)
+      EPSF1 = FAIL%UPARAM(1)
+      EPSR1 = FAIL%UPARAM(2)
+      EPSF2 = FAIL%UPARAM(3)
+      EPSR2 = FAIL%UPARAM(4)
 C-------------------
 C     STRAIN 
 C-------------------
-      IF (IFUNC(1) > 0) THEN   ! strain rate dependency
+      IF (FAIL%TABLE4D(1)%NOTABLE > 0) THEN   ! strain rate dependency
         DO I=1,NEL
-          EPSP1(I) = XFAC * DEPS1(I) / MAX(TIMESTEP,EM20)
-          EPSP2(I) = XFAC * DEPS2(I) / MAX(TIMESTEP,EM20)
-          RFAC1(I) = FINTER(IFUNC(1),EPSP1(I),NPF,TF,DYDX)
+          EPSP1(I) = DEPS1(I) / MAX(TIMESTEP,EM20)
+          EPSP2(I) = DEPS2(I) / MAX(TIMESTEP,EM20)
+        END DO
+        !
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),epsp1,rfac1,dydx)
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,2:2),epsp2,rfac2,dydx)
+        !
+        DO I=1,NEL
           RFAC1(I) = MAX(RFAC1(I),EM20)
-          RFAC2(I) = FINTER(IFUNC(1),EPSP2(I),NPF,TF,DYDX)
           RFAC2(I) = MAX(RFAC2(I),EM20)
         ENDDO
       ELSE
