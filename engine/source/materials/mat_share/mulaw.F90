@@ -2423,7 +2423,7 @@
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
                 &dpla,epsp1,tstar,off         ,&
                 &lf_dammx ,dfmax,tdel ,offg,&
-                &niparf,iparf,mvsiz)
+                &niparf,iparf,mvsiz,gbuf%uelr,gbuf%uelr1)
               else if (irupt == 9) then
 !---- wierzbicki
                 call fail_wierzbicki_s(nel ,nparf,nuvarr,&

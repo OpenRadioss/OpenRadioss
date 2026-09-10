@@ -1378,7 +1378,7 @@ C---- Johnson cook + spalling
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      5                    DPLA,EPSP1,TSTAR,OFF         ,
      6                    LF_DAMMX ,DFMAX,TDEL ,OFFG   ,
-     7                    NIPAR    ,IPARAMF,MVSIZ)                   
+     7                    NIPAR    ,IPARAMF,MVSIZ,GBUF%UELR,GBUF%UELR1)
           ELSEIF (IRUPT == 9)THEN                                         
 C---- wierzbicki
               CALL FAIL_WIERZBICKI_S(LLT ,NPAR,NUVARR,
