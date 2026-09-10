@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER I,J,ID,ISU,NTRANS,UID,
      .           ITRANSSUB,IDSUBOK(NSUBMOD),ISUBOK,
      .           SIDTRANS,
-     .           ITY,K,
+     .           ITY,K,L,
      .           CUR_SUBMOD,SUB_LEVEL,NUMNUSR,NUMNUSR2,ISK,CNT
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB,NODESSUB ! NUMNOD
       INTEGER :: WORK(70000)
@@ -87,7 +87,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARLINE) ::MESS
       CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real
-     .   TX,TY,TZ,X0(3),X1(3),ROT(9),S,XP,YP,ZP,SKEW_SUB(12),X0_SUB(3),ROT_SUB(9),
+     .   TX,TY,TZ,X0(3),X1(3),ROT(9),S,XP,YP,ZP,SKEW_SUB(12),X0_SUB(3),
      .   XCOLD(3), XCNEW(3), SX, SY, SZ
       DATA MESS/'SUBMODEL DEFINITION                   '/
       LOGICAL IS_AVAILABLE
@@ -234,65 +234,69 @@ C-------------------------
         X0_SUB(1) = ZERO
         X0_SUB(2) = ZERO
         X0_SUB(3) = ZERO
-       DO J=1,12
-        SKEW_SUB(J)=ZERO
-       ENDDO
-       SKEW_SUB(1)=ONE
-       SKEW_SUB(5)=ONE
-       SKEW_SUB(9)=ONE
+        DO J=1,12
+          SKEW_SUB(J)=ZERO
+        ENDDO
+        SKEW_SUB(1)=ONE
+        SKEW_SUB(5)=ONE
+        SKEW_SUB(9)=ONE
        !-------------------------
        CUR_SUBMOD = I
        SUB_LEVEL = LSUBMODEL(I)%LEVEL
        DO WHILE (SUB_LEVEL /= 0)
         IF (LSUBMODEL(CUR_SUBMOD)%NBTRANS /= 0) THEN 
          DO J = 1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
-          ITY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),2)
+          ITY = int(RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),2))
           IF(ITY == 1)THEN
             TX=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),15)
             TY=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),16)
             TZ=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),17)
             ISK = int(RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),23))
             !--------
-            ! skew sub
-            IF (isk == 0) THEN
-              SKEW_SUB(10) = SKEW_SUB(10) + TX
-              SKEW_SUB(11) = SKEW_SUB(11) + TY
-              SKEW_SUB(12) = SKEW_SUB(12) + TZ
-            ELSEIF (isk > 0) THEN
-              ROT_SUB(1) = SKEW(1,ISK)
-              ROT_SUB(2) = SKEW(2,ISK)
-              ROT_SUB(3) = SKEW(3,ISK)
-              ROT_SUB(4) = SKEW(4,ISK)
-              ROT_SUB(5) = SKEW(5,ISK)
-              ROT_SUB(6) = SKEW(6,ISK)
-              ROT_SUB(7) = SKEW(7,ISK)
-              ROT_SUB(8) = SKEW(8,ISK)
-              ROT_SUB(9) = SKEW(9,ISK)
-              CALL EULER_VROT(X0_SUB,SKEW_SUB(1),ROT_SUB)
-              CALL EULER_VROT(X0_SUB,SKEW_SUB(4),ROT_SUB)
-              CALL EULER_VROT(X0_SUB,SKEW_SUB(7),ROT_SUB)
-              SKEW_SUB(10) = SKEW_SUB(10) + TX
-              SKEW_SUB(11) = SKEW_SUB(11) + TY
-              SKEW_SUB(12) = SKEW_SUB(12) + TZ
-            ENDIF
-            !--------
-            !DO K=1,NUMNOD
-            !  IF(TAGNODSUB(K) == I) THEN
-            !      X(1,K)=X(1,K)+TX
-            !      X(2,K)=X(2,K)+TY
-            !      X(3,K)=X(3,K)+TZ
-            !  ENDIF
-            !ENDDO
-            CNT = 0
-            DO K=1,NUMNOD
-              IF(TAGNODSUB(K) == I) THEN
-                CNT = CNT + 1
-                NODESSUB(CNT) = K
-              ENDIF
-            ENDDO
-            IF (CNT > 0) CALL transform_translate_in_local_skew(
-     .            NODESSUB     ,CNT        ,X   ,NUMNOD     , ISK  ,
-     .            TX           ,TY         ,TZ  ,SKEW_SUB   )
+            IF (ISK == 0) THEN
+              DO K=1,NUMNOD
+                IF(TAGNODSUB(K) == I) THEN
+                    X(1,K)=X(1,K)+TX
+                    X(2,K)=X(2,K)+TY
+                    X(3,K)=X(3,K)+TZ
+                ENDIF
+              ENDDO
+            ELSE IF (ISK > 0) THEN
+              CNT = 0
+              DO K=1,NUMNOD
+                IF(TAGNODSUB(K) == I) THEN
+                  CNT = CNT + 1
+                  NODESSUB(CNT) = K
+                ENDIF
+              ENDDO
+
+              IF(CNT > 0) THEN
+                !---
+                ! rotate the local skew of the current translation transformation 
+                ! for any previous rotation transformations, if any exist
+                !---
+                DO K=1,12
+                  SKEW_SUB(K) = SKEW(K,ISK)
+                ENDDO
+                DO K=1,J-1
+                  IF (RTRANS(K,1) == LSUBMODEL(I)%NOSUBMOD) THEN
+                    ITY = int(RTRANS(K,2))
+                    IF (ITY == 2) THEN
+                      DO L=1,9
+                        ROT(L) = RTRANS(K,L+2)
+                      ENDDO
+                      CALL EULER_VROT(X0_SUB,SKEW_SUB(1),ROT)
+                      CALL EULER_VROT(X0_SUB,SKEW_SUB(4),ROT)
+                      CALL EULER_VROT(X0_SUB,SKEW_SUB(7),ROT)
+                    ENDIF
+                  ENDIF
+                ENDDO
+                ! apply the translation in the local skew coordinate system
+                CALL transform_translate_in_local_skew(
+     .            NODESSUB     ,CNT        ,X   ,NUMNOD     ,SKEW_SUB,
+     .            TX           ,TY         ,TZ  )
+              ENDIF ! IF(CNT > 0)
+            ENDIF ! IF (ISK > 0)
           ELSEIF(ITY == 2)THEN
             DO K=1,9
               ROT(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),K+2)
@@ -304,12 +308,6 @@ C-------------------------
             DO K=1,NUMNOD
               IF(TAGNODSUB(K) == I)  CALL EULER_VROT(X0,X(1,K),ROT)
             ENDDO
-            !--------
-            ! skew sub
-            CALL EULER_VROT(X0_SUB,SKEW_SUB(1),ROT)
-            CALL EULER_VROT(X0_SUB,SKEW_SUB(4),ROT)
-            CALL EULER_VROT(X0_SUB,SKEW_SUB(7),ROT)
-            !--------
           ELSEIF(ITY == 3)THEN 
             TX = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),15)
             TY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),16)

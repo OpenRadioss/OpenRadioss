@@ -44,7 +44,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       SUBROUTINE LECTRANSSUB(X      ,IGRNOD,ITAB,ITABM1,UNITAB,
      .                       RTRANS ,LSUBMODEL,IS_DYNA,ISKWN,LISKN,
-     .                       NSPCOND  ,NUMSPH ,SISKWN)
+     .                       NSPCOND  ,NUMSPH ,SISKWN,LSKEW,SSKEW,SKEW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
       use my_alloc_mod
+      USE local_to_global_skew_mod, ONLY : local_to_global_skew
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +76,8 @@ C-----------------------------------------------
       INTEGER IS_DYNA
       INTEGER, INTENT(IN) :: LISKN,NSPCOND,NUMSPH,SISKWN
       INTEGER, INTENT(IN) :: ISKWN(LISKN,SISKWN/LISKN)
+      INTEGER, INTENT(IN) :: LSKEW,SSKEW
+      my_real, INTENT(IN) :: SKEW(LSKEW,SSKEW/LSKEW)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -83,7 +86,7 @@ C-----------------------------------------------
       INTEGER I,I0,I1,I2,I3,I4,I5,I6,
      .          N0,N1,N2,N3,N4,N5,N6,IERROR,
      .   J,ID,UID,IGU,IGS,NTRANS,ITRANSSUB,
-     .   ISU,K,ID_TRANSSUB,NUMNUSR,ISK0,ISK,SUB_INDEX
+     .   ISU,K,ID_TRANSSUB,NUMNUSR,ISK0,ISK,SUB_INDEX,ITY
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB !NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
@@ -93,7 +96,7 @@ C-----------------------------------------------
       my_real
      .   X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),NORM1, NORM2, NORM3, SCAL1,
-     .   SCAL2, SCAL3, EPS
+     .   SCAL2, SCAL3, EPS,X0_TRANS(3),SKEW_TRA(12),TX_LOC_GLO,TY_LOC_GLO,TZ_LOC_GLO
       CHARACTER(LEN=NCHARFIELD) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
 !
@@ -164,6 +167,12 @@ C--------------------------------------------------
 C BROWSING MODEL TRANSFORM 1->NTRANS
 C--------------------------------------------------
       DO I=1,NTRANS
+        DO J=1,12
+          SKEW_TRA(J) = ZERO
+        ENDDO
+        SKEW_TRA(1)=ONE
+        SKEW_TRA(5)=ONE
+        SKEW_TRA(9)=ONE
 C--------------------------------------------------
 C EXTRACT DATAS OF /TRANSFORM/... LINE
 C--------------------------------------------------
@@ -240,6 +249,7 @@ C
           ENDIF
 c
           IF (N0 > 0 .OR. N1 > 0) THEN
+            ISK = 0
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
             IF (I0 == 0) THEN
@@ -284,10 +294,39 @@ C TRANSFORMATION OF COORDS OF NODES N0 & N1
             TY = TY * FAC_L 
             TZ = TZ * FAC_L 
           ENDIF
-          RTRANS(I,15) = TX
-          RTRANS(I,16) = TY
-          RTRANS(I,17) = TZ
-          S = SQRT(TX*TX + TY*TY + TZ*TZ)
+
+          TX_LOC_GLO = TX
+          TY_LOC_GLO = TY
+          TZ_LOC_GLO = TZ
+          ! step 1, loop on previous transformations: if any rotations, apply them to the curent ISK
+          IF (ISK > 0) THEN
+            DO J=1,12
+              SKEW_TRA(J) = SKEW(J,ISK)
+            ENDDO
+            DO J=1,I-1
+              IF(RTRANS(J,1) == ITRANSSUB) THEN
+                ITY = int(RTRANS(J,2))
+                IF (ITY == 2) THEN
+                  DO K=1,9
+                    ROT(K) = RTRANS(J,K+2)
+                  ENDDO
+                  X0_TRANS(1) = ZERO
+                  X0_TRANS(2) = ZERO
+                  X0_TRANS(3) = ZERO
+                  CALL EULER_VROT(X0_TRANS,SKEW_TRA(1),ROT)
+                  CALL EULER_VROT(X0_TRANS,SKEW_TRA(4),ROT)
+                  CALL EULER_VROT(X0_TRANS,SKEW_TRA(7),ROT)
+                ENDIF
+              ENDIF
+            ENDDO
+            ! step 2, apply TX, TY, TZ in global coordinates
+            CALL local_to_global_skew(TX_LOC_GLO,TY_LOC_GLO,TZ_LOC_GLO,SKEW_TRA)
+          ENDIF ! IF (ISK > 0)
+
+          RTRANS(I,15) = TX_LOC_GLO
+          RTRANS(I,16) = TY_LOC_GLO
+          RTRANS(I,17) = TZ_LOC_GLO
+          S = SQRT(TX_LOC_GLO*TX_LOC_GLO + TY_LOC_GLO*TY_LOC_GLO + TZ_LOC_GLO*TZ_LOC_GLO)
           RTRANS(I,23) = ISK
 C
           ROT(1:9)=ZERO
