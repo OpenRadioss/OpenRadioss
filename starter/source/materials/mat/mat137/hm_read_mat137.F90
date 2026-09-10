@@ -172,7 +172,13 @@
           x2vect(1:5) = one
           x3vect(1:5) = zero
           x4vect(1:5) = zero
-          fscale(1:5) = one
+          !< Get pressure unit for tabulated Young modulus
+          call hm_get_floatv_dim('MATL270_EGHOST' ,fscale(1),is_available, lsubmodel, unitab)
+          fscale(2:3) = one
+          !< Get pressure unit for tabulated yield stress
+          call hm_get_floatv_dim('MATL270_EGHOST' ,fscale(4),is_available, lsubmodel, unitab)
+          !< Get pressure unit for tabulated hardening modulus
+          call hm_get_floatv_dim('MATL270_EGHOST' ,fscale(5),is_available, lsubmodel, unitab)
 !
           !< Assign table IDs
           ! -> Classic clipping yield surface
