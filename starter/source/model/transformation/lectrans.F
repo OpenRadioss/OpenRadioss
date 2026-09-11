@@ -204,6 +204,7 @@ c---------------------
               ENDIF
           ENDIF
           IF (N0 > 0 .OR. N1 > 0) THEN
+            ISK = 0
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
             IF (I0 == 0) THEN
@@ -234,14 +235,22 @@ c---------------------
           DO J=1,12
             SKEW_TRANS(J)=ZERO
           ENDDO
-          IF(ISK > 0) THEN
+
+          IF(ISK == 0) THEN
+            DO J=1,IGRNOD(IGS)%NENTITY
+              IS=IGRNOD(IGS)%ENTITY(J)
+              X(1,IS) = X(1,IS) + TX
+              X(2,IS) = X(2,IS) + TY
+              X(3,IS) = X(3,IS) + TZ
+            ENDDO
+          ELSE IF(ISK > 0) THEN
             DO J=1,12
               SKEW_TRANS(J)=SKEW(J,ISK)
             ENDDO
+            CALL transform_translate_in_local_skew(
+     .                 IGRNOD(IGS)%ENTITY ,IGRNOD(IGS)%NENTITY ,X    ,NUMNOD    , SKEW_TRANS  ,
+     .                 TX                 ,TY                  ,TZ   )
           ENDIF
-          CALL transform_translate_in_local_skew(
-     .                 IGRNOD(IGS)%ENTITY ,IGRNOD(IGS)%NENTITY ,X    ,NUMNOD    , ISK  ,
-     .                 TX                 ,TY                  ,TZ   ,SKEW_TRANS)
 
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
 C
