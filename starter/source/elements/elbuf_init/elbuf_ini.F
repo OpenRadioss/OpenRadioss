@@ -127,7 +127,7 @@ c------
 c      1) size of the ELBUF array for restart
 c      2) allocation of the ELBUF_TAB structure
 C=======================================================================
-      DEBUG_PRINT = 0
+      DEBUG_PRINT = 1
 c      
       IF(PRINT_FLAG>6) WRITE(IOUT, 1001)
 c
@@ -1599,14 +1599,14 @@ c                LVISC = LVISC + NUVARV*NEL
               ENDDO                                                                  
             ENDDO                                                                   
             IF (DEBUG_PRINT == 1) THEN
-              print*,''
+              print*
               print*,'    INTLAY ',IL
               print*,'      LIMAT,LIFAIL = ',LIMAT,LIFAIL
             ENDIF          
           ENDDO                                                                    
 c----------------------------------
           IF (DEBUG_PRINT == 1) THEN
-            print*,''
+            print*
             print*,'      sum local variables mat,visc,fail on all layers'
             print*,'      LMAT,LVISC,LFAIL,LEOS = ',LMAT,LVISC,LFAIL,LEOS
           ENDIF          
