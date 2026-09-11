@@ -1,0 +1,29 @@
+{
+  "fixture": "qa-tests/miniqa/SMOKE_TEST/data/TWISBEAM_0000.rad",
+  "fixture_support_files": [
+    "qa-tests/miniqa/SMOKE_TEST/data/TWISBEAMD0B"
+  ],
+  "cases": [
+    {
+      "name": "reject_legacy_additional_modes_file",
+      "description": "The public backend explicitly rejects a valid legacy Ifile=1 mode import instead of silently solving unrelated fresh modes.",
+      "nmod": 1,
+      "ifile": 1,
+      "additional_modes_filename": "EIG_IMPORT_MODES.txt",
+      "generate_additional_modes": true,
+      "animation": false,
+      "expect_starter_failure": true,
+      "expected_error": "/EIG external mode import is not supported"
+    },
+    {
+      "name": "reject_nastran_mode_file",
+      "description": "The public backend explicitly rejects an Ifile=2 Nastran mode import instead of warning and silently solving fresh modes.",
+      "nmod": 1,
+      "ifile": 2,
+      "additional_modes_filename": "EIG_NASTRAN_MODES.dat",
+      "animation": false,
+      "expect_starter_failure": true,
+      "expected_error": "/EIG external mode import is not supported"
+    }
+  ]
+}

@@ -3375,17 +3375,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,ICOL(NNMAX,N_FR),NROW(N_FR),IP,JLT,NFT,
+      INTEGER I,J,N,NK,NROW(N_FR),IP,JLT,NFT,
      .        FR_NROW(N_FR),L,IAD_S(NSPMD+1),IAD_R(NSPMD+1),NF1,
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,NN,NR,NL,NRN
+      INTEGER ICAP,NEWCAP
+      INTEGER, ALLOCATABLE :: ICOL(:,:),ICOL_NEW(:,:)
 C   ----  creer NROW,ICOL aux front.---------
       IF (N_FR <=0 .OR. NNMAX <=0 ) THEN
        NDDLFR=0
        NDDLFRB=0
        NDFRMAX=0
        N_FRNN=0
-c      RETURN
+       RETURN
       ENDIF
+      ICAP=NNMAX
+      ALLOCATE(ICOL(ICAP,N_FR))
       DO N =1,NUMNOD
        INLOC(N)=0
       ENDDO
@@ -3411,8 +3415,22 @@ c      RETURN
         N=FR_ELEM(NK)
         INLOC(N) = 0
        ENDDO
-      ENDDO
+       ENDDO
        CALL SPMD_NROW(NROW,FR_NROW,IAD_ELEM,N_FR)
+C  A domain can receive a larger union of neighbouring columns than its
+C  local estimate.  Grow the leading dimension before SPMD_ICOL writes the
+C  remote tail; the previous fixed automatic array could overrun here.
+       NEWCAP=ICAP
+       DO N=1,N_FR
+        NEWCAP=MAX(NEWCAP,NROW(N)+FR_NROW(N))
+       ENDDO
+       IF (NEWCAP>ICAP) THEN
+        ALLOCATE(ICOL_NEW(NEWCAP,N_FR))
+        ICOL_NEW=0
+        ICOL_NEW(1:ICAP,1:N_FR)=ICOL(1:ICAP,1:N_FR)
+        CALL MOVE_ALLOC(ICOL_NEW,ICOL)
+        ICAP=NEWCAP
+       ENDIF
 C------ prepare comm .-----
        LS=1
        LR=1
@@ -3431,7 +3449,7 @@ C------ prepare comm .-----
         RSIZE=IAD_R(NSPMD+1)-1
 C
         CALL SPMD_ICOL(
-     1   IAD_S    ,IAD_R    ,NNMAX    ,ICOL     ,NROW     ,
+     1   IAD_S    ,IAD_R    ,ICAP     ,ICOL     ,NROW     ,
      2   FR_NROW  ,IAD_ELEM ,FR_ELEM  ,SSIZE    ,RSIZE    )
        ENDIF
 C
@@ -3453,6 +3471,14 @@ C
             NL=INLOC(NN)
             IF (NL>0.AND.NN/=N) THEN
                  NRN = MAX(NROW(NK),FR_NROW(NK))
+                 IF (NRN>=ICAP) THEN
+                  NEWCAP=MAX(2*ICAP,NRN+1)
+                  ALLOCATE(ICOL_NEW(NEWCAP,N_FR))
+                  ICOL_NEW=0
+                  ICOL_NEW(1:ICAP,1:N_FR)=ICOL(1:ICAP,1:N_FR)
+                  CALL MOVE_ALLOC(ICOL_NEW,ICOL)
+                  ICAP=NEWCAP
+                 ENDIF
                  CALL REORDER_A(NRN,ICOL(1,NK),NL)
                   IF (NRN>MAX(NROW(NK),FR_NROW(NK))) FR_NROW(NK)=NRN
             ENDIF
@@ -3936,12 +3962,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,ICOL(NNMAX,N_FR),NROW(N_FR),IP,JLT,NFT,
+      INTEGER I,J,N,NK,NROW(N_FR),IP,JLT,NFT,
      .        FR_NROW(N_FR),L,IAD_S(NSPMD+1),IAD_R(NSPMD+1),
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,NN,NR,NL,NRN,
-     .        NR2,NF1
+     .        NR2,NF1,ICAP,NEWCAP
+      INTEGER, ALLOCATABLE :: ICOL(:,:),ICOL_NEW(:,:)
 C   ---- PB suite with Elem Delete .--------
-C     IF (N_FR <=0 .OR. NNMAX <=0) RETURN
+      IF (N_FR <=0 .OR. NNMAX <=0) THEN
+       NNRMAX=0
+       RETURN
+      ENDIF
+      ICAP=NNMAX
+      ALLOCATE(ICOL(ICAP,N_FR))
       DO N =1,NUMNOD
        INLOC(N)=0
       ENDDO
@@ -3967,8 +3999,21 @@ C     IF (N_FR <=0 .OR. NNMAX <=0) RETURN
         N=FR_ELEM(NK)
         INLOC(N) = 0
        ENDDO
-      ENDDO
+       ENDDO
        CALL SPMD_NROW(NROW,FR_NROW,IAD_ELEM,N_FR)
+C  Keep the reinitialization path subject to the same distributed-column
+C  capacity rule as DIM_FR_K.
+       NEWCAP=ICAP
+       DO N=1,N_FR
+        NEWCAP=MAX(NEWCAP,NROW(N)+FR_NROW(N))
+       ENDDO
+       IF (NEWCAP>ICAP) THEN
+        ALLOCATE(ICOL_NEW(NEWCAP,N_FR))
+        ICOL_NEW=0
+        ICOL_NEW(1:ICAP,1:N_FR)=ICOL(1:ICAP,1:N_FR)
+        CALL MOVE_ALLOC(ICOL_NEW,ICOL)
+        ICAP=NEWCAP
+       ENDIF
 C------ prepare comm .-----
        LS=1
        LR=1
@@ -3987,7 +4032,7 @@ C------ prepare comm .-----
         RSIZE=IAD_R(NSPMD+1)-1
 C
         CALL SPMD_ICOL(
-     1   IAD_S    ,IAD_R    ,NNMAX    ,ICOL     ,NROW     ,
+     1   IAD_S    ,IAD_R    ,ICAP     ,ICOL     ,NROW     ,
      2   FR_NROW  ,IAD_ELEM ,FR_ELEM  ,SSIZE    ,RSIZE    )
        ENDIF
 C
@@ -4011,6 +4056,14 @@ C
             NL=INLOC(NN)
             IF (NL>0.AND.NN/=N) THEN
              NRN = MAX(NROW(NK),FR_NROW(NK))
+             IF (NRN>=ICAP) THEN
+              NEWCAP=MAX(2*ICAP,NRN+1)
+              ALLOCATE(ICOL_NEW(NEWCAP,N_FR))
+              ICOL_NEW=0
+              ICOL_NEW(1:ICAP,1:N_FR)=ICOL(1:ICAP,1:N_FR)
+              CALL MOVE_ALLOC(ICOL_NEW,ICOL)
+              ICAP=NEWCAP
+             ENDIF
              CALL REORDER_A(NRN,ICOL(1,NK),NL)
              IF (NRN>MAX(NROW(NK),FR_NROW(NK))) FR_NROW(NK)=NRN
             ENDIF
@@ -6966,7 +7019,7 @@ C-----RBE2------
       NRBE2_FR=0
       NRBE2_FRS=0
       IF (LNS4>0) THEN
-       IF(ALLOCATED(IFRS4)) DEALLOCATE(IFRSR)
+       IF(ALLOCATED(IFRS4)) DEALLOCATE(IFRS4)
        ALLOCATE(IFRS4(2,LNS4),STAT=IERROR2)
        DO N=1,NRBE2
         IAD=IRBE2(1,N)
@@ -10276,4 +10329,3 @@ C
 C
       RETURN
       END
-

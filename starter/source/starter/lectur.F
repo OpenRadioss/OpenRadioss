@@ -7891,8 +7891,8 @@ C
 C
          WRITE(ISTDO,'(A)')TITRE(52)
          CALL HM_PREREAD_EIG(IGRNOD   ,NNT   ,LSUBMODEL)
-         NEIPM=17
-         NERPM=4
+         NEIPM=18
+         NERPM=8
          LEIBUF = NNT
          IF(IDDLEVEL==0) THEN
            call my_alloc(EIGIPM, NEIPM*NEIG, "EIGIPM")
@@ -7903,7 +7903,7 @@ C
            EIGRPM = ZERO
          ENDIF
 C
-         CALL HM_READ_EIG(EIGIPM, EIGIBUF, EIGRPM, IGRNOD   ,ITABM1   ,
+         CALL HM_READ_EIG(EIGIPM, EIGIBUF, EIGRPM, IGRNOD   ,
      .                       UNITAB, LSUBMODEL)
       ELSEIF(IDDLEVEL==0) THEN
          call my_alloc(EIGIPM, 0, "EIGIPM")

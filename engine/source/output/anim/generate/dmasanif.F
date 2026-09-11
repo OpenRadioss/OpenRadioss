@@ -31,7 +31,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       SUBROUTINE DMASANIF(ELBUF_TAB,X   ,D    ,GEO  ,IPARG,
      .                    IXT     ,IXP  ,IXR  ,MAS  ,PM   ,
-     .                    EL2FA   ,NBF  )
+     .                    EL2FA   ,NBF  ,DISP_SCALE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   A0,AL0,
+     .   A0,AL0,DISP_SCALE,
      .   RHO0,XX1,YY1,ZZ1
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT,
      .        N, LLT, MLW,
@@ -116,9 +116,12 @@ C-----------------------------------------------
             A0 = GEO(1,IXT(4,N))
             N1 = IXT(2,N)
             N2 = IXT(3,N)
-            XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
-            YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
-            ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
+            XX1 = X(1,N2)-DISP_SCALE*D(1,N2)-X(1,N1)
+     .            +DISP_SCALE*D(1,N1)
+            YY1 = X(2,N2)-DISP_SCALE*D(2,N2)-X(2,N1)
+     .            +DISP_SCALE*D(2,N1)
+            ZZ1 = X(3,N2)-DISP_SCALE*D(3,N2)-X(3,N1)
+     .            +DISP_SCALE*D(3,N1)
             AL0  = SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
             MAS(EL2FA(NN6+N_FA)) = RHO0*AL0*A0
           ENDDO
@@ -133,9 +136,12 @@ C-----------------------------------------------
             A0 = GEO(1,IXP(5,N))
             N1 = IXP(2,N)
             N2 = IXP(3,N)
-            XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
-            YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
-            ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
+            XX1 = X(1,N2)-DISP_SCALE*D(1,N2)-X(1,N1)
+     .            +DISP_SCALE*D(1,N1)
+            YY1 = X(2,N2)-DISP_SCALE*D(2,N2)-X(2,N1)
+     .            +DISP_SCALE*D(2,N1)
+            ZZ1 = X(3,N2)-DISP_SCALE*D(3,N2)-X(3,N1)
+     .            +DISP_SCALE*D(3,N1)
             AL0  = SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
             MAS(EL2FA(NN7+N_FA)) = RHO0*AL0*A0
           ENDDO

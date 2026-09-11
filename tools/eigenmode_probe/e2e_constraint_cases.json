@@ -1,0 +1,24 @@
+{
+  "fixture": "qa-tests/miniqa/INTERF/INT_2/pl_dam_ilev/data/PLREG41B_0000.rad",
+  "fixture_support_files": [
+    "qa-tests/miniqa/INTERF/INT_2/pl_dam_ilev/data/qadiags.inc"
+  ],
+  "root_name": "PLREG41B",
+  "cases": [
+    {
+      "name": "tied_type2_mass_transform",
+      "description": "Two /INTER/TYPE2 tied nodes exercise the existing implicit tie condensation, the matching modal reconstruction, and the non-diagonal reduced mass.",
+      "nmod": 1,
+      "expected_frequencies_hz": [5.0327345898],
+      "inorm": 0,
+      "animation": true,
+      "energy": false,
+      "mass": true,
+      "rotation": true,
+      "expected_constraint_codes": {
+        "5": 12
+      },
+      "expected_mass_offdiagonal_min": 1
+    }
+  ]
+}

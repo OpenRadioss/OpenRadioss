@@ -1,0 +1,30 @@
+{
+  "fixture": "tools/eigenmode_probe/fixtures/beam_cantilever_spectral_gap_0000.rad",
+  "root_name": "EIG_GAP",
+  "cases": [
+    {
+      "name": "positive_spectral_gap_is_not_nullspace",
+      "description": "A fully restrained model with six positive modes and a large physical frequency gap must not classify its soft first mode as numerical zero.",
+      "nmod": -1,
+      "expected_mode_count": 6,
+      "expected_frequencies_hz": [
+        2.1660207168188772,
+        8.899644912058275,
+        249.56935886079472,
+        387.2428342862893,
+        1014.0802010798562,
+        5820.763482890432
+      ],
+      "frequency_relative_tolerance": 1.0e-4,
+      "inorm": 0,
+      "freqmin": 0.0,
+      "cutfreq": 1000000.0,
+      "output_rigid": 0,
+      "animation": false,
+      "energy": false,
+      "mass": false,
+      "rotation": false,
+      "tensors": false
+    }
+  ]
+}

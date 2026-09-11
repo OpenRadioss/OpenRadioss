@@ -24,7 +24,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
 !||    imp_k_eig       ../engine/stub/imp_k_eig.F
 !||--- calls      -----------------------------------------------------
-!||    imp_glob_k      ../engine/source/implicit/imp_glob_k.F
+!||    imp_glob_khp    ../engine/source/implicit/imp_glob_k.F
 !||    my_barrier      ../engine/source/system/machine.F
 !||    pr_infok        ../engine/source/implicit/imp_solv.F
 !||    upd_fr_k        ../engine/source/mpi/implicit/imp_fri.F
@@ -37,6 +37,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    stack_mod       ../engine/share/modules/stack_mod.F
 !||====================================================================
       SUBROUTINE IMP_K_EIG(NDDL0  , NNZK0   , DIAG_K , LT_K   , LSIZE ,
+     .                     DIAG_M , LT_M    , IADM   , JDIM   ,
      .                     PM     , GEO     , IPM    , IGEO   , ELBUF ,
      .                     IXS    , IXQ     , IXC    , IXT    , IXP   ,
      .                     IXR    , IXTG    , IXTG1  , IPARG ,
@@ -81,7 +82,7 @@ C-----------------------------------------------
      .        IXS(*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
      .        IXTG1(4,*), IPARG(NPARG,*),
-     .        NPC(*), IDDL(*), NDOF(*), IADK(*),JDIK(*),
+     .        NPC(*), IDDL(*), NDOF(*), IADK(*),JDIK(*),IADM(*),JDIM(*),
      .        ICODT(*), ICODR(*), ISKEW(*), IBFV(NIFV,*),
      .        LPBY(*), NPBY(NNPBY,*), ITAB(*),
      .        WEIGHT(*), NRBYAC, IRBYAC(*), NSC(*), IKINW(*), NMC,
@@ -90,7 +91,8 @@ C-----------------------------------------------
      .        IAD_ELEM(2,*), FR_ELEM(*),IRBE3(*),LRBE3(*),IRBE2(*),
      .        LRBE2(*)
       my_real
-     .        DIAG_K(*), LT_K(*), PM(NPROPM,*), GEO(NPROPG,*),
+     .        DIAG_K(*), LT_K(*), DIAG_M(*),LT_M(*),
+     .        PM(NPROPM,*), GEO(NPROPG,*),
      .        ELBUF(*), TF(*), W16(*), BUFMAT(*),
      .        THKE(*), BUFGEO(*),RBY(*),
      .        SKEW(LSKEW,*), X(3,*), WA(*), VEL(LFXVELR,*), MS(*),
@@ -103,12 +105,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NNZK, I, L1, L2, L3, LI1, LI2, LI3, LI4, LI5,
+      INTEGER NNZK, I, J, N, ND, L1, L2, L3, LI1, LI2, LI3, LI4, LI5,
      .        LI6, LI7, LI8, ETAG(NUMNOD), NN, IBID1, IBID2, NT_RW,
      .        NMC2, LI9, LI10, LI11, LI12, NNMAX, NKMAX,IBID3,LI13,
-     .        LI14,LI15
+     .        LI14,LI15,LIF,NDDLM,NNZM,NWORK,IOS
       my_real
      .        RBID
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IKC_M,IKINW_M
+      my_real, DIMENSION(:), ALLOCATABLE :: LB_M,D_M
 C=======================================================================
       DO I=1,NUMNOD
          ETAG(I)=0
@@ -151,9 +155,10 @@ C
       LI13 = LI12+4*LSIZE(11)
       LI14 = LI13+LSIZE(14)
       LI15 = LI14+LSIZE(15)
+      LIF = LI15+LSIZE(16)
 C
       NGDONE = 1
-      CALL IMP_GLOB_K(
+      CALL IMP_GLOB_KHP(
      1   PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2   IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      3   IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
@@ -161,11 +166,68 @@ C
      5   FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
      6   RBY       ,SKEW      ,X         ,
      7   WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
-     8   IADK      ,JDIK      ,IKG       ,ETAG      ,ELBUF_TAB ,
-     9   STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG     )
+     8   IADK      ,JDIK      ,IKG       ,ETAG      ,ITASK    ,
+     9   ELBUF_TAB ,STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG )
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
+C Build the physical lumped mass on a copy of the original stiffness graph,
+C then send that operator through the production implicit constraint and
+C condensation path.  This is the same T**t A T operation used for K and
+C includes TYPE2, RBE2, RBE3, rigid bodies and ordinary boundary conditions.
+      NDDLM=NDDL0
+      NNZM=NNZK0
+      DO I=1,NDDL0+1
+        IADM(I)=IADK(I)
+      ENDDO
+      DO I=1,NNZK0
+        JDIM(I)=JDIK(I)
+        LT_M(I)=ZERO
+      ENDDO
+      DO I=1,NDDL0
+        DIAG_M(I)=ZERO
+      ENDDO
+      DO N=1,NUMNOD
+        IF (ETAG(N).NE.0) THEN
+          DO J=1,NDOF(N)
+            ND=IDDL(N)+J
+            IF (J.LE.3) THEN
+              DIAG_M(ND)=ABS(MS(N))*WEIGHT(N)
+            ELSE
+              DIAG_M(ND)=ABS(IN(N))*WEIGHT(N)
+            ENDIF
+          ENDDO
+        ENDIF
+      ENDDO
+      NWORK=MAX(1,LIF)
+      ALLOCATE(IKC_M(NDDL0+6),IKINW_M(NWORK),LB_M(NDDL0),
+     .         D_M(3*NUMNOD),STAT=IOS)
+      IF (IOS.NE.0) THEN
+        WRITE(ISTDO,*)'ERROR: unable to allocate /EIG mass workspace'
+        WRITE(IOUT,*)'ERROR: unable to allocate /EIG mass workspace'
+        CALL ARRET(5)
+      ENDIF
+      IKC_M=0
+      IKINW_M=0
+      IF (LIF.GT.0) IKINW_M(1:LIF)=IKINW(1:LIF)
+      LB_M=ZERO
+      D_M=ZERO
+      CALL UPD_GLOB_K(
+     1   ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
+     2   TF        ,VEL       ,RBID      ,
+     3   RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
+     4   ITAB      ,WEIGHT    ,MS        ,IN        ,NRBYAC    ,
+     5   IRBYAC    ,NSC       ,IKINW_M(LI1),NMC     ,
+     6   IKINW_M(LI2),IKINW_M(LI3),IKINW_M(LI4),NINT2,IINT2   ,
+     7   IKINW_M(LI8),IKINW_M(LI5),IKINW_M(LI6),
+     8   IKINW_M(LI7),IPARI   ,INTBUF_TAB,
+     9   NDDLM     ,NNZM      ,IADM      ,JDIM      ,
+     A   DIAG_M    ,LT_M      ,NDOF      ,IDDL      ,IKC_M     ,
+     B   D_M       ,LB_M      ,IBID1     ,IBID2     ,RBID      ,
+     C   NMC2      ,IKINW_M(LI12),NT_RW  ,RBID      ,IBID3     ,
+     D   IRBE3     ,LRBE3     ,FRBE3     ,IKINW_M(LI13),IRBE2 ,
+     E   LRBE2     ,IKINW_M(LI14),IKINW_M(LI15))
+      DEALLOCATE(IKC_M,IKINW_M,LB_M,D_M)
       CALL UPD_GLOB_K(
      1   ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
      2   TF        ,VEL       ,RBID      ,
@@ -180,6 +242,13 @@ C    /---------------/
      B   NMC2      ,IKINW(LI12),NT_RW    ,RBID      ,IBID3     ,
      C   IRBE3     ,LRBE3     ,FRBE3     ,IKINW(LI13),IRBE2    ,
      D   LRBE2     ,IKINW(LI14),IKINW(LI15))
+      IF (NDDLM.NE.NDDL.OR.NNZM.NE.NNZK) THEN
+        WRITE(ISTDO,*)'ERROR: /EIG K/M constraint graphs differ ',
+     .                 NDDL,NNZK,NDDLM,NNZM
+        WRITE(IOUT,*)'ERROR: /EIG K/M constraint graphs differ ',
+     .                NDDL,NNZK,NDDLM,NNZM
+        CALL ARRET(5)
+      ENDIF
       IF (NSPMD>1) THEN
           CALL UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
@@ -192,4 +261,3 @@ C
 C------------
       RETURN
       END
-
