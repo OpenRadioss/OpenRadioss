@@ -149,7 +149,6 @@
 !
         integer, parameter :: eltype = 2               !< Element type (1 - Solids, 2 - Shells)
         integer, parameter :: iresp = 0                !< Response type (0 - standard)
-        integer, parameter :: ieos = 0
 
         logical, dimension(nel) :: active_elements_mask
         integer, dimension(nel) :: temp_all_indices
@@ -190,6 +189,11 @@
           endif
           epsd(1:nel) = asrate*epsdot(1:nel) + (one - asrate)*uvar(1:nel,1)
           uvar(1:nel,1) = epsd(1:nel)
+        !< Maximum strain rate component
+        elseif (vpflag == 4) then 
+          do i = 1,nel 
+            epsd(i) = max(abs(epspxx(i)),abs(epspyy(i)),abs(half*epspxy(i)))
+          enddo
         !< Plastic strain rate recovering
         else
           epsd(1:nel) = uvar(1:nel,1)
@@ -231,9 +235,9 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
-          eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-          dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
-          temp     ,pla      )
+          eltype   ,shf      ,s13      ,s23      ,s43      ,dpdm     ,         &
+          nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,temp     ,         &
+          pla      )
 !
         !=======================================================================
         !< - Computation of the initial yield stress
@@ -302,7 +306,19 @@
         !< - Computation of the trial yield function and count yielding elements
         !=======================================================================
         phi(1:nel) = (seq(1:nel) / sigy(1:nel))**2 - one
-        active_elements_mask(1:nel) = (phi(1:nel) >= zero .and. off(1:nel) == one)
+        where (phi(1:nel) >= zero .and. off(1:nel) == one .and.                &
+              sigy(1:nel) <= em20)
+          signxx(1:nel) = zero
+          signyy(1:nel) = zero
+          signzz(1:nel) = zero
+          signxy(1:nel) = zero
+          signyz(1:nel) = zero
+          signzx(1:nel) = zero
+          seq(1:nel)    = zero
+          phi(1:nel)    = -one
+        end where
+        active_elements_mask(1:nel) = (phi(1:nel) >= zero .and.                &
+          off(1:nel) == one .and. sigy(1:nel) > em20)
         where (.not. active_elements_mask(1:nel))
           phi(1:nel) = zero
         end where
@@ -613,7 +629,20 @@
             i = indx(ii)  
             !<  h) Yield function update
             !<  ----------------------------------------------------------------
-            phi(i) = (seq(i)/sigy(i))**2 - one
+            if (sigy(i) <= em06) then
+              signxx(i) = zero
+              signyy(i) = zero
+              signzz(i) = zero
+              signxy(i) = zero
+              signyz(i) = zero
+              signzx(i) = zero
+              seq(i)    = zero
+              phi(i)    = zero
+              dpla(i)   = zero
+              pla(i)    = pla0(i)
+            else
+              phi(i) = (seq(i)/sigy(i))**2 - one
+            endif
 !
             !< Update the hourglass stabilization variable
             et(i) = dsigy_dpla_i(ii) / (dsigy_dpla_i(ii) + young(i))

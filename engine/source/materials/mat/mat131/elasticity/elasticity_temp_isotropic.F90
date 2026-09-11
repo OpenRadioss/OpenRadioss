@@ -44,7 +44,7 @@
 !||    table_mat_vinterp_mod         ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
         subroutine elasticity_temp_isotropic(                                    &
-          matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,           &
+          matparam ,nel      ,eltype   ,rho      ,dpdm     ,                     &
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,           &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,           &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
@@ -67,7 +67,6 @@
           type(matparam_struct_),            intent(in)    :: matparam !< Material parameters data
           integer,                           intent(in)    :: nel      !< Number of elements in the group
           integer,                           intent(in)    :: eltype   !< Element type (1 for solids, 2 for shells)
-          integer,                           intent(in)    :: ieos     !< Equation of state type
           real(kind=WP), dimension(nel),     intent(in)    :: rho      !< Density
           real(kind=WP), dimension(nel),     intent(in)    :: dpdm     !< Derivative of pressure with respect to volumetric strain
           real(kind=WP), dimension(nel),     intent(in)    :: depsxx   !< Strain increment component xx
@@ -207,12 +206,12 @@
             !< Sound speed
             bulk(1:nel)    = max(bulk(1:nel) ,matparam%bulk)
             shear(1:nel)   = max(shear(1:nel),matparam%shear)
-            if (ieos > 0) then
-              soundsp(1:nel) = sqrt((dpdm(1:nel) +                               &
-                four_over_3*shear(1:nel))/rho(1:nel))
+            if (matparam%ieos > 0) then
+              soundsp(1:nel) = sqrt(abs(dpdm(1:nel) +                            &
+                four_over_3*shear(1:nel))/min(rho(1:nel),matparam%rho0))
             else
               soundsp(1:nel) = sqrt((bulk(1:nel) + four_over_3*shear(1:nel))/    &
-                rho(1:nel))
+                min(rho(1:nel),matparam%rho0))
             endif
             !< Shells
           elseif (eltype == 2) then

@@ -55,8 +55,8 @@
         signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,           &
-        nuvar    ,uvar     ,l_sigb   ,sigb     ,ieos     ,dpdm     ,           &
-        jthe     ,fheat    ,voln     ,inloc    ,dplanl   )
+        nuvar    ,uvar     ,l_sigb   ,sigb     ,dpdm     ,jthe     ,           &
+        fheat    ,voln     ,inloc    ,dplanl   ,loff     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -119,13 +119,13 @@
         real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< User variables
         integer,                       intent(in)    :: l_sigb     !< Size of backstress array
         real(kind=WP),dimension(nel,l_sigb),intent(inout) :: sigb  !< Backstress components for kinematic hardening
-        integer,                       intent(in)    :: ieos       !< Equation of state flag
         real(kind=WP), dimension(nel), intent(inout) :: dpdm       !< Pressure derivative of the shear modulus for EOS coupling
         integer,                       intent(in)    :: jthe       !< /HEAT/MAT flag 
         real(kind=WP), dimension(nel), intent(inout) :: fheat      !< Heat energy accumulated for /HEAT/MAT
         real(kind=WP), dimension(nel), intent(in)    :: voln       !< Current element volume
         integer,                       intent(in)    :: inloc      !< Non-local regularization flag
         real(kind=WP), dimension(nel), intent(in)    :: dplanl     !< Non-local plastic strain increment
+        real(kind=WP), dimension(nel), intent(inout) :: loff       !< Integration point failure flag
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -158,9 +158,9 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,     &
-              jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,     &
-              inloc    ,dplanl   )
+              l_sigb   ,sigb     ,nuvar    ,uvar     ,dpdm     ,jthe     ,     &
+              fheat    ,voln     ,vpflag   ,ikine    ,chard    ,inloc    ,     &
+              dplanl   ,loff     )
           !---------------------------------------------------------------------
           !< - Cutting Plane algorithm
           !---------------------------------------------------------------------
@@ -173,9 +173,9 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,     &
-              jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,     &
-              inloc    ,dplanl   )
+              l_sigb   ,sigb     ,nuvar    ,uvar     ,dpdm     ,jthe     ,     &
+              fheat    ,voln     ,vpflag   ,ikine    ,chard    ,inloc    ,     &
+              dplanl   ,loff     )
           !---------------------------------------------------------------------
           !< - Closest Point Projection algorithm
           !---------------------------------------------------------------------     
@@ -188,9 +188,9 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,     &
-              jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,     &
-              inloc    ,dplanl   )
+              l_sigb   ,sigb     ,nuvar    ,uvar     ,dpdm     ,jthe     ,     &
+              fheat    ,voln     ,vpflag   ,ikine    ,chard    ,inloc    ,     &
+              dplanl   ,loff     )
         end select
 !
        end subroutine sigeps131
