@@ -376,3 +376,9 @@ Only one %s card is allowed
 %s (id: %u, name: %s) :
 For this material, in *SECTION_BEAM definition, ELFORM = 6 and  CA > 0 are obligatory.
 #------------------------------------------------------------------------------
+
+/MESSAGE/200046/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200046/DESCRIPTION
+%s (id: %u, name: %s): Part id=%u does not exist
+#------------------------------------------------------------------------------
