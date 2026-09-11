@@ -368,13 +368,192 @@ else()
   target_link_libraries(${EXEC_NAME} ${LINK} )
 endif()
 
+option(OPENRADIOSS_EIG_SLEPC
+       "Enable the optional SLEPc/PETSc public /EIG backend" OFF)
+
+# The optional distributed eigensolver uses a small MPI assembly layer. Engine C
+# sources do not otherwise inherit the Fortran MPI preprocessor/include
+# flags, so apply them explicitly and only to the public /EIG adapter.
+set(PUBLIC_EIG_C_SOURCES
+    ${source_directory}/source/implicit/eig_solver_mpi.c
+    ${source_directory}/source/implicit/eig_solver_slepc.c)
+if(OPENRADIOSS_EIG_SLEPC AND DEFINED MPI AND NOT MPI STREQUAL "smp")
+  set_property(SOURCE ${PUBLIC_EIG_C_SOURCES}
+               APPEND PROPERTY COMPILE_DEFINITIONS PUBLIC_EIG_MPI)
+  if(NOT "${mpi_inc}" STREQUAL "")
+    separate_arguments(PUBLIC_EIG_MPI_COMPILE_OPTIONS NATIVE_COMMAND
+                       "${mpi_inc}")
+    set_property(SOURCE ${PUBLIC_EIG_C_SOURCES}
+                 APPEND PROPERTY COMPILE_OPTIONS
+                 ${PUBLIC_EIG_MPI_COMPILE_OPTIONS})
+  endif()
+endif()
+
+set(SLEPC_ROOT "" CACHE PATH "SLEPc installation root")
+set(PETSC_ROOT "" CACHE PATH "PETSc installation root")
+if(OPENRADIOSS_EIG_SLEPC)
+  if(NOT precision STREQUAL "dp")
+    message(FATAL_ERROR
+            "OPENRADIOSS_EIG_SLEPC currently requires precision=dp")
+  endif()
+  if(NOT DEFINED MPI OR MPI STREQUAL "smp")
+    message(FATAL_ERROR
+            "OPENRADIOSS_EIG_SLEPC requires an MPI Engine build")
+  endif()
+  find_path(SLEPC_INCLUDE_DIR slepceps.h
+            HINTS ${SLEPC_ROOT}
+            PATH_SUFFIXES include)
+  find_library(SLEPC_LIBRARY slepc
+               HINTS ${SLEPC_ROOT}
+               PATH_SUFFIXES lib lib64)
+  find_path(PETSC_INCLUDE_DIR petsc.h
+            HINTS ${PETSC_ROOT}
+            PATH_SUFFIXES include)
+  find_library(PETSC_LIBRARY petsc
+               HINTS ${PETSC_ROOT}
+               PATH_SUFFIXES lib lib64)
+  if(NOT SLEPC_INCLUDE_DIR OR NOT SLEPC_LIBRARY OR
+     NOT PETSC_INCLUDE_DIR OR NOT PETSC_LIBRARY)
+    message(FATAL_ERROR
+            "OPENRADIOSS_EIG_SLEPC=ON requires SLEPc and PETSc")
+  endif()
+  if(NOT EXISTS "${PETSC_INCLUDE_DIR}/petscconf.h")
+    message(FATAL_ERROR
+            "Cannot inspect PETSc capabilities: petscconf.h was not found")
+  endif()
+  file(STRINGS "${PETSC_INCLUDE_DIR}/petscconf.h"
+       PETSC_MUMPS_DEFINITION REGEX
+       "^[ \t]*#define[ \t]+PETSC_HAVE_MUMPS[ \t]+1")
+  if(NOT PETSC_MUMPS_DEFINITION)
+    message(FATAL_ERROR
+            "SLEPc /EIG requires PETSc built with MUMPS")
+  endif()
+  file(STRINGS "${PETSC_INCLUDE_DIR}/petscconf.h"
+       PETSC_REAL_DOUBLE_DEFINITION REGEX
+       "^[ \t]*#define[ \t]+PETSC_USE_REAL_DOUBLE[ \t]+1")
+  file(STRINGS "${PETSC_INCLUDE_DIR}/petscconf.h"
+       PETSC_COMPLEX_DEFINITION REGEX
+       "^[ \t]*#define[ \t]+PETSC_USE_COMPLEX[ \t]+1")
+  if(NOT PETSC_REAL_DOUBLE_DEFINITION OR PETSC_COMPLEX_DEFINITION)
+    message(FATAL_ERROR
+            "SLEPc /EIG requires PETSc built with real double-precision scalars")
+  endif()
+  # PETSc records the MPI implementation used to build it and diagnoses
+  # incompatible mpi.h headers.  Exercise that check during configuration so
+  # an MPI ABI mismatch fails immediately instead of part-way through the
+  # several-thousand-file Engine build.
+  include(CheckCSourceCompiles)
+  include(CMakePushCheckState)
+  cmake_push_check_state(RESET)
+  set(CMAKE_REQUIRED_INCLUDES ${SLEPC_INCLUDE_DIR} ${PETSC_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_FLAGS "${mpi_inc}")
+  unset(PUBLIC_EIG_PETSC_MPI_HEADERS_COMPATIBLE CACHE)
+  check_c_source_compiles(
+      "#include <mpi.h>\n#include <slepceps.h>\nint main(void) { return 0; }"
+      PUBLIC_EIG_PETSC_MPI_HEADERS_COMPATIBLE)
+  cmake_pop_check_state()
+  if(NOT PUBLIC_EIG_PETSC_MPI_HEADERS_COMPATIBLE)
+    message(FATAL_ERROR
+            "SLEPc /EIG requires Engine and PETSc to use compatible MPI headers; set mpi_root or mpi_incdir to the MPI used to build PETSc")
+  endif()
+  message(STATUS "SLEPc /EIG factorizer: MUMPS")
+  set_property(SOURCE
+               ${source_directory}/source/implicit/eig_matrix_export.F
+               ${source_directory}/source/implicit/eig_solver_backend.F
+               ${source_directory}/source/implicit/eig_solver_slepc.c
+               APPEND PROPERTY COMPILE_DEFINITIONS PUBLIC_EIG_SLEPC)
+  # S8SLKE3 only needs the public BLAS entry points DSYMM and DGEMM, which
+  # are supplied by the SLEPc/PETSc dependency stack.  Enable that element
+  # kernel without unsetting WITHOUT_LINALG globally (doing so would also
+  # expose unrelated legacy/proprietary implicit-solver paths).
+  set_property(SOURCE
+               ${source_directory}/source/elements/solid/solide8s/s8slke3.F
+               APPEND PROPERTY COMPILE_DEFINITIONS PUBLIC_EIG_BLAS)
+  set_property(SOURCE
+               ${source_directory}/source/implicit/eig_solver_slepc.c
+               APPEND PROPERTY INCLUDE_DIRECTORIES
+               ${SLEPC_INCLUDE_DIR} ${PETSC_INCLUDE_DIR})
+  # Retain source locations and frame chains in the two diagnostic boundaries
+  # that can report a native /EIG failure.  This does not lower optimization
+  # for the numerical kernels and only affects SLEPc-enabled Engine builds.
+  if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+    set_property(SOURCE
+                 ${source_directory}/source/implicit/eig_solver_slepc.c
+                 ${source_directory}/source/system/traceback_handler.c
+                 APPEND PROPERTY COMPILE_OPTIONS
+                 -g -fno-omit-frame-pointer)
+  endif()
+  target_link_libraries(${EXEC_NAME} ${SLEPC_LIBRARY} ${PETSC_LIBRARY})
+  get_filename_component(SLEPC_LIBRARY_DIR "${SLEPC_LIBRARY}" DIRECTORY)
+  get_filename_component(PETSC_LIBRARY_DIR "${PETSC_LIBRARY}" DIRECTORY)
+  set(PETSC_RUNTIME_PATHS ${SLEPC_LIBRARY_DIR} ${PETSC_LIBRARY_DIR})
+  set(PETSC_MPI_RUNTIME_PATHS "")
+  separate_arguments(PETSC_MPI_LINK_OPTIONS NATIVE_COMMAND "${mpi_lib}")
+  foreach(PETSC_MPI_LINK_OPTION ${PETSC_MPI_LINK_OPTIONS})
+    if(PETSC_MPI_LINK_OPTION MATCHES "^-L(.+)$")
+      list(APPEND PETSC_RUNTIME_PATHS "${CMAKE_MATCH_1}")
+      list(APPEND PETSC_MPI_RUNTIME_PATHS "${CMAKE_MATCH_1}")
+    endif()
+  endforeach()
+  list(REMOVE_DUPLICATES PETSC_RUNTIME_PATHS)
+  list(REMOVE_DUPLICATES PETSC_MPI_RUNTIME_PATHS)
+  set_property(TARGET ${EXEC_NAME} APPEND PROPERTY BUILD_RPATH
+               "${PETSC_RUNTIME_PATHS}")
+  set_property(TARGET ${EXEC_NAME} APPEND PROPERTY INSTALL_RPATH
+               "\$ORIGIN/../lib" "${PETSC_MPI_RUNTIME_PATHS}")
+  message(STATUS "Public /EIG SLEPc backend enabled: ${SLEPC_LIBRARY}")
+endif()
+
+# The distributed public eigensolvers reuse OpenRadioss's implicit MPI graph
+# exchanges, but those communication-only routines were historically compiled
+# only as a side effect of enabling the legacy Engine MUMPS solver.  Keep the
+# exchange capability independent from either factorizer implementation.
+if(OPENRADIOSS_EIG_SLEPC AND
+   DEFINED MPI AND NOT MPI STREQUAL "smp")
+  set_property(SOURCE
+               ${source_directory}/source/mpi/implicit/imp_spmd.F
+               APPEND PROPERTY COMPILE_DEFINITIONS PUBLIC_EIG_MPI)
+endif()
+
+# The public /EIG reference solver deliberately remains independent of
+# MUMPS/PARPACK.  Double-precision builds use the small dense verification
+# solver from the LAPACK archives already distributed with OpenRadioss.  This
+# does not unset WITHOUT_LINALG and therefore does not enable the proprietary
+# sparse-solver call paths.
+set(PUBLIC_EIG_LAPACK_LIBS "")
+if(NOT DEFINED COM AND precision STREQUAL "dp")
+  if(arch STREQUAL "linux64_gf")
+    set(PUBLIC_EIG_LAPACK_LIBS
+        ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a
+        ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a)
+  elseif(arch STREQUAL "linuxa64_gf")
+    set(PUBLIC_EIG_LAPACK_LIBS
+        ${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/liblapack_gcc.a
+        ${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/librefblas_gcc.a)
+  elseif(arch STREQUAL "linux64_AOCC")
+    set(PUBLIC_EIG_LAPACK_LIBS
+        ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_AOCC/liblapack.a
+        ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_AOCC/libblas.a)
+  endif()
+endif()
+
+if(PUBLIC_EIG_LAPACK_LIBS)
+  set_property(SOURCE
+               ${source_directory}/source/implicit/eig_solver_backend.F
+               APPEND PROPERTY COMPILE_DEFINITIONS PUBLIC_EIG_LAPACK)
+  set_property(SOURCE
+               ${source_directory}/source/elements/solid/solide8s/s8slke3.F
+               APPEND PROPERTY COMPILE_DEFINITIONS PUBLIC_EIG_BLAS)
+  target_link_libraries(${EXEC_NAME} ${PUBLIC_EIG_LAPACK_LIBS})
+  message(STATUS "Public /EIG dense LAPACK solver enabled")
+endif()
+
 
 # Fortran to link
 set_property(TARGET ${EXEC_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
 # install executables and scripts
-install (TARGETS ${EXECUTABLES}
+install (TARGETS ${EXEC_NAME}
          RUNTIME DESTINATION "bin")
 install (PROGRAMS ${SCRIPTS}
          DESTINATION "bin")
-

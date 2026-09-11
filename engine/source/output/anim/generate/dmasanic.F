@@ -32,7 +32,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
       SUBROUTINE DMASANIC(ELBUF_TAB,X   ,D    ,GEO  ,IPARG,
      .                    IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
-     .                    EL2FA,NBF  ,IGEO,STACK)
+     .                    EL2FA,NBF  ,IGEO,STACK,DISP_SCALE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   OFF, VALUE,THK0,A0,
+     .   OFF, VALUE,THK0,A0,DISP_SCALE,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, 
      .        N, LLT,
@@ -149,12 +149,18 @@ C
               N2 = IXC(3,N)
               N3 = IXC(4,N)
               N4 = IXC(5,N)
-              XX1 = X(1,N3)-D(1,N3)-X(1,N1)+D(1,N1)
-              YY1 = X(2,N3)-D(2,N3)-X(2,N1)+D(2,N1)
-              ZZ1 = X(3,N3)-D(3,N3)-X(3,N1)+D(3,N1)
-              XX2 = X(1,N4)-D(1,N4)-X(1,N2)+D(1,N2)
-              YY2 = X(2,N4)-D(2,N4)-X(2,N2)+D(2,N2)
-              ZZ2 = X(3,N4)-D(3,N4)-X(3,N2)+D(3,N2)
+              XX1 = X(1,N3)-DISP_SCALE*D(1,N3)-X(1,N1)
+     .              +DISP_SCALE*D(1,N1)
+              YY1 = X(2,N3)-DISP_SCALE*D(2,N3)-X(2,N1)
+     .              +DISP_SCALE*D(2,N1)
+              ZZ1 = X(3,N3)-DISP_SCALE*D(3,N3)-X(3,N1)
+     .              +DISP_SCALE*D(3,N1)
+              XX2 = X(1,N4)-DISP_SCALE*D(1,N4)-X(1,N2)
+     .              +DISP_SCALE*D(1,N2)
+              YY2 = X(2,N4)-DISP_SCALE*D(2,N4)-X(2,N2)
+     .              +DISP_SCALE*D(2,N2)
+              ZZ2 = X(3,N4)-DISP_SCALE*D(3,N4)-X(3,N2)
+     .              +DISP_SCALE*D(3,N2)
               XX3 = YY1*ZZ2 - ZZ1*YY2
               YY3 = ZZ1*XX2 - XX1*ZZ2
               ZZ3 = XX1*YY2 - YY1*XX2
@@ -174,12 +180,18 @@ C
               N2 = IXC(3,N)
               N3 = IXC(4,N)
               N4 = IXC(5,N)
-              XX1 = X(1,N3)-D(1,N3)-X(1,N1)+D(1,N1)
-              YY1 = X(2,N3)-D(2,N3)-X(2,N1)+D(2,N1)
-              ZZ1 = X(3,N3)-D(3,N3)-X(3,N1)+D(3,N1)
-              XX2 = X(1,N4)-D(1,N4)-X(1,N2)+D(1,N2)
-              YY2 = X(2,N4)-D(2,N4)-X(2,N2)+D(2,N2)
-              ZZ2 = X(3,N4)-D(3,N4)-X(3,N2)+D(3,N2)
+              XX1 = X(1,N3)-DISP_SCALE*D(1,N3)-X(1,N1)
+     .              +DISP_SCALE*D(1,N1)
+              YY1 = X(2,N3)-DISP_SCALE*D(2,N3)-X(2,N1)
+     .              +DISP_SCALE*D(2,N1)
+              ZZ1 = X(3,N3)-DISP_SCALE*D(3,N3)-X(3,N1)
+     .              +DISP_SCALE*D(3,N1)
+              XX2 = X(1,N4)-DISP_SCALE*D(1,N4)-X(1,N2)
+     .              +DISP_SCALE*D(1,N2)
+              YY2 = X(2,N4)-DISP_SCALE*D(2,N4)-X(2,N2)
+     .              +DISP_SCALE*D(2,N2)
+              ZZ2 = X(3,N4)-DISP_SCALE*D(3,N4)-X(3,N2)
+     .              +DISP_SCALE*D(3,N2)
               XX3 = YY1*ZZ2 - ZZ1*YY2
               YY3 = ZZ1*XX2 - XX1*ZZ2
               ZZ3 = XX1*YY2 - YY1*XX2
@@ -203,12 +215,18 @@ C
             N1 = IXTG(2,N)
             N2 = IXTG(3,N)
             N3 = IXTG(4,N)
-            XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
-            YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
-            ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-            XX2 = X(1,N3)-D(1,N3)-X(1,N1)+D(1,N1)
-            YY2 = X(2,N3)-D(2,N3)-X(2,N1)+D(2,N1)
-            ZZ2 = X(3,N3)-D(3,N3)-X(3,N1)+D(3,N1)
+            XX1 = X(1,N2)-DISP_SCALE*D(1,N2)-X(1,N1)
+     .            +DISP_SCALE*D(1,N1)
+            YY1 = X(2,N2)-DISP_SCALE*D(2,N2)-X(2,N1)
+     .            +DISP_SCALE*D(2,N1)
+            ZZ1 = X(3,N2)-DISP_SCALE*D(3,N2)-X(3,N1)
+     .            +DISP_SCALE*D(3,N1)
+            XX2 = X(1,N3)-DISP_SCALE*D(1,N3)-X(1,N1)
+     .            +DISP_SCALE*D(1,N1)
+            YY2 = X(2,N3)-DISP_SCALE*D(2,N3)-X(2,N1)
+     .            +DISP_SCALE*D(2,N1)
+            ZZ2 = X(3,N3)-DISP_SCALE*D(3,N3)-X(3,N1)
+     .            +DISP_SCALE*D(3,N1)
             XX3 = YY1*ZZ2 - ZZ1*YY2
             YY3 = ZZ1*XX2 - XX1*ZZ2
             ZZ3 = XX1*YY2 - YY1*XX2
@@ -228,12 +246,18 @@ C
               N1 = IXTG(2,N)
               N2 = IXTG(3,N)
               N3 = IXTG(4,N)
-              XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
-              YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
-              ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-              XX2 = X(1,N3)-D(1,N3)-X(1,N1)+D(1,N1)
-              YY2 = X(2,N3)-D(2,N3)-X(2,N1)+D(2,N1)
-              ZZ2 = X(3,N3)-D(3,N3)-X(3,N1)+D(3,N1)
+              XX1 = X(1,N2)-DISP_SCALE*D(1,N2)-X(1,N1)
+     .              +DISP_SCALE*D(1,N1)
+              YY1 = X(2,N2)-DISP_SCALE*D(2,N2)-X(2,N1)
+     .              +DISP_SCALE*D(2,N1)
+              ZZ1 = X(3,N2)-DISP_SCALE*D(3,N2)-X(3,N1)
+     .              +DISP_SCALE*D(3,N1)
+              XX2 = X(1,N3)-DISP_SCALE*D(1,N3)-X(1,N1)
+     .              +DISP_SCALE*D(1,N1)
+              YY2 = X(2,N3)-DISP_SCALE*D(2,N3)-X(2,N1)
+     .              +DISP_SCALE*D(2,N1)
+              ZZ2 = X(3,N3)-DISP_SCALE*D(3,N3)-X(3,N1)
+     .              +DISP_SCALE*D(3,N1)
               XX3 = YY1*ZZ2 - ZZ1*YY2
               YY3 = ZZ1*XX2 - XX1*ZZ2
               ZZ3 = XX1*YY2 - YY1*XX2

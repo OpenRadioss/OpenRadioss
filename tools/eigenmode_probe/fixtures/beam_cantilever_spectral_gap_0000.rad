@@ -1,0 +1,47 @@
+#RADIOSS STARTER
+/BEGIN
+EIG_GAP
+      2019         0
+                  Mg                  mm                   s
+                  Mg                  mm                   s
+/TITLE
+Positive spectral-gap zero-cluster regression
+/IOFLAG
+#     IPRI               IGTYP     IOUTP    IOUTYY   IROOTYY     IDROT
+         5                   0         0         0         0         1
+/SPMD
+#   DOMDEC     Nproc              Dkword             Nthread
+         0         0                   0                   1
+/MAT/ELAST/1
+Linear elastic steel
+#              RHO_I
+            7.85E-9
+#                  E                  Nu
+              210000                 0.3
+/NODE
+         1                   0                   0                   0
+         2                 200                   0                   0
+         3                   0                  10                   0
+/BCS/1
+Fixed beam root
+#  Tra rot   skew_ID  grnod_ID
+   111 111         0         1
+/GRNOD/NODE/1
+Fixed beam root
+         1
+/PART/1
+Beam cantilever
+         1         1         0
+/BEAM/1
+         1         1         2         3
+/PROP/BEAM/1
+Strongly asymmetric beam section
+#             Ismstr
+                   0
+#                 dm                  df
+                   0                   0
+#               Area                 Iyy                 Izz                 Ixx
+                 400                   1          13333.3333          26666.6666
+# OmegaDof    Ishear
+   000 000         0
+/END

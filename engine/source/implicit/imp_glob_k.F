@@ -499,6 +499,13 @@ C----6---------------------------------------------------------------7---------8
      1                       ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                       IADK  ,JDIK  )
 
+              ELSEIF (IGTYP==25)THEN
+                  CALL R25KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
+     1                       GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
+     2                       TF  ,SKEW  ,OFFSET,FR_WAVE,IKGEO ,IGEO ,
+     1                       ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
+     2                       IADK  ,JDIK  )
+
 
 C        OPEN(UNIT=16,FILE='KE_SP.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
 C              CALL IMPKPOUT( NIXR,IXR,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
@@ -3478,6 +3485,13 @@ C----6---------------------------------------------------------------7---------8
 
               ELSEIF (IGTYP==13)THEN
                   CALL R13KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
+     1                       GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
+     2                       TF  ,SKEW  ,OFFSET,FR_WAVE,IKGEO ,IGEO ,
+     1                       ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
+     2                       IADK  ,JDIK  )
+
+              ELSEIF (IGTYP==25)THEN
+                  CALL R25KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                       GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                       TF  ,SKEW  ,OFFSET,FR_WAVE,IKGEO ,IGEO ,
      1                       ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,

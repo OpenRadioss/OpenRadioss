@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-#if defined(MYREAL8) && !defined(WITHOUT_LINALG)
+#if defined(MYREAL8) && (!defined(WITHOUT_LINALG) || defined(PUBLIC_EIG_BLAS))
       INTEGER I, J,JJ,K,JK, IS
       B(1:6,1:24) = ZERO
       HV(1:6,1:6) = ZERO

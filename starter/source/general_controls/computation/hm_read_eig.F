@@ -137,21 +137,17 @@ C-----------------------
 !||    lectur                 ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
-!||    eigrline               ../starter/source/general_controls/computation/hm_read_eig.F
 !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_floatv_dim      ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
 !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_get_string          ../starter/source/devtools/hm_reader/hm_get_string.F
 !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    random_mod             ../starter/share/modules1/random_mod.F
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EIG(EIGIPM, EIGIBUF, EIGRPM, IGRNOD   ,ITABM1   ,
+      SUBROUTINE HM_READ_EIG(EIGIPM, EIGIBUF, EIGRPM, IGRNOD   ,
      .                       UNITAB, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -162,9 +158,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
       USE RANDOM_MOD
-      USE INOUTFILE_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
-      use my_alloc_mod
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -180,7 +174,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER EIGIPM(*), EIGIBUF(*),ITABM1(*)
+      INTEGER EIGIPM(*), EIGIBUF(*)
       my_real
      .        EIGRPM(*)
 C-----------------------------------------------
@@ -193,27 +187,18 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE
       INTEGER I, ITAG(NUMNOD), IAD, IADF, IE, IGU1, IGU2, NN, IG, NNI,
      .        ICT, ICR, NEV, NBLFR, INCV, NITER, IPRI, NDOF, NMS, IFILE,
-     .        J6(6), ITYP, IADB, IRCM, J, JJ, K, NLIG, NRES, IADN,
-     .        NBNO, NBMO, II, IPRSP, IMLS, IFLAGUNIT,LEN_MODFILE,MAXL
+     .        J6(6), ITYP, IADB, J, IPRSP, IMLS, IFLAGUNIT,
+     .        IRIGID_OUT
       my_real
-     .        CUTFREQ, SHIFTINI, TOL, FAC_T,FAC_FRE
+     .        CUTFREQ, SHIFTINI, TOL,
+     .        TOLRIGID,TOLPIVU,TOLPIVP
       CHARACTER(LEN=NCHARTITLE)::TITR
-      CHARACTER :: CTYPE*33, CPRE*17, NWLINE*100, MESS*40, MODFILE*2148,
-     .          CIMLS*3 ,CPRSP*4,MODFILE_TMP*2148
-      INTEGER, ALLOCATABLE :: NODES(:)
-      my_real,
-     .         ALLOCATABLE :: MODES(:,:,:)
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-      INTEGER USR2SYS
-      DATA MESS/'ADDITIONAL MODES FILE : NODES           '/
+      CHARACTER :: CTYPE*33, CPRE*17, CIMLS*3, CPRSP*4
 C=====================================================================  
       IAD=1
       IADB=1
       IADF=1
       CALL HM_OPTION_START('/EIG')
-      IRCM = 0
       DO IE=1,NEIG
         ITAG(1:NUMNOD)=0
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -239,11 +224,26 @@ C=====================================================================
         CALL HM_GET_INTV('Niter',NITER,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Ipri',IPRI,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV('Tol',TOL,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        IRIGID_OUT=1
+        CALL HM_GET_INTV('Irigid',IRIGID_OUT,IS_AVAILABLE,LSUBMODEL)
+        IF (.NOT.IS_AVAILABLE) IRIGID_OUT=1
+        IF (IRIGID_OUT.NE.0.AND.IRIGID_OUT.NE.2) IRIGID_OUT=1
+        TOLRIGID=1.0E-12
+        CALL HM_GET_FLOATV('TolRigid',TOLRIGID,IS_AVAILABLE,
+     .                     LSUBMODEL,UNITAB)
+        IF (.NOT.IS_AVAILABLE.OR.TOLRIGID.LE.ZERO) TOLRIGID=1.0E-12
+        TOLPIVU=1.0E-12
+        CALL HM_GET_FLOATV('TolPivU',TOLPIVU,IS_AVAILABLE,
+     .                     LSUBMODEL,UNITAB)
+        IF (.NOT.IS_AVAILABLE.OR.TOLPIVU.LE.ZERO) TOLPIVU=1.0E-12
+        TOLPIVP=1.0E-12
+        CALL HM_GET_FLOATV('TolPivP',TOLPIVP,IS_AVAILABLE,
+     .                     LSUBMODEL,UNITAB)
+        IF (.NOT.IS_AVAILABLE.OR.TOLPIVP.LE.ZERO) TOLPIVP=1.0E-12
 C
          IFLAGUNIT = 0                                           
          DO J=1,UNITAB%NUNITS                          
            IF (UNITAB%UNIT_ID(J) == UID) THEN
-             FAC_T = UNITAB%FAC_T(J)
              IFLAGUNIT = 1                      
              EXIT                               
            ENDIF                                
@@ -256,34 +256,16 @@ C
          ENDIF  
          EIGIPM(IAD)=ID
 C
-         IF (IFILE==2) THEN
-C--- add generic message         
-            WRITE(ISTDO,'(A)') ' ** WARNING - EIG OPTION:'
-            WRITE(ISTDO,'(A)') 
-     .           ' ** USE OF NASTRAN OUTPUT FILE NOT YET IMPLEMENTED'
-            WRITE(IOUT,'(A)') ' ** WARNING - EIG OPTION:'
-            WRITE(IOUT,'(A)') 
-     .           ' ** USE OF NASTRAN OUTPUT FILE NOT YET IMPLEMENTED'
-            IFILE=0
-         ENDIF
-C
-         IF (IFILE==1.AND.IGU2/=0) THEN
-            CALL ANCMSG(MSGID=588,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=IGU2)
-            IGU2=0
-         ENDIF
-C
-         IF (NSPMD>1.AND.IFILE==1) THEN
-            CALL ANCMSG(MSGID=628,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO,
-     .                  I1=ID,
-     .                  C1=TITR)
-            IFILE=0
+         IF (IFILE.NE.0) THEN
+            WRITE(ISTDO,'(A)')
+     .       ' ** ERROR: /EIG external mode import is not supported'
+            WRITE(ISTDO,'(A)')
+     .       ' ** by the public /EIG backend; set Ifile=0'
+            WRITE(IOUT,'(A)')
+     .       ' ** ERROR: /EIG external mode import is not supported'
+            WRITE(IOUT,'(A)')
+     .       ' ** by the public /EIG backend; set Ifile=0'
+            CALL ARRET(2)
          ENDIF
 C
          IMLS=0
@@ -347,18 +329,18 @@ C
          EIGIPM(IAD+3)=ICR
 C
          EIGIPM(IAD+16)=IMLS
+         EIGIPM(IAD+17)=IRIGID_OUT
 C
          IF (IPRSP>1) IPRSP=0
-         CALL HM_GET_FLOATV_DIM('Freqmin',FAC_FRE,IS_AVAILABLE,LSUBMODEL,UNITAB)
-         IF (SHIFTINI==ZERO) SHIFTINI=EM03*FAC_FRE
-C         CUTFREQ = CUTFREQ / FAC_T
-C         SHIFTINI = SHIFTINI / FAC_T
-C
          IF (NEV==0) NEV=100
          EIGIPM(IAD+4)=NEV
          EIGRPM(IADF+1)=ZERO
          EIGRPM(IADF+2)=(SHIFTINI*TWO*PI)**2
          EIGRPM(IADF+3)=CUTFREQ
+         EIGRPM(IADF+4)=TOLRIGID
+         EIGRPM(IADF+5)=ZERO
+         EIGRPM(IADF+6)=TOLPIVU
+         EIGRPM(IADF+7)=TOLPIVP
 C
          IF (NBLFR==0) NBLFR=NEV      
          IF (INCV==0) INCV=2
@@ -374,105 +356,9 @@ C
          EIGIPM(IAD+15)=0
 C
          EIGRPM(IADF)=TOL
-C
+C The public backend does not consume legacy additional-mode records.
+         EIGIPM(IAD+12)=0
          EIGIPM(IAD+13)=0
-         IF (IFILE==1) THEN
-            MAXL = 100
-            CALL HM_GET_STRING('Filename', MODFILE, MAXL, IS_AVAILABLE)
-            LEN_MODFILE = LEN_TRIM(MODFILE)
-            MODFILE_TMP = INFILE_NAME(1:INFILE_NAME_LEN)//MODFILE(1:LEN_MODFILE)
-            LEN_MODFILE = LEN_MODFILE + INFILE_NAME_LEN
-            OPEN(UNIT=IFICM,FILE=MODFILE_TMP(1:LEN_MODFILE),
-     .           ACCESS='SEQUENTIAL',FORM='FORMATTED',
-     .           STATUS='OLD',ERR=999)
-            CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
-            READ(NWLINE,FMT='(2I8)',ERR=9999) NBNO, NBMO
-C
-            IF (NEV>NBMO) THEN
-               CALL ANCMSG(MSGID=589,
-     .                     MSGTYPE=MSGWARNING,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     I1=ID,
-     .                     C1=TITR,
-     .                     I3=NEV,
-     .                     I2=NBMO)
-               NEV=NBMO
-               EIGIPM(IAD+4)=NEV
-            ENDIF
-            NBLFR=MIN(NBMO-2,NBLFR)
-            EIGIPM(IAD+8)=NBLFR
-C
-            call my_alloc(NODES, NBNO, "NODES")
-            call my_alloc(MODES, NBMO, 6, NN, "MODES")
-            NLIG=NBNO/10
-            NRES=NBNO-NLIG*10
-            IADN=0
-            DO I=1,NLIG
-               CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
-               READ(NWLINE,FMT='(10I8)',ERR=9999) (NODES(IADN+J),J=1,10)
-               DO J=1,10
-                  NODES(IADN+J)=USR2SYS(NODES(IADN+J),ITABM1,MESS,ID)
-               ENDDO
-               IADN=IADN+10
-            ENDDO
-            IF (NRES>0) THEN
-               CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
-               READ(NWLINE,FMT='(10I8)',ERR=9999) 
-     .                            (NODES(IADN+J),J=1,NRES)
-               DO J=1,NRES
-                  NODES(IADN+J)=USR2SYS(NODES(IADN+J),ITABM1,MESS,ID)
-               ENDDO
-            ENDIF
-C
-            DO I=1,NUMNOD
-               ITAG(I)=0
-            ENDDO
-            DO I=1,NN
-               II=EIGIBUF(IADB+I-1)
-               ITAG(II)=I
-            ENDDO
-            DO I=1,NBNO
-               II=NODES(I)
-               NODES(I)=ITAG(II)
-               ITAG(II)=-1
-            ENDDO
-            DO I=1,NN
-               II=EIGIBUF(IADB+I-1)
-               IF (ITAG(II)/=-1) THEN
-                  J=ITABM1(II)
-                  CALL ANCMSG(MSGID=586,
-     .                        MSGTYPE=MSGERROR,
-     .                        ANMODE=ANINFO_BLIND_1,
-     .                        I1=ID,
-     .                        C1=TITR,
-     .                        I2=J)
-               ENDIF
-            ENDDO
-C
-            DO I=1,NBMO
-               DO J=1,NBNO
-                  JJ=NODES(J)
-                  CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
-                  READ(NWLINE,FMT='(5F16.0)',ERR=9999) 
-     .                                  (MODES(I,K,JJ),K=1,5)
-                  CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
-                  READ(NWLINE,FMT='(F16.0)',ERR=9999) MODES(I,6,JJ)
-               ENDDO
-            ENDDO
-C
-            EIGIPM(IAD+12)=IRCM
-            EIGIPM(IAD+13)=NBMO
-            DO I=1,NBMO
-               DO J=1,NBNO
-                  IRCM=IRCM+1
-                  WRITE(IEIGM,REC=IRCM) (MODES(I,K,J),K=1,6)
-               ENDDO
-            ENDDO
-C
-            CALL MY_DEALLOC(NODES)
-            CALL MY_DEALLOC(MODES)
-            CLOSE(IFICM)
-         ENDIF   
 C PRINTOUTS
          NDOF=0
          IF(ICT==1)THEN
@@ -537,15 +423,6 @@ C
       ENDDO      
 C-----------------------
       RETURN
- 999  CALL FREERR(3)
-      RETURN
-9999  CALL ANCMSG(MSGID=587,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO,
-     .            I1=ID,
-     .            C1=TITR,
-     .            C2=NWLINE)
-      RETURN
 C      
 2100  FORMAT( /5X,'EIGENPROBLEM ID ',I10,1X,A
      .       /10X,'TYPE             ',A33
@@ -561,47 +438,3 @@ C
 2110  FORMAT(  9X,10I9)
 2111  FORMAT( 10X,'INTERFACE NODES ')
       END SUBROUTINE HM_READ_EIG
-!||====================================================================
-!||    eigrline               ../starter/source/general_controls/computation/hm_read_eig.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eig            ../starter/source/general_controls/computation/hm_read_eig.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod            ../starter/share/message_module/message_mod.F
-!||====================================================================
-      SUBROUTINE EIGRLINE(IFIC, NWLINE, ID,TITR)                     
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IFIC, ID
-      CHARACTER NWLINE*100
-      CHARACTER(LEN=NCHARTITLE)::TITR
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER ISTOP     
-C
-      ISTOP=0
-      DO WHILE (ISTOP==0)
-         READ(IFIC,'(A)',END=999) NWLINE
-         IF (NWLINE(1:1)/='#') ISTOP=1
-      ENDDO
-C
-      RETURN
-  999 CALL ANCMSG(MSGID=585,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO,
-     .            I1=ID,
-     .            C1=TITR)
-      RETURN
-C
-      END
-      

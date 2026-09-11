@@ -44,5 +44,36 @@ C-----------------------------------------------
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: EIGRPM
      
+C Public eigenmode result hand-off.  The matrix solver populates these arrays
+C and the animation writer consumes them before the /EIG control path exits
+C RESOL.  SLEPc vectors remain in backend-owned distributed storage and only
+C the active Nbloc batch is materialized for constraint recovery.
+      INTEGER :: PUBLIC_EIG_NMODE = 0
+      INTEGER :: PUBLIC_EIG_NNODE = 0
+      INTEGER, DIMENSION(:), ALLOCATABLE :: PUBLIC_EIG_NODE
+      my_real, DIMENSION(:), ALLOCATABLE :: PUBLIC_EIG_FREQ
+      my_real, DIMENSION(:,:), ALLOCATABLE :: PUBLIC_EIG_REDUCED
+      INTEGER*8 :: PUBLIC_EIG_SOLVER_HANDLE = 0
+      INTEGER :: PUBLIC_EIG_EXPORT_NLOCAL = 0
+      INTEGER, DIMENSION(:), ALLOCATABLE :: PUBLIC_EIG_EXPORT_ROW
+      LOGICAL :: PUBLIC_EIG_STREAMED = .FALSE.
+      LOGICAL :: PUBLIC_EIG_READY = .FALSE.
+
+      CONTAINS
+
+      SUBROUTINE CLEAR_PUBLIC_EIG_RESULTS()
+        IF (ALLOCATED(PUBLIC_EIG_NODE)) DEALLOCATE(PUBLIC_EIG_NODE)
+        IF (ALLOCATED(PUBLIC_EIG_FREQ)) DEALLOCATE(PUBLIC_EIG_FREQ)
+        IF (ALLOCATED(PUBLIC_EIG_REDUCED))
+     .    DEALLOCATE(PUBLIC_EIG_REDUCED)
+        IF (ALLOCATED(PUBLIC_EIG_EXPORT_ROW))
+     .    DEALLOCATE(PUBLIC_EIG_EXPORT_ROW)
+        PUBLIC_EIG_NMODE=0
+        PUBLIC_EIG_NNODE=0
+        PUBLIC_EIG_EXPORT_NLOCAL=0
+        PUBLIC_EIG_STREAMED=.FALSE.
+        PUBLIC_EIG_READY=.FALSE.
+      END SUBROUTINE CLEAR_PUBLIC_EIG_RESULTS
+
 C-----------------------------------------------
       END MODULE EIG_MOD
