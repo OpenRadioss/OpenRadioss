@@ -26,6 +26,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    genh3d                               ../engine/source/output/h3d/h3d_results/genh3d.F
 !||--- calls      -----------------------------------------------------
+!||    c_h3d_add_string                     ../engine/source/output/h3d/h3d_build_cpp/c_h3d_add_string.cpp
 !||    c_h3d_create_oned_eroded             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_oned.cpp
 !||    c_h3d_create_quad_eroded             ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_quad.cpp
 !||    c_h3d_create_shell_eroded            ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_shell.cpp
@@ -35,6 +36,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    c_h3d_create_sph_eroded              ../engine/source/output/h3d/h3d_build_cpp/c_h3d_eroded_sph.cpp
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                              ../engine/share/modules/h3d_mod.F
+!||    output_mod                           ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE H3D_CREATE_DATATYPE(H3D_DATA,IPARI,OUTPUT)
 C-----------------------------------------------

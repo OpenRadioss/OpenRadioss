@@ -75,6 +75,7 @@
 !||    genh3d                             ../engine/source/output/h3d/h3d_results/genh3d.F
 !||    genoutp                            ../engine/source/output/sty/genoutp.F
 !||    genstat                            ../engine/source/output/sta/genstat.F
+!||    h3d_create_datatype                ../engine/source/output/h3d/h3d_build_fortran/h3d_create_datatype.F
 !||    h3d_list_nodal_scalar              ../engine/source/output/h3d/input_list/h3d_list_noda_scalar.F
 !||    h3d_nodal_scalar                   ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 !||    h3d_read                           ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F

@@ -120,7 +120,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    h3d_sph_scalar                       ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
 !||    h3d_sph_tensor                       ../engine/source/output/h3d/h3d_results/h3d_sph_tensor.F
 !||    h3d_update_fvmbag_centroids          ../engine/source/output/h3d/h3d_build_fortran/h3d_update_fvmbag_centroids.F
-!||    h3dlib_load                          ../engine/source/output/h3d/h3d_build_cpp/h3d_dl.c
+!||    h3dlib_load                          ../common_source/output/h3d/h3d_build_cpp/h3d_dl.c
 !||    q1np_evaluate_nurbs_shape_values     ../engine/source/elements/solid/solid_q1np/q1np_nurbs_surface_eval_mod.F90
 !||    scanor                               ../engine/source/output/anim/generate/scanor.F
 !||    spmd_h3d_gather_i                    ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
