@@ -53,6 +53,8 @@
 #define OR_EIG_LOG_MESSAGE_CAPACITY 4096
 #define OR_EIG_LOG_LINE_CAPACITY 8192
 #define OR_EIG_MUMPS_DIAGNOSTIC_COUNT 40
+#define OR_EIG_MUMPS_WORKSPACE_MAX_RETRIES 4
+#define OR_EIG_MUMPS_WORKSPACE_RELAXATION_FLOOR 50
 
 extern void eig_log_line_c(const char text[], int text_length);
 
@@ -763,6 +765,124 @@ static PetscErrorCode or_eig_configure_factor(KSP ksp,
     PetscFunctionReturn(PETSC_SUCCESS);
 }
 
+static PetscErrorCode or_eig_get_mumps_factor(EPS eps,
+                                               PetscBool interval_solver,
+                                               Mat *factor) {
+    ST transform;
+    KSP ksp;
+    PC pc;
+
+    PetscFunctionBegin;
+    PetscCheck(factor != NULL, PetscObjectComm((PetscObject)eps),
+               PETSC_ERR_ARG_NULL, "a MUMPS factor output is required");
+    if (interval_solver) {
+        /* Spectrum slicing factors through its internal child KSP. */
+        PetscCall(EPSKrylovSchurGetKSP(eps, &ksp));
+    } else {
+        PetscCall(EPSGetST(eps, &transform));
+        PetscCall(STGetKSP(transform, &ksp));
+    }
+    PetscCall(KSPGetPC(ksp, &pc));
+    PetscCall(PCFactorGetMatrix(pc, factor));
+    PetscFunctionReturn(PETSC_SUCCESS);
+}
+
+static PetscErrorCode or_eig_set_mumps_workspace_relaxation(
+    EPS eps, PetscBool interval_solver, PetscInt relaxation) {
+    Mat factor;
+    const char *prefix = NULL;
+    char option_name[256];
+    char option_value[64];
+
+    PetscFunctionBegin;
+    if (relaxation < 0) PetscFunctionReturn(PETSC_SUCCESS);
+    PetscCall(or_eig_get_mumps_factor(eps, interval_solver, &factor));
+    /* Some ST implementations run KSPSetFromOptions() again during
+       EPSSetUp(). Update the effective prefixed option as well as the live
+       factor, otherwise an explicit low user value can undo the retry. */
+    PetscCall(PetscObjectGetOptionsPrefix((PetscObject)factor, &prefix));
+    PetscCall(PetscSNPrintf(option_name, sizeof(option_name),
+                            "-%smat_mumps_icntl_14",
+                            prefix != NULL ? prefix : ""));
+    PetscCall(PetscSNPrintf(option_value, sizeof(option_value),
+                            "%" PetscInt_FMT, relaxation));
+    PetscCall(PetscOptionsSetValue(NULL, option_name, option_value));
+    PetscCall(MatMumpsSetIcntl(factor, 14, relaxation));
+    PetscFunctionReturn(PETSC_SUCCESS);
+}
+
+static PetscInt or_eig_next_mumps_workspace_relaxation(
+    PetscInt current) {
+    if (current < OR_EIG_MUMPS_WORKSPACE_RELAXATION_FLOOR)
+        return OR_EIG_MUMPS_WORKSPACE_RELAXATION_FLOOR;
+    if (current <= PETSC_MAX_INT / 2) return current * 2;
+    return current;
+}
+
+/* EPSSetUp/EPSSolve report every MUMPS failure as PETSC_ERR_LIB. Inspect
+   INFOG(1) before deciding whether the operation is safe to retry. Only the
+   MUMPS -8/-9 workspace-underestimate cases qualify; all numerical, input,
+   allocation and convergence failures remain fatal. */
+static PetscErrorCode or_eig_prepare_mumps_workspace_retry(
+    EPS eps, PetscBool interval_solver, const char *phase,
+    PetscErrorCode operation_error, PetscInt retries_completed,
+    PetscInt *workspace_relaxation, PetscBool *retry) {
+    MPI_Comm communicator;
+    Mat factor;
+    PetscInt mumps_error = 0;
+    PetscInt workspace_shortfall = 0;
+    PetscInt current_relaxation = 0;
+    PetscInt next_relaxation;
+
+    PetscFunctionBegin;
+    communicator = PetscObjectComm((PetscObject)eps);
+    PetscCheck(phase != NULL, communicator, PETSC_ERR_ARG_NULL,
+               "a failed solver phase name is required");
+    PetscCheck(workspace_relaxation != NULL && retry != NULL, communicator,
+               PETSC_ERR_ARG_NULL, "workspace retry outputs are required");
+    *retry = PETSC_FALSE;
+    if (operation_error == PETSC_SUCCESS)
+        PetscFunctionReturn(PETSC_SUCCESS);
+
+    PetscCall(or_eig_get_mumps_factor(eps, interval_solver, &factor));
+    PetscCall(MatMumpsGetInfog(factor, 1, &mumps_error));
+    PetscCall(MatMumpsGetInfo(factor, 2, &workspace_shortfall));
+    PetscCall(MatMumpsGetIcntl(factor, 14, &current_relaxation));
+    PetscCheck(mumps_error == -8 || mumps_error == -9, communicator,
+               operation_error,
+               "%s failed with PETSc code %d and MUMPS INFOG(1)=%"
+               PetscInt_FMT ", INFO(2)=%" PetscInt_FMT,
+               phase, (int)operation_error, mumps_error,
+               workspace_shortfall);
+    PetscCheck(retries_completed < OR_EIG_MUMPS_WORKSPACE_MAX_RETRIES,
+               communicator, operation_error,
+               "%s exhausted %d automatic MUMPS workspace retries; last "
+               "INFOG(1)=%" PetscInt_FMT ", INFO(2)=%" PetscInt_FMT
+               ", ICNTL(14)=%" PetscInt_FMT,
+               phase, OR_EIG_MUMPS_WORKSPACE_MAX_RETRIES, mumps_error,
+               workspace_shortfall, current_relaxation);
+
+    next_relaxation =
+        or_eig_next_mumps_workspace_relaxation(current_relaxation);
+    PetscCheck(next_relaxation > current_relaxation, communicator,
+               operation_error,
+               "%s cannot increase MUMPS ICNTL(14) beyond %" PetscInt_FMT,
+               phase, current_relaxation);
+    PetscCall(or_eig_logf(
+        communicator,
+        "WARNING: /EIG %s hit MUMPS workspace error INFOG(1)=%"
+        PetscInt_FMT ", INFO(2)=%" PetscInt_FMT
+        " with ICNTL(14)=%" PetscInt_FMT
+        "; automatic retry %" PetscInt_FMT "/%d uses ICNTL(14)=%"
+        PetscInt_FMT "\n",
+        phase, mumps_error, workspace_shortfall, current_relaxation,
+        retries_completed + 1, OR_EIG_MUMPS_WORKSPACE_MAX_RETRIES,
+        next_relaxation));
+    *workspace_relaxation = next_relaxation;
+    *retry = PETSC_TRUE;
+    PetscFunctionReturn(PETSC_SUCCESS);
+}
+
 static PetscErrorCode or_eig_dump_mumps_diagnostics(EPS eps,
                                                      const char *stage) {
     KSP ksp;
@@ -904,7 +1024,8 @@ static PetscErrorCode or_eig_dump_mumps_diagnostics(EPS eps,
 static PetscErrorCode or_eig_create_target_solver(
     Mat stiffness, Mat mass, PetscInt requested, PetscReal target,
     PetscReal region_lower, PetscReal region_upper,
-    const or_eig_layout *layout, const or_eig_controls *controls, EPS *eps) {
+    const or_eig_layout *layout, const or_eig_controls *controls,
+    PetscInt workspace_relaxation, EPS *eps) {
     ST transform;
     KSP ksp;
     RG region;
@@ -942,6 +1063,8 @@ static PetscErrorCode or_eig_create_target_solver(
     PetscCall(or_eig_configure_factor(
         ksp, controls->positive_pivot_tolerance));
     PetscCall(EPSSetFromOptions(*eps));
+    PetscCall(or_eig_set_mumps_workspace_relaxation(
+        *eps, PETSC_FALSE, workspace_relaxation));
     PetscCall(or_eig_timing_end(layout->comm,
                                 "target EPS/ST construction",
                                 phase_started));
@@ -950,7 +1073,8 @@ static PetscErrorCode or_eig_create_target_solver(
 
 static PetscErrorCode or_eig_create_interval_solver(
     Mat stiffness, Mat mass, PetscReal lower, PetscReal upper,
-    const or_eig_layout *layout, const or_eig_controls *controls, EPS *eps) {
+    const or_eig_layout *layout, const or_eig_controls *controls,
+    PetscInt workspace_relaxation, EPS *eps) {
     ST transform;
     KSP ksp;
     PetscLogDouble phase_started = 0.0;
@@ -976,6 +1100,8 @@ static PetscErrorCode or_eig_create_interval_solver(
     PetscCall(or_eig_configure_factor(ksp,
                                       controls->upper_pivot_tolerance));
     PetscCall(EPSSetFromOptions(*eps));
+    PetscCall(or_eig_set_mumps_workspace_relaxation(
+        *eps, PETSC_TRUE, workspace_relaxation));
     PetscCall(or_eig_timing_end(layout->comm,
                                 "interval EPS/ST construction",
                                 phase_started));
@@ -2209,6 +2335,10 @@ static PetscErrorCode or_eig_solve_component_intervals(
         PetscLogDouble prediction_seconds = 0.0;
         PetscLogDouble setup_seconds = 0.0;
         PetscLogDouble solve_seconds = 0.0;
+        PetscInt workspace_retries = 0;
+        PetscInt workspace_relaxation = -1;
+        PetscErrorCode solver_ierr = PETSC_SUCCESS;
+        PetscBool retry_workspace = PETSC_FALSE;
         or_eig_monitor_context monitor_context;
         char phase[160];
 
@@ -2417,20 +2547,37 @@ static PetscErrorCode or_eig_solve_component_intervals(
             component_index + 1, component_count, global_component_size,
             (double)spectral_scale, (double)solve_lower, (double)solve_upper,
             (double)requested_lower, (double)requested_upper));
+component_solver_attempt:
         PetscCall(or_eig_create_interval_solver(
             component_stiffness, component_mass, solve_lower, solve_upper,
-            &component_layout, controls, &component_eps));
+            &component_layout, controls, workspace_relaxation,
+            &component_eps));
         PetscCall(PetscSNPrintf(
             phase, sizeof(phase),
             "component %" PetscInt_FMT " EPS setup and interval count",
             component_index + 1));
         PetscCall(or_eig_timing_begin(layout->comm, phase,
                                       &stage_started));
-        PetscCall(EPSSetUp(component_eps));
-        PetscCall(or_eig_count_interval(component_eps, &interval_count));
+        PetscCall(PetscPushErrorHandler(PetscReturnErrorHandler, NULL));
+        solver_ierr = EPSSetUp(component_eps);
+        PetscCall(PetscPopErrorHandler());
+        if (solver_ierr == PETSC_SUCCESS)
+            PetscCall(or_eig_count_interval(component_eps,
+                                            &interval_count));
         PetscCall(PetscTime(&stage_finished));
-        setup_seconds = stage_finished - stage_started;
+        setup_seconds += stage_finished - stage_started;
         PetscCall(or_eig_timing_end(layout->comm, phase, stage_started));
+        if (solver_ierr != PETSC_SUCCESS) {
+            PetscCall(or_eig_prepare_mumps_workspace_retry(
+                component_eps, PETSC_TRUE, phase, solver_ierr,
+                workspace_retries, &workspace_relaxation,
+                &retry_workspace));
+            if (retry_workspace) {
+                ++workspace_retries;
+                PetscCall(EPSDestroy(&component_eps));
+                goto component_solver_attempt;
+            }
+        }
         PetscCall(or_eig_dump_mumps_diagnostics(component_eps,
                                                 "after EPSSetUp/count"));
         if (interval_count == 0) {
@@ -2456,10 +2603,25 @@ static PetscErrorCode or_eig_solve_component_intervals(
                                     or_eig_convergence_monitor,
                                     &monitor_context, NULL));
         }
-        PetscCall(EPSSolve(component_eps));
+        PetscCall(PetscPushErrorHandler(PetscReturnErrorHandler, NULL));
+        solver_ierr = EPSSolve(component_eps);
+        PetscCall(PetscPopErrorHandler());
         PetscCall(PetscTime(&stage_finished));
-        solve_seconds = stage_finished - stage_started;
+        solve_seconds += stage_finished - stage_started;
         PetscCall(or_eig_timing_end(layout->comm, phase, stage_started));
+        if (solver_ierr != PETSC_SUCCESS) {
+            PetscCall(or_eig_prepare_mumps_workspace_retry(
+                component_eps, PETSC_TRUE, phase, solver_ierr,
+                workspace_retries, &workspace_relaxation,
+                &retry_workspace));
+            if (retry_workspace) {
+                ++workspace_retries;
+                PetscCall(EPSDestroy(&component_eps));
+                interval_count = 0;
+                converged = 0;
+                goto component_solver_attempt;
+            }
+        }
         PetscCall(or_eig_dump_mumps_diagnostics(component_eps,
                                                 "after EPSSolve"));
         PetscCall(EPSGetConvergedReason(component_eps, &reason));
@@ -3274,6 +3436,10 @@ void eig_solve_slepc_c_(
             or_eig_boundary_margin(requested_target, &controls);
         PetscReal solve_target;
         PetscInt converged = 0;
+        PetscInt workspace_retries = 0;
+        PetscInt workspace_relaxation = -1;
+        PetscErrorCode solver_ierr = PETSC_SUCCESS;
+        PetscBool retry_workspace = PETSC_FALSE;
         EPSConvergedReason reason;
 
         ierr = MatNorm(stiffness, NORM_INFINITY, &stiffness_norm);
@@ -3309,16 +3475,37 @@ void eig_solve_slepc_c_(
             "Public /EIG selecting %d positive eigenvalues at or above "
             "%.16g\n", *nreq, *shift);
         if (ierr != PETSC_SUCCESS) goto petsc_failure;
+fixed_target_solver_attempt:
         ierr = or_eig_create_target_solver(
             stiffness, mass, solve_required, solve_target, solve_target,
-            PETSC_MAX_REAL, &layout, &controls, &eps);
+            PETSC_MAX_REAL, &layout, &controls, workspace_relaxation, &eps);
         if (ierr != PETSC_SUCCESS) goto petsc_failure;
         ierr = or_eig_timing_begin(
             layout.comm, "fixed-target MUMPS setup and inertia count",
             &phase_started);
         if (ierr != PETSC_SUCCESS) goto petsc_failure;
-        ierr = EPSSetUp(eps);
+        ierr = PetscPushErrorHandler(PetscReturnErrorHandler, NULL);
         if (ierr != PETSC_SUCCESS) goto petsc_failure;
+        solver_ierr = EPSSetUp(eps);
+        ierr = PetscPopErrorHandler();
+        if (ierr != PETSC_SUCCESS) goto petsc_failure;
+        if (solver_ierr != PETSC_SUCCESS) {
+            ierr = or_eig_timing_end(
+                layout.comm, "fixed-target MUMPS setup and inertia count",
+                phase_started);
+            if (ierr != PETSC_SUCCESS) goto petsc_failure;
+            ierr = or_eig_prepare_mumps_workspace_retry(
+                eps, PETSC_FALSE, "fixed-target EPS setup", solver_ierr,
+                workspace_retries, &workspace_relaxation,
+                &retry_workspace);
+            if (ierr != PETSC_SUCCESS) goto petsc_failure;
+            if (retry_workspace) {
+                ++workspace_retries;
+                ierr = EPSDestroy(&eps);
+                if (ierr != PETSC_SUCCESS) goto petsc_failure;
+                goto fixed_target_solver_attempt;
+            }
+        }
         ierr = or_eig_count_above_target(eps, &available);
         if (ierr != PETSC_SUCCESS) goto petsc_failure;
         ierr = or_eig_timing_end(
@@ -3349,12 +3536,28 @@ void eig_solve_slepc_c_(
                 layout.comm, "SLEPc fixed-target eigensolve",
                 &phase_started);
             if (ierr != PETSC_SUCCESS) goto petsc_failure;
-            ierr = EPSSolve(eps);
+            ierr = PetscPushErrorHandler(PetscReturnErrorHandler, NULL);
+            if (ierr != PETSC_SUCCESS) goto petsc_failure;
+            solver_ierr = EPSSolve(eps);
+            ierr = PetscPopErrorHandler();
             if (ierr != PETSC_SUCCESS) goto petsc_failure;
             ierr = or_eig_timing_end(
                 layout.comm, "SLEPc fixed-target eigensolve",
                 phase_started);
             if (ierr != PETSC_SUCCESS) goto petsc_failure;
+            if (solver_ierr != PETSC_SUCCESS) {
+                ierr = or_eig_prepare_mumps_workspace_retry(
+                    eps, PETSC_FALSE, "fixed-target EPSSolve",
+                    solver_ierr, workspace_retries,
+                    &workspace_relaxation, &retry_workspace);
+                if (ierr != PETSC_SUCCESS) goto petsc_failure;
+                if (retry_workspace) {
+                    ++workspace_retries;
+                    ierr = EPSDestroy(&eps);
+                    if (ierr != PETSC_SUCCESS) goto petsc_failure;
+                    goto fixed_target_solver_attempt;
+                }
+            }
             ierr = EPSGetConvergedReason(eps, &reason);
             if (ierr != PETSC_SUCCESS) goto petsc_failure;
             ierr = EPSGetConverged(eps, &converged);
