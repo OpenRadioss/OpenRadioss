@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
 !||    h3d_write_sh_tensor   ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor.F
-!||--- called by ------------------------------------------------------
-!||    h3d_shell_tensor      ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
 !||====================================================================
       SUBROUTINE H3D_WRITE_SH_TENSOR(
      .                  IOK_PART  ,ISELECT, IS_WRITTEN ,TENSOR ,I ,OFFSET ,NFT,
@@ -53,9 +51,9 @@ C-----------------------------------------------
       END
 
 !||====================================================================
-!||    h3d_write_sh_tensor   ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor.F
+!||    h3d_write_sh_tensor_stack   ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor.F
 !||--- called by ------------------------------------------------------
-!||    h3d_shell_tensor      ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||    h3d_shell_tensor            ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
 !||====================================================================
       SUBROUTINE H3D_WRITE_SH_TENSOR_STACK(
      .                  IOK_PART  ,ISELECT, IS_WRITTEN_SHELL ,TENSOR ,I ,OFFSET ,NFT,

@@ -157,6 +157,7 @@
 !||    h3d_gather_id_val        ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
 !||--- uses       -----------------------------------------------------
 !||    h3d_gather_id_val_mod    ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
+!||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       program  h3d_gather_id_val_test
         use h3d_gather_id_val_mod
