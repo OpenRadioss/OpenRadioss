@@ -31,9 +31,8 @@
 !||--- calls      -----------------------------------------------------
 !||    sts_pos                 ../engine/source/interfaces/ists/ists_pos.F90
 !||    sts_shape               ../engine/source/interfaces/ists/ists_shape_fct.F90
-!||    sts_surfgeom            ../engine/source/interfaces/ists/ists_sufgeom.F90
-!||--- uses       -----------------------------------------------------
-!||    constant_mod            ../common_source/modules/constant_mod.F
+!||--- called by ----------------------------------------------------- 
+!||    STS_CONTACT_EVAL_PAIR    ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
 !||====================================================================
       subroutine sts_project(xupd, xi1, xi2, eta1, eta2, &
      &     xi1_guess, xi2_guess, use_guess)
@@ -68,10 +67,7 @@
       real*8  rho(3), rhoxi1(3), rhoxi2(3)
       real*8  xsl(3), dxi1, dxi2
       real*8  e, f(2)
-      real*8  a(3,24), daxi1(3,24), daxi2(3,24)
-      real*8  daeta1(3,24), daeta2(3,24)
-      real*8  norm(3)
-      real*8  m_ij(2,2), detm, detmPrimary, mij(2,2)
+      real*8  m_ij(2,2), detmPrimary
 !-----------------------------------------------
 !   Initialization - set initial guess
 !-----------------------------------------------
@@ -104,46 +100,48 @@
 !   Newton's iteration for projection
 !-----------------------------------------------
       DO iter=1, STS_PROJ_MAX_ITER
-        ! Get shape functions and derivatives at current xi
         call sts_shape(xi1, xi2, shape)
-         
-        ! Setup position and derivatives matrices
-        call sts_pos(a, daxi1, daxi2, daeta1, daeta2, xi1, xi2, eta1, eta2)
-         
-        ! Calculate surface geometry and metrics
-        call sts_surfgeom(xupd, daxi1, daxi2, daeta1, daeta2, norm, &
-     &                   rhoxi1, rhoxi2, m_ij, detm, mij, detmPrimary)
 
-        ! Compute current point on Primary surface
         DO i=1,3
           rho(i) = 0.d0
+          rhoxi1(i) = 0.d0
+          rhoxi2(i) = 0.d0
           DO j=1,4
-            rho(i) = rho(i) + xupd(i,j)*shape(1,j)
+            rho(i) = rho(i) + shape(1,j)*xupd(i,j)
+            rhoxi1(i) = rhoxi1(i) + shape(2,j)*xupd(i,j)
+            rhoxi2(i) = rhoxi2(i) + shape(3,j)*xupd(i,j)
           ENDDO
         ENDDO
-         
-        ! Compute projection residual and sensitivities
+
+        m_ij(1,1) = 0.d0
+        m_ij(1,2) = 0.d0
+        m_ij(2,1) = 0.d0
+        m_ij(2,2) = 0.d0
+        DO i=1,3
+          m_ij(1,1) = m_ij(1,1) + rhoxi1(i)*rhoxi1(i)
+          m_ij(1,2) = m_ij(1,2) + rhoxi1(i)*rhoxi2(i)
+          m_ij(2,1) = m_ij(2,1) + rhoxi1(i)*rhoxi2(i)
+          m_ij(2,2) = m_ij(2,2) + rhoxi2(i)*rhoxi2(i)
+        ENDDO
+        detmPrimary = m_ij(1,1)*m_ij(2,2) - m_ij(2,1)*m_ij(1,2)
+
+        ! Projection residual and bilinear curvature correction
         e = 0.d0
         f(1) = 0.d0
         f(2) = 0.d0
         DO i=1,3
-          ! Surface curvature term
-        e = e + (xupd(i,1)-xupd(i,2)+xupd(i,3)-xupd(i,4))* &
-     &        (xsl(i)-rho(i))*0.25d0
-          ! Tangential distance terms
+          e = e + (xupd(i,1)-xupd(i,2)+xupd(i,3)-xupd(i,4))* &
+     &          (xsl(i)-rho(i))*0.25d0
           f(1) = f(1) + (xsl(i)-rho(i))*rhoxi1(i)
           f(2) = f(2) + (xsl(i)-rho(i))*rhoxi2(i)
         ENDDO
       
-        ! Update determinant with curvature correction
         detmPrimary = detmPrimary - e**2 + 2.d0*m_ij(1,2)*e
         
-        ! Calculate Newton update steps
         IF (DABS(detmPrimary) .LT. EM30) EXIT
         dxi1 = (m_ij(2,2)*f(1) + (e-m_ij(1,2))*f(2))/detmPrimary
         dxi2 = (m_ij(1,1)*f(2) + (e-m_ij(2,1))*f(1))/detmPrimary
         
-        ! Update solution
         xi1 = xi1 + dxi1
         xi2 = xi2 + dxi2
 

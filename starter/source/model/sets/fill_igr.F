@@ -102,7 +102,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IGS,GRTYPE,IO_ERR1,IO_ERR2,NB_GRNODE,NB_GRPART
-      LOGICAL IS_USED
+      LOGICAL IS_USED, SURF_ID_EXISTS
       CHARACTER FILNAM*109, KEYA*80
       CHARACTER(LEN=NCHARLINE) ::CARTE
       INTEGER :: LEN_TMP_NAME
@@ -437,9 +437,21 @@ C
            SET(IGS)%NB_NODENS = 0
          ENDIF
 
-         ! Surfaces
-         CALL HM_GROUP_IS_USED('/SURF',5,SET(IGS)%SET_ID,IS_USED)
-         IF(IS_USED .OR. DOQA == 1)THEN
+        ! Surfaces
+        CALL HM_GROUP_IS_USED('/SURF',5,SET(IGS)%SET_ID,IS_USED)
+         SURF_ID_EXISTS = .FALSE.
+         DO I=1,NSURF
+           IF (IGRSURF(I)%ID == SET(IGS)%SET_ID) THEN
+             SURF_ID_EXISTS = .TRUE.
+             EXIT
+           ENDIF
+         ENDDO
+
+!        STS + Q1NP /SET/GENERAL support
+!        Create the same internal surface object so contacts can keep resolving surface IDs.
+         IF(.NOT. IS_USED .AND. SET(IGS)%NB_SURF_SEG > 0 .AND. .NOT. SURF_ID_EXISTS) IS_USED = .TRUE.
+
+         IF((IS_USED .OR. DOQA == 1) .AND. .NOT. SURF_ID_EXISTS)THEN
            IF (SET(IGS)%NB_ELLIPSE == 0 .and. SET(IGS)%NB_PLANE == 0) CALL FILL_SURF(SET(IGS),IGRSURF,NSURF)
            IF (SET(IGS)%NB_ELLIPSE > 0)  CALL FILL_SURF_ELLIPSE(SET(IGS),IGRSURF,NSURF,BUFSF,LISURF1,NSURF)
            IF (SET(IGS)%NB_PLANE > 0)    CALL FILL_SURF_PLANE(SET(IGS),IGRSURF,NSURF,BUFSF,LISURF1,NSURF)

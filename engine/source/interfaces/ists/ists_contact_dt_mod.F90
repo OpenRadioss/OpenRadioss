@@ -109,7 +109,6 @@
       INTEGER :: j, nid
       REAL*8  :: d1d, k_node, mas2, dt_stif, dt_kin, dt_gp, dist, v_n
       REAL*8  :: shape_w
-      REAL*8, PARAMETER :: STS_DT_CLEAR_FRAC = 5.0D-4
 
       d1d = DBLE(d1)
       IF (d1d <= EM20) RETURN
@@ -151,11 +150,8 @@
 !     physical clearance, not GAPV - PENE. The old expression grew as
 !     penetration increased and delayed the timestep cut exactly when a
 !     Lobatto point was approaching zero clearance.
-      dist = DBLE(GAPV) + PENE
-      dist = MAX(EM10, dist)
-      IF (DABS(DBLE(GAPV)) > EM10) THEN
-        dist = MAX(dist, DABS(DBLE(GAPV)) * STS_DT_CLEAR_FRAC)
-      ENDIF
+
+      dist = MAX(EM10, DBLE(GAPV) + PENE)
       IF (v_n < ZERO) THEN
         dt_kin = HALF * dist / MAX(EM30, -v_n)
         dt_gp = MIN(dt_gp, dt_kin)

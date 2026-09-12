@@ -61,7 +61,7 @@
           integer, intent(in) :: numels
           integer, intent(in) :: numnod
           integer, intent(in) :: iparg(:,:)
-          integer, intent(in) :: kq1np_tab(15,numelq1np_g)
+          integer, intent(in) :: kq1np_tab(:,:)
           integer, intent(in) :: iq1np_tab(siq1np_g)
           integer, intent(in) :: iq1np_bulk_tab(sq1npbulk_g)
           real(kind=WP), intent(in) :: x(3,numnod)

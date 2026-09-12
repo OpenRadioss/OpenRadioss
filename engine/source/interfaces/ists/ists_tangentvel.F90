@@ -46,6 +46,15 @@
       xi2_guess  = 0.d0
 
       if (gp_index .LE. 0 .OR. gp_index .GT. MAX_GLOBAL_GP) return
+!     Prefer the clamped xi from the same-cycle probe pass.
+      if (ALLOCATED(GP_PROBE_XI_VALID)) then
+        if (GP_PROBE_XI_VALID(gp_index)) then
+          xi1_guess = GP_PROBE_XI1(gp_index)
+          xi2_guess = GP_PROBE_XI2(gp_index)
+          have_guess = .true.
+          return
+        endif
+      endif
       if (.NOT. GP_INITIALIZED(gp_index)) return
 
       xi1_guess = GP_XI1_GLOBAL(gp_index) &

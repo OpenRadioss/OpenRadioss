@@ -74,14 +74,14 @@ subroutine ists_ass0(a, stifn, load_arr, node_arr, count, max_sts_size_actual, &
 
     do j = 1, 8
       j1 = node_arr((i - 1) * 8 + j)
-      if (j1 <= 0) cycle
+      if (j1 <= 0 .or. j1 > numnod) cycle
 
       a(1, j1) = a(1, j1) + load_arr(i, j, 1)
       a(2, j1) = a(2, j1) + load_arr(i, j, 2)
       a(3, j1) = a(3, j1) + load_arr(i, j, 3)
       stifn(j1) = stifn(j1) + load_arr(i, j, 4)
 
-      if (do_fcont .and. j1 <= numnod) then
+      if (do_fcont) then
         fcont(1, j1) = fcont(1, j1) + load_arr(i, j, 1)
         fcont(2, j1) = fcont(2, j1) + load_arr(i, j, 2)
         fcont(3, j1) = fcont(3, j1) + load_arr(i, j, 3)
