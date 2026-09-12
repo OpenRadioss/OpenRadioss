@@ -802,6 +802,8 @@ C-----------------------------------------------
               use shell_internal_forces_mod
               use shell_gpu_mod
               use spmd_profiler_mod
+              USE EIG_MOD, ONLY : PUBLIC_EIG_READY,PUBLIC_EIG_NMODE,
+     .          CLEAR_PUBLIC_EIG_RESULTS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1138,9 +1140,28 @@ C--- boundary), keeping previously split nodes across multiple split events.
               my_real, DIMENSION(:)  , POINTER :: FEXT_IMP,R_IMP
               my_real TTMP,DMCP(NUMGEO)
               data TTMP /0.0/
-              INTEGER LWIBEM, LWRBEM, IERROR, IERROR2, INTER_ERRORS
+              INTEGER LWIBEM, LWRBEM, IERROR, IERROR2, INTER_ERRORS,
+     .                EIG_MODE,EIG_IOS,EIG_TOTAL_MODES,
+     .                EIG_BATCH_SIZE,EIG_BATCH_FIRST,EIG_BATCH_LAST,
+     .                EIG_BATCH_SLOT
               INTEGER, DIMENSION(:), ALLOCATABLE :: WIBEM
+              INTEGER EIG_NODE
               my_real, DIMENSION(:), ALLOCATABLE :: WRBEM
+              my_real, DIMENSION(:), ALLOCATABLE :: EIG_BUFEL0
+              my_real, DIMENSION(:,:), ALLOCATABLE ::
+     .                EIG_D,EIG_DR,EIG_X_BASE
+              my_real EIG_RESPONSE_TRANSLATION_LOCAL,
+     .                EIG_RESPONSE_TRANSLATION_MAX,
+     .                EIG_RESPONSE_ROTATION_LOCAL,
+     .                EIG_RESPONSE_ROTATION_MAX,
+     .                EIG_RESPONSE_EQUIVALENT_MAX,
+     .                EIG_RESPONSE_SCALE,EIG_RESPONSE_RELATIVE,
+     .                EIG_RESPONSE_TARGET,
+     .                EIG_MODEL_CENTER_LOCAL(3),
+     .                EIG_MODEL_CENTER_GLOBAL(3),EIG_MODEL_CENTER(3),
+     .                EIG_MODEL_COUNT_LOCAL,EIG_MODEL_COUNT_GLOBAL,
+     .                EIG_MODEL_RADIUS_LOCAL,EIG_MODEL_RADIUS,
+     .                EIG_MODEL_COORD_LOCAL,EIG_MODEL_COORD_GLOBAL
               SAVE LWIBEM, LWRBEM, WIBEM, WRBEM
               INTEGER NKCOND, NDDLG, NRP, NCP, NKCOND_INI, NT_IMP_OLD
               INTEGER LWIFLOW, LWRFLOW
@@ -2368,12 +2389,52 @@ C------------RBE3----allocation-------------
                   CALL PRERBE3P0(RBE3)
                 END IF
               END IF
+
+C-------------------------------
+C       POINTERS FOR USER ROUTINES
+C-------------------------------
+C Register these before implicit/eigen assembly and response recovery:
+C both paths may enter standard element routines that use GET_U_* accessors.
+              CALL SAV_BUF_POINT(PM,1)
+              CALL SAV_BUF_POINT(BUFMAT,2)
+              CALL SAV_BUF_POINT(GEO,3)
+              CALL SAV_BUF_POINT(BUFGEO,4)
+              CALL SAV_BUF_POINT(NPC,5)
+              CALL SAV_BUF_POINT(TF,6)
+              CALL SAV_BUF_POINT(ISKWN,9)
+              CALL SAV_BUF_POINT(SKEWS%SKEW,10)
+              CALL SAV_BUF_POINT(LACCELM,11)
+              CALL SAV_BUF_POINT(ACCELM,12)
+              CALL SAV_BUF_POINT(NODES%ITABM1,13)
+              CALL SAV_BUF_POINT(NODES%X,14)
+              CALL SAV_BUF_POINT(NODES%D,15)
+              CALL SAV_BUF_POINT(NODES%V,16)
+              CALL SAV_BUF_POINT(NODES%A,17)
+              CALL SAV_BUF_POINT(NODES%WEIGHT,18)
+              CALL SAV_BUF_POINT(IPM,19)
+              CALL SAV_BUF_POINT(IGEO,20)
 C----------------------------------
 C       IMPLICIT SIZES [MONO THREAD]
 C       Double precision only
 C----------------------------------
               IF (IMPL_S==1.OR.NEIG>0) THEN
-#if defined(MYREAL8) && !defined(WITHOUT_LINALG)
+#ifndef DNC
+C The public /EIG mechanics contract currently accepts one request.  The
+C optional sparse backends consume the same domain-decomposed implicit
+C operators and collectively solve them on SPMD_COMM_WORLD.
+                IF (NEIG.GT.0.AND.NEIG.NE.1) THEN
+                  IF (ISPMD.EQ.0) THEN
+                    WRITE(ISTDO,*)
+     .                'ERROR: public /EIG solver supports one request'
+                    WRITE(IOUT,*)
+     .                'ERROR: public /EIG solver supports one request'
+                  ENDIF
+                  CALL ARRET(5)
+                ENDIF
+#endif
+C Public /EIG matrix extraction uses implicit assembly but no external
+C linear algebra package.  Keep the historical DNC condition unchanged.
+#if defined(MYREAL8) && (!defined(WITHOUT_LINALG) || !defined(DNC))
                 ALLOCATE (ELBUF_IMP(NGROUP))
                 CALL ALLOC_ELBUF_IMP(ELBUF_TAB,ELBUF_IMP,NGROUP, IPARG)
                 IF (IMON>0) CALL STARTIME(TIMERS,34)
@@ -2403,7 +2464,15 @@ C
                 FEXT_IMP=>IMPBUF_TAB%AC
                 R_IMP=>IMPBUF_TAB%R_IMP
                 ALLOCATE(FAC_K(0), IPIV_K(0))
+#ifdef DNC
                 IF (IMUMPSV >0.OR.(ISOLV==7.AND.NSPMD>1)) THEN
+#else
+C The public /EIG path uses its own backend after assembling K and M.  Do not
+C require the unavailable implicit direct solver solely because /IMPL/LINEAR
+C is present, as required by the /EIG input contract.
+                IF (NEIG.EQ.0.AND.
+     .              (IMUMPSV>0.OR.(ISOLV==7.AND.NSPMD>1))) THEN
+#endif
 #if defined(MUMPS5)
                   CALL SPMD_MUMPS_INI(MUMPS_PAR, 1)
 #else
@@ -2452,6 +2521,298 @@ C------ one routine for EIG
      S                            FCONT_MAX   ,OUTPUT%DATA%VECT_PCONT2,OUTPUT%DATA%VECT_PCONT2_2, ALE_CONNECTIVITY ,
      T                            ITASK       ,NDDL0        ,NNZK0     ,IMPBUF_TAB , DRAPEG,
      U                            GLOB_THERM, OUTPUT      ,MULTI_FVM)
+#else
+C-----------------------------------------------------------------------
+C Public eigenmode path.  Assemble the constrained tangent
+C stiffness with the existing implicit machinery, solve the selected
+C /EIG problem, retain its modal vectors, and write requested animations.
+C-----------------------------------------------------------------------
+                  IKG=0
+                  CALL IMP_K_EIG(
+     1              NDDL0,NNZK0,IMPBUF_TAB%DIAG_K,IMPBUF_TAB%LT_K,
+     2              IMPBUF_TAB%LSIZE,IMPBUF_TAB%DIAG_M,
+     2              IMPBUF_TAB%LT_M,IMPBUF_TAB%IADM,IMPBUF_TAB%JDIM,
+     2              PM,GEO,IPM,IGEO,ELBUF,
+     3              IXS,IXQ,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXTG1,
+     4              IPARG,TF,NPC,FR_WAVE,W16,BUFMAT,THKE,BUFGEO,RBY,
+     5              SKEWS%SKEW,NODES%X,WA,IMPBUF_TAB%IDDL,
+     6              IMPBUF_TAB%NDOF,IMPBUF_TAB%IADK,IMPBUF_TAB%JDIK,
+     7              NODES%ICODT,NODES%ICODR,NODES%ISKEW,IBFV,VEL,
+     8              LPBY,NPBY,NODES%ITAB,NODES%WEIGHT,NODES%MS,
+     9              NODES%IN,IMPBUF_TAB%NRBYAC,IMPBUF_TAB%IRBYAC,
+     A              IMPBUF_TAB%NSC,IMPBUF_TAB%IKINW,IMPBUF_TAB%NMC,
+     B              IPARI,INTERFACES%INTBUF_TAB,IMPBUF_TAB%D_IMP,
+     C              IMPBUF_TAB%LB,IMPBUF_TAB%NINT2,IMPBUF_TAB%IINT2,
+     D              IMPBUF_TAB%IKC,ITASK,EIGIPM(1,1),
+     E              EIGIBUF(EIGIPM(12,1)),IMPBUF_TAB%NDDL,
+     F              IMPBUF_TAB%INLOC,NODES%BOUNDARY_ADD,
+     G              NODES%BOUNDARY,RBE3%IRBE3,RBE3%LRBE3,RBE3%FRBE3,
+     H              IRBE2,LRBE2,ELBUF_TAB,STACK,DRAPE_SH4N,
+     I              DRAPE_SH3N,DRAPEG)
+                  CALL EIG_MATRIX_EXPORT(
+     1              EIGIPM(1,1),EIGIBUF(EIGIPM(12,1)),EIGRPM(1,1),
+     2              NDDL0,
+     3              IMPBUF_TAB%NDDL,IMPBUF_TAB%DIAG_K,
+     4              IMPBUF_TAB%LT_K,IMPBUF_TAB%IADK,
+     5              IMPBUF_TAB%JDIK,IMPBUF_TAB%DIAG_M,
+     6              IMPBUF_TAB%LT_M,IMPBUF_TAB%IADM,
+     7              IMPBUF_TAB%JDIM,IMPBUF_TAB%IKC,
+     8              IMPBUF_TAB%IDDL,IMPBUF_TAB%NDOF,NODES%NODGLOB,
+     9              NODES%X,MERGE(1,0,OUTPUT%DTANIM.GT.ZERO))
+                  EIG_TOTAL_MODES=0
+                  IF (PUBLIC_EIG_READY.AND.
+     .                OUTPUT%DTANIM.GT.ZERO) THEN
+                    ALLOCATE(EIG_D(3,NUMNOD),EIG_DR(3,NUMNOD),
+     .                       EIG_X_BASE(3,NUMNOD),
+     .                       EIG_BUFEL0(MAX(1,LBUFEL)),STAT=EIG_IOS)
+                    IF (EIG_IOS.NE.0) THEN
+                      WRITE(ISTDO,*)
+     .                  'ERROR: unable to allocate /EIG response workspace'
+                      WRITE(IOUT,*)
+     .                  'ERROR: unable to allocate /EIG response workspace'
+                      CALL ARRET(5)
+                    ENDIF
+                    EIG_X_BASE=NODES%X
+C Use the same centroid-based characteristic length as the d3eigv display
+C converter.  Nodal ownership prevents SPMD ghost copies from biasing the
+C centroid; the maximum-radius reduction is insensitive to the partitioning.
+                    EIG_MODEL_CENTER_LOCAL=ZERO
+                    EIG_MODEL_COUNT_LOCAL=ZERO
+                    DO EIG_NODE=1,NUMNOD
+                      IF (NSPMD.LE.1.OR.
+     .                    NODES%WEIGHT(EIG_NODE).GT.0) THEN
+                        EIG_MODEL_CENTER_LOCAL=
+     .                    EIG_MODEL_CENTER_LOCAL+
+     .                    EIG_X_BASE(1:3,EIG_NODE)
+                        EIG_MODEL_COUNT_LOCAL=
+     .                    EIG_MODEL_COUNT_LOCAL+ONE
+                      ENDIF
+                    ENDDO
+                    IF (NSPMD.GT.1) THEN
+                      CALL SPMD_ALLREDUCE(EIG_MODEL_CENTER_LOCAL,
+     .                    EIG_MODEL_CENTER_GLOBAL,3,SPMD_SUM)
+                      CALL SPMD_ALLREDUCE(EIG_MODEL_COUNT_LOCAL,
+     .                    EIG_MODEL_COUNT_GLOBAL,1,SPMD_SUM)
+                    ELSE
+                      EIG_MODEL_CENTER_GLOBAL=EIG_MODEL_CENTER_LOCAL
+                      EIG_MODEL_COUNT_GLOBAL=EIG_MODEL_COUNT_LOCAL
+                    ENDIF
+                    IF (EIG_MODEL_COUNT_GLOBAL.LE.ZERO) THEN
+                      WRITE(ISTDO,*)
+     .                  'ERROR: /EIG response scale has no owned nodes'
+                      WRITE(IOUT,*)
+     .                  'ERROR: /EIG response scale has no owned nodes'
+                      CALL ARRET(5)
+                    ENDIF
+                    EIG_MODEL_CENTER=EIG_MODEL_CENTER_GLOBAL/
+     .                               EIG_MODEL_COUNT_GLOBAL
+                    EIG_MODEL_RADIUS_LOCAL=ZERO
+                    EIG_MODEL_COORD_LOCAL=ZERO
+                    DO EIG_NODE=1,NUMNOD
+                      IF (NSPMD.LE.1.OR.
+     .                    NODES%WEIGHT(EIG_NODE).GT.0) THEN
+                        EIG_MODEL_RADIUS_LOCAL=MAX(
+     .                    EIG_MODEL_RADIUS_LOCAL,
+     .                    SQRT(SUM((EIG_X_BASE(1:3,EIG_NODE)-
+     .                              EIG_MODEL_CENTER)**2)))
+                        EIG_MODEL_COORD_LOCAL=MAX(
+     .                    EIG_MODEL_COORD_LOCAL,
+     .                    MAXVAL(ABS(EIG_X_BASE(1:3,EIG_NODE))))
+                      ENDIF
+                    ENDDO
+                    IF (NSPMD.GT.1) THEN
+                      CALL SPMD_ALLREDUCE(EIG_MODEL_RADIUS_LOCAL,
+     .                    EIG_MODEL_RADIUS,1,SPMD_MAX)
+                      CALL SPMD_ALLREDUCE(EIG_MODEL_COORD_LOCAL,
+     .                    EIG_MODEL_COORD_GLOBAL,1,SPMD_MAX)
+                    ELSE
+                      EIG_MODEL_RADIUS=EIG_MODEL_RADIUS_LOCAL
+                      EIG_MODEL_COORD_GLOBAL=EIG_MODEL_COORD_LOCAL
+                    ENDIF
+C A zero-radius model has no geometric length scale.  Retain a finite fallback
+C for degenerate one-node test models; ordinary finite-element models use the
+C centroid radius above and are therefore independent of their length unit.
+                    IF (EIG_MODEL_RADIUS.LE.ZERO) THEN
+                      EIG_MODEL_RADIUS=MAX(EIG_MODEL_COORD_GLOBAL,ONE)
+                    ENDIF
+C Balance linearization error against floating-point cancellation using a
+C perturbation proportional to the working precision and model length.
+                    EIG_RESPONSE_RELATIVE=SQRT(EPSILON(ONE))
+                    EIG_RESPONSE_TARGET=EIG_MODEL_RADIUS*
+     .                                  EIG_RESPONSE_RELATIVE
+                    IF (ISPMD.EQ.0) THEN
+                      WRITE(ISTDO,'(A,1PE18.10)')
+     .                  'Public /EIG response model radius=',
+     .                  EIG_MODEL_RADIUS
+                      WRITE(IOUT,'(A,1PE18.10)')
+     .                  'Public /EIG response model radius=',
+     .                  EIG_MODEL_RADIUS
+                      WRITE(ISTDO,'(A,1PE18.10,A,1PE18.10)')
+     .                  'Public /EIG response sqrt(machine epsilon)=',
+     .                  EIG_RESPONSE_RELATIVE,', target amplitude=',
+     .                  EIG_RESPONSE_TARGET
+                      WRITE(IOUT,'(A,1PE18.10,A,1PE18.10)')
+     .                  'Public /EIG response sqrt(machine epsilon)=',
+     .                  EIG_RESPONSE_RELATIVE,', target amplitude=',
+     .                  EIG_RESPONSE_TARGET
+                    ENDIF
+C Snapshot the converged implicit element/material state once.  Each modal
+C response pass restores this snapshot before calling the standard element
+C dispatchers, so no mode can contaminate a later mode.
+                    CALL CP_IMPBUF(
+     .                1,ELBUF,IMPBUF_TAB%ELBUF_C,BUFMAT,
+     .                IMPBUF_TAB%BUFMAT_C,FSAV,VOLMON,PARTSAV,
+     .                INTERFACES%INTBUF_TAB,INTBUF_TAB_CP,IPARI,
+     .                ISLEN7,IRLEN7,ISLEN11,IRLEN11,ISLEN17,IRLEN17,
+     .                IRLEN7T,ISLEN7T,IRLEN20,ISLEN20,
+     .                IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
+     .                NEWFRONT,ELBUF_TAB,ELBUF_IMP,IPARG)
+                  ENDIF
+C Recover and write using the legacy /EIG Nbloc control.
+                  IF (PUBLIC_EIG_READY) THEN
+                    EIG_TOTAL_MODES=PUBLIC_EIG_NMODE
+                    EIG_BATCH_SIZE=PUBLIC_EIG_NMODE
+                    IF (EIGIPM(9,1).GT.0) EIG_BATCH_SIZE=
+     .                MIN(EIGIPM(9,1),PUBLIC_EIG_NMODE)
+                    IF (OUTPUT%DTANIM.GT.ZERO) THEN
+                    DO EIG_BATCH_FIRST=1,PUBLIC_EIG_NMODE,EIG_BATCH_SIZE
+                    EIG_BATCH_LAST=MIN(PUBLIC_EIG_NMODE,
+     .                                 EIG_BATCH_FIRST+EIG_BATCH_SIZE-1)
+                    CALL EIG_LOAD_MODE_BATCH(IMPBUF_TAB%NDDL,
+     .                    EIG_BATCH_FIRST,EIG_BATCH_LAST)
+                    IF (ISPMD.EQ.0) THEN
+                      WRITE(ISTDO,'(A,I0,A,I0)')
+     .                  'Public /EIG Nbloc batch modes ',
+     .                  EIG_BATCH_FIRST,' through ',EIG_BATCH_LAST
+                      WRITE(IOUT,'(A,I0,A,I0)')
+     .                  'Public /EIG Nbloc batch modes ',
+     .                  EIG_BATCH_FIRST,' through ',EIG_BATCH_LAST
+                    ENDIF
+                    DO EIG_MODE=EIG_BATCH_FIRST,EIG_BATCH_LAST
+                    EIG_BATCH_SLOT=EIG_MODE-EIG_BATCH_FIRST+1
+                    CALL EIG_EXPAND_MODE(
+     1                EIGIPM(1,1),IMPBUF_TAB%NDDL,IMPBUF_TAB%IDDL,
+     2                IMPBUF_TAB%NDOF,IMPBUF_TAB%IKC,
+     3                IMPBUF_TAB%INLOC,RBY,LPBY,NPBY,SKEWS%SKEW,
+     4                NODES%ISKEW,NODES%ITAB,NODES%WEIGHT,NODES%MS,
+     5                NODES%IN,IBFV,VEL,NODES%ICODT,NODES%ICODR,
+     6                IMPBUF_TAB%NRBYAC,IMPBUF_TAB%IRBYAC,
+     7                IMPBUF_TAB%NINT2,IMPBUF_TAB%IINT2,IPARI,
+     8                INTERFACES%INTBUF_TAB,NODES%X,XFRAME,DIRUL,IXR,
+     9                ELEMENT%SHELL%IXC,IXTG,SH4TREE,SH3TREE,
+     A                RBE3%IRBE3,RBE3%LRBE3,RBE3%FRBE3,IRBE2,LRBE2,
+     B                EIG_BATCH_SLOT,EIG_D,EIG_DR)
+C Linearize the ordinary nonlinear constitutive response around the
+C stiffness-assembly state, then expand its result fields back to the
+C eigenvector's requested normalization.  Rotations are converted to an
+C equivalent edge displacement with the model radius instead of being
+C compared dimensionally with translations.
+                    EIG_RESPONSE_TRANSLATION_LOCAL=
+     .                  MAXVAL(ABS(EIG_D))
+                    EIG_RESPONSE_ROTATION_LOCAL=
+     .                  MAXVAL(ABS(EIG_DR))
+                    IF (NSPMD.GT.1) THEN
+                      CALL SPMD_ALLREDUCE(
+     .                    EIG_RESPONSE_TRANSLATION_LOCAL,
+     .                    EIG_RESPONSE_TRANSLATION_MAX,1,SPMD_MAX)
+                      CALL SPMD_ALLREDUCE(EIG_RESPONSE_ROTATION_LOCAL,
+     .                    EIG_RESPONSE_ROTATION_MAX,1,SPMD_MAX)
+                    ELSE
+                      EIG_RESPONSE_TRANSLATION_MAX=
+     .                    EIG_RESPONSE_TRANSLATION_LOCAL
+                      EIG_RESPONSE_ROTATION_MAX=
+     .                    EIG_RESPONSE_ROTATION_LOCAL
+                    ENDIF
+                    EIG_RESPONSE_EQUIVALENT_MAX=MAX(
+     .                  EIG_RESPONSE_TRANSLATION_MAX,
+     .                  EIG_MODEL_RADIUS*EIG_RESPONSE_ROTATION_MAX)
+                    IF (EIG_RESPONSE_EQUIVALENT_MAX.LE.ZERO) THEN
+                      WRITE(ISTDO,*)'ERROR: /EIG produced a zero mode'
+                      WRITE(IOUT,*)'ERROR: /EIG produced a zero mode'
+                      CALL ARRET(5)
+                    ENDIF
+                    EIG_RESPONSE_SCALE=EIG_RESPONSE_TARGET/
+     .                                 EIG_RESPONSE_EQUIVALENT_MAX
+                    EIG_D=EIG_D*EIG_RESPONSE_SCALE
+                    EIG_DR=EIG_DR*EIG_RESPONSE_SCALE
+                    NODES%X=EIG_X_BASE
+                    CALL EIG_RESPONSE_EVALUATE(EIG_D,EIG_DR,
+     .                                           EIG_RESPONSE_SCALE)
+                    EIG_D=EIG_D/EIG_RESPONSE_SCALE
+                    EIG_DR=EIG_DR/EIG_RESPONSE_SCALE
+                  CALL EIG_ANIMATION_OUTPUT(
+     2              PM,GEO,IPM,IGEO,ELBUF,
+     3              IXS,IXQ,ELEMENT%SHELL%IXC,IXT,IXP,
+     4              IXR,IXTG,IPARG,IPARI,SKEWS%SKEW,
+     5              LPBY,NPBY,NODES%ITAB,
+     E              OUTPUT%DATA%VECT_CONT,ICUT,XCUT,
+     E              OUTPUT%DATA%VECT_FINT,OUTPUT%DATA%VECT_FEXT,
+     F              OUTPUT%DATA%FOPT,NSTRF,RWALL%RWBUF,RWALL%NPRW,
+     G              TANI,DD_IAD,EANI,IPART,
+     H              NOM_OPT,IGRSURF,BUFSF,IDATA,
+     I              RDATA,BUFMAT,BUFGEO,KXX,IXX,KXSP,IXSP,
+     J              NOD2SP,SPBUF,IXS(L1),IXS(L2),IXS(L3),
+     K              NODES%VR,MONVOL,VOLMON,NODES%NODGLOB,
+     K              NODES%BOUNDARY_ADD,
+     L              NODES%BOUNDARY,FR_SEC,FR_RBY2,IAD_RBY2,
+     L              RWALL%FR_WALL,
+     M              NODES%X,NODES%V,NODES%A,
+     N              RBY,NODES%MS,NODES%WEIGHT,
+     O              FSAV(1,NFNCA+1),FSAV(1,NFTCA+1),NODES%TEMP,THKE,
+     P              ERR_THK_SH4,ERR_THK_SH3,ELBUF_TAB,
+     R              RBE3%IRBE3,RBE3%LRBE3,RBE3%mpi%FR_RBE3,
+     R              IRBE2,LRBE2,
+     S              IAD_RBE2,FR_RBE2,NODES%WEIGHT_MD,
+     U              CLUSTER,FCLUSTER,MCLUSTER,XFEM_TAB,
+     V              ALE_CONNECTIVITY,W,ale%global%nv46,NERCVOIS,
+     V              NESDVOIS,
+     W              LERCVOIS,LESDVOIS,CRKEDGE,STACK,
+     X              INDX_CRK,XEDGE4N,XEDGE3N,SPH2SOL,
+     Y              NODES%STIFN,NODES%STIFR,DRAPE_SH4N,DRAPE_SH3N,
+     Z              H3D_DATA,SUBSETS,MULTI_FVM,IGRNOD,FCONT_MAX,
+     A              IFLOW,RFLOW,DIAG_SMS,OUTPUT%DATA%VECT_CONT2,DXANCG,
+     A              INOD_PXFEM,IEL_PXFEM,ZI_PLY,VFLOW,FCONTG,
+     A              FNCONTG,FTCONTG,FREAC,INOD_CRK,IEL_CRK,
+     A              ELCUTC,IADC_CRK,OUTPUT%DATA%SCAL_DAMA2,RES_SMS,
+     A              NODGLOBXFE,NODEDGE,KXIG3D,IXIG3D,KNOT,WIGE,
+     A              KNOTLOCPC,KNOTLOCEL,
+     A              OUTPUT%DATA%VECT_PCONT2,
+     A              OUTPUT%DATA%VECT_PCONT2_2,DRAPEG,
+     A              MAT_ELEM%MAT_PARAM,
+     B              GLOB_THERM,OUTPUT,EIG_MODE,EIG_D,EIG_DR,EIG_BUFEL0)
+                    ENDDO
+                    ENDDO
+                    ENDIF
+                    CALL EIG_RELEASE_STREAMED_RESULTS()
+                    CALL CLEAR_PUBLIC_EIG_RESULTS()
+                  ENDIF
+                  IF (OUTPUT%DTANIM.GT.ZERO.AND.
+     .                EIG_TOTAL_MODES.GT.0) THEN
+                    NODES%X=EIG_X_BASE
+C Leave the caller with exactly the pre-output constitutive state.
+                    CALL CP_IMPBUF(
+     .                2,ELBUF,IMPBUF_TAB%ELBUF_C,BUFMAT,
+     .                IMPBUF_TAB%BUFMAT_C,FSAV,VOLMON,PARTSAV,
+     .                INTERFACES%INTBUF_TAB,INTBUF_TAB_CP,IPARI,
+     .                ISLEN7,IRLEN7,ISLEN11,IRLEN11,ISLEN17,IRLEN17,
+     .                IRLEN7T,ISLEN7T,IRLEN20,ISLEN20,
+     .                IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
+     .                NEWFRONT,ELBUF_TAB,ELBUF_IMP,IPARG)
+                    DEALLOCATE(EIG_D,EIG_DR,EIG_X_BASE,EIG_BUFEL0)
+                    IF (ISPMD.EQ.0) THEN
+                      WRITE(ISTDO,*)'Public /EIG wrote ',EIG_TOTAL_MODES,
+     .                               ' animation modes'
+                      WRITE(IOUT,*)'Public /EIG wrote ',EIG_TOTAL_MODES,
+     .                              ' animation modes'
+                    ENDIF
+                  ELSEIF (EIG_TOTAL_MODES.GT.0) THEN
+                    IF (ISPMD.EQ.0) THEN
+                      WRITE(ISTDO,*)
+     .                  'Public /EIG modes solved; /ANIM/DT not set'
+                      WRITE(IOUT,*)
+     .                  'Public /EIG modes solved; /ANIM/DT not set'
+                    ENDIF
+                  ENDIF
 #endif
                   DT2 = MAX(EM20,TSTOP-TT)
                   MSTOP=2
@@ -2506,30 +2867,6 @@ C     pointer to list of particles to be sorted (to be sorted == active)
 C     to be sorted > active
                 KSP2SORT=KSPH23
               END IF
-
-C-------------------------------
-C       POINTERS FOR USER ROUTINES
-C-------------------------------
-              CALL SAV_BUF_POINT(PM,1)
-              CALL SAV_BUF_POINT(BUFMAT,2)
-              CALL SAV_BUF_POINT(GEO,3)
-              CALL SAV_BUF_POINT(BUFGEO,4)
-              CALL SAV_BUF_POINT(NPC,5)
-              CALL SAV_BUF_POINT(TF,6)
-              CALL SAV_BUF_POINT(ISKWN,9)
-              CALL SAV_BUF_POINT(SKEWS%SKEW,10)
-              CALL SAV_BUF_POINT(LACCELM,11)
-              CALL SAV_BUF_POINT(ACCELM,12)
-              CALL SAV_BUF_POINT(NODES%ITABM1,13)
-              CALL SAV_BUF_POINT(NODES%X,14)
-              CALL SAV_BUF_POINT(NODES%D,15)
-              CALL SAV_BUF_POINT(NODES%V,16)
-              CALL SAV_BUF_POINT(NODES%A,17)
-              CALL SAV_BUF_POINT(NODES%V,16)
-              CALL SAV_BUF_POINT(NODES%A,17)
-              CALL SAV_BUF_POINT(NODES%WEIGHT,18)
-              CALL SAV_BUF_POINT(IPM,19)
-              CALL SAV_BUF_POINT(IGEO,20)
 
 C ----------------------------------------------
 C Specific Initializations
@@ -9414,7 +9751,7 @@ C--- //0 ----------------
                 MSTOP_DT_THERM = 1
               ENDIF
 
-#if defined(MYREAL8) && !defined(WITHOUT_LINALG)
+#if defined(MYREAL8) && (!defined(WITHOUT_LINALG) || !defined(DNC))
  300          CONTINUE
 #endif
 
@@ -9983,4 +10320,352 @@ C                Deallocate indexing arrays
 
 c-----------
               RETURN
+
+C=======================================================================
+C Evaluate one public /EIG mode through the ordinary element response
+C path.  This internal procedure deliberately host-associates RESOL's
+C complete engine state: the calls below are the same dispatchers and the
+C same work arrays used by a normal explicit/implicit force evaluation.
+C=======================================================================
+              CONTAINS
+              SUBROUTINE EIG_RESPONSE_EVALUATE(D_EIG,DR_EIG,E_SCALE)
+              my_real D_EIG(3,*),DR_EIG(3,*)
+              INTEGER E_NELTST,E_ITYPTST,E_NG,
+     .                E_GETUNOD_NOCOM_SAVE,E_PASS,E_EINT_SIZE,
+     .                E_EINT_OFFSET,E_EINT_COUNT,E_ALLOC_IOS
+              my_real E_DT2T,E_DT1_SAVE,E_SCALE,E_INV,
+     .                E_ENERGY_FACTOR,E_ENERGY_SCALE,E_ENERGY_INV2
+              my_real, DIMENSION(:), ALLOCATABLE :: E_EINT_CENTRAL
+C
+C Internal energy is a second-order modal quantity.  Use a larger,
+C precision-balanced central perturbation so a prestress term linear in the
+C mode cancels instead of being divided by E_SCALE**2.  A final small positive
+C pass preserves the existing first-order stress/force recovery accuracy.
+              E_EINT_SIZE=0
+              DO E_NG=1,NGROUP
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%EINT).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%EINT))
+     .            E_EINT_SIZE=E_EINT_SIZE+
+     .              SIZE(ELBUF_TAB(E_NG)%GBUF%EINT)
+              ENDDO
+              ALLOCATE(E_EINT_CENTRAL(MAX(1,E_EINT_SIZE)),
+     .                 STAT=E_ALLOC_IOS)
+              IF (E_ALLOC_IOS.NE.0) THEN
+                WRITE(ISTDO,*)
+     .            'ERROR: unable to allocate /EIG energy workspace'
+                WRITE(IOUT,*)
+     .            'ERROR: unable to allocate /EIG energy workspace'
+                CALL ARRET(5)
+              ENDIF
+              E_ENERGY_FACTOR=ONE/SQRT(SQRT(EPSILON(ONE)))
+              E_ENERGY_SCALE=E_SCALE*E_ENERGY_FACTOR
+              E_ENERGY_INV2=ONE/(E_ENERGY_SCALE*E_ENERGY_SCALE)
+              E_DT1_SAVE=DT1
+              DT1=ONE
+              DO E_PASS=1,3
+C Keep the caller's small positive perturbation on exit.  The first two
+C passes are the negative and positive energy perturbations respectively.
+                IF (E_PASS.EQ.1) THEN
+                  D_EIG(1:3,1:NUMNOD)=
+     .              -E_ENERGY_FACTOR*D_EIG(1:3,1:NUMNOD)
+                  DR_EIG(1:3,1:NUMNOD)=
+     .              -E_ENERGY_FACTOR*DR_EIG(1:3,1:NUMNOD)
+                ELSEIF (E_PASS.EQ.2) THEN
+                  D_EIG(1:3,1:NUMNOD)=-D_EIG(1:3,1:NUMNOD)
+                  DR_EIG(1:3,1:NUMNOD)=-DR_EIG(1:3,1:NUMNOD)
+                ELSE
+                  D_EIG(1:3,1:NUMNOD)=
+     .              D_EIG(1:3,1:NUMNOD)/E_ENERGY_FACTOR
+                  DR_EIG(1:3,1:NUMNOD)=
+     .              DR_EIG(1:3,1:NUMNOD)/E_ENERGY_FACTOR
+                ENDIF
+C Return all mutable constitutive and element buffers to the state from
+C which the tangent stiffness was assembled before every response pass.
+              CALL CP_IMPBUF(
+     .          2,ELBUF,IMPBUF_TAB%ELBUF_C,BUFMAT,
+     .          IMPBUF_TAB%BUFMAT_C,FSAV,VOLMON,PARTSAV,
+     .          INTERFACES%INTBUF_TAB,INTBUF_TAB_CP,IPARI,
+     .          ISLEN7,IRLEN7,ISLEN11,IRLEN11,ISLEN17,IRLEN17,
+     .          IRLEN7T,ISLEN7T,IRLEN20,ISLEN20,
+     .          IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
+     .          NEWFRONT,ELBUF_TAB,ELBUF_IMP,IPARG)
+C Modal recovery is a static response evaluation.  Clear velocity,
+C acceleration, force, work, and nodal-stiffness accumulators so that no
+C pre-eigen explicit-cycle value can enter a modal result.
+              NODES%A=ZERO
+              NODES%AR=ZERO
+C The production explicit kernels update strain from velocity times DT1.
+C /EIG executes before the first explicit time-step calculation, so evaluate
+C with a synthetic unit increment and restore the engine value afterward.
+              NODES%V(1:3,1:NUMNOD)=D_EIG(1:3,1:NUMNOD)
+              IF (IRODDL.GT.0)
+     .          NODES%VR(1:3,1:NUMNOD)=DR_EIG(1:3,1:NUMNOD)
+              NODES%STIFN=ZERO
+              NODES%STIFR=ZERO
+              E_DT2T=MAX(DT2,EM20)
+              E_NELTST=0
+              E_ITYPTST=0
+C
+C Multipurpose/X elements.
+              CALL FORINTS(
+     1          PM,GEO,NODES%X,NODES%A,NODES%AR,
+     2          NODES%V,NODES%VR,NODES%MS,NODES%IN,W,
+     3          ELBUF,VAL2,VEUL,FV,
+     4          NODES%STIFN,NODES%STIFR,ELEMENT%PON%FSKY,TF,BUFMAT,
+     5          PARTSAV,OUTPUT%DATA%FOPT,FSAV,
+     6          SKEWS%SKEW,E_DT2T,
+     7          ELEMENT%PON%IADS,IPARG,NPC,IXS,
+     8          E_NELTST,E_ITYPTST,IPART,IPART(K1),NODES%ITAB,
+     9          INTERFACES%PON%FSKYI,BUFGEO,KXX,IXX,
+     9          INTERFACES%PON%ISKY,
+     A          IPART(K9),GRESAV,GRTH,
+     B          IGRTH,ELBUF_TAB)
+C
+C Four-node and three-node shells.  Force CPU execution even when the
+C ordinary cycle is configured for GPU shells, because modal recovery is a
+C synchronous, rollback-protected pass.
+              E_GETUNOD_NOCOM_SAVE=GETUNOD_NOCOM
+              GETUNOD_NOCOM=1
+              LLT1=I87G+3*NUMELTG
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
+!$OMP PARALLEL
+!$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,NDTSKR,IPMTSK,IGMTSK)
+!$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
+!$OMP+ PRIVATE(GREFTSK,GRELTSK)
+!$OMP+ PRIVATE(IDX_FTHE,IDX_CONDN,IDX_PINCH)
+              CALL SMP_INIT(
+     1          ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,
+     2          IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK,
+     3          GREFTSK,GRELTSK)
+              DT2TT=E_DT2T
+              NELTSTT=E_NELTST
+              ITYPTSTT=E_ITYPTST
+              IAD_GREL=1
+              IF (IGRELEM.EQ.1) IAD_GREL=K3-K1+1
+              IDX_FTHE=NDTSK
+              IF (NDTSK.GT.IFTHE) IDX_FTHE=1
+              IDX_CONDN=NDTSK
+              IF (NDTSK.GT.ICONDN) IDX_CONDN=1
+              IDX_PINCH=NDTSK
+              IF (NPINCH.EQ.0) IDX_PINCH=1
+              IF (IPARIT.EQ.1) NDTSK=1
+              NDTSKR=NDTSK
+              IF (IRODDL.EQ.0) NDTSKR=1
+              CALL FORINTC(TIMERS,0,
+     1          PM,GEO,NODES%X,NODES%A(1,NDTSK),NODES%AR(1,NDTSK),
+     2          NODES%V,NODES%VR,NODES%MS,NODES%IN,NLOC_DMG,
+     3          WA(NWAFTSK),NODES%STIFN(NDTSK),
+     3          NODES%STIFR(NDTSKR),ELEMENT%PON%FSKY,CRKSKY,
+     4          TF,BUFMAT,PARTSAV(IPMTSK),D_EIG,MAT_ELEM,
+     5          DR_EIG,EANI,TANI,OUTPUT%DATA%FOPT,
+     6          FSAV,SENSORS,SKEWS%SKEW,FAILWAVE,
+     7          DT2TT,THKE,BUFGEO,ELEMENT%PON%IADC,
+     7          ELEMENT%PON%IAD_TG,
+     8          IPARG,NPC,ELEMENT%SHELL%IXC,IXTG,NELTSTT,
+     9          IPARI,ITYPTSTT,NSTRF,
+     A          IPART,IPART(K3),IPART(K8),SECFCUM,
+     B          FSAVD,MAT_ELEM%GROUP_PARAM,
+     E          FZERO,IXTG1,ELEMENT%PON%IAD_TG6,IGEO,IPM,
+     F          XSEC,ITSK,NODES%MCP,
+     G          NODES%TEMP,FTHE(IDX_FTHE),FTHESKY,
+     H          MS_PLY,ZI_PLY,INOD_PXFEM,XEDGE4N,XEDGE3N,
+     I          IEL_PXFEM,IADC_PXFEM,IGROUC,NGROUC,GRESAV(IGMTSK),
+     J          GRTH,IGRTH(IAD_GREL),MSTG,DMELTG,MSC,
+     K          DMELC,TABLE,KXFENOD2ELC,PTG,MSZ2,
+     L          INOD_CRK,IEL_CRK,IADC_CRK,ELCUTC,NODENR,
+     M          IBORDNODE,NODEDGE,CRKNODIAD,ELBUF_TAB,
+     N          XFEM_TAB,CONDN(IDX_CONDN),CONDNSKY,CRKEDGE,
+     O          STACK,NODES%ITAB,GLOB_THERM,
+     Q          DRAPE_SH4N,DRAPE_SH3N,SUBSETS,NODES%XDP,
+     Q          PINCH_DATA%VPINCH,
+     R          PINCH_DATA%APINCH(1,IDX_PINCH),
+     R          PINCH_DATA%STIFPINCH(IDX_PINCH),DRAPEG,
+     S          OUTPUT,DT,SNPC,STF,USERL_AVAIL,MAXFUNC,
+     S          SBUFMAT,IPARIT,LSKY,NODADT)
+!$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
+              GETUNOD_NOCOM=E_GETUNOD_NOCOM_SAVE
+C
+C Solids, quads, trusses, beams, springs, and their user-element routes.
+              L1=1+NIXS*NUMELS+NSVOIS*NIXS
+              L2=L1+6*NUMELS10
+              L3=L2+12*NUMELS20
+              LL1=1+8*NUMELS
+              LL2=LL1+6*NUMELS10
+              LL3=LL2+12*NUMELS20
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
+!$OMP PARALLEL
+!$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,NDTSKR,IPMTSK)
+!$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
+!$OMP+ PRIVATE(I16TSK,IGMTSK,GREFTSK,GRELTSK)
+!$OMP+ PRIVATE(IDX_FTHE,IDX_CONDN)
+              CALL SMP_INIT(
+     1          ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,
+     2          IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK,
+     3          GREFTSK,GRELTSK)
+              IF (IPARIT.EQ.1) NDTSK=1
+              DT2TT=E_DT2T
+              NELTSTT=E_NELTST
+              ITYPTSTT=E_ITYPTST
+              I16TSK=1+ITSK*(SW16/NTHREAD)
+              IDX_FTHE=NDTSK
+              IF (NDTSK.GT.IFTHE) IDX_FTHE=1
+              IDX_CONDN=NDTSK
+              IF (NDTSK.GT.ICONDN) IDX_CONDN=1
+              NDTSKR=NDTSK
+              IF (IRODDL.EQ.0) NDTSKR=1
+              CALL FORINT(TIMERS,PYTHON,
+     1          PM,GEO,NODES%X,NODES%A(1,NDTSK),NODES%AR(1,NDTSK),
+     2          NODES%V,NODES%VR,NODES%MS,NODES%IN,W,
+     3          ELBUF,WA(NWAFTSK),VAL2,VEUL,FV,
+     4          NODES%STIFN(NDTSK),NODES%STIFR(NDTSKR),
+     4          ELEMENT%PON%FSKY,TF,BUFMAT,
+     5          PARTSAV(IPMTSK),D_EIG,DR_EIG,EANI,ELBUF_TAB,
+     6          TANI,OUTPUT%DATA%FOPT,FSAV,SENSORS,NLOC_DMG,
+     7          SKEWS%SKEW,OUTPUT%DATA%SCAL_SPRING,DT2TT,BUFGEO,
+     7          NODES%ITAB,
+     8          ELEMENT%PON%IADS,ELEMENT%PON%IADQ,
+     8          ELEMENT%PON%IAD_TRUSS,ELEMENT%PON%IAD_BEAM,MAT_ELEM,
+     9          ELEMENT%PON%IAD_SPRING,IPARG,ALE_CONNECTIVITY,NPC,
+     A          IXS,IXQ,IXT,IXP,
+     B          IXR,NELTSTT,IPARI,
+     C          ITYPTSTT,NSTRF,IPART,
+     D          IPART(K1),IPART(K2),IPART(K4),IPART(K5),
+     E          IPART(K6),IPART(K7),FR_WAVE,RBY,
+     F          SECFCUM,AGRV,IGRV,LGRAV,
+     G          IXS(L1),
+     H          IXS(L2),ELEMENT%PON%IADS10,ELEMENT%PON%IADS20,
+     H          IXS(L3),ELEMENT%PON%IADS16,
+     I          W16(I16TSK),ELEMENT%PON%FSKYM,MSNF,IGEO,IPM,
+     J          XSEC,ITSK,NODES%TEMP,
+     K          FTHE(IDX_FTHE),FTHESKY,IGROUNC,NGROUNC,
+     M          GRESAV(IGMTSK),GRTH,IGRTH,NODES%XDP,MSSA,
+     N          DMELS,MSTR,DMELTR,MSP,DMELP,
+     O          MSRT,DMELRT,TABLE,VFLOW,AFLOW,
+     P          DFLOW,WFLOW,FFSKY,AFLOW,NBSDVOIS,
+     Q          NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,PHI,
+     R          PHIE,MSF,NODFTSK,NODLTSK,
+     S          FLG_KJ2,POR,IFOAM_CONT,IFOAM,
+     T          KXIG3D,IXIG3D,KNOT,WIGE,CONDN(IDX_CONDN),
+     U          CONDNSKY,
+     V          TAGPRT_SMS,ITAGND,MS_2D,ALE_CONNECTIVITY%NALE,
+     V          STRESSMEAN,
+     W          KNOTLOCPC,KNOTLOCEL,SUBSETS,
+     W          FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
+     Y          H3D_DATA,IFTHE,ICONDN,DT,OUTPUT,
+     Z          SBUFMAT,SNPC,STF,NODADT,DTFAC1,
+     .          DTMIN1,IDTMIN,IOUT,ISTDO,IDTMINS,DTFACS,NSVOIS,
+     .          IRESP,MAXFUNC,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,
+     .          SANIN,NGRTH,NELEM,SFEM,FLG_SPR_DT)
+!$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
+C Retain only the negative energy result.  On the positive energy pass,
+C replace it in-place with the centered modal energy.  The third pass then
+C restores the small positive response used for all first-order fields.
+              IF (E_PASS.EQ.1) THEN
+                E_EINT_OFFSET=1
+                DO E_NG=1,NGROUP
+                  IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%EINT).AND.
+     .                ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%EINT)) THEN
+                    E_EINT_COUNT=SIZE(ELBUF_TAB(E_NG)%GBUF%EINT)
+                    E_EINT_CENTRAL(
+     .                E_EINT_OFFSET:E_EINT_OFFSET+E_EINT_COUNT-1)=
+     .                ELBUF_TAB(E_NG)%GBUF%EINT
+                    E_EINT_OFFSET=E_EINT_OFFSET+E_EINT_COUNT
+                  ENDIF
+                ENDDO
+              ELSEIF (E_PASS.EQ.2) THEN
+                E_EINT_OFFSET=1
+                DO E_NG=1,NGROUP
+                  IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%EINT).AND.
+     .                ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%EINT)) THEN
+                    E_EINT_COUNT=SIZE(ELBUF_TAB(E_NG)%GBUF%EINT)
+                    E_EINT_CENTRAL(
+     .                E_EINT_OFFSET:E_EINT_OFFSET+E_EINT_COUNT-1)=
+     .                (ELBUF_TAB(E_NG)%GBUF%EINT+
+     .                 E_EINT_CENTRAL(
+     .                   E_EINT_OFFSET:E_EINT_OFFSET+E_EINT_COUNT-1)-
+     .                 TWO*ELBUF_IMP(E_NG)%GBUF%EINT)*HALF*
+     .                 E_ENERGY_INV2
+                    E_EINT_OFFSET=E_EINT_OFFSET+E_EINT_COUNT
+                  ENDIF
+                ENDDO
+              ENDIF
+              ENDDO
+C Convert the finite response increment back to the eigenvector's requested
+C normalization.  First-order fields retain their positive one-sided
+C difference; energy comes from the centered second difference above.
+              E_INV=ONE/E_SCALE
+              E_EINT_OFFSET=1
+              DO E_NG=1,NGROUP
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%EINT).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%EINT)) THEN
+                  E_EINT_COUNT=SIZE(ELBUF_TAB(E_NG)%GBUF%EINT)
+                  ELBUF_TAB(E_NG)%GBUF%EINT=
+     .              E_EINT_CENTRAL(
+     .                E_EINT_OFFSET:E_EINT_OFFSET+E_EINT_COUNT-1)
+                  E_EINT_OFFSET=E_EINT_OFFSET+E_EINT_COUNT
+                ENDIF
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%SIG).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%SIG))
+     .            ELBUF_TAB(E_NG)%GBUF%SIG=
+     .            (ELBUF_TAB(E_NG)%GBUF%SIG-
+     .             ELBUF_IMP(E_NG)%GBUF%SIG)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%FOR).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%FOR))
+     .            ELBUF_TAB(E_NG)%GBUF%FOR=
+     .            (ELBUF_TAB(E_NG)%GBUF%FOR-
+     .             ELBUF_IMP(E_NG)%GBUF%FOR)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%MOM).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%MOM))
+     .            ELBUF_TAB(E_NG)%GBUF%MOM=
+     .            (ELBUF_TAB(E_NG)%GBUF%MOM-
+     .             ELBUF_IMP(E_NG)%GBUF%MOM)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%STRA).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%STRA))
+     .            ELBUF_TAB(E_NG)%GBUF%STRA=
+     .            (ELBUF_TAB(E_NG)%GBUF%STRA-
+     .             ELBUF_IMP(E_NG)%GBUF%STRA)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%FORPG).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%FORPG))
+     .            ELBUF_TAB(E_NG)%GBUF%FORPG=
+     .            (ELBUF_TAB(E_NG)%GBUF%FORPG-
+     .             ELBUF_IMP(E_NG)%GBUF%FORPG)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%MOMPG).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%MOMPG))
+     .            ELBUF_TAB(E_NG)%GBUF%MOMPG=
+     .            (ELBUF_TAB(E_NG)%GBUF%MOMPG-
+     .             ELBUF_IMP(E_NG)%GBUF%MOMPG)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%STRPG).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%STRPG))
+     .            ELBUF_TAB(E_NG)%GBUF%STRPG=
+     .            (ELBUF_TAB(E_NG)%GBUF%STRPG-
+     .             ELBUF_IMP(E_NG)%GBUF%STRPG)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%STRW).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%STRW))
+     .            ELBUF_TAB(E_NG)%GBUF%STRW=
+     .            (ELBUF_TAB(E_NG)%GBUF%STRW-
+     .             ELBUF_IMP(E_NG)%GBUF%STRW)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%STRWPG).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%STRWPG))
+     .            ELBUF_TAB(E_NG)%GBUF%STRWPG=
+     .            (ELBUF_TAB(E_NG)%GBUF%STRWPG-
+     .             ELBUF_IMP(E_NG)%GBUF%STRWPG)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%FOR_G).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%FOR_G))
+     .            ELBUF_TAB(E_NG)%GBUF%FOR_G=
+     .            (ELBUF_TAB(E_NG)%GBUF%FOR_G-
+     .             ELBUF_IMP(E_NG)%GBUF%FOR_G)*E_INV
+                IF (ASSOCIATED(ELBUF_TAB(E_NG)%GBUF%FORPG_G).AND.
+     .              ASSOCIATED(ELBUF_IMP(E_NG)%GBUF%FORPG_G))
+     .            ELBUF_TAB(E_NG)%GBUF%FORPG_G=
+     .            (ELBUF_TAB(E_NG)%GBUF%FORPG_G-
+     .             ELBUF_IMP(E_NG)%GBUF%FORPG_G)*E_INV
+              ENDDO
+              NODES%V=ZERO
+              NODES%VR=ZERO
+              DT1=E_DT1_SAVE
+              DEALLOCATE(E_EINT_CENTRAL)
+              RETURN
+              END SUBROUTINE EIG_RESPONSE_EVALUATE
             END

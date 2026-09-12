@@ -1,0 +1,35 @@
+{
+  "fixture": "qa-tests/miniqa/LOIS/LOI44/solides_8pt/data/44SLD8_0000.rad",
+  "root_name": "EIG_PRESTRESS",
+  "cases": [
+    {
+      "name": "initial_stress_energy",
+      "description": "An initially stressed solid verifies that modal energy is a centered second-order response, without first-order prestress contamination.",
+      "nmod": 3,
+      "expected_frequencies_hz": [
+        4.6523071111,
+        4.6523071335,
+        5.8429537992
+      ],
+      "expected_internal_energies": [
+        427.1992492675781,
+        427.223388671875,
+        673.7919311523438
+      ],
+      "energy_reference_order_independent": true,
+      "energy_reference_relative_tolerance": 5e-5,
+      "inorm": 0,
+      "animation": true,
+      "energy": true,
+      "mass": true,
+      "rotation": false,
+      "solid_tensors": true,
+      "element_family": "solid",
+      "starter_insert_lines": [
+        "/INIBRI/STRESS",
+        "         1                            50                   0                   0",
+        "                   0                   0                   0"
+      ]
+    }
+  ]
+}

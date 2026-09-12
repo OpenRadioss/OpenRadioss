@@ -272,7 +272,7 @@ C-----------------------
            IF (N/=NC(L)) NROW(N)=NROW(N)+1
           ENDDO
          ENDDO
-         IF (IGTYP==8.OR.IGTYP==13) THEN
+         IF (IGTYP==8.OR.IGTYP==13.OR.IGTYP==25) THEN
           DO J=1,NNOD
            NDOF(NC(J))=6
           ENDDO
@@ -316,6 +316,7 @@ C
   100 CONTINUE
       RETURN
       END
+
 C------version \\-----
 !||====================================================================
 !||    dim_elems3     ../engine/source/implicit/ind_glob_k.F
@@ -8030,4 +8031,3 @@ C-----------------------------------------
 C
        RETURN
       END
-

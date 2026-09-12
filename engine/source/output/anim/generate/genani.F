@@ -238,7 +238,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      Z                  STACK    ,SPH2SOL  ,STIFN       ,STIFR       ,IGRNOD    ,
      1                  H3D_DATA ,SUBSET   ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
      2                  FCONT_MAX,FNCONTP2 ,FTCONTP2    ,GLOB_THERM  ,
-     .                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT    )
+     .                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT,EIG_OUTPUT,
+     .                  EIG_DISP_SCALE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -337,7 +338,8 @@ C-----------------------------------------------
      .          NODGLOB(*),IAD_ELEM(2,*),FR_ELEM(*),FR_WALL(*), IFLOW(*),
      .          IPARI(NPARI,*),IRBE2(NRBE2L,*),IRBE3(NRBE3L,*),
      .          WEIGHT_MD(*),NODGLOBXFE(*),IPARTIG3D(*)
-        INTEGER CTEXT(2159), IB
+        INTEGER CTEXT(2159), IB,EIG_OUTPUT
+        my_real EIG_DISP_SCALE
         INTEGER DD_IAD(NSPMD+1,*),
      .          N1,N2,N3
         INTEGER FR_SEC(NSPMD+1,*),FR_RBY2(3,*),IAD_RBY2(4,*),
@@ -623,12 +625,22 @@ C-----------------------------------------------
               FILNAM=ROOTNAM(1:ROOTLEN)//'A'//CHANIM
               FILEN = ROOTLEN + 4
             ENDIF
+            IF(EIG_OUTPUT.NE.0)THEN
+              KKT=FILEN-ROOTLEN-1
+              FILNAM=ROOTNAM(1:ROOTLEN)//'E'//CHANIM(1:KKT)
+              FILEN=ROOTLEN+1+KKT
+            ENDIF
           ENDIF
           IF(ANIM_VERS>=50)THEN
             IF(IANIM>=10000)IANIM=1
             WRITE(CHANIM1,'(I4.4)')IANIM
-            FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHANIM1//'.ani'
-            FILEN = ROOTLEN + 9
+            IF(EIG_OUTPUT.NE.0)THEN
+              FILNAM=ROOTNAM(1:ROOTLEN)//'_E'//CHANIM1//'.ani'
+              FILEN=ROOTLEN+10
+            ELSE
+              FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHANIM1//'.ani'
+              FILEN=ROOTLEN+9
+            ENDIF
           ENDIF
 C
           LEN_TMP_NAME = OUTFILE_NAME_LEN + FILEN
@@ -1131,7 +1143,7 @@ C             0x542b
           CALL WRITE_I_C(MAGIC,1)
 C
           R4 = TT
-          IF (NEIG==0) THEN
+          IF (NEIG==0.OR.(EIG_OUTPUT==0.AND.IANIM==0)) THEN
             CALL WRITE_R_C(R4,1)
             CALL ANI_TXT('Time=',5)
             KKT=0
@@ -1147,10 +1159,14 @@ C
               CALL ANI_TXT('ModAnim',7)
             ENDIF
           ELSE
-            IF (R4>=ZERO) THEN
+            IF (R4>=ZERO.OR.EIG_OUTPUT.NE.0) THEN
               CALL WRITE_R_C(R4,1)
               CALL ANI_TXT('Frequency=',10)
-              CALL ANI_TXT('Eigenmode',9)
+              IF (EIG_OUTPUT.EQ.3) THEN
+                CALL ANI_TXT('Rigid mode',10)
+              ELSE
+                CALL ANI_TXT('Eigenmode',9)
+              ENDIF
             ELSE
               CALL WRITE_R_C(ZERO,1)
               CALL ANI_TXT('Frequency=',10)
@@ -1905,11 +1921,13 @@ C
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
+C       During eigen output X contains X0+EIG_DISP_SCALE*D.  Pass the
+C       same scale so the mass routines reconstruct X0, rather than X-D.
         IF(ANIM_M==1.OR.ANIM_CE(3)==1.OR.
      .     ANIM_CE(25)==1)THEN
           CALL DMASANIC(ELBUF_TAB,X    ,D    ,GEO  ,IPARG,
      .                IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
-     .                EL2FA,NBF  ,IGEO , STACK )
+     .                EL2FA,NBF  ,IGEO ,STACK,EIG_DISP_SCALE)
         ENDIF
 C-----------------------------------------------
 C   N FUNC TEXT
@@ -3530,6 +3548,7 @@ C-----------------------------------------------
           END IF
           IF(ANIM_V(13)==1) CALL ANI_TXT('Tied Contact Forces',19)
           IF(ANIM_V(14)==1) CALL ANI_TXT('Rotational DOF',14)
+          IF(ANIM_V(15)==1) CALL ANI_TXT('DXANC',5)
           IF(ANIM_V(16)==1) CALL ANI_TXT('Gaz Velocity',12)
           IF(ANIM_V(17)==1) CALL ANI_TXT('Reaction Forces',15)
           IF(ANIM_V(18)==1) CALL ANI_TXT('Reaction Moments',16)
@@ -3552,6 +3571,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C    VECT
 C-----------------------------------------------
+C       Modal dynamic arrays are zeroed by EIG_ANIMATION_OUTPUT.  Clear the
+C       derived isogeometric/reaction buffers too; these are created locally
+C       after entry to GENANI and must not reintroduce dynamic values.
+        IF(EIG_OUTPUT.NE.0)THEN
+          IF(ANIM_V(1)==1) V_TEMP=ZERO
+          IF(ANIM_V(3)==1) A_TEMP=ZERO
+          IF(ANIM_V(5)==1) FINT_TEMP=ZERO
+          IF(ANIM_V(17)==1.OR.ANIM_V(18)==1)THEN
+            FANREACT=ZERO
+            FANREACT_TEMP=ZERO
+          ENDIF
+        ENDIF
         NNNSRG=NNSRG+NNSMD+NNSPHG+2*NUMELS16G
 C     IF(NCUTS == 0) THEN
         IF(.NOT. ALLOCATED(ICBUF)) ALLOCATE(ICBUF(1))
@@ -3559,7 +3590,8 @@ C     IF(NCUTS == 0) THEN
 C     ENDIF
         IF(ANIM_V(1)==1) THEN
           CALL VELVEC(V,V_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
-     .          NNNSRG,NODGLOB,WEIGHT,NFVNOD,1,
+     .          NNNSRG,NODGLOB,WEIGHT,NFVNOD,
+     .          MERGE(0,1,EIG_OUTPUT.NE.0),
      .          NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
         ENDIF
         IF(ANIM_V(2)==1)
@@ -3568,7 +3600,8 @@ C     ENDIF
      .         NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
         IF(ANIM_V(3)==1)
      .   CALL VELVEC(A,A_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
-     .         NNNSRG,NODGLOB,WEIGHT,NFVNOD,3,
+     .         NNNSRG,NODGLOB,WEIGHT,NFVNOD,
+     .         MERGE(0,3,EIG_OUTPUT.NE.0),
      .         NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
         IF(ANIM_V(4)==1)THEN
           IF(NINTSTAMP==0)THEN
@@ -5313,10 +5346,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
+C       During eigen output X contains X0+EIG_DISP_SCALE*D.  Pass the
+C       same scale so the mass routines reconstruct X0, rather than X-D.
         IF(ANIM_M==1.OR.ANIM_FE(3)==1)THEN
           CALL DMASANIF(ELBUF_TAB, X    ,D    ,GEO  ,IPARG,
      .                  IXT      ,IXP   ,IXR  ,MAS  ,PM   ,
-     .                  EL2FA    ,NB1D  )
+     .                  EL2FA    ,NB1D  ,EIG_DISP_SCALE)
         ENDIF
 C-----------------------------------------------
 C   E(truss+..) FUNC TEXT

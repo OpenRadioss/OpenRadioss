@@ -1,0 +1,29 @@
+{
+  "fixture": "qa-tests/miniqa/RESSORT/prop_type25/input_51/data/SPR250_0000.rad",
+  "fixture_support_files": [
+    "qa-tests/miniqa/RESSORT/prop_type25/input_51/data/qadiags.inc"
+  ],
+  "root_name": "SPR250",
+  "cases": [
+    {
+      "name": "axisymmetric_type25_spring",
+      "description": "The existing Type 25 spring QA model exercises axial, duplicated radial-shear, torsional, and duplicated radial-bending implicit stiffnesses.",
+      "nmod": 6,
+      "expected_frequencies_hz": [
+        20.115495473176697,
+        20.115495473176697,
+        22.507907903927652,
+        50.32921210448704,
+        251.84859049941375,
+        251.84859049941375
+      ],
+      "frequency_relative_tolerance": 1.0e-7,
+      "inorm": 0,
+      "animation": true,
+      "energy": false,
+      "mass": true,
+      "rotation": false,
+      "element_family": "oned"
+    }
+  ]
+}

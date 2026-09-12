@@ -1,0 +1,163 @@
+{
+  "fixture": "qa-tests/miniqa/SMOKE_TEST/data/TWISBEAM_0000.rad",
+  "fixture_support_files": [
+    "qa-tests/miniqa/SMOKE_TEST/data/TWISBEAMD0B"
+  ],
+  "cases": [
+    {
+      "name": "vector_velocity",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/VEL"],
+      "expected_vector_fields": ["Displacement", "Velocity"],
+      "expected_zero_vector_fields": ["Velocity"]
+    },
+    {
+      "name": "vector_rotational_velocity",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/VROT"],
+      "expected_vector_fields": ["Displacement", "Rotational Velocity"],
+      "expected_zero_vector_fields": ["Rotational Velocity"]
+    },
+    {
+      "name": "vector_acceleration",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/ACC"],
+      "expected_vector_fields": ["Acceleration", "Displacement"],
+      "expected_zero_vector_fields": ["Acceleration"]
+    },
+    {
+      "name": "vector_contact",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/CONT"],
+      "expected_vector_fields": ["Contact Forces", "Displacement"],
+      "expected_zero_vector_fields": ["Contact Forces"]
+    },
+    {
+      "name": "vector_internal_force",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/FINT"],
+      "expected_vector_fields": ["Displacement", "Internal Forces"],
+      "expected_zero_vector_fields": ["Internal Forces"]
+    },
+    {
+      "name": "vector_external_force",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/FEXT"],
+      "expected_vector_fields": ["Displacement", "External Forces"]
+    },
+    {
+      "name": "vector_contact_pressure",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/PCONT"],
+      "expected_vector_fields": ["Contact Pressure / Normal", "Contact Pressure / Tangent", "Displacement"],
+      "expected_zero_vector_fields": ["Contact Pressure / Normal", "Contact Pressure / Tangent"]
+    },
+    {
+      "name": "vector_tied_contact",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/CONT2"],
+      "expected_vector_fields": ["Displacement", "Tied Contact Forces"],
+      "expected_zero_vector_fields": ["Tied Contact Forces"]
+    },
+    {
+      "name": "vector_dxanc",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/DXANC"],
+      "expected_vector_fields": ["DXANC", "Displacement"]
+    },
+    {
+      "name": "vector_gas_velocity",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/GVEL"],
+      "expected_vector_fields": ["Displacement", "Gaz Velocity"]
+    },
+    {
+      "name": "vector_reaction_force",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/FREAC"],
+      "expected_vector_fields": ["Displacement", "Reaction Forces"],
+      "expected_zero_vector_fields": ["Reaction Forces"]
+    },
+    {
+      "name": "vector_reaction_moment",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/MREAC"],
+      "expected_vector_fields": ["Displacement", "Reaction Moments"],
+      "expected_zero_vector_fields": ["Reaction Moments"]
+    },
+    {
+      "name": "vector_cluster_force",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/CLUST/FORCE"],
+      "expected_vector_fields": ["Cluster Forces", "Displacement"]
+    },
+    {
+      "name": "vector_cluster_moment",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/CLUST/MOM"],
+      "expected_vector_fields": ["Cluster Moments", "Displacement"]
+    },
+    {
+      "name": "vector_contact_maximum",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/CONT/MAX"],
+      "expected_vector_fields": ["Contact Forces", "Displacement", "Maximum Contact Forces Over Time"],
+      "expected_zero_vector_fields": ["Contact Forces", "Maximum Contact Forces Over Time"]
+    },
+    {
+      "name": "vector_tied_contact_pressure",
+      "nmod": 1,
+      "expected_frequencies_hz": [72.69104267424767],
+      "inorm": 0,
+      "animation": true,
+      "animation_keywords": ["/ANIM/VECT/PCONT2"],
+      "expected_vector_fields": ["Displacement", "Tied Contact Pressure / Normal", "Tied Contact Pressure / Tangent"],
+      "expected_zero_vector_fields": ["Tied Contact Pressure / Normal", "Tied Contact Pressure / Tangent"]
+    }
+  ]
+}
