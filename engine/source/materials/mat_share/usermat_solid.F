@@ -1463,7 +1463,7 @@ c ---   MIT Wierzbicki Sahraei electric battery failure
 
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
-              CALL FAIL_BIQUAD_S(mat_elem%mat_param(imat)%fail(ir),
+              CALL FAIL_BIQUAD_S(FAILPARAM,
      1        LLT      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,
      2        TT       ,TDEL     ,EL_LEN   ,
      3        NGL      ,DPLA     ,OFF      ,DFMAX    ,LBUF%DMGSCL,                   
@@ -1505,7 +1505,7 @@ c ---       tabulated failure model (old, obsolete version)
 c
           ELSEIF (IRUPT == 38) THEN                                      
 c  --- Orthotropic biquadratic failure model                                  
-              CALL FAIL_ORTHBIQUAD_S(mat_elem%mat_param(imat)%fail(ir)   ,
+              CALL FAIL_ORTHBIQUAD_S(FAILPARAM   ,
      1          LLT      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,  
      2          TT       ,NGL      ,DPLA     ,EPSP1    ,OFF      ,              
      4          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
@@ -1513,7 +1513,7 @@ c  --- Orthotropic biquadratic failure model
 c
           ELSEIF (IRUPT == 39) THEN                                      
 c  --- GENE1 failure model                                  
-            CALL FAIL_GENE1_S(mat_elem%mat_param(imat)%fail(ir)   ,   
+            CALL FAIL_GENE1_S(FAILPARAM   ,   
      1           LLT      ,NVARF    ,UVARF    ,NVARTMP  ,VARTMP   ,LBUF%OFF ,
      2           TT       ,DT1      ,IPG      ,
      3           NGL      ,GBUF%DT  ,EPSP1    ,OFF      ,NPG      ,     
@@ -1531,14 +1531,13 @@ c  --- RTCL failure model
 c
           ELSEIF (IRUPT == 41) THEN                                      
 C---- Tabulated failure model version 2
-              CALL FAIL_TAB2_S(
-     1          LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
-     2          NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
-     3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
+              CALL FAIL_TAB2_S(FAILPARAM ,
+     1          LLT      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,
+     2          TT       ,NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,
-     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ,NTABL_FAIL,ITABL_FAIL,
-     8          GBUF%NOFF,VOLN     ,NVARTMP  ,VARTMP   )
+     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ,
+     8          GBUF%NOFF,VOLN     )
 c
           ELSEIF (IRUPT == 42) THEN                                      
 C---- Inievo failure model

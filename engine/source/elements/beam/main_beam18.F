@@ -234,10 +234,8 @@ c---------------------------
 c
         CALL FAIL_BEAM18(
      .              ELBUF_STR,MAT_PARAM%FAIL(1),MAT_PARAM,NUMGEO ,
-     .              NPROPG   ,SNPC    ,STF     ,
-     .              NEL      ,NPT     ,IPID    ,JTHE    ,
-     .              TEMPEL   ,NGL     ,GEO     ,
-     .              OFF      ,EPSD    ,NPF     ,TF      ,
+     .              NPROPG   ,NEL      ,NPT     ,IPID    ,JTHE    ,
+     .              TEMPEL   ,NGL     ,GEO     ,OFF      ,EPSD    ,
      .              DPLA     ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
      .              AL       ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
      .              KXX      ,KYY     ,KZZ     ,DTIME   ,

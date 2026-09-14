@@ -2524,15 +2524,13 @@
 !
                    case (41)     !    tab2
 !
-                    call fail_tab2_c(&
-                    &jlt      ,nupar    ,nvarf    ,nfunc_fail   ,ifunc_fail   ,&
-                    &npf      ,table    ,tf       ,tt       ,uparamf  ,&
-                    &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
-                    &signxx   ,signyy   ,signxy   ,nvarftmp ,vartmp   ,&
-                    &el_temp  ,foff     ,dfmax    ,tdel     ,ipt      ,&
-                    &ipg      ,dmg_flag ,dmg_loc_scale,ntabl_fail,itabl_fail,&
-                    &nipar    ,iparamf  ,gbuf%noff,off      ,nptt     ,&
-                    &gbuf%var )
+                    call fail_tab2_c(mat_elem%mat_param(imat)%fail(ifl),&
+                     jlt      ,nvarf    ,nvarftmp ,uvarf    ,vartmp   ,&
+                     tt       ,ngl      ,el_len   ,dpla     ,epsd     ,&
+                     signxx   ,signyy   ,signxy   ,&
+                     el_temp  ,foff     ,dfmax    ,tdel     ,ipt      ,&
+                     ipg      ,dmg_flag ,dmg_loc_scale,&
+                     gbuf%noff,off      ,nptt     ,gbuf%var )
 !
                    case (42)     !    inievo
 !

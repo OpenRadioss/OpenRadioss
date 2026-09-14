@@ -246,9 +246,8 @@ c---------------------------
       IF (IFAIL > 0) THEN
 c
         CALL FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM,MAT_PARAM%FAIL(1),
-     .              SNPC    ,STF     ,NEL     ,JTHE    ,DPLA    ,
-     .              TEMPEL  ,NGL     ,OFF     ,EPSD    ,NPF     ,
-     .              TF      ,TIME    ,IOUT    ,ISTDO   ,
+     .              NEL     ,JTHE    ,DPLA    ,TEMPEL  ,NGL     ,
+     .              OFF     ,EPSD    ,TIME    ,IOUT    ,ISTDO   ,
      .              SVM     ,PRESSURE,AREA    ,AL      ,
      .              F1      ,F2      ,F3      ,M1      ,M2      ,
      .              M3      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
