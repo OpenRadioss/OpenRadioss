@@ -257,8 +257,8 @@ C
 C---
       RETURN
  1000 FORMAT(
-     &5X,30H  TABULATED GURSON LAW         ,/,
-     &5X,30H  --------------------        ,//)
+     &5X,'  TABULATED GURSON LAW        ' ,/,
+     &5X,'  --------------------        ',//)
  1001 FORMAT(/
      &5X,A,/,
      &5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . =',I10/,

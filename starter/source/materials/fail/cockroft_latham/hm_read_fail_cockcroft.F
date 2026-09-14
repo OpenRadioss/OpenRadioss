@@ -116,8 +116,8 @@ c----------------------------------
       ENDIF        
 c-----------------------------------------------------------
  1000 FORMAT(
-     &     5X,40H    COCKROFT-LATHAM FAILURE CRITERIA          /,
-     &     5X,40H    --------------------------------          /,
+     &     5X,'    COCKROFT-LATHAM FAILURE CRITERIA    '      /,
+     &     5X,'    --------------------------------    '      /,
      &     5X,' COEFFICIENT C0. . . . . . . . . . . . .=',E12.4,/,
      &     5X,' FILTER COEFFICIENT EMA. . . . . . . . .=',E12.4,/,
      &     5X,'       ( EMA = 1.0: NO FILTERING )',/,

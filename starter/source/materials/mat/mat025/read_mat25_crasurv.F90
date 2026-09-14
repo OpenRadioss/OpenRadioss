@@ -600,22 +600,23 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(                                                             &
             5x,a,/,                                                             &
-            5x,40h  ORTHOTROPIC MATERIAL FOR SHELLS       ,/,                   &
-            5x,40h  -------------------------------       ,//)
+            5x,'  ORTHOTROPIC MATERIAL FOR SHELLS       ',/,                   &
+            5x,'  -------------------------------       ',//)
 1050      format(/                                                            &
             5x,a,/,                                                             &
-            5x,"MATERIAL NUMBER . . . . . . . . . . . . .=",i10/,               &
-            5x,"MATERIAL LAW. . . . . . . . . . . . . . .=",i10/)
-1060      format(5x,"INITIAL DENSITY . . . . . . . . . =",1pg20.13/)
+            5x,"MATERIAL NUMBER . . . . . . . . . . . .=",i10/,               &
+            5x,"MATERIAL LAW. . . . . . . . . . . . . .=",i10/)
+1060      format(                                                             &
+            5x,"INITIAL DENSITY . . . . . . . . . . . .=",1pg20.13/)
 1100      format(                                                             &
-            5x,40HYOUNG'S MODULUS E11 . . . . . . . . . .=,e12.4/,              &
-            5x,40HYOUNG'S MODULUS E22 . . . . . . . . . .=,e12.4/,              &
-            5x,40HPOISSON'S RATIO N12 . . . . . . . . . .=,e12.4/,              &
-            5x,40HYOUNG'S MODULUS E33 . . . . . . . . . .=,e12.4/)
+            5x,'YOUNG''S MODULUS E11 . . . . . . . . . .=',e12.4/,              &
+            5x,'YOUNG''S MODULUS E22 . . . . . . . . . .=',e12.4/,              &
+            5x,'POISSON''S RATIO N12 . . . . . . . . . .=',e12.4/,              &
+            5x,'YOUNG''S MODULUS E33 . . . . . . . . . .=',e12.4/)
 1300      format(                                                             &
-            5x,40HSHEAR MODULUS   G12 . . . . . . . . . .=,e12.4/,              &
-            5x,40HSHEAR MODULUS   G23 . . . . . . . . . .=,e12.4/,              &
-            5x,40HSHEAR MODULUS   G31 . . . . . . . . . .=,e12.4/)
+            5x,'SHEAR MODULUS   G12 . . . . . . . . . .=',e12.4/,              &
+            5x,'SHEAR MODULUS   G23 . . . . . . . . . .=',e12.4/,              &
+            5x,'SHEAR MODULUS   G31 . . . . . . . . . .=',e12.4/)
 1500      format(                                                             &
             5x,"TENSILE FAILURE STRAIN DIR-1. . . . . .=",1pg20.13/,            &
             5x,"MAXIMUM TENSILE STRAIN DIR-1. . . . . .=",1pg20.13/,            &

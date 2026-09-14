@@ -343,8 +343,8 @@ c-----------
       RETURN        
 c-----------
  1000 FORMAT(
-     & 5X,40H  JOHNSON COOK - SESAME LAW               ,/,
-     & 5X,40H  -----------------------               ,//)
+     & 5X,'  JOHNSON COOK - SESAME LAW             '  ,/,
+     & 5X,'  -------------------------             ',//)
  1100 FORMAT(
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
@@ -353,39 +353,39 @@ c-----------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
-     & 5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HSHEAR MODULUS . . . . . . . . . . . . .=,E12.4//)
+     & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',E12.4/,
+     & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',E12.4/,
+     & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',E12.4//)
  1400 FORMAT(
-     & 5X,40HYIELD COEFFICIENT CA. . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD COEFFICIENT CB. . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD COEFFICIENT CN. . . . . . . . . .=,E12.4/,
-     & 5X,40HEPS-MAX . . . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HSIG-MAX . . . . . . . . . . . . . . . .=,E12.4//)
+     & 5X,'YIELD COEFFICIENT CA. . . . . . . . . .=',E12.4/,
+     & 5X,'YIELD COEFFICIENT CB. . . . . . . . . .=',E12.4/,
+     & 5X,'YIELD COEFFICIENT CN. . . . . . . . . .=',E12.4/,
+     & 5X,'EPS-MAX . . . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'SIG-MAX . . . . . . . . . . . . . . . .=',E12.4//)
  1500 FORMAT(
      & 5X,'SESAME EOS TABLE :',A/,
-     & 5X,40HINITIAL PRESSURE. . . . . . . . . . . .=,E12.4/,
-     & 5X,40HINITIAL TEMPERATURE . . . . . . . . . .=,E12.4/,
-     & 5X,40HINITIAL INTERNAL ENERGY PER UNIT VOLUME=,E12.4//)
+     & 5X,'INITIAL PRESSURE. . . . . . . . . . . .=',E12.4/,
+     & 5X,'INITIAL TEMPERATURE . . . . . . . . . .=',E12.4/,
+     & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME=',E12.4//)
  1600 FORMAT(
-     & 5X,40HSTRAIN RATE COEFFICIENT CC. . . . . . .=,E12.4/,
-     & 5X,40HREFERENCE STRAIN RATE . . . . . . . . .=,E12.4/,
-     & 5X,40HTEMPERATURE EXPONENT. . . . . . . . . .=,E12.4/,
-     & 5X,40HMELTING TEMPERATURE DEGREE K. . . . . .=,E12.4/,
-     & 5X,40HTHETA-MAX . . . . . . . . . . . . . . .=,E12.4//)
+     & 5X,'STRAIN RATE COEFFICIENT CC. . . . . . .=',E12.4/,
+     & 5X,'REFERENCE STRAIN RATE . . . . . . . . .=',E12.4/,
+     & 5X,'TEMPERATURE EXPONENT. . . . . . . . . .=',E12.4/,
+     & 5X,'MELTING TEMPERATURE DEGREE K. . . . . .=',E12.4/,
+     & 5X,'THETA-MAX . . . . . . . . . . . . . . .=',E12.4//)
  1700 FORMAT(
      & 5X,'ELECTRON THERMAL CONDUCTIVITY',/,
      & 5X,'-----------------------------',/,
      & 5X,'SESAME IONIZATION TABLE :',A/,
-     & 5X,40HLORENTZ CONDUCTIVITY COEFFICIENT. . . .=,E12.4/,
-     & 5X,40HLAMBDA COEFFICIENT. . . . . . . . . . .=,E12.4/,
-     & 5X,40HATOMIC WEIGHT . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HMAXIMUM CONDUCTIVITY. . . . . . . . . .=,E12.4//)
+     & 5X,'LORENTZ CONDUCTIVITY COEFFICIENT. . . .=',E12.4/,
+     & 5X,'LAMBDA COEFFICIENT. . . . . . . . . . .=',E12.4/,
+     & 5X,'ATOMIC WEIGHT . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'MAXIMUM CONDUCTIVITY. . . . . . . . . .=',E12.4//)
  1800 FORMAT(
      & 5X,'RADIATION',/,
      & 5X,'---------',/,
      & 5X,'SESAME ROSSELAND OPACITY TABLE :',A/,
-     & 5X,40HSTEFAN-BOLTZMANN CONSTANT . . . . . . .=,E12.4//)
+     & 5X,'STEFAN-BOLTZMANN CONSTANT . . . . . . .=',E12.4//)
 c-----------
       RETURN
       END

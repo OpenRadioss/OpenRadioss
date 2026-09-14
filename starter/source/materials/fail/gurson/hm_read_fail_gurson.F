@@ -186,8 +186,8 @@ C-----------
       RETURN
 C-----------
  1100 FORMAT(
-     & 5X,40H    GURSON DUCTILE DAMAGE MODEL          /,
-     & 5X,40H    ------------------------------------ /,
+     & 5X,'    GURSON DUCTILE DAMAGE MODEL ' /,
+     & 5X,'    --------------------------- ' /,
      & 5X,'Q1 GURSON COEFFICIENT. . . . . . . . . . . . . . . =',1PG20.13/
      & 5X,'Q2 GURSON COEFFICIENT. . . . . . . . . . . . . . . =',1PG20.13/
      & 5X,'NUCLEATION PLASTIC STRAIN. . . . . . . . . . . . . =',1PG20.13/

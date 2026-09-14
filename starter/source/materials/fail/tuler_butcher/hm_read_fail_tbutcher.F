@@ -175,12 +175,12 @@ C---
       ENDIF      
 c-----------------------------------------------------------
  1000 FORMAT(
-     & 5X,40H    TULER BUTCHER DAMAGE PARAMETER            /,
-     & 5X,40H    -----------------------------             /,
-     & 5X,40HEXPONENT LAMBDA . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HDAMAGE INTEGRAL  K. . . . . . . . . . .=,E12.4/,
-     & 5X,40HFRACTURE STRESS . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HXFEM FAILURE FLAG . . . . . . . . . . .=,I10//)
+     & 5X,'    TULER BUTCHER DAMAGE PARAMETER      '      /,
+     & 5X,'    ------------------------------      '      /,
+     & 5X,'EXPONENT LAMBDA . . . . . . . . . . . .=',E12.4/,
+     & 5X,'DAMAGE INTEGRAL K . . . . . . . . . . .=',E12.4/,
+     & 5X,'FRACTURE STRESS . . . . . . . . . . . .=',E12.4/,
+     & 5X,'XFEM FAILURE FLAG . . . . . . . . . . .=',I10//)
  1100 FORMAT(
      & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE') 
  2100 FORMAT(
@@ -192,16 +192,16 @@ c-----------------------------------------------------------
  2200 FORMAT(
      & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')    
  1010 FORMAT(
-     & 5X,40H    XFEM TULER BUTCHER DAMAGE PARAMETER       /,
-     & 5X,40H    -----------------------------             /,
-     & 5X,40HEXPONENT LAMBDA . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HDAMAGE INTEGRAL  K. . . . . . . . . . .=,E12.4/,
-     & 5X,40HFRACTURE STRESS . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HXFEM FAILURE FLAG . . . . . . . . . . .=,I10/,
-     & 5X,40HDUCTILE/BRITTLE FAILURE FLAG  . . . . .=,I10/,
-     & 5X,40HBRITTLE FRACTURE EXPONENT A  . . . . . =,E12.4/,
-     & 5X,40HBRITTLE FRACTURE EXPONENT B  . . . . . =,E12.4/,
-     & 5X,40HCRITICAL ADVANCEMENT COEFFICIENT . . . =,E12.4//)
+     & 5X,'    XFEM TULER BUTCHER DAMAGE PARAMETER '      /,
+     & 5X,'    ----------------------------------- '      /,
+     & 5X,'EXPONENT LAMBDA . . . . . . . . . . . .=',E12.4/,
+     & 5X,'DAMAGE INTEGRAL  K. . . . . . . . . . .=',E12.4/,
+     & 5X,'FRACTURE STRESS . . . . . . . . . . . .=',E12.4/,
+     & 5X,'XFEM FAILURE FLAG . . . . . . . . . . .=',I10/,
+     & 5X,'DUCTILE/BRITTLE FAILURE FLAG  . . . . .=',I10/,
+     & 5X,'BRITTLE FRACTURE EXPONENT A  . . . . . =',E12.4/,
+     & 5X,'BRITTLE FRACTURE EXPONENT B  . . . . . =',E12.4/,
+     & 5X,'CRITICAL ADVANCEMENT COEFFICIENT . . . =',E12.4//)
 C-----------
       RETURN
       END

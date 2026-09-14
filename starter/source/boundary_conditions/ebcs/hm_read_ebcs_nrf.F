@@ -113,7 +113,7 @@ C-----------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('iform',  IFORM  ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV('tcar_p',  TCAR_P  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
+      CALL HM_GET_FLOATV('tcar_p',  TCAR_P  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('tcar_vf',  TCAR_VF ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       ! check Iform user value
@@ -283,7 +283,7 @@ C-----------
      .          '              DEFAULT    : LCAR/2/LOG(2)/MAX(SSP)',/,
      .          '              = 1E20     : PRESSURE RELAXATION DISABLED',/)
 
- 1003 FORMAT(   '    TCAR_VF : CHARACTERISTIC TIME FOR VOLUME FRACTION RELAXATION (INFLOW ONLY)',/,
+1003  FORMAT(   '    TCAR_VF : CHARACTERISTIC TIME FOR VOLUME FRACTION RELAXATION (INFLOW ONLY)',/,
      .          '              CONTROLS RELAXATION OF INCOMING VOLUME FRACTIONS',/,
      .          '              TOWARDS THEIR INITIAL VALUES',/,
      .          '              < DT       : INITIAL VOLUME FRACTIONS FULLY REINJECTED',/,
@@ -299,7 +299,7 @@ C-----------
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/,
      .        '    TCAR_P  . . . . . . . . . . . . . . . . . ','  auto',/,
-     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',E20.12,/)
+     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',1PG20.13,/)
 
       END SUBROUTINE HM_READ_EBCS_NRF
 

@@ -334,8 +334,8 @@ C---- Buffer Size for specific element buffer allocations
 C-----------
       RETURN
  1000 FORMAT(
-     & 5X,40H  DRUCKER-PRAGER (LAW10)                    ,/,
-     & 5X,40H  ----------------------                   ,//)
+     & 5X,'  DRUCKER-PRAGER (LAW10)  '    ,/,
+     & 5X,'  ----------------------  '   ,//)
  1100 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
@@ -344,28 +344,28 @@ C-----------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
-     & 5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HSHEAR MODULUS . . . . . . . . . . . . .=,E12.4//)
+     & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',E12.4/,
+     & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',E12.4/,
+     & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',E12.4//)
  1400 FORMAT(
-     & 5X,40HYIELD COEFFICIENT A0. . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD COEFFICIENT A1. . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD COEFFICIENT A2. . . . . . . . . .=,E12.4/,
-     & 5X,40HA-MAX . . . . . . . . . . . . . . . . .=,E12.4//)
+     & 5X,'YIELD COEFFICIENT A0. . . . . . . . . .=',E12.4/,
+     & 5X,'YIELD COEFFICIENT A1. . . . . . . . . .=',E12.4/,
+     & 5X,'YIELD COEFFICIENT A2. . . . . . . . . .=',E12.4/,
+     & 5X,'A-MAX . . . . . . . . . . . . . . . . .=',E12.4//)
  1500 FORMAT(
-     & 5X,40HC0. . . . . . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HC1. . . . . . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HC2. . . . . . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HC3. . . . . . . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HUNLOADING BULK. . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HMAX VOLUMIC COMPRESSION . . . . . . . .=,E12.4/,
-     & 5X,40HFRACTURE PRESSURE . . . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD SURFACE PRESSURE ROOT . . . . . .=,E12.4//)
+     & 5X,'C0. . . . . . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'C1. . . . . . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'C2. . . . . . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'C3. . . . . . . . . . . . . . . . . . .=',E12.4/,
+     & 5X,'UNLOADING BULK. . . . . . . . . . . . .=',E12.4/,
+     & 5X,'MAX VOLUMIC COMPRESSION . . . . . . . .=',E12.4/,
+     & 5X,'FRACTURE PRESSURE . . . . . . . . . . .=',E12.4/,
+     & 5X,'YIELD SURFACE PRESSURE ROOT . . . . . .=',E12.4//)
  1501 FORMAT(
-     & 5X,40HUNLOADING BULK. . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HMAX VOLUMIC COMPRESSION . . . . . . . .=,E12.4/,
-     & 5X,40HFRACTURE PRESSURE . . . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD SURFACE PRESSURE ROOT . . . . . .=,E12.4//)
+     & 5X,'UNLOADING BULK. . . . . . . . . . . . .=',E12.4/,
+     & 5X,'MAX VOLUMIC COMPRESSION . . . . . . . .=',E12.4/,
+     & 5X,'FRACTURE PRESSURE . . . . . . . . . . .=',E12.4/,
+     & 5X,'YIELD SURFACE PRESSURE ROOT . . . . . .=',E12.4//)
 C-----------
       RETURN
       END

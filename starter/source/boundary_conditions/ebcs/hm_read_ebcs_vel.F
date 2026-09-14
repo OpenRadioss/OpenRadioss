@@ -203,21 +203,21 @@ C-----------
       RETURN
 C-----------
 
- 1004 FORMAT( //'IMPOSED VELOCITY . . . . . . . . . . . . :',I8,1X,A)    
+ 1004 FORMAT( //'IMPOSED VELOCITY . . . . . . . . . . . . :',I10,1X,A)
  1103 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    IMPOSED VELOCITY VX . . . . . . . . . . . ',E16.6,/,
-     .        '    VX SCALING FUNCTION . . . . . . . . . . . ',I8,/,
-     .        '    IMPOSED VELOCITY VY . . . . . . . . . . . ',E16.6,/,
-     .        '    VY SCALING FUNCTION . . . . . . . . . . . ',I8,/,
-     .        '    IMPOSED VELOCITY VZ . . . . . . . . . . . ',E16.6,/,
-     .        '    VZ SCALING FUNCTION . . . . . . . . . . . ',I8,/,
-     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',E16.6,/,
-     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I8,/,
-     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I8,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/)
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I10,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I10,/,
+     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    IMPOSED VELOCITY VX . . . . . . . . . . . ',1PG20.13,/,
+     .        '    VX SCALING FUNCTION . . . . . . . . . . . ',I10,/,
+     .        '    IMPOSED VELOCITY VY . . . . . . . . . . . ',1PG20.13,/,
+     .        '    VY SCALING FUNCTION . . . . . . . . . . . ',I10,/,
+     .        '    IMPOSED VELOCITY VZ . . . . . . . . . . . ',1PG20.13,/,
+     .        '    VZ SCALING FUNCTION . . . . . . . . . . . ',I10,/,
+     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I10,/,
+     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',1PG20.13,/,
+     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I10,/,
+     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',1PG20.13,/)
 
       END
