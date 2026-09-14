@@ -49,6 +49,7 @@ class MD5Checksum {
       int debug=0;
     #endif
       void remove_carriage_return(std::string& line) ;
+      void remove_trailing_spaces(std::string& line);
       std::string separator();
       std::string get_path(const std::string& filepath);
       void new_checksum( std::string title, std::list<std::tuple<int,std::string, md5_state_t, std::string>> *md5_states_tmp);
@@ -56,13 +57,13 @@ class MD5Checksum {
       void end_checksum(std::list<std::tuple<int,std::string, md5_state_t, std::string>> *md5_states_tmp);
       void finalize_checksum(std::list<std::tuple<int,std::string, md5_state_t, std::string>> *md5_states_tmp);
       int  file_read(std::string filename,std::string deck_directory,int level,std::list<std::tuple<int,std::string, md5_state_t, std::string>> *md5_states_tmp);
-    
+      int  file_read_dyna(std::string filename,std::string deck_directory,int level,std::list<std::tuple<int,std::string, md5_state_t, std::string>> *md5_states_tmp, std::list<std::string> include_path_list);
     public:
        // --------------------------------------------------------------------------------------------------------   
        // constructor
        // --------------------------------------------------------------------------------------------------------
        MD5Checksum();
-       void parse(std::string filenam);
+       void parse(std::string filenam,int is_dyna);
        int  count();
        void member(int N,char* checksum_title,int *len_title,char* checksum,int *len_checksum);
        std::list<std::string> get_checksums();
