@@ -38,8 +38,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_TAB2(FAIL ,
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,TITR     ,
-     .           LSUBMODEL,UNITAB   ,MTAG     )
+     .           TITLE     ,MAT_ID   ,FAIL_ID   ,IRUPT    ,
+     .           NTABLE    ,TABLE    ,LSUBMODEL ,UNITAB   ,MTAG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,6 +51,8 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use my_alloc_mod
+      use mat_table_table_copy_mod
+      use func_table_copy_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,28 +60,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER            ,INTENT(IN)       :: FAIL_ID       ! failure model ID
-      INTEGER            ,INTENT(IN)       :: MAT_ID        ! material law ID
-      INTEGER            ,INTENT(IN)       :: IRUPT         ! failure model number
-      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR
-      TYPE(UNIT_TYPE_)   ,INTENT(IN)       :: UNITAB        ! table of input units
-      TYPE(SUBMODEL_DATA),INTENT(IN)       :: LSUBMODEL(*)
-      TYPE (FAIL_PARAM_) ,INTENT(INOUT)    :: FAIL
-      TYPE (MLAW_TAG_)   ,INTENT(INOUT)    :: MTAG
+      INTEGER            ,INTENT(IN)        :: FAIL_ID       !< failure model ID
+      INTEGER            ,INTENT(IN)        :: MAT_ID        !< material law ID
+      INTEGER            ,INTENT(IN)        :: IRUPT         !< failure model number
+      INTEGER            ,INTENT(IN)        :: NTABLE        !< number of function tables in Radioss input
+       CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITLE         !< material law title
+      TYPE(UNIT_TYPE_)   ,INTENT(IN)        :: UNITAB        !< table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
+      TYPE (FAIL_PARAM_) ,INTENT(INOUT)     :: FAIL          !< failure model data structure
+      TYPE (MLAW_TAG_)   ,INTENT(INOUT)     :: MTAG
+      type(ttable) ,dimension(ntable) ,intent(in) :: table   !< input table array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: ITAB_EPSF,FAILIP,ITAB_INST,MIDFAIL,
-     .            IFUN_EXP,ITAB_SIZE,IREG,IFUN_RATE,IFUN_DLIM,IFUN_TEMP  
+      INTEGER  :: ITAB_EPSF,ITAB_INST,ITAB_SIZE,IFUN_EXP,IFUN_RATE,IFUN_DLIM,IFUN_TEMP
+      INTEGER  :: FAILIP,I,IREG,MIDFAIL
       my_real  :: FCRIT,PTHKFAIL,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,SR_REF1,
      .            FSCALE_EL,SHRF,BIAXF,SR_REF2,FSCALE_SR,CJC,FSCALE_DLIM,
      .            LENGTH_UNIT,RATE_UNIT,TEMP_REF,FSCALE_TEMP,TEMP_UNIT,VOLFRAC,
      .            RGTR1,RGTR2
+      integer :: nf,ierror
+      integer ,parameter :: nfunc = 7
+      integer ,dimension(nfunc) :: ifunc
+      my_real, dimension(1) :: x2vect,yscale
+      my_real :: x1scale,x2scale,x3scale,x4scale
 C-----------------------------------------------
       LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -136,7 +144,7 @@ C-------------------------------------------------------------------------------
       IF (ITAB_EPSF == 0 .AND. FCRIT == ZERO) THEN 
         CALL ANCMSG(MSGID=3000, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND,
      .              I1=MAT_ID,
-     .              C1=TITR)        
+     .              C1=TITLE)        
       ENDIF
       IF (FCRIT == ZERO) FCRIT  = ONE
       IF (FAILIP == 0)   FAILIP = 1
@@ -186,7 +194,7 @@ C-------------------------------------------------------------------------------
       IF (VOLFRAC > ZERO) THEN  
         CALL ANCMSG(MSGID=3080, MSGTYPE=MSGINFO, ANMODE=ANINFO_BLIND,
      .              I1=MAT_ID,
-     .              C1=TITR)
+     .              C1=TITLE)
       ENDIF    
 
 C--------------------------------------------------------------------------------
@@ -202,16 +210,70 @@ C-------------------------------------------------------------------------------
       FAIL%NUPARAM = 25
       FAIL%NIPARAM = 1
       FAIL%NUVAR   = 3     !< state variables
-      FAIL%NVARTMP = 11    !< tmp variables to store last position used in function interpolation
-      FAIL%NFUNC   = 4
-      FAIL%NTABLE  = 3
+      FAIL%NVARTMP = 13    !< tmp variables to store last position used in function interpolation
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NTABLE4d= 7
       FAIL%NMOD    = 0
       FAIL%PTHK    = PTHKFAIL
 c            
       call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
       call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
-      call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
-      call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      call my_alloc(FAIL%IFUNC,  FAIL%NFUNC,   "FAIL%IFUNC")
+      call my_alloc(FAIL%TABLE,  FAIL%NTABLE,  "FAIL%TABLE")
+      if (allocated(FAIL%TABLE4D)) deallocate(FAIL%TABLE4D)
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
+!------------------------------------------------------------------------------
+      ! copy global Radioss tabulated input to local function tables
+ !------------------------------------------------------------------------------
+      nf = 1
+      x1scale = one
+      x2scale = one
+      x3scale = one
+      x4scale = one
+      x2vect(:) = zero
+      !
+      ! stress softening exponent function
+      ifunc(1)  = ifun_exp
+      yscale(1) = expo
+      call func_table_copy(fail%table4d(1),title   ,mat_id   ,     
+     .        nf      ,ifunc(1)  ,x2vect  ,x1scale ,x2scale  ,yscale  , 
+     .        ntable  ,table     ,ierror  )
+!
+      ! strain rate dependency function
+      ifunc(1)  = ifun_rate
+      yscale(1) = fscale_sr
+      call func_table_copy(fail%table4d(2),title   ,mat_id   ,     
+     .        nf      ,ifunc(1)  ,x2vect  ,x1scale ,x2scale  ,yscale  , 
+     .        ntable  ,table     ,ierror  )
+      ! damage limit function
+      ifunc(1)  = ifun_dlim
+      yscale(1) = fscale_dlim
+      call func_table_copy(fail%table4d(3),title   ,mat_id   ,     
+     .        nf      ,ifunc(1)  ,x2vect  ,x1scale ,x2scale  ,yscale  ,
+     .        ntable  ,table     ,ierror  )
+      ! temperature dependency function
+      ifunc(1)  = ifun_temp
+      yscale(1) = fscale_temp
+      call func_table_copy(fail%table4d(4),title   ,mat_id  ,     
+     .        nf      ,ifunc(1)  ,x2vect  ,x1scale ,x2scale  ,yscale  , 
+     .        ntable  ,table    ,ierror  )
+      ! failure strain table
+      call mat_table_table_copy(                          
+     .        fail%table4d(5)       ,itab_epsf ,title    ,mat_id   ,   
+     .        x1scale    ,x2scale   ,x3scale   ,x4scale  ,   
+     .        fcrit      ,ntable    ,table     ,ierror   )
+      ! diffuse necking strain table
+      call mat_table_table_copy(                          
+     .        fail%table4d(6)       ,itab_inst ,title    ,mat_id   ,   
+     .        x1scale    ,x2scale   ,x3scale   ,x4scale  ,   
+     .        ecrit      ,ntable    ,table     ,ierror   )
+      ! element size factor table
+      call mat_table_table_copy(                          
+     .        fail%table4d(7)       ,itab_size ,title    ,mat_id   ,   
+     .        x1scale    ,x2scale   ,x3scale   ,x4scale  ,   
+     .        fscale_el  ,ntable    ,table     ,ierror   )
+
 c
       FAIL%IPARAM(1)  = MIDFAIL
 c
@@ -240,15 +302,6 @@ c
       FAIL%UPARAM(23) = VOLFRAC     
       FAIL%UPARAM(24) = RGTR1
       FAIL%UPARAM(25) = RGTR2
-c
-      FAIL%IFUNC(1) = IFUN_EXP
-      FAIL%IFUNC(2) = IFUN_RATE
-      FAIL%IFUNC(3) = IFUN_DLIM
-      FAIL%IFUNC(4) = IFUN_TEMP
-c
-      FAIL%TABLE(1) = ITAB_EPSF
-      FAIL%TABLE(2) = ITAB_INST
-      FAIL%TABLE(3) = ITAB_SIZE
 c
       MTAG%G_NUVAR = 1
 c-----------------------------------------------------------------------

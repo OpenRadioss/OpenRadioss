@@ -2448,14 +2448,13 @@
 !
               else if (irupt == 41) then
 !---- tabulated failure model version 2
-                call fail_tab2_s(&
-                 llt      ,nparam   ,nvarf    ,nfunc    ,ifunc    ,&
-                 npf      ,table    ,tf       ,tt       ,uparamf,  &
-                 ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
+                call fail_tab2_s(mat_elem%mat_param(imat)%fail(ir),&
+                 llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp  ,  & 
+                 tt       ,ngl      ,el_len   ,dpla     ,epsp     ,&
                  ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,  &
                  el_temp  ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,          &
-                 gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
-                 gbuf%noff,voln     ,nvartmp  ,vartmp   )
+                 gbuf%uelr,ipg      ,npg      ,lbuf%off ,                      &
+                 gbuf%noff,voln     )
 !
               else if (irupt == 42) then
 !---- inievo failure model

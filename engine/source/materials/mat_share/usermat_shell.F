@@ -1537,15 +1537,13 @@ c
 c
               CASE (41)     !    TAB2
 c
-                CALL FAIL_TAB2_C(
-     1            JLT      ,NUPAR    ,NVARF    ,NFUNC_FAIL,IFUNC_FAIL,
-     2            NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
-     3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
-     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,NVARFTMP ,VARTMP   ,              
+                CALL FAIL_TAB2_C(mat_elem%mat_param(imat)%fail(ifl),
+     1            JLT      ,NVARF    ,NVARFTMP ,UVARF    ,VARTMP   ,
+     3            TT       ,NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,     
+     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,         
      5            EL_TEMP  ,FOFF     ,DFMAX    ,TDEL     ,IPT      ,
-     6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,NTABL_FAIL,ITABL_FAIL,
-     7            NIPAR    ,IPARAMF  ,GBUF%NOFF,OFF      ,NPTT     ,
-     8            GBUF%VAR ) 
+     6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,
+     7            GBUF%NOFF,OFF      ,NPTT     ,GBUF%VAR ) 
 c
               CASE (42)     !    INIEVO
 c

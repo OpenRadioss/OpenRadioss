@@ -43,15 +43,13 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||====================================================================
       SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM,FAIL    ,
-     .                  SNPC    ,STF     ,NEL     ,JTHE    ,DPLA    ,
-     .                  TEMPEL  ,NGL     ,
-     .                  OFF     ,EPSD    ,NPF     ,TF      ,
-     .                  TIME    ,IOUT    ,ISTDO   ,
+     .                  NEL     ,JTHE    ,DPLA    ,TEMPEL  ,NGL     ,
+     .                  OFF     ,EPSD    ,TIME    ,IOUT    ,ISTDO   ,
      .                  SVM     ,PRESSURE,AREA    ,AL      ,
      .                  F1      ,F2      ,F3      ,M1      ,M2      ,
      .                  M3      ,ISMSTR  ,EPSXX   ,EPSXY   ,EPSXZ   ,
      .                  KXX     ,KYY     ,KZZ     ,DTIME   , 
-     .                 NTABLE   ,TABLE   ,PLA     ,SIGY    )
+     .                  NTABLE  ,TABLE   ,PLA     ,SIGY    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,13 +71,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL        ! size of element group
-      INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag
-      INTEGER ,INTENT(IN) :: SNPC   
-      INTEGER ,INTENT(IN) :: STF   
+      INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag 
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
       INTEGER ,INTENT(IN) :: ISTDO      ! output file unit
       INTEGER ,INTENT(IN) :: ISMSTR
-      INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       my_real                            ,INTENT(IN)    :: TIME
       my_real                            ,INTENT(IN)    :: AREA
@@ -93,8 +88,6 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: F1,F2,F3
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: M1,M2,M3
-
-      my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: PLA      ! the plastic strain of the current element
       my_real                            ,INTENT(IN)    :: DTIME         
@@ -216,14 +209,11 @@ c---------------
      .                    NTABLE,ELBUF_STR%GBUF%DMGSCL)
 
          CASE (41)     ! TAB2 failure model    
-           CALL FAIL_TAB2_B(                         
-     .                       NEL  ,FAIL%NUPARAM ,FAIL%NUVAR  ,FAIL%NFUNC  ,FAIL%IFUNC  ,
-     .                       NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
-     .                       NGL  ,AL           ,DPLA  ,EPSD  ,ELBUF_STR%GBUF%FAIL(1)%VAR,  
-     .                        F1  ,AREA         ,FAIL%NVARTMP ,ELBUF_STR%GBUF%FAIL(1)%VARTMP,
-     .                    TEMPEL  ,OFF          ,ELBUF_STR%GBUF%FAIL(1)%DAMMX ,ELBUF_STR%GBUF%FAIL(1)%TDEL  ,
-     .                FAIL%NTABLE ,FAIL%TABLE,
-     .                      SNPC  ,STF  ,NTABLE ,ELBUF_STR%GBUF%DMGSCL)
+           CALL FAIL_TAB2_B( FAIL ,                        
+     .                       NEL  ,FAIL%NUVAR  ,FAIL%NVARTMP,ELBUF_STR%GBUF%FAIL(1)%VAR,ELBUF_STR%GBUF%FAIL(1)%VARTMP,
+     .                       TIME ,NGL  ,AL    ,DPLA  ,EPSD  ,  
+     .                       F1  ,AREA  ,TEMPEL,OFF   ,ELBUF_STR%GBUF%FAIL(1)%DAMMX ,
+     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL  ,ELBUF_STR%GBUF%DMGSCL)
 c-------------
       END SELECT
 c-----------

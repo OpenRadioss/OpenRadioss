@@ -44,10 +44,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||====================================================================
       SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,MAT_PARAM,NUMGEO   ,
-     .                       NPROPG   ,SNPC     ,STF      ,
-     .                       NEL      ,NPT      ,IPROP    ,JTHE    ,
-     .                       TEMPEL   ,NGL      ,GEO      ,
-     .                       OFF      ,EPSD     ,NPF      ,TF       ,
+     .                       NPROPG   ,NEL      ,NPT      ,IPROP    ,JTHE    ,
+     .                       TEMPEL   ,NGL      ,GEO      ,OFF      ,EPSD     ,
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
      .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
      .                       KXX      ,KYY      ,KZZ      ,DTIME    ,
@@ -77,22 +75,18 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NPT        ! number of integration points in beam section
       INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag
       INTEGER ,INTENT(IN) :: NUMGEO     ! number of defined properties   
-      INTEGER ,INTENT(IN) :: NPROPG     ! size of real property parameter table   
-      INTEGER ,INTENT(IN) :: SNPC   
-      INTEGER ,INTENT(IN) :: STF   
+      INTEGER ,INTENT(IN) :: NPROPG     ! size of real property parameter table     
       INTEGER ,INTENT(IN) :: NTABLE
       TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA     
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
       INTEGER ,INTENT(IN) :: ISTDO      ! output file unit
       INTEGER ,INTENT(IN) :: ISMSTR 
-      INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       my_real                            ,INTENT(IN)    :: TIME
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN)    :: GEO
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
-      my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EXX,EXY,EXZ,KXX,KYY,KZZ
       my_real ,DIMENSION(NEL,NPT)        ,INTENT(IN)    :: DPLA
       my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
@@ -286,15 +280,13 @@ c-------------
 c-------------
         CASE (41)     ! TAB2 failure model         
           
-          CALL FAIL_TAB2_IB(                         
-     .                    NEL  ,FAIL%NUPARAM ,NUVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
-     .                    NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
-     .                    NGL  ,AL           ,DPLA_IPT  ,EPSD  ,FBUF%FLOC(IFL)%VAR,  
-     .                    SIGNXX  ,SIGNXY       ,SIGNXZ  ,NVARTMP ,FBUF%FLOC(IFL)%VARTMP, 
-     .                    TEMPEL  ,OFF          ,FBUF%FLOC(IFL)%DAMMX ,TDEL  ,LBUF%DMGSCL,
-     .                    IPT, NPT, FOFF, FAIL%NTABLE ,FAIL%TABLE,
-     .                    ELBUF_STR%GBUF%UELR,SNPC  ,STF  ,NTABLE) 
-          DO I= 1,NEL
+          CALL FAIL_TAB2_IB(FAIL  ,                         
+     .                    NEL     ,NUVAR   ,NVARTMP ,FBUF%FLOC(IFL)%VAR,FBUF%FLOC(IFL)%VARTMP, 
+     .                    TIME    ,NGL     ,AL      ,DPLA_IPT  ,EPSD  ,  
+     .                    SIGNXX  ,SIGNXY  ,SIGNXZ  ,
+     .                    TEMPEL  ,OFF     ,FBUF%FLOC(IFL)%DAMMX ,TDEL  ,LBUF%DMGSCL,
+     .                    IPT     ,NPT     ,FOFF    ,ELBUF_STR%GBUF%UELR) 
+          DO I= 1,NEL 
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
   

@@ -436,8 +436,8 @@ c
             ELSEIF (KEY(1:4) == 'TAB2') THEN
               IRUPT = 41
               CALL HM_READ_FAIL_TAB2(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,MAT_PARAM(IMAT)%TITLE,
-     .             LSUBMODEL,UNITAB   ,MLAW_TAG(IMAT))
+     .             TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             NTABLE   ,TABLE    ,LSUBMODEL,UNITAB   ,MLAW_TAG(IMAT))
 c     
             ELSEIF (KEY(1:3) == 'TAB') THEN
               IRUPT = 37

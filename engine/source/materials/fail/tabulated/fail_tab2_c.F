@@ -34,18 +34,16 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    interface_table_mod   ../engine/share/modules/table_mod.F
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||====================================================================
-      SUBROUTINE FAIL_TAB2_C (
-     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TABLE    ,TF       ,TIME     ,UPARAM   , 
-     3     NGL      ,ALDT     ,DPLA     ,EPSP     ,UVAR     ,     
-     4     SIGNXX   ,SIGNYY   ,SIGNXY   ,NVARTMP  ,VARTMP   ,     
+      SUBROUTINE FAIL_TAB2_C (FAIL      ,
+     1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
+     2     TIME     ,NGL      ,ALDT     ,DPLA     ,EPSP     ,     
+     4     SIGNXX   ,SIGNYY   ,SIGNXY   ,     
      5     TEMP     ,FOFF     ,DFMAX    ,TDELE    ,IPT      ,
-     6     IPG      ,DMG_FLAG ,DMG_SCALE,NTABLF   ,ITABLF   ,
-     7     NIPARAM  ,IPARAM   ,NOFF     ,OFF      ,NPT      ,
-     8     GVAR     )   
+     6     IPG      ,DMG_FLAG ,DMG_SCALE,
+     7     NOFF     ,OFF      ,NPT      ,GVAR     )   
 C---------+---------+---+---+--------------------------------------------
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
+      use fail_param_mod
+      use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,59 +53,41 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "comlock.inc"
-#include      "com04_c.inc"
-#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: 
-     .        NEL,NUPARAM,NUVAR,NTABLF,NGL(NEL),IPT,IPG
+      INTEGER, INTENT(IN) :: NEL,NUVAR,NGL(NEL),IPT,IPG
+      INTEGER, INTENT(IN) :: NPT
       INTEGER, INTENT(IN) :: NVARTMP
-      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(IN) :: VARTMP
-      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
       INTEGER, INTENT(INOUT) :: 
      .        DMG_FLAG,FOFF(NEL)
-      my_real, INTENT(IN) :: 
-     .        TIME,UPARAM(NUPARAM),ALDT(NEL),
-     .        DPLA(NEL),EPSP(NEL),TEMP(NEL),
+      my_real, INTENT(IN) :: TIME,ALDT(NEL),DPLA(NEL),EPSP(NEL),TEMP(NEL),
      .        SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL)
-      my_real, INTENT(INOUT) :: 
-     .        UVAR(NEL,NUVAR),DFMAX(NEL),TDELE(NEL),
-     .        DMG_SCALE(NEL)
-      TYPE (TTABLE), INTENT(IN), DIMENSION(NTABLE) :: TABLE 
-      INTEGER, INTENT(IN) :: NIPARAM
-      INTEGER, DIMENSION(NIPARAM), INTENT(IN) :: IPARAM
+      my_real, INTENT(INOUT) :: UVAR(NEL,NUVAR)
+      my_real, INTENT(INOUT) :: DFMAX(NEL),TDELE(NEL),DMG_SCALE(NEL)
       INTEGER, INTENT(INOUT) :: NOFF(NEL)
       my_real, INTENT(INOUT) :: OFF(NEL)
-      INTEGER, INTENT(IN) :: NPT
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: GVAR !< Global element user variables
-C!-----------------------------------------------
-C!   VARIABLES FOR FUNCTION INTERPOLATION 
-C!-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPF(SNPC),NFUNC,IFUNC(NFUNC)
-      my_real, INTENT(IN) :: TF(STF)
-      my_real
-     .         FINTER
-      EXTERNAL FINTER
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: GVAR    !< Global element user variables
+      type (fail_param_)     , intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX,ITAB_EPSF,ITAB_INST,ITAB_SIZE,IREG,NDIM
+      INTEGER :: I,J,NINDX,IREG,NDIM
       INTEGER :: LOG_SCALE1,LOG_SCALE2,MIDFAIL
       INTEGER ,DIMENSION(NEL) :: INDX,IAD,ILEN
       my_real 
      .        FCRIT  ,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,
      .        SR_REF1,FSCALE_EL,SHRF,BIAXF  ,SR_REF2,
      .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP,
-     .        RGTR1  ,RGTR2
+     .        RGTR1  ,RGTR2,RETA,ETA
       my_real
-     .        LAMBDA,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
+     .        DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
      .        TRIAX(NEL)  ,XI(NEL)     ,EPSF(NEL)   ,EPSL(NEL)   ,
      .        DEPSF(NEL)  ,DEPSL(NEL)  ,XVEC(NEL,3) ,DPL_DEF     ,
      .        COS3THETA   ,P           ,SVM         ,SIZEFAC(NEL),
-     .        RATEFAC(NEL),DSIZE(NEL)  ,SOFTEXP(NEL),DLIM(NEL)   ,
-     .        TEMPFAC(NEL),TEMPFAC2(NEL),DFT(NEL)   ,VAR(NEL)    ,
-     .        RETA
+     .        RATEFAC(NEL),DSIZE(NEL)  ,SOFTEXP(NEL),DLIM(NEL) 
+      my_real ,DIMENSION(NEL) :: LAMBDA,DYDX,TEMPFAC,TEMPFAC2
       LOGICAL IS_MIDPT,COMP_MIDFAIL
 C!--------------------------------------------------------------
       !=======================================================================
@@ -115,36 +95,32 @@ C!--------------------------------------------------------------
       !=======================================================================
       ! Recovering failure criterion parameters
       !< Integer parameters
-      MIDFAIL       = IPARAM(1)
+      MIDFAIL       = FAIL%IPARAM(1)
       !< Real parameters
-      FCRIT         = UPARAM(1)
-      DN            = UPARAM(4)
-      DCRIT         = UPARAM(5) 
-      ECRIT         = UPARAM(6)
-      EXP_REF       = UPARAM(7)
-      EXPO          = UPARAM(8)
-      IREG          = NINT(UPARAM(9))
-      EL_REF        = UPARAM(10)
-      SR_REF1       = UPARAM(11)
-      FSCALE_EL     = UPARAM(12)
-      SHRF          = UPARAM(13)
-      BIAXF         = UPARAM(14)
-      SR_REF2       = UPARAM(15)
-      FSCALE_SR     = UPARAM(16)
-      CJC           = UPARAM(17)
-      FSCALE_DLIM   = UPARAM(18)
-      TEMP_REF      = UPARAM(19)
-      FSCALE_TEMP   = UPARAM(20)
-      LOG_SCALE1    = NINT(UPARAM(21))
-      LOG_SCALE2    = NINT(UPARAM(22))
-      RGTR1         = UPARAM(24)
+      FCRIT         = FAIL%UPARAM(1)
+      DN            = FAIL%UPARAM(4)
+      DCRIT         = FAIL%UPARAM(5) 
+      ECRIT         = FAIL%UPARAM(6)
+      EXP_REF       = FAIL%UPARAM(7)
+      EXPO          = FAIL%UPARAM(8)
+      IREG          = NINT(FAIL%UPARAM(9))
+      EL_REF        = FAIL%UPARAM(10)
+      SR_REF1       = FAIL%UPARAM(11)
+      FSCALE_EL     = FAIL%UPARAM(12)
+      SHRF          = FAIL%UPARAM(13)
+      BIAXF         = FAIL%UPARAM(14)
+      SR_REF2       = FAIL%UPARAM(15)
+      FSCALE_SR     = FAIL%UPARAM(16)
+      CJC           = FAIL%UPARAM(17)
+      FSCALE_DLIM   = FAIL%UPARAM(18)
+      TEMP_REF      = FAIL%UPARAM(19)
+      FSCALE_TEMP   = FAIL%UPARAM(20)
+      LOG_SCALE1    = NINT(FAIL%UPARAM(21))
+      LOG_SCALE2    = NINT(FAIL%UPARAM(22))
+      RGTR1         = FAIL%UPARAM(24)
       RGTR1         = MAX(RGTR1,EM06)
-      RGTR2         = UPARAM(25)
+      RGTR2         = FAIL%UPARAM(25)
       RGTR2         = MIN(RGTR2,TWO_THIRD - EM06)
-c
-      ITAB_EPSF = ITABLF(1)
-      ITAB_INST = ITABLF(2)
-      ITAB_SIZE = ITABLF(3)
 c
       ! Set flag for stress softening
       DMG_FLAG = 1
@@ -167,7 +143,7 @@ c
       ! Checking element failure and recovering user variable
       DO I=1,NEL
         ! If necking control is activated
-        IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
+        IF (fail%table4d(6)%notable > 0 .OR. ECRIT > ZERO) THEN 
           IF (UVAR(I,2) == ZERO) UVAR(I,2) = ONE
         ELSE
           IF (UVAR(I,2) == ZERO) UVAR(I,2) = DCRIT
@@ -208,186 +184,122 @@ c
       IF (UVAR(1,3) == ZERO) UVAR(1:NEL,3) = ALDT(1:NEL)
       L0(1:NEL) = UVAR(1:NEL,3)
 c
-      ! Compute the softening exponent
-      IF (IFUNC(1) > 0) THEN 
-        DO I=1,NEL   
-          LAMBDA     = L0(I)/EXP_REF
-          SOFTEXP(I) = FINTER(IFUNC(1),LAMBDA,NPF,TF,DF) 
-          SOFTEXP(I) = EXPO*SOFTEXP(I)
-        ENDDO
-      ELSE
-        SOFTEXP(1:NEL) = EXPO
-      ENDIF
+      ! compute the softening exponent
+      if (fail%table4d(1)%notable > 0) then
+        lambda(1:nel) = l0(1:nel) / exp_ref
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),lambda,softexp,dydx)
+      else
+        softexp(1:nel) = expo
+      endif
 c
-      ! Compute the temperature dependency factor
-      IF (IFUNC(4) > 0) THEN 
-        VAR(1:NEL)   = TEMP(1:NEL)/TEMP_REF
-        IAD(1:NEL)   = NPF(IFUNC(4)) / 2 + 1
-        ILEN(1:NEL)  = NPF(IFUNC(4)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,1)
-        CALL VINTER2(TF,IAD,VARTMP(1:NEL,1),ILEN,NEL,VAR,DFT,TEMPFAC)
-        TEMPFAC(1:NEL) = FSCALE_TEMP*TEMPFAC(1:NEL)
-        TEMPFAC2(1:NEL) = TEMPFAC(1:NEL)
-      ELSE
-        TEMPFAC(1:NEL)  = ONE
-        TEMPFAC2(1:NEL) = ONE
-      ENDIF
+      ! compute the temperature dependency factor
+      if (fail%table4d(4)%notable > 0) then
+        lambda(1:nel) = temp(1:nel) / temp_ref
+        call table_mat_vinterp(fail%table4d(4),nel,nel,vartmp(1:nel,4:4),lambda,tempfac,dydx)
+      else
+        tempfac(1:nel) = one
+      endif
+      tempfac2(1:nel) = tempfac(1:nel)
 c
-      ! Compute the element size regularization factor 
-      IF (ITAB_SIZE > 0) THEN 
-        ! Element size scaling dependency
-        NDIM = TABLE(ITAB_SIZE)%NDIM
-        IF (IREG == 1) THEN 
-          SELECT CASE (NDIM)
-            ! Scale factor vs element size
-            CASE(1)
-              XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
-              XVEC(1:NEL,2:3) = ZERO
-            ! Scale factor vs element size vs strain rate
-            CASE(2)
-              XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
-              IF (LOG_SCALE1 > 0) THEN 
-                DO I = 1,NEL
-                  XVEC(I,2) = LOG(MAX(EPSP(I),EM20)/SR_REF1)
-                ENDDO 
-              ELSE
-                XVEC(1:NEL,2) = EPSP(1:NEL)/SR_REF1
-              ENDIF
-              XVEC(1:NEL,3)   = ZERO
-          END SELECT
-        ELSEIF (IREG == 2) THEN 
-          SELECT CASE (NDIM)
-            ! Scale factor vs element size
-            CASE(1)
-              XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
-              XVEC(1:NEL,2:3) = ZERO
-            ! Scale factor vs element size vs triaxiality
-            CASE(2)
-              XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
-              XVEC(1:NEL,2)   = TRIAX(1:NEL)
-              XVEC(1:NEL,3)   = ZERO
-              ! Scale factor vs element size vs triaxiality vs Lode parameter
-            CASE(3)
-              XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
-              XVEC(1:NEL,2)   = TRIAX(1:NEL)
-              XVEC(1:NEL,3)   = XI(1:NEL)
-          END SELECT
-        ENDIF
+      ! compute the element size regularization factor 
+      if (fail%table4d(7)%notable > 0) then
+        ndim = fail%table4d(7)%ndim
+        if (ireg == 1) then
+          xvec(1:nel,2:3) = zero
+          select case (ndim)
+            case(1)            ! scale factor vs element size
+              xvec(1:nel,1)   = l0(1:nel)/el_ref
+            case(2)            ! scale factor vs element size vs strain rate 
+              xvec(1:nel,1)   = l0(1:nel)/el_ref
+              if (log_scale1 > 0) then 
+                do i = 1,nel
+                  xvec(i,2) = log(max(epsp(i),em20)/sr_ref1)
+                enddo 
+              else
+                xvec(1:nel,2) = epsp(1:nel)/sr_ref1
+              endif
+          end select
+        else if (ireg == 2) then
+          xvec(1:nel,1)   = l0(1:nel)/el_ref
+          xvec(1:nel,2)   = triax(1:nel)
+          xvec(1:nel,3)   = xi(1:nel)
+        end if  ! ireg
 !
-        CALL TABLE_VINTERP(TABLE(ITAB_SIZE),NEL,NEL,VARTMP(1:NEL,2),XVEC,SIZEFAC,DSIZE)
-        SIZEFAC(1:NEL) = SIZEFAC(1:NEL)*FSCALE_EL
-        IF (IREG == 1) THEN 
-          DO I = 1,NEL
-            IF (TRIAX(I) < THIRD) THEN 
-              RETA =  SHRF*(ONE - MIN(MAX(TRIAX(I),ZERO),RGTR1)/RGTR1)
-            ELSEIF (TRIAX(I) >= THIRD) THEN 
-              RETA = (THREE*BIAXF/(THREE*RGTR2 - TWO))*
-     .               (RGTR2 - MIN(MAX(TRIAX(I),RGTR2),TWO_THIRD))
-            ENDIF
-            RETA = MAX(ZERO, MIN(ONE, RETA))
-            SIZEFAC(I) = SIZEFAC(I) + RETA*(ONE - SIZEFAC(I))
-          ENDDO
-        ENDIF
-      ELSE
-        SIZEFAC(1:NEL) = ONE
-      ENDIF
+        call table_mat_vinterp(fail%table4d(7),nel,nel,vartmp(1:nel,11),xvec,sizefac,dydx)
+!
+        if (ireg == 1) then 
+          do i = 1,nel
+            if (triax(i) < third) then 
+              reta =  shrf*(one - min(max(triax(i),zero),rgtr1)/rgtr1)
+            else    ! triax >= third 
+              reta = (three*biaxf/(three*rgtr2 - two)) * (rgtr2 - min(max(triax(i),rgtr2),two_third))
+            endif
+            reta = max(zero, min(one, reta))
+            sizefac(i) = sizefac(i) + reta*(one - sizefac(i))
+          enddo
+        endif
+      else  ! func_size = 0
+        sizefac(1:nel) = one
+      endif
 c
       ! Compute the strain rate dependency factor
-      IF (IFUNC(2) > 0) THEN 
-        IF (LOG_SCALE2 > 0) THEN
-          DO I = 1,NEL 
-            VAR(I) = LOG(MAX(EPSP(I),EM20)/SR_REF2)
-          ENDDO 
-        ELSE
-          VAR(1:NEL) = EPSP(1:NEL)/SR_REF2
-        ENDIF
-        IAD (1:NEL) = NPF(IFUNC(2)) / 2 + 1
-        ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,5)
-        CALL VINTER2(TF,IAD,VARTMP(1:NEL,5),ILEN,NEL,VAR,DFT,RATEFAC)
-        RATEFAC(1:NEL) = FSCALE_SR*RATEFAC(1:NEL)
-      ELSEIF (CJC > ZERO) THEN 
-        DO I=1,NEL
-          IF (EPSP(I) > SR_REF2) THEN 
-            RATEFAC(I) = ONE + CJC*LOG(EPSP(I)/SR_REF2)
-          ELSE
-            RATEFAC(I) = ONE
-          ENDIF
-        ENDDO
-      ELSE
-        RATEFAC(1:NEL) = ONE
-      ENDIF
+      if (fail%table4d(2)%notable > 0) then
+        if (log_scale2 > 0) then
+          do i = 1,nel 
+            lambda(i) = log(max(epsp(i),em20)/sr_ref2)
+          enddo 
+        else
+          lambda(1:nel) = epsp(1:nel)/sr_ref2
+        endif
+        call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp(1:nel,2:2),lambda,ratefac,dydx)
+      else if (cjc > zero) then
+        do i=1,nel
+          if (epsp(i) > sr_ref2) then 
+            ratefac(i) = one + cjc*log(epsp(i)/sr_ref2)
+          else
+            ratefac(i) = one
+          endif
+        enddo
+      else
+        ratefac(1:nel) = one
+      end if
 c
       ! Compute the damage limit value
-      IF (IFUNC(3) > 0) THEN 
-        DO I = 1,NEL 
-          LAMBDA  = TRIAX(I)
-          DLIM(I) = FINTER(IFUNC(3),LAMBDA,NPF,TF,DF) 
-          DLIM(I) = FSCALE_DLIM*DLIM(I)
-          DLIM(I) = MIN(DLIM(I),ONE)
-          DLIM(I) = MAX(DLIM(I),ZERO)
-        ENDDO
-      ELSE
-        DLIM(1:NEL) = ONE
-      ENDIF
+      if (fail%table4d(3)%notable > 0) then
+        call table_mat_vinterp(fail%table4d(3),nel,nel,vartmp(1:nel,3:3),triax,dlim,dydx)
+        do i = 1,nel 
+          dlim(i) = min(dlim(i),one)
+          dlim(i) = max(dlim(i),zero)
+        enddo
+      else
+        dlim(1:nel) = one
+      endif
 c
       !====================================================================
       ! - COMPUTATION OF PLASTIC STRAIN AT FAILURE
-      !====================================================================   
-      IF (ITAB_EPSF > 0) THEN 
-        ! Failure plastic strain map dependency
-        NDIM = TABLE(ITAB_EPSF)%NDIM
-        SELECT CASE (NDIM)
-          ! Failure plastic strain vs triaxiality
-          CASE (1)
-            XVEC(1:NEL,1)   = TRIAX(1:NEL)
-            XVEC(1:NEL,2:3) = ZERO
-          ! Failure plastic strain vs triaxiality vs Lode parameter
-          CASE (2)
-            XVEC(1:NEL,1)   = TRIAX(1:NEL)
-            XVEC(1:NEL,2)   = XI(1:NEL)
-            XVEC(1:NEL,3)   = ZERO
-          ! Failure plastic strain vs triaxiality vs Lode parameter vs temperature
-          CASE (3)
-            XVEC(1:NEL,1)   = TRIAX(1:NEL)
-            XVEC(1:NEL,2)   = XI(1:NEL)
-            XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
-            TEMPFAC(1:NEL)  = ONE
-        END SELECT
-
-        CALL TABLE_VINTERP(TABLE(ITAB_EPSF),NEL,NEL,VARTMP(1:NEL,6:8),XVEC,EPSF,DEPSF)
-        EPSF(1:NEL) = EPSF(1:NEL)*FCRIT
-      ELSE 
-        EPSF(1:NEL) = FCRIT
-      ENDIF
+      !====================================================================
+      if (fail%table4d(5)%notable > 0) then
+        xvec(1:nel,1)   = triax(1:nel)
+        xvec(1:nel,2)   = xi(1:nel)
+        xvec(1:nel,3)   = temp(1:nel)/temp_ref
+        if (fail%table4d(5)%ndim == 3) tempfac(1:nel)  = one
+        call table_mat_vinterp(fail%table4d(5),nel,nel,vartmp(1:nel,5),xvec,epsf,dydx)
+      else
+        epsf(1:nel) = fcrit
+      end if
 c
       !====================================================================
       ! - COMPUTATION OF PLASTIC STRAIN AT NECKING
-      !====================================================================   
-      IF (ITAB_INST > 0) THEN 
-        ! Instability plastic strain map dependency
-        NDIM = TABLE(ITAB_INST)%NDIM
-        SELECT CASE (NDIM)
-          ! Instability plastic strain vs triaxiality
-          CASE(1)
-            XVEC(1:NEL,1)   = TRIAX(1:NEL)
-            XVEC(1:NEL,2:3) = ZERO
-          ! Instability plastic strain vs triaxiality vs Lode 
-          CASE(2)
-            XVEC(1:NEL,1)   = TRIAX(1:NEL)
-            XVEC(1:NEL,2)   = XI(1:NEL)
-            XVEC(1:NEL,3)   = ZERO
-          ! Instability plastic strain vs triaxiality vs Lode vs temperature
-          CASE(3)
-            XVEC(1:NEL,1)   = TRIAX(1:NEL)
-            XVEC(1:NEL,2)   = XI(1:NEL)
-            XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
-            TEMPFAC2(1:NEL) = ONE         
-        END SELECT
-        
-        CALL TABLE_VINTERP(TABLE(ITAB_INST),NEL,NEL,VARTMP(1:NEL,9:11),XVEC,EPSL,DEPSL)
-        EPSL(1:NEL) = EPSL(1:NEL)*ECRIT
-      ELSEIF (ECRIT > ZERO) THEN 
-        EPSL(1:NEL) = ECRIT
-      ENDIF
+      !====================================================================
+      if (fail%table4d(6)%notable > 0) then
+        xvec(1:nel,1)   = triax(1:nel)
+        xvec(1:nel,2)   = xi(1:nel)
+        xvec(1:nel,3)   = temp(1:nel)/temp_ref
+        call table_mat_vinterp(fail%table4d(6),nel,nel,vartmp(1:nel,8),xvec,epsl,dydx)
+        if (fail%table4d(6)%ndim == 3) tempfac2(1:nel) = one  
+      else
+        epsl(1:nel) = ecrit
+      end if
 c
       !====================================================================
       ! - COMPUTATION OF THE DAMAGE VARIABLE EVOLUTION
@@ -424,7 +336,7 @@ c
           ENDIF
 c
           ! Compute the control necking instability damage
-          IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
+          IF (fail%table4d(6)%notable > 0 .OR. ECRIT > ZERO) THEN 
             DPL_DEF = DPLA(I)/MAX(EPSL(I)*RATEFAC(I)*SIZEFAC(I)*TEMPFAC2(I),EM20)
             INST(I) = INST(I) + DPL_DEF*DN*(INST(I)**(ONE-(ONE/DN)))
             INST(I) = MIN(INST(I),ONE)

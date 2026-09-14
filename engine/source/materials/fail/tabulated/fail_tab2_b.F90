@@ -49,22 +49,20 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||====================================================================
-        subroutine fail_tab2_b(                                      &
-          nel   ,nuparam   ,nuvar   ,nfunc   ,ifunc  ,               &
-          npf   ,table     ,tf      ,time    ,uparam ,               &
-          ngl   ,aldt      ,dpla    ,epsp    ,uvar   ,               &
-          f1    ,area      ,nvartmp ,vartmp  ,                       &
-          temp  ,off       ,dfmax   ,tdele   ,                       &
-          ntablf,itablf    ,                                         &
-          snpc  ,stf       ,ntable  ,dmgscl )
+        subroutine fail_tab2_b (fail,                               &
+          nel     ,nuvar   ,nvartmp ,uvar    ,vartmp  ,             &
+          time    ,ngl     ,aldt    ,dpla    ,epsp    ,             &
+          f1      ,area    ,temp    ,off     ,dfmax   ,             &
+          tdele   ,dmgscl  )
 !c-----------------------------------------------
 !                                                    modules
 !c-----------------------------------------------
-          use table_mod
-          use interface_table_mod
+
           use elbufdef_mod
           use constant_mod
           use precision_mod, only : WP
+          use fail_param_mod
+          use table_mat_vinterp_mod
 !c-----------------------------------------------
 !                                               c i m p l i c i t t y p e
 !c-----------------------------------------------
@@ -75,43 +73,25 @@
 !                                             c i n p u t a r g u m e n t s
 !c-----------------------------------------------
           integer                     ,intent(in)     :: nel      ! size of element group
-          integer                     ,intent(in)     :: nuparam  ! size of parameter array
           integer                     ,intent(in)     :: nuvar    ! size of user variable array
           integer                     ,intent(in)     :: nvartmp  ! 
           integer, dimension(nel)     ,intent(in)     :: ngl      ! element identifiers
-          integer                     ,intent(in)     :: ntablf   ! number of table functions
-          integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers
           integer, dimension(nel,nvartmp)   ,intent(inout)  :: vartmp
 
           real(kind=WP)                     ,intent(in)     :: time     ! current time
-          real(kind=WP), dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
           real(kind=WP), dimension(nel)     ,intent(in)     :: aldt     ! time increment
           real(kind=WP), dimension(nel)     ,intent(in)     :: dpla     ! plastic strain
           real(kind=WP), dimension(nel)     ,intent(in)     :: epsp     ! strain rate
           real(kind=WP), dimension(nel)     ,intent(in)     :: temp     ! temperature
 
-          real(kind=WP) ,dimension(nel)     ,intent(inout)    :: f1        ! force in local x direction
-          real(kind=WP)                     ,intent(in)    :: area       !< cross section area
+          real(kind=WP) ,dimension(nel)     ,intent(inout)  :: f1       ! force in local x direction
+          real(kind=WP)                     ,intent(in)     :: area     !< cross section area
           real(kind=WP), dimension(nel, nuvar), intent(inout) :: uvar   ! user variables
           real(kind=WP), dimension(nel)     ,intent(inout)  :: dfmax    ! maximum damage
           real(kind=WP), dimension(nel)     ,intent(inout)  :: dmgscl
           real(kind=WP), dimension(nel)     ,intent(inout)  :: tdele    ! element deletion time
-
           real(kind=WP), dimension(nel)     ,intent(inout)  :: off      ! offset
-
-          type(ttable), dimension(ntable), intent(in) :: table    ! table data
-          integer ,intent(in) :: snpc
-          integer ,intent(in) :: stf
-          integer ,intent(in) :: ntable
-!c-----------------------------------------------
-!                                        c variables for function interpolation
-!c-----------------------------------------------
-          integer, dimension(snpc), intent(in) :: npf
-          real(kind=WP), dimension(stf), intent(in) :: tf
-          real(kind=WP), external :: finter
-          integer                     ,intent(in)     :: nfunc    ! number of functions
-          integer, dimension(nfunc)   ,intent(in)     :: ifunc    ! function identifiers
-
+          type (fail_param_)                ,intent(in)     :: fail     !< failure model data structure
 !c-----------------------------------------------
 !                                                  local variables
 !c-----------------------------------------------
@@ -122,11 +102,12 @@
           real(kind=WP) :: fcrit, dn, dcrit, ecrit, exp_ref, expo, el_ref, &
             sr_ref1, fscale_el, shrf, biaxf, sr_ref2, &
             fscale_sr, cjc, fscale_dlim, temp_ref, fscale_temp,rgtr1,rgtr2
-          real(kind=WP) :: lambda, df, dpl_def, cos3theta, det, p, svm, &
+          real(kind=WP) :: dpl_def, cos3theta, det, p, svm, &
             sxx, syy, szz, reta
           real(kind=WP), dimension(nel) :: inst, dc, l0, triax, xi, epsf, epsl, &
             depsf, depsl, sizefac, ratefac, dsize, &
             softexp, dlim, tempfac, tempfac2, dft, var
+          real(kind=WP), dimension(nel) :: lambda,dydx
           real(kind=WP), dimension(nel, 3) :: xvec
 
 !c=======================================================================
@@ -141,41 +122,35 @@
           ! - initialisation of computation on time step
           !=======================================================================
           ! recovering failure criterion parameters
-          fcrit         = uparam(1)                !> scale factor for failure plastic strain table
-          dn            = uparam(4)                !> damage accumulation exponent. default = 1.0 (real)
-          dcrit         = uparam(5)                !> critical damage for stress softening triggering. default = 0.0 (real)
-          ecrit         = uparam(6)                !> scale factor for necking plastic strain table identifier. (real)
-          exp_ref       = uparam(7)                !> reference element size for stress softening exponent function. default = 1.0 (real)
-          expo          = uparam(8)                !> scale factor for stress softening exponent function.default = 1.0 (real)
-          ireg          = nint(uparam(9))          !> regularization flag for element size. default = 1 (integer)
-          el_ref        = uparam(10)               !> reference element size for element size scaling table. default = 1.0 (real)
-          sr_ref1       = uparam(11)               !> reference strain rate for size scaling table. default = 1.0 (real)
-          fscale_el     = uparam(12)               !> scale factor for element size scaling function. default = 1.0 (real)
-          shrf          = uparam(13)               !> lower stress triaxiality boundary for element size scaling. default = -1.0 (real)
-          biaxf         = uparam(14)               !> upper stress triaxiality boundary for element size scaling. default = 1.0 (real)
-          sr_ref2       = uparam(15)               !> reference strain rate for strain rate dependency function. default = 1.0 (real)
-          fscale_sr     = uparam(16)               !> scale factor for strain rate dependency function. default = 1.0 (real)
-          cjc           = uparam(17)               !> johnson-cook strain rate dependency factor.
-          fscale_dlim   = uparam(18)               !> damage limit function scale factor. default = 1.0 (real)
-          temp_ref      = uparam(19)               !> reference temperature for temperature dependency function. default = 0.0 (integer)
-          fscale_temp   = uparam(20)               !> scale factor for temperature scaling function.
-          log_scale1    = nint(uparam(21))
-          log_scale2    = nint(uparam(22))
-          rgtr1         = uparam(24)
+          fcrit         = fail%uparam(1)                !> scale factor for failure plastic strain table
+          dn            = fail%uparam(4)                !> damage accumulation exponent. default = 1.0 (real)
+          dcrit         = fail%uparam(5)                !> critical damage for stress softening triggering. default = 0.0 (real)
+          ecrit         = fail%uparam(6)                !> scale factor for necking plastic strain table identifier. (real)
+          exp_ref       = fail%uparam(7)                !> reference element size for stress softening exponent function. default = 1.0 (real)
+          expo          = fail%uparam(8)                !> scale factor for stress softening exponent function.default = 1.0 (real)
+          ireg          = nint(fail%uparam(9))          !> regularization flag for element size. default = 1 (integer)
+          el_ref        = fail%uparam(10)               !> reference element size for element size scaling table. default = 1.0 (real)
+          sr_ref1       = fail%uparam(11)               !> reference strain rate for size scaling table. default = 1.0 (real)
+          fscale_el     = fail%uparam(12)               !> scale factor for element size scaling function. default = 1.0 (real)
+          shrf          = fail%uparam(13)               !> lower stress triaxiality boundary for element size scaling. default = -1.0 (real)
+          biaxf         = fail%uparam(14)               !> upper stress triaxiality boundary for element size scaling. default = 1.0 (real)
+          sr_ref2       = fail%uparam(15)               !> reference strain rate for strain rate dependency function. default = 1.0 (real)
+          fscale_sr     = fail%uparam(16)               !> scale factor for strain rate dependency function. default = 1.0 (real)
+          cjc           = fail%uparam(17)               !> johnson-cook strain rate dependency factor.
+          fscale_dlim   = fail%uparam(18)               !> damage limit function scale factor. default = 1.0 (real)
+          temp_ref      = fail%uparam(19)               !> reference temperature for temperature dependency function. default = 0.0 (integer)
+          fscale_temp   = fail%uparam(20)               !> scale factor for temperature scaling function.
+          log_scale1    = nint(fail%uparam(21))
+          log_scale2    = nint(fail%uparam(22))
+          rgtr1         = fail%uparam(24)
           rgtr1         = max(rgtr1,em06)
-          rgtr2         = uparam(25)
+          rgtr2         = fail%uparam(25)
           rgtr2         = min(rgtr2,two_third - em06)
 !c
-          itab_epsf = itablf(1)                   !> plastic strain at failure table or function identifier
-          itab_inst = itablf(2)                   !> instability (necking) plastic strain table or function identifier.
-          itab_size = itablf(3)                   !> element size scaling table or function identifier.
-
-
-!c  c
           ! checking element failure and recovering user variable
           do i=1,nel
             ! if necking control is activated
-            if ((itab_inst > 0).or.(ecrit > zero)) then 
+            if (fail%table4d(6)%notable > 0.or. ecrit > zero) then 
               if (uvar(i,2) == zero) uvar(i,2) = one
             else
               if (uvar(i,2) == zero) uvar(i,2) = dcrit
@@ -220,71 +195,48 @@
           l0(1:nel) = uvar(1:nel,3)
 !c
           ! compute the softening exponent
-          if (ifunc(1) > 0) then
-            do i=1,nel
-              lambda     = l0(i)/exp_ref
-              softexp(i) = finter(ifunc(1),lambda,npf,tf,df)
-              softexp(i) = expo*softexp(i)
-            end do
+          if (fail%table4d(1)%notable > 0) then
+              lambda(1:nel) = l0(1:nel)/exp_ref
+              call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),lambda,softexp,dydx)
           else
             softexp(1:nel) = expo
           end if
 !c
-          ! compute the temperature dependency factor
-          if (ifunc(4) > 0) then
-            var(1:nel)   = temp(1:nel)/temp_ref
-            iad(1:nel)   = npf(ifunc(4)) / 2 + 1
-            ilen(1:nel)  = npf(ifunc(4)+1) / 2 - iad(1:nel) - vartmp(1:nel,1)
-            call vinter2(tf,iad,vartmp(1:nel,1),ilen,nel,var,dft,tempfac)
-            tempfac(1:nel) = fscale_temp*tempfac(1:nel)
-            tempfac2(1:nel) = tempfac(1:nel)
-          else
-            tempfac(1:nel)  = one
-            tempfac2(1:nel) = one
-          end if
+         ! compute the temperature dependency factor
+         if (fail%table4d(4)%notable > 0) then
+           lambda(1:nel) = temp(1:nel) / temp_ref
+           call table_mat_vinterp(fail%table4d(4),nel,nel,vartmp(1:nel,4:4),lambda,tempfac,dydx)
+         else
+           tempfac(1:nel) = one
+         endif
+         tempfac2(1:nel) = tempfac(1:nel)
 !c
-          ! compute the element size regularization factor
-          if (itab_size > 0) then
-            ! element size scaling dependency
-            ndim = table(itab_size)%ndim
-            if (ireg == 1) then
-              select case (ndim)
-                ! scale factor vs element size
-               case(1)
-                xvec(1:nel,1)   = l0(1:nel)/el_ref
-                xvec(1:nel,2:3) = zero
-                ! scale factor vs element size vs strain rate
-               case(2)
-                xvec(1:nel,1)   = l0(1:nel)/el_ref
-                if (log_scale1 > 0) then
-                  do i = 1,nel
-                    xvec(i,2) = log(max(epsp(i),em20)/sr_ref1)
-                  end do
-                else
-                  xvec(1:nel,2) = epsp(1:nel)/sr_ref1
-                end if
-                xvec(1:nel,3)   = zero
-              end select
-            else if (ireg == 2) then
-              select case (ndim)
-                ! scale factor vs element size
-               case(1)
-                xvec(1:nel,1)   = l0(1:nel)/el_ref
-                xvec(1:nel,2:3) = zero
-                ! scale factor vs element size vs triaxiality
-               case(2)
-                xvec(1:nel,1)   = l0(1:nel)/el_ref
-                xvec(1:nel,2)   = triax(1:nel)
-                xvec(1:nel,3)   = zero
-                ! scale factor vs element size vs triaxiality vs lode parameter
-               case(3)
-                xvec(1:nel,1)   = l0(1:nel)/el_ref
-                xvec(1:nel,2)   = triax(1:nel)
-                xvec(1:nel,3)   = xi(1:nel)
-              end select
-            end if
-            call table_vinterp(table(itab_size),nel,nel,vartmp(1:nel,2),xvec,sizefac,dsize)
-            sizefac(1:nel) = sizefac(1:nel)*fscale_el
+      ! compute the element size regularization factor 
+      if (fail%table4d(7)%notable > 0) then
+        ndim = fail%table4d(7)%ndim
+        if (ireg == 1) then
+          xvec(1:nel,2:3) = zero
+          select case (ndim)
+            case(1)            ! scale factor vs element size
+              xvec(1:nel,1)   = l0(1:nel)/el_ref
+            case(2)            ! scale factor vs element size vs strain rate 
+              xvec(1:nel,1)   = l0(1:nel)/el_ref
+              if (log_scale1 > 0) then 
+                do i = 1,nel
+                  xvec(i,2) = log(max(epsp(i),em20)/sr_ref1)
+                enddo 
+              else
+                xvec(1:nel,2) = epsp(1:nel)/sr_ref1
+              endif
+          end select
+        else if (ireg == 2) then
+          xvec(1:nel,1)   = l0(1:nel)/el_ref
+          xvec(1:nel,2)   = triax(1:nel)
+          xvec(1:nel,3)   = xi(1:nel)
+        end if  ! ireg
+!
+        call table_mat_vinterp(fail%table4d(7),nel,nel,vartmp(1:nel,11),xvec,sizefac,dydx)
+!
             if (ireg == 1) then
               do i = 1,nel
                 if (triax(i) < third) then 
@@ -297,103 +249,67 @@
                 sizefac(i) = sizefac(i) + reta*(one - sizefac(i))
               end do
             end if
-          else
-            sizefac(1:nel) = one
-          end if
+      else
+        sizefac(1:nel) = one
+      end if
 !c
           ! compute the strain rate dependency factor
-          if (ifunc(2) > 0) then
-            if (log_scale2 > 0) then
-              do i = 1,nel
-                var(i) = log(max(epsp(i),em20)/sr_ref2)
-              end do
-            else
-              var(1:nel) = epsp(1:nel)/sr_ref2
-            end if
-            iad (1:nel) = npf(ifunc(2)) / 2 + 1
-            ilen(1:nel) = npf(ifunc(2)+1) / 2 - iad(1:nel) - vartmp(1:nel,5)
-            call vinter2(tf,iad,vartmp(1:nel,5),ilen,nel,var,dft,ratefac)
-            ratefac(1:nel) = fscale_sr*ratefac(1:nel)
-          else if (cjc > zero) then
-            do i=1,nel
-              if (epsp(i) > sr_ref2) then
-                ratefac(i) = one + cjc*log(epsp(i)/sr_ref2)
-              else
-                ratefac(i) = one
-              end if
-            end do
+      if (fail%table4d(2)%notable > 0) then
+        if (log_scale2 > 0) then
+          do i = 1,nel 
+            lambda(i) = log(max(epsp(i),em20)/sr_ref2)
+          enddo 
+        else
+          lambda(1:nel) = epsp(1:nel)/sr_ref2
+        endif
+        call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp(1:nel,2:2),lambda,ratefac,dydx)
+      else if (cjc > zero) then
+        do i=1,nel
+          if (epsp(i) > sr_ref2) then 
+            ratefac(i) = one + cjc*log(epsp(i)/sr_ref2)
           else
-            ratefac(1:nel) = one
-          end if
-!c
-          ! compute the damage limit value
-          if (ifunc(3) > 0) then
-            do i = 1,nel
-              lambda  = triax(i)
-              dlim(i) = finter(ifunc(3),lambda,npf,tf,df)
-              dlim(i) = fscale_dlim*dlim(i)
-              dlim(i) = min(dlim(i),one)
-              dlim(i) = max(dlim(i),zero)
-            end do
-          else
-            dlim(1:nel) = one
-          end if
+            ratefac(i) = one
+          endif
+        enddo
+      else
+        ratefac(1:nel) = one
+      end if
+     ! Compute the damage limit value
+      if (fail%table4d(3)%notable > 0) then
+        call table_mat_vinterp(fail%table4d(3),nel,nel,vartmp(1:nel,3:3),triax,dlim,dydx)
+        do i = 1,nel 
+          dlim(i) = min(dlim(i),one)
+          dlim(i) = max(dlim(i),zero)
+        enddo
+      else
+        dlim(1:nel) = one
+      endif
 !c
           !====================================================================
           ! - computation of plastic strain at failure
           !====================================================================
-          if (itab_epsf > 0) then
-            ! failure plastic strain map dependency
-            ndim = table(itab_epsf)%ndim
-            select case (ndim)
-              ! failure plastic strain vs triaxiality
-             case (1)
-              xvec(1:nel,1)   = triax(1:nel)
-              xvec(1:nel,2:3) = zero
-              ! failure plastic strain vs triaxiality vs lode parameter
-             case (2)
-              xvec(1:nel,1)   = triax(1:nel)
-              xvec(1:nel,2)   = xi(1:nel)
-              xvec(1:nel,3)   = zero
-              ! failure plastic strain vs triaxiality vs lode parameter vs temperature
-             case (3)
-              xvec(1:nel,1)   = triax(1:nel)
-              xvec(1:nel,2)   = xi(1:nel)
-              xvec(1:nel,3)   = temp(1:nel)/temp_ref
-            end select
-            call table_vinterp(table(itab_epsf),nel,nel,vartmp(1:nel,6),xvec,epsf,depsf)
-            epsf(1:nel) = epsf(1:nel)*fcrit
-          else
-            epsf(1:nel) = fcrit
-          end if
+       if (fail%table4d(5)%notable > 0) then
+        xvec(1:nel,1)   = triax(1:nel)
+        xvec(1:nel,2)   = xi(1:nel)
+        xvec(1:nel,3)   = temp(1:nel)/temp_ref
+        if (fail%table4d(5)%ndim == 3) tempfac(1:nel)  = one
+        call table_mat_vinterp(fail%table4d(5),nel,nel,vartmp(1:nel,5),xvec,epsf,dydx)
+      else
+        epsf(1:nel) = fcrit
+      end if
 !c
           !====================================================================
           ! - computation of plastic strain at necking
           !====================================================================
-          if (itab_inst > 0) then
-            ! instability plastic strain map dependency
-            ndim = table(itab_inst)%ndim
-            select case (ndim)
-              ! instability plastic strain vs triaxiality
-             case(1)
-              xvec(1:nel,1)   = triax(1:nel)
-              xvec(1:nel,2:3) = zero
-              call table_vinterp(table(itab_inst),nel,nel,vartmp(1:nel,9),xvec,epsl,depsl)
-              ! instability plastic strain vs triaxiality vs lode
-             case(2)
-              xvec(1:nel,1)   = triax(1:nel)
-              xvec(1:nel,2)   = xi(1:nel)
-              xvec(1:nel,3)   = zero
-              ! instability plastic strain vs triaxiality vs lode vs temperature
-             case(3)
-              xvec(1:nel,1)   = triax(1:nel)
-              xvec(1:nel,2)   = xi(1:nel)
-              xvec(1:nel,3)   = temp(1:nel)/temp_ref
-            end select
-            epsl(1:nel) = epsl(1:nel)*ecrit
-          else if (ecrit > zero) then
-            epsl(1:nel) = ecrit
-          end if
+      if (fail%table4d(6)%notable > 0) then     ! Instability plastic strain vs triaxiality vs Lode vs temperature
+        xvec(1:nel,1)   = triax(1:nel)
+        xvec(1:nel,2)   = xi(1:nel)
+        xvec(1:nel,3)   = temp(1:nel)/temp_ref
+        call table_mat_vinterp(fail%table4d(6),nel,nel,vartmp(1:nel,8),xvec,epsl,dydx)
+        if (fail%table4d(6)%ndim == 3) tempfac2(1:nel) = one  
+      else
+        epsl(1:nel) = ecrit
+      end if
 !c
           !====================================================================
           ! - computation of the damage variable evolution
