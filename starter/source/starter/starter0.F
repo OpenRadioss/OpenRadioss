@@ -876,7 +876,7 @@ c       start CPU timer for lectur
 C--------------------------------------------------
 C      Checksum option
 C--------------------------------------------------
-       call hm_read_checksum(LENI,INPUT,LENP,PATH,OUTPUT)
+       call hm_read_checksum(LENI,INPUT,LENP,PATH,OUTPUT,IS_DYNA)
 C--------------------------------------------------
 C      Main reading routine
 C--------------------------------------------------

@@ -35,11 +35,12 @@
         implicit none
 
         interface
-          function deck_checksum_creation( len_filename, filename) bind (C, name="deck_checksum_creation")
+          function deck_checksum_creation( len_filename, filename,is_dyna) bind (C, name="deck_checksum_creation")
             use, intrinsic :: iso_c_binding
             integer(C_INT), value :: len_filename
             type(C_PTR),value  :: filename
             type(C_PTR) :: deck_checksum_creation
+            integer(C_INT), value :: is_dyna
           end function deck_checksum_creation
 
           function deck_checksum_count(checksum_list) bind (C, name="deck_checksum_count")
@@ -79,7 +80,7 @@
 !||--- uses       -----------------------------------------------------
 !||    file_descriptor_mod    ../starter/source/modules/file_descriptor_mod.F90
 !||====================================================================
-        subroutine hm_read_checksum(leni,input,lenp,path,output)
+        subroutine hm_read_checksum(leni,input,lenp,path,output,is_dyna)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -99,6 +100,7 @@
           character(len=lenp), intent(in) :: path
           type(output_), intent(inout) :: output
 ! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in) :: is_dyna
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i
@@ -120,7 +122,7 @@
 
             filename = path(1:lenp)//input(1:leni)//c_null_char
             output%checksum%files_checksum = new_file_checksum_list()
-            output%checksum%checksum_list=deck_checksum_creation(LENI+LENP+1,c_loc(filename))   ! Creates the checksum list / Commputes the MD5 digests
+            output%checksum%checksum_list=deck_checksum_creation(LENI+LENP+1,c_loc(filename),is_dyna)   ! Creates the checksum list / Commputes the MD5 digests
             checksum_digest_count=deck_checksum_count(output%checksum%checksum_list)  ! Count real number of checksums il list
 
             ! Print the checksum list in the output file

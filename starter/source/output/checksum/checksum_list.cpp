@@ -569,7 +569,8 @@ std::string List_checksum::get_path(const std::string& filepath) {
          // If deck is present:
         // Compute checksum from input deck
         MD5Checksum my_checksums;
-        my_checksums.parse(deck_file);
+        int is_dyna=0;
+        my_checksums.parse(deck_file,is_dyna);
         list<string> deck_checksum_list=my_checksums.get_checksums();    // Compute checksum from input deck
 
         // Add Starter computed checksum to the list

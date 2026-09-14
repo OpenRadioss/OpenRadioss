@@ -32,6 +32,12 @@ using namespace std;
      line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
   }
 
+  void MD5Checksum::remove_trailing_spaces(std::string& line) {
+     line.erase(std::find_if(line.rbegin(), line.rend(), [](unsigned char ch) {
+         return !std::isspace(ch);
+     }).base(), line.end());
+  }
+
   // -----------------------------------------------------------------------------------
   // Tool : Return the separator for the file path according to the OS
   // output:
@@ -227,6 +233,163 @@ using namespace std;
        return 0;
       }
 
+      int  MD5Checksum::file_read_dyna(string filename,string deck_directory,int level,list<tuple<int,string, md5_state_t, string>> *md5_states_tmp, list<string> inc_list){
+  // -----------------------------------------------------------------------------------------------------------------------------
+       string chksum_start=( "*HASH");
+       string chksum_end=(   "*HASH_END");
+       string chksum_include=( "*INCLUDE");
+       string chksum_include_transform=( "*INCLUDE_TRANSFORM");
+       string chksum_include_path=( "*INCLUDE_PATH");
+       string chksum_include_path_relative=( "*INCLUDE_PATH_RELATIVE");
+       fstream new_file;
+
+       new_file.open(filename, ios::in);
+       if ( !new_file.is_open() ) {
+          for (const auto& path : inc_list) {
+              if (debug) cout << "Searching for include file: " << path + separator() + filename << endl;
+              string include_file = path + separator() + filename; // Get the path of the file
+              new_file.open(include_file, ios::in);
+              if (new_file.is_open()) {
+                  if (debug){
+                      cout << "Include file found: " << include_file << endl;
+                  }
+                  break; // Exit the loop if the file is found
+              }
+          }
+       }
+
+       // Stop  after 15 levels of recursion
+       if (level > 15) return 0;
+
+       if ( !new_file.is_open() ) {
+          return -1;
+       }
+
+       string line;
+
+       list<string> path_list=inc_list; // Initialize the path list with the include paths passed as argument
+       // Parse one time to find *INCLUDE_PATH & *INCLUDE_PATH_RELATIVE
+          bool next_read = true;
+          bool next_option=false;
+          if (!getline(new_file, line)) { next_read = false; }
+         
+          while (next_read) {
+          remove_carriage_return(line); // Remove carriage return characters
+          remove_trailing_spaces(line); // Remove trailing spaces
+
+          if (line == chksum_include_path){
+             // *INCLUDE_PATH found, read the next lines until a line starting with * or empty line is found
+             bool loop=true;
+             if (!getline(new_file, line) ) { loop = false; }
+             while (loop) {
+                remove_carriage_return(line);
+                remove_trailing_spaces(line);
+                if (line.empty() || line[0] == '*') { loop = false; next_option=true;} // *INCLUDE_PATH section finished, shouyld not read in main look
+                if ( !line.empty() && line[0] != '$' && line[0] != '*') { 
+                     path_list.push_front(line);
+                     if (debug){ cout << "Include path found: " << line << endl;  }
+               }
+               if (loop == true) { if (!getline(new_file, line)) { loop = false; } }
+             }
+          }
+          
+          if (line == chksum_include_path_relative){
+             // *INCLUDE_PATH found, read the next lines until a line starting with * or empty line is found
+             bool loop=true;
+             if (!getline(new_file, line) ) { loop = false; }
+             while (loop) {
+                remove_carriage_return(line);
+                if (line.empty() || line[0] == '*') { loop = false; next_option=true;} // *INCLUDE_PATH_RELATIVE section finished, shouyld not read in main look
+                if ( !line.empty() && line[0] != '$' && line[0] != '*') { 
+                     path_list.push_front(line);
+                     if (debug){ cout << "Include path relative found: " << line << endl;  }
+               }
+               if (loop == true) { if (!getline(new_file, line)) { loop = false; } }
+             }
+          }
+
+          if (!next_option) if (!getline(new_file, line)) { next_read = false; }
+          next_option=false;
+      }
+
+       // Rewind 
+       new_file.clear(); // Clear EOF flag
+       new_file.seekg(0, std::ios::beg);; // Reset file pointer to the beginning of the file
+
+       getline(new_file, line);
+       bool loop=true;
+       bool dont_read=false;
+       while (loop) {
+           dont_read=false;
+           if (line[0] != '$') { 
+               remove_carriage_return(line); // Remove carriage return characters
+               string comp=line;
+               remove_trailing_spaces(comp); // Remove trailing spaces
+               if (comp != chksum_start && comp != chksum_end) {  // Ignore the *HASH and *HASH_END lines, they are processed in the next if statements
+                   process_checksum(line,md5_states_tmp);
+               }
+               // Search for *HASH keyword
+               if (comp == chksum_start) {
+                  string title;
+                  if (!getline(new_file, line)) { loop = false; break; }
+                  while (line[0] == '$') { if (!getline(new_file, line)) { loop = false; break; } } // Skip comment lines
+                  title=line;
+                  remove_carriage_return(title); // Remove carriage return characters
+                  new_checksum(title,md5_states_tmp);
+               }
+
+               // Search for *HASH_END keyword
+               if (comp == chksum_end) {
+                  end_checksum(md5_states_tmp);
+               }
+
+
+               if (comp == chksum_include) {
+                  if (!getline(new_file, line)) { loop = false; }  
+                  while ( line[0] != '*' && loop == true ) {   // Loop over next option
+                    if (line[0] != '$'){                       // Ignore the comment lines
+                        remove_carriage_return(line);          // Remove carriage return characters
+                        process_checksum(line,md5_states_tmp);
+                        string include_file = line;
+                        remove_carriage_return(include_file); // Remove carriage return characters
+                        remove_trailing_spaces(include_file); // Remove trailing spaces
+                        file_read_dyna(include_file,deck_directory, level + 1,md5_states_tmp,path_list);
+                    }
+                    if (!getline(new_file, line)) { loop = false; }    
+                  }
+                  dont_read=true; // Do not read the next line, it has already been read in the loop
+               }
+
+                  // Search for *INCLUDE_TRANSFORM keyword
+               if (comp == chksum_include_transform) {
+                  if (!getline(new_file, line)) { loop = false; }  
+                  while ( line[0] == '$' && loop == true )  {if (!getline(new_file, line)) { loop = false; } }  // Remove all comments lines  
+                  remove_carriage_return(line); // Remove carriage return characters
+                  process_checksum(line,md5_states_tmp);
+                  string include_file = line;
+                  remove_carriage_return(include_file); // Remove carriage return characters
+                  remove_trailing_spaces(include_file); // Remove trailing spaces
+                  file_read_dyna(include_file,deck_directory, level + 1,md5_states_tmp,path_list);
+               }
+
+           }
+           if (dont_read == false) {
+               if (!getline(new_file, line)) { loop = false; }
+           }
+           dont_read=false; // Reset dont_read for the next iteration
+         
+         //cout <<dont_read << " back to loop:" << line << endl;
+
+
+        }
+
+
+       
+       new_file.close();
+       return 0;
+      }
+
+
    // --------------------------------------------------------------------------------------------------------   
    // constructor
    // --------------------------------------------------------------------------------------------------------
@@ -234,10 +397,15 @@ using namespace std;
    // --------------------------------------------------------------------------------------------------------
    {};
 
-   void MD5Checksum::parse(string filenam)  {
+   void MD5Checksum::parse(string filenam,int is_dyna)  {
       list<tuple<int,string, md5_state_t, string>>  md5_states_tmp;
       string deck_directory = get_path(filenam); // Get the directory of the file
-      file_read(filenam,deck_directory,0,&md5_states_tmp);
+      if (is_dyna == 1){
+         list<string> inc_list;
+         file_read_dyna(filenam,deck_directory,0,&md5_states_tmp,inc_list);
+      }else{
+         file_read(filenam,deck_directory,0,&md5_states_tmp);
+      }
       finalize_checksum(&md5_states_tmp); // Finalize all active checksums
       // intvert the list to have it in deck order
       for (const auto& item : md5_states_tmp){
@@ -335,7 +503,7 @@ using namespace std;
 // To be called from Starter.
 
 extern "C" {
-  MD5Checksum * deck_checksum_creation(int len_filename,char filename[]) {
+  MD5Checksum * deck_checksum_creation(int len_filename,char filename[],int is_dyna) {
     int i;
 
     MD5Checksum * md_compute = new MD5Checksum();
@@ -346,7 +514,7 @@ extern "C" {
     c_filename[len_filename]='\0';
     string cpp_filename(c_filename);
     
-    md_compute->parse(cpp_filename);
+    md_compute->parse(cpp_filename,is_dyna);
     return md_compute;
   }
 
