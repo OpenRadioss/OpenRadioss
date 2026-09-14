@@ -140,12 +140,12 @@ c---------------------------
       ENDIF         
 c---------------------------
  1000 FORMAT(
-     & 5X,40H    WILKINS DAMAGE MODEL                  /,
-     & 5X,40H    --------------------                  /,
-     & 5X,40HHYDROSTATIC PRESSURE COEFFICIENT. . . .=,1PE20.13/,
-     & 5X,40HDEVIATORC COEFFICIENT   . . . . . . . .=,1PE20.13/,
-     & 5X,40HLIMITE PRESSION     . . . . . . . . . .=,1PE20.13/,
-     & 5X,40HCRITICAL DAMAGE     . . . . . . . . . .=,1PE20.13/     )
+     & 5X,'    WILKINS DAMAGE MODEL                '  /,
+     & 5X,'    --------------------                '  /,
+     & 5X,'HYDROSTATIC PRESSURE COEFFICIENT. . . .=',1PE20.13/,
+     & 5X,'DEVIATORC COEFFICIENT   . . . . . . . .=',1PE20.13/,
+     & 5X,'LIMITE PRESSION     . . . . . . . . . .=',1PE20.13/,
+     & 5X,'CRITICAL DAMAGE     . . . . . . . . . .=',1PE20.13/     )
  1100 FORMAT(
      & 5X,'   SHELL ELEMENT DELETION ') 
  2100 FORMAT(

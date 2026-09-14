@@ -228,8 +228,8 @@ c-------------------
       RETURN
 c-------------------
  1000 FORMAT(
-     & 5X,40H  SOIL & CONCRETE                       ,/,
-     & 5X,40H  ---------------                       ,//)
+     & 5X,'  SOIL AND CONCRETE                     ',/,
+     & 5X,'  -----------------                     ',//)
  1100 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
@@ -238,23 +238,23 @@ c-------------------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY  .  . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
-     & 5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HSHEAR MODULUS . . . . . . . . . . . . .=,E12.4//)
+     & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',1PG20.13//)
  1400 FORMAT(
-     & 5X,40HYIELD COEFFICIENT A0. . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD COEFFICIENT A1. . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD COEFFICIENT A2. . . . . . . . . .=,E12.4/,
-     & 5X,40HA-MAX . . . . . . . . . . . . . . . . .=,E12.4//)
+     & 5X,'YIELD COEFFICIENT A0. . . . . . . . . .=',1PG20.13/,
+     & 5X,'YIELD COEFFICIENT A1. . . . . . . . . .=',1PG20.13/,
+     & 5X,'YIELD COEFFICIENT A2. . . . . . . . . .=',1PG20.13/,
+     & 5X,'A-MAX . . . . . . . . . . . . . . . . .=',1PG20.13//)
  1500 FORMAT(
-     & 5X,40HPRESSURE FUNCTION NUMBER. . . . . . . .=,I8/,
-     & 5X,40HPRESSURE FUNCTION SCALE FACTOR. . . . .=,E12.4/,
-     & 5X,40HTENSILE BULK. . . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HUNLOADING BULK. . . . . . . . . . . . .=,E12.4/,
-     & 5X,40HMAX VOLUMIC COMPRESSION . . . . . . . .=,E12.4/,
-     & 5X,40HFRACTURE PRESSURE . . . . . . . . . . .=,E12.4/,
-     & 5X,40HEXTERNAL PRESSURE . . . . . . . . . . .=,E12.4/,
-     & 5X,40HYIELD SURFACE PRESSURE ROOT . . . . . .=,E12.4//)
+     & 5X,'PRESSURE FUNCTION NUMBER. . . . . . . .=',I10/,
+     & 5X,'PRESSURE FUNCTION SCALE FACTOR. . . . .=',1PG20.13/,
+     & 5X,'TENSILE BULK. . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'UNLOADING BULK. . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'MAX VOLUMIC COMPRESSION . . . . . . . .=',1PG20.13/,
+     & 5X,'FRACTURE PRESSURE . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'EXTERNAL PRESSURE . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'YIELD SURFACE PRESSURE ROOT . . . . . .=',1PG20.13//)
 c-------------------
       RETURN
       END

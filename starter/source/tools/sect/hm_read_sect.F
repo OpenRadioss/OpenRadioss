@@ -788,7 +788,7 @@ C-------------------------------------------------------------
      + '        NUMBER OF BEAM ELEMENTS . . . . .',I10/
      + '   BEAM      N1      N2')
  3700 FORMAT(/
-     + '        NUMBER OF SPRING ELEMENTS . . . . .',I8/
+     + '        NUMBER OF SPRING ELEMENTS . . . . .',I10/
      + '   SPRING      N1      N2')
 C
       RETURN

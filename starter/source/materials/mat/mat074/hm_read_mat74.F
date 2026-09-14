@@ -306,8 +306,8 @@ C
 C
       RETURN
  1000 FORMAT(
-     & 5X,50H  TABULATED HILL ORTHOTROPIC PLASTICITY FOR SOLIDS,/,
-     & 5X,50H  ------------------------------------------------,//)
+     & 5X,'  TABULATED HILL ORTHOTROPIC PLASTICITY FOR SOLIDS',/,
+     & 5X,'  ------------------------------------------------',//)
  1001 FORMAT(
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
