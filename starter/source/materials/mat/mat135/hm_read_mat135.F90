@@ -121,7 +121,7 @@
           call hm_option_is_encrypted(is_encrypted)
           !------------------------------------------
 !card1 - Density
-          call hm_get_floatv('RHO'   ,Rho     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv('MAT_RHO'   ,rho     ,is_available, lsubmodel, unitab)
 !card2 - Material parameters
           call hm_get_intv  ('LSD_TR'       ,LSD_TR       ,is_available, lsubmodel)
           call hm_get_intv  ('LSD_TS'       ,LSD_TS       ,is_available, lsubmodel)
