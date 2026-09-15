@@ -59,7 +59,8 @@
           time ,    iroddl,   ninivelt,      inivel_t,           &
           nparg,    ngroup,       lens,         iparg,           &
           elbuf_tab,    ms,         in,        weight,           &
-          nxframe,   t_kin,      ns10e,       icnds10)
+          nxframe,   t_kin,      ns10e,       icnds10,           &
+          ispmd )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -100,6 +101,7 @@
           integer , intent(in   )                          :: ngrsh3n   !< number tria element group
           integer , intent(in   )                          :: lens      !< dimension of work array itagvel
           integer , intent(in   )                          :: ns10e     !< number of tetra10 edges
+          integer , intent(in   )                          :: ispmd     !< domain number
           integer , intent(in   ) ,dimension(3,ns10e)      :: icnds10   !< tetra10 edge connectivity
           integer , intent(in   ) ,dimension(numnod)       :: weight    !< nodal mass weight array (spmd)
           integer , dimension(nparg,ngroup), intent(in   ) :: iparg     !< element group data array
@@ -153,9 +155,18 @@
           igbric = 0
           do n =1,ninivelt
             itype = inivel_t(n)%itype
-            if (itype /=5 ) cycle
-            sens_id = inivel_t(n)%fvm%sensor_id
-            tstart = inivel_t(n)%fvm%tstart
+            if (itype <0) cycle ! applied already
+            select case (itype)
+             case(0,1,2,3)
+              sens_id = inivel_t(n)%general%sensor_id
+              tstart = inivel_t(n)%general%tstart
+             case(4)
+              sens_id = inivel_t(n)%axis%sensor_id
+              tstart = inivel_t(n)%axis%tstart
+             case(5)
+              sens_id = inivel_t(n)%fvm%sensor_id
+              tstart = inivel_t(n)%fvm%tstart
+            end select
             tstart_s = zero
             if (sens_id>0) tstart_s = sensors%sensor_tab(sens_id)%tstart
             if (tstart==zero) then
@@ -200,9 +211,9 @@
             if (tstart1<=time) then
               id = inivel_t(n)%id
               if (tstart1==tstart_s) then
-                call ancmsg(msgid=308,anmode=aninfo,i1=id,c1="SENSOR ON")
+                if (ispmd==0) call ancmsg(msgid=308,anmode=aninfo,i1=id,c1="SENSOR ON")
               else
-                call ancmsg(msgid=308,anmode=aninfo,i1=id,c1="T_START")
+                if (ispmd==0) call ancmsg(msgid=308,anmode=aninfo,i1=id,c1="T_START")
               end if
               select case (itype)
                case(0,1,2,3)
