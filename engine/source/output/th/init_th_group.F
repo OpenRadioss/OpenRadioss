@@ -81,31 +81,36 @@ C-----------------------------------------------
         ID     = IPART(4,K)
         NENTITY = 0
 !
+        IF (ITYP == 1) OFFSET = 0
+        IF (ITYP == 2) OFFSET = NUMELS
+        IF (ITYP == 3) OFFSET = NUMELS + NUMELQ
+        IF (ITYP == 4) OFFSET = NUMELS + NUMELQ + NUMELC
+        IF (ITYP == 5) OFFSET = NUMELS + NUMELQ + NUMELC
+     .                           + NUMELT
+        IF (ITYP == 6) OFFSET = NUMELS + NUMELQ + NUMELC
+     .                           + NUMELT + NUMELP
+        IF (ITYP == 7) OFFSET = NUMELS + NUMELQ + NUMELC
+     .                           + NUMELT + NUMELP + NUMELR
+!
         IF (ITYP == 1) THEN  ! brick group of thpart
           NENTITY = IGRBRIC(IGRELE)%NENTITY
           ELEM   => IGRBRIC(IGRELE)%ENTITY
         ELSEIF (ITYP == 2) THEN  ! quad group of thpart
-          OFFSET = OFFSET + NUMELS
           NENTITY = IGRQUAD(IGRELE)%NENTITY
           ELEM   => IGRQUAD(IGRELE)%ENTITY
         ELSEIF (ITYP == 3) THEN  ! sh4n group of thpart
-          OFFSET = OFFSET + NUMELQ
           NENTITY = IGRSH4N(IGRELE)%NENTITY
           ELEM   => IGRSH4N(IGRELE)%ENTITY
         ELSEIF (ITYP == 4) THEN  ! truss group of thpart
-          OFFSET = OFFSET + NUMELC
           NENTITY = IGRTRUSS(IGRELE)%NENTITY
           ELEM   => IGRTRUSS(IGRELE)%ENTITY
         ELSEIF (ITYP == 5) THEN  ! beam group of thpart
-          OFFSET = OFFSET + NUMELT
           NENTITY = IGRBEAM(IGRELE)%NENTITY
           ELEM   => IGRBEAM(IGRELE)%ENTITY
         ELSEIF (ITYP == 6) THEN  ! spring group of thpart
-          OFFSET = OFFSET + NUMELP
           NENTITY = IGRSPRING(IGRELE)%NENTITY
           ELEM   => IGRSPRING(IGRELE)%ENTITY
         ELSEIF (ITYP == 7) THEN  ! SH3N group of thpart
-          OFFSET = OFFSET + NUMELR
           NENTITY = IGRSH3N(IGRELE)%NENTITY
           ELEM   => IGRSH3N(IGRELE)%ENTITY
         ENDIF ! IF (ITYP == 1)
