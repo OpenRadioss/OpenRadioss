@@ -35,7 +35,7 @@
 !||    STS_CONTACT_EVAL_PAIR    ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
 !||====================================================================
       subroutine sts_project(xupd, xi1, xi2, eta1, eta2, &
-     &     xi1_guess, xi2_guess, use_guess)
+     &     xi1_guess, xi2_guess, use_guess, istat, resid)
 
 !-----------------------------------------------
 !   M o d u l e s   /   I m p l i c i t   T y p e s
@@ -50,12 +50,16 @@
 !     eta1,eta2: Input parametric coordinates on Secondary surface
 !     xi1_guess, xi2_guess: Warm-start coordinates when use_guess is true
 !     use_guess: If true, start Newton from xi1_guess/xi2_guess
+!     istat  : 0 = converged, 1 = max iterations, 2 = singular
+!     resid  : final |dxi1|+|dxi2|
 !-----------------------------------------------          
       real*8, intent(in)    :: xupd(3,8)
       real*8, intent(inout) :: xi1, xi2
       real*8, intent(in)    :: eta1, eta2
       real*8, intent(in)    :: xi1_guess, xi2_guess
       logical, intent(in)   :: use_guess
+      integer, intent(out)  :: istat
+      real*8, intent(out)   :: resid
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -71,6 +75,10 @@
 !-----------------------------------------------
 !   Initialization - set initial guess
 !-----------------------------------------------
+      istat = 1
+      resid = HUGE(1.0d0)
+      dxi1 = 0.d0
+      dxi2 = 0.d0
       IF (use_guess) THEN
         xi1 = xi1_guess
         xi2 = xi2_guess
@@ -138,15 +146,99 @@
       
         detmPrimary = detmPrimary - e**2 + 2.d0*m_ij(1,2)*e
         
-        IF (DABS(detmPrimary) .LT. EM30) EXIT
+        IF (DABS(detmPrimary) .LT. EM30) THEN
+          istat = 2
+          resid = DABS(dxi1) + DABS(dxi2)
+          RETURN
+        ENDIF
         dxi1 = (m_ij(2,2)*f(1) + (e-m_ij(1,2))*f(2))/detmPrimary
         dxi2 = (m_ij(1,1)*f(2) + (e-m_ij(2,1))*f(1))/detmPrimary
         
         xi1 = xi1 + dxi1
         xi2 = xi2 + dxi2
+        resid = DABS(dxi1) + DABS(dxi2)
 
-        IF (DABS(dxi1) + DABS(dxi2) .LT. STS_PROJ_TOL) EXIT
+        IF (resid .LT. STS_PROJ_TOL) THEN
+          istat = 0
+          RETURN
+        ENDIF
       ENDDO
       
+      istat = 1
+      RETURN
+      END
+
+!=======================================================================
+!   STS_PROJECT_EDGE_REFINE
+!
+!   After an independent (xi1,xi2) clamp, re-minimize the free coordinate
+!   along the clamped edge with a short 1D Newton. Corner cases leave
+!   both coordinates clamped.
+!=======================================================================
+      subroutine sts_project_edge_refine(xupd, xi1, xi2, eta1, eta2)
+      use constant_mod
+      implicit none
+      real*8, intent(in)    :: xupd(3,8)
+      real*8, intent(inout) :: xi1, xi2
+      real*8, intent(in)    :: eta1, eta2
+      INTEGER, PARAMETER :: MAX_EDGE_ITER = 3
+      real*8, PARAMETER :: EDGE_TOL = 1.d-10
+      INTEGER i, j, iter
+      real*8 shape(3,4), N_eta(3,4)
+      real*8 rho(3), rhoxi1(3), rhoxi2(3), xsl(3)
+      real*8 f1, f2, g11, g22, dxi
+      logical fix1, fix2
+
+      fix1 = (DABS(DABS(xi1) - 1.0d0) .LT. 1.0d-14)
+      fix2 = (DABS(DABS(xi2) - 1.0d0) .LT. 1.0d-14)
+      IF (.NOT. fix1 .AND. .NOT. fix2) RETURN
+      IF (fix1 .AND. fix2) RETURN
+
+      call sts_shape(eta1, eta2, N_eta)
+      xsl(1) = 0.d0
+      xsl(2) = 0.d0
+      xsl(3) = 0.d0
+      DO j=1,4
+        xsl(1) = xsl(1) + N_eta(1,j)*xupd(1,j+4)
+        xsl(2) = xsl(2) + N_eta(1,j)*xupd(2,j+4)
+        xsl(3) = xsl(3) + N_eta(1,j)*xupd(3,j+4)
+      ENDDO
+
+      DO iter = 1, MAX_EDGE_ITER
+        call sts_shape(xi1, xi2, shape)
+        DO i=1,3
+          rho(i) = 0.d0
+          rhoxi1(i) = 0.d0
+          rhoxi2(i) = 0.d0
+          DO j=1,4
+            rho(i) = rho(i) + shape(1,j)*xupd(i,j)
+            rhoxi1(i) = rhoxi1(i) + shape(2,j)*xupd(i,j)
+            rhoxi2(i) = rhoxi2(i) + shape(3,j)*xupd(i,j)
+          ENDDO
+        ENDDO
+        f1 = 0.d0
+        f2 = 0.d0
+        g11 = 0.d0
+        g22 = 0.d0
+        DO i=1,3
+          f1 = f1 + (xsl(i)-rho(i))*rhoxi1(i)
+          f2 = f2 + (xsl(i)-rho(i))*rhoxi2(i)
+          g11 = g11 + rhoxi1(i)*rhoxi1(i)
+          g22 = g22 + rhoxi2(i)*rhoxi2(i)
+        ENDDO
+        IF (fix1) THEN
+          IF (DABS(g22) .LT. EM30) RETURN
+          dxi = f2 / g22
+          xi2 = xi2 + dxi
+          xi2 = DMAX1(-1.0d0, DMIN1(1.0d0, xi2))
+          IF (DABS(dxi) .LT. EDGE_TOL) RETURN
+        ELSE
+          IF (DABS(g11) .LT. EM30) RETURN
+          dxi = f1 / g11
+          xi1 = xi1 + dxi
+          xi1 = DMAX1(-1.0d0, DMIN1(1.0d0, xi1))
+          IF (DABS(dxi) .LT. EDGE_TOL) RETURN
+        ENDIF
+      ENDDO
       RETURN
       END

@@ -45,6 +45,7 @@
 !||    sts_penetr                   ../engine/source/interfaces/ists/ists_penetr.F90
 !||    sts_pos                      ../engine/source/interfaces/ists/ists_pos.F90
 !||    sts_project                  ../engine/source/interfaces/ists/ists_projection.F90
+!||    sts_project_edge_refine      ../engine/source/interfaces/ists/ists_projection.F90
 !||    sts_shape                    ../engine/source/interfaces/ists/ists_shape_fct.F90
 !||    sts_surfgeom                 ../engine/source/interfaces/ists/ists_sufgeom.F90
 !||--- uses       -----------------------------------------------------
@@ -62,7 +63,7 @@
       &                   ECONTT_PAIR, ECONVT_PAIR, MS, NOINT, VISC, IVIS2, &
       &                   VISCFFRIC, DT2T, NELTST, ITYPTST, &
       &                   COMMIT_CONTACT, PROBE_SCORE, VALID_GP, MIN_PENE, &
-      &                   SEC_AREA_CACHE, USE_FN_PARTITION, DT1, DTFAC1_10)
+      &                   SEC_AREA_CACHE, DT1, DTFAC1_10)
 !-----------------------------------------------
 !   M o d u l e s   /   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -127,9 +128,6 @@
 !     SEC_AREA_CACHE: optional secondary-segment area reuse across masters probe
       REAL*8, INTENT(INOUT)  :: SEC_AREA_CACHE
       
-!     USE_FN_PARTITION: .TRUE. → probe (pair check) accumulates and scales FN weights.
-!     .FALSE. → single-master path; w_scale=1.
-      LOGICAL, INTENT(IN)    :: USE_FN_PARTITION
       real(kind=WP), INTENT(IN)    :: DT1, DTFAC1_10
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
@@ -187,9 +185,15 @@
       real*8 x_gp, y_gp, z_gp
       real*8 sec_area, da_gp
       real*8 seg_t1(3), seg_t2(3), seg_cross(3)
-      real*8 w_raw, w_scale
-      real*8, parameter :: STS_FN_W_EPS = 1.0d-3
+      real*8, parameter :: STS_H_FLOOR_FRAC = 5.0d-2
       real*8 rho_mst(3), dist_eucl, dist2, gap2
+      INTEGER proj_istat
+      real*8 proj_res
+      INTEGER geom_ok
+      real*8 clear_for_skip
+      logical clamped_xi
+      real*8 xi1_raw, xi2_raw
+      real*8 rn_len
 !-----------------------------------------------
 !   I n i t i a l i z a t i o n
 !-----------------------------------------------
@@ -296,28 +300,44 @@
           
           ! Reuse same-cycle probe xi on commit (skip second Newton).
           use_probe_xi = .FALSE.
+          clamped_xi = .FALSE.
           IF (COMMIT_CONTACT .AND. gp_index .GT. 0) THEN
             IF (ALLOCATED(GP_PROBE_XI_VALID)) THEN
               IF (GP_PROBE_XI_VALID(gp_index)) THEN
                 xi1 = GP_PROBE_XI1(gp_index)
                 xi2 = GP_PROBE_XI2(gp_index)
                 use_probe_xi = .TRUE.
+                clamped_xi = (DABS(xi1) .GE. 1.0d0 - 1.0d-14) .OR. &
+     &                       (DABS(xi2) .GE. 1.0d0 - 1.0d-14)
               ENDIF
             ENDIF
           ENDIF
           IF (.NOT. use_probe_xi) THEN
             call sts_project(XUPD, xi1, xi2, eta1(z), eta2(q), &
-     &          xi1_guess, xi2_guess, have_guess)
+     &          xi1_guess, xi2_guess, have_guess, proj_istat, proj_res)
           
             ! NTS-like gap capsule: clamp onto the facet, then require the
             ! Euclidean distance to the clamped point to lie inside GAP.
-            ! Normal-only PENE after clamp falsely activates coplanar
-            ! neighbor masters (same plane) and causes FN chatter.
             IF ((xi1 .NE. xi1) .OR. (xi2 .NE. xi2)) THEN
               CYCLE
             END IF
+            xi1_raw = xi1
+            xi2_raw = xi2
+            ! Reject diverged unconstrained solves instead of clamping to a
+            ! spurious corner contact.
+            IF (proj_istat /= 0 .AND. &
+     &          (DABS(xi1_raw) .GT. 2.0d0 .OR. DABS(xi2_raw) .GT. 2.0d0)) THEN
+              IF (COMMIT_CONTACT .AND. gp_index .GT. 0) &
+     &          CALL sts_gp_reset_slot(gp_index)
+              CYCLE
+            ENDIF
             xi1 = DMAX1(-1.0d0, DMIN1(1.0d0, xi1))
             xi2 = DMAX1(-1.0d0, DMIN1(1.0d0, xi2))
+            clamped_xi = (DABS(xi1_raw) .GT. 1.0d0) .OR. &
+     &                   (DABS(xi2_raw) .GT. 1.0d0)
+            IF (clamped_xi) THEN
+              call sts_project_edge_refine(XUPD, xi1, xi2, eta1(z), eta2(q))
+            ENDIF
 
             IF (.NOT. COMMIT_CONTACT .AND. gp_index .GT. 0) THEN
               CALL sts_gp_stash_probe_xi(gp_index, xi1, xi2)
@@ -330,7 +350,12 @@
           
           ! Calculate surface geometry and metrics
           call sts_surfgeom(XUPD, daxi1, daxi2, daeta1, daeta2, norm_contact, &
-     &                    rhoxi1, rhoxi2, m_ij, detm, mij, detmPrimary)
+     &                    rhoxi1, rhoxi2, m_ij, detm, mij, detmPrimary, geom_ok)
+          IF (geom_ok == 0) THEN
+            IF (COMMIT_CONTACT .AND. gp_index .GT. 0) &
+     &        CALL sts_gp_reset_slot(gp_index)
+            CYCLE
+          ENDIF
 !         Dimensionless partition-of-unity weight.
           area_weight = wi1(z) * wi2(q) * dsqrt(detm) / sec_area
 
@@ -389,28 +414,40 @@
           ENDDO
           dist2 = (x_gp - rho_mst(1))**2 + (y_gp - rho_mst(2))**2 + &
      &            (z_gp - rho_mst(3))**2
+          dist_eucl = DSQRT(DMAX1(0.0d0, dist2))
           gap2 = GAPV * GAPV
+
+          ! Keep capsule-rejected GPs visible to the pair-activity heuristic.
+          clear_for_skip = dist_eucl - GAPV
+          valid_gp_count = valid_gp_count + 1
+          MIN_PENE = MIN(MIN_PENE, clear_for_skip)
+
           IF (dist2 > gap2) THEN
             IF (COMMIT_CONTACT .AND. gp_index .GT. 0) &
      &        CALL sts_gp_reset_slot(gp_index)
             CYCLE
           ENDIF
-          dist_eucl = DSQRT(DMAX1(0.0d0, dist2))
 
-          ! Compute signed clearance to the primary projection and orient
-          ! the primary normal toward the secondary integration point.
+          ! Orient the face normal using the signed projection residual,
+          ! then switch to the Euclidean (radial) contact law. For a
+          ! converged interior projection d == h, so interior contact is
+          ! unchanged; at edges the force is radial and continuous at d=g.
           call sts_penetr(XUPD, penetr, norm_contact, a)
           IF (penetr .LT. 0.0d0) THEN
-            penetr = -penetr
             DO i=1,3
               norm_contact(i) = -norm_contact(i)
             ENDDO
           ENDIF
-          
+          rn_len = dist_eucl
+          IF (rn_len .GT. EM20) THEN
+            norm_contact(1) = (x_gp - rho_mst(1)) / rn_len
+            norm_contact(2) = (y_gp - rho_mst(2)) / rn_len
+            norm_contact(3) = (z_gp - rho_mst(3)) / rn_len
+          ENDIF
+          penetr = dist_eucl
 
-          ! Check for penetration (signed gap residual, gated by Euclidean distance).
+          ! Check for penetration (radial gap residual).
           PENE = penetr - GAPV
-          valid_gp_count = valid_gp_count + 1
           MIN_PENE = MIN(MIN_PENE, PENE)
           ! No penetration - skip to next Gauss point
           IF (PENE .GT. 0.d0) THEN
@@ -423,12 +460,22 @@
           
           penetr = PENE
 
-          IF (DABS(GAPV) .GT. EM10) THEN
+          IF (DABS(GAPV) .GT. ZERO) THEN
             raw_gap_distance = GAPV + PENE
-            gap_distance = MAX(raw_gap_distance, EM10)
-            FAC = DABS(GAPV) / gap_distance
+            IF (clamped_xi) THEN
+              ! Boundary-clamped: linear Type-7-like penalty avoids a large
+              ! in-plane FAC stiffening when clearance is lateral.
+              FAC = 1.0d0
+              gap_distance = MAX(raw_gap_distance, &
+     &                           STS_H_FLOOR_FRAC * DABS(GAPV))
+            ELSE
+              gap_distance = MAX(raw_gap_distance, &
+     &                           STS_H_FLOOR_FRAC * DABS(GAPV))
+              FAC = DABS(GAPV) / gap_distance
+            ENDIF
           ELSE
             raw_gap_distance = 0.0d0
+            gap_distance = EM20
             FAC = 1.0d0
           ENDIF
           d1_fric = 0.5d0 * STIF ! Tangential stiffness for friction calculation
@@ -440,18 +487,7 @@
           IMPACT = 1
           PAIR_MAX_PENETRATION = MAX(PAIR_MAX_PENETRATION, DABS(PENE))
 
-          IF (USE_FN_PARTITION) THEN
-            w_raw = DMAX1(STS_FN_W_EPS, GAPV - dist_eucl)
-            call sts_gp_canonical_nodes(node_ids(5:8), sec_key)
-            IF (.NOT. COMMIT_CONTACT) THEN
-              CALL sts_gp_fn_weight_add(sec_key, z, q, OPTION, w_raw)
-              PROBE_SCORE = PROBE_SCORE + DABS(d1 * penetr) * area_weight
-              CYCLE
-            ELSE
-              w_scale = sts_gp_fn_weight_scale(sec_key, z, q, OPTION, w_raw)
-              area_weight = area_weight * w_scale
-            ENDIF
-          ELSE IF (.NOT. COMMIT_CONTACT) THEN
+          IF (.NOT. COMMIT_CONTACT) THEN
             PROBE_SCORE = PROBE_SCORE + DABS(d1 * penetr) * area_weight
             CYCLE
           ENDIF
@@ -489,7 +525,9 @@
           
           ! Accumulate the same penalty potential used by legacy TYPE7
           ! for FAC = gap / current_clearance.
-          IF (DABS(GAPV) .GT. EM10) THEN
+          IF (clamped_xi .OR. DABS(GAPV) .LE. ZERO) THEN
+            energy = energy + 0.5d0 * d1 * penetr**2 * area_weight
+          ELSE
             clear_ratio = MAX(TINY(clear_ratio), gap_distance / DABS(GAPV))
             energy = energy + 0.5d0 * STIF * DABS(GAPV)**2 * (clear_ratio - 1.0d0 - DLOG(clear_ratio)) * area_weight
             IF (raw_gap_distance .LT. gap_distance) THEN
@@ -497,8 +535,6 @@
      &          gap_distance * (PENE**2 - &
      &          (gap_distance - DABS(GAPV))**2) * area_weight
             ENDIF
-          ELSE
-            energy = energy + 0.5d0 * d1 * penetr**2 * area_weight
           ENDIF
 
           ! Compute residual forces (normal + viscous component)

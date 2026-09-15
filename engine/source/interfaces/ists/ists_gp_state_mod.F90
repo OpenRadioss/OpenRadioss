@@ -69,16 +69,6 @@
       REAL*8 , DIMENSION(:),   ALLOCATABLE, SAVE :: GP_PROBE_XI2
       LOGICAL, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_PROBE_XI_VALID
 
-!     Per-cycle secondary-GP FN partition weights (NTS-like multi-master).
-      INTEGER :: MAX_FN_W = 0
-      REAL*8 , DIMENSION(:),   ALLOCATABLE, SAVE :: GP_FN_W_SUM
-      INTEGER, DIMENSION(:,:), ALLOCATABLE, SAVE :: GP_FN_W_SEC
-      INTEGER, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_FN_W_Z
-      INTEGER, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_FN_W_Q
-      INTEGER, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_FN_W_QUAD
-      LOGICAL, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_FN_W_OCC
-      LOGICAL, SAVE :: STS_FN_W_TABLE_FULL_WARN_DONE = .FALSE.
-
       LOGICAL, SAVE :: STS_GP_TABLE_FULL_WARN_DONE = .FALSE.
 
       CONTAINS
@@ -116,15 +106,6 @@
         CALL MY_DEALLOC(GP_PROBE_XI2)
         CALL MY_DEALLOC(GP_PROBE_XI_VALID)
       END IF
-      IF (ALLOCATED(GP_FN_W_SUM)) THEN
-        CALL MY_DEALLOC(GP_FN_W_SUM)
-        CALL MY_DEALLOC(GP_FN_W_SEC)
-        CALL MY_DEALLOC(GP_FN_W_Z)
-        CALL MY_DEALLOC(GP_FN_W_Q)
-        CALL MY_DEALLOC(GP_FN_W_QUAD)
-        CALL MY_DEALLOC(GP_FN_W_OCC)
-      END IF
-      MAX_FN_W = 0
       END SUBROUTINE sts_gp_deallocate_all
 
       !=======================================================================
@@ -391,106 +372,6 @@
       END SUBROUTINE sts_gp_stash_probe_xi
 
       !=======================================================================
-      ! Secondary-GP FN weight partition (multi-master expand)
-      !=======================================================================
-      INTEGER FUNCTION sts_gp_fn_w_hash(SEC_KEY, Z, Q, QUAD, HASH_SIZE)
-      INTEGER, INTENT(IN) :: SEC_KEY(4), Z, Q, QUAD, HASH_SIZE
-      INTEGER :: I
-      INTEGER(KIND=8) :: H
-      H = 0_8
-      DO I = 1, 4
-        H = MOD(H * INT(1315423911, KIND=8) + &
-     &      INT(SEC_KEY(I), KIND=8), INT(HASH_SIZE, KIND=8))
-      END DO
-      H = MOD(H * INT(1315423911, KIND=8) + INT(Z, KIND=8), &
-     &    INT(HASH_SIZE, KIND=8))
-      H = MOD(H * INT(1315423911, KIND=8) + INT(Q, KIND=8), &
-     &    INT(HASH_SIZE, KIND=8))
-      H = MOD(H * INT(1315423911, KIND=8) + INT(QUAD, KIND=8), &
-     &    INT(HASH_SIZE, KIND=8))
-      sts_gp_fn_w_hash = INT(H) + 1
-      END FUNCTION sts_gp_fn_w_hash
-
-      LOGICAL FUNCTION sts_gp_fn_w_keys_match(SLOT, SEC_KEY, Z, Q, QUAD)
-      INTEGER, INTENT(IN) :: SLOT, SEC_KEY(4), Z, Q, QUAD
-      INTEGER :: I
-      sts_gp_fn_w_keys_match = .FALSE.
-      IF (GP_FN_W_Z(SLOT) /= Z) RETURN
-      IF (GP_FN_W_Q(SLOT) /= Q) RETURN
-      IF (GP_FN_W_QUAD(SLOT) /= QUAD) RETURN
-      DO I = 1, 4
-        IF (GP_FN_W_SEC(I, SLOT) /= SEC_KEY(I)) RETURN
-      END DO
-      sts_gp_fn_w_keys_match = .TRUE.
-      END FUNCTION sts_gp_fn_w_keys_match
-
-      SUBROUTINE sts_gp_fn_weight_reset()
-      IF (.NOT. ALLOCATED(GP_FN_W_SUM) .OR. MAX_FN_W <= 0) RETURN
-      GP_FN_W_SUM = 0.0D0
-      GP_FN_W_OCC = .FALSE.
-      END SUBROUTINE sts_gp_fn_weight_reset
-
-      SUBROUTINE sts_gp_fn_weight_add(SEC_KEY, Z, Q, QUAD, W_RAW)
-      INTEGER, INTENT(IN) :: SEC_KEY(4), Z, Q, QUAD
-      REAL*8, INTENT(IN)  :: W_RAW
-      INTEGER :: IH, PROBE, START_IH, I
-      IF (MAX_FN_W <= 0 .OR. W_RAW <= 0.0D0) RETURN
-      START_IH = sts_gp_fn_w_hash(SEC_KEY, Z, Q, QUAD, MAX_FN_W)
-      IH = START_IH
-      PROBE = 0
-      DO WHILE (PROBE < MAX_FN_W)
-        IF (.NOT. GP_FN_W_OCC(IH)) THEN
-          DO I = 1, 4
-            GP_FN_W_SEC(I, IH) = SEC_KEY(I)
-          END DO
-          GP_FN_W_Z(IH) = Z
-          GP_FN_W_Q(IH) = Q
-          GP_FN_W_QUAD(IH) = QUAD
-          GP_FN_W_SUM(IH) = W_RAW
-          GP_FN_W_OCC(IH) = .TRUE.
-          RETURN
-        END IF
-        IF (sts_gp_fn_w_keys_match(IH, SEC_KEY, Z, Q, QUAD)) THEN
-          GP_FN_W_SUM(IH) = GP_FN_W_SUM(IH) + W_RAW
-          RETURN
-        END IF
-        IH = IH + 1
-        IF (IH > MAX_FN_W) IH = 1
-        PROBE = PROBE + 1
-      END DO
-      IF (.NOT. STS_FN_W_TABLE_FULL_WARN_DONE) THEN
-        WRITE(*,'(A)') &
-     &    ' WARNING: STS FN weight table full; multi-master partition skipped.'
-        STS_FN_W_TABLE_FULL_WARN_DONE = .TRUE.
-      END IF
-      END SUBROUTINE sts_gp_fn_weight_add
-
-      REAL*8 FUNCTION sts_gp_fn_weight_scale(SEC_KEY, Z, Q, QUAD, W_RAW)
-      INTEGER, INTENT(IN) :: SEC_KEY(4), Z, Q, QUAD
-      REAL*8, INTENT(IN)  :: W_RAW
-      INTEGER :: IH, PROBE, START_IH
-      REAL*8 :: SUMW
-      sts_gp_fn_weight_scale = 1.0D0
-      IF (MAX_FN_W <= 0 .OR. W_RAW <= 0.0D0) RETURN
-      START_IH = sts_gp_fn_w_hash(SEC_KEY, Z, Q, QUAD, MAX_FN_W)
-      IH = START_IH
-      PROBE = 0
-      DO WHILE (PROBE < MAX_FN_W)
-        IF (.NOT. GP_FN_W_OCC(IH)) RETURN
-        IF (sts_gp_fn_w_keys_match(IH, SEC_KEY, Z, Q, QUAD)) THEN
-          SUMW = GP_FN_W_SUM(IH)
-          IF (SUMW > 1.0D-30) THEN
-            sts_gp_fn_weight_scale = W_RAW / SUMW
-          END IF
-          RETURN
-        END IF
-        IH = IH + 1
-        IF (IH > MAX_FN_W) IH = 1
-        PROBE = PROBE + 1
-      END DO
-      END FUNCTION sts_gp_fn_weight_scale
-
-      !=======================================================================
       !   STS_GP_STATE_INIT
       !=======================================================================
       ! Initialize the state for the current Gauss/Lobatto point
@@ -515,7 +396,6 @@
      &    NEW_MAX_GLOBAL_GP /= MAX_GLOBAL_GP) THEN
         CALL sts_gp_deallocate_all()
         MAX_GLOBAL_GP = NEW_MAX_GLOBAL_GP
-        MAX_FN_W = NEW_MAX_GLOBAL_GP
         CALL MY_ALLOC(GP_XI1_GLOBAL, MAX_GLOBAL_GP, "GP_XI1_GLOBAL")
         CALL MY_ALLOC(GP_XI2_GLOBAL, MAX_GLOBAL_GP, "GP_XI2_GLOBAL")
         CALL MY_ALLOC(GP_XI1_GLOBAL_PREV, MAX_GLOBAL_GP, "GP_XI1_GLOBAL_PREV")
@@ -536,12 +416,6 @@
         CALL MY_ALLOC(GP_PROBE_XI1, MAX_GLOBAL_GP, "GP_PROBE_XI1")
         CALL MY_ALLOC(GP_PROBE_XI2, MAX_GLOBAL_GP, "GP_PROBE_XI2")
         CALL MY_ALLOC(GP_PROBE_XI_VALID, MAX_GLOBAL_GP, "GP_PROBE_XI_VALID")
-        CALL MY_ALLOC(GP_FN_W_SUM, MAX_FN_W, "GP_FN_W_SUM")
-        CALL MY_ALLOC(GP_FN_W_SEC, 4, MAX_FN_W, "GP_FN_W_SEC")
-        CALL MY_ALLOC(GP_FN_W_Z, MAX_FN_W, "GP_FN_W_Z")
-        CALL MY_ALLOC(GP_FN_W_Q, MAX_FN_W, "GP_FN_W_Q")
-        CALL MY_ALLOC(GP_FN_W_QUAD, MAX_FN_W, "GP_FN_W_QUAD")
-        CALL MY_ALLOC(GP_FN_W_OCC, MAX_FN_W, "GP_FN_W_OCC")
         GP_XI1_GLOBAL       = 0.0D0
         GP_XI2_GLOBAL       = 0.0D0
         GP_XI1_GLOBAL_PREV  = 0.0D0
@@ -562,14 +436,7 @@
         GP_PROBE_XI1        = 0.0D0
         GP_PROBE_XI2        = 0.0D0
         GP_PROBE_XI_VALID   = .FALSE.
-        GP_FN_W_SUM         = 0.0D0
-        GP_FN_W_SEC         = 0
-        GP_FN_W_Z           = 0
-        GP_FN_W_Q           = 0
-        GP_FN_W_QUAD        = 0
-        GP_FN_W_OCC         = .FALSE.
         STS_GP_TABLE_FULL_WARN_DONE = .FALSE.
-        STS_FN_W_TABLE_FULL_WARN_DONE = .FALSE.
       END IF
       END SUBROUTINE sts_gp_state_init
 
