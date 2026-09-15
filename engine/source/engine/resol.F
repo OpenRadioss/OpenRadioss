@@ -8986,7 +8986,7 @@ CC
      .                                TT,   IRODDL, LOADS%NINIVELT,LOADS%INIVELT,
      .                             NPARG,   NGROUP,       LENGTH,         IPARG,
      .                         ELBUF_TAB,       NODES%MS,         NODES%IN,        NODES%WEIGHT,
-     .                           NXFRAME,   T_KIN ,NS10E      ,ICNDS10 )
+     .                           NXFRAME,   T_KIN ,NS10E      ,ICNDS10 ,ISPMD )
                   OUTPUT%TH%WFEXT = OUTPUT%TH%WFEXT + T_KIN
                 END IF
 !
