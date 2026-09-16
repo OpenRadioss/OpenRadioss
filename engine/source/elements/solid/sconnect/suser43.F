@@ -558,7 +558,7 @@ C
               CALL FAIL_CONNECT(MAT_PARAM(IMAT)%FAIL(IR) ,NEL        ,                                                          
      1        NVARF     ,NVARFTMP ,FLOC%VAR  ,FLOC%VARTMP,NGL        ,                    
      2        TIME      ,TIMESTEP ,EPSZZ     ,EPSZX      ,EPSYZ      ,                           
-     4        GBUF%EPSD ,GBUF%OFF ,LBUF%OFF ,IPG         ,                     
+     4        GBUF%EPSD ,GBUF%OFF ,LBUF%OFF ,IPG         ,ISOLIDF    ,                     
      5        SIGNZZ    ,SIGNYZ   ,SIGNZX   ,DEIN        ,DEIT       ,              
      6        FLOC%DAMMX,LF_DAMMX ,FLOC%TDEL,AREAN       ,SOFT       )                                                   
 c
@@ -568,7 +568,7 @@ C
               CALL FAIL_SNCONNECT(MAT_PARAM(IMAT)%FAIL(IR),                                                          
      1        NEL        ,NVARF     ,NVARFTMP  ,FLOC%VAR  ,FLOC%VARTMP,           
      2        TIME       ,NGL       ,IPG       ,NPG       ,NDAMF     ,              
-     4        LBUF%EPSD  ,LBUF%PLA  ,GBUF%OFF  ,LBUF%OFF  ,     
+     4        LBUF%EPSD  ,LBUF%PLA  ,GBUF%OFF  ,LBUF%OFF  ,ISOLIDF   ,     
      5        SIGNZZ     ,SIGNYZ    ,SIGNZX    ,SYM       ,AREAN     ,               
      6        LBUF%DMG   ,FLOC%DAM  ,FLOC%DAMMX,FLOC%TDEL )                    
 
@@ -578,7 +578,7 @@ c
         ENDIF       ! Failure 
 c
 c--------------------------------------------------
-        ISOLID = MIN(ISOLID, ISOLIDF)
+        ISOLID = MIN(ISOLID, ISOLIDF)    
 c--------------------------------------------------
         IF (ITASK==0 .and. IMON_MAT==1) CALL STOPTIME(TIMERS,121)                                                           
 c--------------------------------------------------
