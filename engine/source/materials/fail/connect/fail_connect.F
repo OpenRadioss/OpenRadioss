@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
       SUBROUTINE FAIL_CONNECT(FAIL,NEL     ,
      1           NUVAR   ,NVARTMP ,UVAR    ,VARTMP  ,NGL     ,
      2           TIME    ,TIMESTEP,EPS1    ,EPS2    ,EPS3    ,
-     4           EPSP    ,OFFG    ,OFFL    ,IPG     ,
+     4           EPSP    ,OFFG    ,OFFL    ,IPG     ,ISOLID  ,
      5           SIGNZZ  ,SIGNYZ  ,SIGNZX  ,DEIN    ,DEIT    ,
      6           DFMAX   ,LF_DAMMX,TDELE   ,AREA    ,SOFT    )
 c-----------------------------------------------
@@ -73,7 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUVAR,NVARTMP,IPG
+      INTEGER ,INTENT(IN)    :: NEL,NUVAR,NVARTMP,IPG
+      INTEGER ,INTENT(INOUT) :: ISOLID
       INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
       INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
       my_real, DIMENSION(NEL,NUVAR)  , INTENT(INOUT) :: UVAR
@@ -86,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,NINDX,NINDXA,NINDXE,NINDXS,FUNN,FUNT,IFAILS,IFAILE,ISOLID,ISYM
+      INTEGER I,J,IDEL,NINDX,NINDXA,NINDXE,NINDXS,FUNN,FUNT,IFAILS,IFAILE,ISYM
       INTEGER, DIMENSION(NEL) :: INDX,INDXA,INDXE,INDXS
       my_real C1,C2,C3,C4,CM,DAMT,DEFO,DTIME,DSOFT,AREASCALE,
      .   MAXDN,MAXDT,MAXEI,MAXEN,MAXET,FAC1,FAC2,EXPN,EXPT,NN,NT

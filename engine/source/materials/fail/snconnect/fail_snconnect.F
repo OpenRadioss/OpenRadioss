@@ -35,7 +35,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
       SUBROUTINE FAIL_SNCONNECT (FAIL      ,
      1           NEL     ,NUVAR   ,NVARTMP ,UVAR    ,VARTMP  ,
      2           TIME    ,NGL     ,IPG     ,NPG     ,NDAMF   ,
-     4           EPSD    ,PLA     ,OFFG    ,OFFL    ,
+     4           EPSD    ,PLA     ,OFFG    ,OFFL    ,ISOLID  ,
      5           SIGNZZ  ,SIGNYZ  ,SIGNZX  ,SYM     ,AREA    ,
      6           DMG     ,DAMT    ,DFMAX   ,TDELE   )
 C-----------------------------------------------
@@ -67,8 +67,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUVAR,NVARTMP,IPG,NPG,NDAMF
-      INTEGER ,INTENT(IN) :: NGL(NEL)
+      INTEGER ,INTENT(IN)    :: NEL,NUVAR,NVARTMP,IPG,NPG,NDAMF
+      INTEGER ,INTENT(INOUT) :: ISOLID
+      INTEGER ,INTENT(IN)    :: NGL(NEL)
       INTEGER ,DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
       my_real, DIMENSION(NEL,NUVAR)  , INTENT(INOUT) :: UVAR
       my_real :: TIME
@@ -79,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer i,j,idel,nindx,nindxd,nindxa,isolid,isym
+      integer i,j,idel,nindx,nindxd,nindxa,isym
       integer indx(nel),indxd(nel),indxa(nel)
       my_real a2,b2,a3,b3,xscale2,xscale3,svmn,svmt,t1,t2,ttn,tts,fct,
      .  dama,ssym,cphi,sphi,areascale,defo

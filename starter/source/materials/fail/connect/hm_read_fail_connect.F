@@ -196,7 +196,7 @@ c
 c
       FAIL%IPARAM(1)  = IFAILS
       FAIL%IPARAM(2)  = IFAILE
-      FAIL%IPARAM(3)  = ISOLID
+      FAIL%IPARAM(3)  = NFAIL
       FAIL%IPARAM(4)  = ISYM
 c
       FAIL%UPARAM(1)  = MAXDN
