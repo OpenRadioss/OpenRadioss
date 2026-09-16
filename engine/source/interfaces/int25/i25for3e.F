@@ -160,7 +160,7 @@ C-----------------------------------------------
      .   K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
      .   C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      . CX,CY,CFI,AUX,GAPP
-       my_real RP1, RP2
+       my_real RP1, RP2,IMPN
 C
 C-----------------------------------------------
       IF (IRESP == 1) THEN
@@ -474,32 +474,53 @@ C---------------------------------
           FXI(I)=NX(I)*FNI(I)
           FYI(I)=NY(I)*FNI(I)
           FZI(I)=NZ(I)*FNI(I)
-          IMPX=FXI(I)*DT12
-          IMPY=FYI(I)*DT12
-          IMPZ=FZI(I)*DT12
+          
+          IF(IBM(I)>=0) THEN
+            IMPX=TWO*FXI(I)*DT12
+            IMPY=TWO*FYI(I)*DT12
+            IMPZ=TWO*FZI(I)*DT12
+            IMPN=TWO*FNI(I)*DT12
+          ELSE
+            IMPX=FXI(I)*DT12
+            IMPY=FYI(I)*DT12
+            IMPZ=FZI(I)*DT12
+            IMPN=FNI(I)*DT12
+          ENDIF
           IF (IMS2 ) THEN
             FSAV1 =FSAV1 -IMPX
             FSAV2 =FSAV2 -IMPY
             FSAV3 =FSAV3 -IMPZ
-            FSAV11=FSAV11-FNI(I)*DT12
+            FSAV11=FSAV11-IMPN
           ELSE
             FSAV1 =FSAV1 +IMPX
             FSAV2 =FSAV2 +IMPY
             FSAV3 =FSAV3 +IMPZ
-            FSAV11=FSAV11+FNI(I)*DT12
+            FSAV11=FSAV11+IMPN
           END IF
           FSAV8 =FSAV8 +ABS(IMPX)
           FSAV9 =FSAV9 +ABS(IMPY)
           FSAV10=FSAV10+ABS(IMPZ)
           IF(ISENSINT(1)/=0) THEN
             IF (IMS2  ) THEN
-              FSAVPARIT(1,1,I) =  -FXI(I)
-              FSAVPARIT(1,2,I) =  -FYI(I)
-              FSAVPARIT(1,3,I) =  -FZI(I)
+              IF(IBM(I)>=0) THEN
+                FSAVPARIT(1,1,I) =  -TWO*FXI(I)
+                FSAVPARIT(1,2,I) =  -TWO*FYI(I)
+                FSAVPARIT(1,3,I) =  -TWO*FZI(I)
+              ELSE
+                FSAVPARIT(1,1,I) =  -FXI(I)
+                FSAVPARIT(1,2,I) =  -FYI(I)
+                FSAVPARIT(1,3,I) =  -FZI(I)
+              ENDIF
             ELSE
-              FSAVPARIT(1,1,I) =  FXI(I)
-              FSAVPARIT(1,2,I) =  FYI(I)
-              FSAVPARIT(1,3,I) =  FZI(I)
+              IF(IBM(I)>=0) THEN
+                FSAVPARIT(1,1,I) =  TWO*FXI(I)
+                FSAVPARIT(1,2,I) =  TWO*FYI(I)
+                FSAVPARIT(1,3,I) =  TWO*FZI(I)
+              ELSE
+                FSAVPARIT(1,1,I) =  FXI(I)
+                FSAVPARIT(1,2,I) =  FYI(I)
+                FSAVPARIT(1,3,I) =  FZI(I)
+              ENDIF
             END IF
           ENDIF
         ENDDO
@@ -509,20 +530,36 @@ C---------------------------------
           FXI(I)=NX(I)*FNI(I)
           FYI(I)=NY(I)*FNI(I)
           FZI(I)=NZ(I)*FNI(I)
-          IMPX=FXI(I)*DT12
-          IMPY=FYI(I)*DT12
-          IMPZ=FZI(I)*DT12
+          IF(IBM(I)>=0) THEN
+            IMPX=TWO*FXI(I)*DT12
+            IMPY=TWO*FYI(I)*DT12
+            IMPZ=TWO*FZI(I)*DT12
+            IMPN=TWO*FNI(I)*DT12
+          ELSE
+            IMPX=FXI(I)*DT12
+            IMPY=FYI(I)*DT12
+            IMPZ=FZI(I)*DT12
+            IMPN=FNI(I)*DT12
+          ENDIF
+
           FSAV1 =FSAV1 +IMPX
           FSAV2 =FSAV2 +IMPY
           FSAV3 =FSAV3 +IMPZ
           FSAV8 =FSAV8 +ABS(IMPX)
           FSAV9 =FSAV9 +ABS(IMPY)
           FSAV10=FSAV10+ABS(IMPZ)
-          FSAV11=FSAV11+FNI(I)*DT12
+          FSAV11=FSAV11+IMPN
+
           IF(ISENSINT(1)/=0) THEN
-            FSAVPARIT(1,1,I) =  FXI(I)
-            FSAVPARIT(1,2,I) =  FYI(I)
-            FSAVPARIT(1,3,I) =  FZI(I)
+            IF(IBM(I)>=0) THEN
+              FSAVPARIT(1,1,I) =  TWO*FXI(I)
+              FSAVPARIT(1,2,I) =  TWO*FYI(I)
+              FSAVPARIT(1,3,I) =  TWO*FZI(I)
+            ELSE
+              FSAVPARIT(1,1,I) =  FXI(I)
+              FSAVPARIT(1,2,I) =  FYI(I)
+              FSAVPARIT(1,3,I) =  FZI(I)
+            ENDIF
           ENDIF
         ENDDO
       END IF
@@ -575,31 +612,52 @@ C---------------------------------
                         IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                         CYCLE
                       END IF
-                      IMPX=FXI(I)*DT12
-                      IMPY=FYI(I)*DT12
-                      IMPZ=FZI(I)*DT12
+
+                      IF(IBM(I)>=0) THEN
+                        IMPX=TWO*FXI(I)*DT12
+                        IMPY=TWO*FYI(I)*DT12
+                        IMPZ=TWO*FZI(I)*DT12
+                        IMPN=TWO*FNI(I)*DT12
+                      ELSE
+                        IMPX=FXI(I)*DT12
+                        IMPY=FYI(I)*DT12
+                        IMPZ=FZI(I)*DT12
+                        IMPN=FNI(I)*DT12
+                      ENDIF
 C
                       IF(IMS2 )THEN
                         FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                         FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                         FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
-                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-FNI(I)*DT12
+                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-IMPN
                       ELSE
                         FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                         FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                         FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
-                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+IMPN
                       END IF
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
                         IF(IMS2 )THEN
-                          FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
-                          FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
-                          FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                          IF(IBM(I)>=0) THEN
+                            FSAVPARIT(JSUB+1,1,I) =  -TWO*FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  -TWO*FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  -TWO*FZI(I)
+                          ELSE
+                            FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                          ENDIF
                         ELSE
-                          FSAVPARIT(JSUB+1,1,I) =  FXI(I)
-                          FSAVPARIT(JSUB+1,2,I) =  FYI(I)
-                          FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                          IF(IBM(I)>=0) THEN
+                            FSAVPARIT(JSUB+1,1,I) =  TWO*FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  TWO*FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  TWO*FZI(I)
+                          ELSE
+                            FSAVPARIT(JSUB+1,1,I) =  FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                          ENDIF
                         END IF
                       ENDIF
 C
@@ -616,9 +674,17 @@ C
 
               ELSEIF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only 1 surface
 
-                IMPX=FXI(I)*DT12
-                IMPY=FYI(I)*DT12
-                IMPZ=FZI(I)*DT12
+                IF(IBM(I)>=0) THEN
+                  IMPX=TWO*FXI(I)*DT12
+                  IMPY=TWO*FYI(I)*DT12
+                  IMPZ=TWO*FZI(I)*DT12
+                  IMPN=TWO*FNI(I)*DT12
+                ELSE
+                  IMPX=FXI(I)*DT12
+                  IMPY=FYI(I)*DT12
+                  IMPZ=FZI(I)*DT12
+                  IMPN=FNI(I)*DT12
+                ENDIF
 
 
                 FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
@@ -629,12 +695,18 @@ C
                 FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                 FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 
-                FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+IMPN
 
                 IF(ISENSINT(JSUB+1)/=0) THEN
-                  FSAVPARIT(JSUB+1,1,I) =  FXI(I)
-                  FSAVPARIT(JSUB+1,2,I) =  FYI(I)
-                  FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                  IF(IBM(I)>=0) THEN
+                    FSAVPARIT(JSUB+1,1,I) =  TWO*FXI(I)
+                    FSAVPARIT(JSUB+1,2,I) =  TWO*FYI(I)
+                    FSAVPARIT(JSUB+1,3,I) =  TWO*FZI(I)
+                  ELSE
+                    FSAVPARIT(JSUB+1,1,I) =  FXI(I)
+                    FSAVPARIT(JSUB+1,2,I) =  FYI(I)
+                    FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                  ENDIF
                 ENDIF
 
                 JJ=JJ+1
@@ -656,16 +728,28 @@ C
                         CYCLE
                       END IF
 
-                      IF(IMS2 )THEN
-                         FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
-                         FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
-                         FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
-                         FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-FNI(I)*DT12
+                      IF(IBM(I)>=0) THEN
+                        IMPX=TWO*FXI(I)*DT12
+                        IMPY=TWO*FYI(I)*DT12
+                        IMPZ=TWO*FZI(I)*DT12
+                        IMPN=TWO*FNI(I)*DT12
                       ELSE
-                         FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
-                         FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
-                         FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
-                         FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                        IMPX=FXI(I)*DT12
+                        IMPY=FYI(I)*DT12
+                        IMPZ=FZI(I)*DT12
+                        IMPN=FNI(I)*DT12
+                      ENDIF
+
+                      IF(IMS2 )THEN
+                        FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
+                        FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
+                        FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
+                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-IMPN
+                      ELSE
+                        FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
+                        FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
+                        FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
+                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+IMPN
                       ENDIF
 
                       FSAVSUB1(8,JSUB) =FSAVSUB1(8,JSUB) +ABS(IMPX)
@@ -674,16 +758,27 @@ C
 
                       IF(ISENSINT(JSUB+1)/=0) THEN
                         IF(IMS2 )THEN
-                          FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
-                          FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
-                          FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                          IF(IBM(I)>=0) THEN
+                            FSAVPARIT(JSUB+1,1,I) =  -TWO*FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  -TWO*FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  -TWO*FZI(I)
+                          ELSE
+                            FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                          ENDIF
                         ELSE
-                          FSAVPARIT(JSUB+1,1,I) =  FXI(I)
-                          FSAVPARIT(JSUB+1,2,I) =  FYI(I)
-                          FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                          IF(IBM(I)>=0) THEN
+                            FSAVPARIT(JSUB+1,1,I) =  TWO*FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  TWO*FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  TWO*FZI(I)
+                          ELSE
+                            FSAVPARIT(JSUB+1,1,I) =  FXI(I)
+                            FSAVPARIT(JSUB+1,2,I) =  FYI(I)
+                            FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                          ENDIF
                         END IF
                       ENDIF
-
 C
                     ENDIF
                     KK=KK+1
@@ -702,10 +797,18 @@ C
             KSUB=LISUBE(KK)
             ITYPSUB = TYPSUB(KSUB)
             IF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only 1 surface : main side
-
-              IMPX=-FXI(I)*DT12
-              IMPY=-FYI(I)*DT12
-              IMPZ=-FZI(I)*DT12
+              
+              IF(IBM(I)>=0) THEN
+                IMPX=-TWO*FXI(I)*DT12
+                IMPY=-TWO*FYI(I)*DT12
+                IMPZ=-TWO*FZI(I)*DT12
+                IMPN=-TWO*FNI(I)*DT12
+              ELSE
+                IMPX=-FXI(I)*DT12
+                IMPY=-FYI(I)*DT12
+                IMPZ=-FZI(I)*DT12
+                IMPN=-FNI(I)*DT12
+              ENDIF
 
               FSAVSUB1(1,KSUB)=FSAVSUB1(1,KSUB)+IMPX
               FSAVSUB1(2,KSUB)=FSAVSUB1(2,KSUB)+IMPY
@@ -715,12 +818,19 @@ C
               FSAVSUB1(9,KSUB) =FSAVSUB1(9,KSUB) +ABS(IMPY)
               FSAVSUB1(10,KSUB)=FSAVSUB1(10,KSUB)+ABS(IMPZ)
 
-              FSAVSUB1(11,KSUB)=FSAVSUB1(11,KSUB)-FNI(I)*DT12
+              FSAVSUB1(11,KSUB)=FSAVSUB1(11,KSUB)+IMPN
+
 
               IF(ISENSINT(KSUB+1)/=0) THEN
-                FSAVPARIT(KSUB+1,1,I) =  -FXI(I)
-                FSAVPARIT(KSUB+1,2,I) =  -FYI(I)
-                FSAVPARIT(KSUB+1,3,I) =  -FZI(I)
+                IF(IBM(I)>=0) THEN
+                  FSAVPARIT(KSUB+1,1,I) =  -TWO*FXI(I)
+                  FSAVPARIT(KSUB+1,2,I) =  -TWO*FYI(I)
+                  FSAVPARIT(KSUB+1,3,I) =  -TWO*FZI(I)
+                ELSE
+                  FSAVPARIT(KSUB+1,1,I) =  -FXI(I)
+                  FSAVPARIT(KSUB+1,2,I) =  -FYI(I)
+                  FSAVPARIT(KSUB+1,3,I) =  -FZI(I)
+                ENDIF
               ENDIF
 
             ENDIF
@@ -779,32 +889,54 @@ C            WRITE(6,*) "JJ=",JJ
                           IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                           CYCLE
                         END IF
-                        IMPX=FXI(I)*DT12
-                        IMPY=FYI(I)*DT12
-                        IMPZ=FZI(I)*DT12
+
+                        IF(IBM(I)>=0) THEN
+                          IMPX=TWO*FXI(I)*DT12
+                          IMPY=TWO*FYI(I)*DT12
+                          IMPZ=TWO*FZI(I)*DT12
+                          IMPN=TWO*FNI(I)*DT12
+                        ELSE
+                          IMPX=FXI(I)*DT12
+                          IMPY=FYI(I)*DT12
+                          IMPZ=FZI(I)*DT12
+                          IMPN=FNI(I)*DT12
+                        ENDIF
+
 C
                         IF(IMS2 )THEN
                           FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                           FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                           FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
-                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-FNI(I)*DT12
+                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-IMPN
                         ELSE
                           FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                           FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                           FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
-                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+IMPN
                         END IF
 C
                         IF(ISENSINT(JSUB+1)/=0) THEN
                           IF(IMS2 )THEN
-                            FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
-                            FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
-                            FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                            IF(IBM(I)>=0) THEN
+                              FSAVPARIT(JSUB+1,1,I) =  -TWO*FXI(I)
+                              FSAVPARIT(JSUB+1,2,I) =  -TWO*FYI(I)
+                              FSAVPARIT(JSUB+1,3,I) =  -TWO*FZI(I)
+                            ELSE
+                              FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
+                              FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
+                              FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                            ENDIF
                           ELSE
-                            FSAVPARIT(JSUB+1,1,I) =  FXI(I)
-                            FSAVPARIT(JSUB+1,2,I) =  FYI(I)
-                            FSAVPARIT(JSUB+1,3,I) =  FZI(I)
-                          END IF
+                            IF(IBM(I)>=0) THEN
+                              FSAVPARIT(JSUB+1,1,I) =  TWO*FXI(I)
+                              FSAVPARIT(JSUB+1,2,I) =  TWO*FYI(I)
+                              FSAVPARIT(JSUB+1,3,I) =  TWO*FZI(I)
+                            ELSE
+                              FSAVPARIT(JSUB+1,1,I) =  FXI(I)
+                              FSAVPARIT(JSUB+1,2,I) =  FYI(I)
+                              FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                            END IF
+                          ENDIF
                         ENDIF
 C
                         FSAVSUB1(8,JSUB) =FSAVSUB1(8,JSUB) +ABS(IMPX)
@@ -824,6 +956,18 @@ C
                   IMPY=FYI(I)*DT12
                   IMPZ=FZI(I)*DT12
 
+                  IF(IBM(I)>=0) THEN
+                    IMPX=TWO*FXI(I)*DT12
+                    IMPY=TWO*FYI(I)*DT12
+                    IMPZ=TWO*FZI(I)*DT12
+                    IMPN=TWO*FNI(I)*DT12
+                  ELSE
+                    IMPX=FXI(I)*DT12
+                    IMPY=FYI(I)*DT12
+                    IMPZ=FZI(I)*DT12
+                    IMPN=FNI(I)*DT12
+                  ENDIF
+
 
                   FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                   FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
@@ -833,12 +977,22 @@ C
                   FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                   FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 
-                  FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                  FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+IMPN
 
                   IF(ISENSINT(JSUB+1)/=0) THEN
                     FSAVPARIT(JSUB+1,1,I) =  FXI(I)
                     FSAVPARIT(JSUB+1,2,I) =  FYI(I)
                     FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+
+                    IF(IBM(I)>=0) THEN
+                      FSAVPARIT(JSUB+1,1,I) =  TWO*FXI(I)
+                      FSAVPARIT(JSUB+1,2,I) =  TWO*FYI(I)
+                      FSAVPARIT(JSUB+1,3,I) =  TWO*FZI(I)
+                    ELSE
+                      FSAVPARIT(JSUB+1,1,I) =  FXI(I)
+                      FSAVPARIT(JSUB+1,2,I) =  FYI(I)
+                      FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                    ENDIF
                   ENDIF
 
                   JJ=JJ+1
@@ -860,20 +1014,29 @@ C
                           CYCLE
                         END IF
 
-                        IMPX=FXI(I)*DT12
-                        IMPY=FYI(I)*DT12
-                        IMPZ=FZI(I)*DT12
+                        IF(IBM(I)>=0) THEN
+                          IMPX=TWO*FXI(I)*DT12
+                          IMPY=TWO*FYI(I)*DT12
+                          IMPZ=TWO*FZI(I)*DT12
+                          IMPN=TWO*FNI(I)*DT12
+                        ELSE
+                          IMPX=FXI(I)*DT12
+                          IMPY=FYI(I)*DT12
+                          IMPZ=FZI(I)*DT12
+                          IMPN=FNI(I)*DT12
+                        ENDIF
+
 
                         IF(IMS2)THEN
                           FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                           FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                           FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
-                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-FNI(I)*DT12
+                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-IMPN
                         ELSE
                           FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                           FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                           FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
-                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                          FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+IMPN
                         ENDIF
 
                         FSAVSUB1(8,JSUB) =FSAVSUB1(8,JSUB) +ABS(IMPX)
@@ -946,14 +1109,25 @@ C
           FYI(I)=FYI(I) + FYT(I)
           FZI(I)=FZI(I) + FZT(I)
 
-          FSAV4 = FSAV4 + FXT(I)*DT12
-          FSAV5 = FSAV5 + FYT(I)*DT12
-          FSAV6 = FSAV6 + FZT(I)*DT12
+          IF(IBM(I)>=0) THEN
+             FSAV15 = FSAV15 + TWO*SQRT(FXI(I)*FXI(I)+FYI(I)*FYI(I)+FZI(I)*FZI(I))*DT12
+             FSAV4 = FSAV4 + TWO*FXT(I)*DT12
+             FSAV5 = FSAV5 + TWO*FYT(I)*DT12
+             FSAV6 = FSAV6 + TWO*FZT(I)*DT12
 
-          FSAV12 = FSAV12 + ABS(FXI(I)*DT12)
-          FSAV13 = FSAV13 + ABS(FYI(I)*DT12)
-          FSAV14 = FSAV14 + ABS(FZI(I)*DT12)
-          FSAV15 = FSAV15 + SQRT(FXI(I)*FXI(I)+FYI(I)*FYI(I)+FZI(I)*FZI(I))*DT12
+             FSAV12 = FSAV12 + TWO*ABS(FXI(I)*DT12)
+             FSAV13 = FSAV13 + TWO*ABS(FYI(I)*DT12)
+             FSAV14 = FSAV14 + TWO*ABS(FZI(I)*DT12)
+          else
+             FSAV15 = FSAV15 + SQRT(FXI(I)*FXI(I)+FYI(I)*FYI(I)+FZI(I)*FZI(I))*DT12
+             FSAV4 = FSAV4 + FXT(I)*DT12
+             FSAV5 = FSAV5 + FYT(I)*DT12
+             FSAV6 = FSAV6 + FZT(I)*DT12
+
+             FSAV12 = FSAV12 + ABS(FXI(I)*DT12)
+             FSAV13 = FSAV13 + ABS(FYI(I)*DT12)
+             FSAV14 = FSAV14 + ABS(FZI(I)*DT12)
+          endif
           ECONVT = ECONVT
      .          + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
 
@@ -1009,30 +1183,47 @@ C---------------------------------
                         IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                         CYCLE
                       END IF
-                      IMPX=FXT(I)*DT12
-                      IMPY=FYT(I)*DT12
-                      IMPZ=FZT(I)*DT12
+                      IF(IBM(I)>=0) THEN
+                        IMPX=TWO*FXT(I)*DT12
+                        IMPY=TWO*FYT(I)*DT12
+                        IMPZ=TWO*FZT(I)*DT12
+                      ELSE
+                        IMPX=FXT(I)*DT12
+                        IMPY=FYT(I)*DT12
+                        IMPZ=FZT(I)*DT12
+                      ENDIF
 C                 main side :
                       FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                       FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
 C
-                      IMPX=FXI(I)*DT12
-                      IMPY=FYI(I)*DT12
-                      IMPZ=FZI(I)*DT12
+                      IF(IBM(I)>=0) THEN
+                        IMPX=TWO*FXI(I)*DT12
+                        IMPY=TWO*FYI(I)*DT12
+                        IMPZ=TWO*FZI(I)*DT12
+                      ELSE
+                        IMPX=FXI(I)*DT12
+                        IMPY=FYI(I)*DT12
+                        IMPZ=FZI(I)*DT12
+                      ENDIF
                       FSAVSUB1(12,JSUB)=FSAVSUB1(12,JSUB)+ABS(IMPX)
                       FSAVSUB1(13,JSUB)=FSAVSUB1(13,JSUB)+ABS(IMPY)
                       FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        FSAVPARIT(JSUB+1,4,I) =  FXT(I)
-                        FSAVPARIT(JSUB+1,5,I) =  FYT(I)
-                       FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                        IF(IBM(I)>=0) THEN
+                          FSAVPARIT(JSUB+1,4,I) =  TWO*FXT(I)
+                          FSAVPARIT(JSUB+1,5,I) =  TWO*FYT(I)
+                          FSAVPARIT(JSUB+1,6,I) =  TWO*FZT(I)
+                        ELSE
+                          FSAVPARIT(JSUB+1,4,I) =  FXT(I)
+                          FSAVPARIT(JSUB+1,5,I) =  FYT(I)
+                          FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                        ENDIF
                       ENDIF
 C
                       FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB)
      .                              +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
-c     .                              +XP(I)*IMPY-YP(I)*IMPX
 C
                     ENDIF
                     KK=KK+1
@@ -1044,31 +1235,47 @@ C
 
               ELSEIF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only secnd surface
 
-                IMPX=FXT(I)*DT12
-                IMPY=FYT(I)*DT12
-                IMPZ=FZT(I)*DT12
+                IF(IBM(I)>=0) THEN
+                  IMPX=TWO*FXT(I)*DT12
+                  IMPY=TWO*FYT(I)*DT12
+                  IMPZ=TWO*FZT(I)*DT12
+                ELSE
+                  IMPX=FXT(I)*DT12
+                  IMPY=FYT(I)*DT12
+                  IMPZ=FZT(I)*DT12
+                ENDIF
 C               main side :
                 FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                 FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                 FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
 C
-                IMPX=FXI(I)*DT12
-                IMPY=FYI(I)*DT12
-                IMPZ=FZI(I)*DT12
+                IF(IBM(I)>=0) THEN
+                  IMPX=TWO*FXI(I)*DT12
+                  IMPY=TWO*FYI(I)*DT12
+                  IMPZ=TWO*FZI(I)*DT12
+                ELSE
+                  IMPX=FXI(I)*DT12
+                  IMPY=FYI(I)*DT12
+                  IMPZ=FZI(I)*DT12
+                ENDIF
                 FSAVSUB1(12,JSUB)=FSAVSUB1(12,JSUB)+ABS(IMPX)
                 FSAVSUB1(13,JSUB)=FSAVSUB1(13,JSUB)+ABS(IMPY)
                 FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                 IF(ISENSINT(JSUB+1)/=0) THEN
-                  FSAVPARIT(JSUB+1,4,I) =  FXT(I)
-                  FSAVPARIT(JSUB+1,5,I) =  FYT(I)
-                  FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                  IF(IBM(I)>=0) THEN
+                    FSAVPARIT(JSUB+1,4,I) =  TWO*FXT(I)
+                    FSAVPARIT(JSUB+1,5,I) =  TWO*FYT(I)
+                    FSAVPARIT(JSUB+1,6,I) =  TWO*FZT(I)
+                  ELSE
+                    FSAVPARIT(JSUB+1,4,I) =  FXT(I)
+                    FSAVPARIT(JSUB+1,5,I) =  FYT(I)
+                    FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                  ENDIF
                 ENDIF
 C
                 FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB)
-     .                            +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
-c     .                              +XP(I)*IMPY-YP(I)*IMPX
-
+     .                              +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
                 JJ=JJ+1
 
               ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2Surfs
@@ -1088,9 +1295,15 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                         CYCLE
                       END IF
 
-                      IMPX=FXT(I)*DT12
-                      IMPY=FYT(I)*DT12
-                      IMPZ=FZT(I)*DT12
+                      IF(IBM(I)>=0) THEN
+                        IMPX=TWO*FXT(I)*DT12
+                        IMPY=TWO*FYT(I)*DT12
+                        IMPZ=TWO*FZT(I)*DT12
+                      ELSE
+                        IMPX=FXT(I)*DT12
+                        IMPY=FYT(I)*DT12
+                        IMPZ=FZT(I)*DT12
+                      ENDIF
 
                       IF(IMS2) THEN
                         FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
@@ -1103,22 +1316,40 @@ C                 main side :
                         FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
                       ENDIF
 C
-                      IMPX=FXI(I)*DT12
-                      IMPY=FYI(I)*DT12
-                      IMPZ=FZI(I)*DT12
+                      IF(IBM(I)>=0) THEN
+                        IMPX=TWO*FXI(I)*DT12
+                        IMPY=TWO*FYI(I)*DT12
+                        IMPZ=TWO*FZI(I)*DT12
+                      ELSE
+                        IMPX=FXI(I)*DT12
+                        IMPY=FYI(I)*DT12
+                        IMPZ=FZI(I)*DT12
+                      ENDIF
                       FSAVSUB1(12,JSUB)=FSAVSUB1(12,JSUB)+ABS(IMPX)
                       FSAVSUB1(13,JSUB)=FSAVSUB1(13,JSUB)+ABS(IMPY)
                       FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
                         IF(IMS2) THEN
-                          FSAVPARIT(JSUB+1,4,I) =  -FXT(I)
-                          FSAVPARIT(JSUB+1,5,I) =  -FYT(I)
-                          FSAVPARIT(JSUB+1,6,I) =  -FZT(I)
+                          IF(IBM(I)>=0) THEN
+                            FSAVPARIT(JSUB+1,4,I) =  -TWO*FXT(I)
+                            FSAVPARIT(JSUB+1,5,I) =  -TWO*FYT(I)
+                            FSAVPARIT(JSUB+1,6,I) =  -TWO*FZT(I)
+                          ELSE
+                            FSAVPARIT(JSUB+1,4,I) =  -FXT(I)
+                            FSAVPARIT(JSUB+1,5,I) =  -FYT(I)
+                            FSAVPARIT(JSUB+1,6,I) =  -FZT(I)
+                          ENDIF
                         ELSE
-                          FSAVPARIT(JSUB+1,4,I) =  FXT(I)
-                          FSAVPARIT(JSUB+1,5,I) =  FYT(I)
-                          FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                          IF(IBM(I)>=0) THEN
+                            FSAVPARIT(JSUB+1,4,I) =  TWO*FXT(I)
+                            FSAVPARIT(JSUB+1,5,I) =  TWO*FYT(I)
+                            FSAVPARIT(JSUB+1,6,I) =  TWO*FZT(I)
+                          ELSE
+                            FSAVPARIT(JSUB+1,4,I) =  FXT(I)
+                            FSAVPARIT(JSUB+1,5,I) =  FYT(I)
+                            FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                          ENDIF
                         ENDIF
                       ENDIF
 C
@@ -1144,31 +1375,49 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
             ITYPSUB = TYPSUB(KSUB)
             IF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only 1 surface : main side
 
-              IMPX=-FXT(I)*DT12
-              IMPY=-FYT(I)*DT12
-              IMPZ=-FZT(I)*DT12
+              IF(IBM(I)>=0) THEN
+                IMPX=-TWO*FXT(I)*DT12
+                IMPY=-TWO*FYT(I)*DT12
+                IMPZ=-TWO*FZT(I)*DT12
+              ELSE
+                IMPX=-FXT(I)*DT12
+                IMPY=-FYT(I)*DT12
+                IMPZ=-FZT(I)*DT12
+              ENDIF
 C               main side :
               FSAVSUB1(4,KSUB)=FSAVSUB1(4,KSUB)+IMPX
               FSAVSUB1(5,KSUB)=FSAVSUB1(5,KSUB)+IMPY
               FSAVSUB1(6,KSUB)=FSAVSUB1(6,KSUB)+IMPZ
 C
-              IMPX=FXI(I)*DT12
-              IMPY=FYI(I)*DT12
-              IMPZ=FZI(I)*DT12
+              IF(IBM(I)>=0) THEN
+                IMPX=TWO*FXI(I)*DT12
+                IMPY=TWO*FYI(I)*DT12
+                IMPZ=TWO*FZI(I)*DT12
+              ELSE
+                IMPX=FXI(I)*DT12
+                IMPY=FYI(I)*DT12
+                IMPZ=FZI(I)*DT12
+              ENDIF
+
 C
               FSAVSUB1(12,KSUB)=FSAVSUB1(12,KSUB)+ABS(IMPX)
               FSAVSUB1(13,KSUB)=FSAVSUB1(13,KSUB)+ABS(IMPY)
               FSAVSUB1(14,KSUB)=FSAVSUB1(14,KSUB)+ABS(IMPZ)
 C
               IF(ISENSINT(KSUB+1)/=0) THEN
-                FSAVPARIT(KSUB+1,4,I) =  -FXT(I)
-                FSAVPARIT(KSUB+1,5,I) =  -FYT(I)
-                FSAVPARIT(KSUB+1,6,I) =  -FZT(I)
+                IF(IBM(I)>=0) THEN
+                  FSAVPARIT(KSUB+1,4,I) =  -TWO*FXT(I)
+                  FSAVPARIT(KSUB+1,5,I) =  -TWO*FYT(I)
+                  FSAVPARIT(KSUB+1,6,I) =  -TWO*FZT(I)
+                ELSE
+                  FSAVPARIT(KSUB+1,4,I) =  -FXT(I)
+                  FSAVPARIT(KSUB+1,5,I) =  -FYT(I)
+                  FSAVPARIT(KSUB+1,6,I) =  -FZT(I)
+                 ENDIF
               ENDIF
 C
               FSAVSUB1(15,KSUB)= FSAVSUB1(15,KSUB)
-     .                          +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
-c     .                              +XP(I)*IMPY-YP(I)*IMPX
+     .                              +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
             ENDIF
             KK=KK+1
           ENDDO
@@ -1205,30 +1454,47 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                           IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                           CYCLE
                         END IF
-                        IMPX=FXT(I)*DT12
-                        IMPY=FYT(I)*DT12
-                        IMPZ=FZT(I)*DT12
+                        IF(IBM(I)>=0) THEN
+                          IMPX=TWO*FXT(I)*DT12
+                          IMPY=TWO*FYT(I)*DT12
+                          IMPZ=TWO*FZT(I)*DT12
+                        ELSE
+                          IMPX=FXT(I)*DT12
+                          IMPY=FYT(I)*DT12
+                          IMPZ=FZT(I)*DT12
+                        ENDIF
 C                 main side :
                         FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                         FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                         FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
 C
-                        IMPX=FXI(I)*DT12
-                        IMPY=FYI(I)*DT12
-                        IMPZ=FZI(I)*DT12
+                        IF(IBM(I)>=0) THEN
+                          IMPX=TWO*FXI(I)*DT12
+                          IMPY=TWO*FYI(I)*DT12
+                          IMPZ=TWO*FZI(I)*DT12
+                        ELSE
+                          IMPX=FXI(I)*DT12
+                          IMPY=FYI(I)*DT12
+                          IMPZ=FZI(I)*DT12
+                        ENDIF
                         FSAVSUB1(12,JSUB)=FSAVSUB1(12,JSUB)+ABS(IMPX)
                         FSAVSUB1(13,JSUB)=FSAVSUB1(13,JSUB)+ABS(IMPY)
                         FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                         IF(ISENSINT(JSUB+1)/=0) THEN
-                          FSAVPARIT(JSUB+1,4,I) =  FXT(I)
-                          FSAVPARIT(JSUB+1,5,I) =  FYT(I)
-                          FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                          IF(IBM(I)>=0) THEN
+                            FSAVPARIT(JSUB+1,4,I) =  TWO*FXT(I)
+                            FSAVPARIT(JSUB+1,5,I) =  TWO*FYT(I)
+                            FSAVPARIT(JSUB+1,6,I) =  TWO*FZT(I)
+                          ELSE
+                            FSAVPARIT(JSUB+1,4,I) =  FXT(I)
+                            FSAVPARIT(JSUB+1,5,I) =  FYT(I)
+                            FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                          ENDIF
                         ENDIF
 C
                         FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB)
-     .                                +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
-c     .                            +XP(I)*IMPY-YP(I)*IMPX
+     .                                       +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
 C
                       ENDIF
                       KK=KK+1
@@ -1241,9 +1507,15 @@ C
 
                 ELSEIF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only secnd surface
 
-                  IMPX=FXT(I)*DT12
-                  IMPY=FYT(I)*DT12
-                  IMPZ=FZT(I)*DT12
+                  IF(IBM(I)>=0) THEN
+                    IMPX=TWO*FXT(I)*DT12
+                    IMPY=TWO*FYT(I)*DT12
+                    IMPZ=TWO*FZT(I)*DT12
+                  ELSE
+                    IMPX=FXT(I)*DT12
+                    IMPY=FYT(I)*DT12
+                    IMPZ=FZT(I)*DT12
+                  ENDIF
 C               main side :
                   FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                   FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
@@ -1252,19 +1524,35 @@ C
                   IMPX=FXI(I)*DT12
                   IMPY=FYI(I)*DT12
                   IMPZ=FZI(I)*DT12
+
+                  IF(IBM(I)>=0) THEN
+                    IMPX=TWO*FXI(I)*DT12
+                    IMPY=TWO*FYI(I)*DT12
+                    IMPZ=TWO*FZI(I)*DT12
+                  ELSE
+                    IMPX=FXI(I)*DT12
+                    IMPY=FYI(I)*DT12
+                    IMPZ=FZI(I)*DT12
+                  ENDIF
+              
                   FSAVSUB1(12,JSUB)=FSAVSUB1(12,JSUB)+ABS(IMPX)
                   FSAVSUB1(13,JSUB)=FSAVSUB1(13,JSUB)+ABS(IMPY)
                   FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                   IF(ISENSINT(JSUB+1)/=0) THEN
-                    FSAVPARIT(JSUB+1,4,I) =  FXT(I)
-                    FSAVPARIT(JSUB+1,5,I) =  FYT(I)
-                    FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                    IF(IBM(I)>=0) THEN
+                      FSAVPARIT(JSUB+1,4,I) =  TWO*FXT(I)
+                      FSAVPARIT(JSUB+1,5,I) =  TWO*FYT(I)
+                      FSAVPARIT(JSUB+1,6,I) =  TWO*FZT(I)
+                    ELSE
+                      FSAVPARIT(JSUB+1,4,I) =  FXT(I)
+                      FSAVPARIT(JSUB+1,5,I) =  FYT(I)
+                     FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                    ENDIF
                   ENDIF
 C
                   FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB)
-     .                              +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
-c     .                              +XP(I)*IMPY-YP(I)*IMPX
+     .                                 +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
 
                   JJ=JJ+1
 
@@ -1284,10 +1572,17 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                           IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                           CYCLE
                         END IF
+                         
+                        IF(IBM(I)>=0) THEN
+                          IMPX=TWO*FXT(I)*DT12
+                          IMPY=TWO*FYT(I)*DT12
+                          IMPZ=TWO*FZT(I)*DT12
+                        ELSE
+                          IMPX=FXT(I)*DT12
+                          IMPY=FYT(I)*DT12
+                          IMPZ=FZT(I)*DT12
+                        ENDIF
 
-                        IMPX=FXT(I)*DT12
-                        IMPY=FYT(I)*DT12
-                        IMPZ=FZT(I)*DT12
                         IF(IMS2 ) THEN
 C                 main side :
                           FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
@@ -1300,28 +1595,46 @@ C                 main side :
                           FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
                         ENDIF
 C
-                        IMPX=FXI(I)*DT12
-                        IMPY=FYI(I)*DT12
-                        IMPZ=FZI(I)*DT12
+                        IF(IBM(I)>=0) THEN
+                          IMPX=TWO*FXI(I)*DT12
+                          IMPY=TWO*FYI(I)*DT12
+                          IMPZ=TWO*FZI(I)*DT12
+                        ELSE
+                          IMPX=FXI(I)*DT12
+                          IMPY=FYI(I)*DT12
+                          IMPZ=FZI(I)*DT12
+                        ENDIF
                         FSAVSUB1(12,JSUB)=FSAVSUB1(12,JSUB)+ABS(IMPX)
                         FSAVSUB1(13,JSUB)=FSAVSUB1(13,JSUB)+ABS(IMPY)
                         FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C 
                         IF(ISENSINT(JSUB+1)/=0) THEN
                           IF(IMS2  ) THEN
-                            FSAVPARIT(JSUB+1,4,I) =  -FXT(I)
-                            FSAVPARIT(JSUB+1,5,I) =  -FYT(I)
-                            FSAVPARIT(JSUB+1,6,I) =  -FZT(I)
+                            IF(IBM(I)>=0) THEN
+                              FSAVPARIT(JSUB+1,4,I) =  -TWO*FXT(I)
+                              FSAVPARIT(JSUB+1,5,I) =  -TWO*FYT(I)
+                              FSAVPARIT(JSUB+1,6,I) =  -TWO*FZT(I)
+                            ELSE
+                              FSAVPARIT(JSUB+1,4,I) =  -FXT(I)
+                              FSAVPARIT(JSUB+1,5,I) =  -FYT(I)
+                              FSAVPARIT(JSUB+1,6,I) =  -FZT(I)
+                            ENDIF
                           ELSE
-                            FSAVPARIT(JSUB+1,4,I) =  FXT(I)
-                            FSAVPARIT(JSUB+1,5,I) =  FYT(I)
-                            FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                            IF(IBM(I)>=0) THEN
+                              FSAVPARIT(JSUB+1,4,I) =  TWO*FXT(I)
+                              FSAVPARIT(JSUB+1,5,I) =  TWO*FYT(I)
+                              FSAVPARIT(JSUB+1,6,I) =  TWO*FZT(I)
+                            ELSE
+                              FSAVPARIT(JSUB+1,4,I) =  FXT(I)
+                              FSAVPARIT(JSUB+1,5,I) =  FYT(I)
+                              FSAVPARIT(JSUB+1,6,I) =  FZT(I)
+                            ENDIF
                           ENDIF
                         ENDIF
 C
+
                         FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB)
-     .                                +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
-c     .                              +XP(I)*IMPY-YP(I)*IMPX
+     .                                 +SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
 C
                       ENDIF
                       KK=KK+1
