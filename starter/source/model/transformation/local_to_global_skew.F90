@@ -24,7 +24,7 @@
 !||====================================================================
 !||    local_to_global_skew_mod   ../starter/source/model/transformation/local_to_global_skew.F90
 !||--- called by ------------------------------------------------------
-!||    lecsubmod                               ../starter/source/model/submodel/lecsubmod.F
+!||    lectranssub                ../starter/source/model/submodel/lectranssub.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module local_to_global_skew_mod
@@ -39,8 +39,7 @@
 !||====================================================================
 !||    local_to_global_skew   ../starter/source/model/transformation/local_to_global_skew.F90
 !||--- called by ------------------------------------------------------
-!||    lecsubmod                           ../starter/source/model/submodel/lecsubmod.F
-!||--- calls      -----------------------------------------------------
+!||    lectranssub            ../starter/source/model/submodel/lectranssub.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine local_to_global_skew(tx,ty,tz,skew_trans)

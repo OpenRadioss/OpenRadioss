@@ -43,12 +43,14 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_fail                 ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_fail_biquad          ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
+!||    hm_read_fail_connect         ../starter/source/materials/fail/connect/hm_read_fail_connect.F
 !||    hm_read_fail_energy          ../starter/source/materials/fail/energy/hm_read_fail_energy.F
 !||    hm_read_fail_fld             ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gene1           ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
 !||    hm_read_fail_nxt             ../starter/source/materials/fail/nxt/hm_read_fail_nxt.F
 !||    hm_read_fail_orthbiquad      ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthstrain      ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
+!||    hm_read_fail_snconnect       ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
 !||    hm_read_fail_tab1            ../starter/source/materials/fail/tabulated/hm_read_fail_tab1.F
 !||    hm_read_fail_tensstrain      ../starter/source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
 !||    hm_read_funct                ../starter/source/tools/curve/hm_read_funct.F

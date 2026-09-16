@@ -22,11 +22,15 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    fail_snconnect   ../engine/source/materials/fail/snconnect/fail_snconnect.F
+!||    fail_snconnect          ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||--- called by ------------------------------------------------------
-!||    suser43          ../engine/source/elements/solid/sconnect/suser43.F
+!||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
 !||--- calls      -----------------------------------------------------
-!||    finter           ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_mod               ../engine/share/modules/table_mod.F
 !||====================================================================
       SUBROUTINE FAIL_SNCONNECT (FAIL      ,
      1           NEL     ,NUVAR   ,NVARTMP ,UVAR    ,VARTMP  ,

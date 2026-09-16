@@ -38,6 +38,7 @@
 !||    fail_biquad_s             ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    fail_composite_c          ../engine/source/materials/fail/composite/fail_composite_c.F90
 !||    fail_composite_s          ../engine/source/materials/fail/composite/fail_composite_s.F90
+!||    fail_connect              ../engine/source/materials/fail/connect/fail_connect.F
 !||    fail_energy_b             ../engine/source/materials/fail/energy/fail_energy_b.F
 !||    fail_energy_c             ../engine/source/materials/fail/energy/fail_energy_c.F
 !||    fail_energy_ib            ../engine/source/materials/fail/energy/fail_energy_ib.F
@@ -55,6 +56,7 @@
 !||    fail_orthbiquad_s         ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_orthstrain           ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
 !||    fail_orthstrain_c         ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+!||    fail_snconnect            ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||    fail_tab2sys              ../starter/source/materials/tools/fail_tab2sys.F
 !||    fail_tensstrain_b         ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
 !||    fail_tensstrain_c         ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F

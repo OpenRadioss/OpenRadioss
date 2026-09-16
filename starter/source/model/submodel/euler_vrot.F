@@ -29,6 +29,7 @@ C   center X0.
 !||    hm_read_skw   ../starter/source/tools/skew/hm_read_skw.F
 !||    lecsubmod     ../starter/source/model/submodel/lecsubmod.F
 !||    lectrans      ../starter/source/model/transformation/lectrans.F
+!||    lectranssub   ../starter/source/model/submodel/lectranssub.F
 !||    subrotpoint   ../starter/source/model/submodel/subrot.F
 !||    subrotvect    ../starter/source/model/submodel/subrot.F
 !||====================================================================

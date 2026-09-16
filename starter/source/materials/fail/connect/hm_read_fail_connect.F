@@ -26,13 +26,16 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    hm_read_fail             ../starter/source/materials/fail/hm_read_fail.F
 !||--- calls      -----------------------------------------------------
+!||    func_table_copy          ../starter/source/materials/tools/func_table_copy.F90
 !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
 !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    func_table_copy_mod      ../starter/source/materials/tools/func_table_copy.F90
 !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||    table_mod                ../starter/share/modules1/table_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_CONNECT(FAIL ,
      .           TITLE    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID,

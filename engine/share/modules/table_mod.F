@@ -37,6 +37,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    cmain3pinch                ../engine/source/elements/shell/coqueba/cmain3pinch.F
 !||    czforc3                    ../engine/source/elements/shell/coquez/czforc3.F
 !||    czforc3_crk                ../engine/source/elements/xfem/czforc3_crk.F
+!||    fail_connect               ../engine/source/materials/fail/connect/fail_connect.F
 !||    fail_gene1_b               ../engine/source/materials/fail/gene1/fail_gene1_b.F90
 !||    fail_gene1_c               ../engine/source/materials/fail/gene1/fail_gene1_c.F
 !||    fail_gene1_ib              ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
@@ -45,6 +46,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_inievo_c              ../engine/source/materials/fail/inievo/fail_inievo_c.F
 !||    fail_inievo_ib             ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
 !||    fail_inievo_s              ../engine/source/materials/fail/inievo/fail_inievo_s.F
+!||    fail_snconnect             ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||    fail_tab2_b                ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
 !||    fail_tab2_c                ../engine/source/materials/fail/tabulated/fail_tab2_c.F
 !||    fail_tab2_ib               ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90

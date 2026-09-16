@@ -370,6 +370,8 @@
 !||    law87_upd                                  ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    law92_guess                                ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    law92_nlsqf                                ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    local_to_global_skew                       ../starter/source/model/transformation/local_to_global_skew.F90
+!||    local_to_global_skew_mod                   ../starter/source/model/transformation/local_to_global_skew.F90
 !||    m132init                                   ../starter/source/materials/mat/mat132/m132init.F90
 !||    m33_p1                                     ../engine/source/interfaces/interf/m33_p1.F90
 !||    m36init                                    ../starter/source/materials/mat/mat036/m36init.F90
