@@ -90,8 +90,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,II,J,NINDX1,NINDX2,NUM,DEN,ORDI,COMP_DIR,NINDXOFF,IDEL
-        INTEGER ,DIMENSION(NEL) :: FAIL_ORT,INDX1,INDX2,INDX3,INDXOFF,IPOS
+        INTEGER :: I,J,II,JJ,NUM,DEN,ORDI,COMP_DIR,IDEL
+        INTEGER :: NINDX1,NINDX2,NINDXOFF,NINDX_VOL
+        INTEGER ,DIMENSION(NEL) :: INDX1,INDX2,INDX3,INDXOFF,INDX_VOL
+        INTEGER ,DIMENSION(NEL) :: FAIL_ORT,IPOS
         my_real :: MAX_COMP_STRAIN,RATIO_2,EL_REF,DAMAGE_SP(NEL)
         DOUBLE PRECISION :: I1,I2,I3,Q,R,R_INTER,PHI,E00,VOL_STRAIN_LIMIT,NUMERATOR,DENOMINATOR
         DOUBLE PRECISION ,DIMENSION(NEL) :: E11,E22,E33,EXX,EYY,EZZ,EXY,EZX,EYZ,VOL_STRAIN
@@ -146,6 +148,7 @@ C-----------------------------------------------
       MAX_COMP_STRAIN  = FAIL%UPARAM(2)
       RATIO_2          = FAIL%UPARAM(3)
       EL_REF           = FAIL%UPARAM(4)
+      IPOS(:) = 1
 c-----------------------------------------------      
       ! Initialization
       IF (FAIL%TABLE4D(2)%NOTABLE > 0) THEN 
@@ -168,9 +171,10 @@ c
       END DO
 c
       ! Initialization of counter
-      NINDX1   = 0  
-      NINDX2   = 0  
-      NINDXOFF = 0
+      NINDX1    = 0  
+      NINDX2    = 0  
+      NINDXOFF  = 0
+      NINDX_VOL = 0
       DO I = 1,NEL
         IF (OFF(I) == ONE) THEN
           NINDXOFF = NINDXOFF + 1
@@ -233,6 +237,9 @@ c
         ! Volumetric strain failure
         !-----------------------------------------------------------------------------------
         IF (ABS(VOL_STRAIN(I)) >= VOL_STRAIN_LIMIT) THEN
+          NINDX_VOL = NINDX_VOL + 1
+          JJ = NINDX_VOL
+          INDX_VOL(NINDX_VOL) = I
 C                  
           ! Numerator flag for strain-ratio
           IF (NUM == 1) THEN
@@ -265,17 +272,17 @@ C
           ENDIF
 C
           ! Checking values
-          RATIO(II) = ABS(NUMERATOR/MAX(DENOMINATOR,EM20))
-          ipos(ii)  = vartmp(i,1)
-          IF (NUMERATOR > ZERO .AND. DENOMINATOR > ZERO) RATIO(II)   = ZERO
+          RATIO(JJ) = ABS(NUMERATOR/MAX(DENOMINATOR,EM20))
+          ipos(JJ)  = vartmp(i,1)
+          IF (NUMERATOR > ZERO .AND. DENOMINATOR > ZERO) RATIO(JJ)   = ZERO
           IF (NUMERATOR < ZERO .AND. DENOMINATOR < ZERO) FAIL_ORT(I) = 1000
         END IF
       END DO
 !
-      call table_mat_vinterp(fail%table4d(1),nel,nindxoff,ipos,ratio,y_loc,dydx)
+      call table_mat_vinterp(fail%table4d(1),nel,nindx_vol,ipos,ratio,y_loc,dydx)
 !
-      do ii = 1,nindxoff
-        i = indxoff(ii)
+      do ii = 1,nindx_vol
+        i = indx_vol(ii)
         plamax(i) = y_loc(ii) * size_fac(i)
         vartmp(i,1) = ipos(ii)
       end do
