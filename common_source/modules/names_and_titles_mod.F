@@ -320,12 +320,14 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    hm_read_fail_biquad               ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
 !||    hm_read_fail_connect              ../starter/source/materials/fail/connect/hm_read_fail_connect.F
 !||    hm_read_fail_energy               ../starter/source/materials/fail/energy/hm_read_fail_energy.F
+!||    hm_read_fail_fabric               ../starter/source/materials/fail/fabric/hm_read_fail_fabric.F
 !||    hm_read_fail_fld                  ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gurson               ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
 !||    hm_read_fail_johnson              ../starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
 !||    hm_read_fail_nxt                  ../starter/source/materials/fail/nxt/hm_read_fail_nxt.F
 !||    hm_read_fail_orthbiquad           ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthstrain           ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
+!||    hm_read_fail_sahraei              ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
 !||    hm_read_fail_snconnect            ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
 !||    hm_read_fail_tab2                 ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
 !||    hm_read_fail_tensstrain           ../starter/source/materials/fail/tensstrain/hm_read_fail_tensstrain.F

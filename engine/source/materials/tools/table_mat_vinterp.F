@@ -44,6 +44,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_energy_ib                 ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||    fail_energy_s                  ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_f                         ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_fabric_c                  ../engine/source/materials/fail/fabric/fail_fabric_c.F
 !||    fail_fld_tsh                   ../engine/source/materials/fail/fld/fail_fld_tsh.F
 !||    fail_fld_xfem                  ../engine/source/materials/fail/fld/fail_fld_xfem.F
 !||    fail_gene1_b                   ../engine/source/materials/fail/gene1/fail_gene1_b.F90
@@ -55,6 +56,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_orthbiquad_s              ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_orthstrain                ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
 !||    fail_orthstrain_c              ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+!||    fail_sahraei_s                 ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_snconnect                 ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||    fail_tensstrain_b              ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
 !||    fail_tensstrain_c              ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F
@@ -122,6 +124,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_energy_ib                 ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||    fail_energy_s                  ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_f                         ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_fabric_c                  ../engine/source/materials/fail/fabric/fail_fabric_c.F
 !||    fail_fld_tsh                   ../engine/source/materials/fail/fld/fail_fld_tsh.F
 !||    fail_fld_xfem                  ../engine/source/materials/fail/fld/fail_fld_xfem.F
 !||    fail_gene1_b                   ../engine/source/materials/fail/gene1/fail_gene1_b.F90
@@ -133,6 +136,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_orthbiquad_s              ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_orthstrain                ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
 !||    fail_orthstrain_c              ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+!||    fail_sahraei_s                 ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_snconnect                 ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||    fail_tensstrain_b              ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
 !||    fail_tensstrain_c              ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F

@@ -34,8 +34,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    daasolv                      ../engine/source/fluid/daasolv.F
 !||    daasolvp                     ../engine/source/fluid/daasolvp.F
 !||    ebcs11_propellant            ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
-!||    fail_fabric_c                ../engine/source/materials/fail/fabric/fail_fabric_c.F
-!||    fail_sahraei_s               ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_syazwan_c               ../engine/source/materials/fail/syazwan/fail_syazwan_c.F
 !||    fail_syazwan_s               ../engine/source/materials/fail/syazwan/fail_syazwan_s.F
 !||    fail_tab2_b                  ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
