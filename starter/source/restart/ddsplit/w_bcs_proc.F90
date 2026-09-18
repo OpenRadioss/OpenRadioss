@@ -43,13 +43,15 @@
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-        subroutine w_bcs_proc(bcs_per_proc,cel,scel,len_ia,len_am,nodlocal,numnod_g)
+        subroutine w_bcs_proc(bcs_per_proc,cel,scel,len_ia,len_am,nodlocal,numnod_g,nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use bcs_mod , only : bcs_struct_
           use write_bcs_wall_mod , only : write_bcs_wall
           use write_bcs_nrf_mod , only : write_bcs_nrf
+          use write_bcs_nrf_cfl_mod , only : write_bcs_nrf_cfl
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,6 +60,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,intent(in) :: scel                         !< size for array definition
+          integer, intent(in) :: nspmd !< number of processors
           integer,intent(in),dimension(scel) :: cel          !< application : global_elem_id -> local_elem_id
           type(bcs_struct_),intent(inout) :: bcs_per_proc    !< local data structure for bcs
           integer,intent(inout) :: len_ia,len_am             !< buffer size for records (integer and real)
@@ -67,11 +70,10 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, dimension(1) :: itmp
-          integer :: ilen,ii,jj,ielem,inod,kk
+          integer :: ilen,ii,jj,ielem,inod,kk,i,my_size
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-
           !-------------------------------------
           !        /BCS/WALL
           !-------------------------------------
@@ -116,8 +118,31 @@
               end if
               call write_bcs_nrf(bcs_per_proc%nrf(ii))
               len_ia = len_ia + 3 + 10*ilen
-              len_am = len_am + 2*ilen
+              len_am = len_am + 2*ilen          
             end do!next ii
+
+            !-------------
+            ! CFL conditions for /BCS/NRF:
+            do i=1,bcs_per_proc%nrf_num_nodes
+              bcs_per_proc%nrf_node_ids(i) = nodlocal(bcs_per_proc%nrf_node_ids(i)) ! convert to the local node id
+            end do
+
+            call write_bcs_nrf_cfl(bcs_per_proc,nspmd)
+            len_ia = len_ia + 2
+            len_ia = len_ia + bcs_per_proc%nrf_num_nodes + bcs_per_proc%cfl_nrf%s_nod_iadsky
+            len_ia = len_ia + 2*nspmd
+            my_size = 0
+            do i=1,nspmd
+              my_size = my_size + bcs_per_proc%cfl_nrf%ddm(i)%s_cont_nb
+              my_size = my_size + bcs_per_proc%cfl_nrf%ddm(i)%r_cont_nb
+            end do
+            len_ia = len_ia + my_size   
+            ! Size of %iadsky array & %iadsky array: address of nodal contributions
+            my_size = 4*bcs_per_proc%cfl_nrf%s_iadsky
+            len_ia = len_ia + my_size + 1 + 1
+            deallocate(bcs_per_proc%cfl_nrf%nod_iadsky)
+            deallocate(bcs_per_proc%nrf_node_ids)
+            !-------------            
           end if
 
 ! ----------------------------------------------------------------------------------------------------------------------

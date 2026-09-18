@@ -802,6 +802,7 @@ C-----------------------------------------------
               use shell_internal_forces_mod
               use shell_gpu_mod
               use spmd_profiler_mod
+              use spmd_bcs_mod , only : spmd_bcs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1373,7 +1374,7 @@ C-------------------------------------------------------------------------------
               INTEGER, PARAMETER :: MAXFUNC = 100
               INTEGER :: GLOB_IDEL7NOK, RQ_SHOOTING_NODE
               integer :: numnod_old,numnodm_old,nloc_nnod_old
-              integer :: new_crack,nsect_offset
+              integer :: new_crack,nsect_offset,mode
               TYPE(FR_WAVE_) :: FR_WAVE_BUF
 C-----------------------------------------------------------------------------------
 C Err THK
@@ -3023,12 +3024,21 @@ C----------------------
 C         /BCS/NRF
 C----------------------
                 IF(BCS%NUM_NRF > 0)THEN
+                  mode = 0
                   CALL BCS_NRF(N2D            , NUMNOD     ,
      .                         NODES%X        , NODES%V    , NODES%A   ,
      .                         IPARIT         , LSKY       , ELEMENT%PON%FSKY,
      .                         OUTPUT%TH%WFEXT, NODA_FEXT  , DT1       ,
      .                         ANIM_V         , OUTP_V     , H3D_DATA  ,
-     .                         bcs            , NODES%STIFN, NODES%MS)
+     .                         bcs            , NODES%STIFN, NODES%MS,mode)
+                  call spmd_bcs(ispmd,nspmd,iparit,bcs,nodes)
+                  mode = 1
+                  CALL BCS_NRF(N2D            , NUMNOD     ,
+     .                         NODES%X        , NODES%V    , NODES%A   ,
+     .                         IPARIT         , LSKY       , ELEMENT%PON%FSKY,
+     .                         OUTPUT%TH%WFEXT, NODA_FEXT  , DT1       ,
+     .                         ANIM_V         , OUTP_V     , H3D_DATA  ,
+     .                         bcs            , NODES%STIFN, NODES%MS,mode)
                 ENDIF
 C----------------------
 

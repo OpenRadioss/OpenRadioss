@@ -10673,7 +10673,7 @@ c         start CPU timer for ddsplit
           ! -----------------------------------------
           ! split the BCs data structure
           CALL SPLIT_BCS_WALL(BCS_PER_PROC, CEP, SCEP, NSPMD)
-          CALL SPLIT_BCS_NRF(BCS_PER_PROC, CEP, SCEP, NSPMD)
+          call split_bcs_nrf(bcs_per_proc, cep, scep, nspmd,numnod,n2d)
           ! -----------------------------------------
 
           ! -----------------------------------------

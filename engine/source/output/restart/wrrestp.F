@@ -222,6 +222,7 @@ C-----------------------------------------------
       use write_ale_grid_mod , only : write_ale_grid
       use write_bcs_wall_mod , only : write_bcs_wall
       use write_bcs_nrf_mod , only : write_bcs_nrf
+      use write_bcs_nrf_cfl_mod , only : write_bcs_nrf_cfl
       use rbe3_mod
       use restart_rbe3pen_mod, only : write_rrbe3pen
       use checksum_output_option_mod, only : checksum_restart_write
@@ -1175,6 +1176,7 @@ C--------------------------------------
         DO I=1, BCS%NUM_NRF
           CALL WRITE_BCS_NRF(BCS%NRF(I))
         ENDDO
+        call write_bcs_nrf_cfl(bcs,nspmd)
       ENDIF
 C--------------------------------------
 C     writing real variables

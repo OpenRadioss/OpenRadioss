@@ -2841,7 +2841,7 @@ C--------------------------------------
 C--------------------------------------------
 C BCS/WALL
 C--------------------------------------------
-      CALL W_BCS_PROC(BCS_PER_PROC,CEL,SCEL,LEN_IA,LEN_AM, NODLOCAL,NUMNOD)
+      CALL W_BCS_PROC(BCS_PER_PROC,CEL,SCEL,LEN_IA,LEN_AM, NODLOCAL,NUMNOD,nspmd)
 C--------------------------------------
 C     Write REAL variable                               
 C--------------------------------------

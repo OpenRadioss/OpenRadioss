@@ -81,6 +81,23 @@
           type (bcs_face_data_) :: list
         end type bcs_nrf_struct_
 
+        type cfl_nrf_ddm_
+          integer :: s_cont_nb !< number of contributions (send)
+          integer, dimension(:), allocatable :: send_iadfsky !< address of sending contributions
+          integer :: r_cont_nb !< number of contributions (receive)
+          integer, dimension(:), allocatable :: rcv_iadfsky !< address of receiving contributions
+          integer, dimension(:,:), allocatable :: tmp_rcv_iadfsky !< temporary array (used during the distribution) to store the received contributions (used in split_bcs_nrf)
+        end type cfl_nrf_ddm_
+        type cfl_nrf_
+          integer :: s_fsky !< size of %fsky
+          integer :: s_iadsky !< size of %iadsky
+          integer :: s_nod_iadsky !< size of %nod_iadsky
+          integer, dimension(:), allocatable :: nod_iadsky !< address of each contributions (cfl condition) for each node (size = number of unique NRF boundary nodes)
+          integer, dimension(:,:), allocatable :: iadsky !< address of each contributions (cfl condition), dim = 4*number_of_contributions
+          real(kind=WP), dimension(:,:), allocatable :: fsky !< value of each contributions (cfl condition)
+          type(cfl_nrf_ddm_), dimension(:), allocatable :: ddm !< ddm information for each proc
+        end type cfl_nrf_
+
         ! specific to /BCS/WALL
         type bcs_wall_struct_
           logical :: is_enabled = .false.
@@ -106,6 +123,7 @@
           integer, allocatable, dimension(:,:) :: iworking_array
           integer, allocatable, dimension(:)   :: nrf_node_ids  !< compact list of unique NRF boundary node IDs
           real(kind=WP), dimension(:,:) ,allocatable ::  la_nrf  !< working array for nodal stiffness (indexed by nrf_node_ids)
+          type(cfl_nrf_) :: cfl_nrf
         contains
           procedure :: deallocate
         end type bcs_struct_
@@ -140,7 +158,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: ii
+          integer :: ii,jj
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -166,12 +184,28 @@
                 if(allocated(this%nrf(ii)%list%elem_type)) deallocate(this%nrf(ii)%list%elem_type)
                 if(allocated(this%nrf(ii)%list%iadsky)) deallocate(this%nrf(ii)%list%iadsky)
                 if(allocated(this%nrf(ii)%list%node_list)) deallocate(this%nrf(ii)%list%node_list)
-                if(allocated(this%nrf(ii)%list%global_2_local)) deallocate(this%nrf(ii)%list%global_2_local)              
-              end if
+                if(allocated(this%nrf(ii)%list%global_2_local)) deallocate(this%nrf(ii)%list%global_2_local)
+              endif
             end do
-            if(allocated(this%nrf))deallocate(this%nrf)
+            if(allocated(this%cfl_nrf%nod_iadsky)) deallocate(this%cfl_nrf%nod_iadsky)
+            if(allocated(this%cfl_nrf%iadsky)) deallocate(this%cfl_nrf%iadsky)
+            if(allocated(this%cfl_nrf%fsky)) deallocate(this%cfl_nrf%fsky)
+            if(allocated(this%cfl_nrf%ddm)) then
+              do jj=1,size(this%cfl_nrf%ddm,dim=1)
+                if(allocated(this%cfl_nrf%ddm(jj)%send_iadfsky)) then
+                  deallocate(this%cfl_nrf%ddm(jj)%send_iadfsky)
+                endif
+                if(allocated(this%cfl_nrf%ddm(jj)%rcv_iadfsky)) then
+                  deallocate(this%cfl_nrf%ddm(jj)%rcv_iadfsky)
+                endif
+                if(allocated(this%cfl_nrf%ddm(jj)%tmp_rcv_iadfsky)) then
+                  deallocate(this%cfl_nrf%ddm(jj)%tmp_rcv_iadfsky)
+                endif
+              end do
+              if(allocated(this%cfl_nrf%ddm)) deallocate(this%cfl_nrf%ddm)
+            end if            
+            if(allocated(this%nrf))deallocate(this%nrf)       
           end if
-
           if(allocated(this%iworking_array))deallocate(this%iworking_array)
           if(allocated(this%nrf_bound)) deallocate(this%nrf_bound)
           if(allocated(this%nrf_node_ids)) deallocate(this%nrf_node_ids)

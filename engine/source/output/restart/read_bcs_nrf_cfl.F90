@@ -27,7 +27,7 @@
 !||--- called by ------------------------------------------------------
 !||    rdresb             ../engine/source/output/restart/rdresb.F
 !||====================================================================
-      module read_bcs_nrf_mod
+      module read_bcs_nrf_cfl_mod
         implicit none
       contains
 ! ======================================================================================================================
@@ -50,71 +50,95 @@
 !||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine read_bcs_nrf(numnod)
+        subroutine read_bcs_nrf_cfl(nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use bcs_mod , only : bcs
-          use precision_mod, only : WP
-          use constant_mod , only : zero
+          use constant_mod, only : zero
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
           use my_alloc_mod
-          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: numnod
+          integer, intent(in) :: nspmd !< number of processors
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, dimension(3) :: itmp
-          integer :: ilen,ii,jj,kk,inod
+          integer :: i,my_size
+          integer, dimension(nspmd) :: itmp
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
+          ! ---------------
           if(bcs%num_nrf > 0)then
+            ! ---------------
+            ! List of nodes with BCS/NRF contributions on this processor          
+            call read_i_c(itmp,1)
+            bcs%nrf_num_nodes = itmp(1)
+            if(.not.allocated(bcs%nrf_node_ids)) allocate(bcs%nrf_node_ids(bcs%nrf_num_nodes))
+            call read_i_c(bcs%nrf_node_ids,bcs%nrf_num_nodes)
+            ! ---------------
+              
+            ! ---------------
+            ! cfl conditions for /BCS/NRF:
+            ! -------
+            ! Address of nodal contributions: %nod_iadsky array            
+            call read_i_c(itmp,1)
+            bcs%cfl_nrf%s_nod_iadsky = itmp(1) ! size of %nod_iadsky array
+            if(.not.allocated(bcs%cfl_nrf%nod_iadsky)) allocate(bcs%cfl_nrf%nod_iadsky(bcs%cfl_nrf%s_nod_iadsky))
+            call read_i_c(bcs%cfl_nrf%nod_iadsky,bcs%cfl_nrf%s_nod_iadsky)
+            ! -------
 
-            if(.not.allocated(bcs%nrf))allocate(bcs%nrf(bcs%num_nrf))
-            if(.not.allocated(bcs%la_nrf))then
-              call my_alloc(bcs%la_nrf, 3, numnod, "bcs%la_nrf")
-              bcs%la_nrf(1:3,1:numnod) = zero
-            end if
+            ! cfl condition:
+            ! -------
+            ! Size of %send_iadfsky & %rcv_iadfsky arrays
+            if(.not.allocated(bcs%cfl_nrf%ddm)) allocate(bcs%cfl_nrf%ddm(nspmd))          
+            call read_i_c(itmp,nspmd)
+            do i=1,nspmd
+              bcs%cfl_nrf%ddm(i)%s_cont_nb = itmp(i) ! number of contributions (send) --> size of %send_iadfsky array
+            enddo
+            call read_i_c(itmp,nspmd)
+            do i=1,nspmd
+              bcs%cfl_nrf%ddm(i)%r_cont_nb = itmp(i) ! number of contributions (receive) --> size of %rcv_iadfsky array
+            enddo
+            ! -------
 
-            do ii=1,bcs%num_nrf
-              call read_i_c(itmp,3)
-              bcs%nrf(ii)%user_id   = itmp(1)
-              bcs%nrf(ii)%set_id    = itmp(2)
-              bcs%nrf(ii)%list%size = itmp(3)
-
-              ilen = itmp(3)
-              if(ilen > 0)then
-                if(.not.allocated(bcs%nrf(ii)%list%elem))allocate(bcs%nrf(ii)%list%elem(ilen))
-                call read_i_c(bcs%nrf(ii)%list%elem(1),ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%face))allocate(bcs%nrf(ii)%list%face(ilen))
-                call read_i_c(bcs%nrf(ii)%list%face(1),ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%rCp))allocate(bcs%nrf(ii)%list%rCp(ilen))
-                call read_db(bcs%nrf(ii)%list%rCp(1),ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%rCs))allocate(bcs%nrf(ii)%list%rCs(ilen))
-                call read_db(bcs%nrf(ii)%list%rCs(1),ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%iadsky))allocate(bcs%nrf(ii)%list%iadsky(4,ilen))
-                call read_i_c(bcs%nrf(ii)%list%iadsky,4*ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%node_list))allocate(bcs%nrf(ii)%list%node_list(4,ilen))
-                call read_i_c(bcs%nrf(ii)%list%node_list,4*ilen)
-              end if
-
+            ! -------
+            ! %send_iadfsky & %rcv_iadfsky arrays: address of sending/receiving contributions                
+            do i=1,nspmd
+              my_size = bcs%cfl_nrf%ddm(i)%s_cont_nb
+              if(.not.allocated(bcs%cfl_nrf%ddm(i)%send_iadfsky)) allocate(bcs%cfl_nrf%ddm(i)%send_iadfsky(my_size))
+              call read_i_c(bcs%cfl_nrf%ddm(i)%send_iadfsky,my_size) ! number of contributions (send) --> size of %send_iadfsky array
+              my_size = bcs%cfl_nrf%ddm(i)%r_cont_nb
+              if(.not.allocated(bcs%cfl_nrf%ddm(i)%rcv_iadfsky)) allocate(bcs%cfl_nrf%ddm(i)%rcv_iadfsky(my_size))
+              call read_i_c(bcs%cfl_nrf%ddm(i)%rcv_iadfsky,my_size) ! number of contributions (receive) --> size of %rcv_iadfsky array
             end do
+            ! -------
+
+            ! -------
+            ! Size of %iadsky array & %iadsky array: address of nodalcontributions
+            call read_i_c(itmp,1)
+            bcs%cfl_nrf%s_iadsky = itmp(1)
+            my_size = 4*bcs%cfl_nrf%s_iadsky
+            if(.not.allocated(bcs%cfl_nrf%iadsky)) allocate(bcs%cfl_nrf%iadsky(4,bcs%cfl_nrf%s_iadsky))
+            call read_i_c(bcs%cfl_nrf%iadsky,my_size)
+            ! -------
+
+            ! -------
+            ! Size of %fsky array
+            call read_i_c(itmp,1)
+            bcs%cfl_nrf%s_fsky = itmp(1)
+            if(.not.allocated(bcs%cfl_nrf%fsky)) allocate(bcs%cfl_nrf%fsky(3,bcs%cfl_nrf%s_fsky))
+            bcs%cfl_nrf%fsky(1:3,1:bcs%cfl_nrf%s_fsky) = zero
           end if
+          ! ---------------
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return
-        end subroutine read_bcs_nrf
-      end module read_bcs_nrf_mod
+        end subroutine read_bcs_nrf_cfl
+      end module read_bcs_nrf_cfl_mod
