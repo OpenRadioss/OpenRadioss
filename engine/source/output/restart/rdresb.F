@@ -215,6 +215,7 @@ C-----------------------------------------------
       use read_ale_grid_mod, only : read_ale_grid
       use read_bcs_wall_mod, only : read_bcs_wall
       use read_bcs_nrf_mod, only : read_bcs_nrf
+      use read_bcs_nrf_cfl_mod , only : read_bcs_nrf_cfl
       use rbe3_mod
       use restart_rbe3pen_mod, only : get_nrbe3pen_l,read_rrbe3pen
       use checksum_output_option_mod
@@ -1084,6 +1085,7 @@ C----------------------------------
       BCS%NUM_NRF = ITMP
       IF(BCS%NUM_NRF > 0)THEN
         CALL READ_BCS_NRF(NUMNOD)
+        call read_bcs_nrf_cfl(nspmd)
       ENDIF
       IF(BCS%NUM_NRF > 0)THEN
         DT%NODADT = 1

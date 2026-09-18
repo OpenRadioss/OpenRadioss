@@ -23,98 +23,108 @@
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 ! ======================================================================================================================
 !||====================================================================
-!||    read_bcs_nrf_mod   ../engine/source/output/restart/read_bcs_nrf.F90
+!||    write_bcs_nrf_mod   ../common_source/output/restart/write_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    rdresb             ../engine/source/output/restart/rdresb.F
+!||    w_bcs_proc          ../starter/source/restart/ddsplit/w_bcs_proc.F90
+!||    wrrestp             ../engine/source/output/restart/wrrestp.F
 !||====================================================================
-      module read_bcs_nrf_mod
-        implicit none
+      module write_bcs_nrf_cfl_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!! \brief Read buffer for restart file.
+!! \brief Save buffer for restart file.
 !! \details  necessary buffer specific to option /BCS/NRF/...
 !
 !||====================================================================
-!||    read_bcs_nrf     ../engine/source/output/restart/read_bcs_nrf.F90
+!||    write_bcs_nrf   ../common_source/output/restart/write_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    rdresb           ../engine/source/output/restart/rdresb.F
+!||    w_bcs_proc      ../starter/source/restart/ddsplit/w_bcs_proc.F90
+!||    wrrestp         ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routines.c
+!||    write_db        ../common_source/tools/input_output/write_db.F
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    bcs_mod          ../common_source/modules/boundary_conditions/bcs_mod.F90
-!||    constant_mod     ../common_source/modules/constant_mod.F
-!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
-!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
-!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||====================================================================
-        subroutine read_bcs_nrf(numnod)
+        subroutine write_bcs_nrf_cfl(bcs,nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use bcs_mod , only : bcs
-          use precision_mod, only : WP
-          use constant_mod , only : zero
+          use bcs_mod , only : bcs_struct_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-          use my_alloc_mod
-          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: numnod
+          type(bcs_struct_), intent(in) :: bcs !< data structure for BCS/NRF
+          integer, intent(in) :: nspmd !< number of processors
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, dimension(3) :: itmp
-          integer :: ilen,ii,jj,kk,inod
+          integer :: my_size,i
+          integer, dimension(nspmd) :: itmp
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          ! ---------------
+          ! List of nodes with BCS/NRF contributions on this processor
+          itmp(1) = bcs%nrf_num_nodes
+          call write_i_c(itmp,1)
+          call write_i_c(bcs%nrf_node_ids,bcs%nrf_num_nodes)
+          ! ---------------
+            
+          ! ---------------
+          ! cfl conditions for /BCS/NRF:
+          ! -------
+          ! Address of nodal contributions: %nod_iadsky array
+          itmp(1) = bcs%cfl_nrf%s_nod_iadsky ! size of %nod_iadsky array
+          call write_i_c(itmp,1)
+          call write_i_c(bcs%cfl_nrf%nod_iadsky,bcs%cfl_nrf%s_nod_iadsky) !
+          ! -------
 
-          if(bcs%num_nrf > 0)then
+          ! -------          
+          ! Size of %send_iadfsky & %rcv_iadfsky arrays
+          do i=1,nspmd
+            itmp(1:nspmd) = bcs%cfl_nrf%ddm(1:nspmd)%s_cont_nb
+          enddo
+          call write_i_c(itmp,nspmd) ! number of contributions (send) --> size of %send_iadfsky array
+          do i=1,nspmd
+            itmp(1:nspmd) = bcs%cfl_nrf%ddm(1:nspmd)%r_cont_nb
+          enddo          
+          call write_i_c(itmp,nspmd) ! number of contributions (receive) --> size of %rcv_iadfsky array
+          ! -------
 
-            if(.not.allocated(bcs%nrf))allocate(bcs%nrf(bcs%num_nrf))
-            if(.not.allocated(bcs%la_nrf))then
-              call my_alloc(bcs%la_nrf, 3, numnod, "bcs%la_nrf")
-              bcs%la_nrf(1:3,1:numnod) = zero
-            end if
+          ! -------
+          ! %send_iadfsky & %rcv_iadfsky arrays: address of sending/receiving contributions
+          do i=1,nspmd
+            my_size = bcs%cfl_nrf%ddm(i)%s_cont_nb
+            call write_i_c(bcs%cfl_nrf%ddm(i)%send_iadfsky,my_size) ! number of contributions (send) --> size of %send_iadfsky array
+            my_size = bcs%cfl_nrf%ddm(i)%r_cont_nb                
+            call write_i_c(bcs%cfl_nrf%ddm(i)%rcv_iadfsky,my_size) ! number of contributions (receive) --> size of %rcv_iadfsky array
+          end do
+          ! -------
 
-            do ii=1,bcs%num_nrf
-              call read_i_c(itmp,3)
-              bcs%nrf(ii)%user_id   = itmp(1)
-              bcs%nrf(ii)%set_id    = itmp(2)
-              bcs%nrf(ii)%list%size = itmp(3)
+          ! -------
+          ! Size of %iadsky array & %iadsky array: address of nodalcontributions
+          my_size = 4*bcs%cfl_nrf%s_iadsky
+          itmp(1) = bcs%cfl_nrf%s_iadsky
+          call write_i_c(itmp,1)
+          call write_i_c(bcs%cfl_nrf%iadsky,my_size)
+          ! -------
 
-              ilen = itmp(3)
-              if(ilen > 0)then
-                if(.not.allocated(bcs%nrf(ii)%list%elem))allocate(bcs%nrf(ii)%list%elem(ilen))
-                call read_i_c(bcs%nrf(ii)%list%elem(1),ilen)
+          ! -------
+          ! Size of %fsky array
+          itmp(1) = bcs%cfl_nrf%s_fsky
+          call write_i_c(itmp,1)
+          ! -------          
+          ! ---------------          
 
-                if(.not.allocated(bcs%nrf(ii)%list%face))allocate(bcs%nrf(ii)%list%face(ilen))
-                call read_i_c(bcs%nrf(ii)%list%face(1),ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%rCp))allocate(bcs%nrf(ii)%list%rCp(ilen))
-                call read_db(bcs%nrf(ii)%list%rCp(1),ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%rCs))allocate(bcs%nrf(ii)%list%rCs(ilen))
-                call read_db(bcs%nrf(ii)%list%rCs(1),ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%iadsky))allocate(bcs%nrf(ii)%list%iadsky(4,ilen))
-                call read_i_c(bcs%nrf(ii)%list%iadsky,4*ilen)
-
-                if(.not.allocated(bcs%nrf(ii)%list%node_list))allocate(bcs%nrf(ii)%list%node_list(4,ilen))
-                call read_i_c(bcs%nrf(ii)%list%node_list,4*ilen)
-              end if
-
-            end do
-          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return
-        end subroutine read_bcs_nrf
-      end module read_bcs_nrf_mod
+        end subroutine write_bcs_nrf_cfl
+      end module write_bcs_nrf_cfl_mod

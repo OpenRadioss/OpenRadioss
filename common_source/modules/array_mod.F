@@ -100,6 +100,10 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
           INTEGER :: SIZE_INT_ARRAY_1D
           INTEGER, DIMENSION(:), ALLOCATABLE :: INT_ARRAY_1D
         END TYPE array_type_int_1d
+        TYPE array_type_int_2d
+          INTEGER, DIMENSION(2) :: SIZE_INT_ARRAY_2D
+          INTEGER, DIMENSION(:,:), ALLOCATABLE :: INT_ARRAY_2D
+        END TYPE array_type_int_2d        
 
         TYPE array_type_my_real_2d
           INTEGER, DIMENSION(2) :: SIZE_MY_REAL_ARRAY_2D
@@ -117,6 +121,15 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
         interface dealloc_1d_array
           MODULE PROCEDURE dealloc_1d_array_full
           MODULE PROCEDURE dealloc_int_1d_array
+        end interface
+
+        interface alloc_2d_array
+          MODULE PROCEDURE alloc_2d_array_full
+          MODULE PROCEDURE alloc_int_2d_array
+        end interface
+        interface dealloc_2d_array
+          MODULE PROCEDURE dealloc_2d_array_full
+          MODULE PROCEDURE dealloc_int_2d_array
         end interface
 
         interface alloc_my_real_2d_array
@@ -170,11 +183,26 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 
         ! ----------------------------
 !||====================================================================
-!||    alloc_2d_array               ../common_source/modules/array_mod.F
+!||    alloc_int_2d_array           ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
 !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||====================================================================
-        SUBROUTINE ALLOC_2D_ARRAY(THIS)
+        SUBROUTINE alloc_int_2d_array(THIS)
+          IMPLICIT NONE
+
+          TYPE(array_type_int_2d), INTENT(inout) :: THIS
+
+          ALLOCATE( THIS%INT_ARRAY_2D( THIS%SIZE_INT_ARRAY_2D(1),THIS%SIZE_INT_ARRAY_2D(2) ) )
+
+          RETURN
+        END SUBROUTINE
+        ! ----------------------------        
+!||====================================================================
+!||    alloc_2d_array_full          ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||====================================================================
+        SUBROUTINE alloc_2d_array_full(THIS)
           IMPLICIT NONE
 
           TYPE(array_type), INTENT(inout) :: THIS
@@ -234,7 +262,22 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||====================================================================
-        SUBROUTINE DEALLOC_2D_ARRAY(THIS)
+        SUBROUTINE dealloc_int_2d_array(THIS)
+          IMPLICIT NONE
+
+          TYPE(array_type_int_2d), INTENT(inout) :: THIS
+
+          DEALLOCATE( THIS%INT_ARRAY_2D )
+
+          RETURN
+        END SUBROUTINE
+        ! ----------------------------
+!||====================================================================
+!||    dealloc_2d_array             ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||====================================================================
+        SUBROUTINE dealloc_2d_array_full(THIS)
           IMPLICIT NONE
 
           TYPE(array_type), INTENT(inout) :: THIS
@@ -243,7 +286,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 
           RETURN
         END SUBROUTINE
-        ! ----------------------------
+        ! ----------------------------        
 !||====================================================================
 !||    dealloc_3d_array   ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
