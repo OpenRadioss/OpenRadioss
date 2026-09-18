@@ -3,7 +3,9 @@ name: Developer CI
 on:
   
   pull_request:
-    # CI is disabled if ONLY workflow files are changed
+    # Skip PRs targeting the sandbox branch and workflow-only changes
+    branches-ignore:
+      - sandbox
     paths-ignore:
       - '.github/workflows/**'
 
