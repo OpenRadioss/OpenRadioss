@@ -164,16 +164,16 @@
 
                   case(41)      !    /fail/tab2 
                     ! check if temperature dependency is defined twice: in epsf table and fct_temp
-                    if ((table(mat_param(imat)%fail(ir)%table(1))%ndim == 3) .and.            &
-                      (mat_param(imat)%fail(ir)%ifunc(4) > 0)) then
+                    if (mat_param(imat)%fail(ir)%table4d(5)%ndim == 3 .and.            &
+                        mat_param(imat)%fail(ir)%table4d(4)%notable > 0) then
                       call ancmsg(msgid=3055, msgtype=msgwarning, anmode=aninfo_blind,        &
                         i1=mat_param(imat)%mat_id,                                            &
                         c1=mat_param(imat)%title)
                     end if
                     ! check if temperature dependency is defined twice: in inst table and fct_temp
-                    if (mat_param(imat)%fail(ir)%table(2) > 0) then
-                      if ((table(mat_param(imat)%fail(ir)%table(2))%ndim == 3) .and.          &
-                        (mat_param(imat)%fail(ir)%ifunc(4) > 0)) then
+                    if (mat_param(imat)%fail(ir)%table4d(6)%notable > 0) then
+                      if (mat_param(imat)%fail(ir)%table4d(6)%ndim == 3 .and.          &
+                          mat_param(imat)%fail(ir)%table4d(4)%notable > 0) then
                         call ancmsg(msgid=3056, msgtype=msgwarning, anmode=aninfo_blind,      &
                           i1=mat_param(imat)%mat_id,                                          &
                           c1=mat_param(imat)%title)
@@ -181,16 +181,16 @@
                     end if
                     ! check if strain rate dependency tables are in logarithmic scale
                     if (nint(mat_param(imat)%fail(ir)%uparam(9)) == 1) then
-                      if (mat_param(imat)%fail(ir)%table(3) > 0) then
-                        if (table(mat_param(imat)%fail(ir)%table(3))%ndim == 2) then
-                          if (table(mat_param(imat)%fail(ir)%table(3))%x(2)%values(1) < zero) then
+                      if (mat_param(imat)%fail(ir)%table4d(7)%notable > 0) then   
+                        if (mat_param(imat)%fail(ir)%table4d(7)%ndim == 2) then
+                          if (mat_param(imat)%fail(ir)%table4d(7)%x(2)%values(1) < zero) then
                             mat_param(imat)%fail(ir)%uparam(21) = 1
                           end if
                         end if
                       end if
                     end if
-                    if (mat_param(imat)%fail(ir)%ifunc(2) > 0) then
-                      if (table(mat_param(imat)%fail(ir)%ifunc(2))%x(1)%values(1) < zero) then
+                    if (mat_param(imat)%fail(ir)%table4d(2)%notable > 0) then
+                      if (mat_param(imat)%fail(ir)%table4d(2)%x(1)%values(1) < zero) then
                         mat_param(imat)%fail(ir)%uparam(22) = 1
                       end if
                     end if
