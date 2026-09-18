@@ -257,8 +257,7 @@ target_link_libraries(${EXEC_NAME} ${LINK} )
 set_property(TARGET ${EXEC_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
 # install executables and scripts
-install (TARGETS ${EXECUTABLES}
+install (TARGETS ${EXEC_NAME}
          RUNTIME DESTINATION "bin")
 install (PROGRAMS ${SCRIPTS}
          DESTINATION "bin")
-

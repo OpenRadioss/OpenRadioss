@@ -136,12 +136,14 @@ C            CALL ARRET(2)
              CALL ARRET(2)
           ENDIF
 #ifndef MPI
+#ifdef DNC
         IF (NEIG>0) THEN
            IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=294,ANMODE=ANINFO)
            ENDIF
            CALL ARRET(2)
               END IF
+#endif
         IF (NBUCK>0) THEN
            IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=295,ANMODE=ANINFO)
@@ -305,14 +307,21 @@ C  -----------W_DDL is reserved anyway------
              CALL ARRET(2)
           ENDIF
 C     ----- ---------
-         IF ((ISOLV==1.OR.ISOLV>4).AND.N_PAT>1) THEN
+         IF (NEIG>0) THEN
+C /EIG keeps a second copy of the original sparse graph for the physical
+C mass operator.  It is condensed by UPD_GLOB_K through the same constraint
+C path as stiffness, so no eigen-specific transformation is reconstructed.
+                S_IADM=NDDL+1
+                S_JDIM=NNZK
+         ELSEIF ((ISOLV==1.OR.ISOLV>4).AND.N_PAT>1) THEN
           CALL FIL_SPAN0(NRBYAC,IRBYAC,NPBY,IDDL,NDOF,NDDL)
           CALL DIM_SPAN(N_PAT,NDDL,IADK,JDIK,MAX_L,MAXB1)
                 S_IADM=NDDL+1
+                S_JDIM=MAX_L
          ELSE
                 S_IADM=0
-         ENDIF
                 S_JDIM=MAX_L
+         ENDIF
           ALLOCATE(IMPBUF_TAB%IKC(S_IKC))
           ALLOCATE(IMPBUF_TAB%IKUD(S_IKUD))
           ALLOCATE(IMPBUF_TAB%W_DDL(S_W_DDL))
@@ -372,14 +381,23 @@ C-----------17-21:FEXT,DG,DGR,DI,DIR;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR,
           ELSE
                   S_DR_IMP=0
           ENDIF
-          IF (ILINE/=1) THEN
+          IF (ILINE/=1.OR.NEIG>0) THEN
+C /EIG reuses the implicit rollback buffers while evaluating modal element
+C responses.  The response pass is allowed to update constitutive storage,
+C then CP_IMPBUF restores the untouched base state before the next mode.
            CALL BUF_DIM1(S_ELBUF_C,S_BUFMAT_C)
+           IF (NEIG==0) THEN
              S_X_C=NNDL
              S_DD=NNDL
-           IF (IRODDL/=0) THEN
-              S_DDR=NNDL
+             IF (IRODDL/=0) THEN
+                S_DDR=NNDL
+             ELSE
+                S_DDR=0
+             ENDIF
            ELSE
-              S_DDR=0
+             S_X_C=0
+             S_DD=0
+             S_DDR=0
            ENDIF
           ELSEIF (ILINTF>0) THEN
            CALL BUF_DIM1(S_ELBUF_C,S_BUFMAT_C)
@@ -482,7 +500,7 @@ C----i--initialisation for for travers nodes detection-----
            ENDDO
           ENDIF
           CALL IMP_TRANS0(IMPBUF_TAB%R_IMP,IMPL_S0)
-          IF (ILINE/=1) CALL ZERO1(IMPBUF_TAB%DD,NNDL)
+          IF (ILINE/=1.AND.NEIG==0) CALL ZERO1(IMPBUF_TAB%DD,NNDL)
 c      IBUCK= IBUCKL
       IF (NBUCK>0.AND.BISOLV==2) THEN
          WRITE(ISTDO,'(A)')

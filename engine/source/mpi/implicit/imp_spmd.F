@@ -1670,7 +1670,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real V(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2109,7 +2109,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NBINTC,INBSL(NBINTC,*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2215,7 +2215,7 @@ C-----------------------------------------------
       INTEGER SSIZE  ,RSIZE
       my_real
      .        KSS(6,RSIZE)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2348,7 +2348,7 @@ C-----------------------------------------------
       INTEGER SSIZE  ,RSIZE
       my_real
      .        D_IMP(3,*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2475,7 +2475,7 @@ C-----------------------------------------------
       INTEGER SSIZE  ,RSIZE
       my_real
      .        F_IMP(3,*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2593,7 +2593,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NROW(*),FR_NROW(*),IAD_ELEM(2,*),TSIZE
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2698,7 +2698,7 @@ C-----------------------------------------------
       INTEGER IAD_R(*),IAD_S(*),FR_NROW(*),NROW(*),
      .        IAD_ELEM(2,*),FR_ELEM(*),ICOL(NNMAX,*),
      .        SSIZE ,RSIZE
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2809,7 +2809,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDOF(*),FR_ELEM(*),IAD_ELEM(*),TSIZE
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -3165,7 +3165,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL, NODGLOB(*), IDDL(*), NDOF(*), CDDLP(*), 
      .        INLOC(*), IKC(*), NDDLG, NDDLP(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -3458,7 +3458,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER SSIZE  ,RSIZE
       INTEGER IAD_S(NSPMD+1),IAD_R(NSPMD+1),ITS(SSIZE),ITR(RSIZE)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -3573,7 +3573,7 @@ C-----------------------------------------------
       INTEGER SSIZE  ,RSIZE,SIZE
       INTEGER ITS(SIZE,SSIZE),ITR(SIZE,RSIZE),
      .        IAD_S(NSPMD+1),IAD_R(NSPMD+1)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -3693,7 +3693,7 @@ C-----------------------------------------------
       INTEGER SSIZE  ,RSIZE,IAD_S(*),IAD_R(*),SIZE 
       my_real
      .     KS11(SIZE,*),KR11(SIZE,*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -3811,7 +3811,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .        LX(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -3929,7 +3929,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .        F_IMP(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -4046,7 +4046,7 @@ C-----------------------------------------------
       INTEGER NINDEX(*)
       my_real
      .        LX(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -4165,7 +4165,7 @@ C-----------------------------------------------
       INTEGER NINDEX(*)
       my_real
      .        F_IMP(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -4282,7 +4282,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IG(*), IL(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -4393,7 +4393,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NV       ,NSIZ    ,NVMAX     ,IOUT
       INTEGER VI(NSIZ,*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -4624,7 +4624,7 @@ C-----------------------------------------------
       INTEGER NV       ,NSIZ    ,NVMAX     ,IOUT
       my_real
      .        VR(NSIZ,*)       
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -4759,7 +4759,7 @@ C-----------------------------------------------
       INTEGER
      .        RBUF(NSPMD),SI
       DATA MSGOFF/16043/,MSGOFF2/16044/
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -5038,7 +5038,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .        IV(*)
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -5147,7 +5147,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER SENDBUF(*),RECVBUF(*),COUNT
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -5195,7 +5195,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real DMIN
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -5339,7 +5339,7 @@ C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
 #include "spmd.inc"
-#if defined(MPI) && defined(MUMPS5)
+#if defined(MPI) && (defined(MUMPS5) || defined(PUBLIC_EIG_MPI))
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------

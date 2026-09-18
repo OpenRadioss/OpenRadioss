@@ -1,0 +1,20 @@
+{
+  "fixture": "qa-tests/miniqa/LOIS/LOI44/solides_8pt/data/44SLD8_0000.rad",
+  "root_name": "44SLD8",
+  "cases": [
+    {
+      "name": "solid_response",
+      "description": "Single eight-node solid validates standard FORINT stress, strain, EINT, ENER, and mass output.",
+      "nmod": 3,
+      "expected_frequencies_hz": [4.6523071111, 4.6523071335, 5.8429537992],
+      "inorm": 0,
+      "animation": true,
+      "energy": true,
+      "energy_quadratic_tolerance": 2e-5,
+      "mass": true,
+      "rotation": false,
+      "solid_tensors": true,
+      "element_family": "solid"
+    }
+  ]
+}

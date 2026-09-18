@@ -1,0 +1,18 @@
+{
+  "fixture": "tools/eigenmode_probe/fixtures/beam_cantilever_0000.rad",
+  "root_name": "EIG_BEAM",
+  "cases": [
+    {
+      "name": "beam_response",
+      "description": "Cantilever beam validates modal response through the standard FORINT beam route.",
+      "nmod": 6,
+      "inorm": 0,
+      "animation": true,
+      "energy": true,
+      "energy_quadratic_tolerance": 2e-5,
+      "mass": true,
+      "rotation": true,
+      "element_family": "oned"
+    }
+  ]
+}
