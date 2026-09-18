@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE ALE_MOD , ONLY : ALE
       use reorder_mod
 C-----------------------------------------------
 C            A R G U M E N T S
@@ -122,7 +123,7 @@ C----------------------------------------------------------
 C
       call my_alloc(index2, numelq, "index2")
       index2(1:numelq) = permutation%quad(1:numelq)
-      
+
       DO I=1,NUMELQ
         EADD(I)=1
         ITRI(4,I)=I
@@ -187,6 +188,10 @@ C
           MT2=NINT(PM(22,MID))
           ML1=NINT(PM(19,MT1))
           ML2=NINT(PM(19,MT2))
+          IF(ALE%SOLVER%MULTIMAT%is_defined_mmale3 /= 0)then
+            ALE%SOLVER%MULTIMAT%gamma(1) = MAT_PARAM(MT1)%EOS%UPARAM(1)
+            ALE%SOLVER%MULTIMAT%gamma(2) = MAT_PARAM(MT2)%EOS%UPARAM(1)
+          endif
         ELSE
           JMULT=0
           ML1=0

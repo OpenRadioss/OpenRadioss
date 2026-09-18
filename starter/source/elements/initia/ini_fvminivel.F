@@ -33,6 +33,7 @@ C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
+      USE ALE_MOD , ONLY : ALE
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IGRS, NOSYS, J
+      INTEGER I, IGRS, NOSYS, J, NINIVEL_CUT_CELL
+      NINIVEL_CUT_CELL = 0
       
       DO I = 1, NINVEL
          IF (FVM_INIVEL(I)%FLAG) THEN
@@ -71,13 +73,35 @@ C     Bric groups
             ENDIF
 C     Quad groups
             IF (FVM_INIVEL(I)%GRQUADID /= -1) THEN
+             IF( ALE%solver%multimat%is_defined_mmale3 == 1)THEN
+               IF(.NOT.ALLOCATED(ALE%CUTCELL%FVM_VEL))THEN
+                 ALLOCATE(ALE%CUTCELL%FVM_VEL(NINVEL))
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%FLAG = .FALSE.
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%VX = ZERO
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%VY = ZERO
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%VZ = ZERO
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%ISUBMAT = 0
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%GRQUADID = 0
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%grbricid = 0
+                 ALE%CUTCELL%FVM_VEL(1:NINVEL)%grsh3nid = 0
+                 ALE%CUTCELL%NINIVEL = NINVEL
+               ENDIF
+               ALE%CUTCELL%FVM_VEL(I)%VX = ZERO
+               ALE%CUTCELL%FVM_VEL(I)%VY = FVM_INIVEL(I)%VY
+               ALE%CUTCELL%FVM_VEL(I)%VZ = FVM_INIVEL(I)%VZ
+               ALE%CUTCELL%FVM_VEL(I)%GRQUADID = FVM_INIVEL(I)%GRQUADID
+               ALE%CUTCELL%FVM_VEL(I)%ISUBMAT = FVM_INIVEL(I)%ISUBMAT
+               ALE%CUTCELL%FVM_VEL(I)%FLAG = .TRUE.
+               NINIVEL_CUT_CELL = NINIVEL_CUT_CELL + 1
+             ELSE
                IGRS = FVM_INIVEL(I)%GRQUADID
                DO J=1,IGRQUAD(IGRS)%NENTITY
                   NOSYS=IGRQUAD(IGRS)%ENTITY(J)
                   MULTI_FVM%VEL(1, NOSYS) = FVM_INIVEL(I)%VX
                   MULTI_FVM%VEL(2, NOSYS) = FVM_INIVEL(I)%VY
                   MULTI_FVM%VEL(3, NOSYS) = FVM_INIVEL(I)%VZ
-               ENDDO                 
+               ENDDO
+             ENDIF
             ENDIF
 C     Sh3n Groups
             IF (FVM_INIVEL(I)%GRSH3NID /= -1) THEN
@@ -87,8 +111,13 @@ C     Sh3n Groups
                   MULTI_FVM%VEL(1, NOSYS) = FVM_INIVEL(I)%VX
                   MULTI_FVM%VEL(2, NOSYS) = FVM_INIVEL(I)%VY
                   MULTI_FVM%VEL(3, NOSYS) = FVM_INIVEL(I)%VZ
-               ENDDO                 
+               ENDDO
             ENDIF
          ENDIF
       ENDDO
+
+      IF( ALE%solver%multimat%is_defined_mmale3 == 1) THEN
+       ALE%CUTCELL%NINIVEL_CUT_CELL = NINIVEL_CUT_CELL
+      ENDIF
+
       END SUBROUTINE INI_FVMINIVEL

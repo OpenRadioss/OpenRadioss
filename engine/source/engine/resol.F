@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Simcenter Radioss Software
 Copyright>
 Copyright>        As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
 Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
-Copyright>        commercial version may interest you: 
+Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
 !||    resol                                        ../engine/source/engine/resol.F
@@ -718,6 +718,8 @@ C-----------------------------------------------
               USE ALEMUSCL_MOD
               USE ECND_MOD
               USE MULTI_FVM_MOD
+              USE MULTI_CUTCELL_MOD, ONLY : MULTI_CUTCELL_STRUCT, DEALLOCATE_MULTI_CUTCELL_TYPE !TODO : define and add this structure
+              USE MULTICUTCELL_SOLVER_MOD, ONLY : DEALLOCATE_SOLVER_MULTICUTCELL
               USE H3D_MOD
               USE PBLAST_MOD
               USE GROUPDEF_MOD
@@ -797,6 +799,7 @@ C-----------------------------------------------
               use resol_alloc_mod
               use init_ale_mod , only : init_ale
               use sfem_mod
+              USE ALEMAIN_CUTCELL_MOD , ONLY : ALEMAIN_CUTCELL
               use init_global_boundary_list_mod , only : init_global_boundary_list
               use sfem_init_mod , only : sfem_init
               use shell_internal_forces_mod
@@ -990,6 +993,7 @@ C     Mat + Prop timers
               INTEGER, DIMENSION(7,TAILLE) :: TAB_UMP
               my_real TAB_MAT(NGROUP)
               TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+              TYPE(MULTI_CUTCELL_STRUCT) :: MULTI_CUTCELL
               TYPE(H3D_DATABASE) :: H3D_DATA
               TYPE (FAILWAVE_STR_) :: FAILWAVE
 !
@@ -1031,7 +1035,7 @@ c
               type (PBLAST_) ,intent(inout)                      :: PBLAST
               type (rbe3_) ,intent(inout)                        :: RBE3
               type (rwall_) ,intent(inout)                       :: RWALL
-              type (global_sfem_) ,intent(inout) :: SFEM  
+              type (global_sfem_) ,intent(inout) :: SFEM
 C
               INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
               INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
@@ -1294,7 +1298,7 @@ C IMPVEL/FGEO
 C----------------------------------------------------------------------------------
 C /DAMP/VREL
               INTEGER SIZE_RBY6_C,FL_VREL
-              my_real DAMP_A(3)         
+              my_real DAMP_A(3)
 C----------------------------------------------------------------------------------
 C /VIPER/ON
               type(viper_coupling_) :: VIPER
@@ -1406,9 +1410,9 @@ C-------------------------------------------------------------------------------
 C GPU
               type(SHELLS_) :: SHELLS
               integer :: ipri
-C             
+C
 
-              call resol_alloc_phase1(rby6,dxancg,nb25_candt,nb25_impct,nb25_dst1,nb25_dst2,igrouc,igrounc, 
+              call resol_alloc_phase1(rby6,dxancg,nb25_candt,nb25_impct,nb25_dst1,nb25_dst2,igrouc,igrounc,
      .                                interfaces,int18add,idamp_rdof_tab,icontact_old, 
      .                                nrbykin,numnod,parasiz,ngroup,ninter,sicontact,nodes,
      .                                isendto,ircvfrom,intlist,intlist25,niskyfi,niskyfie,
@@ -1483,37 +1487,37 @@ C----------------------------------------------
               PBLAST%PBLAST_DT%IDT   = 0
               NUMSPH_GLO_R2R = 0
               FLG_SPHINOUT_R2R = 0
-              call resol_alloc_phase2(element,nodes,iplyxfem,icrack3d,nspmd,lisendp, lirecvp, 
-     .                               lisendp_pxfem, lirecvp_pxfem, lisendp_crk, lirecvp_crk, 
+              call resol_alloc_phase2(element,nodes,iplyxfem,icrack3d,nspmd,lisendp, lirecvp,
+     .                               lisendp_pxfem, lirecvp_pxfem, lisendp_crk, lirecvp_crk,
      .                               isendp_pxfem, irecvp_pxfem, isendp_crk, irecvp_crk, adsky_crk,inod_crk,
      .                               procne_crk,procne_pxfem,adsky_pxfem,inod_pxfem)
 C----------------------------------------------------------
 C      Allocation of tables for /LOAD/PRESSURE
 C-----------------------------------------------------------
-              call resol_alloc_phase3(NLOADP_HYD_INTER,NINTLOADP,NLOADP_HYD,ILOADP,SIZLOADP,NUMNOD, 
-     .                            LOADP_HYD_INTER,TAGNCONT,NINTER, 
+              call resol_alloc_phase3(NLOADP_HYD_INTER,NINTLOADP,NLOADP_HYD,ILOADP,SIZLOADP,NUMNOD,
+     .                            LOADP_HYD_INTER,TAGNCONT,NINTER,
      .                            S_LOADPINTER,NPRESLOAD,LOADP_TAGDEL)
 C----------------------------------------------------------
               ALLOCATE(INTERFACES%PARAMETERS%INTAREAN(MERGE(NUMNOD, 0, INTERFACES%PARAMETERS%INTCAREA>0)))
 C       ! /TH/SURF output
-             CALL resol_alloc_phase4(nsurf,output,th_surf_num_channel,nloadp, 
-     .                                 nloadp_f,pblast,iloadp,sizloadp, cnel, addcnel,size_cnel,size_addcnel, 
+             CALL resol_alloc_phase4(nsurf,output,th_surf_num_channel,nloadp,
+     .                                 nloadp_f,pblast,iloadp,sizloadp, cnel, addcnel,size_cnel,size_addcnel,
      .                                 idel7ng,irad2r,alemuscl_param,alemuscl_buffer,pdel, addtmpl,tagel,
-     .                                 numnod,lcnel,numels,numelq,numelc,numelt,numelp,numelr,numeltg, 
+     .                                 numnod,lcnel,numels,numelq,numelc,numelt,numelp,numelr,numeltg,
      .                                 npart,partsav2,ipartl,elem_state,s_elem_state)
 C
 C   Working arrays for thermal analysis
 C
              call resol_alloc_phase5(GLOB_THERM,NUMNOD,NINTER,NODADT,NTHREAD,IPARIT,LSKY,LSKYI,
-     .                               ICODT0,ICODR0,MCP_OFF,FTHE,FTHESKY,QFRICINT,CONDN,CONDNSKY, 
+     .                               ICODT0,ICODR0,MCP_OFF,FTHE,FTHESKY,QFRICINT,CONDN,CONDNSKY,
      .                               FTHESKYI,CONDNSKYI,ICONDN,IFTHE)
 C
 C  ply xfem for composite shell
 C
-              call resol_alloc_phase6(intplyxfem,iplyxfem,nplymax,ply,plysky,iparit,nthread, 
-     .                                nplyxfe,anim_ply,vn_nod,irigid_mat,nrbym, 
+              call resol_alloc_phase6(intplyxfem,iplyxfem,nplymax,ply,plysky,iparit,nthread,
+     .                                nplyxfe,anim_ply,vn_nod,irigid_mat,nrbym,
      .                                vrbym,vrrbym,arbym,arrbym,plyskyi,lskyi,lskypxfem)
- 
+
 C ----------------------------------------------
 C    SIMPLIFIED ALE FORMULATION
 C ----------------------------------------------
@@ -1522,37 +1526,37 @@ C ----------------------------------------------
 C--------------------------------------------
 C Adaptive Meshing
 C--------------------------------------------
-               CALL resol_alloc_phase8(NADMESH,NUMELC,NUMELTG,NUMNOD,LEVELMAX,IPARIT,ISTATCND,ANIM_N, 
-     .                                H3D_DATA,IRODDL,LSH4ACT,LSH4KIN,PSH4ACT,PSH4KIN,LSH3ACT,LSH3KIN, 
+               CALL resol_alloc_phase8(NADMESH,NUMELC,NUMELTG,NUMNOD,LEVELMAX,IPARIT,ISTATCND,ANIM_N,
+     .                                H3D_DATA,IRODDL,LSH4ACT,LSH4KIN,PSH4ACT,PSH4KIN,LSH3ACT,LSH3KIN,
      .                                PSH3ACT,PSH3KIN,MSH4SKY,MSH3SKY,ILEVNOD,LSH4UPL,LSH3UPL,PSH4UPL,PSH3UPL,
      .                                ACND,ARCND,STCND,STRCND,STIFR_TMP,STIFN_TMP,NTHREAD)
 C--------------------------------------------
 C       Error estimation / not on Restart file.
 C--------------------------------------------
-             call resol_alloc_phase9(ANIM_CE,NUMELC,NUMELTG,NUMNOD,IADMERRT,H3D_DATA, 
-     .                                INTER_ITHKNOD,ERR_THK_SH4,ERR_THK_SH3,THKSH4,THKSH3,THKNOD, 
-     .                                AREA_SH4,AREA_SH3,AREA_NOD,THICK_SH4,THICK_SH3,THICK_NOD, 
-     .                                admerr_AREA_SH4,admerr_AREA_SH3,admerr_AREA_NOD, 
+             call resol_alloc_phase9(ANIM_CE,NUMELC,NUMELTG,NUMNOD,IADMERRT,H3D_DATA,
+     .                                INTER_ITHKNOD,ERR_THK_SH4,ERR_THK_SH3,THKSH4,THKSH3,THKNOD,
+     .                                AREA_SH4,AREA_SH3,AREA_NOD,THICK_SH4,THICK_SH3,THICK_NOD,
+     .                                admerr_AREA_SH4,admerr_AREA_SH3,admerr_AREA_NOD,
      .                                admerr_THICK_SH4,admerr_THICK_SH3,admerr_THICK_NOD)
- 
+
 C----------------------------------------------------------
 C    SELECTIVE MASS SCALING
 C----------------------------------------------------------
 C for chkpt :: ISMSCH=1
               ISMSCH  =1
-             call resol_alloc_phase10(NGROUP,IDTMINS, IDTMINS_INT,TAGNOD_SMS,NATIV_SMS,TAGPRT_SMS,TAGREL_SMS,INDX1_SMS,INDX2_SMS, 
-     .                                 TAGSLV_RBY_SMS,TAGMSR_RBY_SMS,KAD_SMS,JAD_SMS,IAD_SMS,LAD_SMS, 
-     .                                 JADC_SMS,JADS_SMS,JADS10_SMS,JADT_SMS,JADP_SMS,JADR_SMS,JADTG_SMS, 
-     .                                 X_SMS,P_SMS,Y_SMS,Z_SMS,PREC_SMS,XMOM_SMS,PREC_SMS3,DIAG_SMS3, 
-     .                                 T2MAIN_SMS,T2FAC_SMS,FR_RMS,FR_SMS,PTR_SMS,NSPMD,NINTSTAMP, 
-     .                                 JADI21_SMS,TAGSLV_I21_SMS,TAGMSR_I21_SMS,NODXI_SMS,NODII_SMS, 
+             call resol_alloc_phase10(NGROUP,IDTMINS, IDTMINS_INT,TAGNOD_SMS,NATIV_SMS,TAGPRT_SMS,TAGREL_SMS,INDX1_SMS,INDX2_SMS,
+     .                                 TAGSLV_RBY_SMS,TAGMSR_RBY_SMS,KAD_SMS,JAD_SMS,IAD_SMS,LAD_SMS,
+     .                                 JADC_SMS,JADS_SMS,JADS10_SMS,JADT_SMS,JADP_SMS,JADR_SMS,JADTG_SMS,
+     .                                 X_SMS,P_SMS,Y_SMS,Z_SMS,PREC_SMS,XMOM_SMS,PREC_SMS3,DIAG_SMS3,
+     .                                 T2MAIN_SMS,T2FAC_SMS,FR_RMS,FR_SMS,PTR_SMS,NSPMD,NINTSTAMP,
+     .                                 JADI21_SMS,TAGSLV_I21_SMS,TAGMSR_I21_SMS,NODXI_SMS,NODII_SMS,
      .                                 MSKYI_SMS,ISKYI_SMS,JADI_SMS,JDII_SMS,LTI_SMS,LSKYI_SMS,
      .                                 npart,numelc,numels,numels10,numelt,numelp,numelr,numeltg,numnod)
 C------------------------------------------
-             call resol_alloc_phase11(IREAC,IGRELEM,NUMNOD,NUMELSG,NUMELS16G,NUMSPHG, 
-     .                                NUMELCG,NUMELTGG,NUMELQG,NUMELTG,NUMELPG,NUMELRG,NTHPART, 
-     .                                NGPE,NGRTH,NELEM,NODREAC,GRTH,IGRTH,DXANCG, 
-     .                                IGROUPFLG,IGROUPC,IGROUPTG,IGROUPS,NUMMAT,IPM,NPROPMI, 
+             call resol_alloc_phase11(IREAC,IGRELEM,NUMNOD,NUMELSG,NUMELS16G,NUMSPHG,
+     .                                NUMELCG,NUMELTGG,NUMELQG,NUMELTG,NUMELPG,NUMELRG,NTHPART,
+     .                                NGPE,NGRTH,NELEM,NODREAC,GRTH,IGRTH,DXANCG,
+     .                                IGROUPFLG,IGROUPC,IGROUPTG,IGROUPS,NUMMAT,IPM,NPROPMI,
      .                                NVOLU,NUMELC,NUMELS)
 
 C-----------------------------------------------
@@ -1600,17 +1604,17 @@ C-----------------------------------------------
 C========================================================================================
 
 C save the Python functions into the Python interpreter dictionarry
-              call resol_alloc_python(PYTHON, NODES, NUMNOD, IXS, NIXS, NUMELS, 
-     .            NIXC, NUMELC, IXP, NIXP, NUMELP, IXT, NIXT, NUMELT, 
-     .            IXQ, NIXQ, NUMELQ, IXTG, NIXTG, NUMELTG, 
-     .            IXR, NIXR, NUMELR, IPARG, NGROUP, NPARG, MVSIZ, 
-     .            IPART, LIPART1, NPART, NTHPART, ISPMD, N2D, NUMGEO, NUMMAT, 
-     .            ELBUF_TAB, GEO, PM, BUFMAT, EANI, 
-     .            IPM, IGEO, THKE, STHKE, ERR_THK_SH4, ERR_THK_SH3, 
-     .            W, ALE_CONNECTIVITY, NPROPG, NPROPGI, NPROPM, NPROPMI, SEANI, 
-     .            snercvois, snesdvois, slercvois, slesdvois, 
-     .            NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
-     .            M51_N0PHAS, M51_NVPHAS, STACK, 
+              call resol_alloc_python(PYTHON, NODES, NUMNOD, IXS, NIXS, NUMELS,
+     .            NIXC, NUMELC, IXP, NIXP, NUMELP, IXT, NIXT, NUMELT,
+     .            IXQ, NIXQ, NUMELQ, IXTG, NIXTG, NUMELTG,
+     .            IXR, NIXR, NUMELR, IPARG, NGROUP, NPARG, MVSIZ,
+     .            IPART, LIPART1, NPART, NTHPART, ISPMD, N2D, NUMGEO, NUMMAT,
+     .            ELBUF_TAB, GEO, PM, BUFMAT, EANI,
+     .            IPM, IGEO, THKE, STHKE, ERR_THK_SH4, ERR_THK_SH3,
+     .            W, ALE_CONNECTIVITY, NPROPG, NPROPGI, NPROPM, NPROPMI, SEANI,
+     .            snercvois, snesdvois, slercvois, slesdvois,
+     .            NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
+     .            M51_N0PHAS, M51_NVPHAS, STACK,
      .            MULTI_FVM, MAT_ELEM, OUTPUT, GLOB_THERM, ELEMENT)
 C========================================================================================
 C Initialize SENSORS & communication buffers.
@@ -1729,7 +1733,7 @@ C
      9         ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST,RBE3,NHIER_RBY)
 
 !$OMP END PARALLEL
-C     End Initialisations //     
+C     End Initialisations //
               CALL PYTHON_END_OPENMP(PYTHON)
               call spmd_profile_end(PROF_RESOL_INIT)
               IF (ALEMUSCL_Param%IALEMUSCL == 0) DEALLOCATE(ADDTMPL)
@@ -1770,7 +1774,7 @@ C===============================================================================
               ! initialization of some size and arrays for ALE solver
               call init_ale(global_active_ale_element,n2d,numels,numelq,numeltg,nmult,
      .                      iale,ieuler,trimat,glob_therm%itherm,numnod,    
-     .                      nspmd,nsvois,nqvois,ntgvois,nparg,ngroup,slesdvois,slercvois,nsegflu,        
+     .                      nspmd,nsvois,nqvois,ntgvois,nparg,ngroup,slesdvois,slercvois,nsegflu,
      .                      nesdvois,nercvois,lesdvois,lercvois,nodes%itab, 
      .                      nodes%itabm1,ixs,ixq,ixtg,iparg,ale,ale_connectivity,elbuf_tab)
 
@@ -1815,7 +1819,7 @@ C E2E Fictive Node Position, Velocity, Mass
               ENDIF
 
               call init_global_boundary_list(numnod,nspmd,nodes)
-              
+
               CALL INIT_I25_EDGE(NLEDGE,NINTER,NPARI,IPARI,INTERFACES%INTBUF_TAB )
               IF(NINTER25 /= 0)THEN
                 ALLOCATE(IAD_I25(NBINTC+1,NSPMD))
@@ -2111,8 +2115,8 @@ C Init var parallel SMP
               ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
               !CALL sfem_init(SFEM)
               l1 = 1+nixs*numels+nsvois*nixs ! address of ixs10
-              call sfem_init(numels,numels10,numels8,numnod,ngroup, 
-     .                       nparg,ispmd,nspmd, 
+              call sfem_init(numels,numels10,numels8,numnod,ngroup,
+     .                       nparg,ispmd,nspmd,
      .                       iparg,ixs,ixs(l1),sfem,nodes)
 
 C========================================================================================
@@ -2655,8 +2659,8 @@ C                 BEGINNING OF EXPLICIT ITERATION LOOP
 C===========================================================================
               IF(GPU == 1) THEN
                CALL FORINTC_PREPARE_GPU( GPU, SHELLS, NUMELC,
-     .           PM , NPROPM,       GEO, NPROPG,  
-     .           NODES, MAT_ELEM  , NSECT, NSLIPRING, NEXMAD, 
+     .           PM , NPROPM,       GEO, NPROPG,
+     .           NODES, MAT_ELEM  , NSECT, NSLIPRING, NEXMAD,
      .           IPARG, nparg     ,ELEMENT%SHELL%IXC       , IPART(K3),
      .           IGROUC    ,NGROUC, NGROUP, NIXC    ,
      .           ELBUF_TAB, DTFAC1(3),
@@ -3037,7 +3041,7 @@ C----------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-               call spmd_profile_begin(PROF_CONV_RAD)                           
+               call spmd_profile_begin(PROF_CONV_RAD)
 !$OMP PARALLEL
 C-------------------------------------------------------------------
 C   BC -- CONVECTION  for heat_transfert by FEM
@@ -3186,12 +3190,12 @@ C TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
 C---------------------------------------------
               IF(SFEM%ISFEM == 1) THEN
                 IF(GLOB_THERM%ITHERM == 0)THEN
-                  if(imon>0) call startime(timers,timer_sfem)               
+                  if(imon>0) call startime(timers,timer_sfem)
                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
                   CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%lag%nodvar, sfem%S_SFEM_NODVAR,
      .                           IXS(L1), NODES%XDP, nodes%s_xdp,
      .                           NUMNOD, NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP,
-     .                           0,ispmd,sfem%lag)    
+     .                           0,ispmd,sfem%lag)
                   if(imon>0) call stoptime(timers,timer_sfem)
                 ENDIF
               ENDIF
@@ -3454,19 +3458,19 @@ C-----------------------------------------------
               IF(SFEM%ISFEM == 1) THEN
                 IF(GLOB_THERM%ITHERM == 0)THEN
                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-                  if(imon>0) call startime(timers,timer_sfem)               
+                  if(imon>0) call startime(timers,timer_sfem)
                   CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%lag%nodvar, sfem%S_SFEM_NODVAR,
      .                           IXS(L1), NODES%XDP, nodes%s_xdp,
      .                           NUMNOD, NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP,
-     .                           1,ispmd,sfem%lag)  
+     .                           1,ispmd,sfem%lag)
                   if(imon>0) call stoptime(timers,timer_sfem)
                 ENDIF
-              ENDIF              
+              ENDIF
 C--------------------------------------------------------
 C       ALE flux + forces
 C--------------------------------------------------------
               !wa(1:numels+numelq) = -huge(wa(1))
-              
+
               NEED_COMM_INTER18 = .FALSE.
               IF (IALE+IEULER+GLOB_THERM%ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
                 CALL STARTIME(TIMERS,MACRO_TIMER_ALEMAIN)
@@ -3568,6 +3572,25 @@ C
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
+
+
+              ! 2D BIMATERIAL WITH CUT CELL INTERFACE TRACKING
+                DT2TT    = DT2T
+                NELTSTT  = NELTST
+                ITYPTSTT = ITYPTST
+                ! DT1         : current time step (input)
+                ! DT2TT       : solver computed minimal time step (output)
+                ! DTFAC1(102) : Courant number for ALE CFL (/DT/ALE)
+                CALL ALEMAIN_CUTCELL(NIXTG,NIXQ,NUMELTG,NUMELQ,IXTG,IXQ,NUMNOD,NODES%X,ALE_CONNECTIVITY,NCYCLE,
+     .                               ITYPTSTT, NELTSTT, T1S, TT,
+     .                               NGRNOD,IGRNOD,DTFAC1(102),DT1,DT2TT,MULTI_CUTCELL,
+     .                               ngroup, elbuf_tab, nparg, iparg, ebcs_tab, n2d, NGRQUAD, IGRQUAD)
+                IF(DT2TT < DT2T)THEN
+                   DT2T   = DT2TT
+                   ITYPTST= ITYPTSTT
+                   NELTST = NELTSTT
+                ENDIF
+
 
               IF(ALE%SUB%IALESUB ==2 .AND. ALE%SUB%IFSUB==2)GOTO 22
  21           CONTINUE
@@ -4094,7 +4117,7 @@ C
                 CALL UPDATE_SLIPRING(IXR,ELEMENT%SHELL%IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
      .                               FLAG_RETRACTOR_UPDATE,NODES%X,NPBY,IGRPART,IXT,IXP,
      .                               IPART(I15D),IPART(I15E),IPART(I15F),FLAG_GUIDED_CABLE_UPDATE)
-              ENDIF                       
+              ENDIF
 C
 C---- // GROUPS ----------------
 C     INTERNAL FORCES OF SHELLS, 3-NODE SHELLS
@@ -4724,7 +4747,7 @@ C
                   IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) LENC = 3
                   IF(NINTSTAMP==0.AND.(H3D_DATA%N_VECT_PCONT_MAX /=0.OR.
      .              (ANIM_V(12) >0.AND.TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.
-     .              (H3D_DATA%N_VECT_PCONT >0.AND.TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP))) LENC = LENC+6 
+     .              (H3D_DATA%N_VECT_PCONT >0.AND.TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP))) LENC = LENC+6
 C
                   LENR = NODES%BOUNDARY_ADD(1,NSPMD+1)-NODES%BOUNDARY_ADD(1,1)
                   IF(IDTMINS /= 0)THEN
@@ -4794,7 +4817,7 @@ C
                   IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) LENC = 3*LENI
                   IF(NINTSTAMP==0.AND.(H3D_DATA%N_VECT_PCONT_MAX /=0.OR.
      .              (ANIM_V(12) >0.AND.TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.
-     .              (H3D_DATA%N_VECT_PCONT >0.AND.TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP))) LENC = LENC+6*LENI 
+     .              (H3D_DATA%N_VECT_PCONT >0.AND.TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP))) LENC = LENC+6*LENI
 
                   CALL SPMD_EXCH2_A_PON(INTERFACES,
      1             NODES%BOUNDARY_ADD    ,NODES%BOUNDARY   ,ELEMENT%PON%ADSKY   ,ELEMENT%PON%PROCNE    ,FR_NBCC     ,
@@ -5299,7 +5322,7 @@ C            IF(NLOC_DMG%IMOD>0) THEN
                call nloc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
      .                  numnodg, numelc, ispmd, nspmd,
      .                  new_crack, nloc_dmg, nthread)
- 
+
                if(new_crack > 0) then
                  ! if at least 1 node has been detached, some data must be re-initialized
                  numnodm = numnodm_old + new_crack
@@ -5327,7 +5350,7 @@ C            IF(NLOC_DMG%IMOD>0) THEN
                      NLOC_BND_ORIG(1:NLOC_BND_NSPMD_SAVE) =
      .                 NODES%BOUNDARY(1:NLOC_BND_NSPMD_SAVE)
                    END IF
-                   CALL spmd_rebuild_boundary(NUMNOD, NSPMD, ISPMD,NODES) 
+                   CALL spmd_rebuild_boundary(NUMNOD, NSPMD, ISPMD,NODES)
                    ! Merge: keep baseline sections for existing nodes (local ID <= NUMNOD_OLD)
                    ! and append new-node entries from the rebuilt boundary (local ID > NUMNOD_OLD).
                    ! This ensures both Parith/ON mechanical and NLOC exchanges are correct.
@@ -5691,7 +5714,7 @@ C-----------------------------------------------------
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
-                call spmd_profile_begin(PROF_RBY) 
+                call spmd_profile_begin(PROF_RBY)
                 CALL RBYSENS(
      1           IPARG,IPARI       ,NODES%MS    ,NODES%IN   ,
      2           IXS  ,IXQ  ,ELEMENT%SHELL%IXC   ,IXT   ,IXP  ,
@@ -5784,7 +5807,7 @@ C===============================================================================
 C----------------------------------------------------------
 C     Rigid wall - Force node (moving RWALL)
 C----------------------------------------------------------
-              IF (NRWALL>0) THEN 
+              IF (NRWALL>0) THEN
                 call spmd_profile_begin(PROF_RWALL)
                 CALL RGWALF(NODES%A ,RWALL%RWBUF ,RWALL%NPRW ,NODES%MS )
                 IF (RWALL%nrwall_pen>0 .AND. IMPL_S==0) THEN 
@@ -5794,7 +5817,7 @@ C----------------------------------------------------------
      1            NODES%X           ,NODES%A        ,NODES%V      ,NODES%MS       ,NUMNOD            ,
      2            FSAV(1,NINTER+1)  ,NTHVKI         ,FRWL6        ,NODES%WEIGHT_MD,NCYCLE            ,
      3            OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),SENSORS%SFSAV,SENSORS%FSAV ,SENSORS%STABSEN   ,
-     4            SENSORS%TABSENSOR,nsect_offset,NODES%STIFN   ,DT1               ,NSPMD             , 
+     4            SENSORS%TABSENSOR,nsect_offset,NODES%STIFN   ,DT1               ,NSPMD             ,
      5            RWALL%NRWALL,RWALL        )
 !$OMP END PARALLEL
                 END IF 
@@ -6351,7 +6374,7 @@ C processes in charge of the FVMBAGS know NPOLH)
               IF (IMPL_S==1)  CALL IMP_DT2(DT2)
 
               IF (IMONM > 0) CALL STOPTIME(TIMERS,53)
-              
+
 C --------------------------
               IF ( NCYCLE == 0 .AND. FLG_KJ2_RAZ > 0  ) THEN     ! All processes should go in this block
                 if (ispmd==0)then
@@ -8568,7 +8591,7 @@ C Regular animation
      t          USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS        ,
      u          TABLE         ,LOADS          ,SFANI          ,IPARIT             ,ptrX_offset   ,
      v          SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST             ,OUTPUT%TH%WFEXT,
-     w          MASS0_START)
+     w          MASS0_START   ,MULTI_CUTCELL)
 
                 IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
                   CALL SORTIE_ERROR(
@@ -8986,7 +9009,8 @@ CC
      .                                TT,   IRODDL, LOADS%NINIVELT,LOADS%INIVELT,
      .                             NPARG,   NGROUP,       LENGTH,         IPARG,
      .                         ELBUF_TAB,       NODES%MS,         NODES%IN,        NODES%WEIGHT,
-     .                           NXFRAME,   T_KIN ,NS10E      ,ICNDS10 ,ISPMD )
+     .                           NXFRAME,   T_KIN ,NS10E      ,ICNDS10 ,ISPMD,
+     .                            NUMELS, NUMELQ, NUMELTG )
                   OUTPUT%TH%WFEXT = OUTPUT%TH%WFEXT + T_KIN
                 END IF
 !
@@ -9799,6 +9823,13 @@ C
                 IF(ALLOCATED(V22MAX_L))         DEALLOCATE (V22MAX_L)
                 IF(ALLOCATED(DX22MIN_L))        DEALLOCATE (DX22MIN_L)
                 IF(ALLOCATED(INT22_FCELL_ANIM)) DEALLOCATE (INT22_FCELL_ANIM)
+
+                !ALE CUTCELL
+                IF(ALE%solver%multimat%is_defined_mmale3 /= 0) THEN
+                  call deallocate_multi_cutcell_type(multi_cutcell)
+                  call deallocate_solver_multicutcell()
+                  if(allocated(ale%cutcell%fvm_vel)) deallocate (ale%cutcell%fvm_vel)
+                END IF
 
                 !ALEFVM
                 IF(ALLOCATED(ALEFVM_Buffer%WFEXT_CELL)) DEALLOCATE (ALEFVM_Buffer%WFEXT_CELL)

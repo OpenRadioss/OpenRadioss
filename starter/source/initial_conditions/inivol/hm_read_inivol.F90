@@ -74,6 +74,7 @@
           use file_descriptor_mod
           use constant_mod
           use precision_mod, only: WP
+          use ale_mod , only : ale
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -144,6 +145,8 @@
 
           if (multi_fvm%is_used)then
             nbsubmat = multi_fvm%nbmat
+          elseif(ALE%solver%multimat%is_defined_mmale3 /= 0)then
+            nbsubmat = 2
           else
             nbsubmat = 4
           end if
@@ -249,7 +252,7 @@
               !check multimaterial compatibility
               imat = ipart(lipart1*(part_id-1)+1)
               ilaw = ipm((imat-1)*npropmi + 2)     !ipm(2,imat)
-              if(ilaw/=51 .and. ilaw/=151)then
+              if(ilaw /= 20 .and. ilaw /= 51 .and. ilaw /= 151)then
                 !INIVOL OPTION IS ONLY COMPATIBLE WITH MULTIMATERIAL LAWS 51 and 151
                 call ancmsg(msgid=821, msgtype=msgerror, anmode=aninfo, i1=id, c1=titr)
               end if

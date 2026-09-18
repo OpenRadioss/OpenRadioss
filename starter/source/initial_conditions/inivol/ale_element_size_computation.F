@@ -98,7 +98,7 @@ C-----------------------------------------------
             ISOLNOD = IPARG(28,NG)
             INIVOL = IPARG(53,NG)
             IF(INIVOL <= 0) CYCLE
-            IF(MTN /= 51 .AND. MTN /= 151) CYCLE
+            IF(MTN /= 20 .AND. MTN /= 51 .AND. MTN /= 151) CYCLE
             IF(N2D == 0 .AND. ITY /= 1)THEN
               CYCLE
             ELSEIF(N2D > 0 .AND. ITY/=7 .AND. ITY /= 2)THEN

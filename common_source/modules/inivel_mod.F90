@@ -76,6 +76,7 @@
           integer ::  grqd_id    !< grqd_id
           integer ::  grtria_id  !< grtria_id
           integer ::  sensor_id  !< sensor_id
+          integer ::  submat_id  !< submat_id
           real(kind=WP) ::  VX,VY,VZ   !< VX,VY,VZ
           real(kind=WP) ::  tstart     !< t_start
         end type  fvm_inivel_

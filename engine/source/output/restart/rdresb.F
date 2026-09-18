@@ -320,6 +320,7 @@ C-----------------------------------------------
       INTEGER :: SKEW_LEN
       LOGICAL :: IS_EBCS_PARALLEL
       INTEGER :: NPT,NRBE3PEN_L
+      INTEGER :: NN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -1474,6 +1475,24 @@ C--------------------------------------
 C ALE LINK
 C--------------------------------------
       CALL READ_ALE_GRID()
+C--------------------------------------
+C ALE SOLVER MULTIMAT
+C--------------------------------------
+      CALL ALE%SOLVER%MULTIMAT%READ_FROM_RESTART()
+C--------------------------------------
+C MULTIMAT CUT-CELL
+C--------------------------------------
+      IF(ALE%solver%multimat%is_defined_mmale3 == 1)then
+        CALL READ_I_C(NN,1)
+        ALE%cutcell%NINIVEL_CUT_CELL = NN
+        IF(NN>0)THEN
+          ALLOCATE(ALE%cutcell%FVM_VEL(NN))
+          CALL READ_I_C(ALE%cutcell%FVM_VEL(1:NN)%ISUBMAT,NN)
+          CALL READ_I_C(ALE%cutcell%FVM_VEL(1:NN)%GRQUADID,NN)
+          CALL READ_DB(ALE%cutcell%FVM_VEL(1:NN)%VY,NN)
+          CALL READ_DB(ALE%cutcell%FVM_VEL(1:NN)%VZ,NN)
+        ENDIF
+      ENDIF
 C--------------------------------------
 C FXBODY (moved from radioss2.F)
 C--------------------------------------

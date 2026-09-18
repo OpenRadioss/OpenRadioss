@@ -277,7 +277,9 @@ c
 C-------------initialization even in DP in Starter only---                  
               CALL MY_ALLOC(LBUF%VOL0DP,NEL,"LBUF%VOL0DP")
                   LBUF%VOL0DP = ZERO
-              ENDDO                                                           
+              CALL MY_ALLOC(LBUF%VEL,NEL*BUFLY%L_VEL)
+                  LBUF%VEL = 1.23456789
+              ENDDO
             ENDDO                                                          
            ENDDO 
            IF ( IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN

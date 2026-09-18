@@ -340,6 +340,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN), DIMENSION(LIFLOW) :: IFLOW
       INTEGER, INTENT(IN), DIMENSION(LRFLOW) :: RFLOW
       INTEGER :: NPT
+      INTEGER :: NN
 C-----------------------------------------------
 C     Python interface
 C-----------------------------------------------
@@ -1552,6 +1553,21 @@ C--------------------------------------
 C ALE GRID
 C--------------------------------------
       CALL WRITE_ALE_GRID()
+C--------------------------------------
+C ALE SOLVER MULTIMAT
+C--------------------------------------
+      CALL ALE%SOLVER%MULTIMAT%WRITE_TO_RESTART()
+C--------------------------------------
+C MULTIMAT CUT-CELL
+C--------------------------------------
+      IF(ALE%solver%multimat%is_defined_mmale3 == 1)then
+        NN = ALE%cutcell%NINIVEL_CUT_CELL
+        CALL WRITE_I_C(NN,1)
+        CALL WRITE_I_C(ALE%cutcell%FVM_VEL(1:NN)%ISUBMAT,NN)
+        CALL WRITE_I_C(ALE%cutcell%FVM_VEL(1:NN)%GRQUADID,NN)
+        CALL WRITE_DB(ALE%cutcell%FVM_VEL(1:NN)%VY,NN)
+        CALL WRITE_DB(ALE%cutcell%FVM_VEL(1:NN)%VZ,NN)
+      ENDIF
 C--------------------------------------
 C FXBODY (moved from resol.F)
 C--------------------------------------

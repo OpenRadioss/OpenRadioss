@@ -574,18 +574,18 @@ C-----------------------------------------------
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DRAPEG_)   :: DRAPEG
 C-----------------------------------------------
-      TYPE (SUBSET_) , DIMENSION(NSUBS)   :: SUBSET
-      TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
-      TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD
-      TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
-      TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
-      TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS
-      TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM
-      TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING
-      TYPE (GROUP_)  , DIMENSION(NGRPART) :: IGRPART
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (SURF_)   , DIMENSION(NSLIN)   :: IGRSLIN
+      TYPE (SUBSET_) , DIMENSION(NSUBS)         :: SUBSET
+      TYPE (GROUP_)  , DIMENSION(NGRNOD),TARGET :: IGRNOD
+      TYPE (GROUP_)  , DIMENSION(NGRBRIC)       :: IGRBRIC
+      TYPE (GROUP_)  , DIMENSION(NGRQUAD)       :: IGRQUAD
+      TYPE (GROUP_)  , DIMENSION(NGRSHEL)       :: IGRSH4N
+      TYPE (GROUP_)  , DIMENSION(NGRSH3N)       :: IGRSH3N
+      TYPE (GROUP_)  , DIMENSION(NGRTRUS)       :: IGRTRUSS
+      TYPE (GROUP_)  , DIMENSION(NGRBEAM)       :: IGRBEAM
+      TYPE (GROUP_)  , DIMENSION(NGRSPRI)       :: IGRSPRING
+      TYPE (GROUP_)  , DIMENSION(NGRPART)       :: IGRPART
+      TYPE (SURF_)   , DIMENSION(NSURF)         :: IGRSURF
+      TYPE (SURF_)   , DIMENSION(NSLIN)         :: IGRSLIN
       TYPE (PINCH) :: PINCH_DATA
 
       INTEGER,INTENT(IN) :: SLN_PEN
@@ -668,7 +668,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER,DIMENSION(:,:),ALLOCATABLE:: DD_RBYM2
       INTEGER,DIMENSION(:,:),ALLOCATABLE:: DD_RBY2
-      INTEGER I, IR_, IM,IFILNAM(2148),IFILNAM2(2148),
+      INTEGER I, IR_, IM,IFILNAM(2148),IFILNAM2(2148),NN,SURF_ID,
      .        NUMELS_L,NUMELS8_L,NUMELS10_L,NUMELS20_L,NUMELS16_L,
      .        NUMELQ_L ,NUMELC_L, NCONLD_L,NSKYLL_L,
      .        NUMELT_L,NUMELP_L,NUMELR_L,NUMELTG_L,
@@ -822,6 +822,8 @@ C
       TYPE(t_connectivity_ext1) :: ee_connect_l
       LOGICAL :: IS_EBCS_PARALLEL
       INTEGER :: ISHADOW !< shadowing option for detonators (Eikonal equation solver)
+      INTEGER, DIMENSION(:), POINTER :: INGR2USR
+      INTEGER,EXTERNAL :: NGR2USR
 C-----------------------------------------------
       TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L
 C-----------------------------------------------
@@ -3399,6 +3401,37 @@ C--------------------------------------
 C ALE LINKS
 C--------------------------------------
       CALL WRITE_ALE_GRID()
+C--------------------------------------
+C ALE SOLVER MULTIMAT
+C--------------------------------------
+      INGR2USR => IGRNOD(1:NGRNOD)%ID
+      ALE%SOLVER%MULTIMAT%LIST(1)%surf_id = NGR2USR(ALE%SOLVER%MULTIMAT%LIST(1)%surf_id,INGR2USR,NGRNOD)
+      ! surface identifiers : user -> internal
+      SURF_ID = ALE%SOLVER%MULTIMAT%LIST(1)%surf_id2
+      IF(SURF_ID > 0) ALE%SOLVER%MULTIMAT%LIST(1)%surf_id2 = NGR2USR(SURF_ID,INGR2USR,NGRNOD)
+      SURF_ID = ALE%SOLVER%MULTIMAT%LIST(1)%surf_id3
+      IF(SURF_ID > 0) ALE%SOLVER%MULTIMAT%LIST(1)%surf_id3 = NGR2USR(SURF_ID,INGR2USR,NGRNOD)
+      SURF_ID = ALE%SOLVER%MULTIMAT%LIST(1)%surf_id4
+      IF(SURF_ID > 0) ALE%SOLVER%MULTIMAT%LIST(1)%surf_id4 = NGR2USR(SURF_ID,INGR2USR,NGRNOD)
+      SURF_ID = ALE%SOLVER%MULTIMAT%LIST(1)%surf_id5
+      IF(SURF_ID > 0) ALE%SOLVER%MULTIMAT%LIST(1)%surf_id5 = NGR2USR(SURF_ID,INGR2USR,NGRNOD)
+      CALL ALE%SOLVER%MULTIMAT%WRITE_TO_RESTART()
+C--------------------------------------
+C MULTIMAT CUT-CELL
+C--------------------------------------
+      IF(ALE%solver%multimat%is_defined_mmale3 == 1)then
+        NN = ALE%cutcell%NINIVEL_CUT_CELL
+        CALL WRITE_I_C(NN,1)
+        if(nn>0)then
+          CALL WRITE_I_C(ALE%cutcell%FVM_VEL(1:NN)%ISUBMAT,NN)
+          CALL WRITE_I_C(ALE%cutcell%FVM_VEL(1:NN)%GRQUADID,NN)
+          CALL WRITE_DB(ALE%cutcell%FVM_VEL(1:NN)%VY,NN)
+          CALL WRITE_DB(ALE%cutcell%FVM_VEL(1:NN)%VZ,NN)
+          len_ia = len_ia + 1 + 2*NN
+          len_am = len_am + 0 + 2*NN
+          if(allocated(ale%cutcell%fvm_vel)) deallocate (ale%cutcell%fvm_vel)
+        endif
+      ENDIF
 C-----------------------------------------------
 C FXBODY
 C-----------------------------------------------

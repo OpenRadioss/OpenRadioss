@@ -136,9 +136,9 @@ C-----------------------------------------------
           UVAR(I,4)  = KVOL(1,I)
           UVAR(I,5)  = KVOL(2,I)
         ENDDO
-      ELSEIF(MLW == 151)THEN
+      ELSEIF(MLW == 20 .OR. MLW == 151)THEN
         GBUF => ELBUF_TAB(NG)%GBUF
-        DO IMAT=1,MULTI_FVM%NBMAT
+        DO IMAT=1,MAX(2,MULTI_FVM%NBMAT)
           LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
           DO I=1,NEL
             IF(IPART(I+NFT) /= IDP)CYCLE

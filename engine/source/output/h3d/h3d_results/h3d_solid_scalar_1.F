@@ -59,7 +59,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT    ,IUVAR_INPUT , H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD     ,FANI_CELL   ,
      .                  MULTI_FVM       ,NG           ,IDMDS       ,IMDSVAR     ,
-     .                  ID              ,MAT_PARAM    ,MODE        )
+     .                  ID              ,MAT_PARAM    ,MODE        ,MULTI_CUTCELL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +76,8 @@ C-----------------------------------------------
         USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
         USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
         use element_mod , only : nixs
+        USE MULTI_CUTCELL_MOD, ONLY : MULTI_CUTCELL_STRUCT
+        USE ALE_MOD , ONLY : ALE ! ALE%solver%multimat%is_defined_mmale3
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,6 +116,7 @@ C-----------------------------------------------
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
         INTEGER ,INTENT(IN) :: MODE
+        TYPE(MULTI_CUTCELL_STRUCT) :: MULTI_CUTCELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -374,6 +377,12 @@ C--------------------------------------------------
                     VALUE(I) = MULTI_FVM%RHO(I + NFT)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
+                ELSEIF(ALE%solver%multimat%is_defined_mmale3 == 1)then
+                  !multimat with cut-cell method
+                  DO I = 1, NEL
+                     VALUE(I) = MULTI_CUTCELL%RHO(I + NFT)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
                 ELSE
                   DO I=1,NEL
                     VALUE(I) = GBUF%RHO(I)
@@ -410,6 +419,12 @@ C--------------------------------------------------
                     VALUE(I) = MULTI_FVM%PRES(I + NFT)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
+                ELSEIF(ALE%solver%multimat%is_defined_mmale3 == 1)then
+                  !multimat with cut-cell method
+                  DO I = 1, NEL
+                     VALUE(I) = MULTI_CUTCELL%PRES(I + NFT)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
                 ELSE
                   DO I=1,NEL
                     II = (I-1)*6
@@ -2240,6 +2255,12 @@ C--------------------------------------------------
                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)  !
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
+                ELSEIF(ALE%solver%multimat%is_defined_mmale3 == 1)then
+                  !multimat with cut-cell method
+                  DO I = 1, NEL
+                     VALUE(I) = MULTI_CUTCELL%EINT(I + NFT) / MULTI_CUTCELL%RHO(I + NFT)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
                 ELSE
                   IALEL=IPARG(7,NG)+IPARG(11,NG)
                   IF(IALEL == 0)THEN
@@ -2264,6 +2285,12 @@ C--------------------------------------------------
                     VALUE(I) = MULTI_FVM%EINT(I + NFT)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
+                ELSEIF(ALE%solver%multimat%is_defined_mmale3 == 1)then
+                  !multimat with cut-cell method
+                  DO I = 1, NEL
+                     VALUE(I) = MULTI_CUTCELL%EINT(I + NFT)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
                 ELSE
                   IALEL=IPARG(7,NG)+IPARG(11,NG)
                   IF(IALEL == 0)THEN
