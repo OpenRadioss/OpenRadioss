@@ -1286,6 +1286,7 @@ C SPRING ELEMENT TIME STEP
       integer :: sh4tree_dim1,sh4tree_dim2,sh3tree_dim1,sh3tree_dim2
       type(elm_group_) :: elm_group
 c=======================================================================
+      print*,'Hello world from lectur.F'
       IREAC = 0 
       PYTHON%NB_FUNCTS = 0
       PYTHON%NB_SENSORS = 0
