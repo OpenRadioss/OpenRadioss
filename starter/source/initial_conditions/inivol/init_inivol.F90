@@ -440,7 +440,7 @@
                   isolnod = iparg(28,ng)
                   invol   = iparg(53,ng)
                   if (invol <=  0) cycle
-                  if (mtn /= 51 .and. mtn /= 151) cycle
+                  if (mtn /= 20 .and. mtn /= 51 .and. mtn /= 151) cycle
                   if(n2d == 0 .and. ity /= 1)then
                     cycle
                   else if(n2d > 0 .and. ity /= 7 .and. ity /= 2)then

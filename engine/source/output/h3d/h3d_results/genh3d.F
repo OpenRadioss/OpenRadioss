@@ -215,7 +215,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      4                  LLOADP   ,FAC      ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6                  CSEFRIC_STAMP,CSEFRICG_STAMP    ,TABLE       ,IFRAME    ,LOADS,
-     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  ,X_C         ,GLOB_THERM,PBLAST)
+     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  ,X_C         ,GLOB_THERM,PBLAST,
+     8                  MULTI_CUTCELL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -256,6 +257,7 @@ C-----------------------------------------------
         USE h3d_gather_id_val_mod
         USE SPMD_MOD
         use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
+        USE MULTI_CUTCELL_MOD, ONLY : MULTI_CUTCELL_STRUCT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -367,6 +369,7 @@ C-----------------------------------------------
         TYPE (DRAPEG_), INTENT(IN)  :: DRAPEG
         type (glob_therm_), intent(in) :: GLOB_THERM
         type (pblast_), intent(in) :: PBLAST
+        TYPE(MULTI_CUTCELL_STRUCT) :: MULTI_CUTCELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -736,19 +739,19 @@ C*******************************************************************************
             REQUESTED_H3D_VERSION_MINOR = 0
 
             CALL C_H3D_EXPORT_LIBRARY_VERSION(H3D_VERSION_MAJOR, H3D_VERSION_MINOR)
-            IF(H3D_VERSION_MAJOR < REQUESTED_H3D_VERSION_MAJOR .AND. 
+            IF(H3D_VERSION_MAJOR < REQUESTED_H3D_VERSION_MAJOR .AND.
      .        H3D_VERSION_MINOR < REQUESTED_H3D_VERSION_MINOR) THEN
               CALL ANCMSG(MSGID=324,ANMODE=ANINFO,I1=H3D_VERSION_MAJOR,
      .        I2=H3D_VERSION_MINOR,I3=REQUESTED_H3D_VERSION_MAJOR,I4=REQUESTED_H3D_VERSION_MINOR)
               CALL ARRET(2)
             ENDIF
 C**********************************************************************************************
-C PRINT H3D LIB VERSION 
+C PRINT H3D LIB VERSION
 C**********************************************************************************************
         IF (ISPMD==0) THEN
           WRITE (IOUT,*)
           WRITE (IOUT,2000) H3D_VERSION_MAJOR,H3D_VERSION_MINOR
-          WRITE (IOUT,*) 
+          WRITE (IOUT,*)
         ENDIF
 C**********************************************************************************************
 C OPEN H3D FILE
@@ -2922,7 +2925,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                           IXP            ,IXR      ,PM   , OUTPUT%DATA%SCAL_SPRING,
      .                           ONED_SCALAR    ,ONED_ID  ,ONED_ITY,
      .                           IS_WRITEN_ONED ,IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                           KEYWORD, X , D   ,IPT, 
+     .                           KEYWORD, X , D   ,IPT,
      .                           NUMELP,  NUMELT,  NUMELR,NIXT,NIXP,
      .                           NIXR,    NGROUP,  ANIM_FE,  MX_ANI,   NPARG,
      .                           NPROPM,  NPROPG,  NUMMAT,   NUMGEO,   NUMNOD,
@@ -3119,7 +3122,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       SHELL_STACKSIZE)
 
 c
-           
+
             if (ispmd==0) then
                 IS_WRITEN_SHELL_P(1:SHELL_STACKSIZE) =  IS_WRITEN_SHELL(1:SHELL_STACKSIZE)
                 SHELL_STACK_P(1:SHELL_STACKSIZE) =  SHELL_STACK(1:SHELL_STACKSIZE)
@@ -3137,7 +3140,7 @@ c
                ! to fit with P0 order
                CALL H3D_GATHER_ID_VAL(IS_WRITEN_SHELL,SHELL_STACK,SHELL_STACKSIZE,1,
      *           IS_WRITEN_SHELL_P,SHELL_STACK_P,NUMELCG+NUMELTGG,
-     *           SHELL_STACKSIZE_P0,GATHER_SIZE,SH_TRIA_SPMD_OFFSETS,NSPMD,ISPMD,IT_SPMD)      
+     *           SHELL_STACKSIZE_P0,GATHER_SIZE,SH_TRIA_SPMD_OFFSETS,NSPMD,ISPMD,IT_SPMD)
 
                CALL STOPTIME(TIMERS,MACRO_TIMER_SPMDH3D)
             ENDIF
@@ -3312,8 +3315,8 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,GLOB_THERM%ITHERM,OUTPUT%DATA%FANI_CELL    ,
-     .                      MULTI_FVM, IDMDS         ,IMDSVAR      ,
-     .                      OBJECT_ID ,MAT_PARAM ,MODE          )
+     .                      MULTI_FVM, IDMDS          , IMDSVAR      ,
+     .                      OBJECT_ID ,MAT_PARAM ,MODE, MULTI_CUTCELL          )
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)
@@ -3363,7 +3366,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,OUTPUT%DATA%FANI_CELL    ,
-     .                      H3D_DATA, MULTI_FVM)
+     .                      H3D_DATA, MULTI_FVM, MULTI_CUTCELL)
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)

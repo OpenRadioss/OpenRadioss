@@ -236,6 +236,7 @@ C
       LOGICAL :: IS_AVAILABLE
       INTEGER :: NUMTITLE, NGRTRIA, IDUMMY, NANIM_VERS
       INTEGER :: NALEMUSCL
+      INTEGER :: NINISTA
       INTEGER :: NB_INISHE,NB_INISH3,NB_INIBRI,NB_INIQUAD,
      .           NB_INIBEAM,NB_INITRUSS,NB_INISPRIG,NB_INISPHCEL
       INTEGER :: LEN_LINE
@@ -1011,9 +1012,9 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/ALE/LINK/VEL', NALELK)
 
       !*****************
-      ! /ALE/SOLVER/FINT
+      ! /ALE/SOLVER/...
       !*****************
-      CALL HM_READ_ALE_SOLVER(LSUBMODEL, UNITAB, ALE%GLOBAL%ICAA, ALE%GLOBAL%ISFINT)
+      CALL HM_READ_ALE_SOLVER(LSUBMODEL, UNITAB, ALE%GLOBAL%ICAA, ALE%GLOBAL%ISFINT, ALE%GLOBAL%IS_ALE_SOLVER_MULTIMAT)
 
       !********
       ! /UPWIND
@@ -1284,7 +1285,7 @@ C=======================================================================
      .'            (AMONG NUMSPH & NUMNOD) . . . . . . . . . . . . .',
      .  NSPHSOL
       ENDIF
-      WRITE (IOUT,'(/(A,I10))')  TITRE(138)(1:57),NFUNCT,
+      WRITE (IOUT,'((A,I10))')  TITRE(138)(1:57),NFUNCT,
      .'    NGRAV:  NUMBER OF GRAVITY LOADS . . . . . . . . . . .',
      .NGRAV,
      .'    NFUNC2D:  NUMBER OF USER 2D FUNCTIONS . . . . . . . .',
@@ -1354,9 +1355,12 @@ C
       WRITE(IOUT,'(A,I10)')
      .'    NRBE3:  NUMBER OF RBE3 CONSTRAINT ELEMENTS  . . . . .',
      .NRBE3
+      CALL HM_OPTION_COUNT('/INISTA',NINISTA)
+      IF(NINISTA /= 0)THEN
       WRITE (IOUT,'(2A/A,I10)')'    INITIAL STRESS FILE =',TRIM(S0FILE),
      . '                                          FLAG ISIGI. . .',
      . ISIGI
+      ENDIF
 C
       IF (IREFSTA/=0) THEN
        WRITE (IOUT,'(2A/A,I10/A,I10)')
@@ -1366,10 +1370,7 @@ C
      . '                               NUMBER OF STEPS , NITRS. .',
      . NITRS
       ENDIF
-      
-      IF(JALE+JEUL/=0)THEN         
-        WRITE(IOUT,'(A,I10)')'    ISFINT: ALE/EULER MOMENTUM INTEGRATION FORMULATION. .',ALE%GLOBAL%ISFINT
-      ENDIF 
+
       IF(ALE%GLOBAL%ICAA==1)THEN
         WRITE(IOUT,5380)
       END IF            
@@ -1450,6 +1451,8 @@ C                                                                    012
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
       IF(JALE/=0 .AND. ALEFVM_Param%IEnabled/=0)WRITE(IOUT,5502)ALEFVM_Param%ISOLVER
       IF(JALE/=0 .AND. ALE%GLOBAL%ISFINT/=0) WRITE(IOUT,5503)ALE%GLOBAL%ISFINT
+      IF(JALE+JEUL /=0 .AND. ALE%GLOBAL%IS_ALE_SOLVER_MULTIMAT /= 0) WRITE(IOUT,5506)ALE%SOLVER%MULTIMAT%LIST(1)%MMALE
+
       WRITE(IOUT,5700)LAGM_TOL
       WRITE(IOUT,5800)IMAS_DS
       IF ((NUMSPH>0).AND.(NSPHSOL==0)) WRITE (IOUT,5600) SPASORT,LVOISPH,KVOISPH
@@ -1674,6 +1677,8 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 5X,'FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . : ',I10)
  5505 FORMAT(
      & 4X,'ITEMP  : TEMPERATURE CUTOFF FLAG . . . . . . . . . . .',I10)
+ 5506 FORMAT(
+     & 4X,'MMALE  : MULTI-MATERIAL-ALE FORMULATION. . . . . . . .',I10)
  5700 FORMAT(//
      & 4X,'LAGRANGE MULTIPLIER OPTIONS'/
      & 4X,'---------------------------'/

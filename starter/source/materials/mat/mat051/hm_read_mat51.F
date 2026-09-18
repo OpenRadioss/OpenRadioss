@@ -83,6 +83,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MAT51_ASSOCIATE_EOS_MOD , ONLY : MAT51_ASSOCIATE_EOS
+      USE ALE_MOD , ONLY : ALE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -150,6 +151,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      ALE%SOLVER%MULTIMAT%is_defined_mmale1 = 1
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISRATE=0

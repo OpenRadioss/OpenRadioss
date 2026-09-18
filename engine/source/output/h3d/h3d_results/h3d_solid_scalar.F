@@ -51,7 +51,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,ITHERM      ,FANI_CELL   ,
      .                  MULTI_FVM       , IDMDS     ,IMDSVAR     ,
-     .                  ID              ,MAT_PARAM    ,MODE         )
+     .                  ID              ,MAT_PARAM    ,MODE      , MULTI_CUTCELL   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C-----------------------------------------------
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
         USE MATPARAM_DEF_MOD
         use element_mod , only : nixs
+        USE MULTI_CUTCELL_MOD, ONLY : MULTI_CUTCELL_STRUCT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,6 +98,7 @@ C-----------------------------------------------
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
         INTEGER ,INTENT(IN) :: MODE
+        TYPE(MULTI_CUTCELL_STRUCT) :: MULTI_CUTCELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,10 +124,10 @@ c
      .                    IPM             ,
      .                    X            ,V         ,W           ,ALE_CONNECT,
      .                    ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
-     .                    IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
-     .                    IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
-     .                    MULTI_FVM       , NG        ,IDMDS       ,IMDSVAR     ,
-     .                    ID           ,MAT_PARAM ,MODE     )
+     .                    IR_INPUT        ,IS_INPUT     ,IT_INPUT    ,IUVAR_INPUT ,H3D_PART    ,
+     .                    IS_WRITTEN_SOLID,INFO1        ,KEYWORD     ,FANI_CELL   ,
+     .                    MULTI_FVM       , NG          ,IDMDS       ,IMDSVAR     ,
+     .                    ID           ,MAT_PARAM ,MODE ,MULTI_CUTCELL )
 
 
  900    CONTINUE   ! NG

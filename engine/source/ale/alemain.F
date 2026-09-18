@@ -277,6 +277,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------  
 
+      IF(ALE%SOLVER%MULTIMAT%is_defined_mmale3 == 1)return
       IBID          = 0
       BID           = ZERO
       SBUFVOIS      = 6
@@ -309,7 +310,7 @@ C  IOUTPRT (assembly report)
       IF(ITASK==0)ALLOCATE(BUFVOIS(SBUFVOIS ,NSVOIS+NQVOIS)) !SPMD array of adjacent ALE/CFD elems           !OPTIM : SHOULD BE ALLOCATED IN ARRALOC,  same for FLUX_VOIS & N4_VOIS
       IF(ITASK==0)SZ_BUFVOIS=SBUFVOIS*(NSVOIS+NQVOIS)
 
-      IF(N2D /= 0 .AND. NMULT /= 0)THEN
+      IF(N2D /= 0 .AND. NMULT /= 0 .AND. ALE%SOLVER%MULTIMAT%IS_DEFINED_MMALE3 == 0 )THEN
         !WA(1:IADBH-1)                         = FLUX
         !WA(IADBH:IADBH+MAX(1,NMULT)*NUMELQ-1) = BHOLE
         IADBH=MAX(1,NMULT)*4*NUMELQ+1
@@ -745,7 +746,11 @@ C     -------------------------
             ENDIF
             IF(ITASK==0) CALL STOPTIME(TIMERS,MACRO_TIMER_MULTIFVM)
 
-         ELSE
+         ELSEIF(ALE%SOLVER%MULTIMAT%is_defined_mmale3 ==0)THEN
+            ! REMINDER
+            !   "mmale=1: Staggered Upwind advection + von Neumann-Richtmyer artificial viscosity + diffuse interface"
+            !   "mmale=2: Collocated HLLC + diffuse interface"
+            !   "mmale=3: Collocated HLLC + lagrangian interface tracking"
 
 !------------------------------------------------!
 ! CONVECTION, CONDUCTION, REZONING               !
@@ -757,7 +762,7 @@ C     -------------------------
                 qmv(ijk,j) = zero
               enddo
             enddo
-!$omp end do                       
+!$omp end do
             call my_barrier()
 
             CALL ALETHE(
@@ -784,7 +789,7 @@ C
          !---------------------------------------------
          !     MULTIMATERIAL - LAW20(BIMAT)
          !---------------------------------------------
-          IF(NMULT > 0)THEN
+          IF(NMULT > 0 .AND. ALE%SOLVER%MULTIMAT%is_defined_mmale3 == 0)THEN
             DO N=NODFT,NODLT
               IMS(N)=0
               DO M=1,NMULT
@@ -832,10 +837,10 @@ C
           ENDIF
 
          !---------------------------------------------
-         ! ALL ELEMENTS EXPECT LAW/=11
+         ! ALL ELEMENTS (EXPECT LAW 11,151, 20+MMALE=3(cut-cell) )
          !---------------------------------------------
           if(itask==0) call startime(timers,timer_ale_elm)
-          ! ----------------------------          
+          ! ----------------------------
           DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
             SENSORS%NGR_SENSOR(ITASK+1) = NG
@@ -853,6 +858,7 @@ C
 
 C
               IF (MTN  ==  151) CYCLE
+              IF (MTN  ==  20 .AND. ALE%SOLVER%MULTIMAT%IS_DEFINED_MMALE3 == 0) CYCLE
               IF(JLAG /= 1 .AND. ITY <= 2) THEN
                 IF(IPARG(64,NG)==1) ILAW11=1                      !place later in starter>priv>spmd>ddsplit>c_vois() for law51
                 IF (MTN /= 0  .AND.  IPARG(64,NG)==0) THEN     !IPARG(64) : law11 & law51-outlet
@@ -895,7 +901,7 @@ C
      W                  ale%global%nv46,sfem%ale%need_it(nf1:nf1+nel-1))
 C
                   ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
-                    NULLIFY(pQMV); 
+                    NULLIFY(pQMV);
                     IF(TRIMAT>0)THEN
                       pQMV => QMV(1,1)
                     ELSE
@@ -937,12 +943,12 @@ C
           !write(*,*) "VALEUR ? ",ncycle_debug,wa(1:6),qmv(1,1:12),ale%global%s_flux,ale%global%s_qmv,ale%global%nv46
 C
                   ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
-                    NULLIFY(pQMV); 
+                    NULLIFY(pQMV);
                     IF(TRIMAT>0)THEN
                       pQMV => QMV(1,1)
                     ELSE
                       pQMV => BID
-                    ENDIF   
+                    ENDIF
                     CALL QFORC2(TIMERS, OUTPUT,
      .                  ELBUF_TAB       ,NG               ,
      1                  PM              ,GEO              ,IXQ         ,X         ,A        ,  
@@ -985,7 +991,7 @@ c
             ENDIF
           ENDDO
           ! ----------------------------
-          if(itask==0) call stoptime(timers,timer_ale_elm)          
+          if(itask==0) call stoptime(timers,timer_ale_elm)
 C
          !---------------------------------------------
          ! ELEMENTS : LAW==11
@@ -1033,13 +1039,14 @@ C     ALE ON / OFF
               SENSORS%NGR_SENSOR(ITASK+1) = NG
               IF (TT  >  ZERO .AND. IPARG(76, NG)  ==  1) CYCLE ! --> OFF
               CALL INITBUF(IPARG    ,NG      ,
-     2              MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,   
-     3              NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4              JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5              NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,   
-     6              IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7              ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )   
+     2              MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3              NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4              JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5              NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,
+     6              IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7              ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
               IF (MTN  ==  151) CYCLE
+              IF (MTN  ==  20 .AND. ALE%SOLVER%MULTIMAT%IS_DEFINED_MMALE3 == 0) CYCLE
               ! ------------------------
               IF (IPARG(8,NG) /= 1) THEN
                 if (iddw>0) call startimeg(ng) ! activation of internal timer for this element group
@@ -1084,7 +1091,7 @@ C     ALE ON / OFF
      W                  ale%global%nv46,sfem%ale%need_it(nf1:nf1+nel-1))
 
                     ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
-                      NULLIFY(pQMV); 
+                      NULLIFY(pQMV);
                       IF(TRIMAT>0)THEN
                         pQMV => QMV(1,1)
                       ELSE
@@ -1124,38 +1131,38 @@ C     ALE ON / OFF
      V                  impl_s,               idyna,    OUTPUT%TH%WFEXT,ale%global%s_flux,ale%global%s_qmv)
                
                     ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
-                      NULLIFY(pQMV); 
+                      NULLIFY(pQMV);
                       IF(TRIMAT>0)THEN
                         pQMV => QMV(1,1)
                       ELSE
                         pQMV => BID
-                      ENDIF  
+                      ENDIF
                       CALL QFORC2(TIMERS, OUTPUT,
      .                            ELBUF_TAB ,NG    ,
-     1                            PM        ,GEO              ,IXQ         ,X        ,A         ,  
-     2                            V         ,MS               ,W           ,WA       ,VAL2      ,      
-     3                            VEUL      ,ALE_CONNECTIVITY ,IPARG       ,NLOC_DMG ,              
-     4                            TF        ,NPC              ,BUFMAT      ,PARTSAV  ,              
+     1                            PM        ,GEO              ,IXQ         ,X        ,A         ,
+     2                            V         ,MS               ,W           ,WA       ,VAL2      ,
+     3                            VEUL      ,ALE_CONNECTIVITY ,IPARG       ,NLOC_DMG ,
+     4                            TF        ,NPC              ,BUFMAT      ,PARTSAV  ,
      5                            DT2T      ,NELTST           ,ITYPTST     ,STIFN    ,OFFSET    ,
      6                            EANI      ,IPARTQ(1+NFT)    ,NEL         ,IADQ     ,FSKY      ,
      9                            IPM       ,BUFVOIS          ,pQMV        ,
      A                            GRESAV    ,GRTH             ,IGRTH       ,TABLE    ,IGEO      ,
      B                            VOLN      ,ITASK            ,MS_2D       ,FSKYM    ,IOUTPRT   ,
      C                            MAT_ELEM  ,H3D_DATA%STRAIN  ,SZ_BUFVOIS  ,SNPC     ,STF       ,SBUFMAT,
-     D                            SVIS      ,NSVOIS           ,IRESP       ,TT       ,DT1       ,      
-     .                            IDEL7NOK  ,IDTMIN           ,MAXFUNC     ,  
+     D                            SVIS      ,NSVOIS           ,IRESP       ,TT       ,DT1       ,
+     .                            IDEL7NOK  ,IDTMIN           ,MAXFUNC     ,
      .                            IMON_MAT  ,USERL_AVAIL      ,impl_s   ,idyna     ,
      .                            DT        ,GLOB_THERM       ,SENSORS,ale%global%s_flux,ale%global%s_qmv,ale%global%nv46)
 c
                     ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
                       CALL BFORC2(TIMERS, ELBUF_TAB  ,NG           ,
-     1                            PM         ,GEO          ,IXQ              ,X          ,    
-     2                            A          ,V            ,MS               ,W          ,WA        ,  
+     1                            PM         ,GEO          ,IXQ              ,X          ,
+     2                            A          ,V            ,MS               ,W          ,WA        ,
      3                            VAL2       ,VEUL         ,ALE_CONNECTIVITY ,IPARG      ,
-     4                            IPARG(1,NG),FILL         ,DFILL            ,IMS        ,NLOC_DMG  ,    
-     5                            TF         ,NPC          ,BUFMAT           ,PARTSAV    ,       
-     5                            DT2T       ,NELTST       ,ITYPTST          ,STIFN      ,OFFSET    ,  
-     6                            EANI       ,IPARTQ(1+NFT),NEL              ,IADQ       ,FSKY      ,  
+     4                            IPARG(1,NG),FILL         ,DFILL            ,IMS        ,NLOC_DMG  ,
+     5                            TF         ,NPC          ,BUFMAT           ,PARTSAV    ,
+     5                            DT2T       ,NELTST       ,ITYPTST          ,STIFN      ,OFFSET    ,
+     6                            EANI       ,IPARTQ(1+NFT),NEL              ,IADQ       ,FSKY      ,
      7                            IPM        ,BUFVOIS      ,
      8                            GRESAV     ,GRTH         ,IGRTH            ,TABLE      ,IGEO      ,
      9                            VOLN       ,ITASK        ,MS_2D            ,FSKYM      ,MAT_ELEM,
@@ -1171,7 +1178,7 @@ c
               ENDIF
               ! ------------------------
             ENDDO!next NG
-            ! ----------------------------            
+            ! ----------------------------
             if(itask==0) call stoptime(timers,timer_ale_elm)
           ENDIF!IF (ILAW11 /= 0) THEN
 

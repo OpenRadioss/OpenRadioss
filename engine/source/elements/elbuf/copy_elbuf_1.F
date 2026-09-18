@@ -81,7 +81,7 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_SMSTR,L_BFRAC,L_DMG,LF_DAM,LF_DAMMX,LF_TDEL,
      .   LF_INDX,LF_OFF,L_FORTH,L_EINTTH,L_SEQ,L_SIGPLY,L_FAC_YLD,L_ABURN,
-     .   L_MU,L_PLANL,L_EPSDNL,L_DMGSCL,L_TSAIWU,LF_DAMINI,IFAIL,IDFAIL
+     .   L_MU,L_PLANL,L_EPSDNL,L_DMGSCL,L_TSAIWU,LF_DAMINI,IFAIL,IDFAIL,L_VEL
       TYPE(BUF_LAY_)  , POINTER :: BUFLY
       TYPE(L_BUFEL_)  , POINTER :: LBUF
       TYPE(G_BUFEL_)  , POINTER :: GBUFS,GBUFT
@@ -229,6 +229,7 @@ c
            L_EPSDNL = BUFLY%L_EPSDNL
            L_DMGSCL = BUFLY%L_DMGSCL
            L_TSAIWU = BUFLY%L_TSAIWU
+           L_VEL = BUFLY%L_VEL
 
 c
            ELBUF_TGT(NG)%BUFLY(IL)%DMG(1:NEL*LY_DMG) =
@@ -324,7 +325,8 @@ c
                LBUFT%EPSDNL(1:NEL*L_EPSDNL)  =LBUFS%EPSDNL(1:NEL*L_EPSDNL)
                LBUFT%DMGSCL(1:NEL*L_DMGSCL)  =LBUFS%DMGSCL(1:NEL*L_DMGSCL)
                LBUFT%TSAIWU(1:NEL*L_TSAIWU)  =LBUFS%TSAIWU(1:NEL*L_TSAIWU)
-             ENDDO                     
+               LBUFT%VEL(1:NEL*L_VEL)        =LBUFS%VEL(1:NEL*L_VEL)
+             ENDDO
             ENDDO                                                                 
            ENDDO                                                                  
           ENDDO  ! IL = 1, NLAY                                                                

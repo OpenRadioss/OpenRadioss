@@ -194,7 +194,7 @@ C-----
        TABVINT(5)  =NGROUP
        TABVINT(9)  =LBUFEL
 C   sizes of integer arrays
-      TABVINT(36)  = 0
+      TABVINT(36)  = ALE%GLOBAL%IS_ALE_SOLVER_MULTIMAT
       TABVINT(37)  = SICODE
       TABVINT(38)  = 0
       TABVINT(39)  = SISKEW

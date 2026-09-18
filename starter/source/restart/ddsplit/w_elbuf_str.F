@@ -91,7 +91,7 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_EPS,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,
      .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PLANL,L_EPSDNL,
-     .   L_DMGSCL,L_PIJ,L_VOL0DP,L_TSAIWU,IDRAPE
+     .   L_DMGSCL,L_PIJ,L_VOL0DP,L_TSAIWU,IDRAPE,L_VEL
       INTEGER  ! failure variables
      .   LF_DAM,LF_DAMMX,LF_DAMINI,LF_TDEL,LF_INDX,LF_OFF
       INTEGER sum
@@ -388,6 +388,7 @@ c
               L_TSAIWU  = BUFLY%L_TSAIWU
               L_PIJ     = BUFLY%L_PIJ
               L_VOL0DP  = BUFLY%L_VOL0DP
+              L_VEL     = BUFLY%L_VEL
 
 
 c---
@@ -517,6 +518,8 @@ c---
                 L_REL = L_REL + 1 
               RBUF_L(L_REL+1) = L_VOL0DP       
                 L_REL = L_REL + 1 
+              RBUF_L(L_REL+1) = L_VEL       
+                L_REL = L_REL + 1                 
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN
                  print*,'      NVAR_LOC=', L_REL-IAD
@@ -730,11 +733,12 @@ c
                 L_REL = L_REL+NEL*L_TSAIWU 
               RBUF_L(L_REL+1:L_REL+NEL*L_PIJ) = LBUF%PIJ(1:NEL*L_PIJ)
                 L_REL = L_REL+NEL*L_PIJ
-C--------write first VOL0DP                
-              IF(NEL*L_VOL0DP >0)THEN 
+              IF(NEL*L_VOL0DP >0)THEN !write first VOL0DP
                 DP_RBUF(L_DPREL+1:L_DPREL+NEL*L_VOL0DP)= LBUF%VOL0DP(1:NEL*L_VOL0DP)
                 L_DPREL = L_DPREL + NEL*L_VOL0DP                                                      
               ENDIF
+              RBUF_L(L_REL+1:L_REL+NEL*L_VEL) = LBUF%VEL(1:NEL*L_VEL)
+                L_REL = L_REL+NEL*L_VEL
              ENDDO                                                          
             ENDDO                                             
            ENDDO   

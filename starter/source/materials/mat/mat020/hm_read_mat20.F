@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Simcenter Radioss Software
 Copyright>
 Copyright>        As an alternative to this open-source version, Siemens also offers Simcenter(TM) Radioss(R)
 Copyright>        software under a commercial license.  Contact Siemens to discuss further if the
-Copyright>        commercial version may interest you: 
+Copyright>        commercial version may interest you:
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
 !||    hm_read_mat20            ../starter/source/materials/mat/mat020/hm_read_mat20.F
@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MULTIMAT_PARAM_MOD , ONLY : M20_DISCRETE_FILL
+      USE ALE_MOD , ONLY : ALE
       use my_alloc_mod, only : my_alloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -83,12 +84,20 @@ C-----------------------------------------------
       INTEGER CMAT(5)
       DATA CMAT/0,0,0,0,0/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
+      INTEGER :: IMMALE
 C-----------------------------------------------
 C     S o u r c e 
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      
+
+      IMMALE = 0
+      IF(ALE%GLOBAL%IS_ALE_SOLVER_MULTIMAT > 0)THEN
+        IF(ALE%SOLVER%MULTIMAT%LIST(1)%MMALE == 3)THEN
+            IMMALE = 3
+        ENDIF
+      ENDIF
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
 C     Number of material (it's always 2...)
@@ -129,7 +138,11 @@ C     Material proportions
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1300)(MAT(I),AMAT(I),CMAT(I),I=1,NMAT)
+        IF(IMMALE /= 3)THEN
+          WRITE(IOUT,1300)(MAT(I),AMAT(I),CMAT(I),I=1,NMAT)
+        ELSE
+          WRITE(IOUT,1400)(MAT(I),AMAT(I),I=1,NMAT)
+        ENDIF
       ENDIF
 C
       IF(CMAT(3)>=ONE)M20_DISCRETE_FILL=.TRUE.
@@ -142,6 +155,7 @@ C
       ENDIF
 C---- Definition of internal variables (Elementary storage)
       MTAG%L_FRAC = 1   ! percentage of phase
+      IF(IMMALE == 3) MTAG%L_VEL = 2 ! independent velocity phase
 C-----------
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
@@ -158,9 +172,12 @@ C--------------------------------
      & 5X,'  /MAT/LAW20 : 2D BI-MATERIAL LAW       ',/,
      & 5X,'  -------------------------------       ',//)
  1300 FORMAT(
-     & 5X,'REFERENCED MATERIAL NUMBER. . . . . . .=',I5/,
+     & 5X,'REFERENCED MATERIAL NUMBER  . . . . . .=',I5/,
      & 5X,'FILLING RATIO . . . . . . . . . . . . .=',E12.4/,
      & 5X,'INCOMING PHASIS CONTROL FLAG. . . . . .=',I5)
+ 1400 FORMAT(
+     & 5X,'REFERENCED MATERIAL NUMBER. . . . . . .=',I5/,
+     & 5X,'FILLING RATIO . . . . . . . . . . . . .=',E12.4/)
 C-----------
       RETURN
       END

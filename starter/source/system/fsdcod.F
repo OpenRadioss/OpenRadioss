@@ -2082,6 +2082,7 @@ C
               DO J=1,NUMMAT
                 IF(IS == IPM(1,J))  THEN
                   MAT_PARAM(I)%MULTIMAT%MID(K)=J
+                  PM(20+K,I) = J
                   RHO_MAX=MAX(RHO_MAX,PM(1,J))
                   GOTO 200
                 ENDIF

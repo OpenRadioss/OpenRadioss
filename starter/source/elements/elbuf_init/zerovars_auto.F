@@ -440,6 +440,8 @@ c
         IAD = IAD + 1
         BUFLY%L_VOL0DP = 0
         IAD = IAD + 1
+        BUFLY%L_VEL = 0
+        IAD = IAD + 1
 c        
 c---
 C  Number of local variables

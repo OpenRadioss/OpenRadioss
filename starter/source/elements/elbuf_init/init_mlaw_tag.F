@@ -145,6 +145,7 @@ c
             MLAW_TAG(I)%L_EPSDNL = 0
             MLAW_TAG(I)%L_DMGSCL = 0
             MLAW_TAG(I)%L_TSAIWU = 0
+            MLAW_TAG(I)%L_VEL = 0
 c---    uvar            
             MLAW_TAG(I)%NUVAR = 0           
             MLAW_TAG(I)%NVARTMP = 0      

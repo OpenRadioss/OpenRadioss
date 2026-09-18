@@ -1079,6 +1079,7 @@
           real(kind=WP), dimension(:) , pointer ::   epsdnl => null()
           real(kind=WP), dimension(:) , pointer ::   dmgscl => null()
           real(kind=WP), dimension(:) , pointer ::   tsaiwu => null()
+          real(kind=WP), dimension(:) , pointer ::   vel => null()
         end type l_bufel_
 
         Type buf_prop_
@@ -1273,6 +1274,7 @@
           integer  :: l_epsdnl
           integer  :: l_dmgscl
           integer  :: l_tsaiwu
+          integer  :: l_vel ! phase velocity (multimat)
 !-------  layer variables
           real(kind=WP), dimension(:) , pointer ::   dmg => null()
           real(kind=WP), dimension(:) , pointer ::   gama => null()

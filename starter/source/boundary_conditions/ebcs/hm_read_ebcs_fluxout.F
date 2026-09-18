@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE EBCS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE ALE_MOD , ONLY : ALE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -144,9 +145,9 @@ C-----------------------------------------------
 
                  
          WRITE(IOUT,1118)SURF,NSEG
-         IF (.NOT. MULTI_FVM%IS_USED) THEN
+         IF (.NOT. MULTI_FVM%IS_USED .AND. ALE%SOLVER%MULTIMAT%is_defined_mmale3 == 0) THEN
                CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .              I1 = ID,C1 = TRIM(TITR), C2 = "ONLY COMPATIBLE WITH LAW 151")
+     .              I1 = ID,C1 = TRIM(TITR), C2 = "ONLY COMPATIBLE WITH LAW 151 AND MULTIMATERIAL CUT-CELL")
             ENDIF
                   
 C-----------

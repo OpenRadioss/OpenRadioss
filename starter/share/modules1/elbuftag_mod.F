@@ -365,6 +365,7 @@ c
         INTEGER ::  L_EPSDNL
         INTEGER ::  L_DMGSCL
         INTEGER ::  L_TSAIWU
+        INTEGER ::  L_VEL
 
 c---    uvar            
         INTEGER ::  NUVAR           

@@ -208,6 +208,7 @@ C-----
 C       ITESTV = IABS(ITESTV)
 C-----
 C   -------- Size of integer arrays --------
+      ALE%GLOBAL%IS_ALE_SOLVER_MULTIMAT = TABVINT(36)
       SICODE    = TABVINT(37)
       !         = TABVINT(38)
       SISKEW    = TABVINT(39)

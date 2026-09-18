@@ -154,6 +154,9 @@ C-----------------------------------------------
 !||====================================================================
       MODULE ALE_MOD
 
+        USE multimat_method_mod , only : multimat_method_struct
+        USE MULTI_FVM_MOD
+
         IMPLICIT NONE
 #include      "my_real.inc"
 
@@ -213,6 +216,7 @@ C-----------------------------------------------
           INTEGER :: HLLC_LOWMACH
           INTEGER :: INCOMP
           INTEGER :: ISFINT
+          INTEGER :: IS_ALE_SOLVER_MULTIMAT
           INTEGER :: I_DT_NODA_ALE_ON
           INTEGER :: I_DT_NODA_ALE_ON_KEY
           INTEGER :: IDT_ALE
@@ -251,7 +255,7 @@ C-----------------------------------------------
           INTEGER :: NUM_NUVAR_EOS
           integer :: rezone_size !< number of varibles to rezone
           integer :: rezone_51_size !< number of varibles to rezone for mtn=51
-          integer :: phi_dim1 !< 1rst dimension of phi array          
+          integer :: phi_dim1 !< 1rst dimension of phi array
           integer, dimension(3) :: phi_dim2 !< 2nd dimension of phi array
           integer, dimension(5) :: nvar_list = (/2,10,11,11,12/) !< list of rezoning variable types
           integer, dimension(:,:,:), allocatable :: nvar_idx_list !< list of index for each rezoning variable and each material (0 if no rezoning)
@@ -260,12 +264,23 @@ C-----------------------------------------------
           type(phi_data_), dimension(:,:,:), allocatable :: phi_51_data !< rezoning variable data for mtn=51
         END TYPE ALE_REZON_
 
+        TYPE ALE_SOLVER_
+          TYPE(multimat_method_struct) :: MULTIMAT
+        END TYPE ALE_SOLVER_
+
         type conv_
           integer :: phi_dim1 !< 1rst dimension of convective variable array phi
           integer, dimension(3) :: phi_dim2 !< 2nd dimension of convective variable array phi
           type(phi_data_), dimension(:), allocatable :: phi_data !< convection variable data
           type(phi_data_), dimension(:), allocatable :: phi_51_data !< convection variable data for mtn=51
         end type conv_
+
+        type cutcell_data_
+          !my_real, ALLOCATABLE, DIMENSION(:,:,:) :: CUT_CELL_VEL  !y,z ; 1,2 ; 1:nquad
+          TYPE(FVM_INIVEL_STRUCT),DIMENSION(:),ALLOCATABLE :: FVM_VEL
+          INTEGER :: NINIVEL, NINIVEL_CUT_CELL
+        END  TYPE cutcell_data_
+
 
         ! GENERAL DATA STRUCTURE USED IN SOURCE CODE
         TYPE ALE_
@@ -274,7 +289,9 @@ C-----------------------------------------------
           TYPE(ALE_GLOBAL_) :: GLOBAL
           TYPE(ALE_SUB_)    :: SUB
           TYPE(ALE_REZON_)  :: REZON
-          type(conv_) :: conv !< convective data structure
+          TYPE(ALE_SOLVER_) :: SOLVER
+          TYPE(CONV_) :: CONV !< CONVECTIVE DATA STRUCTURE
+          TYPE(CUTCELL_DATA_) :: CUTCELL !< CUT CELL DATA STRUCTURE
         contains
           procedure, pass :: init
         END TYPE ALE_
