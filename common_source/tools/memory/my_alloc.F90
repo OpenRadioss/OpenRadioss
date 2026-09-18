@@ -243,6 +243,7 @@
 !||    elt_box                                  ../starter/source/model/sets/fill_clause_elt_box.F
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
 !||    extend_array_mod                         ../common_source/tools/memory/extend_array.F90
+!||    extract_table_plas                       ../starter/source/materials/tools/extract_table_plas.F90
 !||    f_nodloc2                                ../starter/source/restart/ddsplit/f_nodloc2.F
 !||    facepoly                                 ../engine/source/airbag/fvmesh.F
 !||    fail_f                                   ../engine/source/materials/fail/fld/fail_fld_c.F

@@ -125,6 +125,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    elt_box                           ../starter/source/model/sets/fill_clause_elt_box.F
 !||    eos_param_mod                     ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    eosfun_usr2sys                    ../starter/source/materials/tools/eosfun_usr2sys.F90
+!||    extract_table_plas                ../starter/source/materials/tools/extract_table_plas.F90
 !||    f_anend                           ../starter/source/output/analyse/analyse_arret.F
 !||    facebox                           ../starter/source/model/box/bigbox.F
 !||    fail_param_mod                    ../common_source/modules/mat_elem/fail_param_mod.F90

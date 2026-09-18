@@ -29,6 +29,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    condamage                ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion               ../engine/source/materials/mat/mat190/conversion.F
 !||    eos_param_mod            ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    extract_table_plas       ../starter/source/materials/tools/extract_table_plas.F90
 !||    fail_param_mod           ../common_source/modules/mat_elem/fail_param_mod.F90
 !||    func_table_copy          ../starter/source/materials/tools/func_table_copy.F90
 !||    hm_read_mat88            ../starter/source/materials/mat/mat088/hm_read_mat88.F90

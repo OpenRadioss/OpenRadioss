@@ -130,6 +130,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    eosmain51                                  ../engine/source/materials/mat/mat051/eosmain51.F90
 !||    eospolyno                                  ../common_source/eos/eospolyno.F
 !||    eossolve                                   ../starter/source/initial_conditions/inigrav/inigrav_m51_any_eos.F90
+!||    extract_table_plas                         ../starter/source/materials/tools/extract_table_plas.F90
 !||    fail_changchang_c                          ../engine/source/materials/fail/changchang/fail_changchang_c.F90
 !||    fail_changchang_s                          ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_composite_c                           ../engine/source/materials/fail/composite/fail_composite_c.F90

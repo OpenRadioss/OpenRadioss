@@ -24,9 +24,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
 !||====================================================================
-!||    extract_table_plas_mod   ../starter/source/materials/tools/extract_table_plas_mod.F90
+!||    extract_table_plas_mod   ../starter/source/materials/tools/extract_table_plas.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_mat123             ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||    hm_read_mat123           ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||====================================================================
       module extract_table_plas_mod
         implicit none
@@ -35,11 +35,11 @@
 !! \brief  make a private copy of input function table to material table stored in mat_param
 !! \detail one to one copy of a single input table
 !||====================================================================
-!||    extract_table_plas      ../starter/source/materials/tools/extract_table_plastic.F90
+!||    extract_table_plas     ../starter/source/materials/tools/extract_table_plas.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_mat123  ../starter/source/materials/mat/mat163/hm_read_mat123.F90
+!||    hm_read_mat123         ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    message_mod      ../starter/share/message_module/message_mod.F
 !||====================================================================
         Subroutine extract_table_plas(mat_table, mat_table_plas, e, yld0, npt_plas )
 ! ----------------------------------------------------------------------------------------------------------------------
