@@ -74,7 +74,8 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE SENSOR_MOD
-      USE INIVEL_MOD 
+      USE INIVEL_MOD
+      USE ALE_MOD , ONLY : ALE
       use my_alloc_mod
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -110,13 +111,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,N,NRB,KPRI,KROT,NNOD,NOSYS,ITYPE,ID,ISK,IGR,IGRS,NBVEL
+      INTEGER :: I,J,K,N,NRB,KPRI,KROT,NNOD,NOSYS,ITYPE,ID,ISK,IGR,IGRS,NBVEL,ISUBMAT
       INTEGER :: USER_UNIT_ID,SUB_INDEX,IDIR,SENS_ID,NINIT,SENSID
       INTEGER :: IDGRBRICK, IDGRQUAD, IDGRTRIA, IDGRBRICK_LOC, IDGRQUAD_LOC, IDGRTRIA_LOC
       INTEGER :: NOD_COUNT,NODINIVEL,CPT,SUB_ID
       INTEGER :: IFRA,IFM,IUN,K1,K2,K3,INOD,NB_NODES, ID_NODE,IOK
       INTEGER :: NINIVEL_FVM,NINIVEL_TOTAL
       INTEGER :: FVM_GRBRIC_USER_ID(NINVEL), FVM_GRQUAD_USER_ID(NINVEL), FVM_GRTRIA_USER_ID(NINVEL) ! printout only
+      INTEGER :: NQUADS
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNO_RBY
       my_real :: V1, V2, V3, V4, V5, V6, VL1, VL2, VL3,VRA, OX, OY, OZ, NIXJ(6),VR1,VR2,VR3,BID
       CHARACTER MESS*40
@@ -138,6 +140,7 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       NBVEL = 0
       ISK = 0
+      ISUBMAT = 0
       IFRA = 0
       IFM = 0
       K1 = 0
@@ -318,6 +321,7 @@ C--------------------------------------------------
           CALL HM_GET_INTV('grqd_ID', IDGRQUAD, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('grtria_ID', IDGRTRIA, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('skew_ID', ISK, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INTV('submat_ID', ISUBMAT, IS_AVAILABLE, LSUBMODEL)
           IF(N2D /= 0 .AND. ISK == 0)THEN
             IF(VL1 /= 0)THEN
               !2D plane strain warning about X-velocity
@@ -330,6 +334,7 @@ C--------------------------------------------------
             INIVEL_T(NINIT)%ID = ID
             INIVEL_T(NINIT)%ITYPE = ITYPE
             INIVEL_T(NINIT)%FVM%SKEW_ID = ISK
+            INIVEL_T(NINIT)%FVM%SUBMAT_ID = ISUBMAT
             INIVEL_T(NINIT)%FVM%GRBRIC_ID = IDGRBRICK
             INIVEL_T(NINIT)%FVM%GRQD_ID   = IDGRQUAD
             INIVEL_T(NINIT)%FVM%GRTRIA_ID = IDGRTRIA
@@ -459,7 +464,7 @@ C
         IDGRTRIA_LOC  = -1
 
         IF (ITYPE == 5) THEN
-           IF (.NOT. MULTI_FVM%IS_USED) THEN
+           IF (.NOT. MULTI_FVM%IS_USED .AND. ALE%solver%multimat%is_defined_mmale3 == 0) THEN
               CALL ANCMSG(MSGID=1557,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION')
            ELSE
               IDGRBRICK_LOC = -1
@@ -472,7 +477,7 @@ C
                     DO J = 1,NGRBRIC
                        IF (IDGRBRICK == IGRBRIC(J)%ID) IDGRBRICK_LOC = J
                     ENDDO
-                    IF (IDGRBRICK_LOC == -1) THEN
+                    IF (IDGRBRICK_LOC == -1 .OR. ALE%solver%multimat%is_defined_mmale3 == 1) THEN
                        CALL ANCMSG(MSGID=1554, MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION',I1=IDGRBRICK)
                     ENDIF
                  ENDIF
@@ -482,6 +487,12 @@ C
                     ENDDO
                     IF (IDGRQUAD_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1555,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION',I1=IDGRQUAD)
+                    ELSE
+                      IF(ALE%solver%multimat%is_defined_mmale3 == 1)THEN
+                        IF (ISUBMAT == 0)THEN
+                          ISUBMAT = 1
+                        ENDIF
+                      ENDIF
                     ENDIF
                  ENDIF
                  IF (IDGRTRIA /= 0) THEN
@@ -503,6 +514,7 @@ C
                 FVM_INIVEL(I)%VX = V1
                 FVM_INIVEL(I)%VY = V2
                 FVM_INIVEL(I)%VZ = V3
+                FVM_INIVEL(I)%ISUBMAT = ISUBMAT
                 FVM_GRBRIC_USER_ID(I) = IDGRBRICK
                 FVM_GRQUAD_USER_ID(I) = IDGRQUAD
                 FVM_GRTRIA_USER_ID(I) = IDGRTRIA

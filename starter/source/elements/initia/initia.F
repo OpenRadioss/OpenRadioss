@@ -252,6 +252,7 @@ C-----------------------------------------------
       USE Q1NP_RESTART_MOD
       USE Q1NP_INIT_MOD
       use rini135_rb_mod
+      use ale_mod , only : ale
       use my_alloc_mod
       use rbody_spring_check_mod, ONLY : rbody_spring_check
 C-----------------------------------------------
@@ -1882,8 +1883,10 @@ C---------------------------------
 C---------------------------------
 C Initialization of FVM velocities
 C---------------------------------
-      IF (MULTI_FVM%IS_USED .AND. NINVEL > 0) THEN
-        CALL INI_FVMINIVEL(FVM_INIVEL ,MULTI_FVM ,IGRBRIC ,IGRQUAD ,IGRSH3N)
+      IF (NINVEL > 0) THEN
+        IF(MULTI_FVM%IS_USED .OR. ALE%solver%multimat%is_defined_mmale3 == 1) THEN
+          CALL INI_FVMINIVEL(FVM_INIVEL ,MULTI_FVM ,IGRBRIC ,IGRQUAD ,IGRSH3N)
+        ENDIF
       ENDIF
 C------------------------------------------------------------------
 C SMS : Initialization of GBUF%ISMS and automatic element selection
@@ -2154,10 +2157,10 @@ C--------------------------------------------
       SPRING_CON_RBODY = 0
       IF (NUMELR > 0) THEN
         call rbody_spring_check(nrbykin, nnpby, npby, slpby, lpby, numnod,
-     .                          knod2el1d, s_nod2el1d, nod2el1d, numel, numelt, numelp, 
-     .                          numelr, numels, numelc, ixr, nixr,nparg, 
+     .                          knod2el1d, s_nod2el1d, nod2el1d, numel, numelt, numelp,
+     .                          numelr, numels, numelc, ixr, nixr,nparg,
      .                          iparg, ngroup, elbuf_tab,dtelem,spring_con_rbody)
-      ENDIF  
+      ENDIF
 C------------------------------------------------------
 C Initialization of damping frequency range
 C------------------------------------------------------

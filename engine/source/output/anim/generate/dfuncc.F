@@ -52,7 +52,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      .                  IPM       ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT    ,X         ,V         ,W           ,ALE_CONNECTIVITY,
      .                  NV46      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK     ,BUFMAT    ,MULTI_FVM ,MAT_PARAM)
+     .                  STACK     ,BUFMAT    ,MULTI_FVM ,MAT_PARAM   ,MULTI_CUTCELL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +67,9 @@ C-----------------------------------------------
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MY_ALLOC_MOD
-      use element_mod , only : nixq,nixc,nixtg
+      USE ELEMENT_MOD , ONLY : NIXQ,NIXC,NIXTG
+      USE ALE_MOD , ONLY : ALE
+      USE MULTI_CUTCELL_MOD, ONLY : MULTI_CUTCELL_STRUCT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,6 +102,7 @@ C-----------------------------------------------
       TYPE(BUF_MAT_)  ,POINTER :: MBUF 
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      TYPE(MULTI_CUTCELL_STRUCT), INTENT(INOUT) :: MULTI_CUTCELL        !< element buffer (storage for output files : pressure, density, velocity, ...)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1211,6 +1214,22 @@ c------------------------------------ 2D velocity VEL-GLOBAL
                 VEL(3) = MULTI_FVM%VEL(3, I + NFT)
                 FUNC(EL2FA(NN3+NFT+I)) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))
               ENDDO
+            ELSEIF(ALE%SOLVER%MULTIMAT%LIST(1)%MMALE == 3)THEN
+              !multimat cut-cell
+              IF(ILAY > 0)THEN
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                DO I=LFT,LLT
+                  VEL(2) = LBUF%VEL(I+NFT)
+                  VEL(3) = LBUF%VEL(NUMELQ + I+NFT)
+                  FUNC(EL2FA(NN3+NFT+I)) = SQRT(VEL(2)*VEL(2)+VEL(3)*VEL(3))
+                ENDDO
+              ELSE
+                DO I=LFT,LLT
+                  VEL(2) = multi_cutcell%vel(2,i+nft)
+                  VEL(3) = multi_cutcell%vel(3,i+nft)
+                  FUNC(EL2FA(NN3+NFT+I)) = SQRT(VEL(2)*VEL(2)+VEL(3)*VEL(3))
+                ENDDO
+              ENDIF
             ELSE
               DO I=LFT,LLT
                 FUNC(EL2FA(NN3+NFT+I)) = ZERO
@@ -1224,6 +1243,20 @@ c------------------------------------ 2D velocity VEL-Y
                 VEL(2) = MULTI_FVM%VEL(2, I + NFT)
                 FUNC(EL2FA(NN3+NFT+I)) = VEL(2)
               ENDDO
+            ELSEIF(ALE%SOLVER%MULTIMAT%LIST(1)%MMALE == 3)THEN
+              !multimat cut-cell
+              IF(ILAY > 0)THEN
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                DO I=LFT,LLT
+                  VEL(2) = LBUF%VEL(I+NFT)
+                  FUNC(EL2FA(NN3+NFT+I)) = VEL(2)
+                ENDDO
+              ELSE
+                DO I=LFT,LLT
+                  VEL(2) = multi_cutcell%vel(2,i+nft)
+                  FUNC(EL2FA(NN3+NFT+I)) = VEL(2)
+                ENDDO
+              ENDIF
             ELSE
               DO I=LFT,LLT
                 FUNC(EL2FA(NN3+NFT+I)) = ZERO
@@ -1237,10 +1270,20 @@ c------------------------------------ 2D velocity VEL-Z
                 VEL(3) = MULTI_FVM%VEL(3, I + NFT)
                 FUNC(EL2FA(NN3+NFT+I)) = VEL(3)
               ENDDO
-            ELSE
-              DO I=LFT,LLT
-                FUNC(EL2FA(NN3+NFT+I)) = ZERO
-              ENDDO
+            ELSEIF(ALE%SOLVER%MULTIMAT%LIST(1)%MMALE == 3)THEN
+              !multimat cut-cell
+              IF(ILAY > 0)THEN
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                DO I=LFT,LLT
+                  VEL(3) = LBUF%VEL(NUMELQ+I+NFT)
+                  FUNC(EL2FA(NN3+NFT+I)) = VEL(3)
+                ENDDO
+              ELSE
+                DO I=LFT,LLT
+                  VEL(3) = multi_cutcell%vel(3,i+nft)
+                  FUNC(EL2FA(NN3+NFT+I)) = VEL(3)
+                ENDDO
+              ENDIF
             ENDIF
 c------------------------------------
             ELSE                                                      

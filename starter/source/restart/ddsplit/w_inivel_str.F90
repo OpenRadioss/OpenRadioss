@@ -77,7 +77,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer  :: j,n,itype,igr,node,nel,ilocal(ninivelt),itmp(10),nl,nr
-          integer  :: igrs,igbric,igqd,igtria,igbric_loc,igqd_loc,igtria_loc
+          integer  :: igrs,igbric,igqd,igtria,igbric_loc,igqd_loc,igtria_loc,isubmat
           real(kind=WP)  :: rtmp(6)
 !      TYPE(INIVEL_TYPE), DIMENSION(:), ALLOCATABLE :: INIVEL_L
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -122,6 +122,7 @@
               igbric = inivel_t(n)%fvm%grbric_id
               igqd   = inivel_t(n)%fvm%grqd_id
               igtria = inivel_t(n)%fvm%grtria_id
+              isubmat = inivel_t(n)%fvm%submat_id
               if (igbric > 0) then
                 igbric_loc = -HUGE(igbric_loc)
                 do j = 1,ngrbric
@@ -202,11 +203,12 @@
                 itmp(3) = inivel_t(n)%fvm%grqd_id
                 itmp(4) = inivel_t(n)%fvm%grtria_id
                 itmp(5) = inivel_t(n)%fvm%sensor_id
+                itmp(6) = inivel_t(n)%fvm%submat_id
                 rtmp(1) = inivel_t(n)%fvm%vx
                 rtmp(2) = inivel_t(n)%fvm%vy
                 rtmp(3) = inivel_t(n)%fvm%vz
                 rtmp(4) = inivel_t(n)%fvm%tstart
-                nl = 5
+                nl = 6
                 nr = 4
               end select
               call write_i_c(itmp,nl)

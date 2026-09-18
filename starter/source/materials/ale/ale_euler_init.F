@@ -289,9 +289,6 @@ C-----------------------------------------------
      .       ILAW==4 .OR.
      .       ILAW==5 .OR.
      .       ILAW==6 .OR.
-     .       ILAW==7 .OR.
-     .       ILAW==8 .OR.
-     .       ILAW==9 .OR.
      .       ILAW==10 .OR.
      .       ILAW==11 .OR.
      .       ILAW==13 .OR.

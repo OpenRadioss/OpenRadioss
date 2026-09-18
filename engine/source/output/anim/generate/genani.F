@@ -238,7 +238,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      Z                  STACK    ,SPH2SOL  ,STIFN       ,STIFR       ,IGRNOD    ,
      1                  H3D_DATA ,SUBSET   ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
      2                  FCONT_MAX,FNCONTP2 ,FTCONTP2    ,GLOB_THERM  ,
-     .                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT    )
+     .                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT,MULTI_CUTCELL    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -263,6 +263,7 @@ C-----------------------------------------------
         USE OUTPUT_MOD , ONLY : OUTPUT_
         USE ANIM_MONVOL_MOD
         use element_mod , only : nixs,nixq,nixc,nixtg,nixr,nixt,nixp
+        USE MULTI_CUTCELL_MOD, ONLY : MULTI_CUTCELL_STRUCT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -362,6 +363,7 @@ C-----------------------------------------------
         TYPE (DRAPE_)  ,INTENT(IN) :: DRAPE_SH3N(NUMELTG_DRAPE)
         TYPE (DRAPEG_) ,INTENT(IN) :: DRAPEG
         TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+        TYPE(MULTI_CUTCELL_STRUCT), INTENT(INOUT) :: MULTI_CUTCELL        !< element buffer (storage for output files : pressure, density, velocity, ...)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3371,7 +3373,7 @@ C  In SPMD locally NBF = 0 but not the sum on PI!
      .                    IPM       ,IGEO        ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
      .                    NV46      ,NERCVOIS    ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                    STACK     ,BUFMAT      ,MULTI_FVM     ,MAT_PARAM)
+     .                    STACK     ,BUFMAT      ,MULTI_FVM     ,MAT_PARAM    ,MULTI_CUTCELL)
               IF(NCUTS>0)
      .        CALL CUTFUNCE(ICBUF,NELCUT,ELBUF_TAB,IFUNC,IPARG,PM,IXS)
               IF (ISPMD==0) THEN

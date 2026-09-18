@@ -50,19 +50,21 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
      .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
-     .                  H3D_DATA        ,MULTI_FVM)
+     .                  H3D_DATA        ,MULTI_FVM    ,MULTI_CUTCELL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD       
-      USE H3D_MOD  
+      USE ELBUFDEF_MOD
+      USE SCHLIEREN_MOD
+      USE STACK_MOD
+      USE H3D_MOD
       USE MULTI_FVM_MOD
       USE ALEANIM_MOD , ONLY : FANI_CELL_
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
-      use element_mod , only : nixs,nixq,nixtg
+      use multi_cutcell_mod, only : multi_cutcell_struct
+      USE ALE_MOD , only : ALE
+      USE ELEMENT_MOD , ONLY : NIXQ, NIXS, NIXTG
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,6 +96,7 @@ C-----------------------------------------------
       TYPE(FANI_CELL_), INTENT(IN) :: FANI_CELL
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
+      type(multi_cutcell_struct), intent(inout) :: multi_cutcell        !< element buffer (storage for output files : pressure, density, velocity, ...)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -101,9 +104,9 @@ C-----------------------------------------------
       INTEGER I,NG,NEL,NPTR,NPTS,NPTT,NLAY,ILAY,IR,IS,IT,MLW,OFFSET,
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IUVAR,
      .        ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,IOK_PART(MVSIZ),JJ(6),IS_WRITTEN_VALUE(MVSIZ)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
 C-----------------------------------------------
       DO I=1,NUMELS
          IS_WRITTEN_SOLID(I) = 0
@@ -112,29 +115,29 @@ C
 c
       DO NG=1,NGROUP
 
-        CALL INITBUF(IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+        CALL INITBUF(IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
        IF (MLW /= 13) THEN
           NFT = IPARG(3,NG)
           ISOLNOD = IPARG(28,NG)
           IVISC = IPARG(61,NG)
-          IOK_PART(1:NEL) = 0 
+          IOK_PART(1:NEL) = 0
           LFT=1
           LLT=NEL
 c
           DO I=1,6
             JJ(I) = NEL*(I-1)
-          ENDDO  
+          ENDDO
 c
           VALUE(1:3) = ZERO
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO       
+          ENDDO
 C-----------------------------------------------
           IF (ITY == 1) THEN
 c           SOLID ELEMENTS
@@ -142,25 +145,25 @@ c           SOLID ELEMENTS
 C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)       
-            NLAY = ELBUF_TAB(NG)%NLAY                    
-            NPTR = ELBUF_TAB(NG)%NPTR                     
-            NPTS = ELBUF_TAB(NG)%NPTS                     
-            NPTT = ELBUF_TAB(NG)%NPTT                     
+            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
+            NLAY = ELBUF_TAB(NG)%NLAY
+            NPTR = ELBUF_TAB(NG)%NPTR
+            NPTS = ELBUF_TAB(NG)%NPTS
+            NPTT = ELBUF_TAB(NG)%NPTT
             NPTG = NPTT*NPTS*NPTR*NLAY
-            TSHELL  = 0                                             
-            TSH_ORT = 0  
-            IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1 
-            IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1               
+            TSHELL  = 0
+            TSH_ORT = 0
+            IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1
+            IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1
             IF (ITY == 1) OFFSET = 0
 c
-            DO  I=1,NEL 
+            DO  I=1,NEL
               IF (ITY == 1) THEN
                 ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
                 ITY_ELEM(OFFSET+NFT+I) = 1
                 IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
               ENDIF
-            ENDDO  
+            ENDDO
 c
             ILAY = LAYER_INPUT
             IUVAR = IUVAR_INPUT
@@ -177,6 +180,13 @@ C--------------------------------------------------
                      VALUE(1) = MULTI_FVM%VEL(1, I + NFT)
                      VALUE(2) = MULTI_FVM%VEL(2, I + NFT)
                      VALUE(3) = MULTI_FVM%VEL(3, I + NFT)
+                     CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
+                  ENDDO
+               ELSEIF (ALE%SOLVER%MULTIMAT%is_defined_mmale3 == 1) THEN
+                  DO I = 1, NEL
+                     VALUE(1) = multi_cutcell%vel(1,I+NFT)
+                     VALUE(2) = multi_cutcell%vel(2,I+NFT)
+                     VALUE(3) = multi_cutcell%vel(3,I+NFT)
                      CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
                   ENDDO
                ELSE
