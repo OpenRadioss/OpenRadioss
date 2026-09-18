@@ -58,9 +58,9 @@
         signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,           &
-        l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,           &
-        jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,           &
-        inloc    ,dplanl   )
+        l_sigb   ,sigb     ,nuvar    ,uvar     ,dpdm     ,jthe     ,           &
+        fheat    ,voln     ,vpflag   ,ikine    ,chard    ,inloc    ,           &
+        dplanl   ,loff     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -124,7 +124,6 @@
         real(kind=WP),dimension(nel,l_sigb),intent(inout) :: sigb !< Backstress components for kinematic hardening
         integer,                       intent(in)    :: nuvar     !< Number of user variables
         real(kind=WP),dimension(nel,nuvar), intent(inout) :: uvar !< User variables
-        integer,                       intent(in)    :: ieos      !< Equation of state flag
         real(kind=WP), dimension(nel), intent(inout) :: dpdm      !< Pressure derivative of the shear modulus for EOS coupling
         integer,                       intent(in)    :: jthe      !< /HEAT/MAT flag
         real(kind=WP), dimension(nel), intent(inout) :: fheat     !< Heat energy accumulated for /HEAT/MAT
@@ -134,6 +133,7 @@
         real(kind=WP),                 intent(in)    :: chard     !< Isotropic/kinematic mixed hardening factor
         integer,                       intent(in)    :: inloc     !< Non-local regularization flag
         real(kind=WP), dimension(nel), intent(in)    :: dplanl    !< Non-local plastic strain increment
+        real(kind=WP), dimension(nel), intent(in)    :: loff      !< Integration point failure flag
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -178,6 +178,12 @@
           call mstrain_rate(                                                   &
             nel      ,israte   ,asrate   ,epsd     ,idev     ,                 &
             epspxx   ,epspyy   ,epspzz   ,epspxy   ,epspyz   ,epspzx   )
+        !< Maximum strain rate component
+        elseif (vpflag == 4) then
+          do i = 1, nel
+            epsd(i) = max(abs(epspxx(i)),abs(epspyy(i)),abs(epspzz(i)),        &
+                abs(half*epspxy(i)),abs(half*epspyz(i)),abs(half*epspzx(i)))
+          enddo
         endif
         !< Initialisation of the hourglass control variable
         et(1:nel) = one
@@ -204,9 +210,9 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
-          eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-          dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
-          temp     ,pla      )
+          eltype   ,shf      ,s13      ,s23      ,s43      ,dpdm     ,         &
+          nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,temp     ,         &
+          pla      )
 !
         !=======================================================================
         !< - Computation of the initial yield stress
@@ -220,11 +226,11 @@
         !=======================================================================        
         if (inloc > 0) then
           if (jthe /= 0) then
-            where (off(1:nel) == one)
+            where (off(1:nel) == one .and. loff(1:nel) == one)
               fheat(1:nel) = fheat(1:nel) + sigy(1:nel)*dplanl(1:nel)*voln(1:nel)
             end where
           else
-            where (off(1:nel) == one)
+            where (off(1:nel) == one .and. loff(1:nel) == one)
               temp(1:nel)  = temp(1:nel) + dtemp_dpla(1:nel)*dplanl(1:nel)
             end where
           endif
@@ -279,7 +285,20 @@
         !< - Computation of the trial yield function and count yielding elements
         !=======================================================================
         phi(1:nel) = (seq(1:nel) / sigy(1:nel))**2 - one
-        active_elements_mask(1:nel) = (phi(1:nel) >= zero .and. off(1:nel) == one)
+        where (phi(1:nel) >= zero .and. off(1:nel) == one .and.                &
+               loff(1:nel) == one .and. sigy(1:nel) <= em20)
+          signxx(1:nel) = zero
+          signyy(1:nel) = zero
+          signzz(1:nel) = zero
+          signxy(1:nel) = zero
+          signyz(1:nel) = zero
+          signzx(1:nel) = zero
+          seq(1:nel)    = zero
+          phi(1:nel)    = -one
+        end where
+        active_elements_mask(1:nel) = (phi(1:nel) >= zero                      &
+            .and. off(1:nel) == one .and. loff(1:nel) == one .and.             &
+             sigy(1:nel) > em20)
         nindx = COUNT(active_elements_mask(1:nel))
         temp_all_indices(1:nel) = [(i, i=1,nel)]
 !
@@ -627,7 +646,20 @@
               i = indx(ii)  
               !<  h) Yield function update
               !<  --------------------------------------------------------------
-              phi(i) = (seq(i)/sigy(i))**2 - one
+              if (sigy(i) <= em06) then
+                signxx(i) = zero
+                signyy(i) = zero
+                signzz(i) = zero
+                signxy(i) = zero
+                signyz(i) = zero
+                signzx(i) = zero
+                seq(i)    = zero
+                phi(i)    = zero
+                dpla(i)   = zero
+                pla(i)    = pla0(i)
+              else
+                phi(i) = (seq(i)/sigy(i))**2 - one
+              endif
 !
               !<  i) Update iterations number
               !<  --------------------------------------------------------------
@@ -678,16 +710,6 @@
           signxy(1:nel) = signxy(1:nel) + sigbxy(1:nel)
           signyz(1:nel) = signyz(1:nel) + sigbyz(1:nel)
           signzx(1:nel) = signzx(1:nel) + sigbzx(1:nel)
-        endif
-!
-        !=======================================================================
-        !< - Equation of state coupling for solids
-        !=======================================================================       
-        if (ieos > 0) then
-          sigm(1:nel) = (signxx(1:nel) + signyy(1:nel) + signzz(1:nel))/three
-          signxx(1:nel) = signxx(1:nel) - sigm(1:nel)
-          signyy(1:nel) = signyy(1:nel) - sigm(1:nel)
-          signzz(1:nel) = signzz(1:nel) - sigm(1:nel)
         endif
 !
         !< Large array deallocation
