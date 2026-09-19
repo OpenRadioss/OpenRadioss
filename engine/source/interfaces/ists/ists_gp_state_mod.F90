@@ -64,6 +64,11 @@
       LOGICAL, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_SLOT_OCCUPIED
       LOGICAL, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_ACTIVE_CYCLE
 
+!     Within-cycle probe projection cache for the commit pass (speed B).
+      REAL*8 , DIMENSION(:),   ALLOCATABLE, SAVE :: GP_PROBE_XI1
+      REAL*8 , DIMENSION(:),   ALLOCATABLE, SAVE :: GP_PROBE_XI2
+      LOGICAL, DIMENSION(:),   ALLOCATABLE, SAVE :: GP_PROBE_XI_VALID
+
       LOGICAL, SAVE :: STS_GP_TABLE_FULL_WARN_DONE = .FALSE.
 
       CONTAINS
@@ -97,6 +102,9 @@
         CALL MY_DEALLOC(GP_KEY_QUAD)
         CALL MY_DEALLOC(GP_SLOT_OCCUPIED)
         CALL MY_DEALLOC(GP_ACTIVE_CYCLE)
+        CALL MY_DEALLOC(GP_PROBE_XI1)
+        CALL MY_DEALLOC(GP_PROBE_XI2)
+        CALL MY_DEALLOC(GP_PROBE_XI_VALID)
       END IF
       END SUBROUTINE sts_gp_deallocate_all
 
@@ -211,6 +219,7 @@
       GP_TTRIAL2_HIST(SLOT)     = 0.0D0
       GP_IS_STICKING(SLOT)      = .FALSE.
       GP_INITIALIZED(SLOT)      = .FALSE.
+      IF (ALLOCATED(GP_PROBE_XI_VALID)) GP_PROBE_XI_VALID(SLOT) = .FALSE.
       END SUBROUTINE sts_gp_clear_state
 
       !=======================================================================
@@ -326,6 +335,7 @@
       SUBROUTINE sts_gp_cycle_begin()
       IF (.NOT. ALLOCATED(GP_ACTIVE_CYCLE)) RETURN
       IF (MAX_GLOBAL_GP > 0) GP_ACTIVE_CYCLE = .FALSE.
+      IF (ALLOCATED(GP_PROBE_XI_VALID)) GP_PROBE_XI_VALID = .FALSE.
       END SUBROUTINE sts_gp_cycle_begin
 
       !=======================================================================
@@ -350,6 +360,16 @@
         GP_SLOT_OCCUPIED(SLOT) = .FALSE.
       END DO
       END SUBROUTINE sts_gp_cycle_end
+
+      SUBROUTINE sts_gp_stash_probe_xi(GP_SLOT, XI1, XI2)
+      INTEGER, INTENT(IN) :: GP_SLOT
+      REAL*8, INTENT(IN) :: XI1, XI2
+      IF (GP_SLOT <= 0 .OR. GP_SLOT > MAX_GLOBAL_GP) RETURN
+      IF (.NOT. ALLOCATED(GP_PROBE_XI_VALID)) RETURN
+      GP_PROBE_XI1(GP_SLOT) = XI1
+      GP_PROBE_XI2(GP_SLOT) = XI2
+      GP_PROBE_XI_VALID(GP_SLOT) = .TRUE.
+      END SUBROUTINE sts_gp_stash_probe_xi
 
       !=======================================================================
       !   STS_GP_STATE_INIT
@@ -393,6 +413,9 @@
         CALL MY_ALLOC(GP_KEY_QUAD, MAX_GLOBAL_GP, "GP_KEY_QUAD")
         CALL MY_ALLOC(GP_SLOT_OCCUPIED, MAX_GLOBAL_GP, "GP_SLOT_OCCUPIED")
         CALL MY_ALLOC(GP_ACTIVE_CYCLE, MAX_GLOBAL_GP, "GP_ACTIVE_CYCLE")
+        CALL MY_ALLOC(GP_PROBE_XI1, MAX_GLOBAL_GP, "GP_PROBE_XI1")
+        CALL MY_ALLOC(GP_PROBE_XI2, MAX_GLOBAL_GP, "GP_PROBE_XI2")
+        CALL MY_ALLOC(GP_PROBE_XI_VALID, MAX_GLOBAL_GP, "GP_PROBE_XI_VALID")
         GP_XI1_GLOBAL       = 0.0D0
         GP_XI2_GLOBAL       = 0.0D0
         GP_XI1_GLOBAL_PREV  = 0.0D0
@@ -410,6 +433,9 @@
         GP_KEY_QUAD         = 0
         GP_SLOT_OCCUPIED    = .FALSE.
         GP_ACTIVE_CYCLE     = .FALSE.
+        GP_PROBE_XI1        = 0.0D0
+        GP_PROBE_XI2        = 0.0D0
+        GP_PROBE_XI_VALID   = .FALSE.
         STS_GP_TABLE_FULL_WARN_DONE = .FALSE.
       END IF
       END SUBROUTINE sts_gp_state_init

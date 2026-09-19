@@ -201,7 +201,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: numelq1np_out, numnod
           integer, intent(in) :: surface_id
-          integer, intent(in) :: kq1np_tab(15, numelq1np_out)
+          integer, intent(in) :: kq1np_tab(:,:)
           integer, intent(in) :: iq1np_bulk_tab(:)
           real(kind=WP), intent(in) :: x(3, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------

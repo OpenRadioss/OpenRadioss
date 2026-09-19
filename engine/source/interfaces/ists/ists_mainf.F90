@@ -250,6 +250,9 @@
       logical, save :: sts_voxel_overflow_warn_done = .false.
       real(kind=8) sts_econtt_pass, sts_econvt_pass
       real(kind=8) sts_fn_tot(3), sts_ft_tot(3)
+      real(kind=8) q1np_econtt_pass, q1np_econvt_pass
+      real(kind=8) q1np_fn_tot(3), q1np_ft_tot(3)
+      real(kind=WP) q1np_mu
 !-----------------------------------------------
 !   s o u r c e   l i n e s
 !-----------------------------------------------
@@ -452,12 +455,17 @@
                 intbuf_tab%nsv, intbuf_tab%stfns, nsn, numnod, &
                 igsti, kmin, kmax, stiglo, sts_stif)
 
-!             STS contact search, also used for friction history.
-              option = 1
+!             Gauss first with Lobatto fallback:
+!             commit Gauss for all pairs; only if the whole pass finds no
+!             impact, retry with Lobatto (corner/edge capture).
+              option = 0
 !             STS pair ids do not map to the legacy INT7 IFPEN capacity.
               sts_ifpen = 0
               ! Begin the cycle for the current Gauss/Lobatto point
               call sts_gp_cycle_begin()
+              ! Fresh pair-load slots
+              node_id_load = 0
+              load_arr = zero
               call sts_contacts_assemble(cont_element, count, option, &
                 noint, ncycle, &
                 cand_mst_seg_id, cand_sec_seg_id, cand_sec_gp_mask, &
@@ -486,10 +494,9 @@
 #include "lockoff.inc"
               endif
 
-!             Run Gauss fallback when the Lobatto pass found no active
-!             contact.
+!             Lobatto fallback when Gauss found no active contact.
               if (impact_glob == 0) then
-                option = 0
+                option = 1
                 call sts_contacts_assemble(cont_element, count, option, &
                   noint, ncycle, &
                   cand_mst_seg_id, cand_sec_seg_id, cand_sec_gp_mask, &
@@ -501,20 +508,20 @@
                   sts_fn_tot, sts_ft_tot, dt1, dtfac1_10)
                 if (impact_glob /= 0) then
 #include "lockon.inc"
-                fsav(1) = fsav(1) - sts_fn_tot(1) * dt12
-                fsav(2) = fsav(2) - sts_fn_tot(2) * dt12
-                fsav(3) = fsav(3) - sts_fn_tot(3) * dt12
-                fsav(4) = fsav(4) - sts_ft_tot(1) * dt12
-                fsav(5) = fsav(5) - sts_ft_tot(2) * dt12
-                fsav(6) = fsav(6) - sts_ft_tot(3) * dt12
-                fsav(26) = fsav(26) + sts_econtt_pass
-                fsav(27) = fsav(27) + sts_econvt_pass
+                  fsav(1) = fsav(1) - sts_fn_tot(1) * dt12
+                  fsav(2) = fsav(2) - sts_fn_tot(2) * dt12
+                  fsav(3) = fsav(3) - sts_fn_tot(3) * dt12
+                  fsav(4) = fsav(4) - sts_ft_tot(1) * dt12
+                  fsav(5) = fsav(5) - sts_ft_tot(2) * dt12
+                  fsav(6) = fsav(6) - sts_ft_tot(3) * dt12
+                  fsav(26) = fsav(26) + sts_econtt_pass
+                  fsav(27) = fsav(27) + sts_econvt_pass
 #include "lockoff.inc"
-              endif
-              if (impact_glob /= 0 .and. inconv == 1) then
+                endif
+                if (impact_glob /= 0 .and. inconv == 1) then
 #include "lockon.inc"
-                econt  = econt  + sts_econtt_pass
-                econtv = econtv + sts_econvt_pass
+                  econt  = econt  + sts_econtt_pass
+                  econtv = econtv + sts_econvt_pass
 #include "lockoff.inc"
                 endif
               endif
@@ -559,14 +566,70 @@
         call q1np_contact_init_grid_nodes(ixs, nixs, numels)
         call my_barrier()
         if (jtask == 1) then
-          call q1np_contact_driver_int7(ncycle, numnod, x, a, stifn, &
+          q1np_mu = zero
+          fricc(1) = zero
+          viscffric(1) = zero
+          if (iorthfric == 0) then
+            ipartfricsi(1) = 0
+            ipartfricmi(1) = 0
+            jlt_tied = 0
+            tempi(1) = tint
+            h1(1) = one
+            h2(1) = zero
+            h3(1) = zero
+            h4(1) = zero
+            ix1(1) = 1
+            ix2(1) = 1
+            ix3(1) = 1
+            ix4(1) = 1
+            call frictionparts_model_isot( &
+                   intfric,        1,               ipartfricsi, &
+                   ipartfricmi,    adparts_fric, &
+                   nsetprts,       tabcoupleparts_fric,npartfric, &
+                   tabparts_fric,  tabcoef_fric, &
+                   fric,           viscf,            intbuf_tab%fric_p, &
+                   fric_coefs,     fricc, &
+                   viscffric,      nty,              mfrot, &
+                   iorthfric,      ifric, &
+                   jlt_tied,       tint,             tempi, &
+                   npc,            tf, &
+                   temp,           h1,               h2, &
+                   h3,             h4, &
+                   ix1,            ix2,              ix3, &
+                   ix4,            iform)
+            q1np_mu = max(zero, fricc(1))
+          else
+            q1np_mu = max(zero, fric)
+          endif
+
+          call q1np_contact_driver_int7(ncycle, nin, numnod, x, v, a, stifn, &
                                         gap, igsti, kmin, kmax, intbuf_tab%irectm, &
                                         intbuf_tab%nsv, intbuf_tab%stfns, nsn, &
                                         intbuf_tab%stfm, nrtm, fcont, &
                                         inconv == 1 .and. &
                                         anim_v(4)+outp_v(4)+h3d_data%n_vect_cont > 0, &
-                                        impact_glob)
-          if (impact_glob > 0) ipari(29,nin) = 1
+                                        q1np_mu, dt1, impact_glob, q1np_econtt_pass, &
+                                        q1np_econvt_pass, q1np_fn_tot, &
+                                        q1np_ft_tot)
+          if (impact_glob > 0) then
+            ipari(29,nin) = 1
+#include "lockon.inc"
+            fsav(1) = fsav(1) - q1np_fn_tot(1) * dt12
+            fsav(2) = fsav(2) - q1np_fn_tot(2) * dt12
+            fsav(3) = fsav(3) - q1np_fn_tot(3) * dt12
+            fsav(4) = fsav(4) - q1np_ft_tot(1) * dt12
+            fsav(5) = fsav(5) - q1np_ft_tot(2) * dt12
+            fsav(6) = fsav(6) - q1np_ft_tot(3) * dt12
+            fsav(26) = fsav(26) + q1np_econtt_pass
+            fsav(27) = fsav(27) + q1np_econvt_pass
+#include "lockoff.inc"
+          endif
+          if (impact_glob > 0 .and. inconv == 1) then
+#include "lockon.inc"
+            econt  = econt  + q1np_econtt_pass
+            econtv = econtv + q1np_econvt_pass
+#include "lockoff.inc"
+          endif
         endif
         call my_barrier()
 !
