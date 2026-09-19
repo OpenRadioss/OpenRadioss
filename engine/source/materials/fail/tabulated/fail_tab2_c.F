@@ -22,17 +22,15 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    fail_tab2_c           ../engine/source/materials/fail/tabulated/fail_tab2_c.F
+!||    fail_tab2_c             ../engine/source/materials/fail/tabulated/fail_tab2_c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    finter                ../engine/source/tools/curve/finter.F
-!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
-!||    vinter2               ../engine/source/tools/curve/vinter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- uses       -----------------------------------------------------
-!||    interface_table_mod   ../engine/share/modules/table_mod.F
-!||    table_mod             ../engine/share/modules/table_mod.F
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_TAB2_C (FAIL      ,
      1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,

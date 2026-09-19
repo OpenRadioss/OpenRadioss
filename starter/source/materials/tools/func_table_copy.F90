@@ -37,6 +37,7 @@
 !||    hm_read_fail_orthstrain   ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_sahraei      ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
 !||    hm_read_fail_snconnect    ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
+!||    hm_read_fail_tab2         ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
 !||    hm_read_fail_tensstrain   ../starter/source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
 !||    hm_read_mat123            ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
@@ -69,6 +70,7 @@
 !||    hm_read_fail_orthstrain   ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_sahraei      ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
 !||    hm_read_fail_snconnect    ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
+!||    hm_read_fail_tab2         ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
 !||    hm_read_fail_tensstrain   ../starter/source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
 !||    hm_read_mat123            ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90

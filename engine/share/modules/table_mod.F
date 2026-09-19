@@ -47,10 +47,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    fail_inievo_ib             ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
 !||    fail_inievo_s              ../engine/source/materials/fail/inievo/fail_inievo_s.F
 !||    fail_snconnect             ../engine/source/materials/fail/snconnect/fail_snconnect.F
-!||    fail_tab2_b                ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
-!||    fail_tab2_c                ../engine/source/materials/fail/tabulated/fail_tab2_c.F
-!||    fail_tab2_ib               ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
-!||    fail_tab2_s                ../engine/source/materials/fail/tabulated/fail_tab2_s.F
 !||    fail_tab_c                 ../engine/source/materials/fail/tabulated/fail_tab_c.F
 !||    fail_tab_s                 ../engine/source/materials/fail/tabulated/fail_tab_s.F
 !||    fail_tab_xfem              ../engine/source/materials/fail/tabulated/fail_tab_xfem.F
@@ -189,10 +185,6 @@ C-----------------------------------------------
 !||    fail_inievo_c              ../engine/source/materials/fail/inievo/fail_inievo_c.F
 !||    fail_inievo_ib             ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
 !||    fail_inievo_s              ../engine/source/materials/fail/inievo/fail_inievo_s.F
-!||    fail_tab2_b                ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
-!||    fail_tab2_c                ../engine/source/materials/fail/tabulated/fail_tab2_c.F
-!||    fail_tab2_ib               ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
-!||    fail_tab2_s                ../engine/source/materials/fail/tabulated/fail_tab2_s.F
 !||    fail_tab_c                 ../engine/source/materials/fail/tabulated/fail_tab_c.F
 !||    fail_tab_s                 ../engine/source/materials/fail/tabulated/fail_tab_s.F
 !||    fail_tab_xfem              ../engine/source/materials/fail/tabulated/fail_tab_xfem.F

@@ -22,20 +22,24 @@ Copyright>        software under a commercial license.  Contact Siemens to discu
 Copyright>        commercial version may interest you: 
 Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    hm_read_fail_tab2        ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
+!||    hm_read_fail_tab2          ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_fail             ../starter/source/materials/fail/hm_read_fail.F
+!||    hm_read_fail               ../starter/source/materials/fail/hm_read_fail.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                   ../starter/source/output/message/message.F
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    func_table_copy            ../starter/source/materials/tools/func_table_copy.F90
+!||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_floatv_dim          ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    mat_table_table_copy       ../starter/source/materials/tools/mat_table_table_copy.F90
 !||--- uses       -----------------------------------------------------
-!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
+!||    func_table_copy_mod        ../starter/source/materials/tools/func_table_copy.F90
+!||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+!||    mat_table_table_copy_mod   ../starter/source/materials/tools/mat_table_table_copy.F90
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_TAB2(FAIL ,
      .           TITLE     ,MAT_ID   ,FAIL_ID   ,IRUPT    ,

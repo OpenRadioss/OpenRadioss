@@ -101,10 +101,6 @@ C
 !||====================================================================
 !||    vinter2          ../engine/source/tools/curve/vinter.F
 !||--- called by ------------------------------------------------------
-!||    fail_tab2_b      ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
-!||    fail_tab2_c      ../engine/source/materials/fail/tabulated/fail_tab2_c.F
-!||    fail_tab2_ib     ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
-!||    fail_tab2_s      ../engine/source/materials/fail/tabulated/fail_tab2_s.F
 !||    fail_tab_c       ../engine/source/materials/fail/tabulated/fail_tab_c.F
 !||    m36iter_imp      ../engine/source/materials/mat/mat036/m36iter_imp.F
 !||    mat121_newton    ../engine/source/materials/mat/mat121/mat121_newton.F

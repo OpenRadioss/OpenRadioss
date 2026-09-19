@@ -59,6 +59,10 @@
 !||    fail_orthstrain_c         ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
 !||    fail_sahraei_s            ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_snconnect            ../engine/source/materials/fail/snconnect/fail_snconnect.F
+!||    fail_tab2_b               ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
+!||    fail_tab2_c               ../engine/source/materials/fail/tabulated/fail_tab2_c.F
+!||    fail_tab2_ib              ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
+!||    fail_tab2_s               ../engine/source/materials/fail/tabulated/fail_tab2_s.F
 !||    fail_tab2sys              ../starter/source/materials/tools/fail_tab2sys.F
 !||    fail_tensstrain_b         ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
 !||    fail_tensstrain_c         ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F

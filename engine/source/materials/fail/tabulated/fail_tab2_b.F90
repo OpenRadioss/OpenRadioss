@@ -35,19 +35,17 @@
 ! ======================================================================================================================
 
 !||====================================================================
-!||    fail_tab2_b           ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
+!||    fail_tab2_b             ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
 !||--- called by ------------------------------------------------------
-!||    fail_beam3            ../engine/source/elements/beam/fail_beam3.F
+!||    fail_beam3              ../engine/source/elements/beam/fail_beam3.F
 !||--- calls      -----------------------------------------------------
-!||    finter                ../engine/source/tools/curve/finter.F
-!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
-!||    vinter2               ../engine/source/tools/curve/vinter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- uses       -----------------------------------------------------
-!||    constant_mod          ../common_source/modules/constant_mod.F
-!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    interface_table_mod   ../engine/share/modules/table_mod.F
-!||    precision_mod         ../common_source/modules/precision_mod.F90
-!||    table_mod             ../engine/share/modules/table_mod.F
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
         subroutine fail_tab2_b (fail,                               &
           nel     ,nuvar   ,nvartmp ,uvar    ,vartmp  ,             &
