@@ -1,0 +1,152 @@
+[
+  {
+    "case": "elastic",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 99,
+      "last_time": 9.938214e-05,
+      "last_pressure": -2949.518,
+      "last_alpha": 1.1884,
+      "last_damage": 0.0,
+      "max_rate_factor": 1.0,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "hydro",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.0009950603,
+      "last_pressure": 3575999000.0,
+      "last_alpha": 1.012569,
+      "last_damage": 0.0,
+      "max_rate_factor": 1.0,
+      "max_hydro_pressure_relative_error": 5.436852774172216e-07
+    },
+    "verified": true
+  },
+  {
+    "case": "compression",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.0009955113,
+      "last_pressure": 392946600.0,
+      "last_alpha": 1.155561,
+      "last_damage": 0.06418818,
+      "max_rate_factor": 1.67656,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "tension",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.0009954686,
+      "last_pressure": -4159527.0,
+      "last_alpha": 1.1884,
+      "last_damage": 0.1561893,
+      "max_rate_factor": 1.777672,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "hydro_tension",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.0009954689,
+      "last_pressure": -3678364.0,
+      "last_alpha": 1.1884,
+      "last_damage": 0.2754374,
+      "max_rate_factor": 1.641364,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "fast",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 10,
+      "last_time": 9.96828e-06,
+      "last_pressure": 105808100.0,
+      "last_alpha": 1.180705,
+      "last_damage": 0.0,
+      "max_rate_factor": 1.73424,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "energy",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.0009951409,
+      "last_pressure": 397592000.0,
+      "last_alpha": 1.155175,
+      "last_damage": 0.06336124,
+      "max_rate_factor": 1.675866,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "gruneisen",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.0009955096,
+      "last_pressure": 396403200.0,
+      "last_alpha": 1.155273,
+      "last_damage": 0.0636299,
+      "max_rate_factor": 1.676046,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "unload",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.001990164,
+      "last_pressure": 0.0,
+      "last_alpha": 1.091876,
+      "last_damage": 1.0,
+      "max_rate_factor": 1.83014,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  },
+  {
+    "case": "spall",
+    "starter_returncode": 0,
+    "engine_returncode": 0,
+    "checks": {
+      "samples": 199,
+      "last_time": 0.0009959408,
+      "last_pressure": 0.0,
+      "last_alpha": 1.1884,
+      "last_damage": 1.0,
+      "max_rate_factor": 1.78326,
+      "max_hydro_pressure_relative_error": 0
+    },
+    "verified": true
+  }
+]
