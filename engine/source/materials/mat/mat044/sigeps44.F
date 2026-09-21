@@ -33,7 +33,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
       SUBROUTINE SIGEPS44(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,IEOS    ,DPDM    ,
+     3     VOLUME ,EINT   ,
      4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -98,7 +98,6 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
-      INTEGER ,INTENT(IN) :: IEOS
       INTEGER NEL, NUPARAM, NUVAR,IPT,NVARTMP,
      .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*), IPLA,
      .   ISRATE
@@ -114,7 +113,6 @@ C---------+---------+---+---+--------------------------------------------
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   EPSP(NEL),AMU(NEL), ASRATE
-      my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: DPDM
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -392,26 +390,17 @@ C       actual yield stress
       ENDIF
 C----------------------------------
       ! update total stress tensor       
-      IF (IEOS == 0) THEN 
-        DO I = 1, NEL
-          ! P = BULK(I) * (RHO(I)/RHO0(I) - ONE)
-          P = BULK * AMU(I) ! AMU is computed by taking into account thermal strain
-          SIGNXX(I)  = SIGNXX(I) - P
-          SIGNYY(I)  = SIGNYY(I) - P 
-          SIGNZZ(I)  = SIGNZZ(I) - P 
-          SIGNXY(I)  = SIGNXY(I)
-          SIGNYZ(I)  = SIGNYZ(I)
-          SIGNZX(I)  = SIGNZX(I)
-          SOUNDSP(I) = SQRT((BULK + FOUR*G/THREE)/RHO0(I))
-        ENDDO
-      ELSE
-        ! if EOS is used, material law calculates only deviatoric stress tensor
-        !                 sound speed depends on pressure derivative over volume change
-        !                 calculated in EOS
-        DO I = 1, NEL
-          SOUNDSP(I) = SQRT((DPDM(I) + FOUR*G/THREE)/RHO0(I))
-        ENDDO       
-      END IF                
+      DO I = 1, NEL
+        ! P = BULK(I) * (RHO(I)/RHO0(I) - ONE)
+        P = BULK * AMU(I) ! AMU is computed by taking into account thermal strain
+        SIGNXX(I)  = SIGNXX(I) - P
+        SIGNYY(I)  = SIGNYY(I) - P 
+        SIGNZZ(I)  = SIGNZZ(I) - P 
+        SIGNXY(I)  = SIGNXY(I)
+        SIGNYZ(I)  = SIGNYZ(I)
+        SIGNZX(I)  = SIGNZX(I)
+        SOUNDSP(I) = SQRT((BULK + FOUR*G/THREE)/RHO0(I))
+      ENDDO
 C----------------------------------
       IF (VFLAG == 1) THEN   ! plastic strain rate filtering
         DO I=1,NEL

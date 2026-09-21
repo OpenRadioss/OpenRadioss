@@ -119,6 +119,7 @@
           5X,'    = 1: SCALED YIELD STRESS WITH PLASTIC STRAIN RATE   ',/,     &
           5X,'    = 2: SCALED YIELD STRESS WITH TOTAL STRAIN RATE     ',/,     &
           5X,'    = 3: SCALED YIELD STRESS WITH DEVIATORIC STRAIN RATE',/,     &
+          5X,'    = 4: SCALED YIELD STRESS WITH MAXIMUM STRAIN RATE COMPONENT',/,&
           5X,'STRAIN RATE FILTERING FREQUENCY (FCUT). . . . . . . . .=',1PG20.13/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_srate_dependency_nonlinear
