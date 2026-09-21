@@ -3,9 +3,10 @@ name: Developer CI
 on:
   
   pull_request:
-    # Skip PRs targeting the sandbox branch and workflow-only changes
+    # Skip PRs targeting the sandbox branch and any sandbox/* branch, plus workflow-only changes
     branches-ignore:
       - sandbox
+      - 'sandbox/**'
     paths-ignore:
       - '.github/workflows/**'
 
