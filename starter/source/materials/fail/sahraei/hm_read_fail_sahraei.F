@@ -198,7 +198,7 @@ c
       x2scale    = one
       yscale(1)  = one
       x2vect(:)  = zero
-      do i = 1,nf
+      do i = 1,nfunc
         call func_table_copy(fail%table4d(i),title   ,mat_id   ,      
      .           nf       ,ifunc(i),x2vect  ,x1scale ,      
      .           x2scale  ,yscale  ,ntable  ,table   ,      
