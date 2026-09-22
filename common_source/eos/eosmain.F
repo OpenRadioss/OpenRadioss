@@ -31,6 +31,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    m12law                ../engine/source/materials/mat/mat012/m12law.F
 !||    m51init               ../starter/source/materials/mat/mat051/m51init.F
 !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
 !||    multi_solve_eint      ../engine/source/multifluid/multi_solve_eint.F90
 !||    multi_submatlaw       ../engine/source/multifluid/multi_submatlaw.F
 !||    sigeps75              ../engine/source/materials/mat/mat075/sigeps75.F
@@ -46,6 +47,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    m12law               ../engine/source/materials/mat/mat012/m12law.F
 !||    m51init              ../starter/source/materials/mat/mat051/m51init.F
 !||    mmain                ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw                ../engine/source/materials/mat_share/mulaw.F90
 !||    multi_solve_eint     ../engine/source/multifluid/multi_solve_eint.F90
 !||    multi_submatlaw      ../engine/source/multifluid/multi_submatlaw.F
 !||    sigeps75             ../engine/source/materials/mat/mat075/sigeps75.F

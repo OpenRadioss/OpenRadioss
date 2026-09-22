@@ -602,6 +602,8 @@
 !||    sigeps88c                                  ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    skew_mod                                   ../common_source/modules/skew_mod.F90
 !||    smooth_deriv                               ../starter/source/materials/tools/smooth_deriv.F90
+!||    solve3x2_pp                                ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    solve6x2_pp                                ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
 !||    sph_work_mod                               ../common_source/modules/mat_elem/sph_work.F90
 !||    split_mass_fraction                        ../engine/source/engine/node_spliting/apply_crack.F90
 !||    spmd_exch_flow_tracking_data               ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
