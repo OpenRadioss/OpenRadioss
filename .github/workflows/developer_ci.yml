@@ -6,7 +6,7 @@ on:
     # Skip PRs targeting the sandbox branch and any sandbox/* branch, plus workflow-only changes
     branches-ignore:
       - sandbox
-      - 'sandbox/**'
+      - 'sdb/**'
     paths-ignore:
       - '.github/workflows/**'
 
