@@ -76,9 +76,9 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,           &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,           &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
-          eltype   ,shf      ,s13      ,s23      ,s43      ,dpdm     ,           &
-          nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,temp     ,           &
-          pla      )
+          eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,           &
+          dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,           &
+          temp     ,pla      )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -128,6 +128,7 @@
           real(kind=WP), dimension(nel), intent(inout) :: s13      !< Compliance matrix component 13
           real(kind=WP), dimension(nel), intent(inout) :: s23      !< Compliance matrix component 23
           real(kind=WP), dimension(nel), intent(inout) :: s43      !< Compliance matrix component 43
+          integer,                       intent(in)    :: ieos     !< Equation of state flag
           real(kind=WP), dimension(nel), intent(inout) :: dpdm     !< Pressure derivative of the shear modulus for EOS coupling
           integer,                       intent(in)    :: nvartmp  !< Number of temporary variables for table interpolation
           integer,dimension(nel,nvartmp),intent(inout) :: vartmp   !< Temporary variable array for table interpolation
@@ -155,7 +156,7 @@
             !-------------------------------------------------------------------
             case(1)
               call elasticity_isotropic(                                       &
-                matparam ,nel      ,eltype   ,rho      ,dpdm     ,             &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
                 depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
                 sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
@@ -166,7 +167,7 @@
             !-------------------------------------------------------------------
             case(2)
               call elasticity_orthotropic(                                     &
-                matparam ,nel      ,eltype   ,rho      ,dpdm     ,             &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
                 depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
                 sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
@@ -177,7 +178,7 @@
             !-------------------------------------------------------------------
             case(3)
               call elasticity_anisotropic(                                     &
-                matparam ,nel      ,eltype   ,rho      ,dpdm     ,             &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
                 depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
                 sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
@@ -188,7 +189,7 @@
             !-------------------------------------------------------------------
             case(4)
               call elasticity_viscous_isotropic(                               &
-                matparam ,nel      ,eltype   ,rho      ,dpdm     ,             &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
                 depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
                 sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
@@ -199,7 +200,7 @@
             !-------------------------------------------------------------------
             case(5)
               call elasticity_temp_isotropic(                                  &
-                matparam ,nel      ,eltype   ,rho      ,dpdm     ,             &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
                 depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
                 sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
@@ -210,7 +211,7 @@
             !-------------------------------------------------------------------
             case(6)
               call elasticity_bimod_isotropic(                                 &
-                matparam ,nel      ,eltype   ,rho      ,dpdm     ,             &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
                 depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
                 sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
@@ -221,7 +222,7 @@
             !-------------------------------------------------------------------
             case(7)
               call elasticity_plas_isotropic(                                  &
-                matparam ,nel      ,eltype   ,rho      ,dpdm     ,             &
+                matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,   &
                 depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,   &
                 sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,   &
