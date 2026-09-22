@@ -109,7 +109,7 @@
         &                 mat_param,        svis,    snpc,    &
         &                 dt1,     tt,      maxfunc, npropmi, &
         &                 npropg,  npropm,  imon_mat,numgeo,  &
-        &                 sbufmat, stf,     ntable,  gbuf  )
+        &                 sbufmat, stf,     ntable )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -227,7 +227,6 @@
           type(ttable),dimension(ntable),intent(in) ::  table
           type (buf_lay_),intent(inout), target :: bufly
           type (matparam_struct_) ,dimension(nummat) ,intent(inout) :: mat_param
-          type(g_bufel_), intent(inout) :: gbuf
           target :: mat_param
           target :: bufmat
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -668,9 +667,9 @@
                 es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
                 so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
                 s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
-                sspp     ,vis      ,uvar     ,off      ,ngl      ,&
+                sspp     ,vis      ,uvar     ,off      ,ngl      ,ieos  ,&
                 ipm      ,mat      ,epsd     ,ipla     ,sigy     ,lbuf%pla,&
-                dpla     ,et       ,bidon    ,bidon    ,amu      ,&
+                dpla     ,et       ,bidon    ,bidon    ,amu      ,bidv      ,&
                 cst1     ,nvartmp  ,vartmp   ,lbuf%dmg ,inloc    ,lbuf%planl,&
                 sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx )
 !
@@ -747,7 +746,7 @@
               call sigeps44(&
               &llt      ,npar     ,nuvar    ,nfunc    ,ifunc    ,npf      ,&
               &tf       ,tt       ,dt1      ,uparam0   ,rho0     ,rho      ,&
-              &voln     ,eint     ,&
+              &voln     ,eint     ,ieos     ,bidv     ,&
               &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6   ,&
               &de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
               &es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
@@ -1066,7 +1065,7 @@
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
                 &dpla,epsp1,tstar,off     ,&
                 &lf_dammx ,dfmax,tdele,offg,&
-                &niparf,iparamf,mvsiz,gbuf%uelr,gbuf%uelr1)
+                &niparf,iparamf,mvsiz)
               elseif(irupt == 9)then
 !----  wierzbicki
                 call fail_wierzbicki_s(llt ,npar,nvarf,&

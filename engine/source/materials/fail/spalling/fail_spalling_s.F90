@@ -51,8 +51,7 @@
           nel      ,nuparam  ,time     ,uparam   ,ngl      ,                     &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
           dpla     ,epsp     ,tstar    ,off      ,lf_dammx ,dfmax    ,           &
-          tdele    ,offg     ,niparam  ,iparam   ,mvsiz    ,uelr     ,           &
-          uelr1   )
+          tdele    ,offg     ,niparam  ,iparam   ,mvsiz    )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,8 +87,6 @@
           integer, intent(in) :: niparam
           integer, dimension(niparam), intent(in) :: iparam
           integer, intent(in) :: mvsiz
-          real(kind=WP), dimension(nel), intent(inout) :: uelr
-          real(kind=WP), dimension(nel), intent(inout) :: uelr1
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -210,17 +207,14 @@
                   if (epsf > zero) dfmax(i,2) = dfmax(i,2) + dpla(i)/epsf
                   if (dfmax(i,2) >= one .and. off(i) == one) then
                     dfmax(i,2) = one
+                    nindx = nindx+1
+                    indx(nindx) = i
                     signxx(i) =   p
                     signyy(i) =   p
                     signzz(i) =   p
                     signxy(i) = zero
                     signyz(i) = zero
                     signzx(i) = zero
-                    if (uelr(i) == zero) then 
-                      uelr(i) = one
-                      nindx = nindx+1
-                      indx(nindx) = i
-                    endif
                   end if
                 else
                   p = third*(signxx(i) + signyy(i) + signzz(i))
@@ -262,11 +256,8 @@
                   signxy(i) = zero
                   signzx(i) = zero
                   signyz(i) = zero
-                  if (uelr1(i) == zero) then 
-                    uelr1(i) = one
-                    nindx = nindx+1
-                    indx(nindx) = i
-                  endif
+                  nindx = nindx+1
+                  indx(nindx) = i
                 end if
               else
                 signxx(i) = -max(p , zero)
@@ -306,11 +297,8 @@
                   signxy(i) = zero
                   signzx(i) = zero
                   signyz(i) = zero
-                  if (uelr1(i) == zero) then 
-                    uelr1(i) = one
-                    nindx = nindx+1
-                    indx(nindx) = i
-                  endif
+                  nindx = nindx+1
+                  indx(nindx) = i
                 end if
               else
                 signxx(i) = -max(p , zero)
