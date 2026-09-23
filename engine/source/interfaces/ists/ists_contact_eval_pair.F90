@@ -52,6 +52,7 @@
 !||    constant_mod                 ../common_source/modules/constant_mod.F
 !||    ists_contact_dt_mod          ../engine/source/interfaces/ists/ists_contact_dt_mod.F90
 !||    ists_contact_visc_mod        ../engine/source/interfaces/ists/ists_contact_visc_mod.F90
+!||    ists_quad_mod                ../engine/source/interfaces/ists/ists_quad_mod.F90
 !||    precision_mod                ../common_source/modules/precision_mod.F90
 !||    sts_gp_state_mod             ../engine/source/interfaces/ists/ists_gp_state_mod.F90
 !||====================================================================
@@ -71,6 +72,8 @@
       use sts_gp_state_mod
       use ists_contact_dt_mod
       use ists_contact_visc_mod
+      use ists_quad_mod, only : STS_QUAD_IP_GAUSS, STS_QUAD_IP_LOBATTO, &
+     &  STS_QUAD_IP_MAX
       use precision_mod, only : WP
       implicit none
 !-----------------------------------------------
@@ -144,7 +147,8 @@
       real*8  m_ij(2,2), detm, mij(2,2), detmPrimary
       real*8  norm_contact(3), norm_fric(3)
       real*8  pm(24), pm_friction(24)
-      real*8  eta1(10), eta2(10), wi1(10), wi2(10)
+      real*8  eta1(STS_QUAD_IP_MAX), eta2(STS_QUAD_IP_MAX)
+      real*8  wi1(STS_QUAD_IP_MAX), wi2(STS_QUAD_IP_MAX)
       real*8  energy
       real*8  area_weight
       real*8  gap_distance
@@ -167,7 +171,8 @@
       logical use_probe_xi
       
       ! Gauss quadrature for friction calculation
-      real*8  eta1_gauss(10), eta2_gauss(10), wi1_gauss(10), wi2_gauss(10)
+      real*8  eta1_gauss(STS_QUAD_IP_GAUSS), eta2_gauss(STS_QUAD_IP_GAUSS)
+      real*8  wi1_gauss(STS_QUAD_IP_GAUSS), wi2_gauss(STS_QUAD_IP_GAUSS)
       real*8  xi1_gauss, xi2_gauss
       real*8  m_ij_gauss(2,2), detm_gauss
       real*8  rhoxi1_gauss(3), rhoxi2_gauss(3)
@@ -205,7 +210,11 @@
       VALID_GP = 0
       MIN_PENE = HUGE(1.0D0)
       sec_corner_idx = 1
-      ip = 2 ! 2x2 Gauss or Lobatto quadrature order
+      IF (OPTION == 0) THEN
+        ip = STS_QUAD_IP_GAUSS
+      ELSE
+        ip = STS_QUAD_IP_LOBATTO
+      ENDIF
       pair_fric_idx = MIN(MAX(EL_NR, 1), MVSIZ)
       calc_fric_this_pair = COMMIT_CONTACT .AND. CALC_FRICTION .AND. &
      &  FRICC(pair_fric_idx) .GT. 0.0d0
@@ -215,10 +224,10 @@
         ! Gauss: one quadrature rule for normal and friction
         call sts_gausspt(ip, eta1, wi1)
         call sts_gausspt(ip, eta2, wi2)
-        eta1_gauss = eta1
-        eta2_gauss = eta2
-        wi1_gauss = wi1
-        wi2_gauss = wi2
+        eta1_gauss(1:ip) = eta1(1:ip)
+        eta2_gauss(1:ip) = eta2(1:ip)
+        wi1_gauss(1:ip) = wi1(1:ip)
+        wi2_gauss(1:ip) = wi2(1:ip)
       ELSE
         ! Lobatto for normal contact and friction.
         call sts_lobattopt(ip, eta1, wi1)

@@ -67,6 +67,7 @@
 !||    ists_sts_capacity_mod             ../engine/source/interfaces/ists/ists_sts_capacity_mod.F90
 !||    ists_sts_skip_mod                 ../engine/source/interfaces/ists/ists_sts_skip_mod.F90
 !||    ists_sts_voxel_grid_mod           ../engine/source/interfaces/ists/ists_sts_voxel_grid_mod.F90
+!||    ists_quad_mod                     ../engine/source/interfaces/ists/ists_quad_mod.F90
 !||    precision_mod                     ../common_source/modules/precision_mod.F90
 !||    q1np_contact_driver_mod           ../engine/source/interfaces/ists_q1np/q1np_contact_driver.F90
 !||    sts_broad_phase_int7_bucket_mod   ../engine/source/interfaces/ists/ists_broad_phase_int7_bucket.F90
@@ -116,6 +117,7 @@
         ists_sts_voxel_grid_get, ists_sts_voxel_grid_get_tol_static, &
         ists_sts_voxel_grid_update_dynamic
       use ists_ass0_mod, only: ists_ass0, ists_ass_parith
+      use ists_quad_mod, only: STS_QUAD_IP_MAX
       use constant_mod
       use precision_mod, only : WP
 !-----------------------------------------------
@@ -206,7 +208,6 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-      integer, parameter :: ists_sts_ip_max = 2
       integer i, l, ifq, mfrot, igsti, ivis2, &
               jlt_tied, intth, iform, &
               intfric, nsetprts, npartfric, iorthfric
@@ -379,7 +380,7 @@
                 cand_sec_gp_mask = 1
               endif
 
-              call sts_gp_state_init(max_sts_size_actual, ists_sts_ip_max)
+              call sts_gp_state_init(max_sts_size_actual, STS_QUAD_IP_MAX)
 
               if (sts_bp_algo == sts_bp_algo_int7_bucket) then
 !               Legacy: reuse INT7 bucket sorting candidates (CAND_N/

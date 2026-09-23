@@ -23,6 +23,8 @@
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !-----------------------------------------------
 ! Gaussian quadrature points and weights
+! Caller uses STS_QUAD_IP_GAUSS from ists_quad_mod (valid 2-5 fully
+! tabulated; orders 6-10 silently fall back to the 3-point rule).
 !-----------------------------------------------
 !||====================================================================
 !||    sts_gausspt             ../engine/source/interfaces/ists/ists_gauss.F90
@@ -35,7 +37,7 @@
 !   for integration on [-1,1]
 !
 !   Parameters:
-!     norder: Number of integration points (1-10)
+!     norder: Number of integration points (1-10; use 2-5 via STS_QUAD_IP_GAUSS)
 !     xtab: Output array of quadrature points
 !     weight: Output array of quadrature weights
 !-----------------------------------------------
