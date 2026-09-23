@@ -27,7 +27,7 @@
 !||    fail_beam3        ../engine/source/elements/beam/fail_beam3.F
 !||====================================================================
       module fail_tab2_b_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief   tab2 failure criteria for type3 beam elements
@@ -72,7 +72,7 @@
 !c-----------------------------------------------
           integer                     ,intent(in)     :: nel      ! size of element group
           integer                     ,intent(in)     :: nuvar    ! size of user variable array
-          integer                     ,intent(in)     :: nvartmp  ! 
+          integer                     ,intent(in)     :: nvartmp  !
           integer, dimension(nel)     ,intent(in)     :: ngl      ! element identifiers
           integer, dimension(nel,nvartmp)   ,intent(inout)  :: vartmp
 
@@ -148,7 +148,7 @@
           ! checking element failure and recovering user variable
           do i=1,nel
             ! if necking control is activated
-            if (fail%table4d(6)%notable > 0.or. ecrit > zero) then 
+            if (fail%table4d(6)%notable > 0.or. ecrit > zero) then
               if (uvar(i,2) == zero) uvar(i,2) = one
             else
               if (uvar(i,2) == zero) uvar(i,2) = dcrit
@@ -194,120 +194,120 @@
 !c
           ! compute the softening exponent
           if (fail%table4d(1)%notable > 0) then
-              lambda(1:nel) = l0(1:nel)/exp_ref
-              call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),lambda,softexp,dydx)
+            lambda(1:nel) = l0(1:nel)/exp_ref
+            call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp(1:nel,1:1),lambda,softexp,dydx)
           else
             softexp(1:nel) = expo
           end if
 !c
-         ! compute the temperature dependency factor
-         if (fail%table4d(4)%notable > 0) then
-           lambda(1:nel) = temp(1:nel) / temp_ref
-           call table_mat_vinterp(fail%table4d(4),nel,nel,vartmp(1:nel,4:4),lambda,tempfac,dydx)
-         else
-           tempfac(1:nel) = one
-         endif
-         tempfac2(1:nel) = tempfac(1:nel)
+          ! compute the temperature dependency factor
+          if (fail%table4d(4)%notable > 0) then
+            lambda(1:nel) = temp(1:nel) / temp_ref
+            call table_mat_vinterp(fail%table4d(4),nel,nel,vartmp(1:nel,4:4),lambda,tempfac,dydx)
+          else
+            tempfac(1:nel) = one
+          endif
+          tempfac2(1:nel) = tempfac(1:nel)
 !c
-      ! compute the element size regularization factor 
-      if (fail%table4d(7)%notable > 0) then
-        ndim = fail%table4d(7)%ndim
-        if (ireg == 1) then
-          xvec(1:nel,2:3) = zero
-          select case (ndim)
-            case(1)            ! scale factor vs element size
+          ! compute the element size regularization factor
+          if (fail%table4d(7)%notable > 0) then
+            ndim = fail%table4d(7)%ndim
+            if (ireg == 1) then
+              xvec(1:nel,2:3) = zero
+              select case (ndim)
+               case(1)            ! scale factor vs element size
+                xvec(1:nel,1)   = l0(1:nel)/el_ref
+               case(2)            ! scale factor vs element size vs strain rate
+                xvec(1:nel,1)   = l0(1:nel)/el_ref
+                if (log_scale1 > 0) then
+                  do i = 1,nel
+                    xvec(i,2) = log(max(epsp(i),em20)/sr_ref1)
+                  enddo
+                else
+                  xvec(1:nel,2) = epsp(1:nel)/sr_ref1
+                endif
+              end select
+            else if (ireg == 2) then
               xvec(1:nel,1)   = l0(1:nel)/el_ref
-            case(2)            ! scale factor vs element size vs strain rate 
-              xvec(1:nel,1)   = l0(1:nel)/el_ref
-              if (log_scale1 > 0) then 
-                do i = 1,nel
-                  xvec(i,2) = log(max(epsp(i),em20)/sr_ref1)
-                enddo 
-              else
-                xvec(1:nel,2) = epsp(1:nel)/sr_ref1
-              endif
-          end select
-        else if (ireg == 2) then
-          xvec(1:nel,1)   = l0(1:nel)/el_ref
-          xvec(1:nel,2)   = triax(1:nel)
-          xvec(1:nel,3)   = xi(1:nel)
-        end if  ! ireg
+              xvec(1:nel,2)   = triax(1:nel)
+              xvec(1:nel,3)   = xi(1:nel)
+            end if  ! ireg
 !
-        call table_mat_vinterp(fail%table4d(7),nel,nel,vartmp(1:nel,11),xvec,sizefac,dydx)
+            call table_mat_vinterp(fail%table4d(7),nel,nel,vartmp(1:nel,11),xvec,sizefac,dydx)
 !
             if (ireg == 1) then
               do i = 1,nel
-                if (triax(i) < third) then 
+                if (triax(i) < third) then
                   reta =  shrf*(one - min(max(triax(i),zero),rgtr1)/rgtr1)
-                else !if (triax(i) >= third) then 
+                else !if (triax(i) >= third) then
                   reta = (three*biaxf/(three*rgtr2 - two))*                    &
-                         (rgtr2 - min(max(triax(i),rgtr2),two_third))
+                    (rgtr2 - min(max(triax(i),rgtr2),two_third))
                 endif
                 reta = max(zero, min(one, reta))
                 sizefac(i) = sizefac(i) + reta*(one - sizefac(i))
               end do
             end if
-      else
-        sizefac(1:nel) = one
-      end if
+          else
+            sizefac(1:nel) = one
+          end if
 !c
           ! compute the strain rate dependency factor
-      if (fail%table4d(2)%notable > 0) then
-        if (log_scale2 > 0) then
-          do i = 1,nel 
-            lambda(i) = log(max(epsp(i),em20)/sr_ref2)
-          enddo 
-        else
-          lambda(1:nel) = epsp(1:nel)/sr_ref2
-        endif
-        call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp(1:nel,2:2),lambda,ratefac,dydx)
-      else if (cjc > zero) then
-        do i=1,nel
-          if (epsp(i) > sr_ref2) then 
-            ratefac(i) = one + cjc*log(epsp(i)/sr_ref2)
+          if (fail%table4d(2)%notable > 0) then
+            if (log_scale2 > 0) then
+              do i = 1,nel
+                lambda(i) = log(max(epsp(i),em20)/sr_ref2)
+              enddo
+            else
+              lambda(1:nel) = epsp(1:nel)/sr_ref2
+            endif
+            call table_mat_vinterp(fail%table4d(2),nel,nel,vartmp(1:nel,2:2),lambda,ratefac,dydx)
+          else if (cjc > zero) then
+            do i=1,nel
+              if (epsp(i) > sr_ref2) then
+                ratefac(i) = one + cjc*log(epsp(i)/sr_ref2)
+              else
+                ratefac(i) = one
+              endif
+            enddo
           else
-            ratefac(i) = one
+            ratefac(1:nel) = one
+          end if
+          ! Compute the damage limit value
+          if (fail%table4d(3)%notable > 0) then
+            call table_mat_vinterp(fail%table4d(3),nel,nel,vartmp(1:nel,3:3),triax,dlim,dydx)
+            do i = 1,nel
+              dlim(i) = min(dlim(i),one)
+              dlim(i) = max(dlim(i),zero)
+            enddo
+          else
+            dlim(1:nel) = one
           endif
-        enddo
-      else
-        ratefac(1:nel) = one
-      end if
-     ! Compute the damage limit value
-      if (fail%table4d(3)%notable > 0) then
-        call table_mat_vinterp(fail%table4d(3),nel,nel,vartmp(1:nel,3:3),triax,dlim,dydx)
-        do i = 1,nel 
-          dlim(i) = min(dlim(i),one)
-          dlim(i) = max(dlim(i),zero)
-        enddo
-      else
-        dlim(1:nel) = one
-      endif
 !c
           !====================================================================
           ! - computation of plastic strain at failure
           !====================================================================
-       if (fail%table4d(5)%notable > 0) then
-        xvec(1:nel,1)   = triax(1:nel)
-        xvec(1:nel,2)   = xi(1:nel)
-        xvec(1:nel,3)   = temp(1:nel)/temp_ref
-        if (fail%table4d(5)%ndim == 3) tempfac(1:nel)  = one
-        call table_mat_vinterp(fail%table4d(5),nel,nel,vartmp(1:nel,5),xvec,epsf,dydx)
-      else
-        epsf(1:nel) = fcrit
-      end if
+          if (fail%table4d(5)%notable > 0) then
+            xvec(1:nel,1)   = triax(1:nel)
+            xvec(1:nel,2)   = xi(1:nel)
+            xvec(1:nel,3)   = temp(1:nel)/temp_ref
+            if (fail%table4d(5)%ndim == 3) tempfac(1:nel)  = one
+            call table_mat_vinterp(fail%table4d(5),nel,nel,vartmp(1:nel,5),xvec,epsf,dydx)
+          else
+            epsf(1:nel) = fcrit
+          end if
 !c
           !====================================================================
           ! - computation of plastic strain at necking
           !====================================================================
-      if (fail%table4d(6)%notable > 0) then     ! Instability plastic strain vs triaxiality vs Lode vs temperature
-        xvec(1:nel,1)   = triax(1:nel)
-        xvec(1:nel,2)   = xi(1:nel)
-        xvec(1:nel,3)   = temp(1:nel)/temp_ref
-        call table_mat_vinterp(fail%table4d(6),nel,nel,vartmp(1:nel,8),xvec,epsl,dydx)
-        if (fail%table4d(6)%ndim == 3) tempfac2(1:nel) = one  
-      else
-        epsl(1:nel) = ecrit
-      end if
+          if (fail%table4d(6)%notable > 0) then     ! Instability plastic strain vs triaxiality vs Lode vs temperature
+            xvec(1:nel,1)   = triax(1:nel)
+            xvec(1:nel,2)   = xi(1:nel)
+            xvec(1:nel,3)   = temp(1:nel)/temp_ref
+            call table_mat_vinterp(fail%table4d(6),nel,nel,vartmp(1:nel,8),xvec,epsl,dydx)
+            if (fail%table4d(6)%ndim == 3) tempfac2(1:nel) = one
+          else
+            epsl(1:nel) = ecrit
+          end if
 !c
           !====================================================================
           ! - computation of the damage variable evolution
@@ -339,7 +339,7 @@
               end if
 !c
               ! compute the control necking instability damage
-              if ((itab_inst > 0).or.(ecrit > zero)) then
+              if ((ecrit > zero)) then
                 dpl_def = dpla(i)/max(epsl(i)*ratefac(i)*sizefac(i)*tempfac2(i),em20)
                 inst(i) = inst(i) + dpl_def*dn*(inst(i)**(one-(one/dn)))
                 inst(i) = min(inst(i),one)
@@ -368,7 +368,7 @@
             else
               dmgscl(i) = one
             endif
-            !< Update necking critical damage  
+            !< Update necking critical damage
             uvar(i,2) = dc(i)
           end do
 !c
