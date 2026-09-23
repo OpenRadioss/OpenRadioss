@@ -40,7 +40,6 @@
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                  ../engine/source/output/message/message.F
 !||    arret                   ../engine/source/system/arret.F
-!||    eosmain                 ../common_source/eos/eosmain.F
 !||    epsf2u                  ../engine/source/materials/mat/mat033/sigeps33.F
 !||    fail_biquad_s           ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    fail_changchang_s       ../engine/source/materials/fail/changchang/fail_changchang_s.F90
@@ -164,7 +163,6 @@
 !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
 !||    constant_mod            ../common_source/modules/constant_mod.F
 !||    dt_mod                  ../engine/source/modules/dt_mod.F
-!||    eosmain_mod             ../common_source/eos/eosmain.F
 !||    fail_changchang_s_mod   ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_composite_s_mod    ../engine/source/materials/fail/composite/fail_composite_s.F90
 !||    fail_hashin_s_mod       ../engine/source/materials/fail/hashin/fail_hashin_s.F90

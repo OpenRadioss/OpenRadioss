@@ -40,10 +40,8 @@
 !||    elasto_plastic_kinematic_hardening       ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
 !||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||    elasto_plastic_yield_stress              ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
-!||    solve3x2_pp                              ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                             ../common_source/modules/constant_mod.F
-!||    cppm_shells_mod                          ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
 !||    elasto_plastic_eq_stress_mod             ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||    elasto_plastic_kinematic_hardening_mod   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
 !||    elasto_plastic_trial_stress_mod          ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90

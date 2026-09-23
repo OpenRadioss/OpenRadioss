@@ -41,7 +41,6 @@
 !||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||    elasto_plastic_yield_stress              ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||    mstrain_rate                             ../engine/source/materials/mat_share/mstrain_rate.F
-!||    solve6x2_pp                              ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                             ../common_source/modules/constant_mod.F
 !||    elasto_plastic_eq_stress_mod             ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
@@ -818,17 +817,17 @@
 !
        end subroutine cppm_solids
 !
-!||====================================================================
-!||    solve6x2_pp   ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
-!||--- called by ------------------------------------------------------
-!||    cppm_solids   ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
-!||====================================================================
 !! \brief Solve the dense 6x6 linear system a*x = b (2 right-hand-sides) with
 !! \details Partial-pivoted Gauss elimination, used as a hand-rolled substitute
 !!          for LAPACK's DGESV/SGESV (not linked into the engine binary). If a
 !!          is found to be numerically singular, the routine returns ok=.false.
 !!          and leaves b untouched, so the caller can fall back to a degraded
 !!          (e.g. 1st order) update instead of using garbage results.
+!||====================================================================
+!||    solve6x2_pp     ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
        subroutine solve6x2_pp(a,b,ok)
          use precision_mod, only : WP
          implicit none
