@@ -325,7 +325,7 @@ contains
     if (.not. all(ieee_is_finite(state)) .or. .not. all(ieee_is_finite(sig))) status = 3
   end subroutine trial_at_multiplier
 
-  subroutine tensile_endpoint(c,rho,energy,dt,trial,old,sig,state,bulk,accepted,status)
+  subroutine tensile_endpoint(c,rho,energy,dt,trial,old,sig,state,bulk,accepted,status,allow_interior)
     ! At full tensile damage, both p and q vanish. The stress-directed
     ! plastic multiplier tends to infinity, but the plastic strain remains
     ! finite. Evaluate that limiting return without an arbitrary stress floor.
@@ -333,9 +333,15 @@ contains
     real(wp), intent(out) :: sig(6),state(nstate),bulk
     logical, intent(out) :: accepted
     integer, intent(out) :: status
-    real(wp) :: p,alpha,lo,hi,mid,bulk0,dpv,depdev,dep,y,h,d,failed,pcut,fr
+    logical, intent(in), optional :: allow_interior
+    real(wp) :: p,alpha,lo,hi,mid,bulk0,dpv,depdev,dep,y,h,d,failed,pcut,fr,ptol
+    logical :: interior, relaxation_requested
     integer :: i
     accepted=.false.
+    relaxation_requested=.false.
+    interior=.false.
+    if (present(allow_interior)) relaxation_requested=allow_interior
+    interior=relaxation_requested .and. old(6)>0.5_wp
     call rht_eos(c,rho*exp(old(4)),energy,old(1),p,alpha,bulk,status,rho)
     bulk0=bulk
     state=old
@@ -363,24 +369,41 @@ contains
       dep=sqrt(depdev**2+2*dpv**2/9)
       call rht_surfaces(c,zero,trial,old(1),old(2)+dep,dep/dt,old(2),old(3),old(6), &
                         y,h,d,failed,pcut,fr,2)
-      if (d >= one) then
+      ! A failed finite-multiplier search can approach this endpoint before
+      ! D reaches one. Only the final subdivision attempt may accept that
+      ! strictly interior, dissipative over-return. Retain the damage from
+      ! the finite plastic strain; never promote it artificially to D=1.
+      ! Require an actual EOS zero-pressure root and an admissible surface.
+      ptol=32*tol*max(c(10),maxval(abs(trial)))
+      if (interior) then
+        call solid_eos(c,rho*exp(old(4)+dpv),energy,old(1),p,bulk,rho)
+        interior=all(ieee_is_finite([p,bulk,dep,y,d,pcut,fr]))
+        interior=interior .and. abs(p)<=ptol .and. bulk>zero
+        interior=interior .and. y>=zero .and. pcut<=zero
+        interior=interior .and. d>=old(3) .and. d<=one .and. dep>=zero
+      end if
+      accepted=d>=one
+      if (relaxation_requested) accepted=interior
+      if (accepted) then
         sig=zero
-        state(1:14)=[old(1),old(2)+dep,one,old(4)+dpv,one,one,rho,zero, &
-                     dep/dt,zero,fr,zero,log(c(38)/old(1)),old(14)+depdev]
+        state(1:14)=[old(1),old(2)+dep,d,old(4)+dpv,one,one,rho,zero, &
+                     dep/dt,zero,fr,y,log(c(38)/old(1)),old(14)+depdev]
         state(15)=energy
-        accepted=.true.
       end if
     end if
     bulk=max(bulk,bulk0)
   end subroutine tensile_endpoint
 
-  subroutine single_step(c, dt, rho, energy, deps, oldsig, old, sig, state, sound, status)
+  subroutine single_step(c, dt, rho, energy, deps, oldsig, old, sig, state, sound, status, allow_relaxation)
     real(wp), intent(in) :: c(nparam), dt, rho, energy, deps(6), oldsig(6), old(nstate)
     real(wp), intent(out) :: sig(6), state(nstate), sound
     integer, intent(out) :: status
+    logical, intent(in), optional :: allow_relaxation
     real(wp) :: trial(6), trace, mean, bulk, f, lo, hi, mid, scale
     integer :: i,stage
-    logical :: endpoint
+    logical :: endpoint, relax
+    relax=.false.
+    if (present(allow_relaxation)) relax=allow_relaxation
     trace = sum(deps(1:3))
     mean = sum(oldsig(1:3))/3
     trial(1:3) = oldsig(1:3)-mean+2*c(2)*(deps(1:3)-trace/3)
@@ -421,6 +444,17 @@ contains
       end if
       if (status /= 0 .or. state(6) < 0.5_wp) exit
     end do
+    if (status == 4 .and. relax) then
+      call tensile_endpoint(c,rho,energy,dt,trial,old,sig,state,bulk,endpoint,status,.true.)
+      if (endpoint .and. status == 0) then
+        ! Preserve the 16-history ABI. Positive state(16) still means
+        ! erosion; a negative integer records the cumulative number of
+        ! bounded tensile relaxations while the material remains active.
+        state(16)=min(zero,old(16))-one
+      else if (status == 0) then
+        status=4
+      end if
+    end if
     sound = sqrt(max(zero,bulk+4*c(2)/3)/rho)
     if (state(3)-old(3) > 0.025_wp) status = 5
     if (c(4) > zero .and. state(2) >= c(4)) then
@@ -458,7 +492,7 @@ contains
         ! Do not evolve stress, plasticity, damage or history on this call.
         call rht_eos(c,rho*exp(initial(4)),energy,initial(1),p,alpha,bulk,status,rho)
         sound = sqrt(max(zero,bulk+4*c(2)/3)/rho)
-      else if (initial(16) > 0.5_wp) then
+      else if (initial(16) > 0.5_wp .and. status == 0) then
         sig = zero
       else if (status == 0) then
         rhobegin = initial(7)
@@ -476,7 +510,8 @@ contains
             fraction = real(i,wp)/ns
             rsub = rhobegin*exp(fraction*log(rho/rhobegin))
             esub = initial(15)+fraction*(energy-initial(15))
-            call single_step(c,dt/ns,rsub,esub,de,ss,work,sn,next,cs,status)
+            call single_step(c,dt/ns,rsub,esub,de,ss,work,sn,next,cs,status, &
+                             attempt==12 .or. ns>65536/2)
             if (status /= 0) exit
             sound = max(sound,cs)
             ss = sn

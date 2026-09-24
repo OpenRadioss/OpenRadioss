@@ -1,0 +1,130 @@
+{
+  "source_sha256": "920718a8f082cdbeac7511e425b70218a7aed81da102c460a785c1594d8d4c83",
+  "compiler_flags": [
+    "-shared",
+    "-fPIC",
+    "-O0",
+    "-g",
+    "-fcheck=all",
+    "-ffpe-trap=invalid,zero,overflow",
+    "-fbacktrace",
+    "-Wall",
+    "-Wextra"
+  ],
+  "checks": {
+    "reported_parameter_path_100_steps": true,
+    "five_failed_paths_recover_and_reconfine": true,
+    "partially_damaged_recovery_observed": true,
+    "two_hundred_seeded_parameter_paths": true,
+    "invalid_input_and_history_roll_back": true,
+    "invalid_eroded_history_rolls_back_nonzero_stress": true,
+    "ordinary_paths_bitwise_unchanged": true,
+    "real_sdk_adapter_negative_counter_and_erosion": true
+  },
+  "known_paths": [
+    {
+      "ft": 0.022117799297770194,
+      "epm": 0.00788249864844147,
+      "old_failure_step": 72,
+      "fallback_events": [
+        {
+          "step": 72,
+          "damage": 1.0,
+          "relaxation_substeps": 208.0
+        }
+      ]
+    },
+    {
+      "ft": 0.022273104102200302,
+      "epm": 0.0009405865545511054,
+      "old_failure_step": 8,
+      "fallback_events": [
+        {
+          "step": 8,
+          "damage": 1.0,
+          "relaxation_substeps": 57.0
+        }
+      ]
+    },
+    {
+      "ft": 0.019294168208900047,
+      "epm": 0.0008062348127212463,
+      "old_failure_step": 7,
+      "fallback_events": [
+        {
+          "step": 7,
+          "damage": 1.0,
+          "relaxation_substeps": 70.0
+        }
+      ]
+    },
+    {
+      "ft": 0.020347905177152806,
+      "epm": 0.0011866655329918073,
+      "old_failure_step": 10,
+      "fallback_events": [
+        {
+          "step": 10,
+          "damage": 1.0,
+          "relaxation_substeps": 103.0
+        }
+      ]
+    },
+    {
+      "ft": 0.024384234216443087,
+      "epm": 0.0008603565197458339,
+      "old_failure_step": 7,
+      "fallback_events": [
+        {
+          "step": 7,
+          "damage": 0.9988193272191271,
+          "relaxation_substeps": 40.0
+        }
+      ]
+    }
+  ],
+  "user_step17_damage": 0.96929873267615,
+  "seeded_paths_using_fallback": 14,
+  "ordinary_identical_steps": 1600,
+  "baseline_failures": [
+    {
+      "ft": 0.022117799297770194,
+      "epm": 0.00788249864844147,
+      "step": 72,
+      "status": 4,
+      "damage": 0.9861933229196992
+    },
+    {
+      "ft": 0.022273104102200302,
+      "epm": 0.0009405865545511054,
+      "step": 8,
+      "status": 4,
+      "damage": 0.9096912019909072
+    },
+    {
+      "ft": 0.019294168208900047,
+      "epm": 0.0008062348127212463,
+      "step": 7,
+      "status": 4,
+      "damage": 0.9268766534577566
+    },
+    {
+      "ft": 0.020347905177152806,
+      "epm": 0.0011866655329918073,
+      "step": 10,
+      "status": 4,
+      "damage": 0.9018134639043341
+    },
+    {
+      "ft": 0.024384234216443087,
+      "epm": 0.0008603565197458339,
+      "step": 7,
+      "status": 4,
+      "damage": 0.8642778671067928
+    }
+  ],
+  "adapter_seed_damage": 0.9988193272191271,
+  "adapter_seed_fallback_substeps": 40.0,
+  "adapter_stdout": "PASS: 160 active USER01 updates, fallback history, reconfinement, subsequent erosion",
+  "passed": true
+}

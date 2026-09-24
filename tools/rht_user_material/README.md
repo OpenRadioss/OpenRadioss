@@ -60,8 +60,20 @@ does not claim pointwise equivalence to a commercial solver.
   `0.001`. A damage increment above `0.025` or a failed solve retries with
   twice as many substeps, up to 12 attempts and 65536 substeps. Stress
   residual tolerance is `2e-10*max(FC, abs(trial stress))` in double
-  precision. A failed update leaves input stress/history unchanged and
-  the adapter stops Engine with an element ID and status code.
+  precision. On the last permitted subdivision attempt, an already
+  post-peak tensile point whose scalar return still has status 4 can use
+  a bounded zero-pressure, zero-deviatoric-stress endpoint. Its finite
+  plastic strain determines damage; damage is **not** forced to one.
+  Acceptance requires a finite EOS zero-pressure root with positive
+  modulus, nondecreasing damage, `q <= yield strength` and
+  `pressure >= tensile cutoff`. `USR16 < 0` records the number of these
+  relaxed substeps while the point remains active. This interior
+  over-return can locally increase dissipation and is not an exact
+  consistency solution. It is reserved for exhausted tensile searches;
+  invalid inputs, EOS failures, nonfinite states and unrelated failures
+  are not converted to success. Any remaining failed update leaves input
+  stress/history unchanged and the adapter stops Engine with an element
+  ID and status code.
 - Sound speed uses a fixed-porosity elastic bulk modulus, including
   adiabatic energy work under compression, plus `4G/3`. In tension the
   fixed-energy modulus bounds the smaller adiabatic modulus. Active pore
@@ -92,8 +104,18 @@ git -C cbuild_rht/Tools checkout 4e52942e191d3b1ede4b320fb0f1780f4e41b59a
 cmake -S cbuild_rht/Tools/userlib_sdk/source -B cbuild_rht/sdk -G Ninja -Darch=win64 -Dcompiler=gfortran -Dprecision=dp
 cmake --build cbuild_rht/sdk
 python tools/rht_user_material/tests/test_material.py --build-dir cbuild_rht/tests
+python tools/rht_user_material/tests/test_return_robustness.py --build-dir cbuild_rht/return_tests --sdk-build cbuild_rht/sdk
 python tools/rht_user_material/build_userlib.py --sdk-build cbuild_rht/sdk --build-dir cbuild_rht/library --verify-adapter
 ```
+
+The return-robustness test also accepts `--baseline <old probe library>` to
+compare ordinary paths bit for bit and reproduce the pre-fix return
+failures. The optional `--sdk-build` check calls the real USER01 adapter
+using SDK types and a local `ARRET` test stub; it does not run Engine.
+It verifies that a negative diagnostic count keeps the point active,
+survives reconfinement, and does not prevent later strain-based erosion.
+The script writes its source hash and measured results to
+`return_robustness.json` in the chosen build directory.
 
 Extract the [official Windows release](https://github.com/OpenRadioss/OpenRadioss/releases/tag/latest-20260728)
 under `cbuild_rht/runtime`, so that `cbuild_rht/runtime/OpenRadioss/exec`
@@ -222,11 +244,16 @@ time histories to inspect the following values.
 | 13 | Pore-collapse measure log(ALPHA0/alpha) |
 | 14 | Accumulated deviatoric equivalent plastic strain |
 | 15 | Specific internal energy used by the last update |
-| 16 | Irreversible strain-erosion flag |
+| 16 | 0: ordinary active point; negative integer: accumulated bounded tensile-return substeps while active; 1: strain erosion |
 
 Integration status codes are 1 (invalid input/history), 2 (invalid EOS or
 bulk modulus), 3 (non-finite state), 4 (return did not converge),
 5 (damage increment requires subdivision), and 6 (substep limit).
+An accepted bounded return has status 0 and a decreasing negative `USR16`;
+this distinguishes a tracked recovery from an unreported failed solve.
+The Engine adapter tests `USR16 > 0.5` for erosion. Preserve the signed
+value in restart and postprocessing code; `USR16 != 0` is not an erosion
+test.
 
 The implementation targets corotational 3D solids. It does not supply a
 shell/plane-stress reduction, automatic concrete calibration, nonlocal
