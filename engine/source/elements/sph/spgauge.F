@@ -231,7 +231,10 @@ C-----------------
 !$OMP END DO
 C
 C-------------
-      IF(NSPMD > 1) THEN    
+C     NBGAUGE=0 (no /GAUGE) still reaches here when SPH is active (e.g. SOL2SPH):
+C     skip the parith exchange, otherwise SPMD_EXCH_FR6 is called with LEN=0 and
+C     accesses a zero-sized FTMP buffer (out-of-bounds under checked builds).
+      IF(NSPMD > 1 .AND. NBGAUGE > 0) THEN
 !$OMP SINGLE
            CALL SPMD_EXCH_FR6(FR_RL,SPHG_F6,4*NBGAUGE*6)
 !$OMP END SINGLE

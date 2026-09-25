@@ -238,7 +238,7 @@ c
      J   MAT_ELEM%MAT_PARAM, SVIS,     SNPC,
      K   DT1,      TT,       MAXFUNC,  NPROPMI,
      L   NPROPG,   NPROPM,   IMON_MAT, NUMGEO,
-     M   SBUFMAT,  STF,      NTABLE)
+     M   SBUFMAT,  STF,      NTABLE,   GBUF)
 C-----
       ENDIF 
 C---------------------------
@@ -307,7 +307,7 @@ C---- JC  + spalling
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
      5                 DPLA(J1),EPSP(J1),TSTAR,OFF,
      6                 LF_DAMMX,DFMAX ,TDELE,GBUF%OFF,
-     7                 NIPARAM ,IPARAMF, MVSIZ)
+     7                 NIPARAM ,IPARAMF, MVSIZ,GBUF%UELR,GBUF%UELR1)
              ELSEIF(IRUPT == 9)THEN
 C---- wierzbicki
                CALL FAIL_WIERZBICKI_S(NEL ,NUPARAM,NVARF,
