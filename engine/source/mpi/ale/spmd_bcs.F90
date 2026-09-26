@@ -22,12 +22,9 @@
 !Copyright>        commercial version may interest you: 
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 !||====================================================================
-!||    spmd_exch_n_neighbor_mod        ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_bcs_mod   ../engine/source/mpi/ale/spmd_bcs.F90
 !||--- called by ------------------------------------------------------
-!||    aconve                          ../engine/source/ale/aconve.F90
-!||    afluxt                          ../engine/source/ale/ale51/afluxt.F
-!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-!||    arezon                          ../engine/source/ale/arezon.F90
+!||    resol          ../engine/source/engine/resol.F
 !||====================================================================
       module spmd_bcs_mod
         implicit none
@@ -38,6 +35,17 @@
 !! \brief 
 !! \details
 !||====================================================================
+!||    spmd_bcs                   ../engine/source/mpi/ale/spmd_bcs.F90
+!||--- called by ------------------------------------------------------
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_2d_array     ../common_source/modules/array_mod.F
+!||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
+!||--- uses       -----------------------------------------------------
+!||    array_mod                  ../common_source/modules/array_mod.F
+!||    bcs_mod                    ../common_source/modules/boundary_conditions/bcs_mod.F90
+!||    nodal_arrays_mod           ../common_source/modules/nodal_arrays.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_bcs(ispmd,nspmd,iparit,bcs,nodes)
 ! ----------------------------------------------------------------------------------------------------------------------

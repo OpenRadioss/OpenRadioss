@@ -49,6 +49,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    resol                                    ../engine/source/engine/resol.F
 !||    sfem_init                                ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
 !||    sfem_init_spmd                           ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
+!||    split_bcs_nrf                            ../starter/source/restart/ddsplit/split_bcs_nrf.F90
+!||    spmd_bcs                                 ../engine/source/mpi/ale/spmd_bcs.F90
 !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
 !||    spmd_exch_n_neighbor_2d                  ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
@@ -183,9 +185,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 
         ! ----------------------------
 !||====================================================================
-!||    alloc_int_2d_array           ../common_source/modules/array_mod.F
-!||--- called by ------------------------------------------------------
-!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    alloc_int_2d_array   ../common_source/modules/array_mod.F
 !||====================================================================
         SUBROUTINE alloc_int_2d_array(THIS)
           IMPLICIT NONE
@@ -198,9 +198,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
         END SUBROUTINE
         ! ----------------------------        
 !||====================================================================
-!||    alloc_2d_array_full          ../common_source/modules/array_mod.F
-!||--- called by ------------------------------------------------------
-!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    alloc_2d_array_full   ../common_source/modules/array_mod.F
 !||====================================================================
         SUBROUTINE alloc_2d_array_full(THIS)
           IMPLICIT NONE
@@ -258,9 +256,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
         END SUBROUTINE
 
 !||====================================================================
-!||    dealloc_2d_array             ../common_source/modules/array_mod.F
-!||--- called by ------------------------------------------------------
-!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    dealloc_int_2d_array   ../common_source/modules/array_mod.F
 !||====================================================================
         SUBROUTINE dealloc_int_2d_array(THIS)
           IMPLICIT NONE
@@ -273,9 +269,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
         END SUBROUTINE
         ! ----------------------------
 !||====================================================================
-!||    dealloc_2d_array             ../common_source/modules/array_mod.F
-!||--- called by ------------------------------------------------------
-!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    dealloc_2d_array_full   ../common_source/modules/array_mod.F
 !||====================================================================
         SUBROUTINE dealloc_2d_array_full(THIS)
           IMPLICIT NONE
@@ -357,6 +351,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
 !||    alloc_my_real_2d_array    ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
+!||    spmd_bcs                  ../engine/source/mpi/ale/spmd_bcs.F90
 !||    spmd_exch_n_neighbor_2d   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_xv_inter_type1       ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||====================================================================
@@ -387,6 +382,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||====================================================================
 !||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
+!||    spmd_bcs                   ../engine/source/mpi/ale/spmd_bcs.F90
 !||    spmd_exch_n_neighbor_2d    ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_xv_inter_type1        ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||====================================================================

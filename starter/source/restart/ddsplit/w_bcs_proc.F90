@@ -37,9 +37,9 @@
 !! \details  necessary buffer specific to option /BCS/WALL/, /BCS/NRF , ...
 !
 !||====================================================================
-!||    w_bcs_proc           ../starter/source/restart/ddsplit/w_bcs_proc.F90
+!||    w_bcs_proc              ../starter/source/restart/ddsplit/w_bcs_proc.F90
 !||--- called by ------------------------------------------------------
-!||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit                 ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================

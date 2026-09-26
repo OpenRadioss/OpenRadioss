@@ -370,6 +370,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    splissv                                      ../engine/source/elements/sph/splissv.F
 !||    split_asspar4                                ../engine/source/assembly/split_asspar4.F
 !||    spmd_allglob_isum9                           ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_bcs                                     ../engine/source/mpi/ale/spmd_bcs.F90
 !||    spmd_chkw                                    ../engine/source/mpi/generic/spmd_chkw.F
 !||    spmd_collect                                 ../engine/source/mpi/output/spmd_collect.F
 !||    spmd_collect_multi_fvm                       ../engine/source/mpi/output/spmd_collect_multi_fvm.F
@@ -570,6 +571,7 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sms_mod                                      ../engine/share/modules/sms_mod.F
 !||    sms_pcg_proj                                 ../engine/share/modules/sms_mod.F
 !||    sph_work_mod                                 ../common_source/modules/mat_elem/sph_work.F90
+!||    spmd_bcs_mod                                 ../engine/source/mpi/ale/spmd_bcs.F90
 !||    spmd_exch_wave_mod                           ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
 !||    spmd_profiler_mod                            ../engine/source/mpi/generic/spmd_profiler_mod.F90

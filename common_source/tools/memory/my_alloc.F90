@@ -855,6 +855,7 @@
 !||    read5p                                   ../engine/source/input/read5p.F
 !||    read_ale_rezoning_param                  ../engine/source/output/restart/read_ale_rezoning_param.F90
 !||    read_bcs_nrf                             ../engine/source/output/restart/read_bcs_nrf.F90
+!||    read_bcs_nrf_cfl                         ../engine/source/output/restart/read_bcs_nrf_cfl.F90
 !||    read_bcs_wall                            ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_box_box                             ../starter/source/model/box/read_box_box.F
 !||    read_cluster                             ../engine/source/output/cluster/read_cluster.F

@@ -81,6 +81,7 @@
 !||    spmd_anim_ply_velvec            ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
 !||    spmd_anim_ply_xyznod            ../engine/source/mpi/anim/spmd_anim_ply_xyznod.F
 !||    spmd_anim_ply_xyznor            ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
+!||    spmd_bcs                        ../engine/source/mpi/ale/spmd_bcs.F90
 !||    spmd_box_limit_reduction        ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
 !||    spmd_cell_exchange              ../engine/source/mpi/generic/spmd_cell_exchange.F
 !||    spmd_cell_list_exchange         ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F

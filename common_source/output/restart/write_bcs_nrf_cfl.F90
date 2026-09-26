@@ -23,10 +23,10 @@
 !Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-simulation/radioss/.
 ! ======================================================================================================================
 !||====================================================================
-!||    write_bcs_nrf_mod   ../common_source/output/restart/write_bcs_nrf.F90
+!||    write_bcs_nrf_cfl_mod   ../common_source/output/restart/write_bcs_nrf_cfl.F90
 !||--- called by ------------------------------------------------------
-!||    w_bcs_proc          ../starter/source/restart/ddsplit/w_bcs_proc.F90
-!||    wrrestp             ../engine/source/output/restart/wrrestp.F
+!||    w_bcs_proc              ../starter/source/restart/ddsplit/w_bcs_proc.F90
+!||    wrrestp                 ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       module write_bcs_nrf_cfl_mod
       implicit none
@@ -38,15 +38,14 @@
 !! \details  necessary buffer specific to option /BCS/NRF/...
 !
 !||====================================================================
-!||    write_bcs_nrf   ../common_source/output/restart/write_bcs_nrf.F90
+!||    write_bcs_nrf_cfl   ../common_source/output/restart/write_bcs_nrf_cfl.F90
 !||--- called by ------------------------------------------------------
-!||    w_bcs_proc      ../starter/source/restart/ddsplit/w_bcs_proc.F90
-!||    wrrestp         ../engine/source/output/restart/wrrestp.F
+!||    w_bcs_proc          ../starter/source/restart/ddsplit/w_bcs_proc.F90
+!||    wrrestp             ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db        ../common_source/tools/input_output/write_db.F
-!||    write_i_c       ../common_source/tools/input_output/write_routines.c
+!||    write_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
+!||    bcs_mod             ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||====================================================================
         subroutine write_bcs_nrf_cfl(bcs,nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------

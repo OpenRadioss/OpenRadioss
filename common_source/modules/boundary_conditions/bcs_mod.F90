@@ -39,14 +39,17 @@
 !||    lectur                   ../engine/source/input/lectur.F
 !||    rdresb                   ../engine/source/output/restart/rdresb.F
 !||    read_bcs_nrf             ../engine/source/output/restart/read_bcs_nrf.F90
+!||    read_bcs_nrf_cfl         ../engine/source/output/restart/read_bcs_nrf_cfl.F90
 !||    read_bcs_wall            ../engine/source/output/restart/read_bcs_wall.F90
 !||    resol                    ../engine/source/engine/resol.F
 !||    split_bcs_nrf            ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||    split_bcs_wall           ../starter/source/restart/ddsplit/split_bcs_wall.F90
+!||    spmd_bcs                 ../engine/source/mpi/ale/spmd_bcs.F90
 !||    st_qaprint_constraints   ../starter/source/output/qaprint/st_qaprint_constraints.F
 !||    w_bcs_proc               ../starter/source/restart/ddsplit/w_bcs_proc.F90
 !||    w_pon                    ../starter/source/restart/ddsplit/w_pon.F
 !||    write_bcs_nrf            ../common_source/output/restart/write_bcs_nrf.F90
+!||    write_bcs_nrf_cfl        ../common_source/output/restart/write_bcs_nrf_cfl.F90
 !||    write_bcs_wall           ../common_source/output/restart/write_bcs_wall.F90
 !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------

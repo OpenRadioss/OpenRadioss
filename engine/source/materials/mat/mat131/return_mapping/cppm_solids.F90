@@ -41,6 +41,7 @@
 !||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||    elasto_plastic_yield_stress              ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||    mstrain_rate                             ../engine/source/materials/mat_share/mstrain_rate.F
+!||    solve6x2_pp                              ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                             ../common_source/modules/constant_mod.F
 !||    elasto_plastic_eq_stress_mod             ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
@@ -982,6 +983,8 @@
 !!          (e.g. 1st order) update instead of using garbage results.
 !||====================================================================
 !||    solve6x2_pp     ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||--- called by ------------------------------------------------------
+!||    cppm_solids     ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
 !||--- uses       -----------------------------------------------------
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================

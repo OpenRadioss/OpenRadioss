@@ -37,9 +37,9 @@
 !! domain
 !
 !||====================================================================
-!||    split_bcs_nrf   ../starter/source/restart/ddsplit/split_bcs_nrf.F90
+!||    split_bcs_nrf    ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    lectur          ../starter/source/starter/lectur.F
+!||    lectur           ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================

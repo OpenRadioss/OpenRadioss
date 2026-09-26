@@ -86,6 +86,7 @@
 !||    sfem_init                                ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
 !||    sfem_init_spmd                           ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    sortie_main                              ../engine/source/output/sortie_main.F
+!||    spmd_bcs                                 ../engine/source/mpi/ale/spmd_bcs.F90
 !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||    spmd_exch_output_noda_pext               ../engine/source/mpi/output/spmd_exch_output_noda_pext.F

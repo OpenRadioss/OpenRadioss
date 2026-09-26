@@ -26,8 +26,6 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||--- called by ------------------------------------------------------
 !||    resol                          ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    alloc_2d_array                 ../common_source/modules/array_mod.F
-!||    dealloc_2d_array               ../common_source/modules/array_mod.F
 !||    remove_neighbour_segment       ../engine/source/interfaces/interf/remove_neighbour_segment.F90
 !||    surface_deactivation           ../engine/source/interfaces/interf/surface_deactivation.F
 !||--- uses       -----------------------------------------------------
