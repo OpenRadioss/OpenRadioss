@@ -87,13 +87,15 @@
           IF (IPSTS /= 1) RETURN
           IF (BP_ALGO_IN /= STS_BP_ALGO_INT7_BUCKET) RETURN
 
-          IF (.NOT. STS_INT7_SORT_REUSE_ENABLED) THEN
-            NEED_SORT = TIME_ACTIVE
+          IF (.NOT. TIME_ACTIVE) THEN
+            NEED_SORT = .FALSE.
             RETURN
           ENDIF
 
-          IF (.NOT. TIME_ACTIVE) THEN
-            NEED_SORT = .FALSE.
+          IF (NEED_SORT) RETURN
+
+          IF (.NOT. STS_INT7_SORT_REUSE_ENABLED) THEN
+            NEED_SORT = .TRUE.
             RETURN
           ENDIF
 

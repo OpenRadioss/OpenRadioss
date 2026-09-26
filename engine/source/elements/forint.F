@@ -91,6 +91,8 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    sfem_mod                ../common_source/modules/elements/sfem_mod.F90
 !||    table_mod               ../engine/share/modules/table_mod.F
 !||    timer_mod               ../engine/source/system/timer_mod.F90
+!||    Q1NP_FORC3              ../engine/source/elements/solid/solid_q1np/q1np_forc3.F
+!||    q1np_dump_hist_state    ../engine/source/elements/solid/solid_q1np/q1np_dump_hist_state.F90
 !||====================================================================
       SUBROUTINE FORINT(TIMERS, PYTHON, 
      1    PM        ,GEO       ,X          ,A         ,AR        ,
@@ -266,7 +268,7 @@ C-----------------------------------------------
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
      .   ICP,ICS,IMATVIS,IEXPAN,NPT0,IG,OFF_IGRTH,
      .   NCTRL,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
-      LOGICAL IS_Q1NP_GROUP, lFOUND
+      LOGICAL IS_Q1NP_GROUP, lFOUND, Q1NP_HIST_DUE
       my_real BID,QMVBID,PRELOAD1,STF_F
       my_real SBID
       my_real VOLN(MVSIZ)
@@ -1606,6 +1608,15 @@ C             ROTATION IF COROTA SYSTEM
        ENDIF
   250   CONTINUE
       END DO
+C
+C     Write Q1NP CP/bulk/HEX history only at an animation or H3D frame.
+      Q1NP_HIST_DUE =
+     .  (TT >= OUTPUT%TANIM .AND. TT <= OUTPUT%TANIM_STOP) .OR.
+     .  (TT >= H3D_DATA%TH3D .AND. TT <= H3D_DATA%TH3D_STOP)
+      IF (ITASK == 0 .AND. NUMELQ1NP_G > 0 .AND.
+     .    Q1NP_HIST_DUE) THEN
+        CALL Q1NP_DUMP_HIST_STATE(TT, X, NUMNOD, IXS, NIXS, NUMELS, IPARTS)
+      END IF
 C
       call my_dealloc(FX)
       call my_dealloc(FY)

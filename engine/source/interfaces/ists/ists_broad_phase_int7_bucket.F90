@@ -110,23 +110,16 @@
 !-----------------------------------------------
           INTEGER :: I_STOK, I, NSEC_BOUNDS, CAND_N_ABS, N_VALID
           INTEGER :: COUNT_FRESH, COUNT_PERSIST, PERSIST_I, FRESH_I
-          INTEGER :: OVERLAP_COUNT, MISSING_COUNT, FINAL_LIMIT
-          INTEGER :: FRESH_HASH_SIZE, OUT_HASH_SIZE, HASH_INDEX
+          INTEGER :: OVERLAP_COUNT, MISSING_COUNT
+          INTEGER :: FRESH_HASH_SIZE, HASH_INDEX
           INTEGER, ALLOCATABLE :: CAND_SEC_SEG(:)
           INTEGER, ALLOCATABLE :: CAND_N_COMPACT(:), CAND_E_COMPACT(:)
-          INTEGER, ALLOCATABLE :: FRESH_SEC_ID(:,:)
-          INTEGER, ALLOCATABLE :: FRESH_MST_ID(:,:)
-          INTEGER, ALLOCATABLE :: FRESH_GP_MASK(:,:)
           INTEGER, ALLOCATABLE :: FRESH_HASH_SEC(:)
           INTEGER, ALLOCATABLE :: FRESH_HASH_MST(:)
           INTEGER, ALLOCATABLE :: FRESH_HASH_INDEX(:)
-          INTEGER, ALLOCATABLE :: OUT_HASH_SEC(:)
-          INTEGER, ALLOCATABLE :: OUT_HASH_MST(:)
-          INTEGER, ALLOCATABLE :: OUT_HASH_INDEX(:)
           INTEGER, ALLOCATABLE :: PERSIST_SEC_ID(:,:)
           INTEGER, ALLOCATABLE :: PERSIST_MST_ID(:,:)
           INTEGER, ALLOCATABLE :: PERSIST_GP_MASK(:,:)
-          real(kind=WP), ALLOCATABLE :: FRESH_CONT_ELEMENT(:,:,:)
           real(kind=WP), ALLOCATABLE :: PERSIST_CONT_ELEMENT(:,:,:)
           LOGICAL :: PERSIST_RESTORED
           LOGICAL :: PERSIST_STABILIZE, PAIR_EXISTS
@@ -176,15 +169,11 @@
           DO I = 1, I_STOK
             IF (INTBUF_TAB%CAND_E(I) <= 0 .OR. &
      &          INTBUF_TAB%CAND_E(I) > NRTM) CYCLE
-            IF (INTBUF_TAB%CAND_N(I) >= 0) CYCLE
-            CAND_N_ABS = -INTBUF_TAB%CAND_N(I)
-            IF (CAND_N_ABS > 0 .AND. &
-     &              CAND_N_ABS <= NSEC_BOUNDS) THEN
-              N_VALID = N_VALID + 1
-              CAND_N_COMPACT(N_VALID) = CAND_N_ABS
-            ELSE
-              CYCLE
-            ENDIF
+            CAND_N_ABS = IABS(INTBUF_TAB%CAND_N(I))
+            IF (CAND_N_ABS <= 0 .OR. CAND_N_ABS > NSEC_BOUNDS) CYCLE
+            IF (CAND_N_ABS == NSN + 1) CYCLE
+            N_VALID = N_VALID + 1
+            CAND_N_COMPACT(N_VALID) = CAND_N_ABS
             CAND_E_COMPACT(N_VALID) = INTBUF_TAB%CAND_E(I)
           END DO
           IF (N_VALID <= 0) THEN
@@ -260,35 +249,17 @@
 
               PERSIST_STABILIZE = MISSING_COUNT > 0
               IF (PERSIST_STABILIZE .AND. OVERLAP_COUNT > 0) THEN
-                CALL MY_ALLOC(FRESH_SEC_ID, COUNT_FRESH, 5, "FRESH_SEC_ID")
-                CALL MY_ALLOC(FRESH_MST_ID, COUNT_FRESH, 5, "FRESH_MST_ID")
-                CALL MY_ALLOC(FRESH_GP_MASK, COUNT_FRESH, 4, "FRESH_GP_MASK")
-                CALL MY_ALLOC(FRESH_CONT_ELEMENT, COUNT_FRESH, 3, 8, "FRESH_CONT_ELEMENT")
-
-                FRESH_SEC_ID(1:COUNT_FRESH, 1:5) = &
-     &            CAND_SEC_SEG_ID(1:COUNT_FRESH, 1:5)
-                FRESH_MST_ID(1:COUNT_FRESH, 1:5) = &
-     &            CAND_MST_SEG_ID(1:COUNT_FRESH, 1:5)
-                FRESH_GP_MASK(1:COUNT_FRESH, 1:4) = &
-     &            CAND_SEC_GP_MASK(1:COUNT_FRESH, 1:4)
-                FRESH_CONT_ELEMENT(1:COUNT_FRESH, 1:3, 1:8) = &
-     &            CONT_ELEMENT(1:COUNT_FRESH, 1:3, 1:8)
-
-                COUNT = 0
-                FINAL_LIMIT = MAX_STS_SIZE_ACTUAL
-                OUT_HASH_SIZE = MAX(17, 4 * FINAL_LIMIT + 1)
-                CALL MY_ALLOC(OUT_HASH_SEC, OUT_HASH_SIZE, "OUT_HASH_SEC")
-                CALL MY_ALLOC(OUT_HASH_MST, OUT_HASH_SIZE, "OUT_HASH_MST")
-                CALL MY_ALLOC(OUT_HASH_INDEX, OUT_HASH_SIZE, "OUT_HASH_INDEX")
-                OUT_HASH_SEC = 0
-                OUT_HASH_MST = 0
-                OUT_HASH_INDEX = 0
-
                 DO PERSIST_I = 1, COUNT_PERSIST
                   IF (COUNT >= MAX_STS_SIZE_ACTUAL) THEN
                     OVERFLOW = .TRUE.
                     EXIT
                   ENDIF
+                  PAIR_EXISTS = STS_PAIR_HASH_CONTAINS( &
+     &              PERSIST_SEC_ID(PERSIST_I, 1), &
+     &              PERSIST_MST_ID(PERSIST_I, 1), FRESH_HASH_SIZE, &
+     &              FRESH_HASH_SEC, FRESH_HASH_MST, FRESH_HASH_INDEX)
+                  IF (PAIR_EXISTS) CYCLE
+
                   COUNT = COUNT + 1
                   CAND_SEC_SEG_ID(COUNT, 1:5) = &
      &              PERSIST_SEC_ID(PERSIST_I, 1:5)
@@ -298,42 +269,7 @@
      &              PERSIST_GP_MASK(PERSIST_I, 1:4)
                   CONT_ELEMENT(COUNT, 1:3, 1:8) = &
      &              PERSIST_CONT_ELEMENT(PERSIST_I, 1:3, 1:8)
-                  CALL STS_PAIR_HASH_INSERT(CAND_SEC_SEG_ID(COUNT, 1), &
-     &              CAND_MST_SEG_ID(COUNT, 1), COUNT, OUT_HASH_SIZE, &
-     &              OUT_HASH_SEC, OUT_HASH_MST, OUT_HASH_INDEX, &
-     &              HASH_INDEX)
                 ENDDO
-
-                DO FRESH_I = 1, COUNT_FRESH
-                  IF (COUNT >= FINAL_LIMIT) EXIT
-                  PAIR_EXISTS = STS_PAIR_HASH_CONTAINS( &
-     &              FRESH_SEC_ID(FRESH_I, 1), FRESH_MST_ID(FRESH_I, 1), &
-     &              OUT_HASH_SIZE, OUT_HASH_SEC, OUT_HASH_MST, &
-     &              OUT_HASH_INDEX)
-                  IF (PAIR_EXISTS) CYCLE
-
-                  COUNT = COUNT + 1
-                  CAND_SEC_SEG_ID(COUNT, 1:5) = &
-     &              FRESH_SEC_ID(FRESH_I, 1:5)
-                  CAND_MST_SEG_ID(COUNT, 1:5) = &
-     &              FRESH_MST_ID(FRESH_I, 1:5)
-                  CAND_SEC_GP_MASK(COUNT, 1:4) = &
-     &              FRESH_GP_MASK(FRESH_I, 1:4)
-                  CONT_ELEMENT(COUNT, 1:3, 1:8) = &
-     &              FRESH_CONT_ELEMENT(FRESH_I, 1:3, 1:8)
-                  CALL STS_PAIR_HASH_INSERT(CAND_SEC_SEG_ID(COUNT, 1), &
-     &              CAND_MST_SEG_ID(COUNT, 1), COUNT, OUT_HASH_SIZE, &
-     &              OUT_HASH_SEC, OUT_HASH_MST, OUT_HASH_INDEX, &
-     &              HASH_INDEX)
-                ENDDO
-
-                CALL MY_DEALLOC(OUT_HASH_SEC)
-                CALL MY_DEALLOC(OUT_HASH_MST)
-                CALL MY_DEALLOC(OUT_HASH_INDEX)
-                CALL MY_DEALLOC(FRESH_SEC_ID)
-                CALL MY_DEALLOC(FRESH_MST_ID)
-                CALL MY_DEALLOC(FRESH_GP_MASK)
-                CALL MY_DEALLOC(FRESH_CONT_ELEMENT)
               ENDIF
               CALL MY_DEALLOC(FRESH_HASH_SEC)
               CALL MY_DEALLOC(FRESH_HASH_MST)

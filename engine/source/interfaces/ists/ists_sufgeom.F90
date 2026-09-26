@@ -28,10 +28,10 @@
 !||    sts_surfgeom            ../engine/source/interfaces/ists/ists_sufgeom.F90
 !||--- called by ------------------------------------------------------
 !||    sts_contact_eval_pair   ../engine/source/interfaces/ists/ists_contact_eval_pair.F90
-!||    sts_project             ../engine/source/interfaces/ists/ists_projection.F90
 !||====================================================================
       subroutine sts_surfgeom(xupd, daxi1, daxi2, daeta1, daeta2, &
-     &                      norm, rhoxi1, rhoxi2, m_ij, detm, mij, detmPrimary)
+     &                      norm, rhoxi1, rhoxi2, m_ij, detm, mij, detmPrimary, geom_ok)
+      use constant_mod
       implicit none
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
@@ -41,12 +41,14 @@
 !     norm: Output normal vector
 !     rhoxi*: Output surface tangent vectors
 !     m_ij, detm, mij, detmPrimary: Output metric parameters
+!     geom_ok: 1 if primary metric is non-degenerate, else 0
 !-----------------------------------------------
       real*8, intent(in)    :: xupd(3,8)
       real*8, intent(in)    :: daxi1(3,24), daxi2(3,24), daeta1(3,24), daeta2(3,24)
       real*8, intent(inout) :: rhoxi1(3), rhoxi2(3)
       real*8, intent(inout) :: m_ij(2,2), detm, mij(2,2), detmPrimary
       real*8, intent(inout) :: norm(3)
+      integer, intent(out)  :: geom_ok
       real*8  reta1(3), reta2(3)
       real*8  mSecondary_ij(2,2)
 !-----------------------------------------------
@@ -55,10 +57,12 @@
       INTEGER i, j, k
       real*8  inv_sqrt_detm
       real*8  xupd1d(24)
+      real*8  metr_scale
       
 !-----------------------------------------------
 !   Convert 2D coordinates to 1D for matrix operations
 !-----------------------------------------------
+      geom_ok = 1
       k = 0
       DO i=1,8
         DO j=1,3
@@ -129,37 +133,34 @@
 !-----------------------------------------------
 !   Calculate inverse metric tensor
 !-----------------------------------------------
-      ! Safety check for division by zero
-      IF (dabs(detmPrimary) .LT. 1.0d-12) THEN
-        ! Use identity matrix if determinant is too small
+      metr_scale = DABS(m_ij(1,1)*m_ij(2,2))
+      IF (metr_scale .LT. EM30) metr_scale = EM30
+      IF (DABS(detmPrimary) .LT. EM20 * metr_scale) THEN
+        geom_ok = 0
         mij(1,1) = 1.0d0
         mij(1,2) = 0.d0
         mij(2,1) = 0.d0
         mij(2,2) = 1.0d0
-      ELSE
-        mij(1,1) = m_ij(2,2) / detmPrimary
-        mij(1,2) = -m_ij(1,2) / detmPrimary
-        mij(2,1) = -m_ij(2,1) / detmPrimary
-        mij(2,2) = m_ij(1,1) / detmPrimary
+        norm(1) = 0.d0
+        norm(2) = 0.d0
+        norm(3) = 1.0d0
+        RETURN
       ENDIF
+
+      mij(1,1) = m_ij(2,2) / detmPrimary
+      mij(1,2) = -m_ij(1,2) / detmPrimary
+      mij(2,1) = -m_ij(2,1) / detmPrimary
+      mij(2,2) = m_ij(1,1) / detmPrimary
 
 !-----------------------------------------------
 !   Calculate normal vector (cross product of tangents)
 !-----------------------------------------------
-      ! Safety check for zero determinant
-      IF (dabs(detmPrimary) .LT. 1.0d-12) THEN
-        ! Default normal if surface is degenerate
-        norm(1) = 0.d0
-        norm(2) = 0.d0
-        norm(3) = 1.0d0
-      ELSE
-        inv_sqrt_detm = 1.0d0 / dsqrt(detmPrimary)
-        
-        ! Normal = (rhoxi1 × rhoxi2) / |rhoxi1 × rhoxi2|
-        norm(1) = (rhoxi1(2)*rhoxi2(3) - rhoxi2(2)*rhoxi1(3)) * inv_sqrt_detm
-        norm(2) = (rhoxi1(3)*rhoxi2(1) - rhoxi2(3)*rhoxi1(1)) * inv_sqrt_detm
-        norm(3) = (rhoxi1(1)*rhoxi2(2) - rhoxi2(1)*rhoxi1(2)) * inv_sqrt_detm
-      ENDIF
+      inv_sqrt_detm = 1.0d0 / dsqrt(detmPrimary)
+      
+      ! Normal = (rhoxi1 × rhoxi2) / |rhoxi1 × rhoxi2|
+      norm(1) = (rhoxi1(2)*rhoxi2(3) - rhoxi2(2)*rhoxi1(3)) * inv_sqrt_detm
+      norm(2) = (rhoxi1(3)*rhoxi2(1) - rhoxi2(3)*rhoxi1(1)) * inv_sqrt_detm
+      norm(3) = (rhoxi1(1)*rhoxi2(2) - rhoxi2(1)*rhoxi1(2)) * inv_sqrt_detm
 
       RETURN
       END
