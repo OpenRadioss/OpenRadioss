@@ -127,10 +127,18 @@ C----------------------------------------------
         COEFI(I) =ONE_OVER_12 
       ENDDO
       IF (IGTYP == 18) THEN
+C        KPHI is the same purely-geometric rotational stiffness factor
+C        used later for STIR here and in the engine (PDLEN3), so it stays
+C        continuous and consistent between Starter and Engine timesteps.
+C        COEFI used to jump 1/12 -> 1 when KPHI crossed TWELVE, causing a
+C        discontinuous TIN (rounding-sensitive across compilers/machines).
+C        It is replaced by a continuous ramp of the same KPHI, matching
+C        the former asymptotic values (1/12 for slender, 1 for stocky
+C        sections) without any threshold jump.
          DO I=LFT,LLT
            FSH(I) = ONE
            KPHI(I) = MAX(ONE,TWELVE*FACDT(I))  
-           IF (KPHI(I) > TWELVE ) COEFI(I) =ONE 
+           COEFI(I) = MIN(ONE,KPHI(I)*ONE_OVER_12)
          ENDDO
       END IF
 C----------------------------------------------
@@ -141,7 +149,12 @@ C----------------------------------------------
        EMS(I)=RHO(I)*AL(I)*AREA(I)* HALF
        TIN(I)=ONEP2*EMS(I)*LL**2*COEFI(I) + RHO(I)*(AL(I)*HALF)
      .       * MAX(TIYY(I),TIZZ(I))
-       IF (FACDT(I)<ONE) TIN(I)=PHII(I)*TIN(I)
+C      PHII is derived from the generic (material-dependent) KPHI formula
+C      computed above, which TYPE 18 overwrites with its own purely
+C      geometric KPHI for STIR. Applying PHII here would reintroduce a
+C      material-dependent scaling decoupled from TYPE 18's own KPHI/COEFI,
+C      so it is restricted to the other beam formulations.
+       IF (IGTYP /= 18 .AND. FACDT(I)<ONE) TIN(I)=PHII(I)*TIN(I)
        TIN(I)= MAX(TIN(I),RHO(I)*AL(I)/TWO*TIXX(I))
       ENDDO
        IF( JTHE > 0 ) THEN
